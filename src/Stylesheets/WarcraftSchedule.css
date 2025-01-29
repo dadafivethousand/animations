@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Uncial+Antiqua&display=swap');
+
+:root {
+  --warcraft-gold: #ffcc00;
+  --warcraft-dark: #1a1a1a;
+  --warcraft-fire: rgba(255, 140, 0, 0.8);
+}
+
+/* MOBILE-FIRST DESIGN */
+.warcraft-mobile-container {
+  width: 100vw;
+  height: 100vh;
+  background: var(--warcraft-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 20px;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+  animation: warcraft-background-transition 3s ease-in-out forwards;
+}
+
+/* Smooth Background Transition */
+@keyframes warcraft-background-transition {
+  0% {
+    background: black;
+  }
+  100% {
+    background: radial-gradient(circle, #000, #2a2a2a);
+  }
+}
+
+/* Day Name - Appears Like a Rune */
+.warcraft-mobile-day {
+  font-family: 'Uncial Antiqua', cursive;
+  font-size: 2.5rem;
+  color: transparent;
+  text-transform: uppercase;
+  position: relative;
+  letter-spacing: 3px;
+  animation: warcraft-rune-appear 1.5s ease-in-out forwards, warcraft-fire-glow 1.5s infinite alternate;
+}
+
+/* Ancient Rune Appearing Effect */
+@keyframes warcraft-rune-appear {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+    text-shadow: none;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    color: var(--warcraft-gold);
+    text-shadow: 0px 0px 10px var(--warcraft-fire);
+  }
+}
+
+/* Subtle Fire Glow Effect */
+@keyframes warcraft-fire-glow {
+  0% { text-shadow: 0px 0px 10px var(--warcraft-fire); }
+  100% { text-shadow: 0px 0px 15px rgba(255, 0, 0, 1); }
+}
+
+/* Class Times List */
+.warcraft-mobile-class-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 350px;
+}
+
+/* Each Class Time Appears Like a Summoned Rune */
+.warcraft-mobile-class-item {
+  font-size: 1.5rem;
+  font-family: 'Uncial Antiqua', cursive;
+  color: var(--warcraft-gold);
+  text-shadow: 0px 0px 10px var(--warcraft-fire);
+  background: rgba(0, 0, 0, 0.7);
+  padding: 8px 15px;
+  border-radius: 8px;
+  border: 2px solid rgba(255, 140, 0, 0.6);
+  opacity: 0;
+  transform: scale(0.8);
+  animation: warcraft-class-appear 0.6s ease-in-out forwards;
+}
+
+/* Staggered Animation for Each Class Time */
+@keyframes warcraft-class-appear {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Lightning Flickers in the Background */
+.warcraft-mobile-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), transparent);
+  opacity: 0;
+  animation: warcraft-lightning 8s infinite;
+}
+
+/* Lightning Flicker Effect */
+@keyframes warcraft-lightning {
+  0% { opacity: 0; }
+  20% { opacity: 0; }
+  21% { opacity: 0.6; }
+  22% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* MEDIA QUERY: Larger Screens */
+@media (min-width: 768px) {
+  .warcraft-mobile-day {
+    font-size: 3.5rem;
+  }
+  .warcraft-mobile-class-item {
+    font-size: 1.8rem;
+  }
+}
