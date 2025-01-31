@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap');
+
+.got-container {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(to bottom, #000, #111);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+}
+
+/* Title Styling - Iron Throne Look */
+.got-title {
+  font-family: 'MedievalSharp', cursive;
+  font-size: 3rem;
+  color: #d4af37;
+  text-shadow: 5px 5px 10px rgba(255, 69, 0, 0.6), 0 0 20px rgba(255, 255, 255, 0.5);
+  margin-bottom: 30px;
+  animation: prophecy-fade 2s ease-in-out forwards;
+}
+
+/* Glowing Text Effect */
+@keyframes prophecy-fade {
+  0% { opacity: 0; transform: translateY(-20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Schedule List */
+.got-schedule {
+  text-align: center;
+  font-family: 'MedievalSharp', cursive;
+  font-size: 1.8rem;
+  color: #d4af37;
+  text-shadow: 2px 2px 8px rgba(255, 69, 0, 0.6), 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+/* Swords as Dividers */
+.sword-divider {
+  width: 100%;
+  height: 5px;
+  position: relative;
+  margin: 10px auto;
+  background: linear-gradient(to right, silver, gray, silver);
+}
+
+/* Sword Blade Effect */
+.sword-divider::before {
+  content: "🗡";
+  font-size: 2rem;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: silver;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* MOBILE OPTIMIZATION */
+@media (max-width: 768px) {
+  .got-title {
+    font-size: 2.5rem;
+  }
+  .got-schedule {
+    font-size: 1.4rem;
+  }
+  .sword-divider {
+    height: 3px;
+  }
+  .sword-divider::before {
+    font-size: 1.5rem;
+  }
+}
