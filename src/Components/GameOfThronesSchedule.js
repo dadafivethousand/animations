@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Schedule from "../Schedule"; // Corrected import path
 import "../Stylesheets/GameOfThronesSchedule.css";
 
 export default function GameOfThronesSchedule({ day }) {
   const todaysSchedule = Schedule[day] || [];
+  const [showSchedule, setShowSchedule] = useState(false);
 
-  // Function to Convert 24-Hour Time to AM/PM
+  useEffect(() => {
+    // Schedule reveals after swords cross
+    setTimeout(() => {
+      setShowSchedule(true);
+    }, 1500);
+  }, [day]);
+
+  // Convert time to AM/PM format
   const formatTime = (time) => {
     const hours = Math.floor(time);
     const minutes = (time % 1) * 60;
@@ -17,15 +25,18 @@ export default function GameOfThronesSchedule({ day }) {
 
   return (
     <div className="got-container">
-      {/* Title */}
-      <h1 className="got-title">{day.toUpperCase()}</h1>
+      {/* Two swords sliding in */}
+      <div className="sword-container">
+        <div className="sword sword-left">🗡</div>
+        <div className="sword sword-right">🗡</div>
+      </div>
 
       {/* Schedule List */}
-      <div className="got-schedule">
+      <div className={`got-schedule ${showSchedule ? "show" : ""}`}>
+        <h2 className="got-subtitle">{day.toUpperCase()}</h2>
         {todaysSchedule.map((event, index) => (
           <div key={index} className="got-class">
             {event.name} ({formatTime(event.start)} - {formatTime(event.end)})
-            {index !== todaysSchedule.length - 1 && <div className="sword-divider"></div>}
           </div>
         ))}
       </div>

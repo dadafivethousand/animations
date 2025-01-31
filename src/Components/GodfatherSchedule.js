@@ -23,7 +23,7 @@ export default function GodfatherSchedule({ day }) {
 
       {/* Schedule */}
       <div className="parchment">
-        <h2>{day}'s Schedule</h2>
+        <h2>{day}</h2>
         <ul className="schedule-list">
           {todaysSchedule.length > 0 ? (
             todaysSchedule.map((event, index) => (

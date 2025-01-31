@@ -1,37 +1,47 @@
 .hospital-signs-container {
-    background-color: black;
-    padding: 24px;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
-    width: 130px;
- 
-    border: 2px solid #444;
-  }
-.hospital-signs-outer-container{
-    background-image: url(../Images/Doctor.jpg);
-    background-position: center;
-    background-repeat: no-repeat;
-    height:100vh;
-    background-size: contain;
-    display: flex;
-    align-items: center;
+  background-color: black;
+  padding: 24px;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+  width: 130px;
+  border: 2px solid #444;
+  
 }
- 
-  
-  .hospital-sign {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    border-bottom: 2px solid #444;
-    padding: 8px 0;
-    font-size: .7rem;
-    color: white;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
 
-  }
-  
+.hospital-signs-outer-container {
+  background-image: url(../Images/Doctor.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  background-size: contain;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
 
-  .big{
-    font-size: 1.3rem;
-  }
+/* Hospital Sign Item */
+.hospital-sign {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid #444;
+  padding: 8px 0;
+  font-size: 0.7rem;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+/* When Item Becomes Visible */
+.hospital-sign.slide-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Bigger Font for Headers */
+.big {
+  font-size: 1.3rem;
+}

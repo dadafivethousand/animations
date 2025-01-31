@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&display=swap');
 
 .got-container {
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(to bottom, #000, #111);
+  background: linear-gradient(to bottom, #111111fe, #000);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -13,63 +13,106 @@
   padding: 20px;
 }
 
-/* Title Styling - Iron Throne Look */
-.got-title {
-  font-family: 'MedievalSharp', cursive;
-  font-size: 3rem;
-  color: #d4af37;
-  text-shadow: 5px 5px 10px rgba(255, 69, 0, 0.6), 0 0 20px rgba(255, 255, 255, 0.5);
-  margin-bottom: 30px;
-  animation: prophecy-fade 2s ease-in-out forwards;
+/* Swords Container */
+.sword-container {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Glowing Text Effect */
-@keyframes prophecy-fade {
-  0% { opacity: 0; transform: translateY(-20px); }
-  100% { opacity: 1; transform: translateY(0); }
+/* Base Sword */
+.sword {
+  font-size: 10rem; /* Large swords */
+  position: absolute;
+  opacity: 0;
 }
 
-/* Schedule List */
+/* Left Sword */
+.sword-left {
+  color: beige;
+  left: -80px;
+  top:-50px;
+  animation: slide-left 2.5s ease-in-out forwards;
+  transform: rotate(-170deg);
+
+}
+
+/* Right Sword */
+.sword-right {
+  color: beige;
+  right: -80px;
+ 
+  animation: slide-right 2.5s ease-in-out forwards;
+  transform: rotate(80deg);
+}
+
+/* Left Sword Animation */
+@keyframes slide-left {
+  0% {
+    left: -100px;
+    opacity: 1;
+  }
+  100% {
+    left: 35%;
+    opacity: 1;
+  }
+}
+
+/* Right Sword Animation */
+@keyframes slide-right {
+  0% {
+    right: -100px;
+    opacity: 1;
+  }
+  100% {
+    right: 35%;
+    opacity: 1;
+  }
+}
+
+/* Subtitle */
+.got-subtitle {
+  font-family: 'IM Fell English SC', serif;
+  font-size: 2.5rem;
+  color: #c9b47f;
+  text-shadow: 
+    2px 2px 8px rgba(255, 215, 0, 0.6),
+    0 0 15px rgba(255, 69, 0, 0.5);
+  margin-bottom: 20px;
+}
+
+/* Schedule */
 .got-schedule {
   text-align: center;
-  font-family: 'MedievalSharp', cursive;
+  font-family: 'IM Fell English SC', serif;
   font-size: 1.8rem;
-  color: #d4af37;
-  text-shadow: 2px 2px 8px rgba(255, 69, 0, 0.6), 0 0 15px rgba(255, 255, 255, 0.3);
+  color: #c9b47f;
+  text-shadow: 
+    2px 2px 8px rgba(255, 215, 0, 0.6), 
+    0 0 15px rgba(255, 69, 0, 0.5);
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 1s ease-in-out, transform 1s ease-in-out;
 }
 
-/* Swords as Dividers */
-.sword-divider {
-  width: 100%;
-  height: 5px;
-  position: relative;
-  margin: 10px auto;
-  background: linear-gradient(to right, silver, gray, silver);
-}
-
-/* Sword Blade Effect */
-.sword-divider::before {
-  content: "🗡";
-  font-size: 2rem;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  color: silver;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+/* Show the schedule when the swords finish crossing */
+.got-schedule.show {
+  opacity: 1;
+  transform: translateY(40px);
 }
 
 /* MOBILE OPTIMIZATION */
 @media (max-width: 768px) {
-  .got-title {
-    font-size: 2.5rem;
+  .sword {
+    font-size: 6rem;
+  }
+  .got-subtitle {
+    font-size: 2rem;
   }
   .got-schedule {
     font-size: 1.4rem;
-  }
-  .sword-divider {
-    height: 3px;
-  }
-  .sword-divider::before {
-    font-size: 1.5rem;
   }
 }

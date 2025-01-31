@@ -1,0 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.pokemon-container {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(to bottom, #f8d030, #f08030);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+}
+
+/* Pokémon Style Font */
+.pokemon-title {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 2rem;
+  color: #ffcc00;
+  text-shadow: 
+    3px 3px 0px #003a70, 
+    -3px -3px 0px #003a70,
+    3px -3px 0px #003a70, 
+    -3px 3px 0px #003a70;
+  margin-bottom: 20px;
+}
+
+/* Pokéball Container */
+.pokeball-container {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  top:150px;
+  transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+}
+
+/* Pokéball Top Half */
+.pokeball-top {
+  width: 100px;
+  height: 50px;
+  background: red;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  border: 4px solid black;
+  position: absolute;
+  top: 0;
+  transition: transform 0.7s ease-out, opacity 0.7s ease-out;
+}
+
+/* Pokéball Bottom Half */
+.pokeball-bottom {
+  width: 100px;
+  height: 50px;
+  background: white;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  border: 4px solid black;
+  position: absolute;
+  bottom: 0;
+  transition: transform 0.7s ease-out, opacity 0.7s ease-out;
+}
+
+/* Pokéball Center Button */
+.pokeball-center {
+  width: 24px;
+  height: 24px;
+  background: white;
+  border-radius: 50%;
+  border: 4px solid black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+/* Small Black Dot in Center */
+.pokeball-center::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background: black;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Pokéball Shaking */
+.shake {
+  animation: shake 0.3s infinite;
+}
+
+@keyframes shake {
+  0% { transform: rotate(3deg); }
+  25% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+  75% { transform: rotate(-3deg); }
+  100% { transform: rotate(3deg); }
+}
+
+/* Open Animation - Splitting the Pokéball */
+.pokeball-container.open .pokeball-top {
+  transform: translateY(-80px);
+  opacity: 0;
+}
+
+.pokeball-container.open .pokeball-bottom {
+  transform: translateY(80px);
+  opacity: 0;
+}
+
+.pokeball-container.open .pokeball-center {
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+}
+
+/* Subtitle */
+.pokemon-subtitle {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1.5rem;
+  color: #ffcc00;
+  text-shadow: 
+    2px 2px 0px #003a70, 
+    -2px -2px 0px #003a70;
+  margin-bottom: 20px;
+}
+
+/* Schedule */
+.pokemon-schedule {
+  text-align: center;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1.2rem;
+  line-height: 25px;
+  color: #003a70;
+  opacity: 0;
+ 
+  transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+}
+
+/* Show the schedule when the Pokéball opens */
+.pokemon-schedule.show {
+  opacity: 1;
+ 
+}
+
+.none{
+    display:none
+}
+
+/* MOBILE OPTIMIZATION */
+@media (max-width: 768px) {
+  .pokeball-container {
+    width: 80px;
+    height: 80px;
+  }
+  .pokeball-top, .pokeball-bottom {
+    width: 80px;
+    height: 40px;
+  }
+  .pokemon-title {
+    font-size: 1.4rem;
+  }
+  .pokemon-subtitle {
+    font-size: 1.2rem;
+  }
+  .pokemon-schedule {
+    font-size: 1rem;
+  }
+}
