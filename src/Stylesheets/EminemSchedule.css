@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+.eminem-outer-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+
+.eminem-container {
+  text-align: center;
+  color: white;
+  text-transform: uppercase;
+  text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.6);
+  background-image: url(../Images/eminem-show.jpg);
+  background-position: center;
+  background-size:contain;
+background-repeat: no-repeat;
+}
+
+.eminem-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 4rem;
+  letter-spacing: 5px;
+}
+
+.backward-e {
+  display: inline-block;
+  transform: scaleX(-1); /* Flips the E */
+}
+
+.eminem-subtitle {
+  font-family: 'Anton', sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+.schedule-container {
+  font-family: 'Anton', sans-serif;
+  font-size: 1.2rem;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 10px 20px;
+  display: inline-block;
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+.schedule-day {
+  font-size: 1.8rem;
+  color: #ffcc00; /* Gold text */
+  margin-bottom: 10px;
+}
+
+.schedule-class {
+  font-size: 1.2rem;
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -8,11 +8,12 @@ import PokemonSchedule from "./Components/PokemonSchedule";
 import HospitalSignsSchedule from "./Components/HospitalSignSchedule";
 import LOTRSchedule from "./Components/LOTRSchedule";
 import StillDreSchedule from "./Components/StillDreSchedule";
+import EminemSchedule from "./Components/EminemSchedule";
 function App() {
   return (
     <>
-  < StillDreSchedule day="Monday" />
-  </>
+    <GodfatherSchedule day="Saturday" />
+   </>
   );
 }
 
