@@ -56,7 +56,7 @@
     opacity: 1;
   }
   100% {
-    left: 33%;
+    left: 30%;
     opacity: 1;
   }
 }
@@ -68,7 +68,7 @@
     opacity: 1;
   }
   100% {
-    right: 33%;
+    right: 30%;
     opacity: 1;
   }
 }
