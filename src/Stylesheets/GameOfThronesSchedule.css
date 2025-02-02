@@ -34,7 +34,7 @@
 .sword-left {
   color: beige;
   left: -80px;
-  top:-10px;
+  top:-80px;
   animation: slide-left 2.5s ease-in-out forwards;
   transform: rotate(-170deg);
 
@@ -56,7 +56,7 @@
     opacity: 1;
   }
   100% {
-    left: 35%;
+    left: 33%;
     opacity: 1;
   }
 }
@@ -68,7 +68,7 @@
     opacity: 1;
   }
   100% {
-    right: 35%;
+    right: 33%;
     opacity: 1;
   }
 }
