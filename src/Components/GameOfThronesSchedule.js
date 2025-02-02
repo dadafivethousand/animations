@@ -36,7 +36,7 @@ export default function GameOfThronesSchedule({ day }) {
         <h2 className="got-subtitle">{day.toUpperCase()}</h2>
         {todaysSchedule.map((event, index) => (
           <div key={index} className="got-class">
-            {event.name} ({formatTime(event.start)} - {formatTime(event.end)})
+            {event.name} - {formatTime(event.start)} 
           </div>
         ))}
       </div>
