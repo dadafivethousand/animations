@@ -25,6 +25,7 @@ export default function GameOfThronesSchedule({ day }) {
 
   return (
     <div className="got-container">
+      <h1 className="got-title">MAPLE <br></br>JIU-JITSU</h1>
       {/* Two swords sliding in */}
       <div className="sword-container">
         <div className="sword sword-left">🗡</div>

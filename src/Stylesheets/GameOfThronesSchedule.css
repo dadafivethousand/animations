@@ -13,6 +13,21 @@
   padding: 20px;
 }
 
+
+/* Maple Jiu-Jitsu Title */
+.got-title {
+  font-family: 'IM Fell English SC', serif;
+  font-size: 4rem;
+  color: #c9b47f;
+  text-shadow: 
+    2px 2px 8px rgba(255, 215, 0, 0.6),
+    0 0 15px rgba(255, 69, 0, 0.5);
+  text-align: center;
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+}
+
+
 /* Swords Container */
 .sword-container {
   position: relative;
