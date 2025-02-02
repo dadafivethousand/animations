@@ -9,10 +9,11 @@ import HospitalSignsSchedule from "./Components/HospitalSignSchedule";
 import LOTRSchedule from "./Components/LOTRSchedule";
 import StillDreSchedule from "./Components/StillDreSchedule";
 import EminemSchedule from "./Components/EminemSchedule";
+import MapleWolverineSchedule from "./Components/WolverineSchedule";
 function App() {
   return (
     <>
-    <GameOfThronesSchedule day="Sunday" />
+    <PokemonSchedule day="Monday" />
    </>
   );
 }

@@ -1,0 +1,129 @@
+
+.wolverine-schedule-container {
+    font-family: 'Bangers', cursive;
+    background: white;
+    color: black;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  
+  .wolverine-day-title {
+    font-size: 4rem;
+    text-transform: uppercase;
+    color: red;
+    position: relative;
+    margin-bottom: 20px;
+  }
+  
+  /* Bullet Hole Styling */
+  .wolverine-bullet-hole {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle, black 30%, transparent 70%);
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.8), -2px 2px 3px rgba(0, 0, 0, 0.6), 2px -2px 3px rgba(0, 0, 0, 0.6);
+    animation: bulletImpact 0.2s ease-out forwards;
+    opacity: 0;
+  }
+  
+  @keyframes bulletImpact {
+    0% {
+      transform: scale(0.2);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  .wolverine-schedule-list {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Wolverine's Arm */
+  .wolverine-arm-container {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+  }
+  
+  .wolverine-arm {
+    display: flex;
+    align-items: center;
+    position: relative;
+    background: linear-gradient(to right, yellow 50%, rgba(255, 204, 0, 0.8));
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 5px solid blue;
+    width: 60%;
+    box-shadow: inset -4px -4px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .wolverine-glove {
+    width: 30px;
+    height: 80px;
+    background: blue;
+    border-radius: 10px 0 0 10px;
+    position: absolute;
+    left: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .wolverine-arm-muscle {
+    width: 50px;
+    height: 80px;
+    background: yellow;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 10px 0 0 10px;
+  }
+  
+  /* Realistic Claws */
+  .wolverine-claws {
+    position: absolute;
+    right: -40px;
+    top: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transform: translateY(-50%);
+  }
+  
+  .real-claw {
+    width: 80px;
+    height: 6px;
+    background: linear-gradient(to right, silver, gray);
+    clip-path: polygon(100% 0, 0 50%, 100% 100%);
+    box-shadow: 2px 2px 5px gray, -2px -2px 5px gray;
+    animation: clawSlash 0.3s ease-out forwards;
+  }
+  
+  @keyframes clawSlash {
+    0% {
+      transform: translateX(-30px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  .wolverine-class-name {
+    font-weight: bold;
+    margin-left: 10px;
+  }
+  
