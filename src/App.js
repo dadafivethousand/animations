@@ -12,7 +12,7 @@ import EminemSchedule from "./Components/EminemSchedule";
 function App() {
   return (
     <>
-    <GodfatherSchedule day="Saturday" />
+    <GameOfThronesSchedule day="Sunday" />
    </>
   );
 }
