@@ -11,7 +11,7 @@ function WolverineSchedule({ day }) {
     const startSlash=setTimeout(()=>{
       console.log('slashing time')
       setSlash(true)
-    },3000)
+    },6000)
   },[])
 
   // Convert decimal hours -> "7:30 AM"
@@ -36,6 +36,8 @@ function WolverineSchedule({ day }) {
           <span className="bulletHole hole4"></span>
           <span className="bulletHole hole5"></span>
           <span className="bulletHole hole6"></span>
+          <span className="bulletHole hole7"></span>
+          <span className="bulletHole hole8"></span>
         </>
       </h1>
 
@@ -46,7 +48,7 @@ function WolverineSchedule({ day }) {
           <div
             className="wolverine-class-item float-up"
             key={idx}
-            style={{ animationDelay: `${1.4 + idx * 0.2}s` }}
+            style={{ animationDelay: `${3 + idx * 0.2}s` }}
           >
             {/* The actual text */}
             <div className="class-name">{cls.name}</div>

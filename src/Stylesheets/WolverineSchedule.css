@@ -35,8 +35,8 @@
 /* Bullet Holes, finishing ~1.2s, unchanged */
 .bulletHole {
   position: absolute;
-  width: 16px;
-  height: 16px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background-image: radial-gradient(circle at 50% 50%, black 20%, #444 40%, #999 50%, #ccc 55%, transparent 85%);
   background-size: cover;
@@ -44,7 +44,7 @@
   transform: scale(0) translate(-50%, -50%);
   pointer-events: none;
   z-index: 3;
-  animation: bulletShot 0.6s forwards ease-out;
+  animation: bulletShot 0.5s forwards ease-out;
 }
 .hole1 { top: 15%; left: 20%; animation-delay: 0.1s; }
 .hole2 { top: 25%; left: 65%; animation-delay: 0.3s; }
@@ -52,6 +52,8 @@
 .hole4 { top: 45%; left: 80%; animation-delay: 0.7s; }
 .hole5 { top: 55%; left: 30%; animation-delay: 0.9s; }
 .hole6 { top: 65%; left: 70%; animation-delay: 1.1s; }
+.hole7 { top: 65%; left: 10%; animation-delay: 1.1s; }
+.hole8 { top: 65%; left: 90%; animation-delay: 1.1s; }
 
 @keyframes bulletShot {
   0% { transform: scale(0) translate(-50%, -50%); opacity: 0; }
