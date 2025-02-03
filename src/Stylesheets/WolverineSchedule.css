@@ -118,13 +118,13 @@
 
  
 .class-name {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: bold;
   color: #0c2340;
 }
 
 .class-time {
-  font-size: 1rem;
+  font-size: .9rem;
   color: #333;
   margin-top: 0.3rem;
 }
@@ -183,26 +183,28 @@ transform: translateX(-80px) rotate(-18deg);
  
   opacity: 1;
   transform: translateX(80px) rotate(18deg);
+
   }
   
   
   .claw1{
-    width:95%
+    width:85%
+
   }
 
     
   .claw2{
-    width:97%
+    width:87%
   }
 
       
   .claw3{
-    width:100%
+    width:90%
   }
 
   .claw {
     height: 4px;
- 
+    border-radius:90%;
     margin: 3px 0;
     /* 
       A sharper metallic gradient, 
