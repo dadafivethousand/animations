@@ -14,7 +14,7 @@ import WolverineSchedule from "./Components/WolverineSchedule";
 function App() {
   return (
     <>
-    <WolverineSchedule day="Monday" />
+    <WolverineSchedule day="Tuesday" />
    </>
   );
 }
