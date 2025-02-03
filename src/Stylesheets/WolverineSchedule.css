@@ -246,3 +246,69 @@ transform: translateX(-80px) rotate(-18deg);
     }
   }
   
+
+  .claws-container {
+    height: 100%;
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    z-index: 4;
+    top: 0px;
+    transition: transform 0.3s ease-out;
+    opacity: 0;
+    margin: 0 auto;
+  }
+  
+  .left-claws {
+    left: 2px;
+    display: flex;
+    align-items: flex-end;
+  }
+  
+  .right-claws {
+    right: 2px;
+  }
+  
+  /* 
+     When .show-left is toggled on, 
+     we transform it out to the left 
+  */
+  .show-left {
+    opacity: 1;
+    transform: translateX(-80px) rotate(-18deg);
+  }
+  
+  /* 
+     When .show-right is toggled on, 
+     we transform it out to the right 
+  */
+  .show-right {
+    opacity: 1;
+    transform: translateX(80px) rotate(18deg);
+  }
+  
+  /* 
+     Claws styling (with that metallic glimmer, etc.)
+  */
+  .claw {
+    height: 4px;
+    border-radius: 90%;
+    margin: 3px 0;
+  
+    background: linear-gradient(
+      to right,
+      #ffffff 0%, #bbbbbb 20%, #555555 40%,
+      #bbbbbb 60%, #ffffff 80%
+    );
+    background-size: 300% 100%;
+    animation: metallicGlimmer 3s linear infinite;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+  }
+  
+  @keyframes metallicGlimmer {
+    0% { background-position: 0 0; }
+    100% { background-position: 300% 0; }
+  }
+  
