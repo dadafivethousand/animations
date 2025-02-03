@@ -1,79 +1,47 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import schedule from "../Schedule";
 import "../Stylesheets/WolverineSchedule.css";
 
-const DeadpoolWolverineSchedule = ({ day }) => {
-  const [bulletHoles, setBulletHoles] = useState([]);
+function WolverineSchedule({ day }) {
+  const classesForDay = schedule[day] || [];
 
-  useEffect(() => {
-    let bullets = [];
-    for (let i = 0; i < 5; i++) {
-      bullets.push({
-        id: i,
-        top: `${Math.random() * 40 + 10}%`,
-        left: `${Math.random() * 60 + 20}%`,
-      });
-    }
-
-    let index = 0;
-    const bulletInterval = setInterval(() => {
-      setBulletHoles((prev) => [...prev, bullets[index]]);
-      index++;
-
-      if (index >= bullets.length) clearInterval(bulletInterval);
-    }, 300);
-
-    return () => clearInterval(bulletInterval);
-  }, [day]);
-
-  const classes = schedule[day] || [];
+  // Convert decimal hours (e.g., 7.5) -> "7:30 AM"
+  const formatTime = (decimalTime) => {
+    const hour = Math.floor(decimalTime);
+    const minutes = Math.round((decimalTime - hour) * 60);
+    const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+    const amPm = hour < 12 ? "AM" : "PM";
+    const paddedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+    return `${hour12}:${paddedMinutes} ${amPm}`;
+  };
 
   return (
-    <div className="wolverine-schedule-container">
-      <div className="wolverine-day-title">
+    <div className="wolverine-schedule-container deadpool-theme">
+      {/* Day of the Week */}
+      <h1 className="day-of-week">
         {day}
-        {bulletHoles.map(
-          (hole) =>
-            hole && (
-              <span
-                key={hole.id}
-                className="wolverine-bullet-hole"
-                style={{ top: hole.top, left: hole.left }}
-              ></span>
-            )
-        )}
-      </div>
-      <div className="wolverine-schedule-list">
-        {classes.map((cls, index) => (
-          <div key={index} className="wolverine-arm-container">
-            {/* Wolverine's Arm */}
-            <div className="wolverine-arm">
-              <div className="wolverine-glove"></div>
-              <div className="wolverine-arm-muscle"></div>
-              <span className="wolverine-class-name">
-                {cls.name} - {formatTime(cls.start)}
-              </span>
-              {/* Realistic Claws */}
-              <div className="wolverine-claws">
-                <span className="real-claw"></span>
-                <span className="real-claw"></span>
-                <span className="real-claw"></span>
-              </div>
-            </div>
+        {/* Bullet holes */}
+        <>
+          <span className="bulletHole hole1"></span>
+          <span className="bulletHole hole2"></span>
+          <span className="bulletHole hole3"></span>
+          <span className="bulletHole hole4"></span>
+          <span className="bulletHole hole5"></span>
+          <span className="bulletHole hole6"></span>
+        </>
+      </h1>
+
+      {/* Wolverine-themed class items appear AFTER bullet holes finish */}
+      <div className="wolverine-classes-list">
+        {classesForDay.map((cls, idx) => (
+          <div className="wolverine-class-item float-up" key={idx} style={{ animationDelay: `${1.4 + idx * 0.2}s` }}>
+            <div className="class-name">{cls.name}</div>
+            <div className="class-time">{formatTime(cls.start)}</div>
           </div>
         ))}
       </div>
     </div>
   );
-};
+}
 
-const formatTime = (time) => {
-  const hour = Math.floor(time);
-  const minutes = (time % 1) * 60;
-  const amPm = hour >= 12 ? "PM" : "AM";
-  const formattedHour = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
-  const formattedMinutes = minutes === 0 ? "00" : minutes;
-  return `${formattedHour}:${formattedMinutes} ${amPm}`;
-};
-
-export default DeadpoolWolverineSchedule;
+export default WolverineSchedule;
