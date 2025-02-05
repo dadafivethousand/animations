@@ -1,0 +1,84 @@
+/* 🦸‍♂️ Superman Font */
+@import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");
+
+ 
+
+.superman-container {
+  width: 100vw;
+  height: 100vh;
+  background: #0033a0; /* Superman Blue */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-family: "Anton", sans-serif;
+  color: white;
+  text-align: center;
+}
+
+/* 🦸‍♂️ Day Title */
+.superman-title {
+  font-size: 4rem;
+  color: yellow;
+  text-shadow: 4px 4px 8px black;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+/* 🦸‍♂️ Class Section */
+.superman-classes {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: relative;
+}
+
+/* 🦸‍♂️ Each Class is Cape-Shaped */
+.superman-class {
+  background: red;
+  color: yellow;
+  font-size: 1.8rem;
+  padding: 15px 25px;
+  text-align: center;
+  border-radius: 5%; /* Cape Shape */
+  text-shadow: 3px 3px 5px black;
+  width: 200px;
+  height: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+  position: relative;
+  opacity: 0;
+  transform: translateY(100px);
+  animation: flyUp 0.8s ease-out forwards;
+}
+
+/* 🦸‍♂️ Class Name */
+.class-name {
+  font-weight: bold;
+  font-size: 1.8rem;
+  margin-bottom: 5px;
+  color: yellow;
+}
+
+/* 🦸‍♂️ Class Time */
+.class-time {
+  font-size: 1.5rem;
+  font-style: italic;
+  color: yellow;
+}
+
+/* 🦸‍♂️ Flying Effect */
+@keyframes flyUp {
+  0% {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

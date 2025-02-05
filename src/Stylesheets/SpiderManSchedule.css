@@ -1,0 +1,147 @@
+/* 🕷️ Spider-Man Font */
+@import url("https://fonts.googleapis.com/css2?family=Bangers&display=swap");
+
+.spiderman-container {
+  width: 100vw;
+  height: 100vh;
+  background: #b00000; /* Spider-Man Red */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-family: "Bangers", cursive;
+}
+
+/* 🕸️ Subtle Web Effect */
+.spiderman-web {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+      circle at 50% 50%,
+      rgba(255, 255, 255, 0.05) 10%,
+      transparent 50%
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.1) 2%,
+      transparent 2%,
+      transparent 8%
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.1) 2%,
+      transparent 2%,
+      transparent 8%
+    );
+  opacity: 0.2;
+  animation: webMove 6s infinite alternate ease-in-out;
+}
+
+/* 🕸️ Web Animation - Slight Moving Effect */
+@keyframes webMove {
+  0% {
+    transform: scale(1);
+    opacity: 0.15;
+  }
+  100% {
+    transform: scale(1.05);
+    opacity: 0.25;
+  }
+}
+
+/* 🕷️ Title */
+.spiderman-title {
+  font-size: 4rem;
+  color: white;
+  text-transform: uppercase;
+  text-shadow: 4px 4px 10px black;
+  position: relative;
+  z-index: 2;
+}
+
+/* 🕷️ Classes Section */
+.spiderman-classes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  gap: 2rem; /* More spacing between classes */
+}
+
+/* 🕸️ Web Hanging Class Effect */
+.spiderman-class {
+  position: relative;
+  font-size: 1.8rem;
+  color: white;
+  text-shadow: 3px 3px 5px black;
+  opacity: 0;
+  transform: translateY(-100px);
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* 🕸️ Thin Web Thread Hanging from Above */
+.web-thread {
+  position: absolute;
+  top: -35px;
+  left: 50%;
+  width: 2px;
+  height: 40px;
+  background: white;
+  transform: translateX(-50%);
+  animation: webWobble 4s infinite alternate ease-in-out;
+}
+
+/* 🕸️ Web Thread Wobble Effect */
+@keyframes webWobble {
+  0% {
+    transform: translateX(-50%) rotate(0deg);
+  }
+  100% {
+    transform: translateX(-50%) rotate(5deg);
+  }
+}
+
+/* 🕷️ Class Names Drop Down Effect */
+.drop-down {
+  animation: webDrop 0.8s ease-out forwards;
+}
+
+@keyframes webDrop {
+  0% {
+    opacity: 0;
+    transform: translateY(-100px) scale(0.9);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(5px) scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 🕷️ Staggered Swinging Animation */
+.class-text {
+  display: inline-block;
+  animation: swing var(--swing-speed) ease-in-out infinite alternate;
+  transform-origin: center;
+}
+
+@keyframes swing {
+  0% {
+    transform: rotate(var(--swing-angle));
+  }
+  100% {
+    transform: rotate(calc(var(--swing-angle) * -1));
+  }
+}

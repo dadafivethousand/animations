@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/HulkamaniaSchedule.css";
+import "../Stylesheets/VenomSchedule.css";
 import schedule from "../Schedule";
 
-function HulkamaniaSchedule({ day }) {
+function VenomSchedule({ day }) {
   const [showSchedule, setShowSchedule] = useState(false);
 
   useEffect(() => {
@@ -22,22 +22,22 @@ function HulkamaniaSchedule({ day }) {
   };
 
   return (
-    <div className="hulkamania-container">
-      <div className="hulkamania-content">
+    <div className="venom-container">
+      <div className="venom-content">
         {/* Title */}
-        <h1 className="hulkamania-title">{day}</h1>
+        <h1 className="venom-title">{day}</h1>
 
         {/* Schedule Classes */}
-        <div className="hulkamania-classes">
+        <div className="venom-classes">
           {showSchedule &&
             schedule[day]?.map((cls, idx) => (
               <div
                 key={idx}
-                className="hulkamania-class"
-                style={{ animationDelay: `${idx * 0.2}s` }}
+                className="venom-class"
+                style={{ animationDelay: `${Math.random() * 2}s` }} // Random delay for independent pulsing
               >
-                <div className="hulkamania-class-name">{cls.name}</div>
-                <div className="hulkamania-class-time">{formatTime(cls.start)}</div>
+                <div className="venom-class-name">{cls.name}</div>
+                <div className="venom-class-time">{formatTime(cls.start)}</div>
               </div>
             ))}
         </div>
@@ -46,4 +46,4 @@ function HulkamaniaSchedule({ day }) {
   );
 }
 
-export default HulkamaniaSchedule;
+export default VenomSchedule;

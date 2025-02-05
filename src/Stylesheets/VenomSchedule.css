@@ -1,0 +1,85 @@
+/* 🕷️ Venom Font */
+@import url("https://fonts.googleapis.com/css2?family=Staatliches&display=swap");
+
+.venom-container {
+  width: 100vw;
+  height: 100vh; /* Full-page height */
+  background: rgb(0, 0, 0); /* Pure dark background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Staatliches", sans-serif;
+  color: white;
+  text-align: center;
+}
+
+/* 🕷️ The Content Box */
+.venom-content {
+  width: 60%;
+  height: 60%; /* Content takes 60% of the screen height */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* 🕷️ Title */
+.venom-title {
+  font-size: 4rem;
+  color: white;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  letter-spacing: 3px;
+  animation: venomPulse 2s infinite ease-in-out;
+}
+
+/* 🕷️ Class List */
+.venom-classes {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+/* 🕷️ Each Class */
+.venom-class {
+  background: white;
+  color: black;
+  font-size: 2rem;
+  padding: 5px 35px;
+  text-align: center;
+  border-radius: 10px;
+  width: 70%;
+  font-weight: bold;
+  animation: venomPulse 2s infinite ease-in-out;
+  animation-delay: var(--pulse-delay); /* Uses unique delay for each */
+}
+
+/* 🕷️ Class Name */
+.venom-class-name {
+  font-weight: bold;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+}
+
+/* 🕷️ Class Time */
+.venom-class-time {
+  font-size: 1.2rem;
+  font-style: italic;
+}
+
+/* 🕷️ Venom Pulsating Animation (Now Independent) */
+@keyframes venomPulse {
+  0% {
+    transform: scale(1);
+    text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    transform: scale(1.05);
+    text-shadow: 4px 4px 15px rgba(255, 255, 255, 0.4);
+  }
+  100% {
+    transform: scale(1);
+    text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.2);
+  }
+}

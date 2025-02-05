@@ -1,0 +1,160 @@
+/* 🖤 Black Panther Font */
+@import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@700&display=swap");
+
+.black-panther-container {
+  width: 100vw;
+  height: 100vh; /* Full-page height */
+  background: linear-gradient(to bottom, #0d0d0d, #3d0066); /* Deep black & Wakandan purple */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Rajdhani", sans-serif;
+  color: white;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+}
+
+/* 🖤 The Content Box */
+.black-panther-content {
+  width: 65%;
+  height: 65%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* 🖤 Title */
+.black-panther-title {
+  font-size: 4rem;
+  color: #e0e0e0; /* Silver glow */
+  text-transform: uppercase;
+  margin-bottom: 30px;
+  letter-spacing: 3px;
+  text-shadow: 5px 5px 15px rgba(224, 224, 224, 0.5);
+}
+
+/* 🖤 The Schedule List */
+.black-panther-classes {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+/* 🖤 Each Class */
+.black-panther-class {
+  background: #1a1a1a;
+  color: white;
+  font-size: 2rem;
+  padding: 5px 40px;
+  text-align: center; 
+  border-radius: 15px;
+  width: 60%;
+  font-weight: bold;
+  text-transform: uppercase;
+  border: 3px solid #e0e0e0; /* Silver border */
+  box-shadow: 0 0 15px rgba(224, 224, 224, 0.3);
+  animation: blackPantherSlideIn 0.8s ease-in-out forwards;
+  opacity: 0;
+}
+
+/* 🖤 Class Name */
+.black-panther-class-name {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+/* 🖤 Class Time */
+.black-panther-class-time {
+  font-size: 1.1rem;
+  font-style: italic;
+}
+
+/* 🖤 Slide-in Animation for Class Names */
+@keyframes blackPantherSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* 🖤 Black Panther Necklace (CSS-Only) */
+.black-panther-necklace {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+/* 🖤 Claws of the Necklace - Now Pointing Down */
+.black-panther-claw {
+  width: 20px;
+  height: 50px;
+  background: linear-gradient(to bottom, #ffffff, #c0c0c0); /* Silver Metallic */
+  clip-path: polygon(50% 100%, 100% 0, 50% 20%, 0 0); /* Now pointing downward */
+  transform-origin: top;
+  animation: necklaceSwing 2s infinite ease-in-out alternate;
+  position: relative;
+}
+
+/* 🖤 Swinging Effect for Necklace */
+@keyframes necklaceSwing {
+  0% {
+    transform: rotate(5deg) translateY(0px);
+  }
+  100% {
+    transform: rotate(-5deg) translateY(5px);
+  }
+}
+
+.claw1{
+    top:10px
+}
+
+.claw2{
+    top:20px
+}
+
+.claw3{
+    top:30px
+}
+
+.claw4{
+    top:40px
+}
+
+.claw5{
+    top:50px
+}
+
+.claw6{
+    top:50px
+}
+
+.claw7{
+    top:40px
+}
+
+.claw8{
+    top:30px
+}
+.claw9{
+    top:20px
+}
+
+.claw10{
+    top:10px
+}
+
+
+ 
+

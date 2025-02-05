@@ -1,109 +1,96 @@
-@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+/* 💪 Hulkamania Font */
+@import url("https://fonts.googleapis.com/css2?family=Bangers&display=swap");
 
-.hulkamania-container-theme {
+.hulkamania-container {
   width: 100vw;
-  height: 100vh;
-  background: linear-gradient(to bottom, #ff0000, #ffcc00);
+  height: 100vh; /* Full-page height */
+  background: linear-gradient(to bottom, #ff0000, #ffcc00); /* Red to Yellow */
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
-  flex-direction: column;
-  position: relative;
+  font-family: "Bangers", cursive;
+  color: white;
+  text-align: center;
   overflow: hidden;
 }
 
-/* HULKAMANIA Title */
-.hulkamania-title-theme {
-  font-family: 'Bangers', cursive;
+/* 💪 The Content Box */
+.hulkamania-content {
+  width: 70%;
+  height: 70%; /* Content takes 70% of the screen height */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 💪 Title */
+.hulkamania-title {
   font-size: 4rem;
   color: yellow;
   text-transform: uppercase;
-  text-shadow: 3px 3px 15px rgba(255, 255, 0, 0.8);
-  position: relative;
-  animation: hulkamania-shake-theme 0.5s infinite alternate;
+  margin-bottom: 30px;
+  letter-spacing: 3px;
+  text-shadow: 5px 5px 15px black;
+  animation: hulkamaniaShake 1s infinite ease-in-out;
 }
 
-/* Hulkamania Style Shake Animation */
-@keyframes hulkamania-shake-theme {
-  0% { transform: rotate(-2deg) scale(1.05); }
-  100% { transform: rotate(2deg) scale(1.1); }
-}
-
-/* Wrestling Ring Ropes */
-.hulkamania-ring-ropes-theme {
-  position: absolute;
-  top: 50%;
-  left: 0;
+/* 💪 Schedule List */
+.hulkamania-classes {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
   width: 100%;
-  height: 10px;
-  background: black;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
 }
 
-.hulkamania-ring-ropes-theme::before,
-.hulkamania-ring-ropes-theme::after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 10px;
-  background: black;
-}
-
-.hulkamania-ring-ropes-theme::before {
-  top: -30px;
-}
-
-.hulkamania-ring-ropes-theme::after {
-  top: 30px;
-}
-
-/* Schedule Background */
-.hulkamania-parchment-theme {
-  width: 60%;
-  max-width: 600px;
-  background: rgba(0, 0, 0, 0.8);
-  padding: 30px;
-  border-radius: 10px;
+/* 💪 Each Class - Huge Impact */
+.hulkamania-class {
+  background: yellow;
+  color: red;
+  font-size: 2.5rem;
+  padding: 0px 50px;
   text-align: center;
-  font-family: 'Bangers', cursive;
-  color: yellow;
-  font-size: 1.8rem;
-  border: 5px solid yellow;
-  box-shadow: 0px 0px 20px rgba(255, 255, 0, 0.8);
-  position: relative;
-  z-index: 2;
-  animation: hulkamania-slam-theme 0.6s ease-in-out;
+  border-radius: 15px;
+  width: 60%;
+  font-weight: bold;
+  text-transform: uppercase;
+  border: 5px solid black;
+  box-shadow: 5px 5px 0px black;
+  transform: scale(1);
+  animation: hulkamaniaBounce 0.8s infinite ease-in-out alternate;
 }
 
-/* Entrance Slam Effect */
-@keyframes hulkamania-slam-theme {
+/* 💪 Class Name */
+.hulkamania-class-name {
+  font-weight: bold;
+  font-size: 1.8rem;
+}
+
+/* 💪 Class Time */
+.hulkamania-class-time {
+  font-size: 1.2rem;
+  font-style: italic;
+}
+
+/* 💪 Hulkamania Shake Animation */
+@keyframes hulkamaniaShake {
   0% {
-    transform: translateY(-300px);
-    opacity: 0;
+    transform: rotate(2deg);
+  }
+  50% {
+    transform: rotate(-2deg);
   }
   100% {
-    transform: translateY(0);
-    opacity: 1;
+    transform: rotate(2deg);
   }
 }
 
-/* Schedule List */
-.hulkamania-schedule-list-theme {
-  list-style: none;
-  padding: 0;
-}
-
-.hulkamania-schedule-item-theme {
-  font-size: 1.5rem;
-  text-shadow: 2px 2px 5px rgba(255, 255, 0, 0.8);
-  font-weight: bold;
-  color: yellow;
-  padding: 10px 0;
-  transition: transform 0.2s ease-in-out;
-}
-
-/* Bounce Effect on Hover */
-.hulkamania-schedule-item-theme:hover {
-  transform: scale(1.1);
-  text-shadow: 3px 3px 20px rgba(255, 255, 0, 1);
+/* 💪 Hulkamania Bounce Animation */
+@keyframes hulkamaniaBounce {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.08);
+  }
 }

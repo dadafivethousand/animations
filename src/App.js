@@ -9,12 +9,17 @@ import HospitalSignsSchedule from "./Components/HospitalSignSchedule";
 import LOTRSchedule from "./Components/LOTRSchedule";
 import StillDreSchedule from "./Components/StillDreSchedule";
 import EminemSchedule from "./Components/EminemSchedule";
-import MapleWolverineSchedule from "./Components/WolverineSchedule";
-import WolverineSchedule from "./Components/WolverineSchedule";
+import MapleWolverineSchedule from "./Used/WolverineSchedule";
+import WolverineSchedule from "./Used/WolverineSchedule";
+import SpiderManSchedule from "./Components/SpiderManSchedule";
+import HulkSchedule from "./Components/HulkSchedule";
+import SupermanSchedule from "./Components/SupermanSchedule";
+import VenomSchedule from "./Components/VenomSchedule";
+import BlackPantherSchedule from "./Components/BlackPantherSchedule";
 function App() {
   return (
     <>
-    <WolverineSchedule day="Tuesday" />
+    <VenomSchedule day="Wednesday" />
    </>
   );
 }
