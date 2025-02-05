@@ -50,7 +50,7 @@
   text-shadow: 5px 5px 15px rgba(255, 204, 0, 0.6);
  
   position: fixed;
-  top:250px
+  top:50px
 }
 
 /* 🔥 Schedule List */
@@ -61,7 +61,7 @@
   width: 100%;
   align-items: center;
   justify-content: flex-end;
-  margin-bottom:50px;
+  margin-bottom:70px;
 }
 
 /* 🔥 Each Class - High Tech HUD Style */
