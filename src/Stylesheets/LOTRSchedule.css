@@ -45,20 +45,41 @@
   border-radius: 50%;
   position: absolute;
   box-shadow: 
-    0 0 25px #c0a062, 
-    0 0 25px #c0a062 inset;
-  animation: wobble-ring 7s ease-in-out infinite alternate;
+    0 0 20px #c0a062, 
+    0 0 20px #c0a062 inset;
+  animation: shadow-change 2s ease-in-out infinite alternate, wobble-ring 6s ease-in-out infinite alternate;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+
  
 
 /* Keyframes for Ring Wobble */
+@keyframes shadow-change {
+  0% {
+    box-shadow: 
+    0 0 5px #c0a062, 
+    0 0 5px #c0a062 inset;
+   }
+
+  100% { 
+
+    box-shadow: 
+    0 0 25px #c0a062, 
+    0 0 25px #c0a062 inset;
+  }
+}
+
 @keyframes wobble-ring {
-  0% { transform: rotate(-25deg); }
-  100% { transform: rotate(25deg); }
+  0% { 
+    transform: rotate(-25deg);
+   }
+
+  100% { 
+    transform: rotate(25deg);
+  }
 }
 
 /* Schedule */
