@@ -1,0 +1,12 @@
+.maple-logo {
+    font-family: "Impact", sans-serif;
+    font-weight: bold;
+    font-size: 64px;
+    text-transform: uppercase;
+    color: white;
+    background-color: red;
+    padding: 10px 20px;
+    display: inline-block;
+    letter-spacing: 2px;
+    border-radius: 4px;
+  }

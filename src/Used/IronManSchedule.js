@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/KhabibSchedule.css";
+import "../Stylesheets/IronManSchedule.css";
 import schedule from "../Schedule";
+import MapleLogo from "./MapleMarvel";
 
-function KhabibSchedule({ day }) {
+function IronManSchedule({ day }) {
   const [showSchedule, setShowSchedule] = useState(false);
 
   useEffect(() => {
@@ -22,27 +23,28 @@ function KhabibSchedule({ day }) {
   };
 
   return (
-    <div className="khabib-container">
-      <h1 className="khabib-title">{day}</h1>
+    <div className="ironman-container">
+      {/* Arc Reactor in Background */}
+      <div className="arc-reactor"></div>
 
-      <div className="khabib-classes">
+      <h1 className="ironman-title">{day}</h1>
+
+      <div className="ironman-classes">
         {showSchedule &&
           schedule[day]?.map((cls, idx) => (
             <div
               key={idx}
-              className="khabib-class"
+              className="ironman-class"
               style={{ animationDelay: `${idx * 0.3}s` }}
             >
-              <div className="papakha-hat"></div>
-              <div className="khabib-class-content">
-                <div className="khabib-class-name">{cls.name}</div>
-                <div className="khabib-class-time">{formatTime(cls.start)}</div>
-              </div>
+              <div className="ironman-class-name">{cls.name}</div>
+              <div className="ironman-class-time">{formatTime(cls.start)}</div>
             </div>
           ))}
-      </div>
+      </div>.
+  
     </div>
   );
 }
 
-export default KhabibSchedule;
+export default IronManSchedule;
