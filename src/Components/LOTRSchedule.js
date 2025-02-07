@@ -23,6 +23,7 @@ export default function LOTRSchedule({ day }) {
       {/* The One Ring and Schedule */}
       <div className="ring-container">
         <div className="ring">
+          <div className="inner-ring">
           <div className="schedule">
             <h2 className="lotr-subtitle">{day.toUpperCase()}</h2>
             {todaysSchedule.map((event, index) => (
@@ -30,6 +31,7 @@ export default function LOTRSchedule({ day }) {
                 {event.name} {formatTime(event.start)}
               </div>
             ))}
+          </div>
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/IronManSchedule.css";
 import schedule from "../Schedule";
-import MapleLogo from "./MapleMarvel";
+import MapleLogo from "../Components/MapleMarvel";
 
 function IronManSchedule({ day }) {
   const [showSchedule, setShowSchedule] = useState(false);

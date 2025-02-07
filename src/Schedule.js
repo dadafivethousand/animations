@@ -42,7 +42,8 @@ const schedule = {
     ,
     Sunday: [
       { name: "Kids", start: 11, end: 12},
-      { name: "Open Mat", start: 12, end: 13},
+      { name: "Wrestling", start: 12, end: 13},
+      { name: "Open Mat", start: 13, end: 14},
     ]
   }; 
 
