@@ -2,12 +2,13 @@ import React from "react";
 import './Stylesheets/App.css'
 import SimpsonsSchedule from "./Components/SimpsonsSchedule";
 import CloudySky from "./Components/Cloud";
-import KhabibSchedule from "./Components/KhabibSchedule";
+ 
+import SpiderManSchedule from "./Components/SpiderManSchedule";
  
  function App() {
   return (
     <>
-    <KhabibSchedule day="Friday" />
+    <SpiderManSchedule day="Saturday" />
    </>
   );
 }
