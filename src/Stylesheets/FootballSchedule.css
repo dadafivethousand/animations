@@ -1,0 +1,50 @@
+.football-field {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: green; /* Represents the football field */
+    overflow: hidden;
+  }
+  
+  .football {
+    width: 200px;
+    height: 100px;
+    background: brown;
+    border-radius: 50%;
+    position: absolute;
+    box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.3),
+                inset 5px 5px 10px rgba(255, 255, 255, 0.1),
+                0 5px 10px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+  }
+  
+  /* Stitching */
+  .stitching {
+    position: absolute;
+    left: 50%;
+    width: 80px;
+    height: 80px; 
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+ 
+    transition: transform 0.1s linear;
+  }
+  
+  .stitch {
+    width: 4px;
+    height: 20px;
+    background: white;
+    border-radius: 3px;
+  }
+  
+  .horizontal {
+    background-color: white;
+    width: 80px;
+    height: 5px;
+    position: absolute;
+  }
+  .none{
+    display:none
+  }
