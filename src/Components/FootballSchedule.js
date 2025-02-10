@@ -48,7 +48,7 @@ export default function FootballSchedule({ day }) {
     <div className="football-field">
       <div className="football"
          style={{
-            transform: `translate(${x}vw, ${y}px)`, // Rotate to mimic spinning
+            transform: `translate(${x}vw, ${y-200}px)`, // Rotate to mimic spinning
           }}>
       <div className={`stitching ${position >=25 ? 'none': ''} `} style={{ transform: `translate(-50%, ${position*3}px)` }}>
           <div className="horizontal"></div>
