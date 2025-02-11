@@ -1,16 +1,11 @@
 import React from "react";
 import './Stylesheets/App.css'
-import SimpsonsSchedule from "./Components/SimpsonsSchedule";
-import CloudySky from "./Components/Cloud";
-import HulkSchedule from "./Components/HulkSchedule";
-import LOTRSchedule from "./Components/LOTRSchedule";
-import FootballSchedule from "./Components/FootballSchedule";
-
+import EminemSchedule from './Components/EminemSchedule'
  
  function App() {
   return (
     <>
-    <FootballSchedule day="Sunday" />
+    <EminemSchedule day="Tuesday"/>
    </>
   );
 }
