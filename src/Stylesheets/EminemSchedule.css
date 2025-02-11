@@ -74,7 +74,7 @@
 
 .schedule-day {
   font-size: 1.4rem;
-   margin-bottom: 10px;
+
    transform:translateX(100%);
    transition: transform 5s ease-in;
 }
