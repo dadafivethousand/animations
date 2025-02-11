@@ -6,6 +6,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background: linear-gradient(to bottom, rgb(34, 12, 13), rgb(100, 29, 26))
 }
 
 .eminem-container {
@@ -16,6 +17,7 @@
   background-image: url(../Images/eminem-show.jpg);
   width: 100vw;
   height: 100vw;
+
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -67,7 +69,7 @@
    padding: 10px 20px;
   position: absolute;
   left: 10%;
-  top: 70%;
+  top: 50%;
   width: 40%;
   text-align: left;
 }
