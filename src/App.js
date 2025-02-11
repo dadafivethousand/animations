@@ -5,7 +5,7 @@ import EminemSchedule from './Components/EminemSchedule'
  function App() {
   return (
     <>
-    <EminemSchedule day="Tuesday"/>
+    <EminemSchedule day="Wednesday"/>
    </>
   );
 }
