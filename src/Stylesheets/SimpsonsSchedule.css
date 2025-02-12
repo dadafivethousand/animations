@@ -1,1 +1,105 @@
+/* Fullscreen sky with subtle gradient */
+.simpsons-container {
+    background:  #87CEEB;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Cloud floating effect */
+.simpsons-cloud-group {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: floatClouds 8s infinite ease-in-out alternate;
+}
+
+/* Base of the cloud (large and soft) */
+.simpsons-cloud-base {
+    width: 140px;
+    height: 70px;
+    background: radial-gradient(circle at top, rgba(255, 255, 255, 0.9), rgba(240, 240, 240, 0.7));
+    border-radius: 50px;
+    filter: blur(1px);
+    box-shadow: 15px 15px 20px rgba(0, 0, 0, 0.331);
+    opacity: 0.9;
+}
+
+/* Additional small cloud balls */
+.simpsons-cloud-balls {
+    position: absolute;
+    display: flex;
+    gap: 15px;
+}
+
+/* Main cloud puffs */
+.simpsons-cloud-ball {
+    width: 80px;
+    height: 60px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 1), rgba(230, 230, 230, 0.7));
+    border-radius: 50%;
+    position: absolute;
+    filter: blur(8px);
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.055);
+    animation: cloudWobble 6s infinite ease-in-out alternate;
+}
+
+/* Adjust positioning for different cloud sizes */
+.simpsons-cloud-ball:nth-child(1) {
+    left: -50px;
+    width: 100px;
+    height: 80px;
+    animation-delay: 1s;
+}
+
+.simpsons-cloud-ball:nth-child(2) {
+    left: 30px;
+    width: 120px;
+    height: 90px;
+    animation-delay: 2s;
+}
+
+.simpsons-cloud-ball:nth-child(3) {
+    left: 70px;
+    width: 90px;
+    height: 70px;
+    animation-delay: 3s;
+}
+
+/* Floating motion */
+@keyframes floatClouds {
+    0% {
+        transform: translateY(0px) scale(1);
+    }
+    100% {
+        transform: translateY(10px) scale(1.05);
+    }
+}
+
+/* Cloud wobbling effect */
+@keyframes cloudWobble {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.1) translateX(5px);
+    }
+}
+
+/* Random cloud positioning */
+.simpsons-cloud-group:nth-child(1) {
+    top: 50%;
+    left: 20%;
+}
+
+.simpsons-cloud-group:nth-child(2) {
+    top: 55%;
+    left: 50%;
+}
+
  

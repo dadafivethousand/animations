@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/SimpsonsSchedule.css";
 import schedule from "../Schedule";
-import CloudContainer from "./Cloud";
 
 function SimpsonsSchedule({ day }) {
   const [showTitle, setShowTitle] = useState(false);
   const [showSchedule, setShowSchedule] = useState(false);
-  const [startAnimation, setStartAnimation] = useState(false)
+  const [startAnimation, setStartAnimation] = useState(false);
 
-  useEffect(()=>{
-    setStartAnimation(true)
-  })
-
-
+  useEffect(() => {
+    // Show classes after 1.5s
+    const timeout = setTimeout(() => {
+      setStartAnimation(true);
+    }, 1500);
+    return () => clearTimeout(timeout);
+  }, []);
 
   // Convert decimal hours to AM/PM format
   const formatTime = (decimalTime) => {
@@ -26,10 +27,26 @@ function SimpsonsSchedule({ day }) {
 
   return (
     <div className="simpsons-container">
- 
+      <div className="simpsons-cloud-group simpsons-left">
+        <div className="simpsons-cloud-balls">
+          <div className="simpsons-cloud-ball"></div>
+          <div className="simpsons-cloud-ball"></div>
+          <div className="simpsons-cloud-ball"></div>
+          <div className="simpsons-cloud-ball"></div>
+        </div>
+      </div>
 
- 
-    </div>
+      <div className="simpsons-cloud-group simpsons-left">
+        <div className="simpsons-cloud-balls">
+        <div className="simpsons-cloud-ball"></div>
+        <div className="simpsons-cloud-ball"></div>
+        <div className="simpsons-cloud-ball"></div>
+        <div className="simpsons-cloud-ball"></div>
+          
+         </div>
+         
+      </div>
+    </div> 
   );
 }
 
