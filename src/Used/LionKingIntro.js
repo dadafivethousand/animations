@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import './Stylesheets/LionKingIntro.css'
-import Schedule from "./Schedule";
+import Schedule from "../../Schedule";
 export default function LionKingIntro() {
   const [brightness, setBrightness] = useState(0);
   const [sunPosition, setSunPosition] = useState(100); // Sun starts below the horizon

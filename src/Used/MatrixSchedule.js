@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import Schedule from "./Schedule";
+import Schedule from "../../Schedule";
 import "./Stylesheets/MatrixSchedule.css";
 
 export default function MatrixSchedule({ day }) {

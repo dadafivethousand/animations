@@ -73,7 +73,24 @@
 
 .simpsons-schedule{
     text-align: center;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);  
+    color: yellow;
+    font-family: "Simpsonfont", sans-serif;  
+    display:none;
+    font-size: 1.3rem;
 }
+
+.simpsons-visible{
+    display: block;
+}
+
+.simpsons-class{
+    margin:20px 0;
+}
+
 
 /* Floating motion */
 @keyframes floatClouds {
@@ -125,8 +142,10 @@
     text-align: center;
     color: yellow;
     font-family: "Simpsonfont", sans-serif;
-    position: relative;
-    top:50px;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
     opacity:0;
     transform: scale(.1);
     transition: transform 10s ease-in;

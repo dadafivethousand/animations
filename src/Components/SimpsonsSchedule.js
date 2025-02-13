@@ -27,6 +27,7 @@ function SimpsonsSchedule({ day }) {
     // Show classes after 1.5s
     const timeout = setTimeout(() => {
       setShowTitle(false);
+      setShowSchedule(true)
     }, 10000);
     return () => clearTimeout(timeout);
   }, []);
@@ -67,7 +68,7 @@ function SimpsonsSchedule({ day }) {
         Maple <br></br>Jiu-Jitsu
       </h1>
 
-<div className="simpsons-schedule">
+<div className={`simpsons-schedule ${showSchedule? 'simpsons-visible':''}`}>
       <h1 className={`simpsons-day ${showSchedule ? "shake" : ""}`}>{day}</h1>
 
 {/* SMASHING Class Names */}
