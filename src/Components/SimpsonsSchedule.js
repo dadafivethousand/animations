@@ -15,6 +15,22 @@ function SimpsonsSchedule({ day }) {
     return () => clearTimeout(timeout);
   }, []);
 
+  useEffect(() => {
+    // Show classes after 1.5s
+    const timeout = setTimeout(() => {
+      setShowTitle(true);
+    }, 3300);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  useEffect(() => {
+    // Show classes after 1.5s
+    const timeout = setTimeout(() => {
+      setShowTitle(false);
+    }, 10000);
+    return () => clearTimeout(timeout);
+  }, []);
+
   // Convert decimal hours to AM/PM format
   const formatTime = (decimalTime) => {
     const hour = Math.floor(decimalTime);
@@ -27,7 +43,7 @@ function SimpsonsSchedule({ day }) {
 
   return (
     <div className="simpsons-container">
-      <div className="simpsons-cloud-group simpsons-left">
+      <div className={`simpsons-cloud-group ${startAnimation ? 'simpsons-left' : ''}`}>
         <div className="simpsons-cloud-balls">
           <div className="simpsons-cloud-ball"></div>
           <div className="simpsons-cloud-ball"></div>
@@ -36,7 +52,7 @@ function SimpsonsSchedule({ day }) {
         </div>
       </div>
 
-      <div className="simpsons-cloud-group simpsons-left">
+      <div className={`simpsons-cloud-group ${startAnimation ? 'simpsons-right' : ''}`}>
         <div className="simpsons-cloud-balls">
         <div className="simpsons-cloud-ball"></div>
         <div className="simpsons-cloud-ball"></div>
@@ -46,7 +62,32 @@ function SimpsonsSchedule({ day }) {
          </div>
          
       </div>
+
+      <h1 className={`simpsons-title ${showTitle? 'simpsons-animate-title' : ''}`}>
+        Maple <br></br>Jiu-Jitsu
+      </h1>
+
+<div className="simpsons-schedule">
+      <h1 className={`simpsons-day ${showSchedule ? "shake" : ""}`}>{day}</h1>
+
+{/* SMASHING Class Names */}
+<div className="simpsons-classes">
+  {schedule[day] &&
+    schedule[day].map((cls, idx) => (
+      <div
+        key={idx}
+        className={`simpsons-class ${showSchedule ? "smash-in" : ""}`}
+        style={{ animationDelay: `${idx * 0.3}s` }}
+      >
+        <span className="class-text">
+          {cls.name} - {formatTime(cls.start)}
+        </span>
+
+      </div>
+    ))}
+</div>
     </div> 
+    </div>
   );
 }
 

@@ -35,8 +35,8 @@ export default function StillDreSchedule({ day }) {
         <div className="stilldre-schedule">
           <h2 className="schedule-subtitle">{day.toUpperCase()}</h2>
           {todaysSchedule.slice(0, visibleLines).map((event, index) => (
-            <div key={index} className="schedule-class">
-              {event.name} - {formatTime(event.start)}
+            <div key={index} className={`schedule-class ${event.cancelled ? 'stilldre-red': ''}`}>
+              {event.name} - {formatTime(event.start)}  {event.cancelled ? <p>Cancelled</p>: '' } 
             </div>
           ))}
         </div>

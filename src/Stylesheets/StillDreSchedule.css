@@ -6,7 +6,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #072d01c5;
  }
+
 
 .stilldre-container {
   background-image: url(../Images/2001.jpg);
@@ -58,10 +60,10 @@
   text-align: center;
   font-family: 'Orbitron', sans-serif;
   color: rgba(88, 179, 100, 255);
-  background: rgba(0, 0, 0, 0.8);
-  padding: 20px;
+   padding: 20px;
   border-radius: 10px;
   z-index: 1; /* Ensure the schedule is above other elements */
+  width:300px;
 }
 
 .schedule-subtitle {
@@ -75,9 +77,13 @@
 
 .schedule-class {
   font-size: .6rem; /* Smaller font size */
-  margin: 5px 0;
+  margin: 10px 0;
   color: #fff;
   text-shadow: 
     1px 1px 0px #000, 
     -1px -1px 0px #000;
 }
+
+.stilldre-red{
+  color: crimson
+ }

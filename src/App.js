@@ -1,11 +1,11 @@
 import React from "react";
 import './Stylesheets/App.css'
-import SimpsonsSchedule from "./Components/SimpsonsSchedule";
+import StillDreSchedule from "./Components/StillDreSchedule";
   
  function App() {
   return (
     <>
-    <SimpsonsSchedule day="Wednesday"/>
+    <StillDreSchedule day="Thursday"/>
    </>
   );
 }

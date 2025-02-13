@@ -1,6 +1,6 @@
 /* Fullscreen sky with subtle gradient */
 .simpsons-container {
-    background:  #87CEEB;
+    background:  #1b75db;
     height: 100vh;
     width: 100vw;
     display: flex;
@@ -16,7 +16,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    animation: floatClouds 8s infinite ease-in-out alternate;
+     transition: transform 5s ease-in
 }
 
 /* Base of the cloud (large and soft) */
@@ -71,6 +71,10 @@
     animation-delay: 3s;
 }
 
+.simpsons-schedule{
+    text-align: center;
+}
+
 /* Floating motion */
 @keyframes floatClouds {
     0% {
@@ -103,3 +107,34 @@
 }
 
  
+.simpsons-left{
+    transform: translateX(-250px);
+   
+}
+
+.simpsons-right{
+    transform: translateX(250px);
+}
+@font-face {
+    font-family: "Simpsonfont";
+    src: url("../Fonts/homer_simpson/Homer_Simpson_Revised.ttf") format("truetype");
+}
+
+
+.simpsons-title{
+    text-align: center;
+    color: yellow;
+    font-family: "Simpsonfont", sans-serif;
+    position: relative;
+    top:50px;
+    opacity:0;
+    transform: scale(.1);
+    transition: transform 10s ease-in;
+
+}
+
+.simpsons-animate-title{
+
+    opacity:1;
+    transform: scale(8);
+}
