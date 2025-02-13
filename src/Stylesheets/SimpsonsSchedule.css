@@ -143,7 +143,7 @@
     color: yellow;
     font-family: "Simpsonfont", sans-serif;
     position: absolute;
-    top:50%;
+    top:52%;
     left:35%;
     transform: translate(-50%,-50%);
     opacity:0;

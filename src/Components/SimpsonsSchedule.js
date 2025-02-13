@@ -27,8 +27,17 @@ function SimpsonsSchedule({ day }) {
     // Show classes after 1.5s
     const timeout = setTimeout(() => {
       setShowTitle(false);
-      setShowSchedule(true)
-    }, 10000);
+      
+    }, 8000);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  useEffect(() => {
+    // Show classes after 1.5s
+    const timeout = setTimeout(() => {
+      setShowSchedule(true);
+      
+    }, 9000);
     return () => clearTimeout(timeout);
   }, []);
 
