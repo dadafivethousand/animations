@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import schedule from "../Schedule";
 import "../Stylesheets/RastamanSchedule.css"; // Ensure correct import path
 
-function RastamanSchedule({ day, smokeDelay = 2000 }) {
+function RastamanSchedule({ day, smokeDelay = 1500 }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [startSmoke, setStartSmoke] = useState(false);
   const [visibleClasses, setVisibleClasses] = useState([]); // Track individual animations
@@ -65,7 +65,7 @@ function RastamanSchedule({ day, smokeDelay = 2000 }) {
               className={`rastaman-class ${visibleClasses.includes(idx) ? "slide-in" : ""}`}
              >
               <span className="rastaman-class-text">
-                {cls.name} <br></br> {formatTime(cls.start)}
+                {cls.name}   {formatTime(cls.start)}
               </span>
             </div>
           ))}
