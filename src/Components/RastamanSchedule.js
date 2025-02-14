@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import schedule from "../Schedule";
 import "../Stylesheets/RastamanSchedule.css"; // Ensure correct import path
 
-function RastamanSchedule({ day, smokeDelay = 1500 }) {
+function RastamanSchedule({ day, smokeDelay = 1000 }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [startSmoke, setStartSmoke] = useState(false);
   const [visibleClasses, setVisibleClasses] = useState([]); // Track individual animations
