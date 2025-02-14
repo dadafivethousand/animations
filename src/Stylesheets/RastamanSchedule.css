@@ -133,7 +133,13 @@
     font-weight: 700;
     text-transform: uppercase;
     z-index: 10;
+    transform: translateX(-400px);
+    transition: transform 2s ease-in;
   }
+  
+.slide-in{
+  transform: translateX(0);
+}
   
   /* Rastaman Hat */
   .rastaman-hat {
@@ -192,9 +198,9 @@
     bottom: -250px;
     width: 100%;
     height: 300vh;
-    background: radial-gradient(circle, rgba(118, 118, 118, 0.8) 10%, rgba(0, 0, 0, 0) 95%);
+    background: radial-gradient(circle, rgba(118, 118, 118, 0.431) 10%, rgba(0, 0, 0, 0) 95%);
     filter: blur(60px);
-    opacity: 1;
+    opacity: 0.2;
     animation: riseSwirl infinite linear;
     z-index: 9999;
     pointer-events: none;
@@ -204,57 +210,57 @@
   .smoke-1 {
     left: -10%;
     width: 140%;
-    opacity: 0.85;
-    animation-duration: 14s;
-  }
-  
-  .smoke-2 {
-    left: 15%;
-    width: 145%;
-    opacity: 0.7;
-    animation-duration: 16s;
-  }
-  
-  .smoke-3 {
-    left: 30%;
-    width: 150%;
-    opacity: 0.9;
-    animation-duration: 18s;
-  }
-  
-  .smoke-4 {
-    left: 45%;
-    width: 160%;
-    opacity: 0.8;
-    animation-duration: 20s;
-  }
-  
-  .smoke-5 {
-    left: 60%;
-    width: 165%;
-    opacity: 0.7;
-    animation-duration: 22s;
-  }
-  
-  .smoke-6 {
-    left: 75%;
-    width: 170%;
-    opacity: 0.6;
+    opacity: 0.15;
     animation-duration: 24s;
   }
   
-  .smoke-7 {
-    left: 90%;
-    width: 175%;
-    opacity: 0.8;
+  .smoke-2 {
+    left: 5%;
+    width: 145%;
+    opacity: 0.3;
     animation-duration: 26s;
+  }
+  
+  .smoke-3 {
+    left: 0%;
+    width: 150%;
+    opacity: 0.2;
+    animation-duration: 28s;
+  }
+  
+  .smoke-4 {
+    left: 5%;
+    width: 160%;
+    opacity: 0.4;
+    animation-duration: 30s;
+  }
+  
+  .smoke-5 {
+    left: 0%;
+    width: 165%;
+    opacity: 0.3;
+    animation-duration: 32s;
+  }
+  
+  .smoke-6 {
+    left: 5%;
+    width: 170%;
+    opacity: 0.3;
+    animation-duration: 34s;
+  }
+  
+  .smoke-7 {
+    left: 0%;
+    width: 175%;
+    opacity: 0.2;
+    animation-duration: 36s;
   }
   
   .smoke-8 {
     left: 0%;
     width: 180%;
-    opacity: 0.7;
-    animation-duration: 28s;
+    opacity: 0.3;
+    animation-duration: 38s;
   }
   
   /* Continuous Rising & Swirling Smoke */

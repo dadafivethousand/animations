@@ -2,9 +2,19 @@ import React, { useEffect, useState } from "react";
 import schedule from "../Schedule";
 import "../Stylesheets/RastamanSchedule.css"; // Ensure correct import path
 
-function RastamanSchedule({ day, smokeDelay = 1000 }) {
+function RastamanSchedule({ day, smokeDelay = 4000 }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [startSmoke, setStartSmoke] = useState(false);
+  const [visibleClasses, setVisibleClasses] = useState([]); // Track individual animations
+  useEffect(() => {
+    if (showSchedule) {
+      schedule[day]?.forEach((_, idx) => {
+        setTimeout(() => {
+          setVisibleClasses((prev) => [...prev, idx]); // Add index to the visible list
+        }, idx * 300); // Delay each item
+      });
+    }
+  }, [showSchedule, day]);
 
   useEffect(() => {
     // Delay before showing the schedule
@@ -52,11 +62,9 @@ function RastamanSchedule({ day, smokeDelay = 1000 }) {
           schedule[day].map((cls, idx) => (
             <div
               key={idx}
-              className={`rastaman-class ${showSchedule ? "slide-in" : ""}`}
-              style={{ animationDelay: `${idx * 0.3}s` }}
-            >
-              {/* Rastaman Hat above the time */}
-               <span className="rastaman-class-text">
+              className={`rastaman-class ${visibleClasses.includes(idx) ? "slide-in" : ""}`}
+             >
+              <span className="rastaman-class-text">
                 {cls.name} - {formatTime(cls.start)}
               </span>
             </div>
