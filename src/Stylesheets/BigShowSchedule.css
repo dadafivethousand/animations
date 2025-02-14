@@ -1,0 +1,119 @@
+/* Big Show Theme */
+:root {
+    --bigshow-black: #0a0a0a;
+    --bigshow-blue: #1c1c3b;
+    --bigshow-silver: #c0c0c0;
+    --bigshow-glow: rgba(192, 192, 192, 0.6);
+}
+
+/* Full-Screen Background */
+.bigshow-container {
+    background: linear-gradient(135deg, var(--bigshow-black) 60%, var(--bigshow-blue));
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    font-family: "Poppins", sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Ring Shake Effect on Slam */
+.bigshow-container.ring-shake {
+    animation: ringShake 0.3s ease-in-out;
+}
+
+@keyframes ringShake {
+    0% { transform: translateY(-6px); }
+    50% { transform: translateY(6px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Arena Lighting Beams */
+.light-beams {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(192, 192, 192, 0.15) 20%, rgba(0, 0, 0, 0) 80%);
+    animation: fadeBeams 5s infinite alternate;
+    z-index: 6;
+}
+
+@keyframes fadeBeams {
+    0% { opacity: 0.2; }
+    100% { opacity: 0.5; }
+}
+
+/* Big Show Title */
+.bigshow-title {
+    font-size: 3rem;
+    font-weight: 600;
+    color: var(--bigshow-silver);
+    text-shadow: 0 0 10px var(--bigshow-glow);
+    opacity: 0;
+    transform: translateY(-15px);
+    transition: opacity 1.2s ease-in-out, transform 1.2s ease-in-out;
+    z-index: 10;
+}
+
+.bigshow-title.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Schedule Wrapper */
+.schedule-wrapper {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Class Containers */
+.bigshow-class {
+    background: rgba(50, 50, 50, 0.85);
+    padding: 15px;
+    margin: 10px auto;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    text-align: center;
+    box-shadow: 0px 5px 15px rgba(192, 192, 192, 0.5);
+    color: var(--bigshow-silver);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: 400;
+    text-transform: uppercase;
+    z-index: 10;
+    opacity: 0;
+    transform: translateY(100px) scaleY(0.8);
+    transition: transform 0.8s ease-out, opacity 0.6s ease-out;
+}
+
+/* Classes RISE UP like Big Show's Hand */
+.rise-up {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+}
+
+/* Last Class SLAMS DOWN */
+.bigshow-class:last-child.rise-up {
+    animation: slamDown 0.4s ease-in-out;
+}
+
+@keyframes slamDown {
+    0% { transform: translateY(-8px) scaleY(1.05); }
+    50% { transform: translateY(8px) scaleY(0.95); }
+    100% { transform: translateY(0) scaleY(1); }
+}
