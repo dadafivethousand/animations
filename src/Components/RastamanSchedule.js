@@ -65,7 +65,7 @@ function RastamanSchedule({ day, smokeDelay = 3000 }) {
               className={`rastaman-class ${visibleClasses.includes(idx) ? "slide-in" : ""}`}
              >
               <span className="rastaman-class-text">
-                {cls.name} - {formatTime(cls.start)}
+                {cls.name} <br></br> {formatTime(cls.start)}
               </span>
             </div>
           ))}
