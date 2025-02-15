@@ -1,0 +1,139 @@
+/* 300 Spartan Premium Theme - NO External Images */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap');
+
+:root {
+  --spartan-red: #7b1c1c;
+  --spartan-gold: #b8860b;
+  --spartan-dark: #121212;
+  --text-light: #e5d3a1;
+  --stone-gray: #2a2a2a;
+  --shadow-dark: rgba(0, 0, 0, 0.7);
+}
+
+/* Full-Screen Spartan Background */
+.spartan-container {
+  background: linear-gradient(120deg, var(--spartan-dark), var(--stone-gray));
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  font-family: "Cinzel", serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Subtle Fog Effect */
+.spartan-container::before {
+  content: "";
+  position: absolute;
+  width: 130%;
+  height: 130%;
+  top: -15%;
+  left: -15%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 10%, rgba(0, 0, 0, 0) 90%);
+  opacity: 0.7;
+  animation: fogMove 18s infinite linear alternate;
+  pointer-events: none;
+}
+
+/* Cinematic Fog Motion */
+@keyframes fogMove {
+  0% {
+    transform: translateY(5px);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateY(-5px);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(5px);
+    opacity: 0.7;
+  }
+}
+
+/* Spartan Title */
+.spartan-title {
+  font-size: 4.5rem;
+  font-weight: bold;
+  color: var(--text-light);
+  text-shadow: 3px 3px 10px var(--shadow-dark);
+  letter-spacing: 3px;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
+  z-index: 10;
+}
+
+.spartan-title.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Schedule Box */
+.spartan-schedule {
+  margin-top: 20px;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
+  z-index: 10;
+}
+
+.spartan-schedule.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Class Containers */
+.spartan-class {
+  background: linear-gradient(135deg, rgba(48, 17, 17, 0.9), rgba(85, 30, 30, 0.85));
+  padding: 25px;
+  margin: 15px auto;
+  width: 80%;
+  max-width: 450px;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  text-align: center;
+  box-shadow: 0px 10px 25px var(--shadow-dark);
+  color: var(--text-light);
+  border: 2px solid var(--spartan-gold);
+  backdrop-filter: blur(6px);
+  font-weight: bold;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 10;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Glowing Gold Edge */
+.spartan-class::before {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  border-radius: 12px;
+  border: 2px solid rgba(184, 134, 11, 0.7);
+  box-shadow: 0px 0px 15px rgba(184, 134, 11, 0.5);
+  z-index: -1;
+}
+
+/* Fade-in Animation for Schedule */
+.spartan-class.fade-in {
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,16 +1,25 @@
 import React, { useEffect, useState } from "react";
 import schedule from "../Schedule";
 import "../Stylesheets/BigShowSchedule.css"; // Ensure correct import path
+import wwe_logo from '../Images/WWE_Logo.svg'
 
 function BigShowSchedule({ day }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [ringImpact, setRingImpact] = useState(false);
   const [visibleClasses, setVisibleClasses] = useState([]);
+  const [startAnimation, setStartAnimation] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setStartAnimation(true);
+    }, 2000);
+  }, []);
+
 
   useEffect(() => {
     setTimeout(() => {
       setShowSchedule(true);
-    }, 1000);
+    }, 5000);
   }, []);
 
   useEffect(() => {
@@ -43,6 +52,10 @@ function BigShowSchedule({ day }) {
 
   return (
     <div className={`bigshow-container ${ringImpact ? "ring-shake" : ""}`}>
+
+      <img className={`${startAnimation? 'shrink-rotate' : ''}`} src={wwe_logo} />
+
+      
       {/* Arena Lighting */}
  
       {/* Day Title */}
@@ -50,8 +63,11 @@ function BigShowSchedule({ day }) {
         {day}
       </h1>
 
+
+
       {/* Schedule */}
-      <div className="schedule-wrapper">
+      <div className="bigshow-schedule-wrapper">
+
         {schedule[day] &&
           schedule[day].map((cls, idx) => (
             <div

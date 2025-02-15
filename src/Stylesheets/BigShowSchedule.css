@@ -22,6 +22,19 @@
     transition: transform 0.2s ease-in-out;
 }
 
+.bigshow-container img{
+ 
+ transition: transform 2s ease-in;
+ 
+}
+
+
+
+.shrink-rotate {
+    transform: scale(0.5) rotate(180deg);
+}
+
+
 /* Ring Shake Effect on Slam */
 .bigshow-container.ring-shake {
     animation: ringShake 0.3s ease-in-out;
@@ -67,7 +80,7 @@
 }
 
 /* Schedule Wrapper */
-.schedule-wrapper {
+.bigshow-schedule-wrapper {
     width: 60%;
     display: flex;
     flex-direction: column;

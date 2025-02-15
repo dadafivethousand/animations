@@ -8,7 +8,7 @@ import BigShowSchedule from "./Components/BigShowSchedule";
  function App() {
   return (
     <>
-    <RastamanSchedule day="Saturday"/>
+    <BigShowSchedule day="Sunday"/>
    </>
   );
 }
