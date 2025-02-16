@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import schedule from "../Schedule";
 import "../Stylesheets/KaneSchedule.css"; // Ensure correct import path
-
+import wwe_logo from '../Images/WWE_Logo.svg'
 function KaneSchedule({ day }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [fireActive, setFireActive] = useState(false);

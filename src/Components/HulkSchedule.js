@@ -1,20 +1,37 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/HulkSchedule.css";
 import schedule from "../Schedule";
+import "../Stylesheets/HulkSchedule.css"; // Ensure CSS is linked
 
 function HulkSchedule({ day }) {
-  const [showClasses, setShowClasses] = useState(false);
-  const [showFist, setShowFist] = useState(true);
+  const [showSchedule, setShowSchedule] = useState(false);
+  const [visibleClasses, setVisibleClasses] = useState([]);
+  const [groundCrack, setGroundCrack] = useState(false);
 
   useEffect(() => {
-    // Hulk's fist smashes down after 1.5s
     setTimeout(() => {
-      setShowFist(false);
-      setShowClasses(true);
-    }, 1500);
+      setShowSchedule(true);
+    }, 1000);
   }, []);
 
-  // Convert time to AM/PM format
+  useEffect(() => {
+    if (showSchedule) {
+      schedule[day]?.forEach((_, idx) => {
+        setTimeout(() => {
+          setVisibleClasses((prev) => [...prev, idx]);
+
+          // Last class causes destruction
+          if (idx === schedule[day].length - 1) {
+            setTimeout(() => {
+              setGroundCrack(true);
+              setTimeout(() => setGroundCrack(false), 600);
+            }, 800);
+          }
+        }, idx * 400);
+      });
+    }
+  }, [showSchedule, day]);
+
+  // Convert decimal hours to AM/PM format
   const formatTime = (decimalTime) => {
     const hour = Math.floor(decimalTime);
     const minutes = Math.round((decimalTime - hour) * 60);
@@ -25,32 +42,35 @@ function HulkSchedule({ day }) {
   };
 
   return (
-    <div className="hulk-container">
-      {/* Cracked Background Effect */}
-      <div className="hulk-cracks"></div>
+    <div className={`hulk-container ${groundCrack ? "shake" : ""}`}>
+      {/* Gamma Radiation Glow */}
+      <div className="gamma-radiation"></div>
 
-      {/* HULK FIST (Smashes Down) */}
-      {showFist && <div className="hulk-fist"></div>}
+      {/* Energy Sparks */}
+      <div className="energy-particles"></div>
 
-      {/* Hulk-Themed Day Title */}
-      <h1 className={`hulk-title ${showClasses ? "shake" : ""}`}>{day}</h1>
+      {/* Title Section */}
+      <h1 className={`hulk-title ${showSchedule ? "visible" : ""}`}>
+        {day}
+      </h1>
 
-      {/* SMASHING Class Names */}
-      <div className="hulk-classes">
+      {/* Schedule Section */}
+      <div className="hulk-schedule">
         {schedule[day] &&
           schedule[day].map((cls, idx) => (
             <div
               key={idx}
-              className={`hulk-class ${showClasses ? "smash-in" : ""}`}
-              style={{ animationDelay: `${idx * 0.3}s` }}
+              className={`hulk-class ${visibleClasses.includes(idx) ? "smash-in" : ""}`}
             >
-              <span className="class-text">
+              <span className="hulk-class-text">
                 {cls.name} - {formatTime(cls.start)}
               </span>
-              <div className="hulk-crack-effect"></div>
             </div>
           ))}
       </div>
+
+      {/* Cracked Ground Effect */}
+      <div className={`ground-crack ${groundCrack ? "active" : ""}`}></div>
     </div>
   );
 }

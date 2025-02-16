@@ -1,175 +1,126 @@
-/* 💪 Hulk Font - Strong, Bold */
-@import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");
+/* Hulk Gamma Color Palette */
+:root {
+  --hulk-green: #00ff00;
+  --hulk-dark-green: #081a08;
+  --hulk-neon-green: #39ff14;
+  --hulk-gray: #444;
+  --hulk-white: #f5f5f5;
+  --text-glow: rgba(57, 255, 20, 0.9);
+}
 
+/* Full-Screen Background */
 .hulk-container {
-  width: 100vw;
+  background: linear-gradient(135deg, var(--hulk-dark-green), var(--hulk-green));
   height: 100vh;
-  background: #145214; /* Hulk Green */
+  width: 100vw;
+  overflow: hidden;
   position: relative;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Ground Shake on Hulk Smash */
+.hulk-container.shake {
+  animation: groundShake 0.4s ease-in-out;
+}
+
+@keyframes groundShake {
+  0% { transform: translateY(-5px); }
+  50% { transform: translateY(5px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Gamma Radiation Glow */
+.gamma-radiation {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(57, 255, 20, 0.3) 30%, rgba(0, 0, 0, 0) 90%);
+  animation: pulseGlow 3s infinite alternate;
+}
+
+@keyframes pulseGlow {
+  0% { opacity: 0.2; }
+  100% { opacity: 0.5; }
+}
+
+/* Hulk Title */
+.hulk-title {
+  font-size: 2.8rem;
+  font-weight: 500;
+  color: var(--hulk-neon-green);
+  text-shadow: 0 0 15px var(--text-glow);
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 1.2s ease-in-out, transform 1.2s ease-in-out;
+  z-index: 10;
+}
+
+.hulk-title.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Schedule Wrapper */
+.hulk-schedule {
+  width: 55%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  font-family: "Anton", sans-serif;
-  color: #ffffff;
 }
 
-/* 💥 Hulk Fist Smashing */
-.hulk-fist {
-  position: absolute;
-  top: -100px;
-  left: 50%;
-  width: 120px;
-  height: 120px;
-  background: radial-gradient(circle at center, #6b8e23 30%, #3c5b22 90%);
-  border-radius: 50%;
-  transform: translateX(-50%) scale(1);
-  animation: fistSmash 1s ease-in-out forwards;
-}
-
-/* 💥 FIST SMASH Animation */
-@keyframes fistSmash {
-  0% {
-    top: -100px;
-    transform: translateX(-50%) scale(1.5);
-  }
-  50% {
-    top: 40vh;
-    transform: translateX(-50%) scale(1);
-  }
-  100% {
-    top: 100vh;
-    transform: translateX(-50%) scale(0.8);
-    opacity: 0;
-  }
-}
-
-/* 💥 Cracked Effect Background */
-.hulk-cracks {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: repeating-linear-gradient(
-      0deg,
-      rgba(0, 0, 0, 0.2) 0%,
-      rgba(0, 0, 0, 0.2) 2%,
-      transparent 2%,
-      transparent 8%
-    ),
-    repeating-linear-gradient(
-      90deg,
-      rgba(0, 0, 0, 0.2) 0%,
-      rgba(0, 0, 0, 0.2) 2%,
-      transparent 2%,
-      transparent 8%
-    );
-  opacity: 0.15;
-  animation: crackShake 6s infinite alternate ease-in-out;
-}
-
-/* 💢 Subtle "Cracking" Animation */
-@keyframes crackShake {
-  0% {
-    transform: scale(1);
-    opacity: 0.1;
-  }
-  100% {
-    transform: scale(1.05);
-    opacity: 0.2;
-  }
-}
-
-/* 💪 Hulk Title */
-.hulk-title {
-  font-size: 5rem;
-  color: #a0ff5c; /* Light Green Glow */
-  text-transform: uppercase;
-  text-shadow: 5px 5px 15px black;
-  letter-spacing: 2px;
-  position: relative;
-  z-index: 2;
-}
-
-/* 💥 Title Shake Effect After Fist */
-.shake {
-  animation: shakeEffect 0.5s infinite alternate;
-}
-
-@keyframes shakeEffect {
-  0% {
-    transform: translateX(-2px);
-  }
-  100% {
-    transform: translateX(2px);
-  }
-}
-
-/* 💥 Class Section */
-.hulk-classes {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  z-index: 2;
-  gap: 3rem; /* More spacing between classes */
-}
-
-/* 🦸‍♂️ Class Names with SMASH Effect */
+/* Class Containers */
 .hulk-class {
-  position: relative;
-  font-size: 2rem;
-  color: #ffffff;
-  text-shadow: 3px 3px 5px black;
+  background: rgba(50, 90, 50, 0.9);
+  padding: 15px;
+  margin: 8px auto;
+  width: 90%;
+  max-width: 450px;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  text-align: center;
+  color: var(--hulk-neon-green);
+  border: 2px solid rgba(57, 255, 20, 0.4);
+  backdrop-filter: blur(5px);
+  text-transform: uppercase;
+  font-weight: 600;
+  box-shadow: 0px 5px 15px rgba(57, 255, 20, 0.6);
   opacity: 0;
-  transform: scale(0.5) rotate(-10deg);
-  font-weight: bold;
-  letter-spacing: 1px;
-  animation: smash-in;
+  transform: scale(0.9) translateY(150px);
+  transition: transform 0.8s ease-out, opacity 0.8s ease-out;
 }
 
-/* 💥 SMASH IN Animation */
+/* Hulk SMASH Animation */
 .smash-in {
-  animation: smashIn 0.8s ease-out forwards, shake 0.5s 1.5s infinite;
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  animation: smashInEffect 0.6s ease-out;
 }
 
-/* 💥 SMASHING Entry Effect */
-@keyframes smashIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.5) rotate(-10deg);
-  }
-  60% {
-    opacity: 1;
-    transform: scale(1.2) rotate(3deg);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
-  }
+@keyframes smashInEffect {
+  0% { transform: scale(1.5) translateY(-20px); }
+  50% { transform: scale(0.8) translateY(10px); }
+  100% { transform: scale(1) translateY(0); }
 }
 
-/* ⚡ Crack Effect Below Each Class */
-.hulk-crack-effect {
+/* Cracked Ground Effect */
+.ground-crack {
   position: absolute;
-  bottom: -10px;
-  left: 50%;
-  width: 60%;
-  height: 5px;
-  background: linear-gradient(to right, transparent, black, transparent);
-  opacity: 0.8;
-  transform: translateX(-50%) scaleX(1);
-  animation: crackExpand 1s ease-in-out infinite alternate;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(30, 30, 30, 0.9) 100%);
+  transform: scaleY(0);
+  transition: transform 0.3s ease-in-out;
 }
 
-/* ⚡ Crack Expanding Effect */
-@keyframes crackExpand {
-  0% {
-    transform: translateX(-50%) scaleX(1);
-  }
-  100% {
-    transform: translateX(-50%) scaleX(1.2);
-  }
+.ground-crack.active {
+  transform: scaleY(1);
 }

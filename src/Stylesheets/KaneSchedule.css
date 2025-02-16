@@ -299,3 +299,11 @@
     0% { text-shadow: 0 0 10px var(--fire-glow); }
     100% { text-shadow: 0 0 30px var(--fire-glow); }
 }
+
+
+.kane-class-text img{
+height:40px;
+position:relative;
+top:8px;
+left:5px;
+}
