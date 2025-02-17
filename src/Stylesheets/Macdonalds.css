@@ -51,7 +51,7 @@ height:270px;
 @keyframes moveLogo {
     0% { transform: scale(1) translate(-20%, -50%); }   /* Start centered */
     50% { transform: scale(0.6) translate(-35%, -200%); } /* Move up */
-    100% { transform: scale(0.3) translate(-190%, -350%); } /* Move to top-left */
+    100% { transform: scale(0.3) translate(-190%, -400%); } /* Move to top-left */
 }
 
 .mcd-text{
@@ -84,7 +84,7 @@ height:270px;
     opacity: 0;
     transition: opacity 1s ease-in-out;
     position: relative;
-    top:-10px
+    transform: translateY(-10px);
 }
 .visible {
     opacity: 1;
@@ -100,7 +100,7 @@ height:270px;
     margin: 8px 0;
     background: var(--mcd-yellow);
     color: var(--mcd-red);
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: bold;
     border-radius: 5px;
     transition: transform 0.2s ease-in-out;
