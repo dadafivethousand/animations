@@ -61,7 +61,7 @@ function McDonaldsSchedule({ day }) {
         {typedText}
       </span>    
         </div>
-
+<div className="title-and-weekday">
       {/* Title Section */}
       <h1 className={`mcd-title ${showSchedule ? "visible" : ""}`}>
         {day}
@@ -78,6 +78,7 @@ function McDonaldsSchedule({ day }) {
             </div>
           ))}
       </div>
+    </div>
     </div>
   );
 }

@@ -84,7 +84,7 @@ height:270px;
     opacity: 0;
     transition: opacity 1s ease-in-out;
     position: relative;
-    transform: translateY(-10px);
+  
 }
 .visible {
     opacity: 1;
@@ -108,4 +108,9 @@ height:270px;
 
 .mcd-class:hover {
     transform: scale(1.05);
+}
+
+
+.title-and-weekday{
+    transform: translateY(-20px);
 }
