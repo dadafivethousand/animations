@@ -5,12 +5,13 @@ import KaneSchedule from "./Components/KaneSchedule";
 import BigShowSchedule from "./Components/BigShowSchedule";
 import FiftyCentSchedule from "./Components/50Cent";
 import HulkSchedule from "./Components/HulkSchedule";
+import McDonaldsSchedule from "./Components/Macdonalds";
  
   
  function App() {
   return (
     <>
-    <HulkSchedule day="Sunday"/>
+    <McDonaldsSchedule day="Monday"/>
    </>
   );
 }

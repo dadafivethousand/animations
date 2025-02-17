@@ -1,0 +1,108 @@
+/* 🍟 McDonald's Theme Colors */
+:root {
+    --mcd-red: #d00000;
+    --mcd-yellow: #ffcc00;
+    --mcd-white: #ffffff;
+}
+
+/* 📺 Full-Screen Background */
+.mcd-container {
+    background: var(--mcd-red);
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    font-family: "Poppins", sans-serif;
+    text-align: center;
+    position: relative;
+
+}
+
+.mcd-container img {
+height:270px;
+
+}
+
+
+
+.mcd-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--mcd-white);
+    margin-bottom: 20px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-20%, -50%);
+     transition: transform 3s ease-in-out;
+ }
+
+/* 🔥 Corrected Animation */
+.mcd-animation {
+    animation: moveLogo 7s ease-in-out forwards;
+
+}
+
+@keyframes moveLogo {
+    0% { transform: scale(1) translate(-20%, -50%); }   /* Start centered */
+    50% { transform: scale(0.6) translate(-35%, -200%); } /* Move up */
+    100% { transform: scale(0.3) translate(-190%, -350%); } /* Move to top-left */
+}
+
+.mcd-text{
+    width:450px;
+    text-align: left;
+    font-size: 130px;
+    white-space: nowrap;
+
+}
+
+
+/* 📝 Schedule Title */
+.mcd-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--mcd-white);
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+
+/* 📋 Schedule Wrapper */
+.mcd-schedule {
+ margin: 30px;
+    background: var(--mcd-white);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+.visible {
+    opacity: 1;
+}
+
+ .fade-in {
+    opacity: 1;
+}
+ 
+/* 🎨 Simple Class Styling */
+.mcd-class {
+    padding: 10px;
+    margin: 8px 0;
+    background: var(--mcd-yellow);
+    color: var(--mcd-red);
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.mcd-class:hover {
+    transform: scale(1.05);
+}
