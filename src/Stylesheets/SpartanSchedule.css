@@ -57,7 +57,7 @@
 
 /* Spartan Title */
 .spartan-title {
-  font-size: 4.5rem;
+  font-size: 3rem;
   font-weight: bold;
   color: var(--text-light);
   text-shadow: 3px 3px 10px var(--shadow-dark);
@@ -68,7 +68,7 @@
   z-index: 10;
 }
 
-.spartan-title.visible {
+.spartan-title.spartan-visible {
   opacity: 1;
   transform: scale(1);
 }
@@ -76,13 +76,12 @@
 /* Schedule Box */
 .spartan-schedule {
   margin-top: 20px;
-  opacity: 0;
-  transform: scale(0.8);
+   transform: scale(0.8);
   transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
   z-index: 10;
 }
 
-.spartan-schedule.visible {
+.spartan-schedule.spartan-visible {
   opacity: 1;
   transform: scale(1);
 }
@@ -106,6 +105,7 @@
   position: relative;
   z-index: 10;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  opacity: 0;
 }
 
 /* Glowing Gold Edge */
@@ -122,8 +122,8 @@
   z-index: -1;
 }
 
-/* Fade-in Animation for Schedule */
-.spartan-class.fade-in {
+/* Fade- Animation for Schedule */
+.spartan-class.spartan-fade-in {
   animation: fadeIn 1s ease-in-out forwards;
 }
 

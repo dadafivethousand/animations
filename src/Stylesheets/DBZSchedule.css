@@ -1,0 +1,116 @@
+/* ⚡ Dragon Ball Z Color Palette */
+:root {
+    --dbz-orange: #ff9800;
+    --dbz-blue: #1976d2;
+    --dbz-yellow: #ffeb3b;
+    --dbz-white: #ffffff;
+    --dbz-glow: rgba(255, 255, 0, 0.9);
+}
+
+/* ⚡ MAIN CONTAINER */
+.dbz-container {
+    background: linear-gradient(180deg, var(--dbz-orange) 40%, var(--dbz-blue) 100%);
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: "Saiyan-Sans", sans-serif;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 🔥 FULL SCREEN POWER-UP EFFECT */
+.dbz-powerup {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, var(--dbz-yellow) 5%, transparent 80%);
+    animation: powerUp 5s ease-out forwards;
+}
+
+/* 🔥 POWER-UP SCREEN SHAKE */
+.shaking {
+    animation: screenShake 0.1s infinite linear;
+}
+
+/* 🌋 DBZ POWER-UP BUILDUP */
+@keyframes powerUp {
+    0% { transform: scale(0.2); opacity: 0.1; }
+    30% { transform: scale(1.2); opacity: 0.6; }
+    60% { transform: scale(1.5); opacity: 0.9; }
+    100% { transform: scale(5); opacity: 0; }
+}
+
+/* 🌪️ SCREEN SHAKE EFFECT */
+@keyframes screenShake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    25% { transform: translate(-1px, -2px) rotate(-1deg); }
+    50% { transform: translate(-3px, 0px) rotate(1deg); }
+    75% { transform: translate(3px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -1px) rotate(-1deg); }
+}
+
+/* 💥 EXPLOSION REVEAL */
+.dbz-schedule {
+    width: 80%;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 20px;
+    box-shadow: 0px 15px 50px rgba(255, 204, 0, 1);
+    border: 5px solid var(--dbz-yellow);
+    position: relative;
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    animation: explodeReveal 0.6s ease-in forwards;
+}
+
+/* 🔥 EXPLOSION REVEAL EFFECT */
+@keyframes explodeReveal {
+    0% { transform: scale(0.4); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* ⚡ DBZ TITLE */
+.dbz-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: var(--dbz-yellow);
+    text-transform: uppercase;
+    text-shadow: 0px 0px 20px var(--dbz-glow);
+    margin-bottom: 20px;
+}
+
+/* ⚡ DAY HEADER */
+.dbz-day {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--dbz-white);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+/* ⚡ CLASS BOXES */
+.dbz-class {
+    padding: 15px;
+    margin: 10px 0;
+    background: linear-gradient(145deg, var(--dbz-blue), var(--dbz-orange));
+    color: var(--dbz-white);
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 8px;
+    border: 2px solid var(--dbz-yellow);
+    opacity: 1;
+    transform: scale(0.8);
+    transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+    animation: powerAura 1.5s infinite alternate;
+}
+
+/* ⚡ SUPER SAIYAN POWER-UP EFFECT */
+@keyframes powerAura {
+    0% { text-shadow: 0px 0px 12px var(--dbz-glow); }
+    100% { text-shadow: 0px 0px 25px var(--dbz-glow); }
+}

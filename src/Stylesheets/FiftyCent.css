@@ -1,0 +1,72 @@
+/* 🎵 50 Cent "Get Rich or Die Tryin’" Theme Colors */
+:root {
+    --fifty-red: #8b0000;
+    --fifty-black: #000000;
+    --fifty-white: #ffffff;
+    --fifty-gray: #222222;
+}
+
+/* 🔥 Full-Screen Background */
+.fifty-container {
+    background: var(--fifty-black);
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    font-family: "Poppins", sans-serif;
+    text-align: center;
+    position: relative;
+    background-image: url(../Images/91-THla7GkL._AC_SX342_.jpg);
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: contain;
+ 
+}
+
+/* 🎤 Title Styling */
+.fifty-title {
+    font-size: 2.5rem;
+     color: var(--fifty-red);
+    text-transform: uppercase;
+    text-shadow: 0px 0px 10px rgb(0, 0, 0);
+ }
+
+/* 📋 Schedule Wrapper */
+.fifty-schedule {
+    width: 80%;
+    background: rgb(50, 50, 50);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 10px 20px rgba(255, 0, 0, 0.4);
+    border: 3px solid var(--fifty-red);
+}
+
+/* 💥 Shattered Glass Effect for Each Class */
+.fifty-class {
+    padding: 10px;
+    margin: 10px 0;
+    background: linear-gradient(135deg, var(--fifty-gray), var(--fifty-black));
+    color: var(--fifty-white);
+    font-size: 1rem;
+     border-radius: 8px;
+    text-transform: uppercase;
+    border: 2px solid var(--fifty-red);
+    box-shadow: 0px 5px 15px rgba(255, 0, 0, 0.7);
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+}
+
+/* 🔥 Smooth Appear & Scale Effect */
+.fade-in {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* 🎤 50 Cent Glow Effect */
+.fifty-class:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 8px 20px rgba(255, 0, 0, 1);
+}

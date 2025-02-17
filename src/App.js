@@ -6,12 +6,14 @@ import BigShowSchedule from "./Components/BigShowSchedule";
 import FiftyCentSchedule from "./Components/50Cent";
 import HulkSchedule from "./Components/HulkSchedule";
 import McDonaldsSchedule from "./Components/Macdonalds";
+import SpartanSchedule from "./Components/SpartanSchedule";
+import DBZSchedule from "./Components/DBZSchedule";
  
   
  function App() {
   return (
     <>
-    <McDonaldsSchedule day="Monday"/>
+    <DBZSchedule day="Thursday"/>
    </>
   );
 }

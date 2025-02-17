@@ -27,17 +27,17 @@ function SpartanSchedule({ day }) {
   return (
     <div className="spartan-container">
       {/* Title */}
-      <h1 className={`spartan-title ${showSchedule ? "visible" : ""}`}>
+      <h1 className={`spartan-title ${showSchedule ? "spartan-visible" : ""}`}>
         {day}
       </h1>
 
       {/* Schedule */}
-      <div className={`spartan-schedule ${showSchedule ? "visible" : ""}`}>
+      <div className={`spartan-schedule  `}>
         {schedule[day] &&
           schedule[day].map((cls, idx) => (
             <div
               key={idx}
-              className={`spartan-class ${showSchedule ? "fade-in" : ""}`}
+              className={`spartan-class ${showSchedule ? "spartan-fade-in" : ""}`}
               style={{ animationDelay: `${idx * 1}s` }}
             >
               <span className="spartan-class-text">
