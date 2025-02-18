@@ -1,0 +1,76 @@
+/* ⚡ High-End Transformers Color Palette */
+:root {
+    --tf-dark-gray: #1c1c1c;
+    --tf-metal-gray: #3a3a3a;
+    --tf-neon-blue: #008cff;
+    --tf-neon-yellow: #ffcc00;
+    --tf-white: #ffffff;
+}
+
+/* ⚡ Cybertron Background */
+.tf-container {
+    background: linear-gradient(180deg, var(--tf-dark-gray) 40%, var(--tf-metal-gray) 100%);
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: "Oswald", sans-serif;
+    text-align: center;
+    color: var(--tf-white);
+}
+
+/* ⚡ Premium Transformers Font */
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap');
+
+/* 🏆 TITLE */
+.tf-title {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--tf-neon-yellow);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+}
+
+/* ⚡ DAY */
+.tf-day {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--tf-neon-blue);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+/* 🕑 SCHEDULE CONTAINER */
+.tf-schedule {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60%;
+}
+
+/* ⚡ CLASS BOXES */
+.tf-class {
+    background: linear-gradient(145deg, var(--tf-metal-gray), var(--tf-dark-gray));
+    color: var(--tf-neon-yellow);
+    padding: 8px;
+    margin: 5px 0;
+    width: 100%;
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 5px;
+    border: 3px solid var(--tf-neon-blue);
+    opacity: 0;
+    transform: translateX(-120%);
+    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+}
+
+/* ⚡ SLIDE-IN ANIMATION */
+.tf-slide-in {
+    opacity: 1;
+    transform: translateX(0);
+}

@@ -8,12 +8,15 @@ import HulkSchedule from "./Components/HulkSchedule";
 import McDonaldsSchedule from "./Components/Macdonalds";
 import SpartanSchedule from "./Components/SpartanSchedule";
 import DBZSchedule from "./Components/DBZSchedule";
+import TransformersSchedule from "./Components/TransformersSchedule";
+import DigimonSchedule from "./Components/DigimonSchedule";
+import MuhammadAliSchedule from "./Components/MuhammadAliSchedule";
  
   
  function App() {
   return (
     <>
-    <DBZSchedule day="Thursday"/>
+    <BigShowSchedule day="Wednesday"/>
    </>
   );
 }
