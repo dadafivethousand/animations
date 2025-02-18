@@ -11,7 +11,7 @@ function DBZSchedule({ day }) {
     setTimeout(() => {
       setPoweringUp(false);
       setShowSchedule(true);
-    }, 5000); // Power-up lasts 5 seconds before explosion & reveal
+    }, 2000); // Power-up lasts 5 seconds before explosion & reveal
   }, []);
 
   // Convert decimal hours to AM/PM format
