@@ -94,8 +94,8 @@
 
 /* ⚡ CLASS BOXES */
 .dbz-class {
-    padding: 15px;
-    margin: 10px 0;
+    padding: 5px;
+    margin: 5px 0;
     background: linear-gradient(145deg, var(--dbz-blue), var(--dbz-orange));
     color: var(--dbz-white);
     font-size: 1.5rem;

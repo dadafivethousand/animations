@@ -16,7 +16,7 @@ import MuhammadAliSchedule from "./Components/MuhammadAliSchedule";
  function App() {
   return (
     <>
-    <BigShowSchedule day="Wednesday"/>
+    <DBZSchedule day="Wednesday"/>
    </>
   );
 }
