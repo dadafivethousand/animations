@@ -16,7 +16,7 @@
 
 /* 💪 The Content Box */
 .hulkamania-content {
-  width: 70%;
+  width: 100%;
   height: 70%; /* Content takes 70% of the screen height */
   display: flex;
   flex-direction: column;
@@ -39,16 +39,17 @@
 .hulkamania-classes {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  width: 100%;
+  gap: 1rem;
+  width: 90%;
 }
 
 /* 💪 Each Class - Huge Impact */
 .hulkamania-class {
+  margin: 0 auto;
   background: yellow;
   color: red;
   font-size: 2.5rem;
-  padding: 0px 50px;
+  padding: 0px 30px;
   text-align: center;
   border-radius: 15px;
   width: 60%;

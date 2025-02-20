@@ -11,12 +11,13 @@ import DBZSchedule from "./Components/DBZSchedule";
 import TransformersSchedule from "./Components/TransformersSchedule";
 import DigimonSchedule from "./Components/DigimonSchedule";
 import MuhammadAliSchedule from "./Components/MuhammadAliSchedule";
+import HulkamaniaSchedule from './Components/HulkamaniaSchedule'
  
   
  function App() {
   return (
     <>
-    <DBZSchedule day="Wednesday"/>
+    <HulkamaniaSchedule day="Friday"/>
    </>
   );
 }

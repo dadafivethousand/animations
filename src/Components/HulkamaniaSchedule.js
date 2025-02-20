@@ -36,8 +36,7 @@ function HulkamaniaSchedule({ day }) {
                 className="hulkamania-class"
                 style={{ animationDelay: `${idx * 0.2}s` }}
               >
-                <div className="hulkamania-class-name">{cls.name}</div>
-                <div className="hulkamania-class-time">{formatTime(cls.start)}</div>
+                <div className="hulkamania-class-name">{cls.name} - {formatTime(cls.start)}</div>
               </div>
             ))}
         </div>
