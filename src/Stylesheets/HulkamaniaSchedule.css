@@ -53,8 +53,7 @@
   text-align: center;
   border-radius: 15px;
   width: 60%;
-  font-weight: bold;
-  text-transform: uppercase;
+   text-transform: uppercase;
   border: 5px solid black;
   box-shadow: 5px 5px 0px black;
   transform: scale(1);
@@ -63,8 +62,7 @@
 
 /* 💪 Class Name */
 .hulkamania-class-name {
-  font-weight: bold;
-  font-size: 1.6rem;
+   font-size: 1.6rem;
 }
 
 /* 💪 Class Time */
