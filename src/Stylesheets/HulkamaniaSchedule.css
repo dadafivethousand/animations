@@ -53,9 +53,10 @@
   text-align: center;
   border-radius: 15px;
   width: 60%;
-   text-transform: uppercase;
+  font-weight: bold;
+  text-transform: uppercase;
   border: 5px solid black;
-  box-shadow: 5px 5px 0px black;
+  box-shadow: 5px 5px 10px black;
   transform: scale(1);
   animation: hulkamaniaBounce 0.8s infinite ease-in-out alternate;
 }
