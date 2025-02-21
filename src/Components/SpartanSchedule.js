@@ -30,9 +30,10 @@ function SpartanSchedule({ day }) {
       <h1 className={`spartan-title ${showSchedule ? "spartan-visible" : ""}`}>
         {day}
       </h1>
+      
 
       {/* Schedule */}
-      <div className={`spartan-schedule  `}>
+      <div className="spartan-schedule">
         {schedule[day] &&
           schedule[day].map((cls, idx) => (
             <div
@@ -41,7 +42,7 @@ function SpartanSchedule({ day }) {
               style={{ animationDelay: `${idx * 1}s` }}
             >
               <span className="spartan-class-text">
-                {cls.name} - {formatTime(cls.start)}
+                {cls.name} <br></br> {formatTime(cls.start)}
               </span>
             </div>
           ))}

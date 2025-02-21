@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import schedule from "../Schedule"; // Ensure correct schedule import
 import "../Stylesheets/TransformersSchedule.css"; // Link CSS file
-
 function TransformersSchedule({ day }) {
   const [visibleClasses, setVisibleClasses] = useState([]);
 
@@ -10,7 +9,7 @@ function TransformersSchedule({ day }) {
       schedule[day].forEach((_, idx) => {
         setTimeout(() => {
           setVisibleClasses((prev) => [...prev, idx]);
-        }, idx * 350); // Staggered slide-in effect
+        }, idx * 350);
       });
     }
   }, [day]);
@@ -27,7 +26,7 @@ function TransformersSchedule({ day }) {
 
   return (
     <div className="tf-container">
-       <h2 className="tf-day">{day}</h2>
+      <h2 className="tf-day">{day}</h2>
 
       <div className="tf-schedule">
         {schedule[day] &&
@@ -36,6 +35,13 @@ function TransformersSchedule({ day }) {
               key={idx}
               className={`tf-class ${visibleClasses.includes(idx) ? "tf-slide-in" : ""}`}
             >
+              {/* 🔥 Flickering Lights in All 4 Corners */}
+              <div className="tf-light tl"></div>
+              <div className="tf-light tr"></div>
+              <div className="tf-light bl"></div>
+              <div className="tf-light br"></div>
+
+              {/* Class Info */}
               {cls.name} - {formatTime(cls.start)}
             </div>
           ))}

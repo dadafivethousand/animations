@@ -17,7 +17,7 @@ import HulkamaniaSchedule from './Components/HulkamaniaSchedule'
  function App() {
   return (
     <>
-    <HulkamaniaSchedule day="Friday"/>
+    <TransformersSchedule day="Saturday"/>
    </>
   );
 }
