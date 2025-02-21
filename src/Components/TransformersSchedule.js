@@ -9,7 +9,7 @@ function TransformersSchedule({ day }) {
       schedule[day].forEach((_, idx) => {
         setTimeout(() => {
           setVisibleClasses((prev) => [...prev, idx]);
-        }, idx * 350);
+        }, idx * 400);
       });
     }
   }, [day]);
