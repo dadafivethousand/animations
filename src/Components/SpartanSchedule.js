@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import schedule from "../Schedule";
 import "../Stylesheets/SpartanSchedule.css"; // Pure CSS Spartan theme
+import Spear from "./Spear";
 
 function SpartanSchedule({ day }) {
   const [showSchedule, setShowSchedule] = useState(false);
@@ -9,7 +10,7 @@ function SpartanSchedule({ day }) {
     // Delay before schedule appears
     const timeout = setTimeout(() => {
       setShowSchedule(true);
-    }, 500);
+    }, 1000);
 
     return () => clearTimeout(timeout);
   }, []);
@@ -47,6 +48,7 @@ function SpartanSchedule({ day }) {
             </div>
           ))}
       </div>
+      <Spear />
     </div>
   );
 }

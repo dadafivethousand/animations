@@ -12,12 +12,13 @@ import TransformersSchedule from "./Components/TransformersSchedule";
 import DigimonSchedule from "./Components/DigimonSchedule";
 import MuhammadAliSchedule from "./Components/MuhammadAliSchedule";
 import HulkamaniaSchedule from './Components/HulkamaniaSchedule'
+import Spear from "./Components/Spear";
  
   
  function App() {
   return (
     <>
-    <TransformersSchedule day="Saturday"/>
+    <SpartanSchedule day="Sunday"/>
    </>
   );
 }

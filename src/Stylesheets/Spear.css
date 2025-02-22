@@ -1,0 +1,25 @@
+@keyframes spear-fly {
+  0% {
+    transform: translate(-10vw, -30vh) rotate(85deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(150vw, -30vh) rotate(85deg);
+    opacity: 1;
+  }
+}
+
+.spear-container {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #111; /* Dark background for contrast */
+}
+
+.spear {
+  position: absolute;
+  width: 15px;
+  height: 600px;
+  animation: spear-fly linear infinite;
+}
