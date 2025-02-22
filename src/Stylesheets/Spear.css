@@ -1,10 +1,10 @@
 @keyframes spear-fly {
   0% {
-    transform: translate(-10vw, -30vh) rotate(85deg);
+    transform: translate(-10vw,-60vh) rotate(85deg);
     opacity: 1;
   }
   100% {
-    transform: translate(150vw, -30vh) rotate(85deg);
+    transform: translate(160vw, -60vh) rotate(85deg);
     opacity: 1;
   }
 }
@@ -19,7 +19,7 @@
 
 .spear {
   position: absolute;
-  width: 15px;
-  height: 600px;
-  animation: spear-fly linear infinite;
+  width: 60px;
+  height: 900px;
+  animation: spear-fly 8s linear infinite;
 }

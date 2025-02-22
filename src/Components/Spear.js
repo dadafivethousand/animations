@@ -1,7 +1,7 @@
 import React from "react";
 import "../Stylesheets/Spear.css";
 
-const NUM_SPEARS = 150; // Massive battle chaos
+const NUM_SPEARS = 80; // Massive battle chaos
 
 const Spear = () => {
   return (
@@ -13,7 +13,7 @@ const Spear = () => {
           style={{
             top: `${Math.random() * 100}vh`, // Random vertical spawn
             left: `${-20 - Math.random() * 50}vw`, // Starts off-screen
-            animationDuration: `${0.8 + Math.random() * 1}s`, // Varying speed
+            animationDuration: `${0.8 + Math.random() * 4}s`, // Varying speed
             transform: `rotate(${Math.random() * 15 - 7.5}deg)`, // Random slight tilt
           }}
           viewBox="0 0 50 600"
