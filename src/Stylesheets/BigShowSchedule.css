@@ -6,6 +6,8 @@
     --bigshow-glow: rgba(192, 192, 192, 0.6);
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
 /* Full-Screen Background */
 .bigshow-container {
     background: linear-gradient(135deg, var(--bigshow-black) 60%, var(--bigshow-blue));
@@ -23,16 +25,27 @@
 }
 
 .bigshow-container img{
- 
  transition: transform 2s ease-in;
- 
+ height:100px;
 }
-
-
-
 .shrink-rotate {
-    transform: scale(0.5) rotate(180deg);
+    transform:   rotate(180deg)
 }
+
+.typewriter{
+    position: relative;
+    left:-10px;
+}
+
+.image-container{
+    color:white;
+    display:flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-bottom:50px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 50px;
+ }
 
 
 /* Ring Shake Effect on Slam */
@@ -130,3 +143,16 @@
     50% { transform: translateY(8px) scaleY(0.95); }
     100% { transform: translateY(0) scaleY(1); }
 }
+/* Classes SLAM onto the screen */
+.slam-in {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+    animation: slamDown 0.4s ease-out;
+}
+
+@keyframes slamDown {
+    0% { transform: translateY(-200px) scaleY(1.1); opacity: 0; }
+    50% { transform: translateY(10px) scaleY(0.95); opacity: 1; }
+    100% { transform: translateY(0) scaleY(1); }
+}
+ 

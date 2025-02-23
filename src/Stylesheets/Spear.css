@@ -1,25 +1,26 @@
 @keyframes spear-fly {
-  0% {
-    transform: translate(-10vw,-60vh) rotate(85deg);
-    opacity: 1;
+    0% {
+      transform: translateX(-10vw) rotate(85deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(110vw) rotate(85deg); /* Ensures it fully travels across */
+      opacity: 1;
+    }
   }
-  100% {
-    transform: translate(160vw, -60vh) rotate(85deg);
-    opacity: 1;
+  
+  .spear-container {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #111; /* Dark battlefield background */
   }
-}
-
-.spear-container {
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  background-color: #111; /* Dark background for contrast */
-}
-
-.spear {
-  position: absolute;
-  width: 60px;
-  height: 900px;
-  animation: spear-fly 8s linear infinite;
-}
+  
+  .spear {
+    position: absolute;
+    width: 20px;
+    height: 1000px;
+    animation: spear-fly linear infinite;
+  }
+  

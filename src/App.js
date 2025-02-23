@@ -18,7 +18,7 @@ import Spear from "./Components/Spear";
  function App() {
   return (
     <>
-    <SpartanSchedule day="Sunday"/>
+    <BigShowSchedule day="Monday"/>
    </>
   );
 }
