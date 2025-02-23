@@ -18,13 +18,13 @@ function BigShowSchedule({ day }) {
   useEffect(() => {
     setTimeout(() => {
       setStartAnimation(true);
-    }, 1000);
+    }, 1500);
   }, []);
 
   useEffect(() => {
     setTimeout(() => {
       setShowSchedule(true);
-    }, 5000);
+    }, 6000);
   }, []);
 
   useEffect(() => {
