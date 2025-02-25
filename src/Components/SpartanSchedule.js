@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import schedule from "../Schedule";
 import "../Stylesheets/SpartanSchedule.css"; // Pure CSS Spartan theme
-import Spear from "./Spear";
 
 function SpartanSchedule({ day }) {
   const [showSchedule, setShowSchedule] = useState(false);
@@ -10,7 +9,7 @@ function SpartanSchedule({ day }) {
     // Delay before schedule appears
     const timeout = setTimeout(() => {
       setShowSchedule(true);
-    }, 1000);
+    }, 500);
 
     return () => clearTimeout(timeout);
   }, []);
@@ -31,10 +30,9 @@ function SpartanSchedule({ day }) {
       <h1 className={`spartan-title ${showSchedule ? "spartan-visible" : ""}`}>
         {day}
       </h1>
-      
 
       {/* Schedule */}
-      <div className="spartan-schedule">
+      <div className={`spartan-schedule  `}>
         {schedule[day] &&
           schedule[day].map((cls, idx) => (
             <div
@@ -43,12 +41,11 @@ function SpartanSchedule({ day }) {
               style={{ animationDelay: `${idx * 1}s` }}
             >
               <span className="spartan-class-text">
-                {cls.name} <br></br> {formatTime(cls.start)}
+                {cls.name} - {formatTime(cls.start)}
               </span>
             </div>
           ))}
       </div>
-      <Spear />
     </div>
   );
 }

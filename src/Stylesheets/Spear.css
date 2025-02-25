@@ -1,26 +1,24 @@
-@keyframes spear-fly {
-    0% {
-      transform: translateX(-10vw) rotate(85deg);
-      opacity: 1;
-    }
-    100% {
-      transform: translateX(110vw) rotate(85deg); /* Ensures it fully travels across */
-      opacity: 1;
-    }
+@keyframes spear-thrust {
+  0% {
+    transform: translateX(-50px) rotate(-3deg);
   }
-  
-  .spear-container {
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    background-color: #111; /* Dark battlefield background */
+  50% {
+    transform: translateX(20px) rotate(2deg);
   }
-  
-  .spear {
-    position: absolute;
-    width: 20px;
-    height: 1000px;
-    animation: spear-fly linear infinite;
+  100% {
+    transform: translateX(-50px) rotate(-3deg);
   }
-  
+}
+
+.spear-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #111; /* Dark background for contrast */
+}
+
+.spear {
+  width: 100px;
+  height: 750px;
+ }

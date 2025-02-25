@@ -1,47 +1,26 @@
 import React, { useEffect, useState } from "react";
 import schedule from "../Schedule";
-import "../Stylesheets/BigShowSchedule.css"; 
-import wwe_logo from '../Images/WWE_Logo.svg';
+import "../Stylesheets/BigShowSchedule.css"; // Ensure correct import path
+import wwe_logo from '../Images/WWE_Logo.svg'
 
 function BigShowSchedule({ day }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [ringImpact, setRingImpact] = useState(false);
   const [visibleClasses, setVisibleClasses] = useState([]);
   const [startAnimation, setStartAnimation] = useState(false);
-    const [typedText, setTypedText] = useState("");
-      const [showText, setShowText] = useState(false);
-      const fullText = "aple Jiu-Jitsu"; // Text for typewriter effect
-
-    
-  
 
   useEffect(() => {
     setTimeout(() => {
       setStartAnimation(true);
-    }, 1500);
+    }, 2000);
   }, []);
+
 
   useEffect(() => {
     setTimeout(() => {
       setShowSchedule(true);
-    }, 6000);
+    }, 5000);
   }, []);
-
-  useEffect(() => {
-      // Start the typewriter effect once the animation is fully done (7s + small buffer)
-      setTimeout(() => {
-        setShowText(true);
-      }, 3000);
-      if (showText) {
-        let i = 0;
-        const interval = setInterval(() => {
-          setTypedText(fullText.substring(0, i + 1));
-          i++;
-          if (i === fullText.length) clearInterval(interval);
-        }, 150); // Adjust speed of typing
-        return () => clearInterval(interval);
-      }
-    }, [showText]);
 
   useEffect(() => {
     if (showSchedule) {
@@ -49,13 +28,14 @@ function BigShowSchedule({ day }) {
         setTimeout(() => {
           setVisibleClasses((prev) => [...prev, idx]);
 
-          // Make each class slam onto the screen
-          setRingImpact(true);
-          setTimeout(() => setRingImpact(false), 200);
-
-          // Last class has the strongest slam
-      
-        }, idx * 600); // Each class slams with a slight delay
+          // Last class SLAMS the ring
+          if (idx === schedule[day].length - 1) {
+            setTimeout(() => {
+              setRingImpact(true);
+              setTimeout(() => setRingImpact(false), 300);
+            }, 800);
+          }
+        }, idx * 400);
       });
     }
   }, [showSchedule, day]);
@@ -72,26 +52,27 @@ function BigShowSchedule({ day }) {
 
   return (
     <div className={`bigshow-container ${ringImpact ? "ring-shake" : ""}`}>
-     <div className="image-container">
-      <img className={`${startAnimation ? 'shrink-rotate' : ''}`} src={wwe_logo} alt="WWE Logo" />
-   
-      <div className="typewriter">
-      {typedText}
-      </div>
-      </div>
+
+      <img className={`${startAnimation? 'shrink-rotate' : ''}`} src={wwe_logo} />
+
+      
       {/* Arena Lighting */}
+ 
+      {/* Day Title */}
       <h1 className={`bigshow-title ${showSchedule ? "visible" : ""}`}>
         {day}
       </h1>
 
+
+
       {/* Schedule */}
       <div className="bigshow-schedule-wrapper">
+
         {schedule[day] &&
           schedule[day].map((cls, idx) => (
             <div
               key={idx}
-              className={`bigshow-class ${visibleClasses.includes(idx) ? "slam-in" : ""} 
- `}
+              className={`bigshow-class ${visibleClasses.includes(idx) ? "rise-up" : ""}`}
             >
               <span className="bigshow-class-text">
                 {cls.name} - {formatTime(cls.start)}
