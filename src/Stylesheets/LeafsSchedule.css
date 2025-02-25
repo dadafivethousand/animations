@@ -1,0 +1,85 @@
+/* Toronto Maple Leafs Theme */
+:root {
+    --leafs-blue: #00205b;
+    --leafs-white: #ffffff;
+    --leafs-gray: #a5acaf;
+    --leafs-glow: rgba(255, 255, 255, 0.8);
+}
+
+/* Full-Screen Background */
+.leafs-container {
+    background: linear-gradient(135deg, var(--leafs-blue) 60%, var(--leafs-gray));
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    font-family: "Poppins", sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Leafs Logo */
+.leafs-logo {
+    width: 100px;
+    opacity: 0.9;
+    margin-bottom: 15px;
+}
+
+/* Leafs Title */
+.leafs-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--leafs-white);
+    text-shadow: 0 0 12px var(--leafs-glow);
+    opacity: 0;
+    transform: translateY(-15px);
+    transition: opacity 1.2s ease-in-out, transform 1.2s ease-in-out;
+}
+
+.leafs-title.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Schedule Wrapper */
+.leafs-schedule-wrapper {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Game Containers */
+.leafs-game {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 15px;
+    margin: 10px auto;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.3);
+    color: var(--leafs-white);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(6px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateX(-100px);
+    transition: transform 0.6s ease-out, opacity 0.5s ease-out;
+}
+
+/* Games Slide in */
+.slide-in {
+    opacity: 1;
+    transform: translateX(0);
+}

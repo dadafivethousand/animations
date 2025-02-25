@@ -1,24 +1,19 @@
 import React from "react";
 import './Stylesheets/App.css'
-import RastamanSchedule from "./Components/RastamanSchedule"
-import KaneSchedule from "./Components/KaneSchedule";
-import BigShowSchedule from "./Components/BigShowSchedule";
-import FiftyCentSchedule from "./Components/50Cent";
-import HulkSchedule from "./Components/HulkSchedule";
-import McDonaldsSchedule from "./Components/Macdonalds";
-import SpartanSchedule from "./Components/SpartanSchedule";
-import DBZSchedule from "./Components/DBZSchedule";
-import TransformersSchedule from "./Components/TransformersSchedule";
-import DigimonSchedule from "./Components/DigimonSchedule";
-import MuhammadAliSchedule from "./Components/MuhammadAliSchedule";
-import HulkamaniaSchedule from './Components/HulkamaniaSchedule'
-import Spear from "./Components/Spear";
  
+import MuhammadAliSchedule from "./Components/MuhammadAliSchedule";
+import LeafsSchedule from "./Components/LeafsSchdule";
+import PuckAnimation from "./Components/PuckAnimation";
+import ReggaetonSchedule from "./Components/ReggaetonSchedule";
+import PoliceSchedule from "./Components/PoliceSchedule";
+import FiremanSchedule from "./Components/FiremanSchedule";
+ 
+  
   
  function App() {
   return (
     <>
-    <BigShowSchedule day="Monday"/>
+    <PoliceSchedule day="Wednesday"/>
    </>
   );
 }

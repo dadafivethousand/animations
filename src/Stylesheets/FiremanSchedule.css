@@ -1,0 +1,187 @@
+/* 🚒 Firefighter Emergency Theme */
+:root {
+    --fire-red: #C20000;
+    --fire-orange: #FF4500;
+    --fire-yellow: #FFD700;
+    --fire-white: #FFF;
+    --fire-black: #111;
+}
+
+/* 🔥 Full-Screen Background with Fire Effects */
+.fire-container {
+    background: var(--fire-black);
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    font-family: "Bangers", cursive; /* Heroic Font */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 🔥 Fire Background Animation */
+.fire-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 69, 0, 0.3) 20%, rgba(0, 0, 0, 0.8) 80%);
+    animation: fireGlow 3s infinite alternate ease-in-out;
+}
+
+@keyframes fireGlow {
+    0% { background: rgba(255, 69, 0, 0.3); }
+    100% { background: rgba(255, 140, 0, 0.5); }
+}
+
+/* 🚨 Flashing Emergency Sirens */
+.fire-siren {
+    position: absolute;
+    top: 10px;
+    width: 100px;
+    height: 25px;
+    border-radius: 10px;
+    z-index: 2;
+}
+
+.fire-siren-red {
+    background-color: var(--fire-red);
+    left: 15%;
+    animation: flashRed 0.3s infinite alternate;
+}
+
+.fire-siren-white {
+    background-color: var(--fire-white);
+    right: 15%;
+    animation: flashWhite 0.3s infinite alternate;
+}
+
+@keyframes flashRed {
+    0% { opacity: 1; }
+    100% { opacity: 0.2; }
+}
+
+@keyframes flashWhite {
+    0% { opacity: 0.2; }
+    100% { opacity: 1; }
+}
+
+/* 🚒 Firefighter Dispatch Title */
+.fire-title {
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--fire-yellow);
+    text-shadow: 0 0 15px var(--fire-red), 0 0 25px var(--fire-orange);
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+    animation: flicker 1.5s infinite alternate ease-in-out;
+}
+
+@keyframes flicker {
+    0% { text-shadow: 0 0 10px var(--fire-yellow); }
+    100% { text-shadow: 0 0 25px var(--fire-orange), 0 0 35px var(--fire-red); }
+}
+
+.fire-title.fire-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 🔥 Fire Schedule Wrapper */
+.fire-schedule-wrapper {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 🔥 Firefighter Log Entries */
+.fire-class {
+    background: rgba(255, 69, 0, 0.3);
+    padding: 15px;
+    margin: 10px auto;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    text-align: center;
+    color: var(--fire-yellow);
+    font-weight: 900;
+    border-left: 5px solid var(--fire-red);
+    border-right: 5px solid var(--fire-orange);
+    box-shadow: 0px 0px 15px var(--fire-red);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform: translateX(-400px);
+    transition: transform 1s ease-in;
+}
+
+@keyframes flameWave {
+    0% { box-shadow: 0px 0px 12px var(--fire-orange); }
+    100% { box-shadow: 0px 0px 20px var(--fire-red); }
+}
+
+/* 🚒 Subtle Entry Animation */
+.fire-slide-in {
+    opacity: 1;
+    transform: translateX(0);
+ 
+}
+
+
+.firetruck{
+    transform: translateX(400px);
+transition: transform 5s ease-in-out;
+}
+
+.fire-drive{
+    transform: translateX(0);
+}
+
+
+ 
+
+/* 🚫 Cancelled Classes Flash Like an Alarm */
+.fire-cancelled {
+    background: rgba(255, 0, 0, 0.9);
+    color: var(--fire-white);
+    text-decoration: line-through;
+    border-left: 5px solid var(--fire-red);
+    border-right: 5px solid var(--fire-red);
+    box-shadow: 0px 0px 20px var(--fire-red);
+    animation: fireCancelledFlash 0.5s infinite alternate ease-in-out;
+}
+
+@keyframes fireCancelledFlash {
+    0% { opacity: 0.6; transform: scale(1.05); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+.fire-and-truck{
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.fire-and-truck{
+    font-size: 70px;
+}
+
+.fire{
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.show-fire{
+    opacity:1
+}
+

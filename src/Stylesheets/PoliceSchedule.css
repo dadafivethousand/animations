@@ -1,0 +1,169 @@
+/* 🚔 Intense Police Lights */
+:root {
+    --police-blue: #002F6C;
+    --police-red: #C20000;
+    --police-black: #000;
+    --police-white: #FFF;
+    --police-silver: #B0B0B0;
+}
+
+/* Full-Screen Dark Background */
+.police-container {
+    background: var(--police-black);
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    font-family: "Poppins", sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 🚨 Blinding Flashing Sirens */
+.siren {
+    position: absolute;
+    top: 10px;
+    width: 60px;
+    height: 20px;
+    border-radius: 10px;
+}
+
+.siren-red {
+    background-color: var(--police-red);
+    left: 15%;
+    animation: flashRed 0.5s infinite alternate;
+}
+
+.siren-blue {
+    background-color: var(--police-blue);
+    right: 15%;
+    animation: flashBlue 0.5s infinite alternate;
+}
+
+/* Full-Screen Emergency Overlay */
+.siren-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 0, 0, 0.2);
+    animation: sirenOverlay 1s infinite alternate;
+}
+
+@keyframes flashRed {
+    0% { opacity: 1; }
+    100% { opacity: 0.2; }
+}
+
+@keyframes flashBlue {
+    0% { opacity: 0.2; }
+    100% { opacity: 1; }
+}
+
+@keyframes sirenOverlay {
+    0% { background: rgba(0, 0, 255, 0.2); }
+    100% { background: rgba(255, 0, 0, 0.2); }
+}
+
+/* Police Dispatch Title */
+.police-title {
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--police-white);
+    text-shadow: 0 0 15px var(--police-red), 0 0 25px var(--police-blue);
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 1.2s ease-in-out, transform 1.2s ease-in-out;
+}
+
+.police-title.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Schedule Wrapper */
+.police-schedule-wrapper {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Class Containers */
+.police-class {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    margin: 10px auto;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 10px;
+    font-size: 1.3rem;
+    text-align: center;
+    color: var(--police-white);
+    font-weight: 700;
+    border: 3px solid var(--police-silver);
+    backdrop-filter: blur(4px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transform: translateX(-100px);
+    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+}
+
+/* 🚔 Classes Slide in Like an Emergency Dispatch */
+.slide-in {
+    opacity: 1;
+    transform: translateX(0);
+    animation: dispatchSlide 0.5s ease-out;
+}
+
+/* Dispatch Slide Effect */
+@keyframes dispatchSlide {
+    0% { transform: translateX(-40px) scale(1.05); }
+    100% { transform: translateX(0) scale(1); }
+}
+
+/* 🚫 Cancelled Classes Flash Red with Siren */
+.cancelled {
+    background: rgba(255, 0, 0, 0.8);
+    color: var(--police-white);
+    text-decoration: line-through;
+    border: 3px solid var(--police-red);
+    box-shadow: 0px 0px 20px var(--police-red);
+    animation: cancelledFlash 0.4s infinite alternate;
+}
+
+/* Flashing Effect for Cancelled Classes */
+@keyframes cancelledFlash {
+    0% { opacity: 0.6; transform: scale(1.05); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+.police-class {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 15px;
+    margin: 10px auto;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    text-align: center;
+    color: var(--police-white);
+    font-weight: 800;
+    border-left: 5px solid var(--police-blue);
+    border-right: 5px solid var(--police-red);
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+}
