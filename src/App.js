@@ -13,7 +13,7 @@ import FiremanSchedule from "./Components/FiremanSchedule";
  function App() {
   return (
     <>
-    <LeafsSchedule day="Wednesday"/>
+    <PoliceSchedule day="Wednesday"/>
    </>
   );
 }
