@@ -1,0 +1,111 @@
+/* 🔥 COLOR PALETTE */
+:root {
+    --kombat-red: #8B0000;
+    --kombat-gold: #FFD700;
+    --kombat-black: #000;
+    --kombat-dark: #121212;
+    --kombat-glow: rgba(255, 0, 0, 0.8);
+}
+
+/* 🏯 MAIN CONTAINER */
+.kombat-container {
+    background: linear-gradient(180deg, var(--kombat-black) 60%, var(--kombat-dark));
+    color: var(--kombat-gold);
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 🔥 TITLE */
+.kombat-title {
+    font-size: 4rem;
+    font-weight: bold;
+    letter-spacing: 5px;
+    color: var(--kombat-gold);
+    text-shadow: 0 0 20px var(--kombat-glow), 0 0 40px var(--kombat-red);
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    animation: glow-flicker 1.5s infinite alternate;
+}
+
+/* ⚡ TITLE GLOW */
+@keyframes glow-flicker {
+    0% { text-shadow: 0 0 10px var(--kombat-glow), 0 0 30px var(--kombat-red); }
+    100% { text-shadow: 0 0 20px var(--kombat-glow), 0 0 50px var(--kombat-red); }
+}
+
+/* 📋 SCHEDULE CONTAINER */
+.kombat-schedule {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 🔪 CLASS BLOCK */
+.kombat-class {
+    background: rgba(139, 0, 0, 0.85);
+    color: var(--kombat-gold);
+    border: 3px solid var(--kombat-red);
+    padding: 15px 25px;
+    width: 80%;
+    text-align: center;
+    font-size: 1.5rem;
+    margin: 10px 0;
+    opacity: 0;
+    transform: translateY(40px) scale(1.1);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    box-shadow: 0 0 10px var(--kombat-red);
+}
+
+/* ⚡ SLAM-IN ANIMATION */
+.slam-in {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    animation: slam 0.4s cubic-bezier(0.2, 1.4, 0.8, 1);
+}
+
+/* 🔨 IMPACT EFFECT */
+@keyframes slam {
+    0% { transform: translateY(-20px) scale(1.2); }
+    80% { transform: translateY(5px) scale(0.95); }
+    100% { transform: translateY(0) scale(1); }
+}
+
+/* 🔥 FIRE EFFECT */
+.fire {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 30%;
+    background: linear-gradient(to top, var(--kombat-red), transparent);
+    opacity: 0.8;
+    animation: fire-flicker 1.5s infinite alternate ease-in-out;
+}
+
+@keyframes fire-flicker {
+    0% { opacity: 0.7; transform: scaleY(1); }
+    100% { opacity: 1; transform: scaleY(1.1); }
+}
+
+/* 🌫️ SMOKE EFFECT */
+.smoke {
+    position: absolute;
+    bottom: 10%;
+    width: 100%;
+    height: 20%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 20%, transparent 80%);
+    opacity: 0.3;
+    animation: smoke-rise 5s infinite linear;
+}
+
+@keyframes smoke-rise {
+    0% { transform: translateY(0); opacity: 0.2; }
+    100% { transform: translateY(-50px); opacity: 0.5; }
+}

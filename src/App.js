@@ -7,13 +7,17 @@ import PuckAnimation from "./Components/PuckAnimation";
 import ReggaetonSchedule from "./Components/ReggaetonSchedule";
 import PoliceSchedule from "./Components/PoliceSchedule";
 import FiremanSchedule from "./Components/FiremanSchedule";
+import ShrekSchedule from "./Components/ShrekSchedule";
+import BuzzSchedule from "./Components/BuzzSchedule";
+import MapleKombatSchedule from "./Components/MapleKombatSchedule";
+import KingKongSchedule from "./Components/KingKongSchedule";
  
   
   
  function App() {
   return (
     <>
-    <PoliceSchedule day="Wednesday"/>
+    <KingKongSchedule day="Thursday"/>
    </>
   );
 }

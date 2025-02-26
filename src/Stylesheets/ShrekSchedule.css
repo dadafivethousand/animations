@@ -1,0 +1,142 @@
+/* 🧅 SHREK COLORS */
+:root {
+    --shrek-green: #A1C935;
+    --swamp-brown: #8B5E3C;
+    --ogre-yellow: #F4D03F;
+    --ogre-black: #222;
+}
+
+/* 🌿 Shrek Background */
+.shrek-container {
+    background: var(--shrek-green);
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    font-family: "Comic Sans MS", cursive;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    animation: swampBreath 6s infinite alternate ease-in-out;
+}
+
+/* 🌿 Swamp Breath Effect */
+@keyframes swampBreath {
+    0% { background-color: var(--shrek-green); }
+    100% { background-color: #7AAB3B; }
+}
+
+/* 🧅 Shrek Title with Ears */
+.shrek-title {
+    font-size: 4rem;
+    font-weight: bold;
+    color: var(--ogre-yellow);
+    text-shadow: 0 0 10px var(--swamp-brown), 0 0 15px var(--ogre-black);
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+    animation: earWiggle 1.5s infinite alternate ease-in-out;
+}
+
+/* 🧅 Ear Wiggle Animation */
+@keyframes earWiggle {
+    0% { transform: rotate(-2deg); }
+    100% { transform: rotate(2deg); }
+}
+
+.shrek-title.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 🍃 Schedule Wrapper */
+.shrek-schedule-wrapper {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 💩 Swampy Schedule Entries */
+.shrek-class {
+    background: var(--swamp-brown);
+    padding: 15px;
+    margin: 10px auto;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 20px;
+    font-size: 1.3rem;
+    text-align: center;
+    color: var(--ogre-yellow);
+    font-weight: bold;
+    border: 4px solid var(--ogre-black);
+    box-shadow: 0px 0px 15px var(--ogre-black);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+    animation: ogreBounce 1.5s infinite alternate ease-in-out;
+}
+
+/* 🧅 Ogre Bounce */
+@keyframes ogreBounce {
+    0% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* 🧅 SHREK EARS */
+.shrek-ears {
+    position: absolute;
+    top: -15px;
+    width: 30px;
+    height: 30px;
+    background: var(--shrek-green);
+    border-radius: 50%;
+    border: 3px solid var(--ogre-black);
+    transform: rotate(-20deg);
+}
+
+/* Right Ear */
+.shrek-ears.right {
+    right: -10px;
+    transform: rotate(20deg);
+}
+
+/* Left Ear */
+.shrek-ears {
+    left: -10px;
+}
+
+/* 🐴 Bouncing Like Donkey */
+.bounce-in {
+    animation: donkeyBounce 0.6s ease-out;
+}
+
+@keyframes donkeyBounce {
+    0% { transform: translateY(-10px); }
+    50% { transform: translateY(5px); }
+    100% { transform: translateY(0); }
+}
+
+/* 🚫 Cancelled Classes Get Farquaad’d */
+.shrek-cancelled {
+    background: rgba(255, 0, 0, 0.9);
+    color: var(--ogre-yellow);
+    text-decoration: line-through;
+    border-left: 5px solid var(--ogre-black);
+    border-right: 5px solid var(--swamp-brown);
+    box-shadow: 0px 0px 20px var(--ogre-black);
+    animation: farquaadBan 1s infinite alternate ease-in-out;
+}
+
+/* 🚫 Farquaad Flicker */
+@keyframes farquaadBan {
+    0% { opacity: 0.6; transform: scale(1.05); }
+    100% { opacity: 1; transform: scale(1); }
+}

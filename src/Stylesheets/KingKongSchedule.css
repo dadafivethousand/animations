@@ -1,0 +1,132 @@
+/* 🦍 KING KONG POWER COLORS */
+:root {
+    --kong-dark: #0D0D0D;
+    --kong-stone: #3A3A3A;
+    --kong-gold: #DAA520;
+    --kong-green: #1E401E;
+    --kong-smoke: rgba(255, 255, 255, 0.05);
+}
+
+/* 🌋 KONG CONTAINER */
+.kong-container {
+    background: linear-gradient(180deg, var(--kong-dark), var(--kong-stone));
+    color: var(--kong-gold);
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start ;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 🌫️ MOVING MIST */
+.kong-mist {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 40%;
+    background: radial-gradient(circle, var(--kong-smoke), transparent);
+    opacity: 0.5;
+    animation: mist-move 10s infinite linear;
+}
+
+@keyframes mist-move {
+    0% { transform: translateY(0); opacity: 0.4; }
+    100% { transform: translateY(-50px); opacity: 0.6; }
+}
+
+/* 💥 SHOCKWAVE EFFECT */
+.kong-shockwave {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 10%, transparent 80%);
+    bottom: 10%;
+    opacity: 0;
+    animation: shockwave 3s infinite ease-in-out;
+}
+
+@keyframes shockwave {
+    0% { opacity: 0.3; transform: scale(1); }
+    100% { opacity: 0; transform: scale(3); }
+}
+
+/* 🦍 TITANIC TITLE */
+.kong-title {
+    font-size: 3rem;
+    font-weight: bold;
+    letter-spacing: 4px;
+    color: var(--kong-gold);
+    text-shadow: 5px 5px var(--kong-green), 0 0 20px var(--kong-dark);
+    margin-bottom: 10px;
+    margin-top: 70px;
+    text-transform: uppercase;
+    animation: rumble 2s infinite alternate ease-in-out;
+}
+
+/* 💥 EARTHQUAKE TEXT EFFECT */
+@keyframes rumble {
+    0% { transform: translateX(-15px); }
+    100% { transform: translateX(15px); }
+}
+
+/* 📋 SCHEDULE CONTAINER */
+.kong-schedule {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 🪨 CLASS BLOCK */
+.kong-class {
+    background: var(--kong-green);
+    color: var(--kong-gold);
+    border: 3px solid var(--kong-stone);
+    padding: 15px 10px;
+    width: 98%;
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin: 5px 0;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    opacity: 0;
+    transform: translateY(80px) scale(1.1);
+    transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+    box-shadow: 0px 8px 20px var(--kong-dark);
+    display: flex;
+    justify-content: space-between;
+}
+
+/* 🌋 MONSTER IMPACT */
+.impact {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    animation: slam 0.6s cubic-bezier(0.2, 1.6, 0.7, 1);
+}
+
+/* 🏗️ CLASS SMASH LANDING */
+@keyframes slam {
+    0% { transform: translateY(-30px) scale(1.2); }
+    80% { transform: translateY(600px) scale(0.95); }
+    100% { transform: translateY(0) scale(1); }
+}
+
+/* 🌟 CLASS NAME */
+.class-name {
+    font-weight: bold;
+    text-shadow: 2px 2px var(--kong-dark);
+}
+
+/* ⏰ CLASS TIME */
+.class-time {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #E6C200;
+    text-shadow: 2px 2px var(--kong-dark);
+}
