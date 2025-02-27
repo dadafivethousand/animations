@@ -21,7 +21,7 @@ import KaneSchedule from "./Components/KaneSchedule";
  function App() {
   return (
     <>
-    <KaneSchedule day="Thursday"/>
+    <KaneSchedule day="Friday"/>
    </>
   );
 }

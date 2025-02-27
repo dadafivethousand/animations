@@ -287,7 +287,7 @@
 /* Kane Title (Burning Effect) */
 .kane-title {
     font-size: 4rem;
-    font-weight: 400;
+    font-weight: 600;
     color: var(--kane-orange);
     text-shadow: 0 0 20px var(--fire-glow), 0 0 40px var(--fire-glow);
     opacity: 0;
