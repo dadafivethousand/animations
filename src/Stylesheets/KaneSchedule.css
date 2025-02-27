@@ -17,7 +17,7 @@
     font-family: "Impact", sans-serif;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 }
 
@@ -116,8 +116,8 @@
 
 /* Kane Title (Burning Effect) */
 .kane-title {
-    font-size: 4rem;
-    font-weight: 300;;
+    font-size: 3rem;
+    font-weight: 200;;
      color: var(--kane-orange);
     text-shadow: 0 0 20px var(--fire-glow), 0 0 40px var(--fire-glow);
     opacity: 0;
@@ -145,12 +145,12 @@
 /* Class Containers */
 .kane-class {
     background: rgba(50, 0, 0, 0.85);
-    padding: 25px;
-    margin: 15px auto;
+    padding: 15px;
+    margin: 5px auto;
     width: 85%;
     max-width: 500px;
     border-radius: 20px;
-    font-size: 1.6rem;
+    font-size: 1.2rem;
     text-align: center;
     box-shadow: 0px 5px 15px rgba(255, 69, 0, 0.7);
     color: var(--kane-orange);
@@ -194,9 +194,10 @@
     font-family: "Impact", sans-serif;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     transition: transform 0.2s ease-in-out;
+    padding-top: 90px;
 }
 
 /* SCREEN SHAKE EFFECT on Explosions */
@@ -285,8 +286,8 @@
 
 /* Kane Title (Burning Effect) */
 .kane-title {
-    font-size: 4.5rem;
-    font-weight: bold;
+    font-size: 4rem;
+    font-weight: 200;
     color: var(--kane-orange);
     text-shadow: 0 0 20px var(--fire-glow), 0 0 40px var(--fire-glow);
     opacity: 0;
