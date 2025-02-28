@@ -2,6 +2,8 @@ import React from "react";
 import schedule from "../Schedule";
 import "../Stylesheets/GTASchedule.css"; // Correct import
 import gta from '../Images/gta.webp'
+import rockstar from '../Images/unnamed.png'
+import { useState, useEffect } from "react";
 const formatTime = (time) => {
   const hours = Math.floor(time);
   const minutes = (time % 1) * 60;
@@ -11,11 +13,21 @@ const formatTime = (time) => {
   return `${formattedHours}:${formattedMinutes} ${ampm}`;
 };
 
+
+
 const GtaSchedule = ({ day }) => {
+  const [fade, setFade] = useState(false)
+  useEffect(()=>{
+    const fade = setTimeout( () => {setFade(true)}, 1000)
+  
+  }, [])
   const classes = schedule[day] || [];
 
   return (
     <div className="gta-container">
+      <div className={`rockstar-background ${fade ? 'fade' : ''}`}>
+      <img className='rockstar' src={rockstar}/>
+      </div>
    <div className="gta-title">
       <h2 className="line1">{day}</h2>
       </div>
