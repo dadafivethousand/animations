@@ -13,15 +13,16 @@ import MapleKombatSchedule from "./Components/MapleKombatSchedule";
 import KingKongSchedule from "./Used/KingKongSchedule";
 import GodzillaSchedule from "./Components/GodzillaSchedule";
 import GTASchedule from "./Components/GTASchedule";
-import KaneScedule from './Components/KaneSchedule'
-import KaneSchedule from "./Components/KaneSchedule";
+import KaneScedule from './Used/KaneSchedule'
+import KaneSchedule from "./Used/KaneSchedule";
+import GtaSchedule from "./Components/GTASchedule";
  
   
   
  function App() {
   return (
     <>
-    <KaneSchedule day="Friday"/>
+    <GtaSchedule day="Saturday"/>
    </>
   );
 }
