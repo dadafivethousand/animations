@@ -44,7 +44,7 @@ function BlackPantherSchedule({ day }) {
               <div
                 key={idx}
                 className="black-panther-class"
-                style={{ animationDelay: `${idx * 0.5}s` }}
+                style={{ animationDelay: `${idx * 1}s` }}
               >
                 <div className="black-panther-class-name">{cls.name}</div>
                 <div className="black-panther-class-time">{formatTime(cls.start)}</div>
