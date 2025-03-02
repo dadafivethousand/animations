@@ -4,11 +4,16 @@ import schedule from "../Schedule";
 
 function BlackPantherSchedule({ day }) {
   const [showSchedule, setShowSchedule] = useState(false);
+  const [goUp, setGoUp] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
       setShowSchedule(true);
     }, 500);
+  }, []);
+
+  useEffect(() => {
+    setGoUp(true)
   }, []);
 
   // Convert decimal hours to AM/PM format
@@ -24,7 +29,7 @@ function BlackPantherSchedule({ day }) {
   return (
     <div className="black-panther-container">
       {/* Necklace (Now in a Circular Arc) */}
-      <div className="black-panther-necklace">
+      <div className={`black-panther-necklace  ${goUp? 'black-panther-up': ''}`}>
         {[...Array(12)].map((_, idx) => (
           <div
             key={idx}

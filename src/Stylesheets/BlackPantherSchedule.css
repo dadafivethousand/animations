@@ -90,10 +90,18 @@
   position: absolute;
   top: 70%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, 500%);
+ 
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: transform 6s ease-in;
+ }
+
+
+ .black-panther-up {
+  transform: translate(-50%, 0%);
+ 
  }
 
 /* 🖤 Claws with Proper Arc Placement */
