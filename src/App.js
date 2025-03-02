@@ -12,17 +12,18 @@ import BuzzSchedule from "./Components/BuzzSchedule";
 import MapleKombatSchedule from "./Components/MapleKombatSchedule";
 import KingKongSchedule from "./Used/KingKongSchedule";
 import GodzillaSchedule from "./Components/GodzillaSchedule";
-import GTASchedule from "./Components/GTASchedule";
+import GTASchedule from "./Used/GTASchedule";
 import KaneScedule from './Used/KaneSchedule'
 import KaneSchedule from "./Used/KaneSchedule";
-import GtaSchedule from "./Components/GTASchedule";
+import GtaSchedule from "./Used/GTASchedule";
+import BlackPantherSchedule from './Components/BlackPantherSchedule'
  
   
   
  function App() {
   return (
     <>
-    <GtaSchedule day="Saturday"/>
+    <BlackPantherSchedule day="Sunday"/>
    </>
   );
 }

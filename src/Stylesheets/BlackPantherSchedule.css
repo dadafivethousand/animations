@@ -85,6 +85,7 @@
 }
 
 /* 🖤 Black Panther Necklace (CSS-Only) */
+/* 🖤 Improved Black Panther Necklace */
 .black-panther-necklace {
   position: absolute;
   top: 80%;
@@ -92,69 +93,44 @@
   transform: translateX(-50%);
   display: flex;
   justify-content: center;
-  gap: 15px;
-}
+  align-items: center;
+ }
 
-/* 🖤 Claws of the Necklace - Now Pointing Down */
+/* 🖤 Claws with Proper Arc Placement */
 .black-panther-claw {
   width: 20px;
   height: 50px;
-  background: linear-gradient(to bottom, #ffffff, #c0c0c0); /* Silver Metallic */
-  clip-path: polygon(50% 100%, 100% 0, 50% 20%, 0 0); /* Now pointing downward */
-  transform-origin: top;
-  animation: necklaceSwing 2s infinite ease-in-out alternate;
-  position: relative;
-}
+  background: linear-gradient(to bottom, #ffffff, #a0a0a0, #505050); /* Metallic effect */
+  clip-path: polygon(50% 100%, 90% 10%, 50% 20%, 10% 10%);
+   
+ }
 
-/* 🖤 Swinging Effect for Necklace */
+/* 🖤 Place Claws in a Proper Curve */
+.claw0 { 
+  transform: translateY(205px)
+   rotate(-30deg); 
+  }
+  .claw0 { transform: translate(-130px, -10px) rotate(30deg); }
+  .claw1 { transform: translate(-110px, 0px) rotate(25deg); }
+  .claw2 { transform: translate(-90px, 10px) rotate(20deg); }
+  .claw3 { transform: translate(-70px, 20px) rotate(15deg); }
+  .claw4 { transform: translate(-50px, 30px) rotate(10deg); }
+  .claw5 { transform: translate(-30px, 35px) rotate(5deg); }
+  .claw6 { transform: translate(0px, 40px) rotate(0deg); } /* Center Claw */
+  .claw7 { transform: translate(30px, 35px) rotate(-5deg); }
+  .claw8 { transform: translate(50px, 30px) rotate(-10deg); }
+  .claw9 { transform: translate(70px, 20px) rotate(-15deg); }
+  .claw10 { transform: translate(90px, 10px) rotate(-20deg); }
+  .claw11 { transform: translate(110px, 0px) rotate(-25deg); }
+  .claw12 { transform: translate(130px, -10px) rotate(-30deg); }
+  
+
+/* 🖤 Swinging Effect */
 @keyframes necklaceSwing {
   0% {
-    transform: rotate(5deg) translateY(0px);
+    transform: translateY(2px);
   }
   100% {
-    transform: rotate(-5deg) translateY(5px);
+    transform: translateY(5px);
   }
 }
-
-.claw1{
-    top:10px
-}
-
-.claw2{
-    top:20px
-}
-
-.claw3{
-    top:30px
-}
-
-.claw4{
-    top:40px
-}
-
-.claw5{
-    top:50px
-}
-
-.claw6{
-    top:50px
-}
-
-.claw7{
-    top:40px
-}
-
-.claw8{
-    top:30px
-}
-.claw9{
-    top:20px
-}
-
-.claw10{
-    top:10px
-}
-
-
- 
-

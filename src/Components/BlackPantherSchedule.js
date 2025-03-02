@@ -29,8 +29,7 @@ function BlackPantherSchedule({ day }) {
           <div
             key={idx}
             className={`black-panther-claw claw${idx}`}
-            style={{ transform: `rotate(${idx * 10 - 40}deg) translateY(10px)` }}
-          />
+           />
         ))}
       </div>
 
