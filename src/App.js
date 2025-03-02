@@ -16,14 +16,15 @@ import GTASchedule from "./Used/GTASchedule";
 import KaneScedule from './Used/KaneSchedule'
 import KaneSchedule from "./Used/KaneSchedule";
 import GtaSchedule from "./Used/GTASchedule";
-import BlackPantherSchedule from './Components/BlackPantherSchedule'
+import BlackPantherSchedule from './Used/BlackPantherSchedule'
+import SonicSchedule from "./Components/SonicSchedule";
  
   
   
  function App() {
   return (
     <>
-    <BlackPantherSchedule day="Sunday"/>
+    <SonicSchedule day="Monday"/>
    </>
   );
 }
