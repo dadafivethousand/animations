@@ -1,0 +1,100 @@
+/* 🥊 Boxing Gym Theme */
+@import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");
+
+.boxing-container {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(to right, #1a1a1a, #333333); /* Dark gym feel */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Anton", sans-serif;
+  color: white;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* 🔥 Title */
+.boxing-title {
+  font-size: 3rem;
+  text-transform: uppercase;
+  color: #ff0000;
+  text-shadow: 5px 5px 15px rgba(255, 0, 0, 0.8);
+  margin: 30px;
+}
+
+/* 🎯 Schedule Classes (Always Visible) */
+.boxing-classes {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  align-items: center;
+  position: relative;
+}
+
+/* 🥊 Boxing Glove - Moves to Each Class */
+.boxing-glove {
+  font-size: 3rem;
+  position: absolute;
+  right: -100px;
+  transform: rotate(-90deg);
+}
+
+/* 🥊 Boxing Glove Sliding in */
+@keyframes punchIn {
+  0% { right: -100px; }
+  100% { right: 50px; }
+}
+
+/* 🥊 Boxing Glove Sliding Out */
+@keyframes punchOut {
+  0% { right: 50px; }
+  100% { right: -100px; }
+}
+
+/* 🏆 Boxing Class (Always Visible) */
+.boxing-class {
+  background: #252525;
+  border: 3px solid #ff0000;
+  padding: 10px 40px;
+  text-align: center;
+  font-size: 1.2rem;
+   text-transform: uppercase;
+  width: 60%;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+  opacity: 1; /* Always visible */
+  position: relative;
+  transition: transform 0.1s ease-in-out;
+}
+
+/* 💥 Impact Effect on Punch */
+.boxing-class.punched {
+  animation: shake 0.2s ease-in-out;
+}
+
+/* 🔥 Punch Shake Effect */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+/* ⏳ Initially Hidden Class Time */
+.boxing-class-time {
+  opacity: 0;
+  transform: scale(0);
+  transition: opacity 0.4s ease-in-out, transform 0.3s ease-in-out;
+}
+
+/* 💥 Class Time Appears After Punch */
+.boxing-class-time.visible {
+  opacity: 1;
+  transform: scale(1);
+}

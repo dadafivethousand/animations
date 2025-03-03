@@ -1,107 +1,65 @@
-/* 🌆 GODZILLA COLORS */
-:root {
-    --godzilla-dark: #050505;
-    --godzilla-green: #045D04;
-    --godzilla-neon-green: #00FF00;
-    --godzilla-steel-gray: #2A2A2A;
-    --godzilla-smoke: rgba(255, 255, 255, 0.05);
-}
-
-/* 📱 MOBILE-ONLY UI */
-@media (min-width: 768px) {
-  body {
-    display: none; /* Mobile-Only */
-  }
-}
-
-/* 🌑 FULLSCREEN DARK MODE */
 .godzilla-container {
-    background: linear-gradient(180deg, var(--godzilla-dark), var(--godzilla-steel-gray));
-    color: var(--godzilla-neon-green);
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
     position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background-color: black;
     overflow: hidden;
-    padding: 10px;
-}
+    color: limegreen;
+    text-align: center;
+    font-family: "Impact", sans-serif;
+  }
+  
+  /* Radioactive Green Background */
+  .godzilla-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(0, 255, 0, 0.7) 0%, rgba(0, 0, 0, 1) 80%);
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+  }
+  
+  .godzilla-bg.active {
+    opacity: 1;
+  }
+  
+  /* Day of the Week - Always Visible */
+  .godzilla-title {
+    font-size: 60px;
+    color: limegreen;
+    text-shadow: 2px 2px 15px limegreen;
+    position: relative;
+    margin-top: 70px;
+    font-weight: 400;
+  }
 
-/* 🦖 GODZILLA TITLE */
-.godzilla-title {
-    font-size: 3rem;
-    font-weight: bold;
-    letter-spacing: 4px;
-    color: var(--godzilla-neon-green);
-    text-shadow: 0px 0px 20px var(--godzilla-green);
-    margin-bottom: 15px;
-    text-transform: uppercase;
-    animation: tremor 1.2s infinite alternate;
-}
-
-/* 🌋 TITLE RUMBLE */
-@keyframes tremor {
-    0% { transform: translateX(-1px); }
-    100% { transform: translateX(1px); }
-}
-
-/* 📋 SCHEDULE CONTAINER */
-.godzilla-schedule {
-    width: 90%;
+  .godzilla-classes {
     display: flex;
     flex-direction: column;
-    align-items: center;
-}
+ 
 
-/* 🏙️ COMPACT CLASS BLOCKS */
-.godzilla-class {
-    background: var(--godzilla-green);
-    color: var(--godzilla-neon-green);
-    border: 2px solid var(--godzilla-steel-gray);
-    padding: 14px 20px;
-    width: 100%;
-    text-align: center;
-    font-size: 1.4rem;
-    font-weight: bold;
-    margin: 8px 0;
-    text-transform: uppercase;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0px 4px 10px var(--godzilla-neon-green);
-    opacity: 0;
-    transform: translateY(50px) scale(1.05);
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
-
-/* 💥 CLASS IMPACT */
-.impact {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    animation: shockwave 0.5s cubic-bezier(0.2, 1.6, 0.7, 1);
-}
-
-/* 🔥 CLASS DROP IMPACT */
-@keyframes shockwave {
-    0% { transform: translateY(-15px) scale(1.1); }
-    80% { transform: translateY(5px) scale(0.95); }
-    100% { transform: translateY(0) scale(1); }
-}
-
-/* 🔠 CLASS NAME */
-.class-name {
-    font-weight: bold;
-    text-shadow: 1px 1px var(--godzilla-dark);
-    font-size: 1.5rem;
-}
-
-/* ⏰ CLASS TIME */
-.class-time {
-    font-size: 1.3rem;
-    font-weight: bold;
-    color: #32CD32;
-    text-shadow: 1px 1px var(--godzilla-dark);
-}
+  
+  /* Individual Class Item */
+  .godzilla-class {
+    font-size: 24px;
+    background: rgba(1, 44, 1, 0.665);
+    padding: 10px;
+    margin: 5px auto;
+    width: 60%;
+    border: 2px solid limegreen;
+    animation: fadeIn 0.5s ease-in-out, godzilla-shake 0.3s ease-in-out 0.6s infinite alternate;
+   }
+  
+  /* Green Flicker */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Earthquake Shake Effect */
+  @keyframes godzilla-shake {
+    0% { transform: rotate(-2deg) translateX(-5px); }
+    100% { transform: rotate(2deg) translateX(5px); }
+  }
+  

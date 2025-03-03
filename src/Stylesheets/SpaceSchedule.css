@@ -1,0 +1,148 @@
+/* 🚀 Import Futuristic Font */
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap");
+
+.space-container {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(to bottom, #87CEEB 5%, #6AB7F5 40%, #FFD700 60%, #228B22 90%); 
+  /* Smooth transition from sky blue → golden horizon → deep green grass */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Orbitron", sans-serif;
+  color: white;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+  flex-direction: column;
+ }
+
+/* ☁️ Cloud Layer (Soft Blurred Clouds) */
+.space-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 10%, transparent 70%);
+  filter: blur(15px);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* 🌅 Sun Glow Effect */
+.space-container::after {
+  content: "";
+  position: absolute;
+  top: 26%;
+  left: 50%;
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(255, 223, 0, 0.6) 10%, transparent 70%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* 🌱 Realistic Grass Layer */
+.grass {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 20%;
+  background: linear-gradient(to top, #0B3D02, #228B22, rgba(0, 0, 0, 0)); 
+  /* Deep green at base, fades to transparent */
+  box-shadow: inset 0 -10px 20px rgba(0, 0, 0, 0.4); /* Adds texture */
+}
+
+/* 🌌 Background Changes to Space */
+.space-container.space-mode {
+  background: radial-gradient(circle, #000033, #000000); /* Deep space transition */
+}
+
+/* 🌍 Earth Appears When in Space */
+.earth {
+  font-size: 5rem;
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  animation: fadeIn 2s ease-in-out forwards 0.5s;
+}
+
+/* 🚀 Spaceship */
+.space-ship {
+  font-size: 6rem;
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-350%) rotate(40deg);
+ 
+  transition: transform 3.5s ease-in-out;
+}
+
+/* 🚀 Spaceship Launches */
+.space-ship-fly {
+  transform: translateX(300%) rotate(40deg);
+}
+
+/* 🎯 Schedule List (Hidden until space) */
+.space-classes {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  height:80vh
+}
+
+/* 🚀 Show schedule when in space */
+.space-container.space-mode .space-classes {
+  opacity: 1;
+}
+
+/* 🌌 Schedule Title */
+.space-title {
+  font-size: 3rem;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-shadow: 5px 5px 15px rgba(255, 255, 255, 0.8);
+  margin-bottom: 20px;
+  margin-top: 200px;
+}
+
+/* 🛰️ Schedule Entry */
+.space-class {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid #ffffff;
+  padding: 5px 40px;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  width:65%;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+/* 🌠 Class Name */
+.space-class-name {
+  font-size: 1.2rem;
+}
+
+/* ⏳ Class Time */
+.space-class-time {
+  font-size: 1.1rem;
+  font-style: italic;
+}
+
+/* ✨ Earth Fades In */
+@keyframes fadeIn {
+  0% { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}

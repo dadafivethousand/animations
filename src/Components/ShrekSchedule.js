@@ -1,28 +1,31 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/ShrekSchedule.css"; 
-import schedule from "../Schedule"; 
+import "../Stylesheets/ShrekSchedule.css"; // Custom CSS
+import schedule from "../Schedule"; // Assume schedule data exists
 
-function ShrekSchedule({ day }) {
+function ShrekSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
   const [showSchedule, setShowSchedule] = useState(false);
-  const [visibleClasses, setVisibleClasses] = useState([]);
+  const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
     setTimeout(() => {
       setShowSchedule(true);
-    }, 800);
-  }, []);
+    }, animationDelay); // Controlled start time
+  }, [animationDelay]);
 
   useEffect(() => {
     if (showSchedule) {
-      schedule[day]?.forEach((_, idx) => {
+      const classes = schedule[day] || [];
+      if (classes.length === 0) return;
+
+      classes.forEach((_, idx) => {
         setTimeout(() => {
-          setVisibleClasses((prev) => [...prev, idx]);
-        }, idx * 500);
+          setVisibleArray((prev) => [...prev, idx]); // Reveal one by one
+        }, idx * animationInterval);
       });
     }
-  }, [showSchedule, day]);
+  }, [showSchedule, day, animationInterval]);
 
-  // Convert decimal time to 12-hour format
+  // Convert decimal hours to AM/PM format
   const formatTime = (decimalTime) => {
     const hour = Math.floor(decimalTime);
     const minutes = Math.round((decimalTime - hour) * 60);
@@ -34,28 +37,27 @@ function ShrekSchedule({ day }) {
 
   return (
     <div className="shrek-container">
-      {/* 🧅 Shrek Title with Moving Ears */}
-      <h1 className={`shrek-title ${showSchedule ? "visible" : ""}`}>
-        {day} 🧅🐉
-      </h1>
+      {/* Swamp Background */}
+      <div className={`shrek-bg ${showSchedule ? "active" : ""}`}></div>
 
-      {/* 🌿 Schedule List */}
-      <div className="shrek-schedule-wrapper">
-        {schedule[day] &&
-          schedule[day].map((cls, idx) => (
-            <div
-              key={idx}
-              className={`shrek-class ${visibleClasses.includes(idx) ? "bounce-in" : ""} ${
-                cls.cancelled ? "shrek-cancelled" : ""
-              }`}
-            >
-              <div className="shrek-ears"></div> {/* Left Ear */}
-              <span className="shrek-class-text">
-                {cls.name} - {formatTime(cls.start)}
-              </span>
-              <div className="shrek-ears right"></div> {/* Right Ear */}
-            </div>
-          ))}
+      <div className="shrek-content">
+        {/* Shrek Title */}
+ 
+        {/* Always Visible Day of the Week */}
+        <h2 className="shrek-title">{day}</h2>
+
+        {showSchedule && (
+          <div className="shrek-classes">
+            {schedule[day]?.map((cls, idx) => (
+              visibleArray.includes(idx) && (
+                <div key={idx} className="shrek-class">
+                  <span className="shrek-class-name">{cls.name}</span> -{" "}
+                  <span className="shrek-class-time">{formatTime(cls.start)}</span>
+                </div>
+              )
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

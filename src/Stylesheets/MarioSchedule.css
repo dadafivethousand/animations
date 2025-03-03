@@ -1,0 +1,84 @@
+/* Full Mario-World Background */
+.mario-container {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(to top, #ff0000 10%, #4ec9ff 80%);
+    overflow: hidden;
+    color: #ffffff;
+    text-align: center;
+    font-family: "Press Start 2P", cursive; /* Classic Mario Font */
+  }
+  
+  /* Mario Animated Background */
+  .mario-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient( 
+      to right, 
+      #ff0000 0%, #ff4500 20%, #4ec9ff 100%
+    );
+    animation: marioSlide 10s linear infinite;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+  }
+  
+  /* Background Scrolling Effect */
+  @keyframes marioSlide {
+    from { transform: translateX(0); }
+    to { transform: translateX(-100%); }
+  }
+  
+  /* Day of the Week */
+  .mario-title {
+    font-size: 50px;
+    color: #ffcc00;
+    text-shadow: 4px 4px 0px #ff0000, -4px -4px 0px #ff4500;
+    position: relative;
+    margin-top: 20px;
+    letter-spacing: 3px;
+    display: inline-block;
+    padding: 10px 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    animation: bounceIn 0.5s ease-out;
+  }
+  
+  /* Individual Class Item */
+  .mario-class {
+    font-size: 26px;
+    background: linear-gradient(to right, #ff4500, #ff0000);
+    padding: 16px;
+    margin: 14px auto;
+    width: 60%;
+    border: 5px solid #ffcc00;
+    position: relative;
+    animation: jumpIn 0.6s ease-out forwards, marioGlow 1.5s infinite alternate;
+    cursor: default;
+    transition: transform 0.3s ease-in-out;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px #ffcc00;
+    font-weight: bold;
+  }
+  
+  /* Block Jump Animation - Like Mario Jumping */
+  @keyframes jumpIn {
+    0% { opacity: 0; transform: translateY(100px) scale(0.9); }
+    50% { opacity: 0.7; transform: translateY(-10px) scale(1.1); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  
+  /* Mario Glow Effect */
+  @keyframes marioGlow {
+    0% { box-shadow: 0px 0px 10px #ffcc00, 0px 0px 20px #ffd700; }
+    100% { box-shadow: 0px 0px 15px #ffcc00, 0px 0px 25px #ffd700; }
+  }
+  
+  /* Bounce-In Title Animation */
+  @keyframes bounceIn {
+    0% { opacity: 0; transform: scale(0.3); }
+    50% { opacity: 1; transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+  

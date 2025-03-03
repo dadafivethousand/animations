@@ -1,0 +1,79 @@
+/* Overall Warcraft Container */
+.warcraft-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: #0b0a09;
+  overflow: hidden;
+  color: #e0c785;
+  text-align: center;
+  font-family: "Cinzel", serif;
+}
+
+/* Background - Ancient Stone with Magic Energy */
+.warcraft-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url("https://www.textures.com/system/gallery/photos/Stones/Grunge/68191/StonesGrunge0172_1_350.jpg") center/cover;
+  filter: brightness(50%) contrast(1.2);
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+}
+
+.warcraft-bg.active {
+  opacity: 1;
+}
+
+/* Day of the Week - Looks Like a Royal Banner */
+.warcraft-title {
+  font-size: 50px;
+  color: #e0c785;
+  text-shadow: 3px 3px 15px #a67c00, 0px 0px 30px #402000;
+  background: linear-gradient(to right, #6b4a1a, #8d682b);
+  padding: 10px 20px;
+  display: inline-block;
+  border: 3px solid #d4af37;
+  border-radius: 8px;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+/* Individual Class Entry */
+.warcraft-class {
+  font-size: 26px;
+  background: url("https://www.textures.com/system/gallery/photos/Metal/Old/68191/MetalOld0172_1_350.jpg");
+  background-size: cover;
+  padding: 14px;
+  margin: 12px auto;
+  width: 55%;
+  border: 4px solid #d4af37;
+  position: relative;
+  animation: summonScroll 0.7s ease-out forwards, glowingEffect 1s infinite alternate;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px #d4af37;
+  font-weight: bold;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+}
+
+/* Summoning Animation */
+@keyframes summonScroll {
+  0% { opacity: 0; transform: scale(0.8) rotateX(90deg); text-shadow: none; }
+  50% { opacity: 0.5; transform: scale(1.1) rotateX(10deg); text-shadow: 0px 0px 10px #a67c00; }
+  100% { opacity: 1; transform: scale(1) rotateX(0deg); text-shadow: 0px 0px 15px #ffcc00; }
+}
+
+/* Glowing Hover Effect */
+.warcraft-class:hover {
+  transform: scale(1.05);
+  background: linear-gradient(145deg, #503d2e, #765a42);
+  box-shadow: 0px 0px 25px #ffcc00, 0px 0px 35px #d4af37;
+  animation: enchantGlow 0.5s forwards;
+}
+
+@keyframes enchantGlow {
+  0% { opacity: 1; transform: scale(1.1) rotate(1deg); }
+  100% { opacity: 1; transform: scale(1) rotate(-1deg); }
+}

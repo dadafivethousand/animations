@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/BuzzSchedule.css"; // Updated CSS filename
-import schedule from "../Schedule"; // Assume schedule data exists
+import "../Stylesheets/MarioSchedule.css";
+import schedule from "../Schedule"; // Assuming schedule data exists
 
-function BuzzSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
+function MarioSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
     setTimeout(() => {
       setShowSchedule(true);
-    }, animationDelay); // Controlled start time
+    }, animationDelay);
   }, [animationDelay]);
 
   useEffect(() => {
@@ -19,13 +19,12 @@ function BuzzSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
 
       classes.forEach((_, idx) => {
         setTimeout(() => {
-          setVisibleArray((prev) => [...prev, idx]); // Reveal one by one
+          setVisibleArray((prev) => [...prev, idx]); // Reveal schedule items one by one
         }, idx * animationInterval);
       });
     }
   }, [showSchedule, day, animationInterval]);
 
-  // Convert decimal hours to AM/PM format
   const formatTime = (decimalTime) => {
     const hour = Math.floor(decimalTime);
     const minutes = Math.round((decimalTime - hour) * 60);
@@ -36,21 +35,19 @@ function BuzzSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
   };
 
   return (
-    <div className="buzz-container">
-      {/* Space Background */}
-      <div className={`buzz-bg ${showSchedule ? "active" : ""}`}></div>
+    <div className="mario-container">
+      <div className={`mario-bg ${showSchedule ? "active" : ""}`}></div>
 
-      <div className="buzz-content">
-        {/* Always Visible Day of the Week */}
-        <h2 className="buzz-title">{day}</h2>
+      <div className="mario-content">
+        <h2 className="mario-title">{day}</h2>
 
         {showSchedule && (
-          <div className="buzz-classes">
+          <div className="mario-classes">
             {schedule[day]?.map((cls, idx) => (
               visibleArray.includes(idx) && (
-                <div key={idx} className="buzz-class">
-                  <span className="buzz-class-name">{cls.name}</span> -{" "}
-                  <span className="buzz-class-time">{formatTime(cls.start)}</span>
+                <div key={idx} className="mario-class">
+                  <span className="mario-class-name">{cls.name}</span> sdf-{" "}
+                  <span className="mario-class-time">{formatTime(cls.start)}</span>
                 </div>
               )
             ))}
@@ -61,4 +58,4 @@ function BuzzSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
   );
 }
 
-export default BuzzSchedule;
+export default MarioSchedule;

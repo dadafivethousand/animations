@@ -1,18 +1,31 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/MapleKombatSchedule.css"; 
-import schedule from "../Schedule"; 
+import "../Stylesheets/MapleKombatSchedule.css"; // Updated CSS file
+import schedule from "../Schedule"; // Assume schedule data exists
 
-function MapleKombatSchedule({ day }) {
-  const [visibleClasses, setVisibleClasses] = useState([]);
+function MapleKombatSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
+  const [showSchedule, setShowSchedule] = useState(false);
+  const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
-    schedule[day]?.forEach((_, idx) => {
-      setTimeout(() => {
-        setVisibleClasses((prev) => [...prev, idx]);
-      }, idx * 200);
-    });
-  }, [day]);
+    setTimeout(() => {
+      setShowSchedule(true);
+    }, animationDelay); // Controlled start time
+  }, [animationDelay]);
 
+  useEffect(() => {
+    if (showSchedule) {
+      const classes = schedule[day] || [];
+      if (classes.length === 0) return;
+
+      classes.forEach((_, idx) => {
+        setTimeout(() => {
+          setVisibleArray((prev) => [...prev, idx]); // Reveal one by one
+        }, idx * animationInterval);
+      });
+    }
+  }, [showSchedule, day, animationInterval]);
+
+  // Convert decimal hours to AM/PM format
   const formatTime = (decimalTime) => {
     const hour = Math.floor(decimalTime);
     const minutes = Math.round((decimalTime - hour) * 60);
@@ -23,24 +36,31 @@ function MapleKombatSchedule({ day }) {
   };
 
   return (
-    <div className="kombat-container">
-      <div className="fire"></div>
-      <div className="smoke"></div>
-      <h1 className="kombat-title">MAPLE KOMBAT</h1>
-      <div className="kombat-schedule">
-        {schedule[day] &&
-          schedule[day].map((cls, idx) => (
-            <div 
-              key={idx} 
-              className={`kombat-class ${visibleClasses.includes(idx) ? "slam-in" : ""}`}
-            >
-              <span>{cls.name} - {formatTime(cls.start)}</span>
-            </div>
-          ))}
+    <div className="maple-kombat-container">
+      {/* Background Animation */}
+      <div className={`maple-kombat-bg ${showSchedule ? "active" : ""}`}></div>
+
+      <div className="maple-kombat-content">
+        {/* Maple Kombat Logo */}
+ 
+        {/* Always Visible Day of the Week */}
+        <h2 className="maple-kombat-title">{day}</h2>
+
+        {showSchedule && (
+          <div className="maple-kombat-classes">
+            {schedule[day]?.map((cls, idx) => (
+              visibleArray.includes(idx) && (
+                <div key={idx} className="maple-kombat-class">
+                  <span className="maple-kombat-class-name">{cls.name}</span> -{" "}
+                  <span className="maple-kombat-class-time">{formatTime(cls.start)}</span>
+                </div>
+              )
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
 export default MapleKombatSchedule;
-    

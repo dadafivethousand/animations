@@ -1,111 +1,85 @@
-/* 🔥 COLOR PALETTE */
-:root {
-    --kombat-red: #8B0000;
-    --kombat-gold: #FFD700;
-    --kombat-black: #000;
-    --kombat-dark: #121212;
-    --kombat-glow: rgba(255, 0, 0, 0.8);
-}
-
-/* 🏯 MAIN CONTAINER */
-.kombat-container {
-    background: linear-gradient(180deg, var(--kombat-black) 60%, var(--kombat-dark));
-    color: var(--kombat-gold);
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+.maple-kombat-container {
     position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background-color: black;
     overflow: hidden;
-}
-
-/* 🔥 TITLE */
-.kombat-title {
-    font-size: 4rem;
-    font-weight: bold;
-    letter-spacing: 5px;
-    color: var(--kombat-gold);
-    text-shadow: 0 0 20px var(--kombat-glow), 0 0 40px var(--kombat-red);
-    margin-bottom: 30px;
-    text-transform: uppercase;
-    animation: glow-flicker 1.5s infinite alternate;
-}
-
-/* ⚡ TITLE GLOW */
-@keyframes glow-flicker {
-    0% { text-shadow: 0 0 10px var(--kombat-glow), 0 0 30px var(--kombat-red); }
-    100% { text-shadow: 0 0 20px var(--kombat-glow), 0 0 50px var(--kombat-red); }
-}
-
-/* 📋 SCHEDULE CONTAINER */
-.kombat-schedule {
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* 🔪 CLASS BLOCK */
-.kombat-class {
-    background: rgba(139, 0, 0, 0.85);
-    color: var(--kombat-gold);
-    border: 3px solid var(--kombat-red);
-    padding: 15px 25px;
-    width: 80%;
+    color: red;
     text-align: center;
-    font-size: 1.5rem;
-    margin: 10px 0;
+    font-family: "Impact", sans-serif;
+  }
+  
+  /* Fiery Background */
+  .maple-kombat-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 0, 0, 0.5) 0%, rgba(0, 0, 0, 1) 90%);
     opacity: 0;
-    transform: translateY(40px) scale(1.1);
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-    box-shadow: 0 0 10px var(--kombat-red);
-}
-
-/* ⚡ SLAM-IN ANIMATION */
-.slam-in {
+    transition: opacity 2s ease-in-out;
+  }
+  
+  .maple-kombat-bg.active {
     opacity: 1;
-    transform: translateY(0) scale(1);
-    animation: slam 0.4s cubic-bezier(0.2, 1.4, 0.8, 1);
-}
-
-/* 🔨 IMPACT EFFECT */
-@keyframes slam {
-    0% { transform: translateY(-20px) scale(1.2); }
-    80% { transform: translateY(5px) scale(0.95); }
-    100% { transform: translateY(0) scale(1); }
-}
-
-/* 🔥 FIRE EFFECT */
-.fire {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 30%;
-    background: linear-gradient(to top, var(--kombat-red), transparent);
-    opacity: 0.8;
-    animation: fire-flicker 1.5s infinite alternate ease-in-out;
-}
-
-@keyframes fire-flicker {
-    0% { opacity: 0.7; transform: scaleY(1); }
-    100% { opacity: 1; transform: scaleY(1.1); }
-}
-
-/* 🌫️ SMOKE EFFECT */
-.smoke {
-    position: absolute;
-    bottom: 10%;
-    width: 100%;
-    height: 20%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 20%, transparent 80%);
-    opacity: 0.3;
-    animation: smoke-rise 5s infinite linear;
-}
-
-@keyframes smoke-rise {
-    0% { transform: translateY(0); opacity: 0.2; }
-    100% { transform: translateY(-50px); opacity: 0.5; }
-}
+  }
+  
+  /* Maple Kombat Title - Glowing Fire Effect */
+  .maple-kombat-logo {
+    font-size: 50px;
+    color: red;
+    text-shadow: 4px 4px 20px red, 0px 0px 25px yellow;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    margin-top: 20px;
+  }
+  
+  /* Day of the Week - Always Visible */
+  .maple-kombat-title {
+    font-size: 70px;
+    color: red;
+    text-shadow: 3px 3px 15px red;
+    position: relative;
+    margin-top: 50px;
+    letter-spacing: 3px;
+    font-weight: 400;
+  }
+  
+  /* Individual Class Item */
+  .maple-kombat-class {
+    font-size: 24px;
+    background: rgba(255, 0, 0, 0.2);
+    padding: 12px;
+    margin: 8px auto;
+    width: 60%;
+    border: 3px solid red;
+    opacity: 0; /* Start hidden */
+    position: relative;
+    animation: smokeReveal 0.8s ease-in-out forwards, fireGlow 1s infinite alternate;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  /* Smoke Reveal Effect */
+  @keyframes smokeReveal {
+    0% { opacity: 0; transform: translateY(20px) scale(0.95); filter: blur(5px); }
+    100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  }
+  
+  /* Fire Glow Effect */
+  @keyframes fireGlow {
+    0% { box-shadow: 0px 0px 8px red, 0px 0px 15px orange; }
+    100% { box-shadow: 0px 0px 12px darkred, 0px 0px 20px yellow; }
+  }
+  
+  /* Fire Sparks on Hover */
+  .maple-kombat-class:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 0px 15px red, 0px 0px 25px yellow;
+    animation: fireBurst 0.3s forwards;
+  }
+  
+  @keyframes fireBurst {
+    0% { opacity: 1; transform: scale(1.1); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  

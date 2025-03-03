@@ -102,6 +102,7 @@
     justify-content: center;
 }
 
+ 
 /* 🔥 Firefighter Log Entries */
 .fire-class {
     background: rgba(255, 69, 0, 0.3);
@@ -170,11 +171,27 @@ transition: transform 5s ease-in-out;
     display: flex;
     justify-content: flex-start;
     width: 100%;
+    position: relative;
+   font-size: 70px;
 }
 
-.fire-and-truck{
-    font-size: 70px;
+.fire-water{
+    position: absolute;
+    font-size: 40px;
+     left:20px;
+     opacity: 0;
 }
+
+.fire-water-pour{
+    animation: Pour 1s ease-out infinite;
+}
+
+@keyframes Pour {
+    0% { opacity: 0.6; transform: translateY(-30px); }
+    50% { opacity: 1; transform: translateY(15px) }
+    100% { opacity: 0; transform: translateY(30px) }
+}
+
 
 .fire{
     opacity: 0;
@@ -185,3 +202,137 @@ transition: transform 5s ease-in-out;
     opacity:1
 }
 
+
+.return-truck{
+    transition: transform .2s ease-in-out;
+
+    transform: scaleX(-1);
+}
+
+.hide-fire{
+animation: HideFire 2s linear;
+}
+
+@keyframes HideFire {
+    0% { opacity: 0;   }
+    25% { opacity: 1;  }
+    50% { opacity: 0;  }
+    75% { opacity: 1;  }
+    100% { opacity: 0; }
+}
+
+.fire-done{
+    opacity: 0
+}
+
+.fire-drive-off{
+    position:relative;
+    animation: forwards moveSmoothly 5s;
+
+}
+
+
+@keyframes moveSmoothly {
+    0% { left: 0px; }
+    1% { left: 3px; }
+    2% { left: 6px; }
+    3% { left: 9px; }
+    4% { left: 12px; }
+    5% { left: 15px; }
+    6% { left: 18px; }
+    7% { left: 21px; }
+    8% { left: 24px; }
+    9% { left: 27px; }
+    10% { left: 30px; }
+    11% { left: 33px; }
+    12% { left: 36px; }
+    13% { left: 39px; }
+    14% { left: 42px; }
+    15% { left: 45px; }
+    16% { left: 48px; }
+    17% { left: 51px; }
+    18% { left: 54px; }
+    19% { left: 57px; }
+    20% { left: 60px; }
+    21% { left: 63px; }
+    22% { left: 66px; }
+    23% { left: 69px; }
+    24% { left: 72px; }
+    25% { left: 75px; }
+    26% { left: 78px; }
+    27% { left: 81px; }
+    28% { left: 84px; }
+    29% { left: 87px; }
+    30% { left: 90px; }
+    31% { left: 93px; }
+    32% { left: 96px; }
+    33% { left: 99px; }
+    34% { left: 102px; }
+    35% { left: 105px; }
+    36% { left: 108px; }
+    37% { left: 111px; }
+    38% { left: 114px; }
+    39% { left: 117px; }
+    40% { left: 120px; }
+    41% { left: 123px; }
+    42% { left: 126px; }
+    43% { left: 129px; }
+    44% { left: 132px; }
+    45% { left: 135px; }
+    46% { left: 138px; }
+    47% { left: 141px; }
+    48% { left: 144px; }
+    49% { left: 147px; }
+    50% { left: 150px; }
+    51% { left: 153px; }
+    52% { left: 156px; }
+    53% { left: 159px; }
+    54% { left: 162px; }
+    55% { left: 165px; }
+    56% { left: 168px; }
+    57% { left: 171px; }
+    58% { left: 174px; }
+    59% { left: 177px; }
+    60% { left: 180px; }
+    61% { left: 183px; }
+    62% { left: 186px; }
+    63% { left: 189px; }
+    64% { left: 192px; }
+    65% { left: 195px; }
+    66% { left: 198px; }
+    67% { left: 201px; }
+    68% { left: 204px; }
+    69% { left: 207px; }
+    70% { left: 210px; }
+    71% { left: 213px; }
+    72% { left: 216px; }
+    73% { left: 219px; }
+    74% { left: 222px; }
+    75% { left: 225px; }
+    76% { left: 228px; }
+    77% { left: 231px; }
+    78% { left: 234px; }
+    79% { left: 237px; }
+    80% { left: 240px; }
+    81% { left: 243px; }
+    82% { left: 246px; }
+    83% { left: 249px; }
+    84% { left: 252px; }
+    85% { left: 255px; }
+    86% { left: 258px; }
+    87% { left: 261px; }
+    88% { left: 264px; }
+    89% { left: 267px; }
+    90% { left: 270px; }
+    91% { left: 273px; }
+    92% { left: 276px; }
+    93% { left: 279px; }
+    94% { left: 282px; }
+    95% { left: 285px; }
+    96% { left: 288px; }
+    97% { left: 291px; }
+    98% { left: 294px; }
+    99% { left: 297px; }
+    100% { left: 300px; } /* Perfectly reaches 300px */
+  }
+  

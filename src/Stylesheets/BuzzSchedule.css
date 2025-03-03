@@ -1,147 +1,77 @@
-/* 🚀 Space Ranger Theme */
-:root {
-    --buzz-purple: #3F1FD3;
-    --buzz-green: #00FF77;
-    --buzz-white: #FFFFFF;
-    --buzz-red: #FF3131;
-    --space-black: #000016;
-    --neon-glow: rgba(0, 255, 255, 0.7);
-}
-
-/* 🌌 3D Animated Starfield Background */
 .buzz-container {
-    background: var(--space-black);
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
     position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background-color: black;
+    overflow: hidden;
+    color: #fff; /* Futuristic white text */
     text-align: center;
-    font-family: "Orbitron", sans-serif;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-/* 🛸 Moving Stars */
-.buzz-stars {
+    font-family: "Orbitron", sans-serif; /* Space-style font */
+  }
+  
+  /* Space Background */
+  .buzz-bg {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: url('https://i.imgur.com/4lDNRfS.gif') repeat;
-    background-size: cover;
-    opacity: 0.3;
-    animation: starsDrift 50s linear infinite;
-}
-
-/* 🚀 Hyperspace Effect */
-@keyframes starsDrift {
-    from { transform: translateY(0); }
-    to { transform: translateY(-100vh); }
-}
-
-/* 🚀 Buzz Lightyear Title - Floating in Zero-G */
-.buzz-title {
-    font-size: 4.5rem;
-    font-weight: bold;
-    color: var(--buzz-white);
-    text-shadow: 0 0 20px var(--buzz-green), 0 0 40px var(--buzz-purple);
-    text-transform: uppercase;
+    background: radial-gradient(circle, rgba(0, 0, 50, 0.9) 20%, black 90%);
     opacity: 0;
-    transform: translateY(-20px);
-    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
-    animation: floatingTitle 2s infinite alternate ease-in-out;
-}
-
-/* 🌠 Floating Effect */
-@keyframes floatingTitle {
-    0% { transform: translateY(-10px); }
-    100% { transform: translateY(10px); }
-}
-
-.buzz-title.visible {
+    transition: opacity 2s ease-in-out;
+  }
+  
+  .buzz-bg.active {
     opacity: 1;
-    transform: translateY(0);
-}
-
-/* 🌠 Futuristic Glassmorphism Schedule */
-.buzz-schedule-wrapper {
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(10px);
-}
-
-/* 🚀 Holographic Schedule Entries */
-.buzz-class {
-    background: rgba(63, 31, 211, 0.2);
-    padding: 20px;
-    margin: 12px auto;
-    width: 90%;
-    max-width: 450px;
-    border-radius: 15px;
-    font-size: 1.5rem;
-    text-align: center;
-    color: var(--buzz-green);
-    font-weight: bold;
-    border: 3px solid var(--buzz-white);
-    box-shadow: 0px 0px 20px var(--buzz-purple);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+  }
+  
+  /* Day of the Week - Always Visible */
+  .buzz-title {
+    font-size: 42px;
+    color: #39ff14; /* Buzz Lightyear neon green */
+    text-shadow: 3px 3px 10px #39ff14, 0px 0px 15px #7fff00;
     position: relative;
-    transition: transform 0.4s ease-out, opacity 0.4s ease-out;
-    animation: hologramFlicker 3s infinite alternate ease-in-out;
-}
-
-/* 🟢 Holographic Flicker Effect */
-@keyframes hologramFlicker {
-    0% { box-shadow: 0px 0px 15px var(--buzz-green); }
-    100% { box-shadow: 0px 0px 25px var(--buzz-purple); }
-}
-
-/* 🦾 Buzz Lightyear Wings (Dynamic Movement) */
-.buzz-wings {
-    position: absolute;
-    top: -10px;
-    width: 40px;
-    height: 10px;
-    background: var(--buzz-red);
-    border-radius: 5px;
-    border: 2px solid var(--buzz-white);
-    animation: wingFlap 2s infinite alternate ease-in-out;
-}
-
-/* 🦾 Wing Flapping Effect */
-@keyframes wingFlap {
-    0% { transform: rotate(-10deg); }
-    100% { transform: rotate(10deg); }
-}
-
-/* Left Wing */
-.buzz-wings.left {
-    left: -10px;
-}
-
-/* Right Wing */
-.buzz-wings.right {
-    right: -10px;
-}
-
-/* 🛑 Cancelled Classes Flicker Like a Failing Dashboard */
-.buzz-cancelled {
-    background: rgba(255, 0, 0, 0.9);
-    color: var(--buzz-white);
-    text-decoration: line-through;
-    border: 5px solid var(--buzz-red);
-    animation: controlError 1s infinite alternate ease-in-out;
-}
-
-/* 🚨 Flickering Red Alert */
-@keyframes controlError {
-    0% { opacity: 0.5; transform: scale(1.05); }
-    100% { opacity: 1; transform: scale(1); }
-}
+    margin-top: 10px;
+    letter-spacing: 3px;
+  }
+  
+  /* Individual Class Item */
+  .buzz-class {
+    font-size: 24px;
+    background: rgba(0, 255, 0, 0.2); /* Laser Green */
+    padding: 12px;
+    margin: 12px auto;
+    width: 50%;
+    border: 2px solid #00ff00; /* Buzz green */
+    position: relative;
+    animation: warpIn 0.7s ease-out forwards, glow 1s infinite alternate;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px #7fff00;
+  }
+  
+  /* Space Warp-In Animation */
+  @keyframes warpIn {
+    0% { opacity: 0; transform: translateY(-20px) scale(0.8); filter: blur(10px); }
+    50% { opacity: 0.5; transform: translateY(5px) scale(1.1); filter: blur(2px); }
+    100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  }
+  
+  /* Futuristic Glow Effect */
+  @keyframes glow {
+    0% { box-shadow: 0px 0px 8px #00ff00, 0px 0px 20px #7fff00; }
+    100% { box-shadow: 0px 0px 12px #00ff00, 0px 0px 25px #7fff00; }
+  }
+  
+  /* Laser Scan Effect on Hover */
+  .buzz-class:hover {
+    transform: scale(1.05);
+    background: rgba(0, 255, 0, 0.3);
+    box-shadow: 0px 0px 20px #39ff14, 0px 0px 30px #7fff00;
+    animation: laserScan 0.4s forwards;
+  }
+  
+  @keyframes laserScan {
+    0% { opacity: 1; transform: scale(1.1) rotate(1deg); }
+    100% { opacity: 1; transform: scale(1) rotate(-1deg); }
+  }
+  

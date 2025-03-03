@@ -5,12 +5,49 @@ import schedule from "../Schedule";
 function FiremanSchedule({ day }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [visibleClasses, setVisibleClasses] = useState([]);
+  const [pourWater, setPourWater] = useState(false);
+  const [returnTruck, setReturnTruck] = useState(false);
+  const [hideFire, setHideFire] = useState(false)
+  const [hideFireFull, setHideFireFull] = useState(false)
+  const [leaveScene, setLeaveScene] = useState(false)
 
   useEffect(() => {
     setTimeout(() => {
       setShowSchedule(true);
-    }, 800);
+    }, 1500);
   }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setPourWater(true);
+    }, 6000);
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setPourWater(false);
+      setHideFire(true);
+    }, 10000);
+    setTimeout(() => {
+     
+      setHideFireFull(true);
+    }, 12500);
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      
+      setReturnTruck(true)
+    }, 14000);
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      
+      setLeaveScene(true)
+    }, 15000);
+  }, []);
+
 
   useEffect(() => {
     if (showSchedule) {
@@ -43,7 +80,15 @@ function FiremanSchedule({ day }) {
       <h1 className={`fire-title ${showSchedule ? "fire-visible" : ""}`}>
         {day}
     </h1>
-        <div className="fire-and-truck"> <div className=""> <div className="fire-water">💧</div>  <div className={`fire ${showSchedule ? 'show-fire': ''}`}> </div> 🔥</div>  <div className={`firetruck ${showSchedule ? 'fire-drive': ''}`}>🚒</div> </div>
+
+
+        <div className="fire-and-truck"> 
+          <div className="fire-and-water"> 
+            <div className={`fire-water ${pourWater? 'fire-water-pour': ''}`}>💧</div> 
+            <div className={`fire ${hideFireFull? 'fire-done' : ''} ${hideFire ? 'hide-fire': ''} ${showSchedule ? 'show-fire': ''}`}> 🔥
+            </div> </div>  
+            <div className={`firetruck  ${leaveScene ? 'fire-drive-off': ''} ${showSchedule ? 'fire-drive': ''} ${returnTruck? 'return-truck': ''}`}>🚒</div>
+            </div>
     
 
       {/* 🔥 Schedule List */}
