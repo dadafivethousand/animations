@@ -9,13 +9,14 @@ import BuzzSchedule from "./Components/BuzzSchedule";
 import WarcraftSchedule from "./Components/WarcraftSchedule";
 import FireManSchedule from './Components/FiremanSchedule'
 import MarioSchedule from "./Components/MarioSchedule";
+import SpaceSchedule from "./Components/SpaceSchedule"
   
   
   
  function App() {
   return (
     <>
-    < GodzillaSchedule day="Tuesday"/>
+    < SpaceSchedule day="Tuesday"/>
    </>
   );
 }

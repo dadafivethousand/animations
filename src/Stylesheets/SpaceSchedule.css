@@ -65,10 +65,10 @@
   font-size: 5rem;
   position: absolute;
   bottom: 10%;
-  left: 50%;
+  left: 70%;
   transform: translateX(-50%);
   opacity: 0;
-  animation: fadeIn 2s ease-in-out forwards 0.5s;
+  animation: fadeIn 2s ease-in-out forwards 0.5s, ease-in rotateEarth 15s infinite
 }
 
 /* 🚀 Spaceship */
@@ -79,7 +79,7 @@
   left: 50%;
   transform: translateX(-350%) rotate(40deg);
  
-  transition: transform 3.5s ease-in-out;
+  transition: transform 6s ease-in-out;
 }
 
 /* 🚀 Spaceship Launches */
@@ -125,7 +125,7 @@
   font-size: 1rem;
   font-weight: bold;
   text-transform: uppercase;
-  width:65%;
+  width:75%;
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
 }
@@ -145,4 +145,8 @@
 @keyframes fadeIn {
   0% { opacity: 0; transform: scale(0.8); }
   100% { opacity: 1; transform: scale(1); }
+}
+@keyframes rotateEarth {
+  0% {   transform: rotate(0); }
+  100% {   transform: rotate(360deg); }
 }
