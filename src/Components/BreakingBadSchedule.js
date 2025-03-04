@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/MarioSchedule.css";
+import "../Stylesheets/BreakingBadSchedule.css";
 import schedule from "../Schedule"; // Assuming schedule data exists
 
-function MarioSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
+function BreakingBadSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [visibleArray, setVisibleArray] = useState([]);
 
@@ -35,22 +35,21 @@ function MarioSchedule({ day, animationDelay = 1000, animationInterval = 500 }) 
   };
 
   return (
-    <div className="mario-container">
-      <div className={`mario-bg ${showSchedule ? "active" : ""}`}></div>
+    <div className="bb-container">
+      <div className={`bb-bg ${showSchedule ? "active" : ""}`}></div>
 
-      <div className="mario-content">
-        <h2 className="mario-title">
-          <span className="mario-symbol">{day.slice(0, 2)}</span>
-          <span className="mario-rest">{day.slice(2)}</span>
+      <div className="bb-content">
+        <h2 className="bb-title">
+          <span className="bb-symbol">{day.slice(0, 2)}</span>
+          <span className="bb-rest">{day.slice(2)}</span>
         </h2>
 
         {showSchedule && (
-          <div className="mario-classes">
+          <div className="bb-classes">
             {schedule[day]?.map((cls, idx) => (
               visibleArray.includes(idx) && (
-                <div key={idx} className="mario-class">
-                  <span className="mario-class-name">{cls.name}</span> -{" "}
-                  <span className="mario-class-time">{formatTime(cls.start)}</span>
+                <div key={idx} className="bb-class">
+                  <span className="bb-class-name">{cls.name}</span> <span className="bb-class-time">{formatTime(cls.start)}</span>
                 </div>
               )
             ))}
@@ -61,4 +60,4 @@ function MarioSchedule({ day, animationDelay = 1000, animationInterval = 500 }) 
   );
 }
 
-export default MarioSchedule;
+export default BreakingBadSchedule;

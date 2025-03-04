@@ -1,0 +1,137 @@
+/* Full Breaking Bad Aesthetic */
+.bb-container {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background: #0d0d0d;
+    overflow: hidden;
+    color: #ffffff;
+    font-family: "Breaking Bad", sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+  /* Background - Subtle Green Smoke */
+  .bb-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(0, 150, 0, 0.15), rgba(0, 0, 0, 0.9));
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+  }
+  
+  .bb-bg.active {
+    opacity: 1;
+  }
+  
+  /* Breaking Bad Periodic Table Effect for Day of the Week */
+  .bb-title {
+    font-size: 50px;
+    text-transform: uppercase;
+    color: #ffffff;
+    position: relative;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    letter-spacing: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    animation: fadeIn 1.5s ease-out;
+  }
+  
+  /* Periodic Table Style - First Two Letters */
+  .bb-symbol {
+    font-size: 55px;
+    background: rgba(0, 150, 0, 0.7);
+    padding: 5px 10px;
+    border: 2px solid #ffffff;
+    text-shadow: none;
+  }
+  
+  /* Rest of the Weekday */
+  .bb-rest {
+    font-size: 50px;
+    color: #ffffff;
+    opacity: 0.8;
+  }
+  
+  /* Class List Container */
+  .bb-classes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  
+  /* 🔥 NEW CLASS STYLING - No More Copy/Paste Green Boxes */
+  .bb-class {
+    font-size: 26px;
+    background: linear-gradient(135deg, rgba(0, 50, 0, 0.9), rgba(0, 100, 0, 0.7));
+    padding: 16px;
+    margin: 5px auto;
+    width: 55%;
+    border: 2px solid #ffffff;
+    position: relative;
+    text-align: center;
+    border-radius: 6px;
+    box-shadow: 0px 0px 10px rgba(0, 255, 0, 0.2);
+    opacity: 0; /* Starts invisible */
+    animation: dissolveIn 1s ease-out forwards;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* NEW: Acidic Burn Edges Effect */
+  .bb-class::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent 80%);
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+  
+  /* 🔥 TEXT STYLING FOR CLASSES */
+  .bb-class-name {
+    font-size: 22px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #ffffff;
+    text-shadow: 2px 2px 3px rgba(0, 255, 0, 0.5);
+  }
+  
+  /* 🔥 TIME STYLING - More Subtle */
+  .bb-class-time {
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 4px;
+    font-style: italic;
+  }
+  
+  /* 🔥 NEW DISSOLVE-IN ANIMATION */
+  @keyframes dissolveIn {
+    0% { opacity: 0; transform: scale(0.9); }
+    50% { opacity: 0.6; filter: blur(2px); }
+    100% { opacity: 1; transform: scale(1); filter: blur(0px); }
+  }
+  
+  /* 🔥 NEW CLASS ENTRY STYLE - Chemical Reaction Effect */
+  .bb-class:nth-child( ) {
+    background: linear-gradient(135deg, rgba(0, 30, 0, 0.9), rgba(0, 70, 0, 0.7));
+  }
+  
+  .bb-class:nth-child( ) {
+    background: linear-gradient(135deg, rgba(10, 50, 10, 0.9), rgba(50, 120, 50, 0.7));
+  }
+  
