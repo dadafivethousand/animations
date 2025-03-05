@@ -11,13 +11,14 @@ import FireManSchedule from './Components/FiremanSchedule'
 import MarioSchedule from "./Components/MarioSchedule";
 import SpaceSchedule from "./Components/SpaceSchedule"
 import BreakingBadSchedule from "./Components/BreakingBadSchedule";
+import BoxingSchedule from "./Components/BoxingSchedule"
   
   
   
  function App() {
   return (
     <>
-    < GodzillaSchedule day="Wednesday"/>
+    < BoxingSchedule day="Thursday"/>
    </>
   );
 }

@@ -1,65 +1,66 @@
 .godzilla-container {
-    position: relative;
-    width: 100%;
-    min-height: 100vh;
-    background-color: black;
-    overflow: hidden;
-    color: limegreen;
-    text-align: center;
-    font-family: "Impact", sans-serif;
-  }
-  
-  /* Radioactive Green Background */
-  .godzilla-bg {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, rgba(0, 255, 0, 0.7) 0%, rgba(0, 0, 0, 1) 80%);
-    opacity: 0;
-    transition: opacity 2s ease-in-out;
-  }
-  
-  .godzilla-bg.active {
-    opacity: 1;
-  }
-  
-  /* Day of the Week - Always Visible */
-  .godzilla-title {
-    font-size: 60px;
-    color: limegreen;
-    text-shadow: 2px 2px 15px limegreen;
-    position: relative;
-    margin-top: 70px;
-    font-weight: 600;
-  }
-
-  .godzilla-classes {
-    display: flex;
-    flex-direction: column;
- 
-
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: black;
+  overflow: hidden;
+  color: #33ff00; /* More neon radioactive green */
+  text-align: center;
+  font-family: "Impact", sans-serif;
 }
-  
-  /* Individual Class Item */
-  .godzilla-class {
-    font-size: 24px;
-    background: rgba(1, 44, 1, 0.665);
-    padding: 10px;
-    margin: 5px auto;
-    width: 65%;
-    border: 2px solid limegreen;
-    animation: fadeIn 0.5s ease-in-out, godzilla-shake 0.3s ease-in-out 0.6s infinite alternate;
-   }
-  
-  /* Green Flicker */
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  /* Earthquake Shake Effect */
-  @keyframes godzilla-shake {
-    0% { transform: rotate(-2deg) translateX(-5px); }
-    100% { transform: rotate(2deg) translateX(5px); }
-  }
-  
+
+/* Radioactive Fallout Background */
+.godzilla-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(51, 255, 0, 0.8) 0%, rgba(0, 0, 0, 1) 85%);
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+}
+
+.godzilla-bg.active {
+  opacity: 1;
+}
+
+/* Godzilla Title - More Destruction Vibes */
+.godzilla-title {
+  font-size: 60px;
+  color: #33ff00; /* Stronger neon green */
+  text-shadow: 4px 4px 20px #33ff00, 0 0 30px #ff0000; /* Dual glow effect: green & red */
+  position: relative;
+  margin-top: 70px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Class List */
+.godzilla-classes {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Individual Class Item - Nuclear Glow */
+.godzilla-class {
+  font-size: 24px;
+  background: rgba(10, 60, 10, 0.8); /* Darker, deeper green */
+  padding: 12px;
+  margin: 5px auto;
+  width: 65%;
+  border: 3px solid #33ff00;
+  box-shadow: 0px 0px 15px #33ff00;
+  animation: fadeIn 0.5s ease-in-out, godzilla-stomp 0.5s ease-in-out 0.8s infinite alternate;
+}
+
+/* Green Flicker */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Heavy Godzilla Stomp Effect */
+@keyframes godzilla-stomp {
+  0% { transform: rotate(-3deg) translateX(-8px) scale(1.02); }
+  100% { transform: rotate(3deg) translateX(8px) scale(1.05); }
+}

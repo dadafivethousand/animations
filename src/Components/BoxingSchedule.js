@@ -14,6 +14,7 @@ function BoxingSchedule({ day }) {
     return `${hour12}:${paddedMinutes} ${amPm}`;
   };
   useEffect(() => {
+    setTimeout(() => {
     if (schedule[day]?.length) {
       schedule[day].forEach((_, idx) => {
         setTimeout(() => {
@@ -26,7 +27,7 @@ function BoxingSchedule({ day }) {
           }, 500); // Delay for impact effect
         }, idx * 1500); // Adjust delay per punch
       });
-    }
+    } }, 2000 )
   }, [day]);
 
   return (
@@ -39,7 +40,7 @@ function BoxingSchedule({ day }) {
           <div
             className="boxing-glove"
             style={{
-              top: `${currentPunch * 100 + 150}px`,
+              top: `${currentPunch * 100 + 130}px`,
               animation: "punchIn 0.6s ease-in-out forwards, punchOut 0.6s ease-in-out 0.8s forwards"
             }}
           >
