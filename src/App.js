@@ -12,13 +12,14 @@ import MarioSchedule from "./Components/MarioSchedule";
 import SpaceSchedule from "./Components/SpaceSchedule"
 import BreakingBadSchedule from "./Components/BreakingBadSchedule";
 import BoxingSchedule from "./Components/BoxingSchedule"
-  
+import EightMileSchedule from "./Components/8MileSchedule";
+   
   
   
  function App() {
   return (
     <>
-    < BoxingSchedule day="Thursday"/>
+    < EightMileSchedule day="Friday"/>
    </>
   );
 }
