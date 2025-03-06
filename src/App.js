@@ -19,7 +19,7 @@ import EightMileSchedule from "./Components/8MileSchedule";
  function App() {
   return (
     <>
-    < EightMileSchedule day="Friday"/>
+    < BreakingBadSchedule day="Friday"/>
    </>
   );
 }

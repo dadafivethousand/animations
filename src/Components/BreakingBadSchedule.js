@@ -5,6 +5,7 @@ import schedule from "../Schedule"; // Assuming schedule data exists
 function BreakingBadSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [visibleArray, setVisibleArray] = useState([]);
+  const sched = 'Schedule'
 
   useEffect(() => {
     setTimeout(() => {
@@ -39,10 +40,14 @@ function BreakingBadSchedule({ day, animationDelay = 1000, animationInterval = 5
       <div className={`bb-bg ${showSchedule ? "active" : ""}`}></div>
 
       <div className="bb-content">
-        <h2 className="bb-title">
+        <h2 className="bb-title unindent">
           <span className="bb-symbol">{day.slice(0, 2)}</span>
-          <span className="bb-rest">{day.slice(2)}</span>
-        </h2>
+          <span className="bb-rest">{day.slice(2)}</span><br></br>
+          </h2>
+          <h2 className="bb-title indent">
+          <span className="bb-symbol">{sched.slice(0, 2)}</span>
+          <span className="bb-rest">{sched.slice(2)}</span>
+          </h2>
 
         {showSchedule && (
           <div className="bb-classes">
