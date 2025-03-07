@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../Stylesheets/MarioSchedule.css";
 import schedule from "../Schedule"; // Assuming schedule data exists
 
-function MarioSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
+function MarioSchedule({ day, animationDelay = 1000, animationInterval = 1500 }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [visibleArray, setVisibleArray] = useState([]);
 
@@ -19,7 +19,7 @@ function MarioSchedule({ day, animationDelay = 1000, animationInterval = 500 }) 
 
       classes.forEach((_, idx) => {
         setTimeout(() => {
-          setVisibleArray((prev) => [...prev, idx]); // Reveal schedule items one by one
+          setVisibleArray((prev) => [...prev, idx]);
         }, idx * animationInterval);
       });
     }
@@ -36,27 +36,21 @@ function MarioSchedule({ day, animationDelay = 1000, animationInterval = 500 }) 
 
   return (
     <div className="mario-container">
-      <div className={`mario-bg ${showSchedule ? "active" : ""}`}></div>
-
-      <div className="mario-content">
-        <h2 className="mario-title">
-          <span className="mario-symbol">{day.slice(0, 2)}</span>
-          <span className="mario-rest">{day.slice(2)}</span>
-        </h2>
-
-        {showSchedule && (
-          <div className="mario-classes">
-            {schedule[day]?.map((cls, idx) => (
-              visibleArray.includes(idx) && (
-                <div key={idx} className="mario-class">
-                  <span className="mario-class-name">{cls.name}</span> -{" "}
-                  <span className="mario-class-time">{formatTime(cls.start)}</span>
-                </div>
-              )
-            ))}
-          </div>
-        )}
+      {/* Schedule Content */}
+      <div className="mario-schedule">
+        {schedule[day]?.map((cls, idx) => (
+          visibleArray.includes(idx) && (
+            <div key={idx} className="mario-class">
+              <span className="mario-class-name">{cls.name}</span>
+              <span className="mario-class-time">{formatTime(cls.start)}</span>
+            </div>
+          )
+        ))}
       </div>
+
+      {/* Green Pipe at the Bottom */}
+      <div className="mario-pipe-body"></div>
+      <div className="mario-pipe"></div>
     </div>
   );
 }

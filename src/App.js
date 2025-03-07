@@ -13,13 +13,14 @@ import SpaceSchedule from "./Components/SpaceSchedule"
 import BreakingBadSchedule from "./Components/BreakingBadSchedule";
 import BoxingSchedule from "./Components/BoxingSchedule"
 import EightMileSchedule from "./Components/8MileSchedule";
+import FiremanSchedule from "./Components/FiremanSchedule";
    
   
   
  function App() {
   return (
     <>
-    < BreakingBadSchedule day="Friday"/>
+    < FiremanSchedule day="Saturday"/>
    </>
   );
 }
