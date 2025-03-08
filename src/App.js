@@ -20,7 +20,7 @@ import FiremanSchedule from "./Components/FiremanSchedule";
  function App() {
   return (
     <>
-    < FiremanSchedule day="Saturday"/>
+    < MarioSchedule day="Sunday"/>
    </>
   );
 }

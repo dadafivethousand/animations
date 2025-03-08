@@ -34,23 +34,31 @@ function MarioSchedule({ day, animationDelay = 1000, animationInterval = 1500 })
     return `${hour12}:${paddedMinutes} ${amPm}`;
   };
 
+  // Cycle through animation classes
+  const getAnimationClass = (idx) => {
+    const animationClasses = ["slideUp1", "slideUp2", "slideUp3"];
+    return animationClasses[idx % 3]; // Cycles between slideUp1, slideUp2, slideUp3
+  };
+
   return (
     <div className="mario-container">
+
+      <h1 className="mario-header">Sunday</h1>
+      {/* Green Pipe at the Bottom */}
+      <div className="mario-pipe"></div>
+      <div className="mario-pipe-body"></div>
+
       {/* Schedule Content */}
       <div className="mario-schedule">
         {schedule[day]?.map((cls, idx) => (
           visibleArray.includes(idx) && (
-            <div key={idx} className="mario-class">
+            <div key={idx} className={`mario-class ${getAnimationClass(idx)}`}>
               <span className="mario-class-name">{cls.name}</span>
               <span className="mario-class-time">{formatTime(cls.start)}</span>
             </div>
           )
         ))}
       </div>
-
-      {/* Green Pipe at the Bottom */}
-      <div className="mario-pipe-body"></div>
-      <div className="mario-pipe"></div>
     </div>
   );
 }
