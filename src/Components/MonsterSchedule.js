@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/MonsterSchedule.css";
 import schedule from "../Schedule"; // Assuming schedule data exists
+import monster from '../Images/monsterlogo.png'
 
-function MonsterSchedule({ day, animationDelay = 500, animationInterval = 250 }) {
+function MonsterSchedule({ day, animationDelay = 2000, animationInterval = 250 }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [visibleArray, setVisibleArray] = useState([]);
   const [mouseX, setMouseX] = useState(0);
@@ -49,10 +50,11 @@ function MonsterSchedule({ day, animationDelay = 500, animationInterval = 250 })
   return (
     <div className="monster-container">
       <div className="monster-background"></div>
+      
+      {showSchedule ?
       <div 
         className="monster-tv" 
-        style={{ transform: `rotateX(${mouseY}deg) rotateY(${mouseX}deg)` }}
-      >
+       >
         <h1 className="monster-day glitch-effect">{day.toUpperCase()}</h1>
         <div className="monster-schedule">
           {schedule[day]?.map((cls, idx) => (
@@ -65,6 +67,9 @@ function MonsterSchedule({ day, animationDelay = 500, animationInterval = 250 })
           ))}
         </div>
       </div>
+      : 
+      <div className="monster-logo"><img src={monster}/> <p class="monster-text">aple</p></div>
+      }
     </div>
   );
 }

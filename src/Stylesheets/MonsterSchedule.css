@@ -19,8 +19,8 @@
   /* ⚡ 3D-REACTIVE MOVEMENT */
   .monster-tv {
     position: relative;
-    height: 100vh;
-    width:100vw;
+    height: 70vh;
+    width:70vw;
     background: linear-gradient(145deg, #111 30%, #000 100%);
     border-radius: 20px;
     box-shadow:
@@ -109,3 +109,27 @@
   .monster-class-1 { background: linear-gradient(90deg, #00cc00, #003300); }
   .monster-class-2 { background: linear-gradient(90deg, #00ff00, #009900); }
   
+
+
+  .monster-logo img{
+    height:300px
+  }
+
+  @import url('https://fonts.googleapis.com/css2?family=Nosifer&display=swap');
+
+  @font-face {
+    font-family: 'MonsterFont';
+    src: url('../Fonts/monster.ttf') format('truetype');
+}
+
+.monster-text {
+    font-family: 'MonsterFont', sans-serif;
+    font-size: 100px;
+    font-weight: bold;
+    color: #00ff00; /* Monster green */
+    text-shadow: 
+        0 0 10px #00ff00, 
+        0 0 20px #00cc00, 
+        0 0 30px #008800;
+    letter-spacing: 2px;
+}
