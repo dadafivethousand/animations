@@ -14,13 +14,17 @@ import BreakingBadSchedule from "./Components/BreakingBadSchedule";
 import BoxingSchedule from "./Components/BoxingSchedule"
 import EightMileSchedule from "./Components/8MileSchedule";
 import FiremanSchedule from "./Components/FiremanSchedule";
+import SpongeBobSchedule from "./Components/SpongeBobSchedule";
+import MexicanSchedule from "./Components/MexicanSchedule";
+import FamilyGuySchedule from "./Components/FamilyGuySchedule";
+import MonsterSchedule from "./Components/MonsterSchedule";
    
   
   
  function App() {
   return (
     <>
-    < MarioSchedule day="Sunday"/>
+    < MonsterSchedule day="Monday"/>
    </>
   );
 }

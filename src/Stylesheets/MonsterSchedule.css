@@ -1,0 +1,111 @@
+/* ⚡ MONSTER ENERGY BACKGROUND - DYNAMIC CHAOS */
+.monster-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #000;
+    background-image: linear-gradient(180deg, #111 0%, #000 100%);
+    overflow: hidden;
+    animation: thunder 1.5s infinite alternate;
+  }
+  
+  /* ⚡ THUNDERSTORM BACKGROUND EFFECT */
+  @keyframes thunder {
+    0% { background-color: #000; }
+    100% { background-color: #111; }
+  }
+  
+  /* ⚡ 3D-REACTIVE MOVEMENT */
+  .monster-tv {
+    position: relative;
+    height: 100vh;
+    width:100vw;
+    background: linear-gradient(145deg, #111 30%, #000 100%);
+    border-radius: 20px;
+    box-shadow:
+      0px 0px 100px rgba(0, 255, 0, 1),
+      inset 0px 0px 30px rgba(0, 0, 0, 1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.1s ease-out;
+  }
+  
+  /* ⚡ ELECTRIC PULSE EFFECT */
+  .monster-tv::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border-radius: 20px;
+    box-shadow: 0px 0px 70px rgba(0, 255, 0, 1);
+    opacity: 0.6;
+    animation: lightningEffect 1s infinite alternate;
+    pointer-events: none;
+  }
+  
+  @keyframes lightningEffect {
+    0% { box-shadow: 0px 0px 70px rgba(0, 255, 0, 1); }
+    100% { box-shadow: 0px 0px 120px rgba(0, 255, 0, 1); }
+  }
+  
+  /* ⚡ GLITCHING TEXT EFFECT */
+  .glitch-effect {
+    font-size: 60px;
+    font-family: "Impact", sans-serif;
+    color: #00ff00;
+    text-shadow: 
+      0px 0px 15px rgba(0, 255, 0, 1),
+      0px 0px 30px rgba(0, 255, 0, 0.8);
+    animation: glitch 0.1s infinite alternate;
+  }
+  
+  @keyframes glitch {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-2px); }
+    40% { transform: translateX(2px); }
+    60% { transform: translateX(-2px); }
+    80% { transform: translateX(2px); }
+    100% { transform: translateX(0); }
+  }
+  
+  /* ⚡ CLASS ENTRIES WITH LIGHTNING EFFECT */
+  .monster-class {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    padding: 15px;
+    margin: 5px 0;
+    font-size: 15px;
+    font-family: "Orbitron", sans-serif;
+    border-radius: 8px;
+    box-shadow: 3px 3px 12px rgba(0, 255, 0, 0.7);
+    animation: fadeInUp 0.3s ease-in-out;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .monster-class:hover {
+    transform: scale(1.15);
+  }
+  
+  /* ⚡ LIGHTNING SPARK EFFECT */
+  .lightning {
+    animation: lightningFlash 1.2s infinite alternate;
+  }
+  
+  @keyframes lightningFlash {
+    0% { filter: brightness(1); }
+    50% { filter: brightness(2); }
+    100% { filter: brightness(1); }
+  }
+  
+  /* ⚡ CLASS COLORS */
+  .monster-class-0 { background: linear-gradient(90deg, #00ff00, #006600); }
+  .monster-class-1 { background: linear-gradient(90deg, #00cc00, #003300); }
+  .monster-class-2 { background: linear-gradient(90deg, #00ff00, #009900); }
+  

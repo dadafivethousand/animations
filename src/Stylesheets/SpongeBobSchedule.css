@@ -1,0 +1,120 @@
+/* Fullscreen SpongeBob Theme */
+.spongebob-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background: radial-gradient(circle, #00a2ff, #79d9ff);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+        padding-top: 100px;
+  }
+  
+  /* SpongeBob-Themed Title */
+  .spongebob-title {
+    font-family: "Comic Sans MS", cursive;
+    font-size: 3rem;
+    font-weight: bold;
+    color: #ffcc00;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 3px 3px 0px #000, -2px -2px 0px #ff9900;
+    margin-bottom: 20px;
+    animation: wavyText 2s infinite alternate ease-in-out;
+  }
+  
+  /* Wavy Text Animation */
+  @keyframes wavyText {
+    0% { transform: rotate(-3deg); }
+    100% { transform: rotate(3deg); }
+  }
+  
+  /* Schedule List */
+  .spongebob-schedule {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    width: 90%;
+    max-width: 400px;
+    align-items: center;
+  }
+  
+  /* Individual Class Styling */
+  .spongebob-class {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    width: 270px;
+    background: #ffdb58;
+    border: 3px solid #ffcc00;
+    border-radius: 15px;
+     font-size: 1.2rem;
+    font-weight: bold;
+    color: #000;
+    font-family: "Comic Sans MS", cursive;
+    transform: rotate(2deg);
+    opacity: 0;
+    animation: jellyWobble 1.5s ease-out forwards;
+  }
+  
+  /* SpongeBob-Style Jellyfish Bounce */
+  @keyframes jellyWobble {
+    0% {
+      opacity: 0;
+      transform: scale(0.8) rotate(-2deg);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.1) rotate(3deg);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+  }
+  
+  /* Glowing Class Name */
+  .spongebob-class-name {
+    color: #D10000;
+    font-weight: bold;
+  }
+  
+  /* Class Time Styling */
+  .spongebob-class-time {
+    color: #0047ab;
+  }
+  
+  /* Loads of Floating Bubbles */
+  .bubbles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+  }
+  
+  .bubble {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    opacity: 0.6;
+  }
+  
+  .bubble0 { width: 25px; height: 25px; bottom: 5%; left: 10%; animation: bubbleRise 4s infinite ease-in-out; }
+  .bubble1 { width: 40px; height: 40px; bottom: 10%; left: 20%; animation: bubbleRise 6s infinite ease-in-out; }
+  .bubble2 { width: 30px; height: 30px; bottom: 20%; left: 30%; animation: bubbleRise 5s infinite ease-in-out; }
+  .bubble3 { width: 35px; height: 35px; bottom: 8%; right: 25%; animation: bubbleRise 7s infinite ease-in-out; }
+  .bubble4 { width: 20px; height: 20px; bottom: 15%; right: 10%; animation: bubbleRise 6s infinite ease-in-out; }
+  
+  /* Floating Bubble Animation */
+  @keyframes bubbleRise {
+    0% { transform: translateY(0) scale(1); opacity: 0.6; }
+    50% { transform: translateY(-100px) scale(1.1); opacity: 0.9; }
+    100% { transform: translateY(-200px) scale(1); opacity: 0; }
+  }
+  
