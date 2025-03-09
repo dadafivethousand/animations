@@ -3,11 +3,40 @@ import "../Stylesheets/MonsterSchedule.css";
 import schedule from "../Schedule"; // Assuming schedule data exists
 import monster from '../Images/monsterlogo.png'
 
-function MonsterSchedule({ day, animationDelay = 2000, animationInterval = 250 }) {
+function MonsterSchedule({ day, animationDelay = 4500, animationInterval = 250 }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [visibleArray, setVisibleArray] = useState([]);
-  const [mouseX, setMouseX] = useState(0);
-  const [mouseY, setMouseY] = useState(0);
+     const [typedText, setTypedText] = useState("");
+     const [moveDown, setMoveDown] = useState(false)
+ 
+        const [showText, setShowText] = useState(false);
+        const text = 'aple Jiu Jitsu'
+ 
+
+
+  
+      useEffect(() => {
+          // Start the typewriter effect once the animation is fully done (7s + small buffer)
+          setTimeout(() => {
+            setShowText(true);
+          }, 2000);
+          if (showText) {
+            let i = 0;
+            const interval = setInterval(() => {
+              setTypedText(text.substring(0, i + 1));
+              i++;
+              if (i === text.length) clearInterval(interval);
+            }, 100); // Adjust speed of typing
+            return () => clearInterval(interval);
+          }
+        }, [showText]);
+
+
+  useEffect(() => {
+    setTimeout(() => {
+      setMoveDown(true);
+    }, 100);
+  }, [ ]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -28,15 +57,7 @@ function MonsterSchedule({ day, animationDelay = 2000, animationInterval = 250 }
     }
   }, [showSchedule, day, animationInterval]);
 
-  useEffect(() => {
-    const handleMouseMove = (event) => {
-      setMouseX((event.clientX / window.innerWidth - 0.5) * 20);
-      setMouseY((event.clientY / window.innerHeight - 0.5) * 20);
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+ 
 
   const formatTime = (decimalTime) => {
     const hour = Math.floor(decimalTime);
@@ -55,8 +76,8 @@ function MonsterSchedule({ day, animationDelay = 2000, animationInterval = 250 }
       <div 
         className="monster-tv" 
        >
-        <h1 className="monster-day glitch-effect">{day.toUpperCase()}</h1>
-        <div className="monster-schedule">
+        <div className="monster-day glitch-effect"><img id='small-logo' src={monster} />onday</div>
+ 
           {schedule[day]?.map((cls, idx) => (
             visibleArray.includes(idx) && (
               <div key={idx} className={`monster-class monster-class-${idx % 3} lightning`}>
@@ -65,10 +86,10 @@ function MonsterSchedule({ day, animationDelay = 2000, animationInterval = 250 }
               </div>
             )
           ))}
-        </div>
+    
       </div>
       : 
-      <div className="monster-logo"><img src={monster}/> <p class="monster-text">aple</p></div>
+      <div className={`monster-logo ${ moveDown? 'move-down':''}`}><img className="monster-logo-image" src={monster}/> <p class="monster-text"> {typedText} </p></div>
       }
     </div>
   );
