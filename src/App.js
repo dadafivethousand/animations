@@ -9,7 +9,7 @@ import WarcraftSchedule from "./Components/WarcraftSchedule";
 import MexicanSchedule from "./Components/MexicanSchedule";
 import BuzzSchedule from "./Components/BuzzSchedule";
 import LilBabySchedule from "./Components/LilBabySchedule"
-import MapleKombatSchedule from "./Components/MapleKombatSchedule";
+ import LeafsSchedule from "./Components/LeafsSchdule";
 
    
   
@@ -17,7 +17,7 @@ import MapleKombatSchedule from "./Components/MapleKombatSchedule";
  function App() {
   return (
     <>
-    < MapleKombatSchedule day="Tuesday"/>
+    <BasketballSchedule day="Wednesday"/>
    </>
   );
 }
