@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/WarcraftSchedule.css"; // Custom Warcraft CSS
-import schedule from "../Schedule"; // Assuming you have the data
+import "../Stylesheets/WarcraftSchedule.css";
+import schedule from "../Schedule"; // Assuming schedule data exists
 
 function WarcraftSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
   const [showSchedule, setShowSchedule] = useState(false);
@@ -19,13 +19,12 @@ function WarcraftSchedule({ day, animationDelay = 1000, animationInterval = 500 
 
       classes.forEach((_, idx) => {
         setTimeout(() => {
-          setVisibleArray((prev) => [...prev, idx]); // Reveal entries one by one
+          setVisibleArray((prev) => [...prev, idx]);
         }, idx * animationInterval);
       });
     }
   }, [showSchedule, day, animationInterval]);
 
-  // Format decimal hours into AM/PM
   const formatTime = (decimalTime) => {
     const hour = Math.floor(decimalTime);
     const minutes = Math.round((decimalTime - hour) * 60);
@@ -37,26 +36,20 @@ function WarcraftSchedule({ day, animationDelay = 1000, animationInterval = 500 
 
   return (
     <div className="warcraft-container">
-      {/* Background Animation */}
-      <div className={`warcraft-bg ${showSchedule ? "active" : ""}`}></div>
-
-      <div className="warcraft-content">
-        {/* Always Visible Day of the Week */}
-        <h2 className="warcraft-title">{day}</h2>
-
-        {showSchedule && (
-          <div className="warcraft-classes">
-            {schedule[day]?.map((cls, idx) => (
-              visibleArray.includes(idx) && (
-                <div key={idx} className="warcraft-class">
-                  <span className="warcraft-class-name">{cls.name}</span> -{" "}
-                  <span className="warcraft-class-time">{formatTime(cls.start)}</span>
-                </div>
-              )
-            ))}
-          </div>
-        )}
+      <h1 className="warcraft-day">⚔️ {day.toUpperCase()} ⚔️</h1>
+      <div className="warcraft-schedule">
+        {schedule[day]?.map((cls, idx) => (
+          visibleArray.includes(idx) && (
+            <div key={idx} className={`warcraft-class animated-entry ${idx % 2 === 0 ? "horde" : "alliance"}`}>
+              <span className="warcraft-class-name">{cls.name}</span>
+              <span className="warcraft-class-time"> {formatTime(cls.start)}</span>
+            </div>
+          )
+        ))}
       </div>
+
+      {/* 📜 War Scroll Background */}
+      <div className="warcraft-scroll"></div>
     </div>
   );
 }

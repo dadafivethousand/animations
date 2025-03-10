@@ -1,79 +1,120 @@
-/* Overall Warcraft Container */
+/* ⚔️ WARCRAFT-THEMED UI */
 .warcraft-container {
   position: relative;
-  width: 100%;
-  min-height: 100vh;
-  background: #0b0a09;
-  overflow: hidden;
-  color: #e0c785;
-  text-align: center;
-  font-family: "Cinzel", serif;
-}
-
-/* Background - Ancient Stone with Magic Energy */
-.warcraft-bg {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: url("https://www.textures.com/system/gallery/photos/Stones/Grunge/68191/StonesGrunge0172_1_350.jpg") center/cover;
-  filter: brightness(50%) contrast(1.2);
-  opacity: 0;
-  transition: opacity 2s ease-in-out;
-}
-
-.warcraft-bg.active {
-  opacity: 1;
-}
-
-/* Day of the Week - Looks Like a Royal Banner */
-.warcraft-title {
-  font-size: 50px;
-  color: #e0c785;
-  text-shadow: 3px 3px 15px #a67c00, 0px 0px 30px #402000;
-  background: linear-gradient(to right, #6b4a1a, #8d682b);
-  padding: 10px 20px;
-  display: inline-block;
-  border: 3px solid #d4af37;
-  border-radius: 8px;
-  margin-top: 20px;
-  font-weight: bold;
-}
-
-/* Individual Class Entry */
-.warcraft-class {
-  font-size: 26px;
-  background: url("https://www.textures.com/system/gallery/photos/Metal/Old/68191/MetalOld0172_1_350.jpg");
+  width: 96%;
+ 
+  margin: auto;
+  background: url('https://www.transparenttextures.com/patterns/agedpaper.png'), linear-gradient(to bottom, #4F2F0D 50%, #2B1D07 100%);
+  background-blend-mode: multiply;
   background-size: cover;
-  padding: 14px;
-  margin: 12px auto;
-  width: 55%;
-  border: 4px solid #d4af37;
+ 
+  overflow: hidden;
+  height: 98vh;
   position: relative;
-  animation: summonScroll 0.7s ease-out forwards, glowingEffect 1s infinite alternate;
-  cursor: pointer;
-  transition: transform 0.3s ease-in-out;
-  border-radius: 10px;
-  box-shadow: 0px 0px 20px #d4af37;
+}
+
+/* ⚔️ WAR DRUMS TITLE */
+.warcraft-day {
+ 
+  text-align: center;
+  font-size: 35px;
   font-weight: bold;
-  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+  font-family: "Uncial Antiqua", serif;
+  color: gold;
+  text-shadow: 6px 6px 0px black, 12px 12px 20px rgba(255, 215, 0, 0.9);
+  animation: warDrums 1.5s infinite alternate ease-in-out;
+  letter-spacing: 2px;
+  margin-top: 100px;
 }
 
-/* Summoning Animation */
-@keyframes summonScroll {
-  0% { opacity: 0; transform: scale(0.8) rotateX(90deg); text-shadow: none; }
-  50% { opacity: 0.5; transform: scale(1.1) rotateX(10deg); text-shadow: 0px 0px 10px #a67c00; }
-  100% { opacity: 1; transform: scale(1) rotateX(0deg); text-shadow: 0px 0px 15px #ffcc00; }
+/* 🏰 MEDIEVAL-STYLE SCROLL */
+.warcraft-scroll {
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 15px rgba(0, 0, 0, 0.6);
 }
 
-/* Glowing Hover Effect */
-.warcraft-class:hover {
-  transform: scale(1.05);
-  background: linear-gradient(145deg, #503d2e, #765a42);
-  box-shadow: 0px 0px 25px #ffcc00, 0px 0px 35px #d4af37;
-  animation: enchantGlow 0.5s forwards;
+/* ⚔️ WARCRAFT QUEST LOG UI */
+.warcraft-schedule {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  position: relative;
+  padding: 15px;
+  border-top: 3px solid black;
+  box-shadow: 0px 0px 15px rgba(255, 140, 0, 0.4);
 }
 
-@keyframes enchantGlow {
-  0% { opacity: 1; transform: scale(1.1) rotate(1deg); }
-  100% { opacity: 1; transform: scale(1) rotate(-1deg); }
+/* ⚔️ HORDE VS ALLIANCE COLORS */
+.horde {
+  background: #8B0000;
+  border: 2px solid #FFD700;
+  box-shadow: 0px 0px 10px rgba(255, 0, 0, 0.6);
+}
+
+.alliance {
+  background: #1E3A8A;
+  border: 2px solid #FFD700;
+  box-shadow: 0px 0px 10px rgba(0, 0, 255, 0.6);
+}
+
+/* 🏰 QUEST LOG ENTRIES */
+.warcraft-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+  margin: 5px auto;
+  padding: 10px;
+  font-size: 22px;
+  font-weight: bold;
+  font-family: "Uncial Antiqua", serif;
+  color: white;
+  text-shadow: 3px 3px 0px black, 5px 5px 15px rgba(255, 255, 255, 0.8);
+  transition: transform 0.3s ease-in-out;
+  animation: parchmentEntry 1s ease-out forwards, warGlow 2s infinite alternate ease-in-out;
+  position: relative;
+}
+
+/* 📜 QUEST LOG ENTRY ANIMATION */
+@keyframes parchmentEntry {
+  0% { transform: translateX(-100vw) scale(0.9); opacity: 0; }
+  50% { transform: translateX(10px) scale(1.1); opacity: 0.8; }
+  100% { transform: translateX(0px) scale(1); opacity: 1; }
+}
+
+/* 🔥 FLICKERING MAGIC RUNES */
+@keyframes warGlow {
+  0% { text-shadow: 3px 3px 0px black, 5px 5px 15px rgba(255, 255, 255, 0.8); }
+  50% { text-shadow: 3px 3px 0px black, 5px 5px 15px rgba(255, 255, 0, 0.8); }
+  100% { text-shadow: 3px 3px 0px black, 5px 5px 15px rgba(255, 255, 255, 0.8); }
+}
+
+/* ⚔️ QUEST TITLE TEXT */
+.warcraft-class-name {
+  display: block;
+  font-size: 24px;
+  color: #FFD700;
+  text-shadow: 4px 4px 0px black, 6px 6px 10px rgba(255, 255, 255, 0.8);
+}
+
+/* ⏳ QUEST TIME TEXT */
+.warcraft-class-time {
+  font-size: 20px;
+  color: white;
+  text-shadow: 3px 3px 0px black, 5px 5px 15px rgba(255, 255, 255, 0.8);
+  font-family: monospace;
+}
+
+/* 🏰 WAR DRUMS EFFECT */
+@keyframes warDrums {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
 }

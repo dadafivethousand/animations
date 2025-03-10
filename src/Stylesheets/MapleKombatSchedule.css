@@ -39,7 +39,7 @@
     color: red;
     text-shadow: 3px 3px 15px red;
     position: relative;
-    margin-top: 50px;
+    margin-top: 90px;
     letter-spacing: 3px;
     font-weight: 400;
   }
@@ -50,7 +50,7 @@
     background: rgba(255, 0, 0, 0.2);
     padding: 12px;
     margin: 8px auto;
-    width: 60%;
+    width: 70%;
     border: 3px solid red;
     opacity: 0; /* Start hidden */
     position: relative;

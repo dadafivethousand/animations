@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/FamilyGuySchedule.css";
+import "../Stylesheets/SouthParkSchedule.css";
 import schedule from "../Schedule"; // Assuming schedule data exists
 
-function FamilyGuySchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
+function SouthParkSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [visibleArray, setVisibleArray] = useState([]);
 
@@ -36,19 +36,15 @@ function FamilyGuySchedule({ day, animationDelay = 1000, animationInterval = 500
   };
 
   return (
-    <div className="familyguy-container">
-      <div className="familyguy-background"></div>
-
-      {/* Glowing TV Frame */}
-      <div className="familyguy-tv">
-        <div className="tv-screen-overlay"></div>
-        <h1 className="familyguy-day">{day.toUpperCase()}</h1>
-        <div className="familyguy-schedule">
+    <div className="southpark-container">
+      <div className="southpark-schedule-box">
+        <h1 className="southpark-day">{day.toUpperCase()}</h1>
+        <div className="southpark-schedule">
           {schedule[day]?.map((cls, idx) => (
             visibleArray.includes(idx) && (
-              <div key={idx} className="familyguy-class animated-entry">
-                <span className="familyguy-class-name">{cls.name}</span>
-                <span className="familyguy-class-time">{formatTime(cls.start)}</span>
+              <div key={idx} className="southpark-class animated-entry">
+                <span className="southpark-class-name">{cls.name}</span>
+                <span className="southpark-class-time">{formatTime(cls.start)}</span>
               </div>
             )
           ))}
@@ -58,4 +54,4 @@ function FamilyGuySchedule({ day, animationDelay = 1000, animationInterval = 500
   );
 }
 
-export default FamilyGuySchedule;
+export default SouthParkSchedule;

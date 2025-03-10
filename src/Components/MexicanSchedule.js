@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../Stylesheets/MexicanSchedule.css";
 import schedule from "../Schedule"; // Assuming schedule data exists
 
-function MexicanSchedule({ day, animationDelay = 1000, animationInterval = 1000 }) {
+function MexicanSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [visibleArray, setVisibleArray] = useState([]);
 
@@ -36,23 +36,20 @@ function MexicanSchedule({ day, animationDelay = 1000, animationInterval = 1000 
 
   return (
     <div className="mexican-container">
-      {/* Papel Picado - Traditional Mexican Banners */}
-      <div className="papel-picado"></div>
-
-      {/* Title with Authentic Mexican Style */}
-      <h1 className="mexican-day">{day.toUpperCase()}</h1>
-
-      {/* Schedule Content */}
+      <h1 className="mexican-day">🇲🇽 {day.toUpperCase()} 🇲🇽</h1>
       <div className="mexican-schedule">
         {schedule[day]?.map((cls, idx) => (
           visibleArray.includes(idx) && (
-            <div key={idx} className="mexican-class">
-              <span className="mexican-class-name">{cls.name}</span>
-              <span className="mexican-class-time">{formatTime(cls.start)}</span>
+            <div key={idx} className="mexican-class animated-entry">
+              <span className="mexican-class-name">🌮 {cls.name}</span>
+              <span className="mexican-class-time">⏳ {formatTime(cls.start)}</span>
             </div>
           )
         ))}
       </div>
+
+      {/* 🎊 Piñata Animation */}
+      <div className="mexican-pinata">🪅</div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/BuzzSchedule.css"; // Updated CSS filename
-import schedule from "../Schedule"; // Assume schedule data exists
+import "../Stylesheets/BuzzSchedule.css";
+import schedule from "../Schedule"; // Assuming schedule data exists
 
 function BuzzSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
   const [showSchedule, setShowSchedule] = useState(false);
@@ -9,7 +9,7 @@ function BuzzSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
   useEffect(() => {
     setTimeout(() => {
       setShowSchedule(true);
-    }, animationDelay); // Controlled start time
+    }, animationDelay);
   }, [animationDelay]);
 
   useEffect(() => {
@@ -19,13 +19,12 @@ function BuzzSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
 
       classes.forEach((_, idx) => {
         setTimeout(() => {
-          setVisibleArray((prev) => [...prev, idx]); // Reveal one by one
+          setVisibleArray((prev) => [...prev, idx]);
         }, idx * animationInterval);
       });
     }
   }, [showSchedule, day, animationInterval]);
 
-  // Convert decimal hours to AM/PM format
   const formatTime = (decimalTime) => {
     const hour = Math.floor(decimalTime);
     const minutes = Math.round((decimalTime - hour) * 60);
@@ -36,27 +35,24 @@ function BuzzSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
   };
 
   return (
-    <div className="buzz-container">
-      {/* Space Background */}
-      <div className={`buzz-bg ${showSchedule ? "active" : ""}`}></div>
+    <div className="toystory-container">
+      {/* Pixar-like floating text */}
+      <h1 className="toystory-day">🚀 {day.toUpperCase()} 🤠</h1>
 
-      <div className="buzz-content">
-        {/* Always Visible Day of the Week */}
-        <h2 className="buzz-title">{day}</h2>
-
-        {showSchedule && (
-          <div className="buzz-classes">
-            {schedule[day]?.map((cls, idx) => (
-              visibleArray.includes(idx) && (
-                <div key={idx} className="buzz-class">
-                  <span className="buzz-class-name">{cls.name}</span> -{" "}
-                  <span className="buzz-class-time">{formatTime(cls.start)}</span>
-                </div>
-              )
-            ))}
-          </div>
-        )}
+      {/* Schedule Entries */}
+      <div className="toystory-schedule">
+        {schedule[day]?.map((cls, idx) => (
+          visibleArray.includes(idx) && (
+            <div key={idx} className="toystory-class animated-entry">
+              <span className="toystory-class-name">🧸 {cls.name}</span>
+              <span className="toystory-class-time">⏳ {formatTime(cls.start)}</span>
+            </div>
+          )
+        ))}
       </div>
+
+      {/* Floating Pixar Ball */}
+      <div className="toystory-ball">🔵⭐</div>
     </div>
   );
 }

@@ -1,0 +1,102 @@
+/* 🚗💨 FAST & FURIOUS UI */
+.fastfurious-container {
+    position: relative;
+    width: 96%;
+    max-width: 500px;
+    margin: auto;
+    background: linear-gradient(to bottom, #111 40%, #222 100%);
+    border-radius: 15px;
+    border: 5px solid #FF0000; /* Neon red for underground racing */
+    box-shadow: 0px 0px 20px rgba(0, 255, 255, 0.6); /* Glowing neon blue NOS effect */
+    overflow: hidden;
+    height: 98vh;
+    position: relative;
+}
+
+/* 🏁 FAST & FURIOUS DAY TITLE */
+.fastfurious-day {
+    text-align: center;
+    font-size: 50px;
+    font-weight: bold;
+    font-family: "Impact", sans-serif;
+    color: white;
+    text-shadow: 6px 6px 0px black, 12px 12px 20px rgba(0, 0, 0, 0.9);
+    animation: nosBoost 0.5s infinite alternate ease-in-out;
+    letter-spacing: 2px;
+    background: linear-gradient(to right, #00FFFF, #FF0000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-top: 70px;
+}
+
+/* 🏁 FAST & FURIOUS STREET UI */
+.fastfurious-schedule {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    position: relative;
+    padding: 15px;
+    border-top: 3px solid black;
+    box-shadow: 0px 0px 15px rgba(255, 140, 0, 0.4);
+}
+
+/* 🏁 INDIVIDUAL RACING SCHEDULE ENTRIES */
+.fastfurious-class {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    margin: 5px auto;
+    padding: 12px;
+    font-size: 22px;
+    font-weight: bold;
+    font-family: "Arial Black", sans-serif;
+    color: white;
+    background: rgba(0, 0, 0, 0.85);
+    border: 2px solid cyan;
+    text-shadow: 3px 3px 0px black, 5px 5px 15px rgba(255, 255, 255, 0.8);
+    box-shadow: 0px 0px 10px rgba(255, 0, 0, 0.6);
+    transition: transform 0.3s ease-in-out;
+    animation: fastEntry 0.8s ease-out forwards, shakeOnBoost 1.5s infinite alternate ease-in-out;
+    position: relative;
+}
+
+/* 🏁 TURBO ENTRY EFFECT */
+@keyframes fastEntry {
+    0% { transform: translateX(-100vw) scale(0.9); opacity: 0; }
+    50% { transform: translateX(10px) scale(1.1); opacity: 0.8; }
+    100% { transform: translateX(0px) scale(1); opacity: 1; }
+}
+
+/* 💥 SHAKE ON NOS BOOST */
+@keyframes shakeOnBoost {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-2px); }
+    50% { transform: translateX(2px); }
+    75% { transform: translateX(-2px); }
+    100% { transform: translateX(0); }
+}
+
+/* 🏁 STREET RACING TEXT */
+.fastfurious-class-name {
+    display: block;
+    font-size: 24px;
+    color: cyan; /* Neon blue racing glow */
+    text-shadow: 4px 4px 0px black, 6px 6px 10px rgba(255, 255, 255, 0.8);
+}
+
+/* ⏱️ CLOCK-STYLE TIME TEXT */
+.fastfurious-class-time {
+    font-size: 20px;
+    color: red;
+    text-shadow: 3px 3px 0px black, 5px 5px 15px rgba(255, 255, 255, 0.8);
+    font-family: monospace;
+}
+
+/* 🔥 NOS BOOST LIGHT */
+@keyframes nosBoost {
+    0% { text-shadow: 6px 6px 0px black, 10px 10px 15px rgba(255, 0, 0, 0.8); }
+    50% { text-shadow: 4px 4px 0px black, 6px 6px 15px rgba(0, 255, 255, 0.6); }
+    100% { text-shadow: 3px 3px 0px black, 5px 5px 10px rgba(255, 0, 0, 0.8); }
+}

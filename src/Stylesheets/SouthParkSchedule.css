@@ -1,0 +1,121 @@
+/* 🎬 SOUTH PARK FULLSCREEN EXPERIENCE */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: #86B6F6; /* South Park Sky Blue */
+  overflow: hidden;
+  touch-action: none;
+}
+
+/* 🎬 MAIN CONTAINER */
+.southpark-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+}
+
+/* 🎬 SOUTH PARK SCHEDULE BOX */
+.southpark-schedule-box {
+  position: relative;
+  width: 70vw;
+  max-width: 500px;
+  background: #C1552F; /* South Park Signboard Orange */
+  border: 8px solid black;
+  border-radius: 12px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 8px 8px 0px black;
+  animation: wobble 3s infinite alternate ease-in-out;
+}
+
+/* 🎬 SOUTH PARK DAY TITLE */
+.southpark-day {
+  font-size: 34px;
+  font-weight: bold;
+  font-family: "Arial Black", sans-serif;
+  color: white;
+  background: black;
+  padding: 8px;
+  border-radius: 6px;
+  display: inline-block;
+  text-shadow: 3px 3px 0px rgba(255, 255, 255, 0.5);
+  animation: shake 1.5s infinite alternate ease-in-out;
+}
+
+/* 🎬 SCHEDULE LIST */
+.southpark-schedule {
+  margin-top: 15px;
+}
+
+/* 🎬 INDIVIDUAL CLASS ENTRY */
+.southpark-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 85%;
+  padding: 14px;
+  margin: 8px auto;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: "Arial Black", sans-serif;
+  color: black;
+  background: #5E9C3A; /* True South Park Green */
+  border-radius: 10px;
+  box-shadow: 6px 6px 0px black;
+  border: 4px solid black;
+  transform: scale(0.95);
+  transition: transform 0.3s ease-in-out;
+  animation: bounceEntry 1s ease-in-out forwards;
+}
+
+/* 🎬 CLASS NAME TEXT */
+.southpark-class-name {
+  font-weight: bold;
+  text-transform: uppercase;
+  color: white;
+  text-shadow: 3px 3px 0px black;
+}
+
+/* 🎬 CLASS TIME TEXT */
+.southpark-class-time {
+  font-size: 22px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 3px 3px 0px black;
+}
+
+/* 🎬 ENTRY ANIMATIONS */
+.animated-entry {
+  opacity: 0;
+  transform: translateY(20px) scale(0.8);
+  animation: fadeIn 0.6s ease-in-out forwards, bounce 2s infinite alternate ease-in-out;
+}
+
+/* 🎬 FADE-IN EFFECT */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.8); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* 🎬 BOUNCE EFFECT */
+@keyframes bounceEntry {
+  0% { transform: scale(0.8); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* 🎬 SHAKE TITLE */
+@keyframes shake {
+  0% { transform: rotate(-1deg); }
+  100% { transform: rotate(1deg); }
+}
+
+/* 🎬 WOBBLE EFFECT */
+@keyframes wobble {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(0.5deg); }
+}

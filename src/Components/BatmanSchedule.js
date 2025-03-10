@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/FamilyGuySchedule.css";
+import "../Stylesheets/BatmanSchedule.css";
 import schedule from "../Schedule"; // Assuming schedule data exists
 
-function FamilyGuySchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
+function BatmanSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [visibleArray, setVisibleArray] = useState([]);
 
@@ -25,7 +25,6 @@ function FamilyGuySchedule({ day, animationDelay = 1000, animationInterval = 500
     }
   }, [showSchedule, day, animationInterval]);
 
-  // Function to convert decimal time to AM/PM format
   const formatTime = (decimalTime) => {
     const hour = Math.floor(decimalTime);
     const minutes = Math.round((decimalTime - hour) * 60);
@@ -36,26 +35,20 @@ function FamilyGuySchedule({ day, animationDelay = 1000, animationInterval = 500
   };
 
   return (
-    <div className="familyguy-container">
-      <div className="familyguy-background"></div>
-
-      {/* Glowing TV Frame */}
-      <div className="familyguy-tv">
-        <div className="tv-screen-overlay"></div>
-        <h1 className="familyguy-day">{day.toUpperCase()}</h1>
-        <div className="familyguy-schedule">
-          {schedule[day]?.map((cls, idx) => (
-            visibleArray.includes(idx) && (
-              <div key={idx} className="familyguy-class animated-entry">
-                <span className="familyguy-class-name">{cls.name}</span>
-                <span className="familyguy-class-time">{formatTime(cls.start)}</span>
-              </div>
-            )
-          ))}
-        </div>
+    <div className="batman-container">
+      <h1 className="batman-day">{day.toUpperCase()}</h1>
+      <div className="batman-schedule">
+        {schedule[day]?.map((cls, idx) => (
+          visibleArray.includes(idx) && (
+            <div key={idx} className="batman-class animated-entry">
+              <span className="batman-class-name">{cls.name}</span>
+              <span className="batman-class-time">{formatTime(cls.start)}</span>
+            </div>
+          )
+        ))}
       </div>
     </div>
   );
 }
 
-export default FamilyGuySchedule;
+export default BatmanSchedule;

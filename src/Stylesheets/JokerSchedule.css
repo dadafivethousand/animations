@@ -1,0 +1,117 @@
+/* 🃏 MOBILE-ONLY GOTHAM MAYHEM */
+@media only screen and (max-width: 768px) {
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: #121212; /* Dark Gotham Alleyway */
+      overflow: hidden;
+      touch-action: none;
+    }
+  
+    /* 🃏 CHAOTIC SPRAY-PAINTED TITLE */
+    .joker-day {
+      position: absolute;
+      top: 5%;
+      left: 50%;
+      transform: translateX(-50%) rotate(-3deg);
+      font-size: 42px;
+      font-weight: bold;
+      font-family: "Impact", sans-serif;
+      color: #C30000; /* Blood Red */
+      text-shadow: 5px 5px 0px black, 10px 10px 15px rgba(255, 0, 0, 0.8);
+      animation: shakeTitle 1.5s infinite alternate ease-in-out;
+    }
+  
+    /* 🃏 JOKER-STYLE SPRAY PAINTED CLASSES */
+    .joker-schedule {
+      position: absolute;
+      top: 15%;
+      left: 5%;
+      width: 93%;
+    }
+  
+    /* 🃏 RANDOMLY SCATTERED, CURVED TEXT */
+    .joker-class {
+      position: absolute;
+      font-size: 22px;
+      font-weight: bold;
+      font-family: "Impact", sans-serif;
+      color: white;
+      text-shadow: 5px 5px 0px black, 8px 8px 10px rgba(255, 255, 255, 0.8);
+      background: none;
+      transform: translateY(100px) rotate(var(--curve));
+      animation: chaoticEntry 1s ease-out forwards, jitterEffect 2s infinite ease-in-out;
+
+    }
+  
+    /* 🃏 BLOOD SPLATTER EFFECT */
+    .joker-class:nth-child(odd) {
+      top: calc(15% + 13vh * var(--index));
+      left: calc(10% + 14vw * var(--index));
+      color: #A50000; /* Deep Blood Red */
+      text-shadow: 6px 6px 0px black, 3px 3px 10px rgba(255, 0, 0, 0.7);
+      
+    }
+  
+    .joker-class:nth-child(even) {
+      top: calc(20% + 13vh * var(--index));
+      left: calc(15% + 14vw * var(--index));
+      color: #D900FF; /* Joker Purple */
+      text-shadow: 6px 6px 0px black, 3px 3px 10px rgba(217, 0, 255, 0.7);
+    }
+  
+    /* 🃏 SPRAY-PAINT TEXT EFFECT */
+    .joker-class-name {
+      font-weight: bold;
+      text-transform: uppercase;
+      color: white;
+      text-shadow: 4px 4px 0px black, 8px 8px 15px rgba(255, 255, 255, 0.8);
+      
+    }
+  
+    /* 🃏 SCRATCHED, GLITCHY TIME EFFECT */
+    .joker-class-time {
+      font-size: 20px;
+      font-weight: bold;
+      color: #FFD700; /* Dirty Gold */
+      text-shadow: 4px 4px 0px black, 8px 8px 15px rgba(255, 215, 0, 0.8);
+      animation: textGlitch 1s infinite ease-in-out;
+ 
+    }
+  
+    /* 🃏 RANDOM ENTRY ANIMATION */
+    .animated-entry {
+      opacity: 0;
+      transform: translateY(100px);
+      animation: chaoticEntry 0.7s ease-out forwards;
+    }
+  
+    /* 🃏 SHAKE TITLE */
+    @keyframes shakeTitle {
+      0% { transform: translateX(-50%) rotate(-5deg); }
+      100% { transform: translateX(-50%) rotate(5deg); }
+    }
+  
+    /* 🃏 CHAOTIC ENTRY */
+    @keyframes chaoticEntry {
+      0% { opacity: 0; transform: translateY(100px) rotate(20deg); }
+      100% { opacity: 1; transform: translateY(0) rotate(var(--curve)); }
+    }
+  
+    /* 🃏 JITTERING TEXT EFFECT */
+    @keyframes jitterEffect {
+      0% { transform: translateY(0px) rotate(var(--curve)); }
+      50% { transform: translateY(2px) rotate(calc(var(--curve) - 1deg)); }
+      100% { transform: translateY(0px) rotate(var(--curve)); }
+    }
+  
+    /* 🃏 GLITCHING EFFECT */
+    @keyframes textGlitch {
+      0% { text-shadow: 3px 3px 0px black, 8px 8px 10px rgba(255, 255, 255, 0.8); }
+      50% { text-shadow: -3px -3px 0px black, -8px -8px 10px rgba(255, 255, 255, 0.8); }
+      100% { text-shadow: 3px 3px 0px black, 8px 8px 10px rgba(255, 255, 255, 0.8); }
+    }
+  }
+  
