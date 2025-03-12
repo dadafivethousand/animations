@@ -36,20 +36,19 @@ function MexicanSchedule({ day, animationDelay = 1000, animationInterval = 500 }
 
   return (
     <div className="mexican-container">
-      <h1 className="mexican-day">🇲🇽 {day.toUpperCase()} 🇲🇽</h1>
+      <h1 className="mexican-day">{day.toUpperCase()} <br></br> <div className="mexican-flag">🇲🇽 </div></h1>
       <div className="mexican-schedule">
         {schedule[day]?.map((cls, idx) => (
           visibleArray.includes(idx) && (
             <div key={idx} className="mexican-class animated-entry">
-              <span className="mexican-class-name">🌮 {cls.name}</span>
-              <span className="mexican-class-time">⏳ {formatTime(cls.start)}</span>
+              <span className="mexican-class-name">{cls.name}</span>
+              <span className="mexican-class-time"> {formatTime(cls.start)}</span>
             </div>
           )
         ))}
       </div>
 
-      {/* 🎊 Piñata Animation */}
-      <div className="mexican-pinata">🪅</div>
+
     </div>
   );
 }

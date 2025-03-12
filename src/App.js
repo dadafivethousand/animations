@@ -3,13 +3,10 @@ import './Stylesheets/App.css'
  
  
 
-  import BasketballSchedule from "./Components/BasketballSchedule";
-import FastFuriousSchedule from "./Components/FastFuriousSchedule";
-import WarcraftSchedule from "./Components/WarcraftSchedule";
+ 
 import MexicanSchedule from "./Components/MexicanSchedule";
-import BuzzSchedule from "./Components/BuzzSchedule";
-import LilBabySchedule from "./Components/LilBabySchedule"
- import LeafsSchedule from "./Components/LeafsSchdule";
+import EightMileSchedule from './Components/8MileSchedule'
+ 
 
    
   
@@ -17,7 +14,7 @@ import LilBabySchedule from "./Components/LilBabySchedule"
  function App() {
   return (
     <>
-    <BasketballSchedule day="Wednesday"/>
+    < EightMileSchedule day="Thursday"/>
    </>
   );
 }
