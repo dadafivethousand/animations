@@ -32,7 +32,7 @@ function EightMileSchedule({ day, animationDelay = 8300, animationInterval = 500
         i--;
         if (i < 0) {
           clearInterval(interval);
-          setTimeout(() => setPhase("typingLocation"), 500); // Pause before typing "20 Cranston Park"
+          setTimeout(() => setPhase("typingLocation"), 1); // Pause before typing "20 Cranston Park"
         }
       }, 100); // Backspacing speed
       return () => clearInterval(interval);
