@@ -3,7 +3,7 @@ import "../Stylesheets/8MileSchedule.css";
 import schedule from "../Schedule"; // Assuming schedule data exists
 import eightmileposter from '../Images/8mile.jpg';
 
-function EightMileSchedule({ day, animationDelay = 7000, animationInterval = 500 }) {
+function EightMileSchedule({ day, animationDelay = 8300, animationInterval = 500 }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [visibleArray, setVisibleArray] = useState([]);
   const [titleText, setTitleText] = useState("8 MILE"); // Initial title
@@ -19,6 +19,7 @@ function EightMileSchedule({ day, animationDelay = 7000, animationInterval = 500
 
   // Handle "8 MILE" appearing, then backspacing, then typing "20 Cranston Park"
   useEffect(() => {
+    setTimeout(() =>{
     if (phase === "show8mile") {
       setTimeout(() => setPhase("backspacing8mile"), 1000); // Pause before backspacing
     }
@@ -49,7 +50,9 @@ function EightMileSchedule({ day, animationDelay = 7000, animationInterval = 500
         }
       }, 150); // Typing speed
       return () => clearInterval(interval);
-    }
+    }}, 1000)
+
+    
   }, [phase]);
 
   // Handle weekday typewriter effect (unchanged from your original)
