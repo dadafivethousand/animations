@@ -36,7 +36,7 @@ function FastFuriousSchedule({ day, animationDelay = 1000, animationInterval = 5
 
   return (
     <div className="fastfurious-container">
-      <h1 className="fastfurious-day"> 🚗💨 🏁 <br></br>{day.toUpperCase()} <br></br></h1>
+      <h1 className="fastfurious-day"> <br></br>{day.toUpperCase()} <br></br></h1>
       <div className="fastfurious-schedule">
         {schedule[day]?.map((cls, idx) => (
           visibleArray.includes(idx) && (
