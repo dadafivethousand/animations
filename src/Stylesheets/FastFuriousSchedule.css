@@ -4,10 +4,10 @@
     width: 96%;
     max-width: 500px;
     margin: auto;
-    background: linear-gradient(to bottom, #111 40%, #222 100%);
+    background: linear-gradient(to bottom, #111 40%, #1A1A1A 100%);
     border-radius: 15px;
-    border: 5px solid #FF0000; /* Neon red for underground racing */
-    box-shadow: 0px 0px 20px rgba(0, 255, 255, 0.6); /* Glowing neon blue NOS effect */
+    border: 5px solid #FF4500; /* Deep orange for street racing energy */
+    box-shadow: 0px 0px 20px rgba(255, 215, 0, 0.6); /* Glowing neon yellow NOS effect */
     overflow: hidden;
     height: 98vh;
     position: relative;
@@ -23,7 +23,7 @@
     text-shadow: 6px 6px 0px black, 12px 12px 20px rgba(0, 0, 0, 0.9);
     animation: nosBoost 0.5s infinite alternate ease-in-out;
     letter-spacing: 2px;
-    background: linear-gradient(to right, #00FFFF, #FF0000);
+    background: linear-gradient(to right, #FFD700, #FF4500);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-top: 70px;
@@ -38,7 +38,7 @@
     position: relative;
     padding: 15px;
     border-top: 3px solid black;
-    box-shadow: 0px 0px 15px rgba(255, 140, 0, 0.4);
+    box-shadow: 0px 0px 15px rgba(255, 69, 0, 0.4); /* Soft glowing orange */
 }
 
 /* 🏁 INDIVIDUAL RACING SCHEDULE ENTRIES */
@@ -54,9 +54,9 @@
     font-family: "Arial Black", sans-serif;
     color: white;
     background: rgba(0, 0, 0, 0.85);
-    border: 2px solid cyan;
+    border: 2px solid #FFD700; /* Gold neon */
     text-shadow: 3px 3px 0px black, 5px 5px 15px rgba(255, 255, 255, 0.8);
-    box-shadow: 0px 0px 10px rgba(255, 0, 0, 0.6);
+    box-shadow: 0px 0px 10px rgba(255, 69, 0, 0.6); /* Glowing orange */
     transition: transform 0.3s ease-in-out;
     animation: fastEntry 0.8s ease-out forwards, shakeOnBoost 1.5s infinite alternate ease-in-out;
     position: relative;
@@ -82,21 +82,21 @@
 .fastfurious-class-name {
     display: block;
     font-size: 24px;
-    color: cyan; /* Neon blue racing glow */
+    color: #FFD700; /* Gold neon glow */
     text-shadow: 4px 4px 0px black, 6px 6px 10px rgba(255, 255, 255, 0.8);
 }
 
 /* ⏱️ CLOCK-STYLE TIME TEXT */
 .fastfurious-class-time {
     font-size: 20px;
-    color: red;
+    color: #FF4500; /* Deep orange */
     text-shadow: 3px 3px 0px black, 5px 5px 15px rgba(255, 255, 255, 0.8);
     font-family: monospace;
 }
 
 /* 🔥 NOS BOOST LIGHT */
 @keyframes nosBoost {
-    0% { text-shadow: 6px 6px 0px black, 10px 10px 15px rgba(255, 0, 0, 0.8); }
-    50% { text-shadow: 4px 4px 0px black, 6px 6px 15px rgba(0, 255, 255, 0.6); }
-    100% { text-shadow: 3px 3px 0px black, 5px 5px 10px rgba(255, 0, 0, 0.8); }
+    0% { text-shadow: 6px 6px 0px black, 10px 10px 15px rgba(255, 69, 0, 0.8); }
+    50% { text-shadow: 4px 4px 0px black, 6px 6px 15px rgba(255, 215, 0, 0.6); }
+    100% { text-shadow: 3px 3px 0px black, 5px 5px 10px rgba(255, 69, 0, 0.8); }
 }
