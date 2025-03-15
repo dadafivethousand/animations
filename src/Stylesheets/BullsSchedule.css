@@ -1,0 +1,166 @@
+/* 🔥 Full Chicago Bulls Arena Look */
+.bulls-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    width: 100vw;
+   
+    background: linear-gradient(180deg, #D40000 30%, black 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* 🔥 Header Section - Locked in Place */
+  .bulls-header {
+    margin-top: 80px;
+    position: relative;
+    text-align: center;
+    width: 100%;
+    padding-bottom: 2vh;
+    z-index: 2;
+    font-size: 90px;
+  }
+  
+  /* 🔥 NBA-Style Title */
+  .bulls-day {
+    font-size: 15vw;
+    font-weight: 900;
+    color: white;
+    text-transform: uppercase;
+    font-family: "Bebas Neue", sans-serif;
+    letter-spacing: 4px;
+    text-shadow: 
+      0px 0px 10px rgba(255, 255, 255, 1),
+      0px 0px 30px rgba(255, 255, 255, 0.8),
+      0px 0px 60px rgba(255, 255, 255, 0.5);
+    animation: flicker 1.5s infinite alternate;
+  }
+  
+  /* 🔥 Pulsing Glow Effect */
+  .bulls-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120%;
+    height: 120%;
+    background: radial-gradient(circle, rgba(255, 0, 0, 0.4) 10%, rgba(0, 0, 0, 0) 70%);
+    filter: blur(90px);
+    transform: translate(-50%, -50%);
+    animation: glowPulse 4s infinite alternate ease-in-out;
+ 
+  }
+  
+  /* 🏀 Bulls Schedule - No Scroll, All Visible */
+  .bulls-schedule {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    height: auto;
+    
+     border-radius: 10px;
+     margin: 0 auto;;
+   }
+  
+  /* 🔥 Schedule Entry - ESPN Style */
+  .bulls-class {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    padding: 15px;
+    margin: 10px 0;
+    font-size: 22px;
+    font-family: "Oswald", sans-serif;
+    border-radius: 8px;
+     animation: fadeInUp 0.5s ease-in-out, bounce 0.7s ease-in-out;
+    transition: transform 0.2s ease-in-out;
+    border: 2px solid white;
+    box-shadow: 4px 4px 4px white}
+  
+  /* 🔥 Entry Hover Effect */
+  .bulls-class:hover {
+    transform: scale(1.05);
+  }
+  
+  /* 🔥 Alternating Entry Colors */
+  .entry-0 { background: linear-gradient(90deg, #D40000, #750000); }
+  .entry-1 { background: linear-gradient(90deg, #750000, #D40000); }
+  .entry-2 { background: linear-gradient(90deg, #D40000, #750000); }
+  
+  /* 🔥 Text Styling */
+  .bulls-class-name {
+     text-transform: uppercase;
+    color: white;
+    font-family: "Bebas Neue", sans-serif;
+    letter-spacing: 2px;
+  }
+  
+  .bulls-class-time {
+    font-size: 20px;
+    color: white;
+     font-family: "Oswald", sans-serif;
+  }
+  
+  /* 🚀 Title Flicker */
+  @keyframes flicker {
+    0% { opacity: 1; }
+    50% { opacity: 0.8; }
+    100% { opacity: 1; }
+  }
+  
+  /* 🔥 Glow Pulse */
+  @keyframes glowPulse {
+    0% { opacity: 0.3; transform: scale(1); }
+    100% { opacity: 0.7; transform: scale(1.2); }
+  }
+  
+  /* 🔥 Fade-In Bounce */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes bounce {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+    100% { transform: translateY(0); }
+  }
+  
+
+  /* 🔥 Enhanced Schedule Entry Styling */
+.bulls-class {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    padding: 15px;
+    margin: 10px 0;
+    font-size: 22px;
+    font-family: "Oswald", sans-serif;
+    border-radius: 12px; /* Slightly softer corners */
+    animation: fadeInUp 0.5s ease-in-out, bounce 0.7s ease-in-out;
+    transition: transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out;
+    border: 2px solid rgba(255, 255, 255, 0.6); /* Softer white */
+    box-shadow: 
+      0px 0px 15px rgba(255, 255, 255, 0.4), /* Outer soft glow */
+      0px 0px 30px rgba(255, 0, 0, 0.4) inset, /* Inner red neon */
+      4px 4px 10px rgba(0, 0, 0, 0.7); /* Soft deep shadow */
+  }
+  
+  /* 🔥 Hover Effect - Smoother & Glowing */
+  .bulls-class:hover {
+    transform: scale(1.07);
+    box-shadow: 
+      0px 0px 20px rgba(255, 255, 255, 0.7),
+      0px 0px 40px rgba(255, 0, 0, 0.7) inset,
+      6px 6px 12px rgba(0, 0, 0, 0.8);
+  }
+  
+  /* 🔥 Alternating Entry Colors - Balanced Glow */
+  .entry-0 { background: linear-gradient(90deg, #D40000, #750000); }
+  .entry-1 { background: linear-gradient(90deg, #750000, #D40000); }
+  .entry-2 { background: linear-gradient(90deg, #D40000, #750000); }
+  

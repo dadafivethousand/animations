@@ -1,8 +1,7 @@
 import React from "react";
 import './Stylesheets/App.css'
-import EightMileSchedule from "./Components/8MileSchedule"
-import JokerSchedule from "./Components/JokerSchedule"
-import FastFuriousSchedule from "./Components/FastFuriousSchedule"
+ 
+import BullsSchedule from "./Components/BullsSchedule";
 
    
   
@@ -10,7 +9,7 @@ import FastFuriousSchedule from "./Components/FastFuriousSchedule"
  function App() {
   return (
     <>
-    < FastFuriousSchedule day="Saturday"/>
+    < BullsSchedule day="Sunday"/>
    </>
   );
 }
