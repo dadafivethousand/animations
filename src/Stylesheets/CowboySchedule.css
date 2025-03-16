@@ -10,8 +10,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  height: 95vh;
-  width: 95vw;
+  height: 90vh;
+  width: 94vw;
   background: linear-gradient(90deg, #8B4513, #5C3D1C);
   position: relative;
   overflow: hidden;
