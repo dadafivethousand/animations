@@ -1,0 +1,118 @@
+/* ♟️ Import Grandmaster-Style Chess Font */
+@font-face {
+    font-family: "Chess Championship";
+    src: url("https://fonts.cdnfonts.com/s/69436/CMU_Serif.ttf") format("truetype");
+  }
+  
+  /* ♟️ Fullscreen Chessboard UI */
+  .chess-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(135deg, #1a1a1a, #333333);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* ♟️ Elegant Tournament Header */
+  .chess-header {
+    position: relative;
+    text-align: center;
+    width: 100%;
+    padding-bottom: 2vh;
+    z-index: 2;
+  }
+  
+  /* 🏆 Luxurious Chess Typography */
+  .chess-day {
+    font-size: 6vw;
+    font-weight: bold;
+    color: gold;
+    text-transform: uppercase;
+    font-family: "Chess Championship", serif;
+    letter-spacing: 4px;
+    text-shadow: 
+      0px 0px 10px rgba(255, 215, 0, 1),
+      0px 0px 20px rgba(255, 206, 50, 0.8),
+      0px 0px 40px rgba(255, 215, 0, 0.5);
+    animation: textGlow 1.5s infinite alternate;
+  }
+  
+  /* ♟️ Actual Chessboard */
+  .chessboard {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    width: 90%;
+    max-width: 600px;
+    aspect-ratio: 1;
+    background-color: #222;
+    border: 5px solid gold;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(255, 215, 0, 0.5);
+    position: relative;
+  }
+  
+  /* ♟️ Dark and Light Chessboard Squares */
+  .square {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-family: "Chess Championship", serif;
+    position: relative;
+  }
+  
+  .dark-square {
+    background: linear-gradient(135deg, #3B3B3B, #1A1A1A);
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.7);
+  }
+  
+  .light-square {
+    background: linear-gradient(135deg, #EDEDED, #D6D6D6);
+    box-shadow: inset 0px 0px 10px rgba(255, 255, 255, 0.4);
+  }
+  
+  /* ♟️ Chess Class Pieces */
+  .chess-class {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    height: 90%;
+    border-radius: 10px;
+    border: 3px solid rgba(255, 215, 0, 0.8);
+    text-align: center;
+    font-size: 14px;
+    color: white;
+    opacity: 0;
+    transform: scale(0.8);
+    animation: fadeInChess 1s forwards ease-in-out;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  /* ♟️ Dark vs Light Pieces */
+  .dark-square .chess-class { background: rgba(50, 50, 50, 0.8); }
+  .light-square .chess-class { background: rgba(230, 230, 230, 0.8); color: black; }
+  
+  /* ♟️ Fade-in Animation */
+  .fade-in {
+    animation: fadeInChess 1.2s forwards ease-in-out;
+  }
+  
+  @keyframes fadeInChess {
+    0% { opacity: 0; transform: scale(0.8); box-shadow: none; }
+    50% { opacity: 0.5; transform: scale(1); }
+    100% { opacity: 1; box-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8); }
+  }
+  
+  /* ♟️ Hover Effect - Slight Movement */
+  .chess-class:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 0px 15px rgba(255, 215, 0, 0.9);
+  }
+  

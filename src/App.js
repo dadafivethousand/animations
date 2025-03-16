@@ -1,15 +1,18 @@
 import React from "react";
 import './Stylesheets/App.css'
  
-import BullsSchedule from "./Components/BullsSchedule";
-
+ import HogwartsSchedule from "./Components/HogwartsSchedule";
+import CallOfDutySchedule from "./Components/CallOfDutySchedule";
+import CowboySchedule from "./Components/CowboySchedule";
+import McGregorSchedule from "./Components/McGregorSchedule";
+ 
    
   
   
  function App() {
   return (
     <>
-    < BullsSchedule day="Sunday"/>
+    < CowboySchedule day="Monday"/>
    </>
   );
 }

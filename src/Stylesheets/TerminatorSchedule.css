@@ -1,0 +1,119 @@
+/* 🔥 Import a Futuristic Digital Font */
+@font-face {
+    font-family: "Terminator";
+    src: url("https://fonts.cdnfonts.com/s/17498/terminator.woff") format("woff");
+  }
+  
+  /* 🔥 Skynet UI Background */
+  .terminator-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    width: 100vw;
+    background: black;
+    background-image: radial-gradient(circle, rgba(255, 0, 0, 0.15) 5%, rgba(0, 0, 0, 0.9) 80%);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* 🔥 Skynet Terminal Header */
+  .terminator-header {
+    position: relative;
+    text-align: center;
+    width: 100%;
+    padding-bottom: 2vh;
+    z-index: 2;
+  }
+  
+  /* 🛑 Terminator HUD Title */
+  .terminator-day {
+    margin-top: 100px;
+    font-size: 10vw;
+    font-weight: bold;
+    color: #ff0000;
+    text-transform: uppercase;
+    font-family: "Terminator", sans-serif;
+    letter-spacing: 4px;
+    text-shadow: 
+      0px 0px 10px rgba(255, 0, 0, 1),
+      0px 0px 30px rgba(255, 0, 0, 0.8),
+      0px 0px 60px rgba(255, 0, 0, 0.5);
+    animation: glitchText 1.5s infinite alternate;
+  }
+  
+  /* 🔥 Digital Class Display */
+  .terminator-class-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-width: 250px;
+    position: relative;
+  }
+  
+  /* 🔥 Terminator-Class HUD Effect */
+  .terminator-class {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    min-width: 100%;
+    padding: 15px;
+    margin: 5px 0;
+    font-size: 20px;
+    font-family: "Terminator", sans-serif;
+    border-radius: 8px;
+    border: 2px solid rgba(255, 0, 0, 0.8);
+    background: linear-gradient(120deg, rgba(20, 20, 20, 0.95), rgba(10, 10, 10, 0.95));
+ 
+    transform: scale(0.8);
+    animation: fadeInCyber 1s forwards ease-in-out;
+    box-shadow: 
+      0px 0px 20px rgba(255, 0, 0, 0.5),
+      inset 0px 0px 20px rgba(255, 0, 0, 0.3);
+  }
+  
+  /* 🔥 Terminator Glitch Effect */
+  .glitch-effect {
+    animation: glitch 1.5s infinite alternate ease-in-out;
+  }
+  
+  /* 🔥 Red Neon Glitch */
+  @keyframes glitch {
+    0% { transform: skewX(-5deg); }
+    25% { transform: skewX(5deg); text-shadow: 4px 0px 5px rgba(255, 0, 0, 0.8); }
+    50% { transform: skewX(-5deg); text-shadow: -4px 0px 5px rgba(255, 0, 0, 0.8); }
+    75% { transform: skewX(5deg); text-shadow: 4px 0px 5px rgba(255, 0, 0, 0.8); }
+    100% { transform: skewX(-5deg); }
+  }
+  
+  /* 🔥 Terminator Red Glow Text */
+  .terminator-class-name {
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #ff0000;
+    font-family: "Terminator", sans-serif;
+  }
+  
+  .terminator-class-time {
+    font-size: 18px;
+    color: #ff4d4d;
+    font-family: "Terminator", sans-serif;
+  }
+  
+  /* 🔥 Flickering Glitchy Appearance */
+  @keyframes fadeInCyber {
+    0% { opacity: 0; transform: scale(0.8); box-shadow: none; }
+    50% { opacity: 0.5; transform: scale(1); }
+    100% { opacity: 1; box-shadow: 0px 0px 25px rgba(255, 0, 0, 0.8); }
+  }
+  
+  /* 🔥 Terminator CRT Flicker */
+  @keyframes glitchText {
+    0% { opacity: 1; }
+    50% { opacity: 0.85; }
+    100% { opacity: 1; }
+  }
+  

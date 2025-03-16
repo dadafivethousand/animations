@@ -1,0 +1,210 @@
+/* 🧙‍♂️ Import Harry Potter-Style Calligraphy Font */
+@font-face {
+  font-family: "Hogwarts";
+  src: url("https://fonts.cdnfonts.com/s/11494/HarryP.woff") format("woff");
+}
+
+/* 🏰 Hogwarts-Themed Fullscreen Background */
+.hogwarts-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+  width: 100vw;
+  background: radial-gradient(circle, #e8d8b7 20%, #c5a96a 80%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ✨ Floating Candles Effect */
+.floating-candles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(255, 247, 205, 0.3), transparent);
+  animation: floatCandles 5s infinite ease-in-out alternate;
+}
+
+/* 🔥 Floating Candles Animation */
+@keyframes floatCandles {
+  0% { opacity: 0.6; transform: translateY(-10px); }
+  100% { opacity: 0.9; transform: translateY(10px); }
+}
+
+/* 📜 Parchment Scroll - Before Unroll */
+.hogwarts-scroll {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 85%;
+  padding: 0px;
+  min-height: 55vh;
+  overflow: hidden;
+  background: radial-gradient(circle, #f7e7c4 30%, #e3c28d 90%);
+  border-radius: 50px 50px 0 0;
+  box-shadow: inset 0px 0px 20px rgba(90, 56, 19, 0.4);
+  transform-origin: top center;
+  transform: scaleY(0);
+  transition: transform 5s ease-out, height 2s ease-out, padding 1s ease-in-out;
+  transform: scaleY(1);
+  height: auto;
+  padding: 40px;
+  border-radius: 10px;
+}
+
+/* 📜 Scroll Unrolling Effect */
+ 
+
+/* 🧙‍♂️ Hogwarts Header */
+.hogwarts-header {
+  position: relative;
+  text-align: center;
+  width: 100%;
+  padding-bottom: 2vh;
+  z-index: 2;
+}
+
+/* 📜 Elegant Hogwarts Font */
+.hogwarts-day {
+  font-size: 10vw;
+  font-weight: bold;
+  color: #5A3813;
+  text-transform: uppercase;
+  font-family: "Hogwarts", serif;
+  letter-spacing: 4px;
+  text-shadow: 
+    0px 0px 10px rgba(90, 56, 19, 1),
+    0px 0px 20px rgba(75, 40, 10, 0.8),
+    0px 0px 40px rgba(60, 30, 5, 0.5);
+  animation: parchmentFlicker 1.5s infinite alternate;
+}
+
+/* 📜 Magic Class Entries */
+.hogwarts-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 250px;
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 22px;
+  font-family: "Hogwarts", serif;
+  background: none;
+  border-bottom: 2px dashed #5A3813;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: parchmentReveal 1.5s forwards ease-in-out;
+}
+
+/* ✨ Ink Appears Like It's Being Written */
+.parchment-reveal {
+  animation: parchmentReveal 2s forwards ease-in-out;
+}
+
+@keyframes parchmentReveal {
+  0% { opacity: 0; transform: translateY(10px); filter: blur(10px); }
+  50% { opacity: 0.5; filter: blur(5px); }
+  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+/* 📜 Elegant Ink Style */
+.hogwarts-class-name, .hogwarts-class-time {
+  color: #5A3813;
+  font-family: "Hogwarts", serif;
+  font-style: italic;
+}
+
+/* 📜 Parchment Flicker */
+@keyframes parchmentFlicker {
+  0% { opacity: 1; }
+  50% { opacity: 0.95; }
+  100% { opacity: 1; }
+}
+
+
+/* 📜 Burnt Parchment Bottom Effect */
+.hogwarts-scroll::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 100%;
+  height: 40px;
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.7) 20%, rgba(0, 0, 0, 0) 70%);
+  filter: blur(8px);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/* Extra smoky effect at the bottom */
+.hogwarts-scroll::before {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  width: 100%;
+  height: 50px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  filter: blur(6px);
+  opacity: 0.7;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+/* 📜 Ripped Parchment Bottom Effect */
+.hogwarts-scroll::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  width: 100%;
+  height: 40px;
+  background: radial-gradient(circle at 50% 100%, 
+    rgba(90, 56, 19, 1) 10%,  /* Dark brown paper edges */
+    rgba(200, 160, 90, 0.8) 40%,  /* Mid-tone aged parchment */
+    rgba(247, 231, 196, 0.5) 80%, 
+    transparent 100%);
+  clip-path: polygon(0% 60%, 5% 80%, 15% 70%, 25% 90%, 35% 75%, 45% 85%, 55% 70%, 65% 90%, 75% 75%, 85% 85%, 95% 65%, 100% 90%);
+  filter: blur(2px);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+/* 📜 Ripped Parchment Bottom Effect */
+.hogwarts-scroll::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  width: 100%;
+  height: 40px;
+  background: radial-gradient(circle at 50% 100%, 
+    rgba(90, 56, 19, 1) 10%,  
+    rgba(200, 160, 90, 0.8) 40%,  
+    rgba(247, 231, 196, 0.5) 80%, 
+    transparent 100%);
+  clip-path: polygon(0% 60%, 5% 80%, 15% 70%, 25% 90%, 35% 75%, 45% 85%, 55% 70%, 65% 90%, 75% 75%, 85% 85%, 95% 65%, 100% 90%);
+  filter: blur(2px);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/* 📜 Ripped Parchment Top Effect */
+.hogwarts-scroll::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  width: 100%;
+  height: 40px;
+  background: radial-gradient(circle at 50% 0%, 
+    rgba(90, 56, 19, 1) 10%,  
+    rgba(200, 160, 90, 0.8) 40%,  
+    rgba(247, 231, 196, 0.5) 80%, 
+    transparent 100%);
+  clip-path: polygon(0% 40%, 5% 20%, 15% 30%, 25% 10%, 35% 25%, 45% 15%, 55% 30%, 65% 10%, 75% 25%, 85% 15%, 95% 35%, 100% 10%);
+  filter: blur(2px);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
