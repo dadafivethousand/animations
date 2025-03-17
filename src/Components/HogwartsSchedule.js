@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../Stylesheets/HogwartsSchedule.css";
 import schedule from "../Schedule"; // Assuming schedule data exists
 
-function HogwartsSchedule({ day, animationDelay = 1000, animationInterval = 700 }) {
+function HogwartsSchedule({ day, animationDelay = 1000, animationInterval = 1500 }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [scrollUnrolled, setScrollUnrolled] = useState(false);
   const [visibleArray, setVisibleArray] = useState([]);
