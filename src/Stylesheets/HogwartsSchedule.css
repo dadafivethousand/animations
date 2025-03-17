@@ -101,7 +101,7 @@
 
 /* ✨ Ink Appears Like It's Being Written */
 .parchment-reveal {
-  animation: parchmentReveal 2s forwards ease-in-out;
+  animation: parchmentReveal 4s forwards ease-in-out;
 }
 
 @keyframes parchmentReveal {

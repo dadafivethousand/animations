@@ -48,12 +48,12 @@ function HogwartsSchedule({ day, animationDelay = 1000, animationInterval = 1500
         <div className="hogwarts-content">
           {schedule[day]?.map((cls, idx) => (
             <div key={idx} className="hogwarts-class-container">
-              {visibleArray.includes(idx) && (
+               
                 <div className="hogwarts-class parchment-reveal">
                   <span className="hogwarts-class-name">{cls.name}</span>
                   <span className="hogwarts-class-time">{formatTime(cls.start)}</span>
                 </div>
-              )}
+        
             </div>
           ))}
         </div>
