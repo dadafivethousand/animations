@@ -4,6 +4,7 @@ import './Stylesheets/App.css'
  import HogwartsSchedule from "./Components/HogwartsSchedule";
 import CallOfDutySchedule from "./Components/CallOfDutySchedule";
  import McGregorSchedule from "./Components/McGregorSchedule";
+ import ReggaetonSchedule from "./Components/ReggaetonSchedule"
  
    
   
@@ -11,7 +12,7 @@ import CallOfDutySchedule from "./Components/CallOfDutySchedule";
  function App() {
   return (
     <>
-    < HogwartsSchedule day="Tuesday"/>
+    < ReggaetonSchedule day="Wednesday"/>
    </>
   );
 }

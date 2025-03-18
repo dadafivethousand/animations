@@ -1,0 +1,136 @@
+/* 🎭 Import a James Bond-Style Elegant Font */
+@font-face {
+    font-family: "BondFont";
+    src: url("https://fonts.cdnfonts.com/s/20082/SpyAgency.woff") format("woff");
+  }
+  
+  /* 🔫 MI6-Inspired Dark Theme */
+  .bond-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(to bottom, #101010, #222);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* 🔫 Gun Barrel Swirl */
+  .gun-barrel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, transparent 30%, rgba(0, 0, 0, 0.85) 65%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(4);
+    animation: gunBarrelZoom 3s forwards;
+  }
+  
+  @keyframes gunBarrelZoom {
+    0% { transform: translate(-50%, -50%) scale(4); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+  }
+  
+  /* 🩸 Blood Drop Effect */
+  .blood-drop {
+    position: absolute;
+    top: -50px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent 20%, red 100%);
+    transform: translateY(-100%);
+    animation: bloodFill 4s ease-in-out 3s forwards;
+  }
+  
+  @keyframes bloodFill {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(0); }
+  }
+  
+  /* 🏝️ Bond Header */
+  .bond-header {
+    text-align: center;
+    width: 100%;
+    margin-top: 10vh;
+    padding: 20px;
+    border-bottom: 3px solid gold;
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* 📅 Bond Day - MI6 Classified Look */
+  .bond-day {
+    font-size: 10vw;
+    font-weight: bold;
+    color: gold;
+    font-family: "BondFont", sans-serif;
+    text-transform: uppercase;
+    text-shadow: 
+      0px 0px 20px rgba(255, 215, 0, 1),
+      0px 0px 40px rgba(255, 215, 0, 0.8);
+    animation: flickerText 3s infinite alternate ease-in-out;
+  }
+  
+  /* ✨ Flickering Light Effect */
+  @keyframes flickerText {
+    0% { opacity: 1; text-shadow: 0px 0px 25px rgba(255, 215, 0, 1); }
+    50% { opacity: 0.85; text-shadow: 0px 0px 15px rgba(255, 215, 0, 0.7); }
+    100% { opacity: 1; text-shadow: 0px 0px 25px rgba(255, 215, 0, 1); }
+  }
+  
+  /* 🕵️‍♂️ Bond Class Entries – Spy File Look */
+  .bond-class {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 320px;
+    padding: 18px;
+    margin: 16px 0;
+    font-size: 1.5rem;
+    font-family: "BondFont", sans-serif;
+    background: rgba(20, 20, 20, 0.95);
+    border: 3px solid gold;
+    border-radius: 8px;
+    text-transform: uppercase;
+    color: gold;
+    text-shadow: 0px 0px 15px rgba(255, 215, 0, 0.9);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+  
+  /* 🎯 Spy Folder Opening Animation */
+  .bond-fade-in {
+    animation: fadeIn 1s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    0% { transform: translateY(20px) scale(0.8); opacity: 0; }
+    50% { transform: translateY(0) scale(1.1); opacity: 1; }
+    100% { transform: scale(1); }
+  }
+  
+  /* 💼 Spy Folder Hover Effect */
+  .bond-class:hover {
+    transform: scale(1.08);
+    box-shadow: 0px 0px 20px rgba(255, 215, 0, 1);
+    background: rgba(40, 40, 40, 1);
+    text-shadow: 0px 0px 20px rgba(255, 215, 0, 1);
+  }
+  
+  /* 🔥 007 Logo */
+  .bond-007 {
+    position: absolute;
+    bottom: 20px;
+    right: 30px;
+    font-size: 6vw;
+    font-weight: bold;
+    font-family: "BondFont", sans-serif;
+    color: gold;
+    text-shadow: 0px 0px 20px rgba(255, 215, 0, 1);
+    animation: flickerText 3s infinite alternate ease-in-out;
+  }
+  

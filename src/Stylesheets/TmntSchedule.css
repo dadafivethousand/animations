@@ -1,0 +1,94 @@
+/* 🐢 Import a Graffiti-Style TMNT Font */
+@font-face {
+    font-family: "TmntGraffiti";
+    src: url("https://fonts.cdnfonts.com/s/22785/TurtlePower.woff") format("woff");
+  }
+  
+  /* 🌆 NYC Sewer-Lair Background */
+  .tmnt-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(to bottom, #003300, #1a1a1a);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* 🎨 TMNT Graffiti-Style Header */
+  .tmnt-header {
+    text-align: center;
+    width: 100%;
+    margin-top: 6vh;
+    padding: 15px;
+    background: rgba(0, 100, 0, 0.9);
+    border-bottom: 5px solid #FFD700;
+    box-shadow: 0px 0px 20px rgba(0, 255, 0, 0.8);
+  }
+  
+  /* 📅 TMNT Day - Bold Graffiti Text */
+  .tmnt-day {
+    font-size: 9vw;
+    font-weight: bold;
+    color: #00FF00;
+    font-family: "TmntGraffiti", sans-serif;
+    text-transform: uppercase;
+    text-shadow: 
+      0px 0px 10px rgba(0, 255, 0, 1),
+      0px 0px 20px rgba(0, 255, 0, 0.7);
+    animation: flickerNeon 2.5s infinite alternate ease-in-out;
+  }
+  
+  /* ✨ Neon Glow Effect */
+  @keyframes flickerNeon {
+    0% { opacity: 1; text-shadow: 0px 0px 15px rgba(0, 255, 0, 1); }
+    50% { opacity: 0.85; text-shadow: 0px 0px 10px rgba(0, 255, 0, 0.7); }
+    100% { opacity: 1; text-shadow: 0px 0px 15px rgba(0, 255, 0, 1); }
+  }
+  
+  /* 🥷 TMNT Class Entries */
+  .tmnt-class {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 300px;
+    padding: 12px;
+    margin: 10px 0;
+    font-size: 1.5rem;
+    font-family: "TmntGraffiti", sans-serif;
+    background: rgba(0, 100, 0, 0.9);
+    border: 3px solid #FFD700;
+    border-radius: 10px;
+    text-transform: uppercase;
+    color: #00FF00;
+    text-shadow: 0px 0px 10px rgba(0, 255, 0, 0.7);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+  
+  /* 🥷 Ninja Flip Entrance */
+  .tmnt-ninja-flip {
+    animation: ninjaFlip 1.2s ease-out;
+  }
+  
+  @keyframes ninjaFlip {
+    0% { transform: rotateY(90deg) scale(0.8); opacity: 0; }
+    50% { transform: rotateY(-10deg) scale(1.1); opacity: 1; }
+    100% { transform: rotateY(0deg) scale(1); }
+  }
+  
+  /* 🔪 Extra Ninja Slash on Hover */
+  .tmnt-class:hover {
+    transform: translateX(10px) scale(1.05);
+    box-shadow: 0px 0px 20px rgba(0, 255, 0, 1);
+    background: rgba(0, 150, 0, 0.95);
+    text-shadow: 0px 0px 20px rgba(0, 255, 0, 1);
+    animation: ninjaSlash 0.3s infinite alternate ease-in-out;
+  }
+  
+  @keyframes ninjaSlash {
+    0% { transform: translateX(10px) scale(1.05); }
+    100% { transform: translateX(-5px) scale(1.05); }
+  }
+  
