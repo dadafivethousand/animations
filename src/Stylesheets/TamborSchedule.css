@@ -69,9 +69,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    min-width: 300px;
+    min-width: 250px;
     padding: 10px;
-    margin: 14px 0;
+    margin: 17px 0;
     font-size: 1.5rem;
     font-family: "TribalGroove", sans-serif;
     background: rgba(100, 50, 20, 0.9);
@@ -89,11 +89,11 @@
   }
   
   @keyframes danceGroove {
-    0% { transform: translateX(-5px) rotate(-0.5deg) scale(1.02); }
-    25% { transform: translateX(5px) rotate(.5deg) scale(1.05); }
-    50% { transform: translateX(-5px) rotate(-0.5deg) scale(1.02); }
-    75% { transform: translateX(5px) rotate(.5deg) scale(1.05); }
-    100% { transform: translateX(-5px) rotate(-0.5deg) scale(1.02); }
+    0% { transform: translateX(-5px) rotate(-0.5deg) ; }
+    25% { transform: translateX(5px) rotate(.5deg) ; }
+    50% { transform: translateX(-5px) rotate(-0.5deg) ; }
+    75% { transform: translateX(5px) rotate(.5deg) ; }
+    100% { transform: translateX(-5px) rotate(-0.5deg); }
   }
   
   /* 💃 Extra Groove on Hover */
