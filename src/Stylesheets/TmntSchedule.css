@@ -21,7 +21,8 @@
   .tmnt-header {
     text-align: center;
     width: 100%;
-    margin-top: 6vh;
+    margin-top: 15vh;
+    margin-bottom: 3vh;
     padding: 15px;
     background: rgba(0, 100, 0, 0.9);
     border-bottom: 5px solid #FFD700;
