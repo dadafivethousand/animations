@@ -35,7 +35,7 @@ html, body {
   align-items: center;
   padding: 15px;
   animation: tvFlicker 3s infinite alternate ease-in-out;
-  top:-50px
+  top:-60px
 }
 
 /* 📺 OLD TV SCREEN EFFECT */
