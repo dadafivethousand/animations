@@ -39,14 +39,14 @@
   .tambor-header {
     text-align: center;
     width: 100%;
-    margin-top: 6vh;
+    margin-top: 10vh;
     padding: 15px;
      border-bottom: 5px solid #D9B382;
    }
   
   /* 📅 Tambor Day - Bold Tribal Typography */
   .tambor-day {
-    font-size: 9vw;
+    font-size: 10vw;
     font-weight: bold;
     color: #FFD700;
     font-family: "TribalGroove", sans-serif;
@@ -70,7 +70,7 @@
     justify-content: space-between;
     align-items: center;
     min-width: 300px;
-    padding: 13px;
+    padding: 10px;
     margin: 14px 0;
     font-size: 1.5rem;
     font-family: "TribalGroove", sans-serif;
@@ -89,11 +89,11 @@
   }
   
   @keyframes danceGroove {
-    0% { transform: translateX(-5px) rotate(-1deg) scale(1.02); }
-    25% { transform: translateX(5px) rotate(1deg) scale(1.05); }
-    50% { transform: translateX(-5px) rotate(-1deg) scale(1.02); }
-    75% { transform: translateX(5px) rotate(1deg) scale(1.05); }
-    100% { transform: translateX(-5px) rotate(-1deg) scale(1.02); }
+    0% { transform: translateX(-5px) rotate(-0.5deg) scale(1.02); }
+    25% { transform: translateX(5px) rotate(.5deg) scale(1.05); }
+    50% { transform: translateX(-5px) rotate(-0.5deg) scale(1.02); }
+    75% { transform: translateX(5px) rotate(.5deg) scale(1.05); }
+    100% { transform: translateX(-5px) rotate(-0.5deg) scale(1.02); }
   }
   
   /* 💃 Extra Groove on Hover */

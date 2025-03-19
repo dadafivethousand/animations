@@ -2,10 +2,12 @@ import React from "react";
 import './Stylesheets/App.css'
  
  
-import SpongeBobSchedule from "./Components/SpongeBobSchedule";
-import BatmanSchedule from "./Components/BatmanSchedule";
-import FamilyGuySchedule from "./Components/FamilyGuySchedule"
+import SpongeBobSchedule from "./Used/SpongeBobSchedule";
+import BatmanSchedule from "./Used/BatmanSchedule";
+import FamilyGuySchedule from "./Used/FamilyGuySchedule"
 import TmntSchedule from "./Components/TmntSchedule";
+import ShrekSchedule from "./Components/ShrekSchedule";
+import TamborSchedule from "./Components/TamborSchedule"
 
    
   
@@ -13,7 +15,7 @@ import TmntSchedule from "./Components/TmntSchedule";
  function App() {
   return (
     <>
-    <  TmntSchedule day="Sunday"/>
+    < TamborSchedule day="Monday"/>
    </>
   );
 }
