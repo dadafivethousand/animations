@@ -3,6 +3,7 @@ import './Stylesheets/App.css'
  
  
 import SpongeBobSchedule from "./Components/SpongeBobSchedule";
+import BatmanSchedule from "./Components/BatmanSchedule";
  
    
   
@@ -10,7 +11,7 @@ import SpongeBobSchedule from "./Components/SpongeBobSchedule";
  function App() {
   return (
     <>
-    < SpongeBobSchedule day="Thursday"/>
+    < BatmanSchedule day="Friday"/>
    </>
   );
 }
