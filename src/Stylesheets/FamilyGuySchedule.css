@@ -23,7 +23,7 @@ html, body {
   position: relative;
   width: 90vw;
   max-width: 500px;
-  height: 450px;
+  height: 350px;
   background: linear-gradient(145deg, #f3c12c 30%, #e0a800);
   border-radius: 20px;
   border: 6px solid black;
