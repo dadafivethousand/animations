@@ -75,6 +75,7 @@ function LilBabySchedule({ day, animationDelay = 1000, secondaryAnimationDelay=5
       {/* Title in 8 Mile style */}
       <div className="lilbaby-album-cover">
         <div className="harder-text">{titleText}</div>
+        <div className="harder-text harder-centered">{displayday}</div>
         
 
       </div>
@@ -82,7 +83,7 @@ function LilBabySchedule({ day, animationDelay = 1000, secondaryAnimationDelay=5
 
       {/* Schedule */}
       <div className="lilbaby-schedule">
-        <h2 className="lilbaby-day">{displayday}</h2>
+  
 
         {schedule[day]?.map((cls, idx) => (
           visibleArray.includes(idx) && (

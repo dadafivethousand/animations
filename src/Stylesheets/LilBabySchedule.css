@@ -13,6 +13,9 @@
     background-repeat: no-repeat;
     width:100vw;
     height:100vw;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 
@@ -21,14 +24,17 @@
     justify-content: space-between;
     align-items: center;
     background: white;
-    padding: 10px 20px;
-    margin-bottom: 10px;
+    padding: 5px 20px;
+    margin-bottom: 5px;
     border-radius: 8px;
     font-size: 18px;
     font-weight: bold;
     color: #c02424;
     box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease-in-out;
+    border:1px solid red;
+    width:70%;
+    margin: 0 auto;
 }
 .lilbaby-schedule{
     background-color: rgb(234, 234, 234);
@@ -51,4 +57,8 @@
 }
 
 
-
+.harder-centered{
+    margin-left: 0;
+    text-align: center;
+    font-size:30px
+}
