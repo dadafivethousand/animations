@@ -3,33 +3,50 @@ import "../Stylesheets/LilBabySchedule.css";
 import schedule from "../Schedule"; // Assuming schedule data exists
 import lilbaby from '../Images/Harder_Than_Ever.jpg'
 
-function LilBabySchedule({ day, animationDelay = 2000, animationInterval = 500 }) {
+function LilBabySchedule({ day, animationDelay = 1000, secondaryAnimationDelay=5000, thirdAnimationDelay=7000,animationInterval = 500 }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [visibleArray, setVisibleArray] = useState([]);
      const [typedText, setTypedText] = useState("");
         const [showText, setShowText] = useState(false);
+        const [titleText, setTitleText] = useState('')
+        const [displayday, setDisplayday] = useState('')
  
   useEffect(() => {
     setTimeout(() => {
       setShowSchedule(true);
-    }, animationDelay);
-  }, [animationDelay]);
+    }, thirdAnimationDelay);
+  }, [ ]);
 
-    useEffect(() => {
-        // Start the typewriter effect once the animation is fully done (7s + small buffer)
-        setTimeout(() => {
-          setShowText(true);
-        }, 1000);
-        if (showText) {
-          let i = 0;
-          const interval = setInterval(() => {
-            setTypedText(day.substring(0, i + 1));
-            i++;
-            if (i === day.length) clearInterval(interval);
-          }, 150); // Adjust speed of typing
-          return () => clearInterval(interval);
-        }
-      }, [showText]);
+  useEffect(() => {
+    setTimeout(() => {
+      let text = "maple jiu-jitsu goes";
+       let i = 0;
+       const interval = setInterval(() => {
+         setTitleText(text.substring(0, i + 1));
+         i++;
+         if (i > text.length) {
+           clearInterval(interval);
+          }
+       }, 150); // Typing speed
+       return () => clearInterval(interval);
+     }, animationDelay)
+
+     setTimeout(() => {
+  
+       let i = 0;
+       const interval = setInterval(() => {
+         setDisplayday(day.substring(0, i + 1));
+         i++;
+         if (i > day.length) {
+           clearInterval(interval);
+          }
+       }, 150); // Typing speed
+       return () => clearInterval(interval);
+     }, secondaryAnimationDelay)
+    
+    }
+     ,[])
+ 
 
   useEffect(() => {
     if (showSchedule) {
@@ -56,11 +73,16 @@ function LilBabySchedule({ day, animationDelay = 2000, animationInterval = 500 }
   return (
     <div className="lilbaby-container">
       {/* Title in 8 Mile style */}
+      <div className="lilbaby-album-cover">
+        <div className="harder-text">{titleText}</div>
+        
+
+      </div>
  
 
       {/* Schedule */}
       <div className="lilbaby-schedule">
-        <h2 className="lilbaby-day">{day}</h2>
+        <h2 className="lilbaby-day">{displayday}</h2>
 
         {schedule[day]?.map((cls, idx) => (
           visibleArray.includes(idx) && (
