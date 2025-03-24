@@ -39,7 +39,7 @@
     color: #d1f575;
     text-shadow: 2px 2px 10px #8acc40;
     position: relative;
-    margin-top: 40px;
+    margin-top: 90px;
     letter-spacing: 2px;
   }
   
@@ -47,7 +47,7 @@
   .shrek-class {
     font-size: 30px;
     background: rgba(139, 69, 19, 0.8); /* Mud Brown */
-    padding: 12px;
+    padding: 3px;
     margin: 8px auto;
     width: 80%;
     border: 3px solid #734f26;

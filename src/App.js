@@ -3,15 +3,15 @@ import './Stylesheets/App.css'
  
  
  
-import LilBabySchedule from "./Components/LilBabySchedule";
-
+import SouthParkSchedule from "./Components/SouthParkSchedule";
+import ShrekSchedule from "./Components/ShrekSchedule"
    
   
   
  function App() {
   return (
     <>
-    < LilBabySchedule day="Monday"/>
+    < ShrekSchedule day="Tuesday"/>
    </>
   );
 }
