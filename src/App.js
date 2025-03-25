@@ -8,7 +8,7 @@ import SouthParkSchedule from "./Components/SouthParkSchedule";
 import BuzzSchedule from "./Components/BuzzSchedule"
 import KhabibNurmagomedovSchedule from "./Components/KhabibNurmagomedovSchedule";
    import CallOfDutySchedule from "./Components/CallOfDutySchedule";
-  import McgregorSchedule from "./Components/McGregorSchedule"
+  import McgregorSchedule from "./Used/McGregorSchedule"
   import UsainBoltSchedule from "./Components/UsainBoltSchedule"
   
  function App() {
