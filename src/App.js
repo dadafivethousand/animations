@@ -10,11 +10,12 @@ import KhabibNurmagomedovSchedule from "./Components/KhabibNurmagomedovSchedule"
    import CallOfDutySchedule from "./Components/CallOfDutySchedule";
   import McgregorSchedule from "./Used/McGregorSchedule"
   import UsainBoltSchedule from "./Components/UsainBoltSchedule"
+import TupacSchedule from "./Components/TupacSchedule";
   
  function App() {
   return (
     <>
-    < McgregorSchedule day="Wednesday"/>
+    < TupacSchedule day="Thursday"/>
    </>
   );
 }

@@ -1,0 +1,78 @@
+/* 🎤 Tupac Schedule - West Coast Grit */
+
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=Rock+Salt&display=swap');
+
+.tupac-container {
+  height: 100vh;
+  width: 100vw;
+  background: #000;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  padding-top: 60px;
+  background-image: radial-gradient(circle, rgba(50,50,50,0.1) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+.tupac-header {
+  text-align: center;
+  padding: 20px;
+ }
+
+.tupac-day {
+  font-family: 'Rock Salt', cursive;
+  font-size: 3rem;
+  color: #f2f2f2;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(255,255,255,0.1);
+}
+
+.tupac-schedule {
+   width: 80%;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.tupac-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid #555;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.2rem;
+  color: #eee;
+  transform: translateX(-50px);
+  opacity: 0;
+  animation: slideIn 0.6s forwards ease;
+}
+
+.tupac-class:nth-child(even) {
+  animation-delay: 0.3s;
+}
+.tupac-class:nth-child(odd) {
+  animation-delay: 0.5s;
+}
+
+@keyframes slideIn {
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.tupac-class-name {
+  text-transform: uppercase;
+}
+
+.tupac-class-time {
+  font-weight: bold;
+  color: #fff;
+}
