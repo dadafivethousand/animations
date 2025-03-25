@@ -1,0 +1,139 @@
+/* ⚡ Usain Bolt - The Smoothest Sprint Ever */
+
+/* Import a bold, sporty font */
+@font-face {
+    font-family: "Bolt";
+    src: url("https://fonts.cdnfonts.com/s/16642/ChampionGothic.woff") format("woff");
+}
+
+/* 🌍 Race Track Background */
+.usain-container {
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(135deg, #000 25%, #ffcc00 50%, #007a33 75%);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* ⚡ Bolt Lightning Intro */
+.usain-bolt {
+    font-size: 12vw;
+    color: yellow;
+    position: absolute;
+    top: 10%;
+    opacity: 0;
+    transform: scale(2);
+}
+
+.bolt-animate {
+    animation: bolt-flash 2s forwards ease-in-out; /* Slowed down */
+}
+
+@keyframes bolt-flash {
+    0% { opacity: 0; transform: scale(2); }
+    50% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0.5); }
+}
+
+/* ⚡ Lightning Strike Animation */
+.lightning {
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, yellow, transparent);
+    top: -10%;
+    left: -100%;
+    animation: bolt-strike 1s infinite linear; /* Slowed down */
+}
+
+@keyframes bolt-strike {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* 🏆 Usain Bolt Header */
+.usain-header {
+    text-align: center;
+    width: 100%;
+    padding: 20px 0;
+    font-family: "Bolt", sans-serif;
+    font-size: 10vw;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #ffcc00;
+    text-shadow: 0px 0px 15px rgba(0, 0, 0, 0.9);
+    position: relative;
+     
+}
+
+/* 🏃‍♂️ Sprinting Text Animation */
+.usain-day {
+    display: inline-block;
+    animation: sprint 2s linear infinite alternate; /* Slowed down */
+}
+
+@keyframes sprint {
+    0% { transform: skewX(-8deg) translateX(-3px); }
+    100% { transform: skewX(8deg) translateX(3px); }
+}
+
+/* 🏁 Track-Themed Schedule */
+.usain-schedule {
+    background: rgba(0, 0, 0, 0.85);
+    text-align: center;
+    font-family: "Bolt", sans-serif;
+    font-size: 26px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #ffcc00;
+    padding: 20px;
+    width: 75%;
+    max-width: 800px;
+    border: 4px solid #007a33;
+    border-radius: 8px;
+    box-shadow: 5px 5px 20px rgba(255, 204, 0, 0.5);
+    min-height: 270px;
+    max-height: 270px;
+}
+
+/* 🚀 Speed-Themed Class Entries */
+.usain-class {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 204, 0, 0.9);
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #000;
+    text-transform: uppercase;
+     box-shadow: 3px 3px 10px rgba(255, 204, 0, 0.5);
+    transform: scale(1);
+    transition: transform 0.3s ease-in-out, background 0.3s ease-in-out; /* Slowed hover effect */
+}
+
+/* ⚡ Sprint Effect */
+.sprint-left {
+    animation: sprintLeft 0.8s ease-in-out forwards; /* Slowed down */
+}
+.sprint-right {
+    animation: sprintRight 0.8s ease-in-out forwards; /* Slowed down */
+}
+
+@keyframes sprintLeft {
+    0% { transform: translateX(-120%) scale(0.8); opacity: 0; }
+    60% { transform: translateX(10px) scale(1.1); opacity: 1; }
+    100% { transform: translateX(0) scale(1); opacity: 1; }
+}
+
+@keyframes sprintRight {
+    0% { transform: translateX(120%) scale(0.8); opacity: 0; }
+    60% { transform: translateX(-10px) scale(1.1); opacity: 1; }
+    100% { transform: translateX(0) scale(1); opacity: 1; }
+}

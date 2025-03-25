@@ -1,44 +1,29 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/BondSchedule.css";
-import schedule from "../Schedule"; // Assuming schedule data exists
+import "../Stylesheets/UsainBoltSchedule.css";
+import schedule from "../Schedule";
 
-function BondSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
+function UsainBoltSchedule({ day, animationDelay = 800, animationInterval = 200 }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [visibleArray, setVisibleArray] = useState([]);
-  const [titleText, setTitleText] = useState("");
   const [displayDay, setDisplayDay] = useState("");
+  const [boltEffect, setBoltEffect] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
-      let text = "Bond's Mission Schedule";
-      let i = 0;
-      const interval = setInterval(() => {
-        setTitleText(text.substring(0, i + 1));
-        i++;
-        if (i > text.length) {
-          clearInterval(interval);
-        }
-      }, 150);
-    }, animationDelay);
-  }, []);
-
-  useEffect(() => {
+    setTimeout(() => setBoltEffect(true), 500);
     setTimeout(() => {
       let i = 0;
       const interval = setInterval(() => {
         setDisplayDay(day.substring(0, i + 1));
         i++;
-        if (i > day.length) {
-          clearInterval(interval);
-        }
-      }, 150);
-    }, animationDelay + 2000);
+        if (i > day.length) clearInterval(interval);
+      }, 80); // Slowed typing effect
+    }, animationDelay);
   }, []);
 
   useEffect(() => {
     setTimeout(() => {
       setShowSchedule(true);
-    }, animationDelay + 4000);
+    }, animationDelay + 1200);
   }, []);
 
   useEffect(() => {
@@ -64,17 +49,22 @@ function BondSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
   };
 
   return (
-    <div className="bond-container">
+    <div className="usain-container">
+      {/* Lightning Bolt Intro */}
  
-      {/* Schedule */}
-      <div className="bond-schedule">
-        <h2 className="bond-day">{displayDay}</h2>
+      {/* Bolt Header */}
+      <div className="usain-header">
+        <span className="usain-day">{displayDay}</span>
+        <div className="lightning"></div>
+      </div>
 
+      {/* Sprinting Schedule */}
+      <div className="usain-schedule">
         {schedule[day]?.map((cls, idx) => (
           visibleArray.includes(idx) && (
-            <div key={idx} className="bond-class">
-              <span className="bond-class-name">{cls.name}</span>
-              <span className="bond-class-time">{formatTime(cls.start)}</span>
+            <div key={idx} className={`usain-class sprint-${idx % 2 === 0 ? 'left' : 'right'}`}>
+              <span className="usain-class-name">{cls.name}</span>
+              <span className="usain-class-time">{formatTime(cls.start)}</span>
             </div>
           )
         ))}
@@ -83,4 +73,4 @@ function BondSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
   );
 }
 
-export default BondSchedule;
+export default UsainBoltSchedule;

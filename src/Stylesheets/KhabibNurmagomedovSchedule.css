@@ -1,0 +1,111 @@
+/* KHABIB NURMAGOMEDOV THEME: BLACK & GOLD FIGHT CAMP 🦅 */
+.khabib-container {
+    height: 100vh;
+    width: 100vw;
+    background: #0d0d0d;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 40px;
+    position: relative;
+}
+
+/* Press Conference Nameplate Style */
+.khabib-container::before {
+    content: "29-0 | Undefeated";
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: "Oswald", sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: rgba(255, 215, 0, 0.7);
+    letter-spacing: 1px;
+}
+
+/* Cold, Brutal Text */
+.khabib-day {
+    font-family: "Teko", sans-serif;
+    font-size: 52px;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: #ffd700;
+    letter-spacing: 3px;
+    text-shadow: 3px 3px 15px rgba(255, 215, 0, 0.9);
+    animation: fadeIn 2s ease-in-out, pulse 2s infinite alternate;
+    margin-bottom: 25px;
+}
+
+/* The Fight Camp Breakdown */
+.khabib-schedule {
+    background: rgba(20, 20, 20, 0.98);
+    text-align: center;
+    font-family: "Teko", sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #ffd700;
+    padding: 20px;
+    width: 80%;
+    max-width: 700px;
+    border: 3px solid #ffd700;
+    border-radius: 4px;
+    box-shadow: 5px 5px 20px rgba(255, 215, 0, 0.6);
+    animation: fadeIn 2s ease-in-out;
+}
+
+/* The Fight Card */
+.khabib-class {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1a1a1a;
+    padding: 15px 25px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #ffd700;
+    border-left: 4px solid #ffd700;
+    transition: transform 0.3s ease-in-out, background 0.2s ease-in-out;
+    animation: fadeIn 1.2s ease-in-out;
+}
+
+.khabib-class:hover {
+    transform: scale(1.03);
+    background: rgb(50, 50, 50);
+}
+
+/* Fighter Name */
+.khabib-class-name {
+    flex: 1;
+    text-align: left;
+}
+
+/* Fight Time */
+.khabib-class-time {
+    flex: 0.5;
+    text-align: right;
+}
+
+/* Gold Glow Animation */
+@keyframes pulse {
+    from {
+        text-shadow: 0 0 5px #ffd700, 0 0 10px #ffd700, 0 0 20px #ffd700;
+    }
+    to {
+        text-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700, 0 0 30px #ffd700;
+    }
+}
+
+/* Fade-In */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

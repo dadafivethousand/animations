@@ -2,15 +2,29 @@ import React, { useEffect, useState } from "react";
 import "../Stylesheets/BuzzSchedule.css";
 import schedule from "../Schedule"; // Assuming schedule data exists
 
-function BuzzSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
+function BuzzSchedule({ day, animationDelay = 2000, animationInterval = 500 }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [visibleArray, setVisibleArray] = useState([]);
+  const [displayDay, setDisplayDay] = useState("");
+
+  useEffect(() => {
+    setTimeout(() => {
+      let i = 0;
+      const interval = setInterval(() => {
+        setDisplayDay(day.substring(0, i + 1));
+        i++;
+        if (i > day.length) {
+          clearInterval(interval);
+        }
+      }, 100);
+    }, animationDelay);
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {
       setShowSchedule(true);
-    }, animationDelay);
-  }, [animationDelay]);
+    }, animationDelay + 2000);
+  }, []);
 
   useEffect(() => {
     if (showSchedule) {
@@ -35,24 +49,21 @@ function BuzzSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
   };
 
   return (
-    <div className="toystory-container">
-      {/* Pixar-like floating text */}
-      <h1 className="toystory-day">🚀 {day.toUpperCase()} 🤠</h1>
+    <div className="buzz-container">
+      {/* Day of the week appears in futuristic style */}
+      <div className="buzz-day">{displayDay}</div>
 
-      {/* Schedule Entries */}
-      <div className="toystory-schedule">
+      {/* Schedule Below */}
+      <div className="buzz-schedule">
         {schedule[day]?.map((cls, idx) => (
           visibleArray.includes(idx) && (
-            <div key={idx} className="toystory-class animated-entry">
-              <span className="toystory-class-name">🧸 {cls.name}</span>
-              <span className="toystory-class-time">⏳ {formatTime(cls.start)}</span>
+            <div key={idx} className="buzz-class">
+              <span className="buzz-class-name">{cls.name}</span>
+              <span className="buzz-class-time">{formatTime(cls.start)}</span>
             </div>
           )
         ))}
       </div>
-
-      {/* Floating Pixar Ball */}
-      <div className="toystory-ball">🔵⭐</div>
     </div>
   );
 }

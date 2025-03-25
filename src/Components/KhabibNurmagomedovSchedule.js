@@ -1,26 +1,11 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/BondSchedule.css";
-import schedule from "../Schedule"; // Assuming schedule data exists
+import "../Stylesheets/KhabibNurmagomedovSchedule.css";
+import schedule from "../Schedule";
 
-function BondSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
+function KhabibNurmagomedovSchedule({ day, animationDelay = 500, animationInterval = 300 }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [visibleArray, setVisibleArray] = useState([]);
-  const [titleText, setTitleText] = useState("");
   const [displayDay, setDisplayDay] = useState("");
-
-  useEffect(() => {
-    setTimeout(() => {
-      let text = "Bond's Mission Schedule";
-      let i = 0;
-      const interval = setInterval(() => {
-        setTitleText(text.substring(0, i + 1));
-        i++;
-        if (i > text.length) {
-          clearInterval(interval);
-        }
-      }, 150);
-    }, animationDelay);
-  }, []);
 
   useEffect(() => {
     setTimeout(() => {
@@ -31,14 +16,14 @@ function BondSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
         if (i > day.length) {
           clearInterval(interval);
         }
-      }, 150);
-    }, animationDelay + 2000);
+      }, 80);
+    }, animationDelay);
   }, []);
 
   useEffect(() => {
     setTimeout(() => {
       setShowSchedule(true);
-    }, animationDelay + 4000);
+    }, animationDelay + 1500);
   }, []);
 
   useEffect(() => {
@@ -64,17 +49,17 @@ function BondSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
   };
 
   return (
-    <div className="bond-container">
- 
-      {/* Schedule */}
-      <div className="bond-schedule">
-        <h2 className="bond-day">{displayDay}</h2>
+    <div className="khabib-container">
+      {/* Dominant Day Display */}
+      <div className="khabib-day">{displayDay}</div>
 
+      {/* The Schedule */}
+      <div className="khabib-schedule">
         {schedule[day]?.map((cls, idx) => (
           visibleArray.includes(idx) && (
-            <div key={idx} className="bond-class">
-              <span className="bond-class-name">{cls.name}</span>
-              <span className="bond-class-time">{formatTime(cls.start)}</span>
+            <div key={idx} className="khabib-class">
+              <span className="khabib-class-name">{cls.name}</span>
+              <span className="khabib-class-time">{formatTime(cls.start)}</span>
             </div>
           )
         ))}
@@ -83,4 +68,4 @@ function BondSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
   );
 }
 
-export default BondSchedule;
+export default KhabibNurmagomedovSchedule;
