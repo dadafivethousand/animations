@@ -45,7 +45,7 @@
 .mcgregor-header {
   text-align: center;
   width: 100%;
-  margin-top: 5vh;
+  margin-top: 16vh;
   background: rgba(0, 0, 0, 0.9);
   padding: 15px;
   border-top: 5px solid #ff8c00;
@@ -72,7 +72,7 @@
   justify-content: space-between;
   align-items: center;
   min-width: 230px;
-  padding: 15px;
+  padding: 5px;
   margin: 5px 0;
   font-size: 1.3rem;
   font-family: "McGregor", sans-serif;
