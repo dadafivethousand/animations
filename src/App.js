@@ -11,11 +11,15 @@ import KhabibNurmagomedovSchedule from "./Components/KhabibNurmagomedovSchedule"
   import McgregorSchedule from "./Used/McGregorSchedule"
   import UsainBoltSchedule from "./Components/UsainBoltSchedule"
 import TupacSchedule from "./Components/TupacSchedule";
+import DetroitSchedule from "./Components/DetroitSchedule";
+import LibertySchedule from "./Components/LibertySchedule";
+import BiggieSchedule from "./Components/BiggieSchedule";
+import CircusSchedule from "./Components/CircusSchedule";
   
  function App() {
   return (
     <>
-    < TupacSchedule day="Thursday"/>
+    < CircusSchedule day="Friday"/>
    </>
   );
 }
