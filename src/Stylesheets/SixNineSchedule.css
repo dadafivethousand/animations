@@ -1,0 +1,86 @@
+/* 🎨 6ix9ine Rainbow Mayhem Vibe */
+
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+
+.sixnine-container {
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #8b00ff);
+  background-size: 600% 600%;
+  animation: pulseBG 2s ease infinite;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 70px;
+  overflow-x: hidden;
+  font-family: 'Bangers', cursive;
+}
+
+@keyframes pulseBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.sixnine-header {
+  text-align: center;
+  padding: 20px;
+  border-bottom: 4px dashed white;
+  animation: flicker 2s infinite;
+}
+
+.sixnine-day {
+  font-size: 4rem;
+  color: white;
+  letter-spacing: 4px;
+  text-shadow: 2px 2px 5px black, 0px 0px 15px #fff;
+}
+
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    opacity: 1;
+  }
+  20%, 24%, 55% {
+    opacity: 0.4;
+  }
+}
+
+.sixnine-schedule {
+  margin-top: 30px;
+  width: 85%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sixnine-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.95);
+  border: 4px solid;
+  border-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet) 1;
+  padding: 18px 25px;
+  border-radius: 12px;
+  font-size: 1.3rem;
+  color: black;
+  text-transform: uppercase;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  transform: scale(1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.sixnine-class:hover {
+  transform: scale(1.08) rotate(-1deg);
+  background-color: #fff600;
+  color: #111;
+}
+
+.sixnine-class-name {
+  font-weight: bold;
+}
+
+.sixnine-class-time {
+  font-style: italic;
+}

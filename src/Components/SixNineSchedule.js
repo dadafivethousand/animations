@@ -1,34 +1,19 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/TupacSchedule.css";
+import "../Stylesheets/SixNineSchedule.css";
 import schedule from "../Schedule";
 
-const quotes = [
-  "Reality is wrong. Dreams are for real.",
-  "I’m not saying I’m gonna change the world, but I guarantee that I will spark the brain that will.",
-  "They got money for wars, but can’t feed the poor.",
-];
-
-function TupacSchedule({ day, animationDelay = 3000, animationInterval = 300 }) {
+function SixNineSchedule({ day, animationDelay = 300, animationInterval = 200 }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [visibleArray, setVisibleArray] = useState([]);
   const [typedDay, setTypedDay] = useState("");
-  const [quote, setQuote] = useState("");
 
   useEffect(() => {
-    setQuote(quotes[Math.floor(Math.random() * quotes.length)]);
-  }, []);
-
-  useEffect(() => {
-    setTimeout(() => {
-      
-   
     let i = 0;
     const interval = setInterval(() => {
       setTypedDay(day.substring(0, i + 1));
       i++;
       if (i > day.length) clearInterval(interval);
-    }, 90);
-  }, 2000);
+    }, 50);
   }, [day]);
 
   useEffect(() => {
@@ -56,26 +41,23 @@ function TupacSchedule({ day, animationDelay = 3000, animationInterval = 300 }) 
   };
 
   return (
-    <div className="tupac-container">
-      <div className="tupac-header">
-        <h1 className="tupac-day">{typedDay}</h1>
+    <div className="sixnine-container">
+      <div className="sixnine-header">
+        <h1 className="sixnine-day">{typedDay}</h1>
       </div>
 
-   
-
-      <div className="tupac-schedule">
+      <div className="sixnine-schedule">
         {schedule[day]?.map((cls, idx) => (
           visibleArray.includes(idx) && (
-            <div key={idx} className="tupac-class">
-              <span className="tupac-class-name">{cls.name}</span>
-              <span className="tupac-class-time">{formatTime(cls.start)}</span>
+            <div key={idx} className="sixnine-class">
+              <span className="sixnine-class-name">{cls.name}</span>
+              <span className="sixnine-class-time">{formatTime(cls.start)}</span>
             </div>
           )
         ))}
       </div>
-      <div className="tupac-image"></div>
     </div>
   );
 }
 
-export default TupacSchedule;
+export default SixNineSchedule;

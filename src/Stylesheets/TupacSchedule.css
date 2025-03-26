@@ -1,69 +1,77 @@
-/* 🎤 Tupac Schedule - West Coast Grit */
-
-/* Fonts */
+/* 🎤 Tupac Schedule - Cinematic West Coast Revival */
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=Rock+Salt&display=swap');
 
 .tupac-container {
   height: 100vh;
   width: 100vw;
-  background: #000;
+  background: linear-gradient(145deg, #111, #1e1e1e);
   color: white;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start ;
   align-items: center;
-  justify-content: start;
-  padding-top: 60px;
-  background-image: radial-gradient(circle, rgba(50,50,50,0.1) 1px, transparent 1px);
-  background-size: 30px 30px;
+   background-image: url('https://www.transparenttextures.com/patterns/asfalt-light.png');
 }
 
 .tupac-header {
   text-align: center;
-  padding: 20px;
- }
+  padding: 10px 20px;
+ 
+}
 
 .tupac-day {
   font-family: 'Rock Salt', cursive;
   font-size: 3rem;
-  color: #f2f2f2;
-  letter-spacing: 2px;
-  text-shadow: 2px 2px 4px rgba(255,255,255,0.1);
+  color: #f9f9f9;
+  text-shadow: 2px 2px 6px rgba(255,255,255,0.1);
+  letter-spacing: 3px;
+  margin-top: 70px;;
+ }
+
+.tupac-quote-banner {
+  font-family: 'Oswald', sans-serif;
+  color: #ccc;
+  font-size: 1rem;
+  margin: 25px 0 10px;
+  text-align: center;
+  width: 80%;
+  max-width: 700px;
+  font-style: italic;
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
+  padding: 10px 0;
+  opacity: 0.85;
 }
 
 .tupac-schedule {
-   width: 80%;
-  max-width: 700px;
+  width: 80%;
+  max-width: 720px;
   display: flex;
   flex-direction: column;
   gap: 5px;
+  margin-top: 200px;
+  
 }
 
 .tupac-class {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(255,255,255,0.07);
-  border: 1px solid #555;
-  padding: 10px 20px;
+  background: rgba(0, 0, 0, 0.627);
+  border: 1px solid #444;
+  padding: 5px 20px;
   border-radius: 8px;
   font-family: 'Oswald', sans-serif;
-  font-size: 1.2rem;
-  color: #eee;
-  transform: translateX(-50px);
+  font-size: 1.1rem;
+  color: #fff;
+  transform: translateY(20px);
   opacity: 0;
-  animation: slideIn 0.6s forwards ease;
+  animation: fadeInUp 0.7s forwards;
 }
 
-.tupac-class:nth-child(even) {
-  animation-delay: 0.3s;
-}
-.tupac-class:nth-child(odd) {
-  animation-delay: 0.5s;
-}
-
-@keyframes slideIn {
+@keyframes fadeInUp {
   to {
-    transform: translateX(0);
+    transform: translateY(0);
     opacity: 1;
   }
 }
@@ -74,5 +82,17 @@
 
 .tupac-class-time {
   font-weight: bold;
-  color: #fff;
+  color: #e0e0e0;
+}
+
+.tupac-image{
+  height:100vh;
+  width: 100vw;
+  background-color: black;
+  background-image: url(../Images/tupac.jpg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+  z-index: -1;
+  background-position: center;
 }
