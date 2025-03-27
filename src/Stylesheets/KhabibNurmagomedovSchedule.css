@@ -1,110 +1,134 @@
 .khabibnurmagomedov-container {
-    height: 100vh;
-    width: 100vw;
-    background: #1e1f22;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding-top: 40px;
-    position: relative;
-    font-family: "Teko", sans-serif;
+  height: 100vh;
+  width: 100vw;
+  background: #0d0d0d;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 40px;
+  position: relative;
+  font-family: "Teko", sans-serif;
+}
+
+ 
+/* DAY Header */
+.khabibnurmagomedov-day {
+  font-size: 54px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #ffd700;
+  letter-spacing: 4px;
+  text-shadow: 0 0 12px rgba(255, 215, 0, 0.9);
+  animation: fadeIn 1.5s ease-in-out, pulse 2s infinite alternate;
+  margin-top: 50px;
+  position: absolute;
+  top: 40%;
+}
+
+/* Schedule Panel */
+.khabibnurmagomedov-schedule {
+  color: #ffd700;
+  background: rgba(20, 20, 20, 0.95);
+  padding: 25px 30px;
+  width: 90%;
+  max-width: 700px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 800;
+  text-transform: uppercase;
+ 
+  border-radius: 6px;
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
+  animation: fadeIn 1.8s ease-in-out;
+  position: absolute;
+  bottom: 6%;
+  min-height: 215px;
+}
+
+/* Single Class Entry */
+.khabibnurmagomedov-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1a1a1a;
+  padding: 5px 20px;
+  margin-top: 10px;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffd700;
+  border: 1px solid #ffd700;
+  transition: transform 0.3s ease-in-out, background 0.2s ease-in-out;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.khabibnurmagomedov-class:hover {
+  transform: scale(1.03);
+  background: rgb(50, 50, 50);
+}
+
+/* Name + Time */
+.khabibnurmagomedov-class-name {
+  flex: 1;
+  text-align: left;
+}
+
+.khabibnurmagomedov-class-time {
+  flex: 0.5;
+  text-align: right;
+}
+
+/* GIF Box */
+/* Combo Spin + Zoom Animation */
+@keyframes spinZoomIn {
+  0% {
+    transform: scale(0.1) translateX(-150%) ;
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.1)  translateX(0%);
+    opacity: 1;
   }
   
-  /* Header Text */
-  .khabibnurmagomedov-container::before {
-    position: absolute;
-    top: 12%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-family: "Oswald", sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    color: #b0bec5;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    opacity: 0.8;
+}
+
+.tenor-gif-embed {
+  height: 50vh;
+  border-radius: 6px;
+  position: absolute;
+  top: 0;
+  transform: scale(0.1);
+ 
+  transition: none;
+}
+
+.tenor-gif-embed.zoom {
+  animation: spinZoomIn 5s ease-out forwards;
+}
+
+
+/* Gold Glow Pulse */
+@keyframes pulse {
+  from {
+    text-shadow: 0 0 5px #ffd700, 0 0 10px #ffd700;
   }
-  
-  /* Animated Day Title */
-  .khabibnurmagomedov-day {
-    font-size: 54px;
-    font-weight: 900;
-    text-transform: uppercase;
-    color: #d6dde3;
-    letter-spacing: 4px;
-    text-shadow: 2px 2px 6px rgba(100, 110, 120, 0.3);
-    animation: fadeIn 1.5s ease-in-out;
-    margin-top: 50px;
-   
+  to {
+    text-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700;
   }
-  
-  /* Schedule Panel */
-  .khabibnurmagomedov-schedule {
-    color: #e0e0e0;
-    padding: 20px 30px;
-    width: 90%;
-    max-width: 700px;
-    text-align: center;
-    font-size: 24px;
-    font-weight: 800;
-    border-left: 6px solid #90a4ae;
-    border-radius: 6px;
-     animation: fadeIn 1.8s ease-in-out;
-    position: absolute;
-    bottom: 6%;
-    min-height: 200px;
-   }
-  
-  /* Single Schedule Entry */
-  .khabibnurmagomedov-class {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    margin-top: 12px;
-    border-radius: 5px;
-    font-size: 17px;
-    color: #dce3e9;
-    background-color: #383c42;
-    border: 1px solid #50545b;
-    transition: transform 0.2s ease-in-out, background 0.2s ease-in-out;
-    animation: fadeIn 1s ease-in-out;
+}
+
+/* Fade Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  
-  .khabibnurmagomedov-class:hover {
-    transform: scale(1.02);
-    background: #44484f;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  /* Name and Time Styling */
-  .khabibnurmagomedov-class-name {
-    flex: 1;
-    text-align: left;
-  }
-  
-  .khabibnurmagomedov-class-time {
-    flex: 0.5;
-    text-align: right;
-  }
-  
-  /* GIF */
-  .tenor-gif-embed {
-    height: 31vh;
-    border-radius: 6px;
-    position: absolute;
-    top: 0;
-  }
-  
-  /* Animation */
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
+}
+
+
+ 

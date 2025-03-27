@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import "../Stylesheets/KhabibNurmagomedovSchedule.css";
 import schedule from "../Schedule";
 
-function KhabibNurmagomedovSchedule({ day, animationDelay = 500, animationInterval = 300 }) {
+function KhabibNurmagomedovSchedule({ day, animationDelay = 2000, animationInterval = 300 }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [visibleArray, setVisibleArray] = useState([]);
   const [displayDay, setDisplayDay] = useState("");
+  const [zoomPicture, setZoomPicture] = useState(false)
+
 
   useEffect(() => {
     setTimeout(() => {
@@ -25,6 +27,13 @@ function KhabibNurmagomedovSchedule({ day, animationDelay = 500, animationInterv
       setShowSchedule(true);
     }, animationDelay + 1500);
   }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setZoomPicture(true);
+    },  500);
+  }, []);
+
 
   useEffect(() => {
     if (showSchedule) {
@@ -50,7 +59,7 @@ function KhabibNurmagomedovSchedule({ day, animationDelay = 500, animationInterv
 
   return (
     <div className="khabibnurmagomedov-container">
-      <div class="tenor-gif-embed" data-postid="12994236" data-share-method="host" data-aspect-ratio="1.77778" data-width="100%"><a href="https://tenor.com/view/khabib-send-me-location-gif-12994236">Khabib Send GIF</a>from <a href="https://tenor.com/search/khabib-gifs">Khabib GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+      <div class={`tenor-gif-embed ${zoomPicture ? 'zoom' : '' }`} data-postid="12994236" data-share-method="host" data-aspect-ratio="1.77778" data-width="100%"><a href="https://tenor.com/view/khabib-send-me-location-gif-12994236">Khabib Send GIF</a>from <a href="https://tenor.com/search/khabib-gifs">Khabib GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
       <div className="khabibnurmagomedov-day">{displayDay}</div>
       <div className="khabibnurmagomedov-schedule">
         {schedule[day]?.map((cls, idx) => (
