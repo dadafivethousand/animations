@@ -15,11 +15,12 @@ import DetroitSchedule from "./Components/DetroitSchedule";
 import LibertySchedule from "./Components/LibertySchedule";
 import BiggieSchedule from "./Components/BiggieSchedule";
 import CircusSchedule from "./Components/CircusSchedule";
+import TerminatorSchedule from "./Components/TerminatorSchedule"
   
  function App() {
   return (
     <>
-    < CircusSchedule day="Friday"/>
+    < TerminatorSchedule day="Friday"/>
    </>
   );
 }
