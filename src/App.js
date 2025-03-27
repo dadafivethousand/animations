@@ -20,7 +20,7 @@ import TerminatorSchedule from "./Components/TerminatorSchedule"
  function App() {
   return (
     <>
-    < UsainBoltSchedule day="Saturday"/>
+    < KhabibNurmagomedovSchedule day="Sunday"/>
    </>
   );
 }
