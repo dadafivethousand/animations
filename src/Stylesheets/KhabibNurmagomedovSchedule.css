@@ -1,115 +1,110 @@
-/* KHABIB NURMAGOMEDOV THEME: BLACK & GOLD FIGHT CAMP 🦅 */
-.khabib-container {
+.khabibnurmagomedov-container {
     height: 100vh;
     width: 100vw;
-    background: #0d0d0d;
+    background: #1e1f22;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     padding-top: 40px;
     position: relative;
-}
-
-/* Press Conference Nameplate Style */
-.khabib-container::before {
-    content: "29-0 | Undefeated";
+    font-family: "Teko", sans-serif;
+  }
+  
+  /* Header Text */
+  .khabibnurmagomedov-container::before {
     position: absolute;
-    top: 15%;
+    top: 12%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-family: "Oswald", sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    color: rgba(255, 215, 0, 0.7);
-    letter-spacing: 1px;
-}
-
-/* Cold, Brutal Text */
-.khabib-day {
-    font-family: "Teko", sans-serif;
-    font-size: 52px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #b0bec5;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+  
+  /* Animated Day Title */
+  .khabibnurmagomedov-day {
+    font-size: 54px;
     font-weight: 900;
     text-transform: uppercase;
-    color: #ffd700;
-    letter-spacing: 3px;
-    text-shadow: 3px 3px 15px rgba(255, 215, 0, 0.9);
-    animation: fadeIn 2s ease-in-out, pulse 2s infinite alternate;
-    margin-bottom: 25px;
-}
-
-/* The Fight Camp Breakdown */
-.khabib-schedule {
-    background: rgba(20, 20, 20, 0.98);
-    text-align: center;
-    font-family: "Teko", sans-serif;
-    font-size: 26px;
-    font-weight: 800;
-    text-transform: uppercase;
-    color: #ffd700;
-    padding: 20px;
-    width: 80%;
+    color: #d6dde3;
+    letter-spacing: 4px;
+    text-shadow: 2px 2px 6px rgba(100, 110, 120, 0.3);
+    animation: fadeIn 1.5s ease-in-out;
+    margin-top: 50px;
+   
+  }
+  
+  /* Schedule Panel */
+  .khabibnurmagomedov-schedule {
+    color: #e0e0e0;
+    padding: 20px 30px;
+    width: 90%;
     max-width: 700px;
-    border: 3px solid #ffd700;
-    border-radius: 4px;
-    box-shadow: 5px 5px 20px rgba(255, 215, 0, 0.6);
-    animation: fadeIn 2s ease-in-out;
-}
-
-/* The Fight Card */
-.khabib-class {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 800;
+    border-left: 6px solid #90a4ae;
+    border-radius: 6px;
+     animation: fadeIn 1.8s ease-in-out;
+    position: absolute;
+    bottom: 6%;
+    min-height: 200px;
+   }
+  
+  /* Single Schedule Entry */
+  .khabibnurmagomedov-class {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #1a1a1a;
-    padding: 15px 25px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-    font-size: 22px;
-    font-weight: 700;
-    color: #ffd700;
-    border-left: 4px solid #ffd700;
-    transition: transform 0.3s ease-in-out, background 0.2s ease-in-out;
-    animation: fadeIn 1.2s ease-in-out;
-}
-
-.khabib-class:hover {
-    transform: scale(1.03);
-    background: rgb(50, 50, 50);
-}
-
-/* Fighter Name */
-.khabib-class-name {
+    padding: 10px 20px;
+    margin-top: 12px;
+    border-radius: 5px;
+    font-size: 17px;
+    color: #dce3e9;
+    background-color: #383c42;
+    border: 1px solid #50545b;
+    transition: transform 0.2s ease-in-out, background 0.2s ease-in-out;
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  .khabibnurmagomedov-class:hover {
+    transform: scale(1.02);
+    background: #44484f;
+  }
+  
+  /* Name and Time Styling */
+  .khabibnurmagomedov-class-name {
     flex: 1;
     text-align: left;
-}
-
-/* Fight Time */
-.khabib-class-time {
+  }
+  
+  .khabibnurmagomedov-class-time {
     flex: 0.5;
     text-align: right;
-}
-
-/* Gold Glow Animation */
-@keyframes pulse {
+  }
+  
+  /* GIF */
+  .tenor-gif-embed {
+    height: 31vh;
+    border-radius: 6px;
+    position: absolute;
+    top: 0;
+  }
+  
+  /* Animation */
+  @keyframes fadeIn {
     from {
-        text-shadow: 0 0 5px #ffd700, 0 0 10px #ffd700, 0 0 20px #ffd700;
+      opacity: 0;
+      transform: translateY(20px);
     }
     to {
-        text-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700, 0 0 30px #ffd700;
+      opacity: 1;
+      transform: translateY(0);
     }
-}
-
-/* Fade-In */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-.tenor-gif-embed{
-    height:50vh
-
-}
+  }
+  

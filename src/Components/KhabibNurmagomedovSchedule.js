@@ -49,20 +49,15 @@ function KhabibNurmagomedovSchedule({ day, animationDelay = 500, animationInterv
   };
 
   return (
-    <div className="khabib-container">
-      {/* Dominant Day Display */}
-      <div className="khabib-day">{displayDay}</div>
-
-      {/* The Schedule */}
-      
-      
+    <div className="khabibnurmagomedov-container">
       <div class="tenor-gif-embed" data-postid="12994236" data-share-method="host" data-aspect-ratio="1.77778" data-width="100%"><a href="https://tenor.com/view/khabib-send-me-location-gif-12994236">Khabib Send GIF</a>from <a href="https://tenor.com/search/khabib-gifs">Khabib GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
-      <div className="khabib-schedule">
+      <div className="khabibnurmagomedov-day">{displayDay}</div>
+      <div className="khabibnurmagomedov-schedule">
         {schedule[day]?.map((cls, idx) => (
           visibleArray.includes(idx) && (
-            <div key={idx} className="khabib-class">
-              <span className="khabib-class-name">{cls.name}</span>
-              <span className="khabib-class-time">{formatTime(cls.start)}</span>
+            <div key={idx} className="khabibnurmagomedov-class">
+              <span className="khabibnurmagomedov-class-name">{cls.name}</span>
+              <span className="khabibnurmagomedov-class-time">{formatTime(cls.start)}</span>
             </div>
           )
         ))}
