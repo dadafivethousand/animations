@@ -6,7 +6,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 40px;
+ 
   position: relative;
   font-family: "Teko", sans-serif;
 }
@@ -21,9 +21,9 @@
   letter-spacing: 4px;
   text-shadow: 0 0 12px rgba(255, 215, 0, 0.9);
   animation: fadeIn 1.5s ease-in-out, pulse 2s infinite alternate;
-  margin-top: 50px;
+ 
   position: absolute;
-  top: 47%;
+  top: 53%;
 }
 
 .addy {
