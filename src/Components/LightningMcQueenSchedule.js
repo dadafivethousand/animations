@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/LightningMcQueenSchedule.css";
-import schedule from "../Schedule"; // Assuming schedule data exists
+import schedule from "../Schedule";
 
 function LightningMcQueenSchedule({ day, animationDelay = 500, animationInterval = 400 }) {
   const [showSchedule, setShowSchedule] = useState(false);
@@ -44,9 +44,17 @@ function LightningMcQueenSchedule({ day, animationDelay = 500, animationInterval
         {schedule[day]?.map((cls, idx) => (
           <div key={idx} className="lightning-class-container">
             {visibleArray.includes(idx) && (
-              <div className="lightning-class speed-entry">
-                <span className="lightning-class-name">{cls.name}</span>
-                <span className="lightning-class-time">{formatTime(cls.start)}</span>
+              <div
+                className={`lightning-class speed-entry ${
+                  cls.cancelled ? "lightning-cancelled" : ""
+                }`}
+              >
+                <span className="lightning-class-name">
+                  {cls.name}  
+                </span>
+                <span className="lightning-class-time">
+                  {cls.cancelled ? "Cancelled": formatTime(cls.start) }
+                </span>
               </div>
             )}
           </div>

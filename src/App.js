@@ -16,11 +16,14 @@ import LibertySchedule from "./Components/LibertySchedule";
 import BiggieSchedule from "./Components/BiggieSchedule";
 import CircusSchedule from "./Components/CircusSchedule";
 import TerminatorSchedule from "./Components/TerminatorSchedule"
+import ReasonsFlash from "./Components/ReasonsFlash";
+import SamuraiSchedule from "./Components/SamuraiSchedule"
+import LightningMcQueenSchedule from "./Components/LightningMcQueenSchedule"
   
  function App() {
   return (
     <>
-    < KhabibNurmagomedovSchedule day="Monday"/>
+    <LightningMcQueenSchedule day="Saturday" />
    </>
   );
 }

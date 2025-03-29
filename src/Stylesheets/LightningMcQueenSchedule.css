@@ -69,6 +69,7 @@
     box-shadow: 0px 0px 20px rgba(255, 215, 0, 0.5);
     border: 5px solid yellow;
     z-index: 1;
+    height:300px
   }
   
   /* 🚗 Racing Entry Effect */
@@ -139,3 +140,18 @@
     100% { opacity: 1; }
   }
   
+
+  /* ❌ Cancelled Class Style */
+.lightning-cancelled {
+  opacity: 0.5 !important;
+ 
+  background: repeating-linear-gradient(
+    45deg,
+    #8b0000,
+    #8b0000 10px,
+    #550000 10px,
+    #550000 20px
+  ) !important;
+  border: 3px dashed yellow !important;
+ 
+}
