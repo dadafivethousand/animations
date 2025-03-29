@@ -6,6 +6,9 @@ function BiggieSchedule({ day, animationDelay = 2000, animationInterval = 550 })
   const [showSchedule, setShowSchedule] = useState(false);
   const [visibleArray, setVisibleArray] = useState([]);
   const [typedDay, setTypedDay] = useState("");
+  const [showPhoto, setShowPhoto] = useState(false);
+  const [slideDown, setSlideDown] = useState(false)
+
 
   useEffect(() => {
     setTimeout(() => {
@@ -21,6 +24,14 @@ function BiggieSchedule({ day, animationDelay = 2000, animationInterval = 550 })
   useEffect(() => {
     setTimeout(() => setShowSchedule(true), animationDelay);
   }, [animationDelay]);
+
+  useEffect(() => {
+    setTimeout(() => setShowPhoto(true), 4000);
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => setSlideDown(true), 4000);
+  }, []);
 
   useEffect(() => {
     if (!showSchedule) return;
@@ -43,6 +54,7 @@ function BiggieSchedule({ day, animationDelay = 2000, animationInterval = 550 })
 
   return (
     <div className="biggie-container">
+      <div className={`biggie-photo ${showPhoto ? 'biggie-show':''} ${slideDown ? 'slideDown':''}`}></div>
       <div className="biggie-header">
         <h1 className="biggie-day">{typedDay}</h1>
       </div>
