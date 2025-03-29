@@ -21,11 +21,12 @@ import SamuraiSchedule from "./Components/SamuraiSchedule"
 import LightningMcQueenSchedule from "./Components/LightningMcQueenSchedule"
 import ChessSchedule from "./Components/ChessSchedule";
 import CheckeredLine from "./Components/CheckeredLine";
+import WarcraftSchedule from "./Components/WarcraftSchedule";
   
  function App() {
   return (
     <>
-    <ChessSchedule day="Tuesday"/>
+    <ChessSchedule day="Sunday"/>
    </>
   );
 }

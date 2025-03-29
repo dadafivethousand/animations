@@ -27,7 +27,7 @@
   }
   
   .white {
-    background-color: white;
+  background: linear-gradient(to bottom, black, white);
   }
   
   .black {
