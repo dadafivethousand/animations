@@ -26,7 +26,7 @@ import WarcraftSchedule from "./Components/WarcraftSchedule";
  function App() {
   return (
     <>
-    <ChessSchedule day="Sunday"/>
+    <UsainBoltSchedule day="Sunday"/>
    </>
   );
 }
