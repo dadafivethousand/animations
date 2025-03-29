@@ -22,8 +22,8 @@
   text-transform: uppercase;
   letter-spacing: 5px;
   text-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
-  margin-bottom: 50px;
-  margin-top: 50px;
+  margin-bottom: 20px;
+ 
   z-index: 30;
 }
 
