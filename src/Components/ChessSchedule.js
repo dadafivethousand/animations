@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/ChessSchedule.css";
-import schedule from "../Schedule"; // Assuming schedule data exists
+import schedule from "../Schedule"; // Same structure as before
+import CheckeredLine from "./CheckeredLine";
 
-function ChessSchedule({ day, animationDelay = 800, animationInterval = 600 }) {
+function ChessSchedule({ day, animationDelay = 1000, animationInterval = 400 }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [visibleArray, setVisibleArray] = useState([]);
 
@@ -36,26 +37,20 @@ function ChessSchedule({ day, animationDelay = 800, animationInterval = 600 }) {
 
   return (
     <div className="chess-container">
-      <div className="chess-header">
-        <h1 className="chess-day">{day.toUpperCase()}</h1>
-      </div>
+      <CheckeredLine />
+      <h1 className="chess-header">{day.toUpperCase()}</h1>
 
-      <div className="chessboard">
-        {/* Generate Chessboard Squares */}
-        {Array.from({ length: 64 }).map((_, idx) => {
-          const isDark = (Math.floor(idx / 8) + (idx % 8)) % 2 === 1;
-          const classData = schedule[day]?.[idx] || null;
-          return (
-            <div key={idx} className={`square ${isDark ? "dark-square" : "light-square"}`}>
-              {visibleArray.includes(idx) && classData && (
-                <div className="chess-class fade-in">
-                  <span className="chess-class-name">{classData.name}</span>
-                  <span className="chess-class-time">{formatTime(classData.start)}</span>
-                </div>
-              )}
-            </div>
-          );
-        })}
+      <div className="chess-track">
+        {schedule[day]?.map((cls, idx) => (
+          <div key={idx} className="chess-class-container">
+            {visibleArray.includes(idx) && (
+              <div className="chess-class">
+                <span className="chess-class-name">{cls.name}</span>
+                <span className="chess-class-time">{formatTime(cls.start)}</span>
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );
