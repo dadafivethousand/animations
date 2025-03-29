@@ -25,7 +25,7 @@ import CheckeredLine from "./Components/CheckeredLine";
  function App() {
   return (
     <>
-    <ChessSchedule day="Tuesday" />
+    <ChessSchedule day="Tuesday"/>
    </>
   );
 }

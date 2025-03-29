@@ -1,67 +1,42 @@
- 
-
-.div-container {
-
+.outercontainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     overflow: hidden;
-    display: flex;
  
-    animation: move 60s ease;
-    position: absolute;
-    top:0;
-    left:0
-
  
-  } 
-
-
-  @keyframes move{
-    0% { transform: translateY(0) }
-    
-    100% { transform: translateY(-1500px)   }
-
-  }
-  .outercontainer img {
-
-    display: block;
-    position: relative;
-    top:20%;
-    height:250px;
-    width: auto;
-    z-index: 3;
-    margin: 0 auto;
-   
   }
   
-.my-div{
-    min-width: 50px; /* Adjust the width as needed */
-    min-height: 50px; 
-    max-width: 50px; /* Adjust the width as needed */
-    max-height: 50px; 
-    
-}
+  .div-container {
+    display: flex;
+    flex-direction: column;
 
- 
-
+  }
+  
+  .div-row {
+    display: flex;
+  }
+  
+  .my-div {
+    width: 30px;
+    height: 30px;
+    opacity: 0;
+    animation: reveal 0.5s ease forwards;
+  }
+  
   .white {
-    /* Adjust the height as needed */
-    background-color: rgba(255, 255, 255, 0)
-
-     /* Adjust the background color as needed */
+    background-color: white;
   }
-
-  .black {background-color:rgb(0, 0, 0);
-     }
-  .gradient{
-    position: absolute;
-    width: 100%; /*Full width of its container */
-    height: 84px; /* Adjust this value to your desired height */  
-     
-    background-color: white
+  
+  .black {
+    background-color: black;
   }
-
- 
-@media(max-width:800px)
-{  .outercontainer img{
-  height:190px;
-  width: auto;
-} }
+  
+  @keyframes reveal {
+    to {
+      opacity: 1;
+    }
+  }
+  
