@@ -1,9 +1,25 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/SamuraiSchedule.css";
 import schedule from "../Schedule"; // Assuming schedule data exists
+import Katana from "./Katana";
 
 function SamuraiSchedule({ day, animationDelay = 800, animationInterval = 500 }) {
   const [visibleArray, setVisibleArray] = useState([]);
+  const [visibleImage, setVisibleImage] = useState(false);
+  const [moveKatanas, setMoveKatanas] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setVisibleImage(true)
+    }, 1000);
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setMoveKatanas(true)
+    }, 4000);
+  }, []);
+
 
   useEffect(() => {
     setTimeout(() => {
@@ -33,8 +49,9 @@ function SamuraiSchedule({ day, animationDelay = 800, animationInterval = 500 })
       <div className="samurai-banner">
         <div className="samurai-banner-text">{day.toUpperCase()}</div>
       </div>
-
+ 
       <div className="samurai-paper">
+        <div className="samurai-classes">
         {schedule[day]?.map((cls, idx) => (
           <div key={idx} className="samurai-entry-container">
             {visibleArray.includes(idx) && (
@@ -48,6 +65,19 @@ function SamuraiSchedule({ day, animationDelay = 800, animationInterval = 500 })
             )}
           </div>
         ))}
+</div>
+<div className="samurai-katanas ">
+  <div className={`katana-one ${moveKatanas? 'katana-left':''}`}>
+<Katana />
+</div>
+
+<div className={`katana-two ${moveKatanas? 'katana-right':''}`}>
+<Katana />
+</div>
+</div>
+      </div>
+      <div className={`samurai-image ${visibleImage ? 'samurai-show': ''}`}>
+
       </div>
     </div>
   );

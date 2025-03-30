@@ -23,12 +23,14 @@
   padding: 0.6rem;
   text-align: center;
   box-shadow: 0px 0px 10px rgba(170, 0, 0, 0.9);
-  margin-bottom: 1rem;
+  margin-bottom: 30px;
   animation: bannerWave 2.5s infinite alternate ease-in-out;
+  margin-top: 50px;
+  
 }
 
 .samurai-banner-text {
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-family: "SamuraiBrush", sans-serif;
   color: #FFD700;
   text-shadow: 2px 2px 6px rgba(255, 215, 0, 0.8);
@@ -51,7 +53,8 @@
   border-radius: 12px;
   padding: 1.2rem;
   box-shadow: inset 0 0 10px rgba(90, 56, 19, 0.4);
-  height:400px;
+  height:430px;
+  display: flex;
 }
 
 /* ⚔️ CLASS ENTRY */
@@ -73,6 +76,7 @@
   text-transform: uppercase;
   text-shadow: 1px 1px 0px rgba(75, 40, 10, 0.8);
   animation: katanaSlice 0.9s ease-out;
+  width:140px;
 }
 
 /* 🈶 KANJI ICON */
@@ -125,4 +129,53 @@
 @keyframes bannerWave {
   0% { transform: rotate(1deg); }
   100% { transform: rotate(-1deg); }
+}
+
+.samurai-image{
+  background-image: url(../Images/samurai.jpg);
+  width:100vw;
+  height:100vw;
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  transition: opacity 4s ease-in-out;
+  opacity: 0;
+}
+
+.samurai-show{
+  opacity:1
+}
+.samurai-classes{
+  width:200px
+}
+
+.samurai-katanas{
+  display: flex;
+}
+
+.samurai-katanas{
+  display: flex;
+  margin-left: 15px
+ 
+}
+
+.katana-two{
+  transform:  translateX(260px) translateY(-400px) scaleX(-1);
+  transition: transform .1s ease-in-out;
+ 
+}
+
+
+.katana-one{
+ transform: translateX(-260px) translateY(-400px);
+ transition: transform .1s ease-in-out;
+}
+
+.katana-left{
+  transform: translateX(0px) translateY(0px) rotate(30deg);
+
+}
+
+.katana-right{
+  transform: translateX(0px) translateY(0px) rotate(-30deg) scaleX(-1);;
 }
