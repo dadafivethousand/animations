@@ -7,7 +7,7 @@ function SamuraiSchedule({ day, animationDelay = 800, animationInterval = 500 })
   const [visibleArray, setVisibleArray] = useState([]);
   const [visibleImage, setVisibleImage] = useState(false);
   const [moveKatanas, setMoveKatanas] = useState(false);
-
+  const [moveKatana, setMoveKatana] = useState(false);
   useEffect(() => {
     setTimeout(() => {
       setVisibleImage(true)
@@ -19,6 +19,12 @@ function SamuraiSchedule({ day, animationDelay = 800, animationInterval = 500 })
       setMoveKatanas(true)
     }, 4000);
   }, []);
+  useEffect(() => {
+    setTimeout(() => {
+      setMoveKatana(true)
+    }, 4500);
+  }, []);
+
 
 
   useEffect(() => {
@@ -71,7 +77,7 @@ function SamuraiSchedule({ day, animationDelay = 800, animationInterval = 500 })
 <Katana />
 </div>
 
-<div className={`katana-two ${moveKatanas? 'katana-right':''}`}>
+<div className={`katana-two ${moveKatana? 'katana-right':''}`}>
 <Katana />
 </div>
 </div>
