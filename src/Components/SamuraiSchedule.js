@@ -3,7 +3,7 @@ import "../Stylesheets/SamuraiSchedule.css";
 import schedule from "../Schedule"; // Assuming schedule data exists
 import Katana from "./Katana";
 
-function SamuraiSchedule({ day, animationDelay = 800, animationInterval = 500 }) {
+function SamuraiSchedule({ day, animationDelay = 2500, animationInterval = 500 }) {
   const [visibleArray, setVisibleArray] = useState([]);
   const [visibleImage, setVisibleImage] = useState(false);
   const [moveKatanas, setMoveKatanas] = useState(false);
@@ -17,12 +17,12 @@ function SamuraiSchedule({ day, animationDelay = 800, animationInterval = 500 })
   useEffect(() => {
     setTimeout(() => {
       setMoveKatanas(true)
-    }, 4000);
+    }, 5000);
   }, []);
   useEffect(() => {
     setTimeout(() => {
       setMoveKatana(true)
-    }, 4500);
+    }, 5500);
   }, []);
 
 
