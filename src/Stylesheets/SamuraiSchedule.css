@@ -66,7 +66,7 @@
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  padding: 0.1rem;
+ 
   font-size: 1rem;
   font-family: "SamuraiBrush", sans-serif;
   background: rgba(200, 160, 120, 0.9);
@@ -172,10 +172,10 @@
 }
 
 .katana-left{
-  transform: translateX(0px) translateY(0px) rotate(30deg) scale(.8);
+  transform: translateX(15px) translateY(0px) rotate(35deg) scale(.7);
 
 }
 
 .katana-right{
-  transform: translateX(0px) translateY(0px) rotate(-30deg) scaleX(-1) scale(.8);;
+  transform: translateX(-15px) translateY(0px) rotate(-35deg) scaleX(-1) scale(.7);;
 }
