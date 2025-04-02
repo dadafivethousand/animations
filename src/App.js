@@ -7,12 +7,15 @@ import BondBarrel from "./Components/BondBarrel";
 import SpinWheel from "./Components/SpinWheel";
 import TiestoSchedule from "./Components/TiestoSchedule";
 import GothicSchedule from "./Components/GothicSchedule";
+import MichaelJacksonSchedule from "./Components/MichaelJacksonSchedule";
+import WalkingDeadSchedule from "./Components/WalkingDeadSchedule";
+import ZombieSchedule from "./Components/ZombieSchedule";
  
   
  function App() {
   return (
     <>
-    <GothicSchedule day="Friday"/>
+    <ZombieSchedule day="Saturday"/>
    </>
   );
 }
