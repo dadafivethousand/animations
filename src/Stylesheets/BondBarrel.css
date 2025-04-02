@@ -1,0 +1,62 @@
+.bond-barrel-container {
+    width: 100vw;
+    height: 100vh;
+ 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .barrel-inner {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at center, black 30%, transparent 30.5%),
+      repeating-conic-gradient(
+        from 0deg,
+        #333 0deg 5deg,
+        #111 5deg 15deg
+      );
+    mask-image: radial-gradient(circle, black 30%, transparent 31%);
+    -webkit-mask-image: radial-gradient(circle, black 30%, transparent 31%);
+    animation: spinBarrel 4s ease-in-out;
+    position: relative;
+    box-shadow: 0 0 0 100vmax black;
+  }
+  
+  @keyframes spinBarrel {
+    0% {
+      transform: rotate(720deg) scale(4);
+      opacity: 0;
+    }
+    100% {
+      transform: rotate(0deg) scale(1);
+      opacity: 1;
+    }
+  }
+  
+  .bond {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 3rem;
+    color: white;
+    opacity: 0;
+    animation: appearBond 1s ease-out 3s forwards;
+  }
+  
+  @keyframes appearBond {
+    0% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+  

@@ -3,12 +3,15 @@ import './Stylesheets/App.css'
  
  
 import SamuraiSchedule from "./Components/SamuraiSchedule"
+import BondBarrel from "./Components/BondBarrel";
+import SpinWheel from "./Components/SpinWheel";
+import TiestoSchedule from "./Components/TiestoSchedule";
  
   
  function App() {
   return (
     <>
-    <SamuraiSchedule day="Wednesday"/>
+    <TiestoSchedule day="Thursday"/>
    </>
   );
 }
