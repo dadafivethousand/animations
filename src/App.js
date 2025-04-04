@@ -10,12 +10,13 @@ import GothicSchedule from "./Components/GothicSchedule";
 import MichaelJacksonSchedule from "./Components/MichaelJacksonSchedule";
 import WalkingDeadSchedule from "./Components/WalkingDeadSchedule";
 import ZombieSchedule from "./Components/ZombieSchedule";
+import WarcraftSchedule from "./Components/WarcraftSchedule";
  
   
  function App() {
   return (
     <>
-    <ZombieSchedule day="Saturday"/>
+    <WarcraftSchedule day="Friday"/>
    </>
   );
 }
