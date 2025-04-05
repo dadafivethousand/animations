@@ -26,11 +26,11 @@ function BiggieSchedule({ day, animationDelay = 2000, animationInterval = 550 })
   }, [animationDelay]);
 
   useEffect(() => {
-    setTimeout(() => setShowPhoto(true), 4000);
+    setTimeout(() => setShowPhoto(true), 3000);
   }, []);
 
   useEffect(() => {
-    setTimeout(() => setSlideDown(true), 4000);
+    setTimeout(() => setSlideDown(true), 3000);
   }, []);
 
   useEffect(() => {

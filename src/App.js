@@ -16,7 +16,7 @@ import CoffinSchedule from "./Components/CoffinSchedule";
  function App() {
   return (
     <>
-    <CoffinSchedule day="Monday"/>
+    <BiggieSchedule day="Sunday"/>
    </>
   );
 }
