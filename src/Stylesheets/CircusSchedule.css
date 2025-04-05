@@ -1,85 +1,105 @@
-@import url('https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Special+Elite&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
 
 .circus-container {
-  min-height: 100vh;
-  width: 100vw;
-  background: radial-gradient(circle at center, #2e0e0e 0%, #000000 100%);
-  color: #f5e9d7;
+  background: radial-gradient(circle, #ffffff 0%, #ddd 100%);
+ max-height: 80vh;
+ min-height: 80vh;
+  padding-top: 100px;
+  font-family: 'Creepster', cursive;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 70px;
-  font-family: 'Special Elite', cursive;
-  position: relative;
-  overflow-x: hidden;
-  overflow-y: auto;
+  color: #8b0000;
+  background-image: url('../Images/Pennywise.gif');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom;
+}
+
+.circus-schedule{
+  width:70%;
 }
 
 .circus-header {
-  background: #1a0000;
-  border: 2px dashed #e2b007;
-  padding: 22px 48px;
-  border-radius: 12px;
-  margin-bottom: 40px;
-  text-align: center;
-  box-shadow: 0 0 24px rgba(255, 0, 0, 0.3);
-  z-index: 1;
+  font-size: 7vw;
+  letter-spacing: 2px;
+  color: #b30000;
+  text-shadow: 
+    2px 2px 0 #000, 
+    -2px -2px 0 #000;
+margin-bottom:30px
+ 
+ 
 }
 
-.circus-day {
-  font-family: 'UnifrakturCook', cursive;
-  font-size: 4rem;
-  text-transform: uppercase;
-  color: #ffdfc4;
-  letter-spacing: 5px;
-  text-shadow: 2px 2px 0px #000000, 0 0 10px #d80000;
+.circus-track {
+  width: 100%;
+  max-width: 800px;
 }
 
-.circus-schedule {
+.circus-class-wrapper {
+  margin: 24px 0;
   display: flex;
-  flex-direction: column;
-  gap: 30px;
-  width: 90%;
-  max-width: 900px;
-  padding-bottom: 60px;
-  z-index: 1;
+  justify-content: center;
 }
 
 .circus-class {
-  background: repeating-linear-gradient(
-    135deg,
-    #1a0000,
-    #1a0000 10px,
-    #2e0e0e 10px,
-    #2e0e0e 20px
-  );
-  border: 2px solid #e2b007;
-  border-radius: 10px;
-  padding: 24px 32px;
-  box-shadow: 0 0 16px rgba(200, 0, 0, 0.3);
+ 
+  padding: 5px 20px;
+  background: #fffafa;
+  border: 3px solid #8b0000;
+  box-shadow: 0 0 15px rgba(139, 0, 0, 0.3);
+  border-radius: 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  opacity: 0;
-  animation: flickerReveal 0.6s ease forwards;
-}
-
-@keyframes flickerReveal {
-  0% { opacity: 0; transform: translateY(30px) scale(0.95); }
-  50% { opacity: 0.3; transform: translateY(5px) scale(1.02); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
+  font-size: 20px;
+  color: #222;
+ 
+ opacity: 0.8;
+  transform: scale(0.95) rotate(-1deg);
+  animation: slideInCreep 0.7s ease-out forwards;
+ 
 }
 
 .circus-class-name {
   font-weight: bold;
-  text-transform: uppercase;
-  font-size: 1.3rem;
-  letter-spacing: 1px;
-  color: #ffdbb9;
+  color: #8b0000;
 }
 
 .circus-class-time {
   font-style: italic;
-  font-size: 1.1rem;
-  color: #f8cfa2;
+  color: #222;
+}
+
+/* Creepy float/slide in animation */
+@keyframes slideInCreep {
+  0% {
+    transform: translateX(-50%) rotate(-2deg) scale(0.8);
+    opacity: 0;
+  }
+  60% {
+    transform: translateX(10%) rotate(2deg) scale(1.03);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0) rotate(0) scale(1);
+  }
+}
+
+/* IT-style flicker effect */
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    opacity: 1;
+  }
+  20%, 22%, 24%, 55% {
+    opacity: 0.4;
+  }
+}
+
+.tomb-gif {
+  width: 200px;
+  margin-top: 50px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
 }

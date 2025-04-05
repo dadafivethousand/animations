@@ -4,7 +4,7 @@ import './Stylesheets/App.css'
  
  
  
-import BiggieSchedule from "./Components/BiggieSchedule"
+import BiggieSchedule from "./Used/BiggieSchedule"
 import GothicSchedule from "./Components/GothicSchedule";
 import MichaelJacksonSchedule from "./Components/MichaelJacksonSchedule";
 import WalkingDeadSchedule from "./Components/WalkingDeadSchedule";
@@ -14,13 +14,14 @@ import KhabibNurmagomedovSchedule from "./Components/KhabibNurmagomedovSchedule"
 import WarcraftSchedule from "./Components/WarcraftSchedule"
 import CallOfDutySchedule from "./Components/CallOfDutySchedule"
  import SouthParkSchedule from "./Components/SouthParkSchedule";
+import CircusSchedule from "./Components/CircusSchedule";
 
  
   
  function App() {
   return (
     <>
-    <SouthParkSchedule day="Tuesday"/>
+    <CircusSchedule day="Tuesday"/>
    </>
   );
 }

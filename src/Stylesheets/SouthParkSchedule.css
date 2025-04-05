@@ -10,8 +10,7 @@
   position: relative;
   margin: 0;
   padding: 0;
-  width: 100%;
- 
+  width: 100%; 
   background: #86B6F6; /* South Park Sky Blue */
   overflow: hidden;
   touch-action: none;
