@@ -95,7 +95,7 @@ opacity: 1
 }
 
 .slideDown{
-  transform: translateY(100px) scale(.9);
+  transform: translateY(100px) scale(4);
 }
 
 .biggie-header{

@@ -10,13 +10,17 @@ import MichaelJacksonSchedule from "./Components/MichaelJacksonSchedule";
 import WalkingDeadSchedule from "./Components/WalkingDeadSchedule";
 import ZombieSchedule from "./Components/ZombieSchedule";
 import CoffinSchedule from "./Components/CoffinSchedule";
- 
+import KhabibNurmagomedovSchedule from "./Components/KhabibNurmagomedovSchedule"
+import WarcraftSchedule from "./Components/WarcraftSchedule"
+import CallOfDutySchedule from "./Components/CallOfDutySchedule"
+ import SouthParkSchedule from "./Components/SouthParkSchedule";
+
  
   
  function App() {
   return (
     <>
-    <BiggieSchedule day="Sunday"/>
+    <SouthParkSchedule day="Tuesday"/>
    </>
   );
 }
