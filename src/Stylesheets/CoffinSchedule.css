@@ -14,7 +14,7 @@
 
 .coffin-title {
   font-size: 12vw;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
   letter-spacing: 2px;
   background-color: white;
   padding:10px;
@@ -37,7 +37,7 @@
 
 .coffin-entry {
   width: 90%;
-  padding: 25px 28px;
+  padding: 15px 28px;
   border: 2px solid #000;
   background-color: #f9f9f9;
   display: flex;
