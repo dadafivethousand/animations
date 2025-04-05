@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../Stylesheets/CircusSchedule.css";
 import schedule from "../Schedule";
 
-function CircusSchedule({ day, animationDelay = 2000, animationInterval = 800 }) {
+function CircusSchedule({ day, animationDelay = 3000, animationInterval = 1000 }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [visibleArray, setVisibleArray] = useState([]);
   const [typedDay, setTypedDay] = useState("");
