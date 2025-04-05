@@ -2,9 +2,10 @@
 
 .coffin-container {
   background-image: url(../Images/tombcarriers.gif);
+  background-size: 100%;
   color: #000;
   min-height: 100vh;
-  padding: 100px 20px 60px;
+  padding: 40px 20px 60px;
   font-family: 'Unbounded', sans-serif;
   display: flex;
   flex-direction: column;
