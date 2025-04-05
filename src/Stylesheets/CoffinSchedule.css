@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@600&display=swap');
+
+.coffin-container {
+  background-image: url(../Images/tombcarriers.gif);
+  color: #000;
+  min-height: 100vh;
+  padding: 100px 20px 60px;
+  font-family: 'Unbounded', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.coffin-title {
+  font-size: 12vw;
+  margin-bottom: 40px;
+  letter-spacing: 2px;
+  background-color: white;
+  padding:10px;
+  border-radius: 6px;
+    margin-top: 25px;
+    border: 5px solid black;
+    opacity:.8
+}
+
+.coffin-track {
+  width: 100%;
+  max-width: 800px;
+}
+
+.coffin-class-wrapper {
+ 
+  display: flex;
+  justify-content: center;
+}
+
+.coffin-entry {
+  width: 90%;
+  padding: 25px 28px;
+  border: 2px solid #000;
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 6px;
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+  animation: fadeUp 0.5s ease-out forwards;
+  box-shadow: 4px 4px 0 #000;
+  
+}
+
+.coffin-class-name {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.coffin-class-time {
+  font-style: italic;
+  font-size: 16px;
+  color: #333;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: .9;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.tomb-gif {
+  width: 105%;
+  margin-top: 60px;
+  border-radius: 8px;
+   position: absolute
+}

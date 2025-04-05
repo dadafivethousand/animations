@@ -9,13 +9,14 @@ import GothicSchedule from "./Components/GothicSchedule";
 import MichaelJacksonSchedule from "./Components/MichaelJacksonSchedule";
 import WalkingDeadSchedule from "./Components/WalkingDeadSchedule";
 import ZombieSchedule from "./Components/ZombieSchedule";
+import CoffinSchedule from "./Components/CoffinSchedule";
  
  
   
  function App() {
   return (
     <>
-    <BiggieSchedule day="Sunday"/>
+    <CoffinSchedule day="Monday"/>
    </>
   );
 }
