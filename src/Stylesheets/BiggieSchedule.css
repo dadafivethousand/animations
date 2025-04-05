@@ -40,7 +40,7 @@
   background: #121212bd;
   border: 1px solid #fff;
   border-radius: 8px;
-  padding: 2px 30px;
+  padding: 20px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -84,7 +84,7 @@
   height:100vh;
   width: 100vw;
   opacity:0;
-  transform: translateY(100px) scale(.7);;
+  transform: translateY(150px) scale(.7);;
   transition: opacity 5s ease-in,  transform 5s ease-in;
  
 }
@@ -95,7 +95,7 @@ opacity: 1
 }
 
 .slideDown{
-  transform: translateY(0px) scale(1);
+  transform: translateY(100px) scale(.9);
 }
 
 .biggie-header{
