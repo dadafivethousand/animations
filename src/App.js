@@ -21,7 +21,7 @@ import CircusSchedule from "./Components/CircusSchedule";
  function App() {
   return (
     <>
-    <CircusSchedule day="Tuesday"/>
+    <CircusSchedule day="Wednesday"/>
    </>
   );
 }
