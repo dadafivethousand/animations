@@ -3,8 +3,31 @@ import "../Stylesheets/RolexSchedule.css";
 import schedule from "../Schedule";
 import RolexTypewriter from "./RolexTypewriter";
 
-export default function RolexSchedule({ day, animationDelay = 6000, animationInterval = 400 }) {
+export default function RolexSchedule({ day, animationDelay = 6000, animationInterval = 700 }) {
   const [visibleArray, setVisibleArray] = useState([]);
+  const [typedDay, setTypedDay] = useState('');
+
+
+  useEffect(() => {
+    const word= day
+    let i = 0;
+    setTimeout(() => {
+  const interval = setInterval(() => {
+  
+
+      setTypedDay(word.substring(0, i + 1));
+      i++;
+      if (i > word.length) {
+        clearInterval(interval);
+       }
+
+      }, 100);
+
+    }, 5500);
+
+  }, []);
+
+
 
   useEffect(() => {
     const entries = schedule[day] || [];
@@ -25,7 +48,7 @@ export default function RolexSchedule({ day, animationDelay = 6000, animationInt
 
   return (
     <div className="rolex-container">
-      <h1 className="rolex-title">{day.toUpperCase()}</h1>
+      <h1 className="rolex-title">{typedDay}</h1>
       <RolexTypewriter />
       <div className="rolex-schedule">
         {schedule[day]?.map((cls, idx) =>
