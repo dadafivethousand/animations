@@ -1,53 +1,68 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/RolexTypewriter.css";
-import RolexLogo from "../Images/rolex-logo.png"
+import RolexLogo from "../Images/rolex-logo.png";
 
 export default function RolexTypewriter() {
   const fullText = "ROLL WITH US";
   const [displayedText, setDisplayedText] = useState("ROLEX");
-  const [phase, setPhase] = useState("backspacing"); // backspacing or typing
+  const [phase, setPhase] = useState("backspacing");
   const [i, setI] = useState(0);
+  const [moveLogo, setMoveLogo] = useState(false);
+  const [startTyping, setStartTyping] = useState(false);
 
-  const [moveLogo, setMoveLogo] = useState(false)
+  // Start everything after 3s delay
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setStartTyping(true);
+    }, 1000);
+    return () => clearTimeout(timeout);
+  }, []);
 
   useEffect(() => {
-    setTimeout(() => {
-        setMoveLogo(true)
-    }, 3000);
-  }
-)
+    const timeout = setTimeout(() => {
+      setMoveLogo(true);
+    }, 4500);
+    return () => clearTimeout(timeout);
+  }, []);
 
+  // Run typewriter logic only if startTyping is true
   useEffect(() => {
+    if (!startTyping) return;
+
+    let intervalId;
+    let timeoutId;
+
     if (phase === "backspacing") {
       if (displayedText.endsWith("EX")) {
-        const interval = setInterval(() => {
+        intervalId = setInterval(() => {
           setDisplayedText(prev => prev.slice(0, -1));
         }, 800);
-        return () => clearInterval(interval);
       } else {
-setTimeout(() => {
-    setPhase("typing");
-    setI(2); // "ROL" is already there
-    
-}, 10);
-   
+        timeoutId = setTimeout(() => {
+          setPhase("typing");
+          setI(2);
+        }, 500);
       }
     }
 
     if (phase === "typing") {
       if (i < fullText.length) {
-        const timeout = setTimeout(() => {
+        timeoutId = setTimeout(() => {
           setDisplayedText(fullText.slice(0, i + 1));
           setI(prev => prev + 1);
         }, 200);
-        return () => clearTimeout(timeout);
       }
     }
-  }, [displayedText, i, phase]);
+
+    return () => {
+      clearInterval(intervalId);
+      clearTimeout(timeoutId);
+    };
+  }, [startTyping, displayedText, i, phase]);
 
   return (
-    <div className={`rolex-typewriter ${moveLogo ? 'move': ''}`}>
-        <img src={RolexLogo}/>
+    <div className={`rolex-typewriter ${moveLogo ? "move" : ""}`}>
+      <img src={RolexLogo} alt="Rolex Logo" />
       <h1>{displayedText}</h1>
     </div>
   );

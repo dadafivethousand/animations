@@ -3,7 +3,7 @@ import "../Stylesheets/RolexSchedule.css";
 import schedule from "../Schedule";
 import RolexTypewriter from "./RolexTypewriter";
 
-export default function RolexSchedule({ day, animationDelay = 6500, animationInterval = 700 }) {
+export default function RolexSchedule({ day, animationDelay = 10000, animationInterval = 700 }) {
   const [visibleArray, setVisibleArray] = useState([]);
   const [typedDay, setTypedDay] = useState('');
 
@@ -23,7 +23,7 @@ export default function RolexSchedule({ day, animationDelay = 6500, animationInt
 
       }, 100);
 
-    }, 6000);
+    }, 9000);
 
   }, []);
 
