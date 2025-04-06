@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/RolexSchedule.css";
-import schedule from "../Schedule"; // Assuming schedule data exists
+import schedule from "../Schedule";
+import RolexTypewriter from "./RolexTypewriter";
 
-function RolexSchedule({ day, animationDelay = 1000, animationInterval = 400 }) {
+export default function RolexSchedule({ day, animationDelay = 6000, animationInterval = 400 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
-    setTimeout(() => {
-      const classes = schedule[day] || [];
-      if (classes.length === 0) return;
-
-      classes.forEach((_, idx) => {
-        setTimeout(() => {
-          setVisibleArray((prev) => [...prev, idx]);
-        }, idx * animationInterval);
-      });
-    }, animationDelay);
+    const entries = schedule[day] || [];
+    entries.forEach((_, idx) => {
+      setTimeout(() => {
+        setVisibleArray(prev => [...prev, idx]);
+      }, animationDelay + idx * animationInterval);
+    });
   }, [day, animationDelay, animationInterval]);
 
   const formatTime = (decimalTime) => {
@@ -23,29 +20,23 @@ function RolexSchedule({ day, animationDelay = 1000, animationInterval = 400 }) 
     const minutes = Math.round((decimalTime - hour) * 60);
     const hour12 = hour % 12 === 0 ? 12 : hour % 12;
     const amPm = hour < 12 ? "AM" : "PM";
-    const paddedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-    return `${hour12}:${paddedMinutes} ${amPm}`;
+    return `${hour12}:${minutes.toString().padStart(2, '0')} ${amPm}`;
   };
 
   return (
     <div className="rolex-container">
-      <div className="rolex-header">
-        <h1 className="rolex-day">{day.toUpperCase()}</h1>
-      </div>
-      <div className="rolex-content">
-        {schedule[day]?.map((cls, idx) => (
-          <div key={idx} className="rolex-class-container">
-            {visibleArray.includes(idx) && (
-              <div className="rolex-class rolex-slide-in">
-                <span className="rolex-class-name">{cls.name}</span>
-                <span className="rolex-class-time">{formatTime(cls.start)}</span>
-              </div>
-            )}
-          </div>
-        ))}
+      <h1 className="rolex-title">{day.toUpperCase()}</h1>
+      <RolexTypewriter />
+      <div className="rolex-schedule">
+        {schedule[day]?.map((cls, idx) =>
+          visibleArray.includes(idx) ? (
+            <div key={idx} className="rolex-class">
+              <span className="rolex-class-name">{cls.name}</span>
+              <span className="rolex-class-time">{formatTime(cls.start)}</span>
+            </div>
+          ) : null
+        )}
       </div>
     </div>
   );
 }
-
-export default RolexSchedule;

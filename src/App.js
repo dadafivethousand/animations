@@ -15,13 +15,14 @@ import WarcraftSchedule from "./Components/WarcraftSchedule"
 import CallOfDutySchedule from "./Components/CallOfDutySchedule"
  import SouthParkSchedule from "./Components/SouthParkSchedule";
 import CircusSchedule from "./Components/CircusSchedule";
-
- 
+import BuzzSchedule from "./Components/BuzzSchedule"
+import RolexSchedule from "./Components/RolexSchedule"
+import RolexTypeWriter from "./Components/RolexTypewriter"
   
  function App() {
   return (
     <>
-    <CircusSchedule day="Wednesday"/>
+    <RolexSchedule day="Thursday"/>
    </>
   );
 }
