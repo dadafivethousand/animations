@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/RolexSchedule.css";
 import schedule from "../Schedule";
-import RolexTypewriter from "./RolexTypewriter";
+import RolexTypewriter from "../Stylesheets/RolexTypewriter";
 
 export default function RolexSchedule({ day, animationDelay = 10000, animationInterval = 700 }) {
   const [visibleArray, setVisibleArray] = useState([]);

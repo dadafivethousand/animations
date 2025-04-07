@@ -1,12 +1,73 @@
-.maple-logo {
-    font-family: "Impact", sans-serif;
-    font-weight: bold;
-    font-size: 64px;
-    text-transform: uppercase;
-    color: white;
-    background-color: red;
-    padding: 10px 20px;
-    display: inline-block;
-    letter-spacing: 2px;
-    border-radius: 4px;
-  }
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@300;500&display=swap');
+
+.logo-container {
+  position:absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  height: 100vh;
+  width:100vw;
+  gap: 0px;
+  z-index:20;
+  transition: opacity 1s ease-in, transform 3s ease-in
+}
+
+
+.maple-box {
+  background-color: #e62429;
+  padding: 0 20px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.maple-text {
+  font-family: 'Anton', sans-serif;
+  font-size: 55px;
+  color: white;
+
+  line-height: 1;
+}
+
+.studios-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 80px;
+  padding: 0 5px;
+  background-color: transparent;
+}
+
+.line {
+  height: 3px;
+  background-color: white;
+  width: 100%;
+}
+
+.top-line {
+  margin-bottom: 8px;
+}
+
+.bottom-line {
+  margin-top: 8px;
+}
+
+.studios-text {
+  font-family: 'Oswald', sans-serif;
+  font-size: 48px;
+  font-weight: 400;
+  color: white;
+  letter-spacing: 4px;
+  text-align: center;
+  letter-spacing: -2px;
+ 
+  border-top: 3px solid white;
+  border-bottom: 3px solid white;
+}
+
+.fade{
+  opacity:0;
+  transform: translateY(500px)
+}
