@@ -3,8 +3,29 @@ import "../Stylesheets/ThorSchedule.css";
 import schedule from "../Schedule";
 import MapleStudios from "./MapleMarvel";
 
-export default function ThorSchedule({ day, animationDelay = 5000, animationInterval = 400 }) {
+export default function ThorSchedule({ day, animationDelay = 4000, animationInterval = 400 }) {
   const [visibleArray, setVisibleArray] = useState([]);
+  const [typedDay, setTypedDay] = useState('')
+
+    useEffect(() => {
+      const word= day
+      let i = 0;
+      setTimeout(() => {
+    const interval = setInterval(() => {
+    
+  
+        setTypedDay(word.substring(0, i + 1));
+        i++;
+        if (i > word.length) {
+          clearInterval(interval);
+         }
+  
+        }, 200);
+  
+      }, 2500);
+  
+    }, []);
+  
 
   useEffect(() => {
     const entries = schedule[day] || [];
@@ -29,7 +50,7 @@ export default function ThorSchedule({ day, animationDelay = 5000, animationInte
           <div className="tenor">
     <div class="tenor-gif-embed" data-postid="25769716" data-share-method="host" data-aspect-ratio="1.23552" data-width="100%"><a href="https://tenor.com/view/chris-hemsworth-thor-love-and-gif-25769716">Chris Hemsworth GIF</a>from <a href="https://tenor.com/search/chris-gifs">Chris GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>    </div>
 
-      <h1 className="thor-title">{day.toUpperCase()}</h1>
+      <h1 className="thor-title">{typedDay}</h1>
       <div className="thor-schedule">
         {schedule[day]?.map((cls, idx) =>
           visibleArray.includes(idx) ? (

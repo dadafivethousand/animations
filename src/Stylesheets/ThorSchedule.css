@@ -15,7 +15,9 @@
 
 .thor-title {
   font-size: 10vw;
-  margin: 20px auto;;
+  margin: 5px auto;;
+  margin-top: 10px;
+ 
  
   color: #c71f1f; /* Thor cape red */
   text-shadow: 0 0 10px rgba(199, 31, 31, 0.5);
