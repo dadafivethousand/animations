@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/RolexSchedule.css";
 import schedule from "../Schedule";
-import RolexTypewriter from "../Stylesheets/RolexTypewriter";
+import RolexTypewriter from "./RolexTypewriter";
 
-export default function RolexSchedule({ day, animationDelay = 10000, animationInterval = 700 }) {
+export default function RolexSchedule({ day, animationDelay = 7500, animationInterval = 500 }) {
   const [visibleArray, setVisibleArray] = useState([]);
   const [typedDay, setTypedDay] = useState('');
 
@@ -23,7 +23,7 @@ export default function RolexSchedule({ day, animationDelay = 10000, animationIn
 
       }, 100);
 
-    }, 9000);
+    }, 6500);
 
   }, []);
 

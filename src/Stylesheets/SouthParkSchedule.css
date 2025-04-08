@@ -5,19 +5,20 @@
 .southpark-container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   height: 100vh;
   position: relative;
   margin: 0;
   padding: 0;
   width: 100%; 
-  background: #86B6F6; /* South Park Sky Blue */
+  background: rgb(117, 200, 207); /* South Park Sky Blue */
   overflow: hidden;
   touch-action: none;
 }
 
 /* 🎬 SOUTH PARK SCHEDULE BOX */
 .southpark-schedule-box {
+  margin-top:200px;
   position: relative;
   width: 70vw;
   max-width: 500px;
@@ -26,9 +27,8 @@
   border-radius: 12px;
   padding: 25px;
   text-align: center;
-  box-shadow: 8px 8px 0px black;
-  animation: wobble 3s infinite alternate ease-in-out;
-  height:350px
+   animation: wobble 3s infinite alternate ease-in-out;
+  height:230px
 }
 
 /* 🎬 SOUTH PARK DAY TITLE */
@@ -117,4 +117,11 @@
 @keyframes wobble {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(0.5deg); }
+}
+
+
+.southpark-image{
+  position: absolute;
+  width:100%;
+  bottom:0
 }

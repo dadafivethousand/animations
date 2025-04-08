@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/SouthParkSchedule.css";
 import schedule from "../Schedule"; // Assuming schedule data exists
+import southParkImage from "../Images/Trending GIF eric cartman stan marsh kyle broflovski south park kenny mccormick unsure question unknown who are you.gif"
 
 function SouthParkSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
   const [showSchedule, setShowSchedule] = useState(false);
@@ -50,6 +51,7 @@ function SouthParkSchedule({ day, animationDelay = 1000, animationInterval = 500
           ))}
         </div>
       </div>
+      <img className="southpark-image" src={southParkImage}/>
     </div>
   );
 }

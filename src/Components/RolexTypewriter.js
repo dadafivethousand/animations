@@ -41,7 +41,7 @@ export default function RolexTypewriter() {
         timeoutId = setTimeout(() => {
           setPhase("typing");
           setI(2);
-        }, 2000);
+        }, 500);
       }
     }
 
