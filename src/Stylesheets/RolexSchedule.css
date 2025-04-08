@@ -15,10 +15,11 @@
 
 .rolex-title {
   font-size: 11vw;
-  margin-top: 400px;
-  margin-bottom: 5px;
+  margin-top: 350px;
+ 
   text-shadow: 0 0 8px rgba(167, 125, 47, 0.3);
   letter-spacing: 2px;
+  z-index: 3;
 }
 
 .rolex-schedule {
@@ -30,7 +31,7 @@
   border: 2px solid #a77d2f;
   background: #fff9e9;
   margin: 5px 0;
-  padding: 6px 30px;
+  padding: 7px 30px;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(167, 125, 47, 0.2);
   display: flex;
