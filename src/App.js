@@ -18,7 +18,7 @@ import MatrixSchedule from "./Components/MatrixSchedule";
  function App() {
   return (
     <>
-    < MatrixSchedule day="Sunday"/>
+    < SouthParkSchedule day="Saturday"/>
    </>
   );
 }
