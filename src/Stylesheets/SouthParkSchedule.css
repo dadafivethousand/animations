@@ -18,7 +18,7 @@
 
 /* 🎬 SOUTH PARK SCHEDULE BOX */
 .southpark-schedule-box {
-  margin-top:100px;
+  margin-top:80px;
   position: relative;
   width: 70vw;
   max-width: 500px;
@@ -28,7 +28,7 @@
   padding: 25px;
   text-align: center;
    animation: wobble 3s infinite alternate ease-in-out;
-  height:230px
+  height:250px
 }
 
 /* 🎬 SOUTH PARK DAY TITLE */
