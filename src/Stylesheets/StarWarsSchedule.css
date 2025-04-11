@@ -1,0 +1,313 @@
+/* 
+  1) We embed the Star Wars font (Star Jedi style).
+  2) We also import Orbitron for the schedule items.
+*/
+
+@font-face {
+    font-family: 'StarWarsUltra';
+    src: url('https://fonts.cdnfonts.com/s/15301/Starjedi.woff') format('woff');
+  }
+  
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
+  
+  /* BASE STYLES */
+  body {
+    margin: 0;
+    padding: 0;
+    background: black;
+    overflow-x: hidden;
+  }
+  
+  /* 
+    The container has a multi-layer starfield background 
+    for extra depth, plus a radial fade. 
+  */
+  .sw-container {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    color: #ffe81f;
+    text-align: center;
+    font-family: 'Orbitron', sans-serif;
+    overflow: hidden;
+  
+    /* Subtle radial gradient under the starfield layers */
+    background: radial-gradient(circle at 50% 50%, #000 60%, #111 100%);
+  }
+  
+  /* 
+    LAYERED STARFIELD 
+    "stars-front" moves a bit faster, "stars-back" moves slower for parallax effect
+  */
+  .sw-container::before,
+  .sw-container::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: url('https://i.imgur.com/r9JkW1M.png') repeat; /* star sprite */
+    background-size: cover;
+    opacity: 0.4;
+    z-index: 0;
+  }
+  
+  .sw-container::before {
+    animation: starfield-back 100s linear infinite;
+  }
+  .sw-container::after {
+    animation: starfield-front 50s linear infinite;
+    opacity: 0.6;
+  }
+  
+  /* Title with Star Wars Font */
+  .sw-title {
+    font-family: 'StarWarsUltra', sans-serif;
+    font-size: 3rem;
+    text-shadow: 0 0 5px #ffe81f, 0 0 10px #ffe81f, 0 0 20px #ffe81f;
+    margin: 60px 0 40px;
+    z-index: 1;
+    position: relative;
+  }
+  
+  /* 
+    SCHEDULE LIST 
+    - We'll center it, keep it relatively small for mobile
+  */
+  .sw-schedule {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 60px;
+    z-index: 1;
+    position: relative;
+  }
+  
+  .sw-class {
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px solid #ffe81f;
+    border-radius: 12px;
+    padding: 14px 20px;
+    backdrop-filter: blur(4px);
+    animation: fadeIn 1s ease forwards;
+    position: relative;
+  }
+  
+  .sw-name {
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+  }
+  
+  .sw-time {
+    font-size: 1.1rem;
+    opacity: 0.9;
+  }
+  
+  /* 
+    LIGHTSABERS 
+    - Placed at bottom, crossing each other, pointing up
+    - We'll use transform: rotate(...) to cross
+    - Longer blades (300px)
+  */
+  .lightsaber {
+    position: absolute;
+    bottom: 30px;
+    width: 28px;
+    height: 380px; /* handle + blade total space */
+    display: flex;
+    flex-direction: column-reverse; /* so blade grows up from bottom */
+    align-items: center;
+    z-index: 1;
+    transform-origin: bottom center;
+  }
+  
+  .lightsaber.left {
+    left: 20%;
+    transform: rotate(45deg);
+  }
+  
+  .lightsaber.right {
+    right: 20%;
+    transform: rotate(-45deg);
+  }
+  
+  /* 
+    HANDLE with advanced metallic style:
+    - multiple gradients for highlights
+    - subtle "grooves" with repeating-linear-gradient
+  */
+  .handle {
+    width: 28px;
+    height: 80px;
+    position: relative;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 
+      inset 0 0 8px #000,
+      0 0 6px rgba(0,0,0,0.5);
+  
+    background: 
+      linear-gradient(135deg, #444 0%, #222 40%, #000 100%), /* main metallic fade */
+      repeating-linear-gradient(
+        to right,
+        rgba(255,255,255,0.04) 0 4px,
+        transparent 4px 8px
+      ); /* subtle horizontal grooves */
+  
+    background-blend-mode: multiply;
+  }
+  
+  /* 
+    Optional handle "buttons" or "vents" for extra realism 
+  */
+  .handle::before {
+    content: "";
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14px;
+    height: 4px;
+    background: #777;
+    border-radius: 2px;
+    box-shadow: 
+      0 0 1px #555,
+      0 0 4px rgba(0,0,0,0.6);
+  }
+  
+  /* 
+    BLADE 
+    - same width as handle
+    - animate from 0 to 300px height
+    - flicker effect
+  */
+  .blade {
+    width: 28px;
+    height: 0;
+    margin-top: 4px;
+    border-radius: 4px;
+    opacity: 0;
+    transform-origin: bottom;
+    animation: igniteBlade 1s ease-out forwards;
+    z-index: 2;
+  }
+  
+  /* The green and red blades have flicker animations */
+  .green, .red {
+    animation: igniteBlade 1s ease-out forwards, bladeFlicker 1.5s infinite ease-in-out 1s;
+  }
+  
+  /* 
+    Green blade 
+    - intense glow
+  */
+  .green {
+    background: #00ff73;
+    box-shadow: 
+      0 0 20px #00ff73,
+      0 0 40px #00ff73,
+      0 0 80px #00ff73;
+  }
+  
+  /* 
+    Red blade
+    - intense red glow
+  */
+  .red {
+    background: #ff0000;
+    box-shadow: 
+      0 0 20px #ff0000,
+      0 0 40px #ff0000,
+      0 0 80px #ff0000;
+  }
+  
+  /* 
+    KEYFRAMES 
+  */
+  
+  /* 1) Animate the blade from 0 to 300px high */
+  @keyframes igniteBlade {
+    0% {
+      height: 0;
+      opacity: 0;
+    }
+    100% {
+      height: 300px;
+      opacity: 1;
+    }
+  }
+  
+  /* 2) Flicker effect: subtle variation in opacity for realistic glow */
+  @keyframes bladeFlicker {
+    0%, 100% {
+      opacity: 0.85;
+    }
+    50% {
+      opacity: 1;
+    }
+    70% {
+      opacity: 0.95;
+    }
+  }
+  
+  /* 3) Fade in schedule items */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* 4) Slow starfield movement in the background */
+  @keyframes starfield-back {
+    0% {
+      transform: translate(0, 0) scale(1);
+    }
+    100% {
+      transform: translate(50%, 50%) scale(1);
+    }
+  }
+  @keyframes starfield-front {
+    0% {
+      transform: translate(0, 0) scale(1.2);
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(1.2);
+    }
+  }
+  
+  /* 
+    MAKE IT MOBILE-FRIENDLY 
+    - We'll ensure the container and text scale well
+  */
+  @media (max-width: 480px) {
+    .sw-title {
+      font-size: 2.2rem;
+      margin-top: 40px;
+      margin-bottom: 30px;
+    }
+    .sw-name {
+      font-size: 1.2rem;
+    }
+    .sw-time {
+      font-size: 0.95rem;
+    }
+    .lightsaber {
+      height: 360px;
+      bottom: 15px;
+    }
+    .handle {
+      height: 70px;
+    }
+    .blade {
+      width: 24px;
+    }
+  }
+  

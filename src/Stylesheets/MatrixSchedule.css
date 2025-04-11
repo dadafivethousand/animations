@@ -1,0 +1,77 @@
+/* 
+  Make sure the body/canvas can occupy the full screen 
+  without scrollbars.
+*/
+ 
+  /* 
+    The main container for the matrix effect 
+    + the schedule overlay.
+  */
+  .matrix-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  /* 
+    The falling matrix code canvas:
+    - absolutely positioned behind everything
+  */
+  .matrix-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0; /* behind the overlay */
+  }
+  
+  /* 
+    The schedule overlay:
+    - above the canvas 
+    - matrix-green text
+    - monospace
+    - fade-in animation to reveal after the code is running
+  */
+  .matrix-schedule {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #00FF00; /* Matrix-green text color */
+    font-family: "Courier New", Courier, monospace;
+    text-align: center;
+    z-index: 1;
+    opacity: 0; /* hidden at first */
+    animation: revealSchedule 1.5s ease forwards 3s;
+    /* 
+      "forwards" => stay at final state,
+      "3s" => wait 3s before starting fade in,
+      "1.5s" => duration of fade in
+    */
+  }
+  
+  /* You can style the items within the schedule any way you like; 
+     Here is just a simple example. */
+  .matrix-schedule h1, 
+  .matrix-schedule h2, 
+  .matrix-schedule p, 
+  .matrix-schedule li, 
+  .matrix-schedule span {
+    margin: 8px 0;
+  }
+  
+  /* 
+    Keyframe to fade in and slightly move upward 
+    for a dramatic reveal 
+  */
+  @keyframes revealSchedule {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, -60%); /* slightly lower position */
+    }
+    100% {
+      opacity: 1;
+      transform: translate(-50%, -50%); /* final center */
+    }
+  }
+  

@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+
+.withoutme-container {
+  background: #f6f6f6;
+  min-height: 100vh;
+ 
+  font-family: 'Bangers', cursive;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #111;
+}
+
+.withoutme-title {
+  font-size: 20vw;
+  margin-bottom: 40px;
+  margin-top: 140px;
+  color: #fff01f;
+  text-shadow:
+  -2px -2px 0 red,
+   2px -2px 0 red,
+  -2px  2px 0 red,
+   2px  2px 0 red,
+   0   -2px 0 red,
+   0    2px 0 red,
+  -2px  0   0 red,
+   2px  0   0 red;
+
+  text-shadow: 2px 2px 0 #000;
+  letter-spacing: 3px;
+  z-index: 20;
+}
+
+.withoutme-schedule {
+  width: 80%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.comic-class {
+  background: #fff01f;
+  border: 5px solid #000;
+  box-shadow: 6px 6px 0px #000;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 6px;
+  transition: transform 0.2s ease-in-out;
+  z-index: 5;
+}
+
+.comic-class:hover {
+  transform: scale(1.02);
+}
+
+.comic-name {
+  font-size: 24px;
+  color: #111;
+  text-shadow: 1px 1px #ff0000;
+}
+
+.comic-time {
+  font-size: 18px;
+  color: #333;
+  font-style: italic;
+  text-shadow: 1px 1px #fff;
+}
+
+.withoutme-first {
+    background-image: url("../Images/_\ \(1\).gif");
+    width:100vw;
+    height: 25vh;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+
+.withoutme-second {
+    background-image: url("../Images/_\ \(2\).gif");
+    width:100vw;
+    height: 43vh;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+
+.withoutme-third {
+    background-image: url("../Images/2014-03-24-shade-thumb_gif\ \(400×300\).gif");
+    width:100vw;
+    height: 43vh;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.withoutme-fourth {
+    background-image: url("../Images/Register\ -\ Login.gif");
+    width:100vw;
+    height: 40vh;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+
+
+ .withoutme-collage{
+position:absolute; }
+
+ .second-gif, .third-gif, .fourth-gif{
+    width:100vw;
+    padding: 0;
+    margin:0;
+ }
+
+ .first-gif{
+    position: relative;
+    top:-25px
+ }
+
+ .fourth-gif{
+    position: relative;
+    top:-100px;
+    
+ }
+
+ .second-gif{
+    position: relative;
+    top:-20px;
+    
+ }
