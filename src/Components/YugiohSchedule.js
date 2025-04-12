@@ -3,7 +3,7 @@ import "../Stylesheets/YugiohSchedule.css";
 import scheduleData from "../Schedule";
 import weekday from "../Images/ChatGPT Image Apr 12, 2025, 10_51_21 AM.png";
 import  backImg from "../Images/Back-EN (1).png"
-import yugioh from "../Images/yugioh.gif"
+import yugioh from "../Images/yugioh.jpg"
 
 function YugiohMobileSchedule({ day, animationDelay = 500, animationInterval = 700 }) {
   const [revealed, setRevealed] = useState(false);
