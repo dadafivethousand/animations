@@ -1,0 +1,109 @@
+/* 
+  Minimalistic flip clock styles.
+  Black background, monospaced or bold font, 
+  and a slight 3D flip for each item reveal.
+*/
+
+/* Reset body for consistency */
+html, body {
+    margin: 0;
+    padding: 0;
+    background: #000; /* black background for a minimalist style */
+    font-family: "Arial", sans-serif;
+    overflow-x: hidden;
+  }
+  
+  /* The container for the schedule */
+  .clock-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding: 50px 20px;
+    box-sizing: border-box;
+    position: relative;
+  }
+  
+  /* The typed-out day name */
+  .clock-day {
+    color: #fff;
+    font-size: 3rem;
+    letter-spacing: 2px;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 700;
+    font-family: "Courier New", Courier, monospace;
+  }
+  
+  /* Schedule container */
+  .clock-schedule {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  /* Each item: a flip panel with top & bottom halves */
+  .flip-item {
+    position: relative;
+    width: 100%;
+    height: 80px; /* You can adjust this for a bigger/smaller panel */
+    perspective: 600px; /* Enables 3D flip */
+    background: #111; /* Fallback background if needed */
+    border: 2px solid #333;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  /* Top/bottom panels (two halves) */
+  .flip-panel {
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    left: 0;
+    overflow: hidden;
+    background: #222; /* Dark gray or #fff for a minimal black/white palette */
+    color: #0f0;      /* Green text (or #fff if you want pure white) */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    animation: flipIn 0.8s ease forwards;
+  }
+  
+  .flip-panel.top {
+    top: 0;
+    border-bottom: 1px solid #333;
+  }
+  .flip-panel.bottom {
+    bottom: 0;
+    border-top: 1px solid #333;
+  }
+  
+  /* The text in each panel. We push it up slightly so it doesn't clip. */
+  .flip-content {
+    font-size: 1.2rem;
+    transform: translateZ(1px);
+    font-family: "Courier New", Courier, monospace;
+    text-transform: uppercase;
+  }
+  
+  /* Simple 3D flip from folded (rotateX(90deg)) to 0deg */
+  @keyframes flipIn {
+    0% {
+      transform: rotateX(90deg);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: rotateX(0deg);
+      opacity: 1;
+    }
+  }
+  

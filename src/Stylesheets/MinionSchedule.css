@@ -1,0 +1,145 @@
+/* 
+  DESPICABLE ME LAB / MINION BLUEPRINT THEME
+  - Blueprint grid background
+  - Minion silhouette
+  - Banana bullet points
+*/
+
+/* Reset / base */
+html, body {
+    margin: 0;
+    padding: 0;
+    background: #fafafa; /* fallback gray */
+    font-family: "Trebuchet MS", sans-serif;
+  }
+  
+  /* The main container: blueprint background + a minion silhouette on it */
+  .minion-blueprint {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background-color: #0a63b1; /* Minion-ish denim blue */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Subtle blueprint grid using repeating-linear-gradient */
+  .minion-blueprint::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: 
+      repeating-linear-gradient(#0a63b1 0px, #0a63b1 19px, #0c77d5 20px),
+      repeating-linear-gradient(
+        90deg,
+        #0a63b1 0px,
+        #0a63b1 19px,
+        #0c77d5 20px
+      );
+    opacity: 0.4;
+    z-index: 0;
+  }
+  
+  /* A Minion silhouette placed in the center as a background image 
+     (just a sample silhouette shape / image). 
+     Replace the URL with your own if you have an actual minion silhouette. */
+  .minion-blueprint::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    height: 400px;
+    transform: translate(-50%, -50%);
+    background: url('https://i.imgur.com/nZVf4p2.png') no-repeat center/contain;
+    opacity: 0.2;
+    z-index: 0;
+  }
+  
+  /* 
+    HEADER 
+    - The day title at the top 
+  */
+  .minion-header {
+    position: relative;
+    z-index: 1;
+    margin-top: 40px;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.8s ease;
+  }
+  
+  .minion-header.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .minion-day-title {
+    font-size: 2.5rem;
+    color: #ffd82c; /* Minion Yellow */
+    text-shadow: 0 0 4px rgba(0,0,0,0.5);
+    text-align: center;
+    margin: 0;
+  }
+  
+  /*
+    SCHEDULE LIST 
+    - container for schedule items
+  */
+  .minion-schedule-list {
+    position: relative;
+    margin-top: 60px;
+    width: 90%;
+    max-width: 600px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  /*
+    INDIVIDUAL SCHEDULE ITEM 
+    - banana bullet + class/time
+  */
+  .minion-schedule-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px dashed #ffd82c;
+    padding: 10px 15px;
+    border-radius: 10px;
+    color: #ffffff;
+    animation: fadeInItem 0.5s forwards;
+  }
+  
+  .banana-bullet {
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+  
+  .minion-class-name {
+    font-weight: bold;
+    font-size: 1.2rem;
+    flex: 1; /* fill available space */
+  }
+  
+  .minion-class-time {
+    font-size: 1rem;
+    opacity: 0.9;
+  }
+  
+  /* Fade in from below */
+  @keyframes fadeInItem {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

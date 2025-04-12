@@ -1,0 +1,167 @@
+.yugi-mobile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    padding: 16px;
+    box-sizing: border-box;
+    background: #000;
+    font-family: "Arial", sans-serif;
+  }
+  
+  .yugi-day {
+    width: 200px;
+    display: block;
+  }
+  
+  .yugi-logo-title {
+    width: 180px;
+    height: 60px;
+    margin-bottom: 16px;
+  }
+  
+  .yugi-cards-wrap {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    width: 100%;
+    max-width: 420px;
+    justify-items: center;
+    position: relative;
+    top: 100px;
+  }
+  
+  .yugi-card-container {
+    width: 100%;
+    aspect-ratio: 105 / 150;
+  }
+  
+  .yugi-card-inner {
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease;
+    transform: rotateY(0deg);
+  }
+  
+  .yugi-card-inner.face-up {
+    transform: rotateY(180deg);
+  }
+  
+  .yugi-card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 4px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.7);
+  }
+  
+  .card-back {
+    transform: rotateY(0deg);
+    background: #000;
+  }
+  
+  .card-back-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .card-front {
+    transform: rotateY(180deg);
+    background: linear-gradient(#d1b97f, #b89260);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.15);
+    flex-shrink: 0;
+    padding: 4px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: #000;
+    text-transform: uppercase;
+    position: relative;
+  }
+  
+  /* ⭐ Stars */
+  .card-stars {
+    display: flex;
+    gap: 1px;
+  }
+  .card-stars img {
+    width: 10px;
+    height: 10px;
+  }
+  
+  /* 🔷 Attribute icon */
+  .card-attribute {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .card-name {
+    text-align: center;
+    flex: 1;
+    font-size: 16px;
+  }
+  
+  /* Image area */
+  .card-image-area {
+    flex-grow: 1;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .card-monster-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+  
+  /* Text area */
+  .card-text-area {
+    background: rgba(255, 255, 255, 0.8);
+    color: #000;
+    padding: 4px;
+    font-size: 0.6rem;
+    line-height: .8rem;
+  }
+
+  .card-image-area img{
+    height:88px;
+    width: 111px;
+    object-fit: cover;
+
+  }
+
+  .card-text-time{
+    font-size: 11px;
+  }
+
+  .yugi-gif{
+    position: relative;
+    top:120px;
+    border-top:5px rgb(124, 0, 0) solid;
+
+  }
+  
+  @media (max-width: 350px) {
+    .yugi-cards-wrap {
+      max-width: 360px;
+      gap: 4px;
+    }
+    .yugi-logo-title {
+      width: 150px;
+      height: 50px;
+    }
+  }
+  
