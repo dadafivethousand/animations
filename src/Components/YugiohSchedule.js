@@ -4,10 +4,13 @@ import scheduleData from "../Schedule";
 import weekday from "../Images/ChatGPT Image Apr 12, 2025, 10_51_21 AM.png";
 import  backImg from "../Images/Back-EN (1).png"
 import yugioh from "../Images/yugioh.jpg"
+import star from "../Images/ChatGPT Image Apr 12, 2025, 03_44_12 PM.png"
 
-function YugiohMobileSchedule({ day, animationDelay = 500, animationInterval = 700 }) {
+
+function YugiohMobileSchedule({ day, animationDelay = 2000, animationInterval = 1000 }) {
   const [revealed, setRevealed] = useState(false);
   const [visibleIndices, setVisibleIndices] = useState([]);
+  const [showImage, setShowImage] = useState(false)
 
   useEffect(() => {
     const timer = setTimeout(() => setRevealed(true), animationDelay);
@@ -77,14 +80,19 @@ function YugiohCard({ className, time, front, back, isFaceUp, description }) {
           <div className="card-header">
        
             <span className="card-name">{className}</span>
+<div className="stars">
 
+{[...Array(7)].map((_, i) => (
+  <img style={{width:"14px"}} key={i} src={star} alt="★" />
+))}
+</div>
           </div>
           <div className="card-image-area">
             <img src={front} alt="Class Artwork" className="card-monster-image" />
           </div>
           <div className="card-text-area">
             <p className="card-text-time"><strong>Time:</strong> {time}</p>
-            <p>{description}</p>
+  
           </div>
         </div>
       </div>

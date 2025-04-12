@@ -34,7 +34,7 @@
   
   .yugi-card-container {
     width: 100%;
-    aspect-ratio: 105 / 150;
+    aspect-ratio: 105 / 160;
     z-index: 3;
   }
   
@@ -42,7 +42,7 @@
     width: 100%;
     height: 100%;
     transform-style: preserve-3d;
-    transition: transform 0.6s ease;
+    transition: transform 0.9s ease;
     transform: rotateY(0deg);
   }
   
@@ -72,15 +72,18 @@
   
   .card-front {
     transform: rotateY(180deg);
-    background: linear-gradient(#d1b97f, #b89260);
+    background:rgb(240, 187, 87);
     display: flex;
     flex-direction: column;
   }
   
   .card-header {
     display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+ 
     justify-content: space-between;
-    align-items: center;
+ 
     background: rgba(0, 0, 0, 0.15);
     flex-shrink: 0;
     padding: 4px;
@@ -108,15 +111,17 @@
   }
   
   .card-name {
-    text-align: center;
+    text-align: left;
     flex: 1;
     font-size: 16px;
+    width: 100%;
+    
   }
   
   /* Image area */
   .card-image-area {
     flex-grow: 1;
-    background: #fff;
+    background:  rgba(255, 255, 255, 0.8);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -135,17 +140,20 @@
     padding: 4px;
     font-size: 0.6rem;
     line-height: .6rem;
+ 
   }
 
   .card-image-area img{
     height:89px;
-    width: 111px;
+    width: 105px;
     object-fit: cover;
 
   }
  
 .card-text-time{
   margin-bottom:6px;
+  font-size: 15px;
+  text-align: center;
 
 }
   .yugi-gif{
@@ -154,6 +162,12 @@
     width:70vw;
  
   }
+
+  .stars{
+    display:flex
+  }
+
+ 
   
   @media (max-width: 350px) {
     .yugi-cards-wrap {
