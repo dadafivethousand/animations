@@ -7,7 +7,7 @@ import yugioh from "../Images/yugioh.jpg"
 import star from "../Images/ChatGPT Image Apr 12, 2025, 03_44_12 PM.png"
 
 
-function YugiohMobileSchedule({ day, animationDelay = 2000, animationInterval = 1000 }) {
+function YugiohMobileSchedule({ day, animationDelay = 4000, animationInterval = 1000 }) {
   const [revealed, setRevealed] = useState(false);
   const [visibleIndices, setVisibleIndices] = useState([]);
   const [showImage, setShowImage] = useState(false)
@@ -16,6 +16,14 @@ function YugiohMobileSchedule({ day, animationDelay = 2000, animationInterval = 
     const timer = setTimeout(() => setRevealed(true), animationDelay);
     return () => clearTimeout(timer);
   }, [animationDelay]);
+
+
+  useEffect(() => {
+    setTimeout(() => {
+      setShowImage(true)
+    }, 2000);
+
+  }, [ ]);
 
   useEffect(() => {
     if (!revealed) return;
@@ -58,7 +66,7 @@ function YugiohMobileSchedule({ day, animationDelay = 2000, animationInterval = 
           );
         })}
       </div>
-      <img className='yugi-gif' src={yugioh} />
+      <img className={`yugi-gif ${showImage ? 'yugi-show': ''}`} src={yugioh} />
     </div>
   );
 }
@@ -91,7 +99,7 @@ function YugiohCard({ className, time, front, back, isFaceUp, description }) {
             <img src={front} alt="Class Artwork" className="card-monster-image" />
           </div>
           <div className="card-text-area">
-            <p className="card-text-time"><strong>Time:</strong> {time}</p>
+            <p className="card-text-time">  {time}</p>
   
           </div>
         </div>

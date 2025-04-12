@@ -34,7 +34,7 @@
   
   .yugi-card-container {
     width: 100%;
-    aspect-ratio: 105 / 160;
+    aspect-ratio: 110 / 160;
     z-index: 3;
   }
   
@@ -55,8 +55,7 @@
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    border-radius: 1px;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.7);
+     box-shadow: 0 0 4px rgba(0, 0, 0, 0.7);
   }
   
   .card-back {
@@ -152,16 +151,26 @@
  
 .card-text-time{
   margin-bottom:6px;
-  font-size: 15px;
+  font-size: 17px;  
   text-align: center;
 
 }
   .yugi-gif{
     position: relative;
- top:100px;
+ top:115px;
     width:70vw;
+
+    opacity: 0;
+    transition: opacity 3s ease-in ;
+  }
+
+  .yugi-show{
+ 
+    opacity: .8;
  
   }
+
+ 
 
   .stars{
     display:flex
