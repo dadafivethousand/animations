@@ -1,19 +1,48 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/StarWarsSchedule.css";
-import schedule from "../Schedule"; // your schedule data
+import schedule from "../Schedule";
+import starwarstext from "../Images/maple_jiu_jitsu_star_wars_style_final.png";
+import RealisticLightsaber from "./RealisticLightsaber";
+import GreenLightsaber from "./GreenLightsaber";
 
-export default function StarWarsSchedule({
-  day,
-  animationDelay = 800,
-  animationInterval = 500,
-}) {
+export default function StarWarsSchedule({ day, animationDelay = 500, animationInterval = 300 }) {
   const [visibleArray, setVisibleArray] = useState([]);
+  const [fight, setFight] = useState(false)
+  const [animation, setAnimation] = useState(false)
+  const [red, setRed] = useState(false)
+
+
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setRed(prevRed => !prevRed); // Toggle the boolean
+    }, 700);
+  
+    return () => clearInterval(intervalId); // Clean up the interval on unmount
+  }, []);
+  
+
+  useEffect(() => {
+    setTimeout(() => {
+      setFight(true)
+    }, 4000);
+
+  }, []);
+
+
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAnimation(true)
+    }, 500);
+
+  }, []);
 
   useEffect(() => {
     const entries = schedule[day] || [];
     entries.forEach((_, idx) => {
       setTimeout(() => {
-        setVisibleArray((prev) => [...prev, idx]);
+        setVisibleArray(prev => [...prev, idx]);
       }, animationDelay + idx * animationInterval);
     });
   }, [day, animationDelay, animationInterval]);
@@ -23,25 +52,26 @@ export default function StarWarsSchedule({
     const minutes = Math.round((decimalTime - hour) * 60);
     const hour12 = hour % 12 === 0 ? 12 : hour % 12;
     const amPm = hour < 12 ? "AM" : "PM";
-    return `${hour12}:${minutes.toString().padStart(2, "0")} ${amPm}`;
+    return `${hour12}:${minutes.toString().padStart(2, '0')} ${amPm}`;
   };
 
   return (
     <div className="sw-container">
-      {/* Crossed Lightsabers at the bottom pointing up */}
-      <div className="lightsaber left">
-        <div className="handle"></div>
-        <div className="blade green" style={{ animationDelay: "0.3s" }}></div>
+      <div className={`starwars-swords ${animation? 'starwars-animate': ''}`}>
+      <div className={`starwars-red ${fight? 'starwars-fight-red': ''}  ${red? 'starwars-lead-red': ''}`}>
+      <RealisticLightsaber />
       </div>
-      <div className="lightsaber right">
-        <div className="handle"></div>
-        <div className="blade red" style={{ animationDelay: "0.6s" }}></div>
+      <div className={`starwars-green ${fight? 'starwars-fight-green': ''} `}>
+      <GreenLightsaber />
       </div>
+      </div>
+      <div>
+        <img className="starwars-text" src={starwarstext} alt="Star Wars–Style Text" />
+      </div>
+      <div className="starfield"></div>
 
-      {/* Star Wars Font Title for the Day */}
       <h1 className="sw-title">{day.toUpperCase()}</h1>
 
-      {/* Schedule Items */}
       <div className="sw-schedule">
         {schedule[day]?.map((cls, idx) =>
           visibleArray.includes(idx) ? (

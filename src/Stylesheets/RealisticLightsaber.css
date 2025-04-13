@@ -1,0 +1,196 @@
+/* 
+  REALISTIC LIGHTSABER (Darth Vader style, even redder)
+  - Lighter gray handle for visibility
+  - Intensely red dual-layer blade
+  - Slightly rounded edges (border-radius: 5px)
+  - Auto-ignite after 1s
+  - Only the blade glows on .active
+*/
+
+ 
+
+/* The lightsaber container: handle bottom, blade top */
+.realistic-lightsaber {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: flex-start;
+  width: 12px;
+    height: 250px;
+  margin: 60px auto;
+  position: relative;
+ 
+  /* No glow at container level (only blade glows) */
+}
+
+/* ===== HANDLE ===== */
+.lightsaber-handle {
+  width: 100%;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+ 
+  overflow: hidden;
+  box-shadow: inset 0 0 6px #000;
+}
+
+/* Emitter: top of handle near the blade — lighter gray gradient */
+.handle-emitter {
+  flex: 0 0 25px;
+  background: linear-gradient(135deg, #ccc 0%, #999 50%, #666 100%);
+  border-bottom: 2px solid #222;
+  box-shadow: inset 0 0 8px #111;
+}
+
+/* Grip: main handle area with repeating lines, also lighter */
+.handle-grip {
+  flex: 1;
+  background: repeating-linear-gradient(
+    to right,
+    #999 0 5px,
+    #8f8f8f 5px 10px
+  );
+  box-shadow: inset 0 0 8px #111;
+}
+
+/* Pommel: bottom cap */
+.handle-pommel {
+  flex: 0 0 20px;
+  background: linear-gradient(135deg, #999 0%, #777 60%, #555 100%);
+  border-top: 2px solid #444;
+  box-shadow: inset 0 0 5px #000;
+}
+
+/* Red button: decorative */
+.lightsaber-button {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 40%, #ff1a1a 0%, #a80000 70%);
+  box-shadow: 0 0 4px #f00, inset 0 0 2px #700;
+  border: 1px solid #660000;
+}
+
+/* ===== BLADE ===== */
+.lightsaber-blade {
+  width: 100%;
+  height: 300px;
+  position: relative;
+  overflow: hidden;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+
+  background: transparent;
+  transform-origin: bottom;
+}
+
+/* Outer red glow layer: more saturated red (#ff2020) */
+.outer-blade {
+  width: 100%;
+  height: 100%;
+  background: #ff2020; 
+  opacity: 0.4;
+ 
+  transform-origin: bottom;
+  box-shadow:
+    0 0 10px #ff2020,
+    0 0 30px #ff2020,
+    0 0 60px #ff2020,
+    0 0 100px #ff2020;
+  animation: retract 0.3s forwards; /* start off */
+}
+
+/* Inner bright core, deeper red (#ff8080) so it looks hot and intense */
+.inner-blade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+ 
+  background: #ff8080;
+  box-shadow:
+    0 0 15px #ff8080,
+    0 0 40px #ff8080,
+    0 0 80px #ff8080,
+    0 0 120px #ff8080;
+  transform-origin: bottom;
+  animation: retract 0.3s forwards; /* off initially */
+}
+
+/* On .active => only the blade glows (no handle glow) */
+.realistic-lightsaber.active .lightsaber-blade {
+  filter: drop-shadow(0 0 5px #f00) drop-shadow(0 0 20px #f00);
+}
+
+/* Ignite + flicker for both blade layers */
+.realistic-lightsaber.active .outer-blade {
+  animation: igniteOuter 0.5s forwards, flickerOuter 1.2s infinite 0.5s;
+}
+.realistic-lightsaber.active .inner-blade {
+  animation: igniteInner 0.5s forwards, flickerInner 1s infinite 0.5s;
+}
+
+/* ========== KEYFRAMES ========== */
+@keyframes igniteOuter {
+  0% {
+    transform: scaleY(0);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+@keyframes igniteInner {
+  0% {
+    transform: scaleY(0);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+@keyframes retract {
+  0% {
+    transform: scaleY(1);
+  }
+  100% {
+    transform: scaleY(0);
+  }
+}
+
+/* Outer flicker: subtle changes in opacity */
+@keyframes flickerOuter {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Inner flicker: more intense red glow */
+@keyframes flickerInner {
+  0%, 100% {
+    opacity: 0.9;
+    box-shadow:
+      0 0 15px #ff8080,
+      0 0 40px #ff8080,
+      0 0 80px #ff8080,
+      0 0 120px #ff8080;
+  }
+  40% {
+    opacity: 1;
+    box-shadow:
+      0 0 20px #ff8080,
+      0 0 60px #ff8080,
+      0 0 100px #ff8080,
+      0 0 140px #ff8080;
+  }
+  70% {
+    opacity: 0.85;
+  }
+}

@@ -15,12 +15,14 @@ import MatrixSchedule from "./Components/MatrixSchedule";
 import MinionSchedule from "./Components/MinionSchedule"
 import ClockSchedule from "./Components/ClockSchedule";
 import YugiohSchedule from "./Components/YugiohSchedule";
+import RealisticLightsaber from "./Components/RealisticLightsaber";
+import GreenLightsaber from "./Components/GreenLightsaber";
  
   
  function App() {
   return (
     <>
-    < YugiohSchedule day="Sunday"/>
+    <StarWarsSchedule day={"Monday"} />
    </>
   );
 }
