@@ -5,7 +5,7 @@ import starwarstext from "../Images/maple_jiu_jitsu_star_wars_style_final.png";
 import RealisticLightsaber from "./RealisticLightsaber";
 import GreenLightsaber from "./GreenLightsaber";
 
-export default function StarWarsSchedule({ day, animationDelay = 500, animationInterval = 300 }) {
+export default function StarWarsSchedule({ day, animationDelay = 1000, animationInterval = 300 }) {
   const [visibleArray, setVisibleArray] = useState([]);
   const [fight, setFight] = useState(false)
   const [animation, setAnimation] = useState(false)
