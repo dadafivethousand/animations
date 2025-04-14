@@ -19,13 +19,7 @@ const e = setTimeout(() => {
 
   }, []);
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setRed(prevRed => !prevRed); // Toggle the boolean
-    }, 400);
-  
-    return () => clearInterval(intervalId); // Clean up the interval on unmount
-  }, []);
+ 
   
 
   useEffect(() => {
