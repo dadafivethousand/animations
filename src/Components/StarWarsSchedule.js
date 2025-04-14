@@ -5,7 +5,7 @@ import starwarstext from "../Images/maple_jiu_jitsu_star_wars_style_final.png";
 import RealisticLightsaber from "./RealisticLightsaber";
 import GreenLightsaber from "./GreenLightsaber";
 
-export default function StarWarsSchedule({ day, animationDelay = 2500, animationInterval = 300 }) {
+export default function StarWarsSchedule({ day, animationDelay = 3000, animationInterval = 300 }) {
   const [visibleArray, setVisibleArray] = useState([]);
   const [fight, setFight] = useState(false)
   const [animation, setAnimation] = useState(false)
@@ -15,7 +15,7 @@ export default function StarWarsSchedule({ day, animationDelay = 2500, animation
   useEffect(() => {
 const e = setTimeout(() => {
       setMoveSign(true)
-}, 500);
+}, 2000);
 
   }, []);
 
@@ -25,7 +25,7 @@ const e = setTimeout(() => {
   useEffect(() => {
     setTimeout(() => {
       setFight(true)
-    }, 4000);
+    }, 5000);
 
   }, []);
 
@@ -34,7 +34,7 @@ const e = setTimeout(() => {
   useEffect(() => {
     setTimeout(() => {
       setAnimation(true)
-    }, 1000);
+    }, 2000);
 
   }, []);
 
