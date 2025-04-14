@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+
+.office-wrapper {
+  min-height: 100vh;
+  background: #e7e4d8; /* neutral wall */
+  padding: 40px 10px;
+  font-family: 'Patrick Hand', cursive;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #333;
+}
+
+.office-day {
+  font-size: 3.8rem;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+/* Corkboard platform */
+.corkboard {
+  background: #b48f60;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.15);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  gap: 20px;
+
+  width: 91vw;
+  position: relative;
+}
+
+/* Sticky Notes inside the board */
+.sticky-note {
+  position: relative;
+  width: 110px;
+  height: 120px;
+  background: #fff87c;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+  border-radius: 6px;
+  transform: translate(var(--x), var(--y)) rotate(var(--rotate));
+  animation: popIn 0.3s ease forwards;
+  flex-shrink: 0;
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8) rotate(-6deg);
+  }
+  to {
+    opacity: 1;
+    transform: translate(var(--x), var(--y)) rotate(var(--rotate));
+  }
+}
+
+.pin-head {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  background: red;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px #0004;
+  z-index: 2;
+}
+
+.note-content {
+  padding: 30px 10px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.note-class {
+  font-size: 14px;
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 6px;
+  word-wrap: break-word;
+}
+
+.note-time {
+  font-size: 19px;
+  font-style: italic;
+  color: #444;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .sticky-note {
+    width: 98px;
+    height: 120px;
+  }
+
+  .note-class {
+    font-size: 21px;
+    margin:0;
+    padding:0
+  }
+
+  .note-time {
+    font-size: 20px;
+    padding:5px;
+  }
+
+  .corkboard {
+    justify-content: center;
+    padding: 10px;
+  }
+}

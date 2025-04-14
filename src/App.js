@@ -13,16 +13,30 @@ import AlienSchedule from "./Components/AlienSchedule";
 import StarWarsSchedule from "./Components/StarWarsSchedule";
 import MatrixSchedule from "./Components/MatrixSchedule";
 import MinionSchedule from "./Components/MinionSchedule"
-import ClockSchedule from "./Components/ClockSchedule";
-import YugiohSchedule from "./Components/YugiohSchedule";
+ import YugiohSchedule from "./Components/YugiohSchedule";
 import RealisticLightsaber from "./Components/RealisticLightsaber";
 import GreenLightsaber from "./Components/GreenLightsaber";
+import NorseSchedule from "./Components/NorseSchedule";
+import WillyWonkaSchedule from "./Components/WillyWonkaSchedule";
+import VegasWheel from "./Components/VegasWheel";
+import NativeAmericanSchedule from "./Components/NativeAmericanSchedule";
+import JailSchedule from "./Components/JailSchedule";
+import JesusSchedule from "./Components/JesusSchedule";
+import FortniteSchedule from "./Components/FortniteSchedule";
+import BoratStyleLogo from "./Components/BoratStyleLogo";
+import OfficeSchedule from "./Components/OfficeSchedule";
+import ScoobySchedule from "./Components/ScoobySchedule"
+import BruceSchedule from "./Components/BruceSchedule";
+import NarutoSchedule from "./Components/NarutoSchedule";
+import InuyashaSchedule from "./Components/InuyashaSchedule";
+import JurassicSchedule from "./Components/JurassicSchedule";
+import StreetFighterSchedule from "./Components/StreetFighterSchedule";
  
   
  function App() {
   return (
     <>
-    <StarWarsSchedule day={"Monday"} />
+    <StreetFighterSchedule day="Tuesday"/>
    </>
   );
 }

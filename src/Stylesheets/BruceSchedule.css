@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Noto+Serif+JP:wght@900&display=swap');
+
+.bruce-epic-container {
+  min-height: 100vh;
+  background: radial-gradient(ellipse at center, #350000 0%, #000000 100%);
+ 
+  color: #f9d41f;
+  font-family: 'Cormorant Garamond', serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Decorative floating kanji (not Matrix-style color, just quantity) */
+.kanji {
+  position: absolute;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 120px;
+  color: rgb(255, 255, 255);
+  z-index: 0;
+  user-select: none;
+  pointer-events: none;
+  animation: kanjiPulse 6s ease-in-out infinite;
+}
+
+@keyframes kanjiPulse {
+  0%, 100% {
+    opacity: 0.05;
+    transform: scale(.5);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.8);
+  }
+}
+
+/* Unique positions for each kanji */
+.k1  { top: 0%; left: 5%; transform: rotate(-8deg); }
+.k2  { top: 0%; right: 5%; transform: rotate(6deg); }
+.k3  { top: 25%; left: 8%; transform: rotate(-6deg); }
+.k4  { top: 25%; right: 8%; transform: rotate(4deg); }
+.k5  { top: 45%; left: 5%; transform: rotate(-5deg); }
+.k6  { top: 45%; right: 5%; transform: rotate(3deg); }
+.k7  { bottom: 35%; left: 10%; transform: rotate(5deg); }
+.k8  { bottom: 35%; right: 10%; transform: rotate(-5deg); }
+.k9  { bottom: 20%; left: 6%; transform: rotate(4deg); }
+.k10 { bottom: 20%; right: 6%; transform: rotate(-4deg); }
+.k11 { bottom: 5%; left: 5%; transform: rotate(2deg); }
+.k12 { bottom: 5%; right: 5%; transform: rotate(-2deg); }
+
+.bruce-epic-title {
+  font-size: 3.5rem;
+  color: #f9d41f;
+  text-shadow: 0 0 10px #f9d41f, 0 0 30px rgba(255, 255, 100, 0.3);
+  z-index: 2;
+  margin-top: 130px;
+  letter-spacing: 4px;
+}
+
+/* Schedule layout */
+.bruce-epic-schedule {
+  width: 80%;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  z-index: 2;
+}
+
+/* Scroll-style cards */
+.scroll-card {
+  background: linear-gradient(145deg, #f9d41f, #f5b400);
+  border: 3px solid #000;
+  border-left: 12px solid #000;
+  border-right: 12px solid #000;
+  padding: 10px 24px;
+  border-radius: 8px;
+  color: #000;
+  box-shadow:
+    0 6px 12px rgba(0, 0, 0, 0.4),
+    inset 0 0 8px rgba(0, 0, 0, 0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transform: scale(0.95);
+  opacity: 0;
+  animation: enterCard 0.4s ease forwards;
+}
+
+@keyframes enterCard {
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.scroll-class {
+  font-size: 1.4rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.scroll-time {
+  font-size: 15px;
+  font-style: italic;
+  color: #222;
+}
+
+/* Mobile tweaks */
+@media (max-width: 600px) {
+  .bruce-epic-title {
+    font-size: 2.5rem;
+  }
+
+  .scroll-card {
+    padding: 10px 18px;
+  }
+
+  .scroll-class {
+    font-size: 1.2rem;
+  }
+
+  .scroll-time {
+    font-size: 1.5rem;
+  }
+}

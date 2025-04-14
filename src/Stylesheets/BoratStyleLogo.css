@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+.borat-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Anton', sans-serif;
+  font-size: 6rem;
+  background: #f8f2e0;
+  padding: 30px;
+}
+
+/* Base black fill with white border and thick black outline effect */
+.borat-letter {
+  color: black;
+  background-color: white;
+  padding: 0 8px;
+  position: relative;
+  text-shadow:
+    -2px -2px 0 #000,
+    2px -2px 0 #000,
+    -2px 2px 0 #000,
+    2px 2px 0 #000;
+}
+
+/* Flip the Cyrillic-style "Д" for the fake A */
+.flipped-a {
+  transform: scaleX(-1);
+  display: inline-block;
+}

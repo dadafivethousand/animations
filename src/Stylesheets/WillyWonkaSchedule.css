@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+
+/* 🍬 Big container with pastel background to let swirl stand out */
+.candy-container {
+  position: relative;
+  min-height: 100vh;
+  max-height: 100vh;
+  padding: 80px 20px;
+  font-family: 'Fredoka One', cursive;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  background: #fffbea;
+}
+
+/* 🍭 GIANT round swirl background (like a huge lollipop) */
+.lollipop-swirl {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1600px;  /* Big swirl covers entire screen */
+  height: 1600px;
+  transform: translate(-50%, -50%);
+  background: conic-gradient(
+    #f87171 0deg,  #f87171 30deg,
+    #f472b6 30deg, #f472b6 60deg,
+    #fbbf24 60deg, #fbbf24 90deg,
+    #34d399 90deg, #34d399 120deg,
+    #60a5fa 120deg, #60a5fa 150deg,
+    #a78bfa 150deg, #a78bfa 180deg,
+    #f87171 180deg, #f87171 210deg,
+    #f472b6 210deg, #f472b6 240deg,
+    #fbbf24 240deg, #fbbf24 270deg,
+    #34d399 270deg, #34d399 300deg,
+    #60a5fa 300deg, #60a5fa 330deg,
+    #a78bfa 330deg, #a78bfa 360deg
+  );
+  border-radius: 50%;
+  animation: swirlRotate 12s linear infinite;
+  opacity: 0.9;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes swirlRotate {
+  0%   { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* 🍭 Title: bright candy color with simple drop shadow */
+.candy-title {
+  font-size: 12vw;
+  color: #ea580c; /* bright orange */
+  text-shadow: 2px 2px #ffd9d9;
+  margin-top: 150px;
+  margin-bottom: 50px;
+  z-index: 1;
+}
+
+/* 🍬 Schedule */
+.candy-schedule {
+  width: 100%;
+  max-width: 800px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18px; /* spacing for class cards */
+}
+
+/* 🍫 Candy class card: bright gradient + swirl shape? */
+.candy-class {
+  background: linear-gradient(135deg, #fcd34d, #f9a8d4);
+  border: 4px dotted #ef4444;  /* Candy-like dotted border */
+  border-radius: 12px;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 
+    0 0 12px rgba(255, 220, 220, 0.3),
+    inset 0 0 6px rgba(255, 255, 255, 0.3);
+  transform: scale(0.95);
+  opacity: 0;
+  animation: candyPop 0.5s ease forwards;
+}
+
+.candy-class:hover {
+  transform: scale(1);
+  box-shadow:
+    0 0 20px rgba(255, 220, 220, 0.5),
+    inset 0 0 8px rgba(255, 255, 255, 0.4);
+}
+
+@keyframes candyPop {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.candy-class-name {
+  font-size: 22px;
+  color: #b45309; /* deeper candy color */
+  text-shadow: 1px 1px #fff;
+}
+
+.candy-class-time {
+  font-size: 18px;
+  color: #7f1d1d; /* contrasting candy hue */
+  font-style: italic;
+}

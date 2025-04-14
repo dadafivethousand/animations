@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap');
+
+/* Container: hammered metal background with subtle hammered texture if you want to replace with your own */
+.norse-container {
+  position: relative;
+  min-height: 100vh;
+  padding: 100px 20px;
+  font-family: 'UnifrakturMaguntia', serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  background: #2e2e2e;
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px),
+    radial-gradient(circle, rgba(0,0,0,0.05) 1px, transparent 1px);
+  background-size: 80px 80px;
+  background-position: 0 0, 40px 40px;
+  color: #ececec;
+}
+
+/* Subtle frost/wind overlay - swirling snow effect */
+.frost-overlay {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.03), transparent);
+  animation: frostDrift 30s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes frostDrift {
+  0% { transform: translate(0,0); }
+  50% { transform: translate(-10%, -10%); }
+  100% { transform: translate(0,0); }
+}
+
+/* Title: big, norse-inspired with UnifrakturMaguntia */
+.norse-title {
+  font-size: 6vw;
+  margin-bottom: 50px;
+  text-shadow:
+    1px 1px #000,
+    0 0 10px rgba(255,255,255,0.2);
+  z-index: 1;
+}
+
+/* The schedule list */
+.norse-schedule {
+  width: 100%;
+  max-width: 800px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px; /* moderate spacing */
+}
+
+/* Stone tablet–style class item */
+.norse-class {
+  background: #4d4d4d;
+  border: 2px solid #aaa;
+  border-radius: 6px;
+  padding: 16px 24px;
+  box-shadow:
+    0 0 8px rgba(0,0,0,0.4),
+    inset 0 0 4px rgba(255,255,255,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+.norse-class:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 12px rgba(0,0,0,0.5),
+    inset 0 0 6px rgba(255,255,255,0.1);
+}
+
+.norse-class-name {
+  font-size: 20px;
+  color: #e2e2e2;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px #000;
+}
+
+.norse-class-time {
+  font-size: 16px;
+  font-style: italic;
+  color: #ddd;
+}

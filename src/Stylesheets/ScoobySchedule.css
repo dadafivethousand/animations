@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+
+.scooby-container {
+  min-height: 100vh;
+  background: radial-gradient(circle at center, #00ffe1 0%, #1e0048 100%);
+  font-family: 'Fredoka One', cursive;
+  padding: 60px 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+/* Title */
+.scooby-title {
+  font-size: 4rem;
+  color: #ff922b;
+  text-shadow: 3px 3px #000, 0 0 20px #00ffe1;
+  z-index: 2;
+  margin-bottom: 40px;
+}
+
+/* Scooby Background Flower Decals */
+.scooby-bg-flower {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  background: #ff922b;
+  border-radius: 50%;
+  opacity: 0.1;
+  animation: floatSpin 10s infinite linear;
+  z-index: 0;
+  filter: blur(1px);
+}
+
+.flower1 {
+  top: 20%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.flower2 {
+  top: 70%;
+  right: 10%;
+  animation-delay: 2s;
+}
+
+.flower3 {
+  top: 40%;
+  left: 50%;
+  animation-delay: 4s;
+}
+
+@keyframes floatSpin {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.2); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+/* Card list */
+.scooby-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 2;
+  width: 100%;
+  max-width: 600px;
+}
+
+/* Groovy class card */
+.scooby-card {
+  background: #feba2f;
+  color: #2a004f;
+  padding: 8px 24px;
+  border-radius: 12px;
+  border: 4px double #00ffe1;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transform: scale(0.9);
+  opacity: 0;
+  animation: bounceIn 0.5s ease forwards;
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) translateY(100px);
+  }
+  60% {
+    transform: scale(1.1) translateY(-10px);
+  }
+  80% {
+    transform: scale(0.95) translateY(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.scooby-class {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.scooby-time {
+  font-size: 1.1rem;
+  font-style: italic;
+}
