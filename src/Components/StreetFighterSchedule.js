@@ -3,7 +3,7 @@ import "../Stylesheets/StreetFighterSchedule.css";
 import schedule from "../Schedule";
 import streetFighter from "../Images/13199.gif"
 
-export default function StreetFighterSchedule({ day, animationDelay = 500, animationInterval = 300 }) {
+export default function StreetFighterSchedule({ day, animationDelay = 1500, animationInterval = 300 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
@@ -25,8 +25,10 @@ export default function StreetFighterSchedule({ day, animationDelay = 500, anima
 
   return (
     <div className="sf-wrapper">
-      <div className="sf-glow" />
-      <h1 className="sf-title">{day.toUpperCase()}</h1>
+       <h1 className="sf-title">{day.toUpperCase()}</h1>
+       <div className="sf-gif">
+        <img src={streetFighter}/>
+      </div>
       <div className="sf-schedule">
         {schedule[day]?.map((cls, idx) =>
           visibleArray.includes(idx) ? (
@@ -37,9 +39,7 @@ export default function StreetFighterSchedule({ day, animationDelay = 500, anima
           ) : null
         )}
       </div>
-      <div className="sf-gif">
-        <img src={streetFighter}/>
-      </div>
+
     </div>
   );
 }

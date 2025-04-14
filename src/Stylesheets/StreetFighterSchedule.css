@@ -33,13 +33,14 @@
 }
 
 .sf-title {
-  font-size: 7rem;
+  font-size: 25px;
   color: #ffe600;
   text-shadow: 0 0 10px #ff4d00, 0 0 30px #ff0000;
-  margin-bottom: 40px;
+  padding: 0;
+ 
   z-index: 2;
   letter-spacing: 3px;
-  margin-top: 150px;
+ 
  
 }
 
@@ -50,7 +51,9 @@
   flex-direction: column;
   gap: 2px;
   z-index: 2;
-  min-height:215px
+  min-height:215px;
+  position:relative;
+  top:-17px;
 }
 
 .sf-card {
@@ -82,20 +85,23 @@
 }
 
 .sf-time {
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-style: italic;
   color: #ffd700;
 }
 
 .sf-gif img{
     width:100vw;
+    position:relative;
+    top:-13px;
+    left:10px
   
 }
 
 /* Mobile Responsive */
 @media (max-width: 600px) {
   .sf-title {
-    font-size: 2.6rem;
+    font-size: 3.6rem;
   }
 
   .sf-card {
@@ -103,10 +109,10 @@
   }
 
   .sf-class {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
   }
 
   .sf-time {
-    font-size: 1rem;
+    font-size: 1.4rem;
   }
 }
