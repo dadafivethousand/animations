@@ -6,7 +6,7 @@ export default function GreenLightsaber() {
 
   useEffect(() => {
     // Auto-ignite after 1 second
-    const timer = setTimeout(() => setActive(true), 3000);
+    const timer = setTimeout(() => setActive(true), 3500);
     return () => clearTimeout(timer);
   }, []);
 

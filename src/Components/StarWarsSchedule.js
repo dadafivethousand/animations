@@ -5,18 +5,24 @@ import starwarstext from "../Images/maple_jiu_jitsu_star_wars_style_final.png";
 import RealisticLightsaber from "./RealisticLightsaber";
 import GreenLightsaber from "./GreenLightsaber";
 
-export default function StarWarsSchedule({ day, animationDelay = 1000, animationInterval = 300 }) {
+export default function StarWarsSchedule({ day, animationDelay = 2500, animationInterval = 300 }) {
   const [visibleArray, setVisibleArray] = useState([]);
   const [fight, setFight] = useState(false)
   const [animation, setAnimation] = useState(false)
   const [red, setRed] = useState(false)
+  const [moveSign, setMoveSign] = useState(false)
 
+  useEffect(() => {
+const e = setTimeout(() => {
+      setMoveSign(true)
+}, 500);
 
+  }, []);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
       setRed(prevRed => !prevRed); // Toggle the boolean
-    }, 700);
+    }, 400);
   
     return () => clearInterval(intervalId); // Clean up the interval on unmount
   }, []);
@@ -34,7 +40,7 @@ export default function StarWarsSchedule({ day, animationDelay = 1000, animation
   useEffect(() => {
     setTimeout(() => {
       setAnimation(true)
-    }, 500);
+    }, 1000);
 
   }, []);
 
@@ -65,7 +71,7 @@ export default function StarWarsSchedule({ day, animationDelay = 1000, animation
       <GreenLightsaber />
       </div>
       </div>
-      <div>
+      <div className={`starwars-text-background ${moveSign? 'starwars-move':''}`}>
         <img className="starwars-text" src={starwarstext} alt="Star Wars–Style Text" />
       </div>
       <div className="starfield"></div>
