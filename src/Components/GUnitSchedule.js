@@ -3,8 +3,17 @@ import "../Stylesheets/GUnitSchedule.css";
 import schedule from "../Schedule";
 import gunit from "../Images/AMEv.gif"; // actual path used
 
-export default function GUnitSchedule({ day, animationDelay = 500, animationInterval = 300 }) {
+export default function GUnitSchedule({ day, animationDelay = 3000, animationInterval = 300 }) {
   const [visibleArray, setVisibleArray] = useState([]);
+  const [animate, setanimate] = useState(false)
+
+  useEffect(() => {
+    setTimeout(() => {
+        setanimate(true)
+    }, 1000);
+ 
+  }, []);
+
 
   useEffect(() => {
     const classes = schedule[day] || [];
@@ -37,11 +46,11 @@ export default function GUnitSchedule({ day, animationDelay = 500, animationInte
           ) : null
         )}
       </div>
-      <div className="tv-frame">
-        <div className="tv-screen">
+  
+        <div className={`tv-screen ${animate? 'g-unit-animate':''}`}>
           <img src={gunit} alt="G-Unit Music Video" />
         </div>
-      </div>
+     
     </div>
   );
 }
