@@ -31,12 +31,13 @@ import NarutoSchedule from "./Components/NarutoSchedule";
 import InuyashaSchedule from "./Components/InuyashaSchedule";
 import JurassicSchedule from "./Components/JurassicSchedule";
 import StreetFighterSchedule from "./Components/StreetFighterSchedule";
+import GUnitSchedule from "./Components/GUnitSchedule";
  
   
  function App() {
   return (
     <>
-    <StreetFighterSchedule day="Tuesday"/>
+    <GUnitSchedule day="Wednesday"/>
    </>
   );
 }
