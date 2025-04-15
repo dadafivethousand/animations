@@ -40,7 +40,7 @@
   max-width: 720px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 3px;
   z-index: 2;
 }
 
