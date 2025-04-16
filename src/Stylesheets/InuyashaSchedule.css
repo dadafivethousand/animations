@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@700&display=swap');
+
+.inu-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #1c0000 0%, #0b0000 100%);
+  font-family: 'Kiwi Maru', serif;
+  padding: 60px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  color: #fff2f2;
+}
+
+/* Shrine mist scroll veil */
+.sutra-veil {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.02), transparent 60%);
+  backdrop-filter: blur(1px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Demonic aura pulse */
+.inu-energy {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300vmax;
+  height: 300vmax;
+  background: repeating-radial-gradient(circle, rgba(220, 20, 60, 0.283), transparent 200px);
+  transform: translate(-50%, -50%);
+  animation: swirlInu 80s linear infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+
+@keyframes swirlInu {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Heading */
+.inu-title {
+  font-size: 3.8rem;
+  color: #fff1f1;
+  text-shadow: 0 0 10px #ff1a1a, 0 0 30px #ff5e5e;
+  margin-bottom: 40px;
+  z-index: 2;
+  letter-spacing: 3px;
+}
+
+/* Schedule layout */
+.inu-schedule {
+  width: 100%;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  z-index: 2;
+}
+
+/* Scroll card */
+.inu-scroll {
+  background: linear-gradient(to bottom right, #fff5f5, #e0c6c6);
+  border: 5px solid #6c0000;
+  border-left: 14px solid #000;
+  border-right: 14px solid #000;
+  padding: 20px 26px;
+  border-radius: 10px;
+  box-shadow:
+    0 8px 24px rgba(255, 50, 50, 0.3),
+    inset 0 0 10px rgba(0, 0, 0, 0.08);
+  color: #2b0000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transform: translateY(40px) scale(0.9);
+  opacity: 0;
+  animation: scrollPop 0.5s forwards ease-out;
+}
+
+@keyframes scrollPop {
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.inu-class {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.inu-time {
+  font-size: 1.1rem;
+  font-style: italic;
+  color: #3a1a1a;
+}
+
+/* Mobile responsive */
+@media (max-width: 600px) {
+  .inu-title {
+    font-size: 2.4rem;
+  }
+
+  .inu-scroll {
+    padding: 16px 18px;
+  }
+
+  .inu-class {
+    font-size: 1.2rem;
+  }
+
+  .inu-time {
+    font-size: 0.95rem;
+  }
+}
