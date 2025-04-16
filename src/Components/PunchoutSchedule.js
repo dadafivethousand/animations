@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../Stylesheets/PunchoutSchedule.css";
 import schedule from "../Schedule";
 
-export default function PunchoutSchedule({ day, animationDelay = 500, animationInterval = 300 }) {
+export default function PunchoutSchedule({ day, animationDelay = 2000, animationInterval = 300 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
