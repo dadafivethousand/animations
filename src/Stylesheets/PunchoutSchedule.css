@@ -7,7 +7,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 50px 20px;
+  padding: 380px 20px;
   overflow: hidden;
 }
 
@@ -35,7 +35,7 @@
   background: #000;
   color: #ffe600;
   border: 4px dotted #fff;
-  padding: 16px 24px;
+  padding: 20px 24px;
   border-radius: 4px;
   display: flex;
   justify-content: space-between;
@@ -74,7 +74,7 @@
   }
 
   .punchout-card {
-    padding: 4px 16px;
+    padding: 8px 16px;
   }
 }
 
@@ -82,6 +82,6 @@
 .punchout-gif{
     width:100vw;
     position: absolute;
-    bottom:0;
+    top:0;
     
 }
