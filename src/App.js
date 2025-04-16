@@ -32,12 +32,14 @@ import InuyashaSchedule from "./Components/InuyashaSchedule";
 import JurassicSchedule from "./Components/JurassicSchedule";
 import StreetFighterSchedule from "./Components/StreetFighterSchedule";
 import GUnitSchedule from "./Components/GUnitSchedule";
+import JoeRoganSchedule from "./Components/JoeRoganSchedule";
+import PunchoutSchedule from "./Components/PunchoutSchedule";
  
   
  function App() {
   return (
     <>
-    <GUnitSchedule day="Wednesday"/>
+    <PunchoutSchedule day="Thursday"/>
    </>
   );
 }

@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.punchout-wrapper {
+  min-height: 100vh;
+  background-color: rgb(52, 225, 118); /* arcade ring green */
+  font-family: 'Press Start 2P', cursive;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 20px;
+  overflow: hidden;
+}
+
+.punchout-title {
+  font-size: 2rem;
+  color: #000;
+  background: #ffe600;
+  padding: 20px 40px;
+  border: 4px double #000;
+  box-shadow: 0 0 12px #000;
+  margin-bottom: 10px;
+  text-align: center;
+  z-index: 2;
+}
+
+.punchout-schedule {
+  width: 100%;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  gap:3px;
+}
+
+.punchout-card {
+  background: #000;
+  color: #ffe600;
+  border: 4px dotted #fff;
+  padding: 16px 24px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: cardSlideIn 0.3s ease forwards;
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+@keyframes cardSlideIn {
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.punchout-class {
+  font-size: 1rem;
+}
+
+.punchout-time {
+  font-size: 1rem;
+  color: #fff;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .punchout-title {
+    font-size: 1.3rem;
+    padding: 16px 20px;
+  }
+
+  .punchout-class,
+  .punchout-time {
+    font-size: 0.85rem;
+  }
+
+  .punchout-card {
+    padding: 4px 16px;
+  }
+}
+
+
+.punchout-gif{
+    width:100vw;
+    position: absolute;
+    bottom:0;
+    
+}
