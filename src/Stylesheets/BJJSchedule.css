@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
+
+.bjj-wrapper {
+  min-height: 100vh;
+  background: radial-gradient(circle at center, #003015 0%, #001b0b 100%);
+  font-family: 'Orbitron', sans-serif;
+  padding: 100px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Textured Gi overlay pattern */
+.gi-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.02) 0px,
+    rgba(255, 255, 255, 0.03) 1px,
+    transparent 2px
+  );
+  opacity: 0.25;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bjj-title {
+  font-size: 4.5rem;
+  color: #ffd700;
+  text-shadow: 0 0 12px #00ff7f, 0 0 24px #0051ff;
+  margin-bottom: 50px;
+  z-index: 2;
+  letter-spacing: 5px;
+}
+
+.bjj-schedule {
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 2;
+}
+
+.bjj-card {
+  background: linear-gradient(135deg, #002e1a, #003e1c);
+  border-left: 10px solid #ffd700;
+  border-right: 10px solid #0051ff;
+  border-radius: 8px;
+  color: #fff;
+  padding: 20px 28px;
+  box-shadow:
+    0 0 12px rgba(0, 255, 127, 0.3),
+    inset 0 0 10px rgba(0, 80, 50, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transform: scale(0.95);
+  animation: popIn 0.4s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes popIn {
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.bjj-class {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #fff;
+  letter-spacing: 2px;
+}
+
+.bjj-time {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffd700;
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .bjj-title {
+    font-size: 3rem;
+  }
+
+  .bjj-card {
+    padding: 16px 20px;
+  }
+
+  .bjj-class {
+    font-size: 1.5rem;
+  }
+
+  .bjj-time {
+    font-size: 1.3rem;
+  }
+}
