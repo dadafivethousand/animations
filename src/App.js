@@ -39,7 +39,7 @@ import PunchoutSchedule from "./Components/PunchoutSchedule";
  function App() {
   return (
     <>
-    <PunchoutSchedule day="Thursday"/>
+    <BruceSchedule day="Saturday"/>
    </>
   );
 }

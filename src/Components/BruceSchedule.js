@@ -23,23 +23,14 @@ export default function BruceSchedule({ day, animationDelay = 500, animationInte
   };
 
   return (
-    <div className="bruce-epic-container">
-      {/* Matrix-level Kanji */}
-      <div className="kanji k1">武</div>
-      <div className="kanji k2">道</div>
-      <div className="kanji k3">力</div>
-      <div className="kanji k4">魂</div>
- 
- 
-     
-      <div className="kanji k9"> 炎</div>
-      <div className="kanji k10">命</div>
-      <div className="kanji k11">撃</div>
-      <div className="kanji k12">気</div>
+    <div className="bruce-wrapper">
+      <div className="kanji kanji-1">武</div>
+      <div className="kanji kanji-2">道</div>
+      <div className="kanji kanji-3">龍</div>
 
-      <h1 className="bruce-epic-title">{day.toUpperCase()}</h1>
+      <h1 className="bruce-title">{day.toUpperCase()}</h1>
 
-      <div className="bruce-epic-schedule">
+      <div className="bruce-schedule">
         {schedule[day]?.map((cls, idx) =>
           visibleArray.includes(idx) ? (
             <div key={idx} className="scroll-card">
