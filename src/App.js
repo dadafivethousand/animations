@@ -34,12 +34,13 @@ import StreetFighterSchedule from "./Components/StreetFighterSchedule";
 import GUnitSchedule from "./Components/GUnitSchedule";
 import JoeRoganSchedule from "./Components/JoeRoganSchedule";
 import PunchoutSchedule from "./Components/PunchoutSchedule";
+import CallOfDutySchedule from "./Components/CallOfDutySchedule";
  
   
  function App() {
   return (
     <>
-    <PunchoutSchedule day="Thursday"/>
+    <MexicanSchedule day="Friday"/>
    </>
   );
 }
