@@ -24,14 +24,13 @@ export default function BJJSchedule({ day, animationDelay = 500, animationInterv
 
   return (
     <div className="bjj-wrapper">
-      <div className="gi-overlay" />
       <h1 className="bjj-title">{day.toUpperCase()}</h1>
       <div className="bjj-schedule">
         {schedule[day]?.map((cls, idx) =>
           visibleArray.includes(idx) ? (
-            <div key={idx} className="bjj-card">
-              <span className="bjj-class">{cls.name}</span>
-              <span className="bjj-time">{formatTime(cls.start)}</span>
+            <div key={idx} className={`belt-card belt-${idx % 6}`}>
+              <span className="belt-class">{cls.name}</span>
+              <span className="belt-time">{formatTime(cls.start)}</span>
             </div>
           ) : null
         )}

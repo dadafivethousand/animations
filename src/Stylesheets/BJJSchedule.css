@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@700&display=swap');
 
 .bjj-wrapper {
   min-height: 100vh;
-  background: radial-gradient(circle at center, #003015 0%, #001b0b 100%);
-  font-family: 'Orbitron', sans-serif;
+  background: linear-gradient(135deg, #009c3b 0%, #ffdf00 35%, #002776 100%);
+  font-family: 'Titillium Web', sans-serif;
   padding: 100px 20px;
   display: flex;
   flex-direction: column;
@@ -12,28 +12,15 @@
   position: relative;
 }
 
-/* Textured Gi overlay pattern */
-.gi-overlay {
-  position: absolute;
-  inset: 0;
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgba(255, 255, 255, 0.02) 0px,
-    rgba(255, 255, 255, 0.03) 1px,
-    transparent 2px
-  );
-  opacity: 0.25;
-  pointer-events: none;
-  z-index: 0;
-}
-
 .bjj-title {
-  font-size: 4.5rem;
-  color: #ffd700;
-  text-shadow: 0 0 12px #00ff7f, 0 0 24px #0051ff;
-  margin-bottom: 50px;
-  z-index: 2;
-  letter-spacing: 5px;
+  font-size: 4rem;
+  color: #fff;
+  letter-spacing: 6px;
+  text-align: center;
+  text-shadow: 0 0 12px #000;
+  margin-bottom: 40px;
+  padding-bottom: 10px;
+  border-bottom: 4px solid #fff;
 }
 
 .bjj-schedule {
@@ -42,63 +29,90 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  z-index: 2;
 }
 
-.bjj-card {
-  background: linear-gradient(135deg, #002e1a, #003e1c);
-  border-left: 10px solid #ffd700;
-  border-right: 10px solid #0051ff;
+/* BELT STYLES */
+.belt-card {
+  padding: 20px 30px;
   border-radius: 8px;
-  color: #fff;
-  padding: 20px 28px;
   box-shadow:
-    0 0 12px rgba(0, 255, 127, 0.3),
-    inset 0 0 10px rgba(0, 80, 50, 0.2);
+    inset 0 0 10px rgba(255, 255, 255, 0.1),
+    0 6px 18px rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: space-between;
   align-items: center;
   transform: scale(0.95);
-  animation: popIn 0.4s ease-out forwards;
+  animation: beltPop 0.4s ease-out forwards;
   opacity: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255,255,255,0.05),
+    rgba(255,255,255,0.05) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  position: relative;
+  overflow: hidden;
 }
 
-@keyframes popIn {
+/* Belt-specific backgrounds */
+.belt-0 { background-color: #eaeaea; color: #000; }     /* White */
+.belt-1 { background-color: #3c5aa6; color: #fff; }      /* Blue */
+.belt-2 { background-color: #6d3f8f; color: #fff; }      /* Purple */
+.belt-3 { background-color: #7a4c28; color: #fff; }      /* Brown */
+.belt-4 { background-color: #0f0f0f; color: #fff; }      /* Black */
+.belt-5 { background-color: #c60000; color: #fff; }      /* Red */
+
+@keyframes beltPop {
   to {
     transform: scale(1);
     opacity: 1;
   }
 }
 
-.bjj-class {
-  font-size: 2.2rem;
+.belt-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  height: 100%;
+  width: 10px;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.3),
+    rgba(255,255,255,0.3) 5px,
+    transparent 5px,
+    transparent 10px
+  );
+}
+
+.belt-class {
+  font-size: 2rem;
   font-weight: bold;
-  color: #fff;
   letter-spacing: 2px;
 }
 
-.bjj-time {
-  font-size: 2rem;
+.belt-time {
+  font-size: 1.8rem;
   font-weight: bold;
-  color: #ffd700;
-  text-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
+  font-style: italic;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
 }
 
 /* Mobile */
 @media (max-width: 600px) {
   .bjj-title {
-    font-size: 3rem;
+    font-size: 2.8rem;
   }
 
-  .bjj-card {
-    padding: 16px 20px;
+  .belt-class {
+    font-size: 1.4rem;
   }
 
-  .bjj-class {
-    font-size: 1.5rem;
+  .belt-time {
+    font-size: 1.2rem;
   }
 
-  .bjj-time {
-    font-size: 1.3rem;
+  .belt-card {
+    padding: 16px 22px;
   }
 }
