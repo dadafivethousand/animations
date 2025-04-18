@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../Stylesheets/BruceSchedule.css";
 import schedule from "../Schedule";
 
-export default function BruceSchedule({ day, animationDelay = 500, animationInterval = 300 }) {
+export default function BruceSchedule({ day, animationDelay = 1500, animationInterval = 300 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
