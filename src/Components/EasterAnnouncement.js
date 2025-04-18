@@ -10,7 +10,7 @@ export default function EasterAnnouncement() {
     setTimeout(() => {
         setPhase("typing")
     }, 2000);
-  })
+  },[])
 
   const message =
     "All classes are running as scheduled during the Easter weekend.";
