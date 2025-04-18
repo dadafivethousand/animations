@@ -9,48 +9,33 @@ body {
 .easter-container {
   position: relative;
   height: 100vh;
-  background-color: white;
+  width: 100%;
+  background: white;
+  background-size: 400% 400%;
+  animation: shiftGradient 15s ease infinite;
+
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
   align-items: center;
-  padding: 7px;
+  padding: 10px;
   overflow: hidden;
 }
 
-.easter-eggs-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 200%;
-  height: 200%;
-  background-image:
-    url('https://i.imgur.com/7HHACcN.png'),
-    url('https://i.imgur.com/ZITZ2OU.png'),
-    url('https://i.imgur.com/mW9BvZX.png');
-  background-size: 80px;
-  background-repeat: repeat;
-  opacity: 0.08;
-  animation: floatEggs 20s linear infinite;
-  z-index: 1;
-}
-
-@keyframes floatEggs {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-100px); }
+@keyframes shiftGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .easter-card {
-  position: relative;
-  z-index: 2;
+   z-index: 2;
   max-width: 90%;
- 
   padding: 25px 15px;
   border-radius: 16px;
-   text-align: center;
-  
-  margin-top: 50px;
-}
+  text-align: center;
+  margin-top: 60px;
+  }
 
 .easter-typewriter {
   font-family: 'Fredoka One', cursive;
@@ -58,12 +43,36 @@ body {
   color: #ff69b4;
   white-space: pre-wrap;
   line-height: 1.5;
-
 }
-.easter-bunny{
+
+@keyframes slideSideToSide {
+  0% {
+    transform: translateX(-50%);
+  }
+  25% {
+    transform: scale(1.4);
+  }
+  50% {
+    transform: translateX(50%) ;
+  }
+  75% {
+    transform: scale(1.4) ;
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.easter-bunny {
+  width: 260px;
+  position: absolute;
+  bottom: 150px;
+  animation: slideSideToSide 8s linear infinite;
+  z-index: 2;
+}
+.easter-second{
     position: absolute;
-    bottom:200px;
-    width:250px
+    bottom: 70px;
+    text-align: center;
+    margin-left: 20px;
 }
-
- 
