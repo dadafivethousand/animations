@@ -46,8 +46,7 @@ export default function EasterAnnouncement() {
       <div className="easter-eggs-background" />
       <div className="easter-card">
         <p className="easter-typewriter">{typedMessage}</p>
-        <p className="easter-typewriter easter-second">{typedSecondMessage}</p>
-      </div>
+       </div>
       <img className="easter-bunny" src={easter} alt="Easter Bunny" />
     </div>
   );
