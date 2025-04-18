@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  background: white;
+}
+
+.easter-container {
+  position: relative;
+  height: 100vh;
+  background-color: white;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+  padding: 7px;
+  overflow: hidden;
+}
+
+.easter-eggs-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  background-image:
+    url('https://i.imgur.com/7HHACcN.png'),
+    url('https://i.imgur.com/ZITZ2OU.png'),
+    url('https://i.imgur.com/mW9BvZX.png');
+  background-size: 80px;
+  background-repeat: repeat;
+  opacity: 0.08;
+  animation: floatEggs 20s linear infinite;
+  z-index: 1;
+}
+
+@keyframes floatEggs {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-100px); }
+}
+
+.easter-card {
+  position: relative;
+  z-index: 2;
+  max-width: 90%;
+ 
+  padding: 25px 15px;
+  border-radius: 16px;
+   text-align: center;
+  
+  margin-top: 50px;
+}
+
+.easter-typewriter {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.7rem;
+  color: #ff69b4;
+  white-space: pre-wrap;
+  line-height: 1.5;
+
+}
+.easter-bunny{
+    position: absolute;
+    bottom:30px
+}

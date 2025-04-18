@@ -36,12 +36,13 @@ import JoeRoganSchedule from "./Components/JoeRoganSchedule";
 import PunchoutSchedule from "./Components/PunchoutSchedule";
 import BJJSchedule from "./Components/BJJSchedule";
 import BulletSpray from "./Components/BulletSpray";
+import EasterAnnouncement from "./Components/EasterAnnouncement";
  
   
  function App() {
   return (
     <>
-    <WithoutMeSchedule day="Sunday"/>
+    <EasterAnnouncement/>
    </>
   );
 }
