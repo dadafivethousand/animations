@@ -1,0 +1,56 @@
+/* Stylesheets/BulletSpray.css */
+.bullet-spray-container {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 9999;
+  }
+  
+  .bulletHole {
+    position: absolute;
+    width: var(--size);
+    height: var(--size);
+    transform: translate(-50%, -50%) scale(0) rotate(var(--rot));
+    transform-origin: center;
+    border-radius: 50%;
+  
+    /* multi‑layer crater + rim + fine cracks */
+    background-image:
+      /* deep crater core */
+      radial-gradient(circle at center, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0) 60%),
+      /* sharp bright ring */
+      radial-gradient(circle at center, rgba(255,255,255,0.7) 30%, rgba(255,255,255,0) 35%),
+      /* fine hairline cracks */
+      repeating-conic-gradient(
+        from var(--rot),
+        transparent 0deg 40deg,
+        rgba(255,255,255,0.2) 41deg 41.5deg,
+        transparent 41.5deg 360deg
+      );
+  
+    background-blend-mode: normal, screen, overlay;
+  
+    /* minimal blur only—no heavy drop‑shadow */
+    filter: blur(0.5px);
+  
+    opacity: 0;
+    animation: bulletShot 0.6s forwards ease-out;
+  }
+  
+  @keyframes bulletShot {
+    0% {
+      transform: translate(-50%, -50%) scale(0) rotate(var(--rot));
+      opacity: 0;
+    }
+    60% {
+      transform: translate(-50%, -50%) scale(1.2) rotate(var(--rot));
+      opacity: 1;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(1) rotate(var(--rot));
+      opacity: 1;
+    }
+  }
+  

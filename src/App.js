@@ -35,6 +35,7 @@ import GUnitSchedule from "./Components/GUnitSchedule";
 import JoeRoganSchedule from "./Components/JoeRoganSchedule";
 import PunchoutSchedule from "./Components/PunchoutSchedule";
 import BJJSchedule from "./Components/BJJSchedule";
+import BulletSpray from "./Components/BulletSpray";
  
   
  function App() {
