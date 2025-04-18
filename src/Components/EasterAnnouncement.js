@@ -1,10 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import "../Stylesheets/EasterAnnouncement.css";
 import easter from "../Images/easter.gif";
 
 export default function EasterAnnouncement() {
-  const [phase, setPhase] = useState("typing"); // future: use "typing", "done", etc
+  const [phase, setPhase] = useState(""); // future: use "typing", "done", etc
   const [typedMessage, setTypedMessage] = useState("");
+
+  useEffect(()=>{
+    setTimeout(() => {
+        setPhase("typing")
+    }, 2000);
+  })
+
   const message =
     "All classes are running as scheduled during the Easter weekend.";
 
