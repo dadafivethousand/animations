@@ -114,6 +114,17 @@ position:absolute; }
     margin:0;
  }
 
+ .withoutme-collage::before{
+  content: "";  
+  width:100vw;
+  height:800px;
+  position:absolute;
+  top:0;
+  background-color: #0000006d;
+  z-index: 3;
+ }
+
+
  .first-gif{
     position: relative;
     top:-25px

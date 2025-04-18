@@ -41,7 +41,7 @@ import BulletSpray from "./Components/BulletSpray";
  function App() {
   return (
     <>
-    <BruceSchedule day="Saturday"/>
+    <WithoutMeSchedule day="Sunday"/>
    </>
   );
 }
