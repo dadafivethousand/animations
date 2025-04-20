@@ -35,12 +35,15 @@ import GUnitSchedule from "./Components/GUnitSchedule";
 import JoeRoganSchedule from "./Components/JoeRoganSchedule";
 import PunchoutSchedule from "./Components/PunchoutSchedule";
 import CallOfDutySchedule from "./Components/CallOfDutySchedule";
+import BJJSchedule from "./Components/BJJSchedule";
+import SpaceJamSchedule from "./Components/SpaceJamSchedule"
+import LibertySchedule from "./Components/LibertySchedule"
  
   
  function App() {
   return (
     <>
-    <MexicanSchedule day="Friday"/>
+    <LibertySchedule day="Monday"/>
    </>
   );
 }
