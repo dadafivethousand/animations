@@ -1,61 +1,41 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/LeafsSchedule.css"; 
+import "../Stylesheets/LeafsSchedule.css";
 import schedule from "../Schedule";
- 
-function LeafsSchedule({ day }) {
-  const [showSchedule, setShowSchedule] = useState(false);
-  const [visibleGames, setVisibleGames] = useState([]);
+
+export default function LeafsSchedule({ day, animationDelay = 1500, animationInterval = 400 }) {
+  const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
-    setTimeout(() => {
-      setShowSchedule(true);
-    }, 1000);
-  }, []);
+    const entries = schedule[day] || [];
+    entries.forEach((_, idx) => {
+      setTimeout(() => {
+        setVisibleArray(prev => [...prev, idx]);
+      }, animationDelay + idx * animationInterval);
+    });
+  }, [day, animationDelay, animationInterval]);
 
-  useEffect(() => {
-    if (showSchedule) {
-      schedule[day]?.forEach((_, idx) => {
-        setTimeout(() => {
-          setVisibleGames((prev) => [...prev, idx]);
-        }, idx * 400); // Delay each game appearing
-      });
-    }
-  }, [showSchedule, day]);
-
-  // Convert time format
-  const formatTime = (time) => {
-    const hour = Math.floor(time);
-    const minutes = Math.round((time - hour) * 60);
+  const formatTime = (decimalTime) => {
+    const hour = Math.floor(decimalTime);
+    const minutes = Math.round((decimalTime - hour) * 60);
     const hour12 = hour % 12 === 0 ? 12 : hour % 12;
     const amPm = hour < 12 ? "AM" : "PM";
-    const paddedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-    return `${hour12}:${paddedMinutes} ${amPm}`;
+    return `${hour12}:${minutes.toString().padStart(2, "0")} ${amPm}`;
   };
 
   return (
-    <div className="leafs-container">
- 
-      {/* Title */}
-      <h1 className={`leafs-title ${showSchedule ? "visible" : ""}`}>
-        {day}  
-      </h1>
-
-      {/* Schedule List */}
-      <div className="leafs-schedule-wrapper">
-        {schedule[day] &&
-          schedule[day].map((game, idx) => (
-            <div
-              key={idx}
-              className={`leafs-game ${visibleGames.includes(idx) ? "slide-in" : ""}`}
-            >
-              <span className="leafs-game-text">
-                {game.name} - {formatTime(game.start)}
-              </span>
+    <div className="leafs-wrapper">
+      <div className="leafs-glow"></div>
+      <h1 className="leafs-title">{day.toUpperCase()}</h1>
+      <div className="leafs-schedule">
+        {schedule[day]?.map((cls, idx) =>
+          visibleArray.includes(idx) ? (
+            <div key={idx} className="leafs-card">
+              <span className="leafs-class">{cls.name}</span>
+              <span className="leafs-time">{formatTime(cls.start)}</span>
             </div>
-          ))}
+          ) : null
+        )}
       </div>
     </div>
   );
 }
-
-export default LeafsSchedule;
