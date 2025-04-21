@@ -27,7 +27,7 @@
 }
 
 .bjj-schedule {
-  width: 90vw;
+  width: 93vw;
   max-width: 720px;
   display: flex;
   flex-direction: column;
@@ -45,8 +45,8 @@
   justify-content: space-between;
   align-items: center;
   transform: scale(0.95);
-  animation: beltPop 0.4s ease-out forwards;
-  opacity: 0;
+  animation: beltPop 2s ease-out forwards;
+ 
   background: repeating-linear-gradient(
     45deg,
     rgba(255, 255, 255, 0.05),
@@ -56,6 +56,7 @@
   );
   position: relative;
   overflow: hidden;
+  transform: translateX(-300px);
 }
 
 /* Belt backgrounds */
@@ -68,7 +69,7 @@
 
 @keyframes beltPop {
   to {
-    transform: scale(1);
+   transform: translateX(-0px);;
     opacity: 1;
   }
 }
@@ -126,6 +127,6 @@
   }
 
   .belt-card {
-    padding: 5px 22px;
+    padding: 3px 22px;
   }
 }
