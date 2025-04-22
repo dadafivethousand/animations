@@ -5,11 +5,12 @@ import LeafsSchedule from "./Components/LeafsSchdule"
 import BJJSchedule from "./Components/BJJSchedule"
 import OfficeSchedule from "./Components/OfficeSchedule"
 import JoeRoganSchedule from "./Components/JoeRoganSchedule"
+import Windows98Schedule from "./Components/Windows98Schedule";
   
  function App() {
   return (
     <>
-    < JoeRoganSchedule day="Wednesday"/>
+    < Windows98Schedule day="Wednesday"/>
    </>
   );
 }
