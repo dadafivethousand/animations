@@ -40,7 +40,7 @@ body {
 .win98-buttons .btn {
     display: inline-flex;       /* or inline-block */
     justify-content: center;    /* center the icon/text */
-    align-items: center;
+    align-items: flex-start;
     width: 20px;                /* your desired width */
     height: 18px;               /* set a height too */
     margin-left: 5px;
@@ -82,7 +82,7 @@ body {
     width:100vw;
     position: absolute;
     top:-70px;
-    transition: opacity 1s ease-in;
+    transition: opacity .4s ease-in;
     z-index: 33;
 }
 
