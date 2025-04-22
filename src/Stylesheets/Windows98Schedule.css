@@ -38,16 +38,20 @@ body {
 }
 
 .win98-buttons .btn {
-  margin-left: 5px;
-  background: silver;
-  color: black;
-  padding: 2px 6px;
-  border: 1px solid black;
-  box-shadow: inset -1px -1px 0 #fff, inset 1px 1px 0 #000;
-  cursor: pointer;
-  font-size: 14px;
-}
-
+    display: inline-flex;       /* or inline-block */
+    justify-content: center;    /* center the icon/text */
+    align-items: center;
+    width: 20px;                /* your desired width */
+    height: 18px;               /* set a height too */
+    margin-left: 5px;
+    background: silver;
+    border: 1px solid black;
+    box-shadow: inset -1px -1px 0 #fff, inset 1px 1px 0 #000;
+    cursor: pointer;
+    font-size: 14px;
+    color:black
+  }
+  
 .win98-content {
   padding: 15px;
   background: #dfdfdf;
