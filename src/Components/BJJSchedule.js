@@ -3,7 +3,7 @@ import "../Stylesheets/BJJSchedule.css";
 import schedule from "../Schedule";
 import brazillianflag from "../Images/Flag of Brazil _ History, Meaning & Design _ Britannica.jpeg";
 
-export default function BJJSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
+export default function BJJSchedule({ day, animationDelay = 1500, animationInterval = 500 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {

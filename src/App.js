@@ -8,7 +8,7 @@ import BJJSchedule from "./Components/BJJSchedule"
  function App() {
   return (
     <>
-    < BJJSchedule day="Monday"/>
+    < BJJSchedule day="Tuesday"/>
    </>
   );
 }

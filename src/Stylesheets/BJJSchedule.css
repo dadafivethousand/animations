@@ -56,8 +56,7 @@
   );
   position: relative;
   overflow: hidden;
-  transform: translateX(-300px);
-}
+ }
 
 /* Belt backgrounds */
 .belt-0 { background-color: #eaeaea; color: #000; }   /* White */
@@ -69,8 +68,7 @@
 
 @keyframes beltPop {
   to {
-   transform: translateX(-0px);;
-    opacity: 1;
+     opacity: 1;
   }
 }
 
