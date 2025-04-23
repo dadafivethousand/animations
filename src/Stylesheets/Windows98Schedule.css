@@ -82,8 +82,7 @@ body {
     width:100vw;
     position: absolute;
     top:-70px;
-    transition: opacity .4s ease-in;
-    z-index: 33;
+     z-index: 33;
 }
 
 .win-98-show{
