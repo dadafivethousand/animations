@@ -12,11 +12,12 @@ import TetrisSchedule from "./Components/TetrisSchedule";
 import TerminalSchedule from "./Components/TerminalSchedule";
 import IPhoneLockScreenSchedule from "./Components/iPhoneLockScreenSchedule";
 import VegasSchedule from "./Components/VegasSchedule";
+import LibertySchedule from "./Components/LibertySchedule";
    
  function App() {
   return (
     <>
-    < VegasSchedule day="Friday"/>
+    < LibertySchedule day="Friday"/>
    </>
   );
 }
