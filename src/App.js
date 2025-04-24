@@ -7,11 +7,13 @@ import OfficeSchedule from "./Components/OfficeSchedule"
 import JoeRoganSchedule from "./Components/JoeRoganSchedule"
 import Windows98Schedule from "./Components/Windows98Schedule";
 import AirCanadaSchedule from "./Components/AirCanadaSchedule";
-  
+import GreekSchedule from "./Components/GreekSchedule";
+import TetrisSchedule from "./Components/TetrisSchedule";
+   
  function App() {
   return (
     <>
-    < AirCanadaSchedule day="Thursday"/>
+    <TetrisSchedule day="Friday"/>
    </>
   );
 }
