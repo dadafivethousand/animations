@@ -9,11 +9,14 @@ import Windows98Schedule from "./Components/Windows98Schedule";
 import AirCanadaSchedule from "./Components/AirCanadaSchedule";
 import GreekSchedule from "./Components/GreekSchedule";
 import TetrisSchedule from "./Components/TetrisSchedule";
+import TerminalSchedule from "./Components/TerminalSchedule";
+import IPhoneLockScreenSchedule from "./Components/iPhoneLockScreenSchedule";
+import VegasSchedule from "./Components/VegasSchedule";
    
  function App() {
   return (
     <>
-    <TetrisSchedule day="Friday"/>
+    < VegasSchedule day="Friday"/>
    </>
   );
 }
