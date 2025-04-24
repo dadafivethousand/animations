@@ -13,11 +13,12 @@ import TerminalSchedule from "./Components/TerminalSchedule";
 import IPhoneLockScreenSchedule from "./Components/iPhoneLockScreenSchedule";
 import VegasSchedule from "./Components/VegasSchedule";
 import LibertySchedule from "./Components/LibertySchedule";
+import PacManSchedule from "./Components/PacManSchedule";
    
  function App() {
   return (
     <>
-    < LibertySchedule day="Friday"/>
+    < PacManSchedule day="Friday"/>
    </>
   );
 }

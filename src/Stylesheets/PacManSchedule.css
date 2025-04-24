@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.pacman-wrapper {
+  min-height: 100vh;
+  background: #000;
+  font-family: 'Press Start 2P', cursive;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 20px;
+}
+
+.pacman-title {
+  font-size: 2.5rem;
+  color: #FFE600; /* Pac-Man yellow */
+  letter-spacing: 4px;
+  margin-bottom: 20px;
+  animation: titleBlink 1.5s infinite;
+}
+
+@keyframes titleBlink {
+  0%,100% { opacity: 1; }
+  50%    { opacity: 0.6; }
+}
+
+.pacman-pellets {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 30px;
+}
+
+.pellet {
+  width: 8px;
+  height: 8px;
+  background: #FFE600;
+  border-radius: 50%;
+  animation: pelletBlink 1s infinite;
+}
+
+@keyframes pelletBlink {
+  0%,100% { opacity: 1; }
+  50%     { opacity: 0.4; }
+}
+
+.pacman-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 90vw;
+  max-width: 400px;
+}
+
+/* Ghost shape: smooth top + wavy bottom */
+.pacman-card {
+  position: relative;
+  padding: 16px 24px;
+  background-color: var(--ghost-color);
+  color: #000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  transform: translateY(-40px);
+  opacity: 0;
+  animation: cardPop 0.4s ease-out forwards;
+
+  /* smooth dome top + 3-wave bottom */
+  -webkit-clip-path: path('M0 20% C0 0 100% 0 100% 20% L100% 80% C100% 80% 88% 80% 75% 100% C63% 80% 50% 100% 38% 80% C25% 100% 12% 80% 0 80% Z');
+  clip-path: path('M0 20% C0 0 100% 0 100% 20% L100% 80% C100% 80% 88% 80% 75% 100% C63% 80% 50% 100% 38% 80% C25% 100% 12% 80% 0 80% Z');
+}
+
+@keyframes cardPop {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* cycle through Pac-Man ghost colors infinitely */
+.pacman-card:nth-child(4n+1) { --ghost-color: #FFB8FF; } /* Pink */
+.pacman-card:nth-child(4n+2) { --ghost-color: #00FFFF; } /* Cyan */
+.pacman-card:nth-child(4n+3) { --ghost-color: #FFB852; } /* Orange */
+.pacman-card:nth-child(4n+4) { --ghost-color: #FF0000; } /* Red */
+
+.pacman-time {
+  font-style: italic;
+  font-size: 0.8rem;
+}
