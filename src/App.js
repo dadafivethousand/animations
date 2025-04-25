@@ -14,11 +14,14 @@ import IPhoneLockScreenSchedule from "./Components/iPhoneLockScreenSchedule";
 import VegasSchedule from "./Components/VegasSchedule";
 import LibertySchedule from "./Components/LibertySchedule";
 import PacManSchedule from "./Components/PacManSchedule";
+import ChalkboardSchedule from "./Components/ChalkboardSchedule";
+import GameboySchedule from "./Components/GameboySchedule";
+import GameBoy from "./Components/Gameboy"
    
  function App() {
   return (
     <>
-    < PacManSchedule day="Friday"/>
+    < LibertySchedule day="Saturday" />
    </>
   );
 }

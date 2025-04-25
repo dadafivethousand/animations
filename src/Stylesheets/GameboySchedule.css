@@ -1,0 +1,228 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.gb-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #e0e0e0;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.gb-device {
+  position: relative;
+  width: 360px;
+  padding: 16px;
+  background: #c0c0c0; /* shell */
+  border: 4px solid #999;
+  border-radius: 12px;
+  box-shadow:
+    inset -4px -4px 0 #ececec,
+    inset 4px 4px 0 #777;
+}
+
+/* OFF–ON slider */
+.gb-power {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px; height: 16px;
+  background: #999;
+  border: 2px solid #777;
+  border-radius: 8px;
+  font: 8px 'Press Start 2P', monospace;
+  color: #444;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 6px;
+}
+
+/* Battery LED */
+.gb-battery {
+  position: absolute;
+  top: 40px; left: 16px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.gb-battery .led {
+  width: 6px; height: 6px;
+  background: #b30000;
+  border-radius: 50%;
+}
+.gb-battery span {
+  font: 6px 'Press Start 2P', monospace;
+  color: #444;
+}
+
+/* Stereo stripes + label */
+.gb-stripes {
+  position: absolute;
+  top: 64px;
+  left: 16px; right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.gb-stripe-lines {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+}
+.gb-stripe-lines .stripe {
+  width: 50px;
+  height: 2px;
+}
+.gb-stripe-lines .purple { background: #7f2f8f; }
+.gb-stripe-lines .magenta { background: #e3256b; }
+.gb-stripe-label {
+  font: 6px 'Press Start 2P', monospace;
+  color: #444;
+  white-space: nowrap;
+}
+
+/* Screen frame */
+.gb-screen-frame {
+  margin-top: 80px;
+  background: #777;
+  border-radius: 4px;
+  padding: 4px;
+}
+.gb-screen {
+  position: relative;
+  background: #9bbc0f; /* LCD tint */
+  width: 100%;
+  height: 180px;
+  overflow-y: auto;
+  box-shadow:
+    inset -3px -3px 0 #888,
+    inset 3px 3px 0 #fff;
+}
+.gb-title {
+  font: 10px 'Press Start 2P', monospace;
+  color: #444;
+  text-align: center;
+  margin: 4px 0;
+}
+
+/* Schedule entries */
+.gb-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 2px 4px;
+}
+.gb-card {
+  background: #8bac0f;
+  color: #0f380f;
+  font: 8px 'Press Start 2P', monospace;
+  padding: 2px 4px;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #444;
+  transform: translateY(-4px);
+  opacity: 0;
+  animation: gbPop 0.3s ease-out forwards;
+  animation-delay: calc(var(--idx) * 150ms);
+}
+@keyframes gbPop {
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Branding */
+.gb-branding {
+  margin: 6px 0;
+  font: 12px 'Press Start 2P', monospace;
+  text-align: center;
+}
+.gb-branding .nintendo { color: #444; }
+.gb-branding .gameboy { color: #003cb3; }
+
+/* Controls row */
+.gb-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+}
+/* D-pad */
+.gb-dpad {
+  position: relative;
+  width: 60px; height: 60px;
+}
+.gb-dpad-horizontal,
+.gb-dpad-vertical {
+  position: absolute;
+  background: #555;
+  border-radius: 4px;
+}
+.gb-dpad-horizontal {
+  top: 50%; left: 0;
+  width: 100%; height: 16px;
+  transform: translateY(-50%);
+}
+.gb-dpad-vertical {
+  left: 50%; top: 0;
+  width: 16px; height: 100%;
+  transform: translateX(-50%);
+}
+
+/* A/B buttons */
+.gb-buttons {
+  display: flex;
+  gap: 16px;
+}
+.gb-btn {
+  width: 40px; height: 40px;
+  border: 4px solid #777;
+  border-radius: 50%;
+  background: #ae1ea3;
+  box-shadow:
+    inset -2px -2px 0 rgba(255,255,255,0.3),
+    inset 2px 2px 0 rgba(0,0,0,0.5);
+  font: 10px 'Press Start 2P', monospace;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+}
+
+/* Select/Start pills */
+.gb-small-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 24px 0;
+  transform: rotate(-20deg);
+}
+.gb-small-btn {
+  width: 60px; height: 12px;
+  background: #555;
+  border-radius: 6px;
+  font: 6px 'Press Start 2P', monospace;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+/* Speaker grill */
+.gb-speaker {
+  position: absolute;
+  bottom: 16px; right: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transform: rotate(20deg);
+}
+.speaker-hole {
+  width: 4px; height: 20px;
+  background: #555;
+  border-radius: 2px;
+}

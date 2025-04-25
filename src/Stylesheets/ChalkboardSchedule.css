@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
+
+.chalk-wrapper {
+  min-height: 100vh;
+  background: #2b2b2b;               /* chalkboard base */
+  /* optional chalkboard texture:
+     background-image: url('/images/chalkboard-texture.jpg');
+     background-size: cover; */
+  font-family: 'Gloria Hallelujah', cursive;
+  color: #fff;
+  padding: 80px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chalk-title {
+  font-size: 3rem;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid #fff;
+  margin-bottom: 40px;
+  width: 0;
+  animation:
+    typingTitle 2s steps(20) 0.5s forwards,
+    blinkCaret 0.75s step-end infinite 2.5s;
+}
+
+@keyframes typingTitle {
+  to { width: 100%; }
+}
+@keyframes blinkCaret {
+  50% { border-color: transparent; }
+}
+
+.chalk-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 90vw;
+  max-width: 500px;
+}
+
+.chalk-card {
+  background: rgba(255,255,255,0.05);
+  border: 2px dashed #fff;           /* chalk border */
+  padding: 16px;
+  position: relative;
+  transform: translateY(-20px);
+  opacity: 0;
+  animation: cardPop 0.5s ease-out forwards;
+}
+
+.chalk-card:nth-child(n) {
+  animation-delay: calc(0.5s + var(--idx) * 0.3s);
+}
+
+@keyframes cardPop {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.chalk-class {
+  font-size: 1.2rem;
+  text-shadow: 
+    0.5px 0.5px 0 rgba(255,255,255,0.2),
+   -0.5px -0.5px 0 rgba(255,255,255,0.2);
+}
+
+.chalk-time {
+  font-size: 1rem;
+  font-style: italic;
+  color: #ddd;
+  margin-left: auto;
+}
