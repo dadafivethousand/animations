@@ -17,11 +17,12 @@ import PacManSchedule from "./Components/PacManSchedule";
 import ChalkboardSchedule from "./Components/ChalkboardSchedule";
 import GameboySchedule from "./Components/GameboySchedule";
 import GameBoy from "./Components/Gameboy"
+import PaddySchedule from "./Components/PaddySchedule";
    
  function App() {
   return (
     <>
-    < LibertySchedule day="Saturday" />
+    < PaddySchedule day="Sunday" />
    </>
   );
 }

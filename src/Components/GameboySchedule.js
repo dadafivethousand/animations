@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import '../Stylesheets/GameboySchedule.css';
 import schedule from '../Schedule';
 
+
 export default function GameboySchedule({
   day,
-  animationDelay = 600,
+  animationDelay = 1600,
   animationInterval = 150
 }) {
   const [visible, setVisible] = useState([]);
+  const [turnOn, setTurnOn] = useState(false)
 
   useEffect(() => {
     setVisible([]);
@@ -33,10 +35,7 @@ export default function GameboySchedule({
     <div className="gb-wrapper">
       <div className="gb-device">
         <div className="gb-power"><span>OFF</span><span>ON</span></div>
-        <div className="gb-battery">
-          <div className="led" />
-          <span>BATTERY</span>
-        </div>
+     
 
         <div className="gb-stripes">
           <div className="gb-stripe-lines">
@@ -51,6 +50,10 @@ export default function GameboySchedule({
         </div>
 
         <div className="gb-screen-frame">
+        <div className="gb-battery">
+          <div className="led" />
+          <span>BATTERY</span>
+        </div>
           <div className="gb-screen">
             <h1 className="gb-title">{day.toUpperCase()}</h1>
             <div className="gb-grid">
@@ -81,8 +84,8 @@ export default function GameboySchedule({
             <div className="gb-dpad-vertical" />
           </div>
           <div className="gb-buttons">
-            <div className="gb-btn">B</div>
-            <div className="gb-btn">A</div>
+            <div className="gb-btn b">B</div>
+            <div className="gb-btn a">A</div>
           </div>
         </div>
 

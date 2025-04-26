@@ -12,8 +12,9 @@
 
 .gb-device {
   position: relative;
-  width: 360px;
-  padding: 16px;
+  width: 290px;
+  padding-left: 16px;
+  padding-right: 16px;
   background: #c0c0c0; /* shell */
   border: 4px solid #999;
   border-radius: 12px;
@@ -24,32 +25,31 @@
 
 /* OFF–ON slider */
 .gb-power {
-  position: absolute;
-  top: 8px;
-  left: 50%;
-  transform: translateX(-50%);
+ 
+ 
   width: 80px; height: 16px;
-  background: #999;
+ 
   border: 2px solid #777;
   border-radius: 8px;
   font: 8px 'Press Start 2P', monospace;
   color: #444;
   display: flex;
   justify-content: space-between;
-  padding: 0 6px;
+  align-items: center;
+  padding: 0 6px; 
 }
 
 /* Battery LED */
 .gb-battery {
-  position: absolute;
-  top: 40px; left: 16px;
+ 
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 4px;
 }
 .gb-battery .led {
   width: 6px; height: 6px;
-  background: #b30000;
+  background: #db0000;
   border-radius: 50%;
 }
 .gb-battery span {
@@ -59,13 +59,15 @@
 
 /* Stereo stripes + label */
 .gb-stripes {
-  position: absolute;
-  top: 64px;
-  left: 16px; right: 16px;
+ 
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  position: relative;
+  top:33px;
+  max-width:80px;
+  margin: 0 auto;
 }
 .gb-stripe-lines {
   display: flex;
@@ -87,7 +89,7 @@
 
 /* Screen frame */
 .gb-screen-frame {
-  margin-top: 80px;
+  margin-top: 20px;
   background: #777;
   border-radius: 4px;
   padding: 4px;
@@ -98,15 +100,14 @@
   width: 100%;
   height: 180px;
   overflow-y: auto;
-  box-shadow:
-    inset -3px -3px 0 #888,
-    inset 3px 3px 0 #fff;
+  border:1px solid black;
+  width:75%;
 }
 .gb-title {
-  font: 10px 'Press Start 2P', monospace;
+  font: 20px 'Press Start 2P', monospace;
   color: #444;
   text-align: center;
-  margin: 4px 0;
+  margin: 15px 0;
 }
 
 /* Schedule entries */
@@ -119,8 +120,8 @@
 .gb-card {
   background: #8bac0f;
   color: #0f380f;
-  font: 8px 'Press Start 2P', monospace;
-  padding: 2px 4px;
+  font: 10px 'Press Start 2P', monospace;
+  padding: 10px 4px;
   display: flex;
   justify-content: space-between;
   border: 1px solid #444;
@@ -128,6 +129,7 @@
   opacity: 0;
   animation: gbPop 0.3s ease-out forwards;
   animation-delay: calc(var(--idx) * 150ms);
+
 }
 @keyframes gbPop {
   to { transform: translateY(0); opacity: 1; }
@@ -137,7 +139,7 @@
 .gb-branding {
   margin: 6px 0;
   font: 12px 'Press Start 2P', monospace;
-  text-align: center;
+  text-align: left;
 }
 .gb-branding .nintendo { color: #444; }
 .gb-branding .gameboy { color: #003cb3; }
@@ -147,12 +149,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 12px;
+   
+  margin-bottom: 75px;
 }
 /* D-pad */
 .gb-dpad {
   position: relative;
   width: 60px; height: 60px;
+  margin-top: 30px;
 }
 .gb-dpad-horizontal,
 .gb-dpad-vertical {
@@ -175,6 +179,7 @@
 .gb-buttons {
   display: flex;
   gap: 16px;
+  
 }
 .gb-btn {
   width: 40px; height: 40px;
@@ -210,19 +215,31 @@
   align-items: center;
   justify-content: center;
   text-transform: uppercase;
+  margin-bottom: 65px;
 }
 
 /* Speaker grill */
 .gb-speaker {
   position: absolute;
-  bottom: 16px; right: 16px;
+  bottom: 16px; right: 30px;
   display: flex;
-  flex-direction: column;
-  gap: 4px;
-  transform: rotate(20deg);
+  margin-bottom: 25px;
+  gap: 6px;
+  transform: rotate(-30deg);
 }
 .speaker-hole {
-  width: 4px; height: 20px;
+  width: 4px; height: 40px;
   background: #555;
   border-radius: 2px;
+}
+
+.gb-screen-frame{
+  display: flex;
+  align-items: center;
+  padding-top:20px
+}
+
+.b{
+  position: relative;
+  top:30px;
 }
