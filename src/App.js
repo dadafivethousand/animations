@@ -3,12 +3,12 @@ import './Stylesheets/App.css'
  
 import GameBoy from "./Components/Gameboy"
 import GameBoySchedule from "./Components/GameboySchedule"
- 
+import CrazyFrogSchedule from "./Components/CrazyFrogSchedule"
    
  function App() {
   return (
     <>
-    < GameBoySchedule day="Monday" />
+    < CrazyFrogSchedule day="Tuesday" />
    </>
   );
 }
