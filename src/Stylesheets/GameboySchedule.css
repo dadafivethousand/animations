@@ -2,6 +2,7 @@
 
 .gb-wrapper {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   background: #e0e0e0;
@@ -10,6 +11,9 @@
   box-sizing: border-box;
  
 }
+
+
+ 
 
 .gb-device {
 
@@ -81,6 +85,7 @@
   max-width:80px;
   margin: 0 auto;
 }
+
 .gb-stripe-lines {
   display: flex;
   flex-direction: column;
@@ -88,7 +93,7 @@
   gap: 3px;
 }
 .gb-stripe-lines .stripe {
-  width: 50px;
+  width: 49px;
   height: 2px;
 }
 .gb-stripe-lines .purple { background: #7f2f8f; }
@@ -162,6 +167,11 @@
 @keyframes gbPop {
   to { transform: translateY(0); opacity: 1; }
 }
+
+.gb-slideDown{
+  animation: slideDown 3s ease-in;
+}
+
 
  
 

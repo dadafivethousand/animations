@@ -5,7 +5,7 @@ import schedule from '../Schedule';
 
 export default function GameboySchedule({
   day,
-  animationDelay = 4600,
+  animationDelay = 2300,
   animationInterval = 150
 }) {
   const [visible, setVisible] = useState([]);
@@ -13,13 +13,12 @@ export default function GameboySchedule({
 
 
   useEffect(() => {
-    setTimeout(() => {
-      setTurnOn(true)
+    const timer = setTimeout(() => {
+      setTurnOn(true);
     }, 2000);
-
-
+  
+    return () => clearTimeout(timer); // cleanup
   }, []);
-
  
 
   useEffect(() => {
@@ -44,6 +43,7 @@ export default function GameboySchedule({
 
   return (
     <div className="gb-wrapper">
+   
       <div className="gb-device">
         <div className="gb-power"><span>OFF</span><span>ON</span></div>
         <div className="gb-line"></div>
@@ -67,7 +67,7 @@ export default function GameboySchedule({
           <span>BATTERY</span>
         </div>
           <div className={ `gb-dark-screen ${turnOn?'gb-screen':''}`}>
-            <h1 className= {` ${turnOn? 'gb-title': 'gb-hide'}`} >{day.toUpperCase()}</h1>
+             <h1 className= {` ${turnOn? 'gb-title': 'gb-hide'}`} >{day.toUpperCase()}</h1>
             <div className="gb-grid">
               {schedule[day]?.map((cls, idx) =>
                 visible.includes(idx) ? (
