@@ -19,6 +19,8 @@
   margin-bottom: 10px;
   letter-spacing: 5px;
   animation: pulseTitle 2s infinite ease-in-out;
+  position:absolute ;
+  top:60px;
 }
 
 @keyframes pulseTitle {
@@ -29,15 +31,19 @@
 .crazyfrog-grid {
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   gap: 5px;
   width: 90vw;
   max-width: 500px;
+  position:absolute ;
+  height:200px;
+  bottom:80px;
 }
 
 .crazyfrog-card {
   background: linear-gradient(135deg, #00ccff, #00ffcc);
   color: #003366;
-  padding: 1px 30px;
+  padding: 5px 30px;
   border-radius: 20px;
   border: 4px dashed #00ffff;
   box-shadow:
@@ -47,9 +53,9 @@
   justify-content: space-between;
   align-items: center;
   transform: scale(0.5) rotate(10deg);
-  opacity: .8;
+  opacity: 0;
   animation: bounceIn 0.6s ease-out forwards;
-  z-index:5
+  z-index:5;
 }
 
 @keyframes bounceIn {
@@ -58,11 +64,11 @@
     transform: scale(0.3) rotate(-30deg);
   }
   60% {
-    opacity: .8;
+    opacity: .2;
     transform: scale(1.2) rotate(10deg);
   }
   80% {
-    opacity: .8;
+    opacity: .5;
     transform: scale(0.95) rotate(-5deg);
   }
   100% {
@@ -84,6 +90,6 @@
 
 .crazyfrog-wrapper img {
     position: absolute;
-    bottom: 70px;
-    width:90vw
+    bottom: 10px;
+    width:105vw
 }

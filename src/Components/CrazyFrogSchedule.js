@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../Stylesheets/CrazyFrogSchedule.css";
 import schedule from "../Schedule";
 
-export default function CrazyFrogSchedule({ day, animationDelay = 1000, animationInterval = 300 }) {
+export default function CrazyFrogSchedule({ day, animationDelay = 2000, animationInterval = 300 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
