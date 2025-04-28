@@ -4,11 +4,12 @@ import './Stylesheets/App.css'
 import GameBoy from "./Components/Gameboy"
 import GameBoySchedule from "./Components/GameboySchedule"
 import CrazyFrogSchedule from "./Components/CrazyFrogSchedule"
+import JurassicSchedule from "./Components/JurassicSchedule";
    
  function App() {
   return (
     <>
-    < CrazyFrogSchedule day="Tuesday" />
+    < JurassicSchedule day="Tuesday" />
    </>
   );
 }

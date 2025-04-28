@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import "../Stylesheets/JurassicSchedule.css";
 import schedule from "../Schedule";
 
-export default function JurassicSchedule({ day, animationDelay = 500, animationInterval = 300 }) {
+export default function JurassicSchedule({ day, animationDelay = 1000, animationInterval = 400 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
-    const classes = schedule[day] || [];
-    classes.forEach((_, idx) => {
+    const entries = schedule[day] || [];
+    entries.forEach((_, idx) => {
       setTimeout(() => {
         setVisibleArray(prev => [...prev, idx]);
       }, animationDelay + idx * animationInterval);
@@ -24,14 +24,17 @@ export default function JurassicSchedule({ day, animationDelay = 500, animationI
 
   return (
     <div className="jurassic-wrapper">
-      <div className="jungle-fog" />
-      <h1 className="jurassic-title">{day.toUpperCase()}</h1>
-      <div className="jurassic-schedule">
+      <h3 className="jurassic-title">{day.toUpperCase()}</h3>
+      <div className="jurassic-grid">
         {schedule[day]?.map((cls, idx) =>
           visibleArray.includes(idx) ? (
-            <div key={idx} className="dino-panel">
-              <span className="dino-class">{cls.name}</span>
-              <span className="dino-time">{formatTime(cls.start)}</span>
+            <div
+              className="jurassic-card"
+              key={idx}
+              style={{ animationDelay: `${idx * animationInterval}ms` }}
+            >
+              <span className="jurassic-class">{cls.name}</span>
+              <span className="jurassic-time">{formatTime(cls.start)}</span>
             </div>
           ) : null
         )}
