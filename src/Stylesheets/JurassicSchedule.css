@@ -16,7 +16,7 @@
   align-items: center;
   padding-top: 70px;
   overflow-x: hidden;
-  animation: backgroundPulse 6s ease-in-out infinite;
+  animation: backgroundPulse 4s ease-in-out infinite;
 }
 @keyframes backgroundPulse {
   0% { background-position: 0% 0%; }
