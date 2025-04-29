@@ -7,11 +7,13 @@ import CrazyFrogSchedule from "./Components/CrazyFrogSchedule"
 import JurassicSchedule from "./Components/JurassicSchedule";
 import OfficeSchedule from "./Components/OfficeSchedule"
 import TokyoSchedule from "./Components/TokyoSchedule";
+import StrangerSchedule from "./Components/StrangerSchedule";
+import CasinoSchedule from "./Components/CasinoSchedule";
    
  function App() {
   return (
     <>
-    < TokyoSchedule day="Wednesday" />
+    < CasinoSchedule day="Wednesday" />
    </>
   );
 }
