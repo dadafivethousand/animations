@@ -6,7 +6,7 @@
     to bottom,
     #120707 0%,
     #3f1414 50%,
-    #4d0000 100%
+    #b30404 100%
   );
   background-size: 100% 300%;
   background-position: 0% 0%;
@@ -27,10 +27,10 @@
 .jurassic-title {
   font-size: 2.5rem;
   color: #ff1a1a;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
   letter-spacing: 6px;
   text-transform: uppercase;
-  border-bottom: 5px solid #ffcc00;
+ 
   padding-bottom: 10px;
 }
 
@@ -43,11 +43,11 @@
 }
 
 .jurassic-card {
-  background: linear-gradient(145deg, #8b0000, #330000);
+  background: linear-gradient(145deg, #bb0404, #330000);
   color: #ffe4c4;
   padding: 6px 30px;
   border-radius: 18px;
-  border: 4px solid #ffcc00;
+  border: 4px solid #fcd123;
   box-shadow:
     0 0 20px rgba(255, 0, 0, 0.5),
     inset 0 0 10px rgba(255, 0, 0, 0.3),
