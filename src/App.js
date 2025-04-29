@@ -6,11 +6,12 @@ import GameBoySchedule from "./Components/GameboySchedule"
 import CrazyFrogSchedule from "./Components/CrazyFrogSchedule"
 import JurassicSchedule from "./Components/JurassicSchedule";
 import OfficeSchedule from "./Components/OfficeSchedule"
+import TokyoSchedule from "./Components/TokyoSchedule";
    
  function App() {
   return (
     <>
-    < OfficeSchedule day="Tuesday" />
+    < TokyoSchedule day="Wednesday" />
    </>
   );
 }
