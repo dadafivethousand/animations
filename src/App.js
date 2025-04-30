@@ -9,11 +9,19 @@ import OfficeSchedule from "./Components/OfficeSchedule"
 import TokyoSchedule from "./Components/TokyoSchedule";
 import StrangerSchedule from "./Components/StrangerSchedule";
 import CasinoSchedule from "./Components/CasinoSchedule";
+import LavaSchedule from "./Components/LavaSchedule";
+import FerrariSchedule from "./Components/FerrariSchedule";
+import TeslaSchedule from "./Components/TeslaSchedule";
+import DiorSchedule from "./Components/DiorSchedule";
+import XboxSchedule from "./Components/XboxSchedule";
+import NasaSchedule from "./Components/NasaSchedule";
+import AnonymousSchedule from "./Components/AnonymousSchedule";
+ 
    
  function App() {
   return (
     <>
-    < CasinoSchedule day="Wednesday" />
+    < AnonymousSchedule day="Thursday" />
    </>
   );
 }

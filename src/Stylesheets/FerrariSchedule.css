@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+
+.ferrari-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #2b0000, #000000);
+  font-family: 'Orbitron', sans-serif;
+  padding: 40px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+.ferrari-title {
+  font-size: 2.7rem;
+  color: #ff0000;
+  letter-spacing: 6px;
+  margin-bottom: 30px;
+  text-shadow:
+    0 0 4px #ff1a1a,
+    0 0 12px #ff6600;
+}
+
+.ferrari-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.ferrari-card {
+  background: linear-gradient(145deg, #3c0000 0%, #550000 100%);
+  border-left: 6px solid #ff0000;
+  border-right: 6px solid #ff0000;
+  padding: 18px 24px;
+  border-radius: 12px;
+  box-shadow:
+    0 0 20px rgba(255, 0, 0, 0.5),
+    inset 0 0 10px rgba(255, 50, 0, 0.4);
+  color: white;
+  animation: flashIn 0.5s ease-out forwards;
+  opacity: 0;
+  transform: scale(0.8) translateY(30px);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@keyframes flashIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.6) translateY(60px) rotateX(30deg);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.05) translateY(-8px);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+.ferrari-class {
+  font-size: 1.3rem;
+  color: #ffcccc;
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+
+.ferrari-time {
+  font-size: 1.1rem;
+  color: #ff6666;
+}

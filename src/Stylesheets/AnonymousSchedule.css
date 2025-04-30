@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+.tenor-gif-embed{
+    min-width:100vw;
+}
+.anon-wrapper {
+  min-height: 100vh;
+  background: rgb(30, 33, 39);
+  font-family: 'Share Tech Mono', monospace;
+  color: #00ff91;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+.anon-title {
+  font-size: 2.4rem;
+  color: #00ff91;
+  text-shadow: 0 0 10px #00ff91cc;
+  letter-spacing: 4px;
+  margin-bottom: 40px;
+  animation: blinkCursor 1.5s infinite step-start;
+}
+
+@keyframes blinkCursor {
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.anon-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.anon-card {
+  background: rgba(0, 255, 144, 0.05);
+  border: 1px solid #00ff91;
+  padding: 16px 24px;
+  border-radius: 6px;
+  box-shadow: 0 0 12px rgba(0, 255, 144, 0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: glitchIn 0.4s ease-out forwards;
+  transform: translateY(20px) scale(0.95);
+  opacity: 0;
+}
+
+@keyframes glitchIn {
+  0% {
+    opacity: 0;
+    transform: translateY(50px) scale(0.8);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-6px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.anon-card:hover {
+  box-shadow: 0 0 16px #00ff91aa, inset 0 0 10px #00ff91;
+  background-color: rgba(0, 255, 144, 0.1);
+  transform: scale(1.02);
+  transition: all 0.2s ease;
+}
+
+.anon-class {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+}
+
+.anon-time {
+  font-size: 1.1rem;
+  color: #77ffd4;
+}
