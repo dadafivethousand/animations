@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../Stylesheets/AnonymousSchedule.css";
 import schedule from "../Schedule";
 
-export default function AnonymousSchedule({ day, animationDelay = 400, animationInterval = 150 }) {
+export default function AnonymousSchedule({ day, animationDelay = 1400, animationInterval = 150 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
@@ -25,6 +25,7 @@ export default function AnonymousSchedule({ day, animationDelay = 400, animation
   return (
     <div className="anon-wrapper">
         <div class="tenor-gif-embed" data-postid="21188344" data-share-method="host" data-aspect-ratio="1.15942" data-width="100%"><a href="https://tenor.com/view/hacker-gif-21188344">Hacker GIF</a>from <a href="https://tenor.com/search/hacker-gifs">Hacker GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+     <div className="anon-title-and-schedule">
       <h3 className="anon-title">{day.toUpperCase()}</h3>
       <div className="anon-grid">
         {(schedule[day] || []).map((cls, idx) =>
@@ -35,6 +36,7 @@ export default function AnonymousSchedule({ day, animationDelay = 400, animation
             </div>
           ) : null
         )}
+      </div>
       </div>
     </div>
   );
