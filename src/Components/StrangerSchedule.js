@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/JurassicSchedule.css";
+import "../Stylesheets/CasinoSchedule.css";
 import schedule from "../Schedule";
 
-export default function JurassicSchedule({ day, animationDelay = 1000, animationInterval = 400 }) {
+export default function CasinoSchedule({ day, animationDelay = 500, animationInterval = 250 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
@@ -22,19 +22,26 @@ export default function JurassicSchedule({ day, animationDelay = 1000, animation
     return `${hour12}:${minutes.toString().padStart(2, "0")} ${amPm}`;
   };
 
+  const getChipColor = (index) => {
+    const colors = ["#111111", "#d40000", "#0047ab", "#009933", "#f0c000"]; // black, red, blue, green, gold
+    return colors[index % colors.length];
+  };
+
   return (
-    <div className="jurassic-wrapper">
-      <h3 className="jurassic-title">{day.toUpperCase()}</h3>
-      <div className="jurassic-grid">
+    <div className="casino-wrapper">
+      <h3 className="casino-title">{day.toUpperCase()}</h3>
+      <div className="casino-scatter">
         {schedule[day]?.map((cls, idx) =>
           visibleArray.includes(idx) ? (
             <div
-              className="jurassic-card"
+              className={`poker-chip scatter-${idx % 3} ${idx%2===0 ? 'poker-left':''}`}
               key={idx}
-              style={{ animationDelay: `${idx * animationInterval}ms` }}
+              style={{ color: getChipColor(idx) }}
             >
-              <span className="jurassic-class">{cls.name}</span>
-              <span className="jurassic-time">{formatTime(cls.start)}</span>
+              <div className="chip-inner">
+                <span className="chip-class">{cls.name}</span>
+                <span className="chip-time">{formatTime(cls.start)}</span>
+              </div>
             </div>
           ) : null
         )}

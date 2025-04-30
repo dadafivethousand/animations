@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+
+.crazyfrog-wrapper {
+  min-height: 100vh;
+  background: radial-gradient(circle, #66ccff 0%, #003366 100%);
+  font-family: 'Luckiest Guy', cursive;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 0px;
+  overflow-x: hidden;
+  justify-content: space-around;
+}
+
+.crazyfrog-title {
+  font-size: 4rem;
+  color: #00ffcc;
+  text-shadow: 0 0 12px #00ffcc, 0 0 24px #00ffcc;
+  margin-bottom: 10px;
+  letter-spacing: 5px;
+  animation: pulseTitle 2s infinite ease-in-out;
+  position:absolute ;
+  top:60px;
+}
+
+@keyframes pulseTitle {
+  0%, 100% { text-shadow: 0 0 8px #00ffcc, 0 0 24px #00ffcc; }
+  50% { text-shadow: 0 0 14px #ffffff, 0 0 40px #00ffcc; }
+}
+
+.crazyfrog-grid {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 5px;
+  width: 90vw;
+  max-width: 500px;
+  position:absolute ;
+  height:200px;
+  bottom:80px;
+}
+
+.crazyfrog-card {
+  background: linear-gradient(135deg, #00ccff, #00ffcc);
+  color: #003366;
+  padding: 5px 30px;
+  border-radius: 20px;
+  border: 4px dashed #00ffff;
+  box-shadow:
+    0 0 20px rgba(0, 255, 255, 0.7),
+    inset 0 0 10px rgba(255, 255, 255, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transform: scale(0.5) rotate(10deg);
+  opacity: 0;
+  animation: bounceIn 0.6s ease-out forwards;
+  z-index:5;
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotate(-30deg);
+  }
+  60% {
+    opacity: .2;
+    transform: scale(1.2) rotate(10deg);
+  }
+  80% {
+    opacity: .5;
+    transform: scale(0.95) rotate(-5deg);
+  }
+  100% {
+    opacity: .8;
+    transform: scale(1) rotate(0);
+  }
+}
+
+.crazyfrog-class {
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+.crazyfrog-time {
+  font-size: 1.2rem;
+  font-style: italic;
+}
+
+
+.crazyfrog-wrapper img {
+    position: absolute;
+    bottom: 160px;
+    width:70vw
+}

@@ -1,107 +1,87 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap');
 
 .jurassic-wrapper {
-  position: relative;
   min-height: 100vh;
-  background: linear-gradient(to bottom, #0c1a0c, #1a1a1a);
-  font-family: 'Orbitron', sans-serif;
+  background: linear-gradient(
+    to bottom,
+    #120707 0%,
+    #3f1414 50%,
+    #b30404 100%
+  );
+  background-size: 100% 300%;
+  background-position: 0% 0%;
+  font-family: 'Alfa Slab One', cursive;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding: 100px 20px 60px; /* Top padding prevents title cutoff */
-  box-sizing: border-box;
-  overflow: hidden;
-  color: #cfdccf;
+  padding-top: 70px;
+  overflow-x: hidden;
+  animation: backgroundPulse 4s ease-in-out infinite;
+}
+@keyframes backgroundPulse {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 0% 100%; }
+  100% { background-position: 0% 0%; }
 }
 
-/* Jungle mist/fog layer */
-.jungle-fog {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background: radial-gradient(circle at top, rgba(255, 255, 255, 0.294), transparent 60%),
-              radial-gradient(circle at bottom, rgba(255, 255, 255, 0.225), transparent 80%);
-  animation: fogShift 80s linear infinite;
-}
-
-@keyframes fogShift {
-  0% { background-position: 0 0, 0 0; }
-  100% { background-position: -200px -100px, 200px 100px; }
-}
-
-/* Title */
 .jurassic-title {
-  font-size: 3.6rem;
-  color: #f1c40f;
-  text-shadow: 0 0 12px #f39c12, 0 0 24px #d35400;
-  z-index: 2;
-  margin-bottom: 40px;
-  letter-spacing: 4px;
-  text-align: center;
+  font-size: 2.5rem;
+  color: #ff1a1a;
+  margin-bottom: 20px;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+ 
+  padding-bottom: 10px;
 }
 
-/* Schedule container */
-.jurassic-schedule {
-  width: 100%;
-  max-width: 750px;
+.jurassic-grid {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  z-index: 2;
+  gap: 5px;
+  width: 90vw;
+  max-width: 550px;
 }
 
-/* Dino schedule panel */
-.dino-panel {
-  background: linear-gradient(to right, #2c2c2c, #1c1c1c);
-  border: 4px solid #444;
-  border-radius: 10px;
-  padding: 22px 26px;
+.jurassic-card {
+  background: linear-gradient(145deg, #bb0404, #330000);
+  color: #ffe4c4;
+  padding: 6px 30px;
+  border-radius: 18px;
+  border: 4px solid #fffc53;
   box-shadow:
-    0 6px 14px rgba(0, 0, 0, 0.5),
-    inset 0 0 10px rgba(255, 87, 34, 0.08);
-  color: #e0e0e0;
+    0 0 20px rgba(255, 0, 0, 0.5),
+    inset 0 0 10px rgba(255, 0, 0, 0.3),
+    4px 4px 20px rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transform: scale(0.95);
- 
-  animation: trembleIn 0.5s forwards ease-out;
+  transform: scale(0.5) translateY(-120px);
+  opacity: 0;
+  animation: dropAndShake 0.6s ease-out forwards;
 }
 
-@keyframes trembleIn {
-  0% { transform: translateY(60px) scale(0.95); opacity: 0; }
-  60% { transform: translateY(-10px) scale(1.02); opacity: 1; }
-  100% { transform: translateY(0) scale(1); }
+@keyframes dropAndShake {
+  0% {
+    opacity: 0;
+    transform: scale(0.4) rotate(8deg) translateY(-150px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.05) rotate(-3deg) translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg) translateY(0);
+  }
 }
 
-.dino-class {
+.jurassic-class {
+  font-size: 1.3rem;
+   letter-spacing: 2px;
+}
+
+.jurassic-time {
   font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.dino-time {
-  font-size: 1.1rem;
   font-style: italic;
-  color: #b5b5b5;
-}
-
-/* Mobile tweaks */
-@media (max-width: 600px) {
-  .jurassic-title {
-    font-size: 2.4rem;
-  }
-
-  .dino-panel {
-    padding: 16px 20px;
-  }
-
-  .dino-class {
-    font-size: 1.3rem;
-  }
-
-  .dino-time {
-    font-size: 1rem;
-  }
+  color: #ffcc99;
 }

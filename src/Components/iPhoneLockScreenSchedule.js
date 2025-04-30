@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/JurassicSchedule.css";
+import "../Stylesheets/iPhoneLockScreenSchedule.css";
 import schedule from "../Schedule";
 
-export default function JurassicSchedule({ day, animationDelay = 1000, animationInterval = 400 }) {
+export default function iPhoneLockScreenSchedule({ day, animationDelay = 1000, animationInterval = 400 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
@@ -23,18 +23,22 @@ export default function JurassicSchedule({ day, animationDelay = 1000, animation
   };
 
   return (
-    <div className="jurassic-wrapper">
-      <h3 className="jurassic-title">{day.toUpperCase()}</h3>
-      <div className="jurassic-grid">
+    <div className="iphone-wrapper">
+      
+      <div className="lock-header">
+        <div className="day-label">{day.toUpperCase()}</div>
+        <div className="time-display">{new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+      </div>
+      <div className="notification-stack">
         {schedule[day]?.map((cls, idx) =>
           visibleArray.includes(idx) ? (
             <div
-              className="jurassic-card"
+              className="notification-card"
               key={idx}
               style={{ animationDelay: `${idx * animationInterval}ms` }}
             >
-              <span className="jurassic-class">{cls.name}</span>
-              <span className="jurassic-time">{formatTime(cls.start)}</span>
+              <div className="notif-title">{cls.name}</div>
+              <div className="notif-time">{formatTime(cls.start)}</div>
             </div>
           ) : null
         )}

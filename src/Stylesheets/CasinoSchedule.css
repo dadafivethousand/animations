@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
+
+.casino-wrapper {
+  min-height: 100vh;
+  background-color: #0b1f0e;
+  background-image: url('https://www.transparenttextures.com/patterns/green-felt.png');
+  background-size: 600px 600px;
+  font-family: 'Playfair Display', serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 12px;
+  overflow-x: hidden;
+}
+
+.casino-title {
+  font-size: 2.8rem;
+  color: #e0c792;
+  text-shadow: 0 0 4px #a1895b;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+.casino-scatter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+ 
+  width: 100%;
+  max-width: 350px;
+  position: relative;
+}
+
+/* === Poker Chip === */
+.poker-chip {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background:
+    conic-gradient(
+      from 0deg,
+      white 0deg 12deg,
+      currentColor 12deg 36deg,
+      white 36deg 48deg,
+      currentColor 48deg 72deg,
+      white 72deg 84deg,
+      currentColor 84deg 108deg,
+      white 108deg 120deg,
+      currentColor 120deg 144deg,
+      white 144deg 156deg,
+      currentColor 156deg 180deg,
+      white 180deg 192deg,
+      currentColor 192deg 216deg,
+      white 216deg 228deg,
+      currentColor 228deg 252deg,
+      white 252deg 264deg,
+      currentColor 264deg 288deg,
+      white 288deg 300deg,
+      currentColor 300deg 324deg,
+      white 324deg 336deg,
+      currentColor 336deg 360deg
+    );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow:
+    0 0 6px rgba(0, 0, 0, 0.4),
+    inset 0 0 8px rgba(255, 255, 255, 0.2);
+  animation: chipDrop 0.5s ease-out forwards;
+  transform: scale(0.4) translateY(-60px);
+  opacity: 0;
+}
+
+@keyframes chipDrop {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateX(-200px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.00) translateY(0px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+
+ 
+
+.scatter-left {
+  align-self: flex-start;
+  margin-left: 60px;
+}
+
+.scatter-right {
+  align-self: flex-end;
+  margin-right: 40px;
+  animation: chipDropRight 0.5s ease-out forwards;
+
+}
+
+.scatter-center {
+  align-self: center;
+}
+
+  
+@keyframes chipDropRight {
+    0% {
+      opacity: 1;
+      transform: scale(1) translateX(200px);
+    }
+    60% {
+      opacity: 1;
+      transform: scale(1.00) translateY(0px);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+
+.chip-inner {
+  width: 70px;
+  height: 70px;
+  background: #fff9f0;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow:
+    inset 0 0 4px rgba(0, 0, 0, 0.2);
+  padding: 6px;
+  text-align: center;
+}
+
+.chip-class {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #330000;
+  line-height: 1.2;
+}
+
+.chip-time {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #990000;
+  margin-top: 4px;
+}

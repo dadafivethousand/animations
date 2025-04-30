@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/JurassicSchedule.css";
+import "../Stylesheets/PaddySchedule.css";
 import schedule from "../Schedule";
 
-export default function JurassicSchedule({ day, animationDelay = 1000, animationInterval = 400 }) {
+export default function PaddySchedule({ day, animationDelay = 1800, animationInterval = 400 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
@@ -23,22 +23,23 @@ export default function JurassicSchedule({ day, animationDelay = 1000, animation
   };
 
   return (
-    <div className="jurassic-wrapper">
-      <h3 className="jurassic-title">{day.toUpperCase()}</h3>
-      <div className="jurassic-grid">
+    <div className="paddy-wrapper">
+      <h1 className="paddy-title">{day.toUpperCase()}</h1>
+      <div className="paddy-grid">
         {schedule[day]?.map((cls, idx) =>
           visibleArray.includes(idx) ? (
             <div
-              className="jurassic-card"
+              className="paddy-card"
               key={idx}
               style={{ animationDelay: `${idx * animationInterval}ms` }}
             >
-              <span className="jurassic-class">{cls.name}</span>
-              <span className="jurassic-time">{formatTime(cls.start)}</span>
+              <span className="paddy-class">{cls.name}</span>
+              <span className="paddy-time">{formatTime(cls.start)}</span>
             </div>
           ) : null
         )}
       </div>
+      <img src='https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDQ0N2d4amQ5d2o3emw2cXRtaTkwZHFsNnMxNGNub2RiOWs1ejA0biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/FNtl8uSFfRS5S00nLZ/giphy.gif' />
     </div>
   );
 }

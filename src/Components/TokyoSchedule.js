@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/JurassicSchedule.css";
+import "../Stylesheets/TokyoSchedule.css";
 import schedule from "../Schedule";
+import tokyo from "../Images/Tokyo GIF - Find & Share on GIPHY.gif"
 
-export default function JurassicSchedule({ day, animationDelay = 1000, animationInterval = 400 }) {
+export default function TokyoSchedule({ day, animationDelay = 800, animationInterval = 300 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
@@ -23,18 +24,15 @@ export default function JurassicSchedule({ day, animationDelay = 1000, animation
   };
 
   return (
-    <div className="jurassic-wrapper">
-      <h3 className="jurassic-title">{day.toUpperCase()}</h3>
-      <div className="jurassic-grid">
+    <div className="tokyo-wrapper">
+        <img className="tokyo-gif" src={tokyo}/>
+      <h3 className="tokyo-title">{day.toUpperCase()}</h3>
+      <div className="tokyo-grid">
         {schedule[day]?.map((cls, idx) =>
           visibleArray.includes(idx) ? (
-            <div
-              className="jurassic-card"
-              key={idx}
-              style={{ animationDelay: `${idx * animationInterval}ms` }}
-            >
-              <span className="jurassic-class">{cls.name}</span>
-              <span className="jurassic-time">{formatTime(cls.start)}</span>
+            <div className="tokyo-card" key={idx}>
+              <span className="tokyo-class">{cls.name}</span>
+              <span className="tokyo-time">{formatTime(cls.start)}</span>
             </div>
           ) : null
         )}

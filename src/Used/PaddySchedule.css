@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Changa:wght@700&display=swap');
+
+.paddy-wrapper {
+  min-height: 100vh;
+  background: #000;
+  font-family: 'Changa', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 20px;
+  overflow-x: hidden;
+}
+
+.paddy-title {
+  font-size: 3.8rem;
+  color: #ffe600;
+  text-shadow: 0 0 10px #ffe600, 0 0 30px #ffd700;
+  margin-bottom: 10px;
+  letter-spacing: 5px;
+}
+
+.paddy-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 90vw;
+  max-width: 500px;
+}
+
+.paddy-card {
+  background: repeating-linear-gradient(
+    45deg,
+    #ffe600,
+    #ffd700 5px,
+    #ffeb3b 10px,
+    #ffe600 15px
+  );
+  color: #000;
+  padding: 1px 28px;
+  border-radius: 20px;
+  border: 2px solid #ffd700;
+  box-shadow:
+    0 0 20px rgba(255, 230, 0, 0.6),
+    inset 0 0 10px rgba(255, 255, 0, 0.4);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transform: translateY(-50px);
+  opacity: 0;
+  animation: paddyPop 0.5s ease-out forwards;
+}
+
+@keyframes paddyPop {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.paddy-class {
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+.paddy-time {
+  font-size: 1.3rem;
+  font-style: italic;
+  color: #222;
+}
+.paddy-wrapper img{
+  position: absolute;
+  bottom: 0
+}

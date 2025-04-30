@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/JurassicSchedule.css";
+import "../Stylesheets/GreekSchedule.css";
 import schedule from "../Schedule";
 
-export default function JurassicSchedule({ day, animationDelay = 1000, animationInterval = 400 }) {
+export default function GreekSchedule({ day, animationDelay = 500, animationInterval = 300 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
@@ -23,18 +23,18 @@ export default function JurassicSchedule({ day, animationDelay = 1000, animation
   };
 
   return (
-    <div className="jurassic-wrapper">
-      <h3 className="jurassic-title">{day.toUpperCase()}</h3>
-      <div className="jurassic-grid">
+    <div className="greek-wrapper">
+      <h1 className="greek-title">{day.toUpperCase()}</h1>
+      <div className="greek-schedule">
         {schedule[day]?.map((cls, idx) =>
           visibleArray.includes(idx) ? (
-            <div
-              className="jurassic-card"
-              key={idx}
-              style={{ animationDelay: `${idx * animationInterval}ms` }}
-            >
-              <span className="jurassic-class">{cls.name}</span>
-              <span className="jurassic-time">{formatTime(cls.start)}</span>
+            <div key={idx} className="greek-card">
+              <div className="pillar left" />
+              <div className="greek-content">
+                <span className="greek-class">{cls.name}</span>
+                <span className="greek-time">{formatTime(cls.start)}</span>
+              </div>
+              <div className="pillar right" />
             </div>
           ) : null
         )}

@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+.ac-wrapper {
+  background: #000;
+  min-height: 100vh;
+  padding: 80px 20px;
+  font-family: 'Share Tech Mono', monospace;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+}
+
+.ac-title {
+  font-size: 3.5rem;
+  margin-bottom: 40px;
+  color: RGB(255, 18, 0);
+   letter-spacing: 2px;
+  text-align: center;
+ 
+}
+
+.ac-board {
+  width: 95vw;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ac-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #222;
+  color: #ccc;
+  font-size: 1.1rem;
+  border-bottom: 1px solid #d52b1e;
+  text-transform: uppercase;
+}
+
+.ac-row {
+  display: flex;
+  justify-content: space-between;
+  background: #121212;
+  padding: 14px 18px;
+  font-size: 1.3rem;
+  border-left: 4px solid #d52b1e;
+  border-radius: 4px;
+  box-shadow: 0 0 12px rgba(213, 43, 30, 0.25);
+}
+
+.flip {
+  position: relative;
+  display: inline-block;
+  animation: flipIn 0.6s ease forwards;
+  transform-origin: bottom;
+}
+
+@keyframes flipIn {
+  0% { transform: rotateX(-90deg); opacity: 0; }
+  50% { transform: rotateX(20deg); opacity: 0.5; }
+  100% { transform: rotateX(0); opacity: 1; }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .ac-title {
+    font-size: 3.4rem;
+  }
+
+  .ac-header {
+    font-size: 0.9rem;
+  }
+
+  .ac-row {
+    font-size: 1rem;
+    padding: 10px 14px;
+  }
+}
+
+.ac-image{position:absolute;
+ 
+background-color: #000;
+text-align: center;
+ 
+transition: transform 4s ease-in;
+
+position: absolute;
+bottom:50px;
+transform: translateY(-300px);
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+}
+
+.ac-image-move{
+  transform: translateY(0px) scale(.8);
+  }
+  
+
+  .airplane {
+    position: absolute;
+    top:600px;
+    left:-200px;
+    transition: transform 5s ease-in;
+    font-size: 95px;
+    z-index: 55;
+
+
+  }
+
+  .fly{
+    transform: translate(600px, -600px);
+  }
+
+
+
+
+
+
+.ac-image img{
+  width:350px;
+  margin: 0 auto;
+
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+
+.air-canada-logo {
+  font-family: 'Montserrat', 'Futura', 'Helvetica Neue', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.4em;
+  color: rgb(252, 16, 1);
+  min-height:19px;
+
+}
+
+.hide-ac-board{
+  display: none;
+}
+

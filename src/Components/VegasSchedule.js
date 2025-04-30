@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/JurassicSchedule.css";
+import "../Stylesheets/VegasSchedule.css";
 import schedule from "../Schedule";
 
-export default function JurassicSchedule({ day, animationDelay = 1000, animationInterval = 400 }) {
+export default function VegasSchedule({ day, animationDelay = 1000, animationInterval = 300 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
@@ -23,18 +23,18 @@ export default function JurassicSchedule({ day, animationDelay = 1000, animation
   };
 
   return (
-    <div className="jurassic-wrapper">
-      <h3 className="jurassic-title">{day.toUpperCase()}</h3>
-      <div className="jurassic-grid">
+    <div className="vegas-wrapper">
+      <h1 className="vegas-title">{day.toUpperCase()}</h1>
+      <div className="vegas-grid">
         {schedule[day]?.map((cls, idx) =>
           visibleArray.includes(idx) ? (
             <div
-              className="jurassic-card"
+              className="vegas-card"
               key={idx}
               style={{ animationDelay: `${idx * animationInterval}ms` }}
             >
-              <span className="jurassic-class">{cls.name}</span>
-              <span className="jurassic-time">{formatTime(cls.start)}</span>
+              <span className="vegas-class">{cls.name}</span>
+              <span className="vegas-time">{formatTime(cls.start)}</span>
             </div>
           ) : null
         )}
