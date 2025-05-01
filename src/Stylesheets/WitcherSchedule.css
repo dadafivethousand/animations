@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap');
+
+.witcher-wrapper {
+  min-height: 100vh;
+  background: url('https://www.transparenttextures.com/patterns/old-wall.png'), #1c1a16;
+  background-blend-mode: multiply;
+  font-family: 'Cinzel', serif;
+  padding: 50px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.witcher-title {
+  font-size: 2.8rem;
+  color: #f3e6c8;
+  letter-spacing: 5px;
+  margin-bottom: 40px;
+  text-shadow: 0 0 8px #c49b38, 0 0 20px #000;
+}
+
+.witcher-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 25px;
+  width: 100%;
+  max-width: 800px;
+}
+
+.witcher-card {
+  background: rgba(243, 230, 200, 0.06);
+  border: 2px solid #c49b38;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(196, 155, 56, 0.3);
+  clip-path: polygon(5% 0%, 95% 0%, 100% 15%, 100% 85%, 95% 100%, 5% 100%, 0% 85%, 0% 15%);
+  color: #f8e8c0;
+  text-align: center;
+  transform: scale(0.9) translateY(20px);
+  opacity: 0;
+  animation: fadeInRune 0.5s ease-out forwards;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+@keyframes fadeInRune {
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+.witcher-card:hover {
+  background: rgba(243, 230, 200, 0.12);
+  box-shadow:
+    0 0 30px #c49b38,
+    inset 0 0 12px #c49b38;
+  transform: scale(1.02);
+  transition: all 0.3s ease;
+}
+
+.witcher-class {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #ffecc1;
+  text-transform: uppercase;
+}
+
+.witcher-time {
+  font-size: 1.1rem;
+ 
+  color: #f1c87b;
+}

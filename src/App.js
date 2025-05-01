@@ -16,12 +16,13 @@ import DiorSchedule from "./Components/DiorSchedule";
 import XboxSchedule from "./Components/XboxSchedule";
 import NasaSchedule from "./Components/NasaSchedule";
 import AnonymousSchedule from "./Components/AnonymousSchedule";
- 
+import WitcherSchedule from "./Components/WitcherSchedule";
+  
    
  function App() {
   return (
     <>
-    < AnonymousSchedule day="Thursday" />
+    < WitcherSchedule day="Thursday" />
    </>
   );
 }
