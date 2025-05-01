@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../Stylesheets/AnonymousSchedule.css";
 import schedule from "../Schedule";
 
-export default function AnonymousSchedule({ day, animationDelay = 1400, animationInterval = 150 }) {
+export default function AnonymousSchedule({ day, animationDelay = 3400, animationInterval = 150 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
