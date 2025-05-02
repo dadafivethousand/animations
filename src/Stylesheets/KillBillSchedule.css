@@ -7,32 +7,41 @@
   padding: 60px 20px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
+}
+
+.killbill-outer-wrapper {
+    background: rgb(253, 212, 29);
+    padding-top:50px;
 }
 
 .killbill-title {
-  font-size: 3rem;
+  font-size: 2.5rem;
   color: black;
   background: #f5e042;
   padding: 10px 20px;
-  box-shadow: 0 0 0 10px #000;
   letter-spacing: 3px;
-  margin-bottom: 40px;
+  margin: 0px auto;
   text-transform: uppercase;
+  border:10px solid black;
+  width:63vw;
 }
 
 .killbill-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 10px;
-  width: 100%;
-  max-width: 900px;
+  width: 10px;
+ 
+  position: relative;
+  left:-150px;
 }
 
 .killbill-card {
   background: #000;
   border-left: 6px solid red;
-  padding: 15px;
+  padding: 5px 20px;
+ 
   color: #f5e042;
   transform: scale(0.9) rotate(-2deg);
   opacity: 0;
@@ -40,6 +49,7 @@
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
   z-index:3
 }
@@ -61,24 +71,26 @@
 }
 
 .killbill-class {
-  font-size: 1.5rem;
+  font-size: 1.7rem;
   font-weight: bold;
   text-transform: uppercase;
   color: #f5e042;
+ 
 }
 
 .killbill-time {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   color: #fff;
   margin-top: 5px;
 }
 
 .killbill{
-    width:100vw;
+    width:160vw;
     position: absolute;
     bottom: 0;
     opacity: 0;
     transition: opacity 3s ease-in;
+    left:-190px
 }
 
 .killbill-show{

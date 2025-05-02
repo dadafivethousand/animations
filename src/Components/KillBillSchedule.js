@@ -31,8 +31,10 @@ export default function KillBillSchedule({ day, animationDelay = 2300, animation
   };
 
   return (
+    <div className="killbill-outer-wrapper">
+    <h3 className="killbill-title">{day.toUpperCase()}</h3>
     <div className="killbill-wrapper">
-      <h3 className="killbill-title">{day.toUpperCase()}</h3>
+   
       <div className="killbill-grid">
         {(schedule[day] || []).map((cls, idx) =>
           visibleArray.includes(idx) ? (
@@ -45,5 +47,7 @@ export default function KillBillSchedule({ day, animationDelay = 2300, animation
       </div>
       <img className={`killbill ${showImage? 'killbill-show' : ''}`} src={uma}/>
     </div>
+    </div>
+
   );
 }
