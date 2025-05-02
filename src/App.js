@@ -23,7 +23,7 @@ import SixNineSchedule from "./Components/SixNineSchedule";
  function App() {
   return (
     <>
-    < SixNineSchedule day="Thursday" />
+    < WitcherSchedule day="Thursday" />
    </>
   );
 }
