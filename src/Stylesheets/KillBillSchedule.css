@@ -16,15 +16,17 @@
 }
 
 .killbill-title {
-  font-size: 2.5rem;
+  font-size: 3rem;
   color: black;
   background: #f5e042;
-  padding: 10px 20px;
+  padding: 10px 10px;
   letter-spacing: 3px;
   margin: 0px auto;
   text-transform: uppercase;
   border:10px solid black;
   width:63vw;
+  font-family: 'Staatliches', sans-serif;
+  text-align: center;
 }
 
 .killbill-grid {
