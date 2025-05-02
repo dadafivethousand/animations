@@ -1,86 +1,91 @@
-/* 🎨 6ix9ine Rainbow Mayhem Vibe */
+@import url('https://fonts.googleapis.com/css2?family=Rubik+80s+Fade&display=swap');
 
-@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
-
-.sixnine-container {
-  height: 100vh;
-  width: 100vw;
-  background: linear-gradient(135deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #8b00ff);
-  background-size: 600% 600%;
-  animation: pulseBG 2s ease infinite;
+.sixnine-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00, #ff0000, #00ff00, #0000ff);
+  background-size: 1000% 1000%;
+  animation: tekashiBG 12s linear infinite;
+  font-family: 'Rubik 80s Fade', cursive;
+  padding: 60px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 70px;
-  overflow-x: hidden;
-  font-family: 'Bangers', cursive;
 }
 
-@keyframes pulseBG {
+@keyframes tekashiBG {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
-.sixnine-header {
-  text-align: center;
-  padding: 20px;
-  border-bottom: 4px dashed white;
-  animation: flicker 2s infinite;
-}
-
-.sixnine-day {
+.sixnine-title {
   font-size: 4rem;
   color: white;
-  letter-spacing: 4px;
-  text-shadow: 2px 2px 5px black, 0px 0px 15px #fff;
+  text-shadow: 0 0 10px #ff00ff, 0 0 40px #ff0099, 0 0 60px #00ffff;
+  letter-spacing: 5px;
+  margin-bottom: 40px;
+  text-transform: uppercase;
 }
 
-@keyframes flicker {
-  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+.sixnine-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 24px;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.sixnine-card {
+  background: #000;
+  color: #fff;
+  border: 3px solid #fff;
+  border-radius: 18px;
+  padding: 24px;
+  transform: rotateZ(-2deg) scale(0.8);
+  opacity: 0;
+  text-align: center;
+  box-shadow:
+    0 0 30px #ff00ff88,
+    0 0 60px #ff009944,
+    inset 0 0 12px #ff33ff55;
+  animation: bounceIn 0.6s ease-out forwards;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0) rotate(-20deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.1) rotate(5deg);
     opacity: 1;
   }
-  20%, 24%, 55% {
-    opacity: 0.4;
+  100% {
+    transform: scale(1) rotate(-2deg);
+    opacity: 1;
   }
 }
 
-.sixnine-schedule {
-  margin-top: 30px;
-  width: 85%;
-  max-width: 800px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.sixnine-card:hover {
+  background: #ffffff;
+  color: #000;
+  transform: scale(1.08) rotate(0deg);
+  box-shadow:
+    0 0 50px #ff00ff,
+    0 0 90px #00ffff,
+    inset 0 0 20px #ffccff;
 }
 
 .sixnine-class {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.95);
-  border: 4px solid;
-  border-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet) 1;
-  padding: 18px 25px;
-  border-radius: 12px;
-  font-size: 1.3rem;
-  color: black;
-  text-transform: uppercase;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-  transform: scale(1);
-  transition: transform 0.2s ease-in-out;
-}
-
-.sixnine-class:hover {
-  transform: scale(1.08) rotate(-1deg);
-  background-color: #fff600;
-  color: #111;
-}
-
-.sixnine-class-name {
+  font-size: 1.5rem;
   font-weight: bold;
+  color: #ff00ff;
+  text-shadow: 0 0 3px #fff;
 }
 
-.sixnine-class-time {
-  font-style: italic;
+.sixnine-time {
+  font-size: 1.2rem;
+  color: #00ffcc;
+  margin-top: 6px;
 }

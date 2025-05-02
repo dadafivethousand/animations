@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../Stylesheets/WitcherSchedule.css";
 import schedule from "../Schedule";
 
-export default function WitcherSchedule({ day, animationDelay = 400, animationInterval = 200 }) {
+export default function WitcherSchedule({ day, animationDelay = 2000, animationInterval = 400 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {

@@ -17,12 +17,13 @@ import XboxSchedule from "./Components/XboxSchedule";
 import NasaSchedule from "./Components/NasaSchedule";
 import AnonymousSchedule from "./Components/AnonymousSchedule";
 import WitcherSchedule from "./Components/WitcherSchedule";
+import SixNineSchedule from "./Components/SixNineSchedule";
   
    
  function App() {
   return (
     <>
-    < WitcherSchedule day="Thursday" />
+    < SixNineSchedule day="Thursday" />
    </>
   );
 }
