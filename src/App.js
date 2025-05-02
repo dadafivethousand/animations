@@ -18,12 +18,13 @@ import NasaSchedule from "./Components/NasaSchedule";
 import AnonymousSchedule from "./Components/AnonymousSchedule";
 import WitcherSchedule from "./Components/WitcherSchedule";
 import SixNineSchedule from "./Components/SixNineSchedule";
+import KillBillSchedule from "./Components/KillBillSchedule";
   
    
  function App() {
   return (
     <>
-    < WitcherSchedule day="Friday" />
+    < KillBillSchedule day="Saturday" />
    </>
   );
 }
