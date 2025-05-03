@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../Stylesheets/GladiatorSchedule.css";
 import schedule from "../Schedule";
 
-export default function GladiatorSchedule({ day, animationDelay = 300, animationInterval = 150 }) {
+export default function GladiatorSchedule({ day, animationDelay = 1300, animationInterval = 150 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
