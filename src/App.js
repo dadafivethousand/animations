@@ -19,12 +19,14 @@ import AnonymousSchedule from "./Components/AnonymousSchedule";
 import WitcherSchedule from "./Components/WitcherSchedule";
 import SixNineSchedule from "./Components/SixNineSchedule";
 import KillBillSchedule from "./Components/KillBillSchedule";
+import GigaChadSchedule from "./Components/GigaChadSchedule"
+import GladiatorSchedule from "./Components/GladiatorSchedule";
   
    
  function App() {
   return (
     <>
-    < KillBillSchedule day="Saturday" />
+    < GladiatorSchedule day="Sunday" />
    </>
   );
 }
