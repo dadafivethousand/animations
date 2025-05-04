@@ -2,76 +2,72 @@
 
 .ferrari-wrapper {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #2b0000, #000000);
+  background-color: rgb(255, 204, 0); /* Ferrari yellow */
   font-family: 'Orbitron', sans-serif;
-  padding: 40px 16px;
+  padding: 70px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-x: hidden;
+  position: relative;
+}
+
+.stripe-bar {
+  width: 100%;
+  height: 15px;
+  background: linear-gradient(to right, #009A4E 33%, white 33% 66%, #ED1C24 66% 100%);
+  margin-bottom: 20px;
 }
 
 .ferrari-title {
-  font-size: 2.7rem;
-  color: #ff0000;
-  letter-spacing: 6px;
-  margin-bottom: 30px;
-  text-shadow:
-    0 0 4px #ff1a1a,
-    0 0 12px #ff6600;
+  font-size: 2.8rem;
+  color: black;
+  text-shadow: 1px 1px #fff;
+  margin-bottom: 40px;
+  letter-spacing: 4px;
 }
 
 .ferrari-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 5px;
   width: 100%;
-  max-width: 500px;
+  max-width: 900px;
 }
 
 .ferrari-card {
-  background: linear-gradient(145deg, #3c0000 0%, #550000 100%);
-  border-left: 6px solid #ff0000;
-  border-right: 6px solid #ff0000;
-  padding: 18px 24px;
+  background: linear-gradient(145deg, #3a3a3a, #2a2a2a);
+  border: 2px solid #b70000;
+  color: #fff;
   border-radius: 12px;
-  box-shadow:
-    0 0 20px rgba(255, 0, 0, 0.5),
-    inset 0 0 10px rgba(255, 50, 0, 0.4);
-  color: white;
-  animation: flashIn 0.5s ease-out forwards;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   opacity: 0;
-  transform: scale(0.8) translateY(30px);
-  position: relative;
-  overflow: hidden;
+  transform: translateY(30px);
+  animation: slideIn 0.4s ease-out forwards;
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
-@keyframes flashIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.6) translateY(60px) rotateX(30deg);
-  }
-  60% {
+.ferrari-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+}
+
+@keyframes slideIn {
+  to {
     opacity: 1;
-    transform: scale(1.05) translateY(-8px);
-  }
-  100% {
-    transform: scale(1) translateY(0);
-    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 .ferrari-class {
   font-size: 1.3rem;
-  color: #ffcccc;
-  letter-spacing: 1px;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .ferrari-time {
   font-size: 1.1rem;
-  color: #ff6666;
+  color: #ffb3b3;
 }

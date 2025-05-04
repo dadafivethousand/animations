@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/FerrariSchedule.css";
+import "../Stylesheets/KillBillSchedule.css";
 import schedule from "../Schedule";
 
-export default function FerrariSchedule({ day, animationDelay = 2000, animationInterval = 150 }) {
+export default function KillBillSchedule({ day, animationDelay = 300, animationInterval = 150 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
     const entries = schedule[day] || [];
     entries.forEach((_, idx) => {
       setTimeout(() => {
-        setVisibleArray((prev) => [...prev, idx]);
+        setVisibleArray(prev => [...prev, idx]);
       }, animationDelay + idx * animationInterval);
     });
   }, [day, animationDelay, animationInterval]);
@@ -23,15 +23,14 @@ export default function FerrariSchedule({ day, animationDelay = 2000, animationI
   };
 
   return (
-    <div className="ferrari-wrapper">
-      <div className="stripe-bar" />
-      <h3 className="ferrari-title">{day.toUpperCase()}</h3>
-      <div className="ferrari-grid">
+    <div className="killbill-wrapper">
+      <h3 className="killbill-title">{day.toUpperCase()}</h3>
+      <div className="killbill-grid">
         {(schedule[day] || []).map((cls, idx) =>
           visibleArray.includes(idx) ? (
-            <div className="ferrari-card" key={idx}>
-              <span className="ferrari-class">{cls.name}</span>
-              <span className="ferrari-time">{formatTime(cls.start)}</span>
+            <div className="killbill-card" key={idx}>
+              <span className="killbill-class">{cls.name}</span>
+              <span className="killbill-time">{formatTime(cls.start)}</span>
             </div>
           ) : null
         )}

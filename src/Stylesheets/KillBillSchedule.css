@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
+
+.killbill-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #f5e042 0%, #f5e042 90%, #000000 100%);
+  font-family: 'Staatliches', sans-serif;
+  padding: 60px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.killbill-title {
+  font-size: 3rem;
+  color: black;
+  background: #f5e042;
+  padding: 10px 20px;
+  box-shadow: 0 0 0 10px #000;
+  letter-spacing: 3px;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+}
+
+.killbill-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 24px;
+  width: 100%;
+  max-width: 900px;
+}
+
+.killbill-card {
+  background: #000;
+  border-left: 6px solid red;
+  padding: 20px;
+  color: #f5e042;
+  transform: scale(0.9) rotate(-1deg);
+  opacity: 0;
+  animation: slashIn 0.5s ease-out forwards;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.killbill-card:hover {
+  transform: scale(1.05) rotate(1deg);
+  box-shadow: 0 0 20px #ff0000cc;
+}
+
+@keyframes slashIn {
+  from {
+    opacity: 0;
+    transform: translateX(-60px) rotate(-10deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) rotate(-1deg);
+  }
+}
+
+.killbill-class {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #f5e042;
+}
+
+.killbill-time {
+  font-size: 1.2rem;
+  color: #fff;
+  margin-top: 5px;
+}
