@@ -18,14 +18,24 @@ import NasaSchedule from "./Components/NasaSchedule";
 import AnonymousSchedule from "./Components/AnonymousSchedule";
 import WitcherSchedule from "./Components/WitcherSchedule";
 import SixNineSchedule from "./Components/SixNineSchedule";
+<<<<<<< HEAD
 import KanyeSchedule from "./Components/KanyeSchedule";
 import KillBillSchedule from "./Components/KillBillSchedule";
+=======
+import KillBillSchedule from "./Components/KillBillSchedule";
+import GigaChadSchedule from "./Components/GigaChadSchedule"
+import GladiatorSchedule from "./Components/GladiatorSchedule";
+>>>>>>> 55eee1f72d40c8620bab47d864780de0e6d33879
   
    
  function App() {
   return (
     <>
+<<<<<<< HEAD
     < FerrariSchedule day="Friday" />
+=======
+    < GladiatorSchedule day="Sunday" />
+>>>>>>> 55eee1f72d40c8620bab47d864780de0e6d33879
    </>
   );
 }

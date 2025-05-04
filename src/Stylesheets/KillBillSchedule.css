@@ -2,43 +2,89 @@
 
 .killbill-wrapper {
   min-height: 100vh;
+<<<<<<< HEAD
   background: linear-gradient(to bottom, #f5e042 0%, #f5e042 90%, #000000 100%);
+=======
+  background: rgb(253, 212, 29);
+>>>>>>> 55eee1f72d40c8620bab47d864780de0e6d33879
   font-family: 'Staatliches', sans-serif;
   padding: 60px 20px;
   display: flex;
   flex-direction: column;
+<<<<<<< HEAD
   align-items: center;
+=======
+  align-items: flex-end;
+}
+
+.killbill-outer-wrapper {
+    background: rgb(253, 212, 29);
+    padding-top:50px;
+>>>>>>> 55eee1f72d40c8620bab47d864780de0e6d33879
 }
 
 .killbill-title {
   font-size: 3rem;
   color: black;
   background: #f5e042;
+<<<<<<< HEAD
   padding: 10px 20px;
   box-shadow: 0 0 0 10px #000;
   letter-spacing: 3px;
   margin-bottom: 40px;
   text-transform: uppercase;
+=======
+  padding: 10px 10px;
+  letter-spacing: 3px;
+  margin: 0px auto;
+  text-transform: uppercase;
+  border:10px solid black;
+  width:63vw;
+  font-family: 'Staatliches', sans-serif;
+  text-align: center;
+>>>>>>> 55eee1f72d40c8620bab47d864780de0e6d33879
 }
 
 .killbill-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+<<<<<<< HEAD
   gap: 24px;
   width: 100%;
   max-width: 900px;
+=======
+  gap: 10px;
+  width: 10px;
+ 
+  position: relative;
+  left:-150px;
+>>>>>>> 55eee1f72d40c8620bab47d864780de0e6d33879
 }
 
 .killbill-card {
   background: #000;
   border-left: 6px solid red;
+<<<<<<< HEAD
   padding: 20px;
   color: #f5e042;
   transform: scale(0.9) rotate(-1deg);
+=======
+  padding: 5px 20px;
+ 
+  color: #f5e042;
+  transform: scale(0.9) rotate(-2deg);
+>>>>>>> 55eee1f72d40c8620bab47d864780de0e6d33879
   opacity: 0;
   animation: slashIn 0.5s ease-out forwards;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+<<<<<<< HEAD
+=======
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  z-index:3
+>>>>>>> 55eee1f72d40c8620bab47d864780de0e6d33879
 }
 
 .killbill-card:hover {
@@ -58,6 +104,7 @@
 }
 
 .killbill-class {
+<<<<<<< HEAD
   font-size: 1.5rem;
   font-weight: bold;
   text-transform: uppercase;
@@ -69,3 +116,30 @@
   color: #fff;
   margin-top: 5px;
 }
+=======
+  font-size: 1.7rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #f5e042;
+ 
+}
+
+.killbill-time {
+  font-size: 1.4rem;
+  color: #fff;
+  margin-top: 5px;
+}
+
+.killbill{
+    width:160vw;
+    position: absolute;
+    bottom: 0;
+    opacity: 0;
+    transition: opacity 3s ease-in;
+    left:-190px
+}
+
+.killbill-show{
+    opacity: 1;
+}
+>>>>>>> 55eee1f72d40c8620bab47d864780de0e6d33879
