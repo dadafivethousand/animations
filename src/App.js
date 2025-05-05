@@ -8,12 +8,13 @@ import CsgoSchedule from "./Components/CsgoSchedule";
 import TopGunSchedule from "./Components/TopGunSchedule";
 import CockpitSchedule from "./Components/CockpitSchedule";
 import ApesSchedule from "./Components/ApesSchedule";
+import ZeldaSchedule from "./Components/ZeldaSchedule";
  
 
 function App() {
   return (
     <>
-      <ApesSchedule day="Tuesday" />
+      <ZeldaSchedule day="Tuesday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

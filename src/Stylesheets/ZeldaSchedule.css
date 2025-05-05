@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Uncial+Antiqua&display=swap');
+
+.zelda-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #ffffff, #0f0e0c);
+  background-image: url("https://www.transparenttextures.com/patterns/parchment.png");
+  font-family: 'Uncial Antiqua', cursive;
+  padding: 50px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #e8d8a0;
+}
+
+.zelda-day {
+  font-size: 2.2rem;
+  letter-spacing: 2px;
+  color: #d4b866;
+  text-shadow: 0 0 10px #ffd700;
+  margin-bottom: 30px;
+  margin-top: 20px;
+}
+
+.zelda-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 10px;
+  width: 100%;
+  max-width: 900px;
+}
+
+.zelda-card {
+  background: rgba(48, 36, 20, 0.9);
+  border: 2px solid #c9a642;
+  border-radius: 12px;
+  padding: 15px 20px;
+  box-shadow:
+    0 0 10px rgba(255, 215, 0, 0.4),
+    inset 0 0 8px rgba(255, 255, 255, 0.1);
+  animation: riseIn 0.5s ease forwards;
+  opacity: 0;
+  transform: translateY(20px);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+@keyframes riseIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.zelda-class {
+  font-size: 1.4rem;
+   color: #fff2c0;
+}
+
+.zelda-time {
+  font-size: 1.1rem;
+  color: #ffed95;
+}
+
+
+.zelda-wrapper {
+    min-height: 100vh;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Uncial Antiqua', cursive;
+    color: #e8d8a0;
+  
+    background-color: #1a140d;
+    background-image: 
+      url('https://www.transparenttextures.com/patterns/parchment.png'),
+      radial-gradient(circle at top, #4a3b1e 0%, #1a140d 100%);
+    background-blend-mode: overlay;
+    background-size: cover;
+  }
+  
