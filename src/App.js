@@ -14,7 +14,7 @@ import ZeldaSchedule from "./Components/ZeldaSchedule";
 function App() {
   return (
     <>
-      <ZeldaSchedule day="Tuesday" />
+      <ZeldaSchedule day="Wednesday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
