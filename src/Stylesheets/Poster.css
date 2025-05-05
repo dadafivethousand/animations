@@ -1,0 +1,75 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;600&display=swap');
+
+.poster-container {
+  position: relative;
+  width: 700px;
+  margin: 40px auto;
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+}
+
+.poster-image {
+  width: 100%;
+  filter: brightness(75%);
+  display: block;
+  border-radius: 12px;
+}
+
+.poster-text {
+  position: absolute;
+  top: 10%;
+  left: 5%;
+  right: 5%;
+  color: white;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height:77vh
+}
+
+.poster-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 52px;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.poster-name {
+  font-size: 30px;
+  font-weight: 600;
+  margin-bottom: 20px;
+ 
+}
+
+.poster-accomplishments {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.poster-accomplishments li {
+  font-size: 18px;
+  font-weight: 300;
+  margin-bottom: 6px;
+  border-left: 4px solid white;
+  padding-left: 12px;
+}
+
+.name-and-accomplishments{
+    align-self: flex-end;
+    background-color: rgba(0, 0, 0, 0.847);
+    padding: 20px;
+    border-radius: 20px;
+}
+.poster-datetime p {
+    font-size: 18px;
+    font-weight: 400;
+    margin: 0;
+    line-height: 1.4;
+  }
+  
