@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+.csgo-wrapper {
+  background: #111 url('https://www.transparenttextures.com/patterns/asfalt-dark.png') repeat;
+  color: #d4d4d4;
+  font-family: 'Share Tech Mono', monospace;
+  min-height: 100vh;
+  padding: 60px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.csgo-title {
+  font-size: 2.5rem;
+  color: #00ffae;
+  text-shadow: 0 0 10px #00ffae;
+  margin-bottom: 30px;
+}
+
+.csgo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  width: 100%;
+  max-width: 900px;
+}
+
+.csgo-card {
+  background: linear-gradient(135deg, #262626, #1a1a1a);
+  border: 2px solid #3a3a3a;
+  border-radius: 8px;
+  box-shadow: 0 0 12px rgba(0,255,174,0.2);
+  padding: 18px 22px;
+  display: flex;
+ align-items: center;
+  justify-content: space-between;
+  animation: crateDrop 0.4s ease forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@keyframes crateDrop {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.csgo-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+ 
+  color: #fff;
+}
+
+.csgo-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.csgo-time {
+  font-size: 1rem;
+  color: #9fefef;
+}
+
+.csgo-cash {
+  font-size: 1rem;
+  background-color: #00ffae;
+  color: #000;
+  padding: 4px 8px;
+  border-radius: 4px;
+}

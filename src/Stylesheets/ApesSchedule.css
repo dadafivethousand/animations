@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+
+.apes-wrapper {
+  min-height: 100vh;
+  padding: 60px 20px;
+  font-family: 'Special Elite', cursive;
+  background: linear-gradient(to bottom, #1e1b17, #0f0e0c);
+  background-image: url('https://www.transparenttextures.com/patterns/dark-wood.png');
+  background-blend-mode: overlay;
+  color: #e3d6b0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.apes-day {
+  font-size: 3rem;
+  color: #c9b382;
+  text-shadow: 0 0 6px #000;
+  margin-bottom: 30px;
+  letter-spacing: 2px;
+}
+
+.apes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 10px;
+  width: 100%;
+  max-width: 900px;
+}
+
+.apes-card {
+  background: linear-gradient(145deg, #2e2a24, #1a1815);
+  border: 2px solid #786447;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow:
+    inset 0 0 10px rgba(0, 0, 0, 0.4),
+    0 0 10px rgba(120, 100, 71, 0.5);
+  animation: fadeUp 0.4s ease forwards;
+  opacity: 0;
+  transform: translateY(20px);
+  display: flex;
+  justify-content: space-between;
+  align-self: center;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.apes-class {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #f1e9d2;
+ 
+}
+
+.apes-time {
+  font-size: 1rem;
+  color: #d8c89f;
+}
