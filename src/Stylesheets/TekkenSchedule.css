@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+.tekken-wrapper {
+  min-height: 100vh;
+  background: radial-gradient(ellipse at center, #100000 0%, #000000 100%);
+  background-image: url('../Images/wallpapersden.com_tekken-7-game_1920x1200.jpg');
+  font-family: 'Bebas Neue', sans-serif;
+  padding: 60px 20px;
+  color: #ffdfcc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tekken-day {
+  font-size: 2.8rem;
+  color: linear-gradient(135deg, #2a0000, #3f1e1e);
+  text-shadow: 0 0 12px #ff6a00, 0 0 24px #ff0000;
+  margin-bottom: 15px;
+  letter-spacing: 4px;
+}
+
+.tekken-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 10px;
+  max-width: 900px;
+  width: 100%;
+}
+
+.tekken-card {
+  background: linear-gradient(135deg, #2a0000, #3f1e1e);
+  border: 2px solid #ff6a00;
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow:
+    0 0 15px rgba(255, 60, 0, 0.6),
+    inset 0 0 8px rgba(255, 150, 0, 0.3);
+  animation: entryPulse 0.5s ease-out forwards;
+  opacity: 0;
+  transform: translateY(20px);
+  display:flex;
+  justify-content: space-around;
+}
+
+@keyframes entryPulse {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tekken-class {
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  color: #ffe6d9;
+  text-shadow: 1px 1px 2px #000;
+}
+
+.tekken-time {
+  font-size: 1.1rem;
+  color: #ffc199;
+  text-shadow: 0 0 4px #a50000;
+}

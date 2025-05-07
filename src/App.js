@@ -9,12 +9,15 @@ import TopGunSchedule from "./Components/TopGunSchedule";
 import CockpitSchedule from "./Components/CockpitSchedule";
 import ApesSchedule from "./Components/ApesSchedule";
 import ZeldaSchedule from "./Components/ZeldaSchedule";
- 
+ import FlappySchedule from "./Components/FlappySchedule";
+import TekkenSchedule from "./Components/TekkenSchedule";
+
+  
 
 function App() {
   return (
     <>
-      <ZeldaSchedule day="Wednesday" />
+      <TekkenSchedule day="Wednesday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

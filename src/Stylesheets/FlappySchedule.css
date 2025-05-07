@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.flappy-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #87CEEB, #d0f4ff);
+  font-family: 'Press Start 2P', cursive;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.flappy-day {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: #fff;
+  text-shadow: 2px 2px #444;
+}
+
+.flappy-pipe-track {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+}
+
+.flappy-card {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: bounceIn 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes bounceIn {
+  from {
+    transform: translateX(-50%) scale(0.5);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
+}
+
+.flappy-pipe-top,
+.flappy-pipe-bottom {
+  width: 80%;
+  height: 20px;
+  background: #228B22;
+  border: 4px solid #006400;
+  border-radius: 4px;
+}
+
+.flappy-info {
+  background: #fff;
+  border: 3px solid #222;
+  padding: 12px 10px;
+  border-radius: 8px;
+  margin: 3px 0;
+  box-shadow: 3px 3px #555;
+  width: 100%;
+  text-align: center;
+}
+
+.flappy-class {
+  font-size: 0.6rem;
+  color: #000;
+}
+
+.flappy-time {
+  font-size: 0.6rem;
+  color: #555;
+}
