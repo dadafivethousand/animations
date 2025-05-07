@@ -24,6 +24,7 @@ export default function TekkenSchedule({ day, animationDelay = 1000, animationIn
 
   return (
     <div className="tekken-wrapper">
+        <div className="tekken-background-image"> </div>
       <h2 className="tekken-day">{day.toUpperCase()}</h2>
       <div className="tekken-grid">
         {(schedule[day] || []).map((cls, idx) =>

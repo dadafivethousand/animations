@@ -3,14 +3,39 @@
 .tekken-wrapper {
   min-height: 100vh;
   background: radial-gradient(ellipse at center, #100000 0%, #000000 100%);
-  background-image: url('../Images/wallpapersden.com_tekken-7-game_1920x1200.jpg');
-  font-family: 'Bebas Neue', sans-serif;
+   font-family: 'Bebas Neue', sans-serif;
   padding: 60px 20px;
   color: #ffdfcc;
   display: flex;
   flex-direction: column;
   align-items: center;
+
 }
+
+.tekken-background-image{
+    height:200vh;
+width:200vw;
+    background-image: url('../Images/wallpapersden.com_tekken-7-game_1920x1200.jpg');
+    
+    animation: moveBackground 20s ease-in-out infinite;
+    position:absolute;
+    top:-30px
+
+}
+@keyframes moveBackground {
+    0%   { transform: translate(0px, 0px); }
+    10%  { transform: translate(-2px, -2px); }
+    20%  { transform: translate(-4px, -4px); }
+    30%  { transform: translate(-6px, -6px); }
+    40%  { transform: translate(-8px, -8px); }
+    50%  { transform: translate(-10px, -10px); }
+    60%  { transform: translate(-8px, -8px); }
+    70%  { transform: translate(-6px, -6px); }
+    80%  { transform: translate(-4px, -4px); }
+    90%  { transform: translate(-2px, -2px); }
+    100% { transform: translate(0px, 0px); }
+  }
+  
 
 .tekken-day {
   font-size: 2.8rem;
@@ -18,6 +43,7 @@
   text-shadow: 0 0 12px #ff6a00, 0 0 24px #ff0000;
   margin-bottom: 15px;
   letter-spacing: 4px;
+  z-index: 5;
 }
 
 .tekken-grid {
@@ -63,3 +89,5 @@
   color: #ffc199;
   text-shadow: 0 0 4px #a50000;
 }
+
+
