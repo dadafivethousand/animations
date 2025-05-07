@@ -19,8 +19,8 @@ width:200vw;
     
     animation: moveBackground 20s ease-in-out infinite;
     position:absolute;
-    top:-30px
-
+    top:-30px;
+    background-size: contain;
 }
 @keyframes moveBackground {
     0%   { transform: translate(0px, 0px); }
