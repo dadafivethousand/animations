@@ -41,6 +41,7 @@
   transform: translateY(20px);
   display:flex;
   justify-content: space-around;
+  align-items: center;
 }
 
 @keyframes entryPulse {
@@ -58,7 +59,7 @@
 }
 
 .tekken-time {
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   color: #ffc199;
   text-shadow: 0 0 4px #a50000;
 }
