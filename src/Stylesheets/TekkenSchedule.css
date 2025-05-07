@@ -32,7 +32,7 @@
   background: linear-gradient(135deg, #2a0000, #3f1e1e);
   border: 2px solid #ff6a00;
   border-radius: 12px;
-  padding: 10px;
+  padding: 10px 25px;
   box-shadow:
     0 0 15px rgba(255, 60, 0, 0.6),
     inset 0 0 8px rgba(255, 150, 0, 0.3);
@@ -40,7 +40,7 @@
   opacity: 0;
   transform: translateY(20px);
   display:flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
 }
 
