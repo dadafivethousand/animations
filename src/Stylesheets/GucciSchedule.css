@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600&display=swap');
+
+.gucci-wrapper {
+  min-height: 100vh;
+  background-image: url("../Images/vecteezy_gucci-logo-brand-background-symbol-design-clothes-fashion_23871178.jpg");
+  background-size: contain;
+  background-position: left;
+  font-family: 'Cinzel', serif;
+  color: #e5e0d8;
+  padding: 50px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow-x: hidden;
+}
+
+ 
+
+.gucci-day {
+  font-size: 2.8rem;
+  letter-spacing: 4px;
+  color: white;
+  margin-bottom: 30px;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.08);
+  z-index: 2;
+  font-weight: 800;
+  background-color: #0d3c24;
+  width:100vw;
+  text-align: center;
+  border: 5px solid #c3092d;
+}
+
+.gucci-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+  width: 100%;
+  max-width: 900px;
+  z-index: 2;
+}
+
+.gucci-card {
+  background: #0d3c24;
+  border: 5px solid #c3092d;
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(195, 9, 45, 0.4);
+  transition: transform 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.gucci-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px rgba(23, 104, 44, 0.5);
+}
+
+.gucci-class {
+  font-size: 1.4rem;
+  display: block;
+  color: #f7f1e7;
+ 
+}
+
+.gucci-time {
+  font-size: 1.2rem;
+  color: #c4b8a8;
+}
+ 
