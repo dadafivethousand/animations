@@ -19,7 +19,7 @@
   color: #ff0055;
   text-shadow: 2px 2px 0 #000, -2px -2px 0 #000;
   margin-bottom: 30px;
-  filter: drop-shadow(0 0 8px #ff0055);
+  filter: drop-shadow(0 0 4px #ff0055);
 }
 
 .graffiti-grid {
