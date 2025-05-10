@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap');
+
+.graffiti-wrapper {
+  background-image: url('https://www.transparenttextures.com/patterns/brick-wall.png');
+  background-color: #2a2a2a;
+  background-size: contain;
+  min-height: 100vh;
+  padding: 50px 20px;
+  font-family: 'Rock Salt', cursive;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.graffiti-title {
+  font-size: 3rem;
+  color: #ff0055;
+  text-shadow: 2px 2px 0 #000, -2px -2px 0 #000;
+  margin-bottom: 30px;
+  filter: drop-shadow(0 0 8px #ff0055);
+}
+
+.graffiti-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 600px;
+  z-index: 1;
+}
+
+.graffiti-card {
+ 
+  padding: 20px 10px;
+  border-radius: 8px;
+ 
+  position: relative;
+  color: #fff;
+  transition: transform 0.3s;
+  text-shadow: 1px 1px 0 #000;
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: space-between;
+ }
+
+.graffiti-card:hover {
+  transform: scale(1.05) rotate(-1deg);
+  background-color: rgba(255, 0, 85, 0.25);
+}
+
+.graffiti-class {
+  color: #00ffcc;
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.graffiti-time {
+  color: #ffcc00;
+  font-size: 1.2rem;
+  margin-top: 5px;
+  font-weight: 600;
+}
+
+/* Spray paint drip effect */
+ 

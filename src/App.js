@@ -13,13 +13,15 @@ import ZeldaSchedule from "./Components/ZeldaSchedule";
 import TekkenSchedule from "./Components/TekkenSchedule";
 import GucciSchedule from "./Components/GucciSchedule";
 import CaptainAmericaSchedule from "./Components/CaptainAmericaSchedule"
+import AlienSchedule from "./Components/AlienSchedule"
+import GraffitiSchedule from "./Components/GraffitiSchedule";
 
   
 
 function App() {
   return (
     <>
-      <CaptainAmericaSchedule day="Saturday" />
+      <GraffitiSchedule day="Sunday" />
 
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
