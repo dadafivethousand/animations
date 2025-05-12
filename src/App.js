@@ -9,7 +9,7 @@ import DonkeyKongSchedule from "./Components/DonkeyKongSchedule";
 function App() {
   return (
     <>
-      < DonkeyKongSchedule day="Monday" />
+      < DonkeyKongSchedule day="Tuesday" />
 
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}

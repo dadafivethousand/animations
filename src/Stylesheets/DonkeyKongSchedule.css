@@ -38,6 +38,8 @@
   position: relative;
   color: #000;
   transition: transform 0.3s;
+  display:flex;
+  justify-content: space-between
 }
 
 .dk-card:hover {
@@ -48,11 +50,11 @@
 .dk-class {
   color: #228b22;
   display: block;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 .dk-time {
   color: #8b500b;
-  font-size: 1rem;
+  font-size: .8rem;
   margin-top: 5px;
 }
