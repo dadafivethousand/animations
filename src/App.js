@@ -3,13 +3,14 @@ import './Stylesheets/App.css';
  
 import InuyashaSchedule from "./Components/InuyashaSchedule"
 import DonkeyKongSchedule from "./Components/DonkeyKongSchedule";
+import BoxSchedule from "./Components/BoxSchedule";
 
   
 
 function App() {
   return (
     <>
-      < DonkeyKongSchedule day="Tuesday" />
+      < BoxSchedule day="Wednesday" />
 
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
