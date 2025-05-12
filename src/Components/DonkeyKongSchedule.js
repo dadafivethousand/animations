@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/KanyeSchedule.css";
+import "../Stylesheets/DonkeyKongSchedule.css";
 import schedule from "../Schedule";
 
-export default function KanyeSchedule({ day, animationDelay = 400, animationInterval = 180 }) {
+export default function DonkeyKongSchedule({ day, animationDelay = 1500, animationInterval = 300 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
     const entries = schedule[day] || [];
     entries.forEach((_, idx) => {
       setTimeout(() => {
-        setVisibleArray(prev => [...prev, idx]);
+        setVisibleArray((prev) => [...prev, idx]);
       }, animationDelay + idx * animationInterval);
     });
   }, [day, animationDelay, animationInterval]);
@@ -23,14 +23,14 @@ export default function KanyeSchedule({ day, animationDelay = 400, animationInte
   };
 
   return (
-    <div className="kanye-wrapper">
-      <h3 className="kanye-title">{day.toUpperCase()}</h3>
-      <div className="kanye-grid">
+    <div className="dk-wrapper">
+      <h1 className="dk-title">{day.toUpperCase()}</h1>
+      <div className="dk-grid">
         {(schedule[day] || []).map((cls, idx) =>
           visibleArray.includes(idx) ? (
-            <div className="kanye-card" key={idx}>
-              <span className="kanye-class">{cls.name}</span>
-              <span className="kanye-time">{formatTime(cls.start)}</span>
+            <div className="dk-card" key={idx}>
+              <span className="dk-class">{cls.name}</span>
+              <span className="dk-time">{formatTime(cls.start)}</span>
             </div>
           ) : null
         )}

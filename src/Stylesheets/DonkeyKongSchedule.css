@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.dk-wrapper {
+  background-color: #ffe1d0;
+  background-image: url('https://www.transparenttextures.com/patterns/brick-wall.png');
+  background-size: cover;
+  min-height: 100vh;
+  padding: 50px 20px;
+  font-family: 'Press Start 2P', cursive;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dk-title {
+  font-size: 2rem;
+  color: #ea0000;
+  text-shadow: 2px 2px #8b500b;
+  margin-bottom: 30px;
+}
+
+.dk-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.dk-card {
+  background-color: #f8c477;
+  border: 1px solid #8b500b;
+  border-left: 6px solid #8b500b;
+  padding: 15px 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(139, 80, 11, 0.5);
+  position: relative;
+  color: #000;
+  transition: transform 0.3s;
+}
+
+.dk-card:hover {
+  transform: scale(1.05);
+  background-color: #ffe1d0;
+}
+
+.dk-class {
+  color: #228b22;
+  display: block;
+  font-size: 1.2rem;
+}
+
+.dk-time {
+  color: #8b500b;
+  font-size: 1rem;
+  margin-top: 5px;
+}
