@@ -43,7 +43,7 @@ export default function DiorSchedule({ day, animationDelay = 1500, animationInte
   const triggerSpray = () => {
     const container = document.getElementById("spray-container");
     const originX = window.innerWidth / 2;
-    const originY = window.innerHeight / 3.6;
+    const originY = window.innerHeight / 3.4;
 
     for (let i = 0; i < 100; i++) {
       const dot = document.createElement("div");
