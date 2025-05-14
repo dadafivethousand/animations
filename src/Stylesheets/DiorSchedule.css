@@ -2,11 +2,11 @@
 
 .dior-wrapper {
    min-height: 100vh;
-  display: flex;
+ 
   justify-content: center;
   align-items: center;
   position: relative;
-  padding: 60px 20px;
+  padding: 60px 0px;
   background-color: #dcd5d5;
 }
 
@@ -15,11 +15,10 @@
   width: 120px;
   height: 70px;
   background-color: #1a1a1a;
+  margin: 0 auto;
  
-  position: absolute;
-  top: 97px;
-  left: 50%;
-  transform: translateX(-50%);
+ 
+ 
   z-index: 10;
    cursor: pointer;
 }
@@ -51,11 +50,13 @@
 .dior-border {
   border: 3px solid #1a1a1a;
   padding: 50px 30px;
-  max-width: 600px;
-  width: 100%;
+ 
+ 
   text-align: center;
   background: #e6cfcf;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width:75vw;
+    margin: 0 auto;
 }
 
 .dior-title {
@@ -70,13 +71,15 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
-  height:500px;
+  height:450px;
+  margin: 0 auto;
+
 }
 
 .dior-card {
   background-color: transparent;
   border: 1px solid #1a1a1a;
-  padding: 20px;
+  padding: 10px;
   font-family: 'Playfair Display', serif;
   font-size: 1.3rem;
   color: #1a1a1a;
