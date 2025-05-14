@@ -113,7 +113,7 @@
 /* ────── Schedule Container ────── */
 .dior-border {
   border: 3px solid #1a1a1a;
-  padding: 50px 30px;
+  padding: 40px 20px;
   text-align: center;
   background: #e6cfcf;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
@@ -128,14 +128,14 @@
   font-size: 2.8rem;
   color: #1a1a1a;
   letter-spacing: 4px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 .dior-grid {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  height: 350px;
+  height: 320px;
   margin: 0 auto;
 
 }
