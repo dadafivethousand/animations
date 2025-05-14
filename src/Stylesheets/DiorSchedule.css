@@ -1,62 +1,126 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap');
 
+/* ────── Layout ────── */
 .dior-wrapper {
-   min-height: 100vh;
- 
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: relative;
-  padding: 60px 0px;
   background-color: #dcd5d5;
+  padding: 60px 0;
+  position: relative;
+ 
 }
 
-/* Sprayer Cap */
+/* ────── Cap (Outer) ────── */
 .dior-cap {
   width: 120px;
   height: 70px;
-  background-color: #1a1a1a;
+  background: linear-gradient(to bottom, #1a1a1a, #333);
+  border-radius: 30px 30px 0px 0px;
+  position: relative;
   margin: 0 auto;
- 
- 
- 
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  transition: transform 0.4s ease;
+  cursor: pointer;
   z-index: 10;
-   cursor: pointer;
+  top:60px
+ 
 }
 
-/* Mist effect on hover */
-.dior-cap:hover::after {
-  content: '';
+.dior-cap::before {
+  content: "";
   position: absolute;
-  top: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 6px;
-  height: 50px;
-  background: linear-gradient(to top, rgba(200, 200, 200, 0.4), transparent);
-  animation: mist 0.8s ease-out forwards;
+  top: 8px;
+  left: 10px;
+  width: 100px;
+  height: 20px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), transparent);
+  border-radius: 50%;
+  pointer-events: none;
 }
 
-@keyframes mist {
+.dior-open {
+  animation: lift-cap 1.2s ease-in-out forwards;
+}
+
+@keyframes lift-cap {
   0% {
-    opacity: 0.8;
-    height: 0;
+    transform: translateY(0);
   }
   100% {
-    opacity: 0;
-    height: 50px;
+    transform: translateY(-300px);
   }
 }
 
+/* ────── Inner Cap ────── */
+.dior-inner-cap {
+  height: 60px;
+  width: 60px;
+  background: radial-gradient(circle at center, #f0f0f0, #c0c0c0);
+  border-radius: 0%;
+  margin:  0px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 5;
+  position: relative;
+}
+
+.dior-inner-cap-circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ddd, #aaa);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.dior-inner-cap-hole {
+  width: 4px;
+  height: 4px;
+  background-color: #000;
+  border-radius: 50%;
+}
+
+/* ────── Inner Press Animation ────── */
+.dior-pressed {
+  animation: press-inner 0.3s ease-in-out forwards;
+}
+
+@keyframes press-inner {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* ────── Mist Spray ────── */
+ 
+
+ 
+ 
+
+/* ────── Schedule Container ────── */
 .dior-border {
   border: 3px solid #1a1a1a;
   padding: 50px 30px;
- 
- 
   text-align: center;
   background: #e6cfcf;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    width:75vw;
-    margin: 0 auto;
+  width: 75vw;
+  margin: 0 auto;
+  z-index:5;
+ 
 }
 
 .dior-title {
@@ -71,7 +135,7 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
-  height:450px;
+  height: 450px;
   margin: 0 auto;
 
 }
