@@ -6,13 +6,14 @@ import DonkeyKongSchedule from "./Components/DonkeyKongSchedule";
 import BoxSchedule from "./Components/BoxSchedule";
 import DiorSchedule from "./Components/DiorSchedule";
 import Spray from "./Components/Spray";
+import SpotifySchedule from "./Components/SpotifySchedule";
 
   
 
 function App() {
   return (
     <>
-      < DiorSchedule day="Thursday" />
+      < SpotifySchedule day="Friday" />
 
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
