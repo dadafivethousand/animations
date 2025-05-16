@@ -7,13 +7,14 @@ import BoxSchedule from "./Components/BoxSchedule";
 import DiorSchedule from "./Components/DiorSchedule";
 import Spray from "./Components/Spray";
 import SpotifySchedule from "./Components/SpotifySchedule";
-
+import WolfSchedule from "./Components/WolfSchedule";
+ 
   
 
 function App() {
   return (
     <>
-      < SpotifySchedule day="Friday" />
+      < WolfSchedule day="Friday" />
 
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
