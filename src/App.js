@@ -14,7 +14,7 @@ import WolfSchedule from "./Components/WolfSchedule";
 function App() {
   return (
     <>
-      < WolfSchedule day="Friday" />
+      < WolfSchedule day="Saturday" />
 
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
