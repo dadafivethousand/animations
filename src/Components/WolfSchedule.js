@@ -27,15 +27,16 @@ export default function WolfSchedule({ day, animationDelay = 1800, animationInte
       <div className="wolf-ticker">
   <div className="wolf-ticker-track">
     <span className="green">Maple Jiu-Jitsu +304.5% ▲ $2,000,000</span>
-       <span className="green">Richmond Hill Jiu-Jitsu +305.8% ▲ $1,725,859</span>
     <span className="green">AAPL +2.13% ▲ $193.27</span>
     <span className="red">TSLA -1.58% ▼ $173.89</span>
     <span className="green">NVDA +5.01% ▲ $956.22</span>
     <span className="red">GOOG -0.87% ▼ $137.45</span>
     <span className="green">META +1.92% ▲ $482.00</span>
-      <span className="green">NFLX +3.23% ▲ $682.70</span>
-    <span className="red">AMZN -2.05% ▼ $186.00</span>
-       <span className="red">WALMART -3.05% ▼ $186.00</span>
+    <span className="green">NFLX +3.23% ▲ $682.70</span>
+    <span className="red">AMZN -2.05% ▼ $136.00</span>
+    <span className="green">BELL +2.05% ▲ $86.00</span>
+    <span className="green">Richmond Hill Jiu-Jitsu +305.8% ▲ $1,725,859</span>
+    <span className="red">WALMART -3.05% ▼ $116.00</span>
    </div>
 </div>
 
