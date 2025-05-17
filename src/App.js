@@ -8,14 +8,14 @@ import DiorSchedule from "./Components/DiorSchedule";
 import Spray from "./Components/Spray";
 import SpotifySchedule from "./Components/SpotifySchedule";
 import WolfSchedule from "./Components/WolfSchedule";
+import ScarfaceSchedule from "./Components/ScarfaceSchedule";
  
   
 
 function App() {
   return (
     <>
-      < WolfSchedule day="Saturday" />
-
+      < ScarfaceSchedule day="Sunday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600&display=swap');
+
+.scarface-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(to right, #000 50%, #fff 50%);
+  color: #fff;
+  font-family: 'Cinzel', serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 20px;
+}
+
+.scarface-title {
+  font-size: 3rem;
+  letter-spacing: 5px;
+  color: #e60000;
+  text-shadow: 2px 2px 0 #000;
+  margin-bottom: 40px;
+}
+
+.scarface-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.scarface-card {
+  background: rgba(255, 255, 255, 0.08);
+  border-left: 6px solid #e60000;
+  padding: 18px 28px;
+  border-radius: 6px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  backdrop-filter: blur(3px);
+  transition: transform 0.2s ease, background 0.3s ease;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+}
+
+.scarface-card:hover {
+  transform: translateX(4px);
+  background: rgba(230, 0, 0, 0.15);
+}
+
+.scarface-class {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+}
+
+.scarface-time {
+  font-size: 1rem;
+  color: #e60000;
+  margin-top: 6px;
+}
