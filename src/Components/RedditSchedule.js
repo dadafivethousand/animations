@@ -10,7 +10,7 @@ import img5 from "../Images/5.webp";
 
 const avatars = [img1, img2, img3, img4, img5];
 
-export default function RedditSchedule({ day, animationDelay = 800, animationInterval = 300 }) {
+export default function RedditSchedule({ day, animationDelay = 1500, animationInterval = 300 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
