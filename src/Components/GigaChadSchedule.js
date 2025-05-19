@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/GigaChadSchedule.css";
 import schedule from "../Schedule";
-import chadImg from "../Images/virgin-vs-chad-meme-template-full-82d5ca9c.webp"; // replace with your uploaded file
+import chadImg from "../Images/virgin-vs-chad-meme-template-full-82d5ca9c.webp"; // Replace with actual path
 
-export default function GigaChadSchedule({ day }) {
+export default function GigaChadSchedule({ day, animationDelay = 1800, animationInterval = 300 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
@@ -11,9 +11,9 @@ export default function GigaChadSchedule({ day }) {
     entries.forEach((_, idx) => {
       setTimeout(() => {
         setVisibleArray(prev => [...prev, idx]);
-      }, 500 + idx * 300);
+      }, animationDelay + idx * animationInterval);
     });
-  }, [day]);
+  }, [day, animationDelay, animationInterval]);
 
   const formatTime = (decimalTime) => {
     const hour = Math.floor(decimalTime);
