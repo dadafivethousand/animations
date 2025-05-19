@@ -37,7 +37,7 @@
   transform: scale(0.95);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display:flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
 }
 
