@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/GigaChadSchedule.css";
 import schedule from "../Schedule";
+import chadImg from "../Images/virgin-vs-chad-meme-template-full-82d5ca9c.webp"; // replace with your uploaded file
 
-export default function GigaChadSchedule({ day, animationDelay = 300, animationInterval = 150 }) {
+export default function GigaChadSchedule({ day }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
     const entries = schedule[day] || [];
     entries.forEach((_, idx) => {
       setTimeout(() => {
-        setVisibleArray((prev) => [...prev, idx]);
-      }, animationDelay + idx * animationInterval);
+        setVisibleArray(prev => [...prev, idx]);
+      }, 500 + idx * 300);
     });
-  }, [day, animationDelay, animationInterval]);
+  }, [day]);
 
   const formatTime = (decimalTime) => {
     const hour = Math.floor(decimalTime);
@@ -23,14 +24,16 @@ export default function GigaChadSchedule({ day, animationDelay = 300, animationI
   };
 
   return (
-    <div className="gigachad-wrapper">
-      <h3 className="gigachad-title">{day.toUpperCase()}</h3>
-      <div className="gigachad-grid">
+    <div className="giga-wrapper">
+      <h1 className="giga-title">{day}</h1>
+      <div className="giga-layout">
+        <img src={chadImg} alt="Chad" className="giga-chad-img" />
         {(schedule[day] || []).map((cls, idx) =>
           visibleArray.includes(idx) ? (
-            <div className="gigachad-card" key={idx}>
-              <span className="gigachad-class">{cls.name}</span>
-              <span className="gigachad-time">{formatTime(cls.start)}</span>
+            <div className={`giga-label giga-label-${idx % 8}`} key={idx}>
+              <div className="giga-text">
+                <strong>{formatTime(cls.start)}</strong> — {cls.name}
+              </div>
             </div>
           ) : null
         )}
