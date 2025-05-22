@@ -13,13 +13,14 @@ import RedditSchedule from "./Components/RedditSchedule";
 import RickAndMortySchedule from "./Components/RickAndMortySchedule";
 import PollosSchedule from "./Components/PollosSchedule";
 import GigaChadSchedule from "./Components/GigaChadSchedule";
+import FridaySchedule from "./Components/FridaySchedule";
  
   
 
 function App() {
   return (
     <>
-      < GigaChadSchedule day="Thursday" />
+      < FridaySchedule day="Friday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
