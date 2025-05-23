@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #e2dfd2;
+  font-family: 'Roboto Mono', monospace;
+}
+
+/* Hide everything on non-mobile */
+@media (min-width: 768px) {
+  .folder-wrapper {
+    display: none;
+  }
+}
+
+.folder-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.paper-stack {
+  position: absolute;
+  bottom: 120px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.paper-sheet {
+  background: #fffbea;
+  border: 1px solid #c2b280;
+  width: 90%;
+  max-width: 350px;
+  margin-bottom: 12px;
+  padding: 16px;
+  border-radius: 4px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  animation: slideUp 0.6s ease forwards;
+  opacity: 0;
+  transform: translateY(100px);
+}
+
+@keyframes slideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.paper-time {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 4px;
+  color: #222;
+}
+
+.paper-name {
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  color: #444;
+}
+
+.paper-stamp {
+  font-size: 0.75rem;
+  color: #b3282d;
+  border: 2px solid #b3282d;
+  padding: 4px 10px;
+  font-weight: bold;
+  border-radius: 50%;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background: rgba(179, 40, 45, 0.07);
+  display: inline-block;
+  transform: rotate(-10deg);
+}
+
+/* Folder Base */
+.folder-base {
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  width: 80%;
+  height: 80px;
+  background: #f2d9a0;
+  border-top: 4px solid #aa8b55;
+  border-left: 4px solid #aa8b55;
+  border-right: 4px solid #aa8b55;
+  border-bottom: none;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  z-index: 1;
+}
+
+/* Folder Lid */
+.folder-lid {
+  position: absolute;
+  bottom: 70px;
+  left: 15%;
+  width: 70%;
+  height: 20px;
+  background: #f7e6b5;
+  border: 2px solid #aa8b55;
+  border-bottom: none;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  z-index: 2;
+}
