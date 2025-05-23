@@ -30,8 +30,7 @@ export default function FBISchedule({ day, animationDelay = 1800, animationInter
           <div className="folder-container" key={idx} style={{ animationDelay: `${idx * 0.4}s` }}>
             <div className="folder-tab">CLASS {idx + 1}</div>
             <div className="folder-body">
-              <div className="folder-inner-shadow"></div>
-              <div className="folder-content">
+               <div className="folder-content">
                 <div className="entry-time">{formatTime(cls.start)}</div>
                 <div className="entry-name">{cls.name}</div>
                 <div className="confidential-stamp">CONFIDENTIAL</div>
