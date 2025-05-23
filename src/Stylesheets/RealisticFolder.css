@@ -113,6 +113,9 @@ body {
   background: rgba(179, 40, 45, 0.07);
   transform: rotate(-10deg);
   height:20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .fbi-day-heading {
   font-size: 2rem;
