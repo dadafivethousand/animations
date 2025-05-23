@@ -28,7 +28,7 @@ export default function FBISchedule({ day, animationDelay = 1800, animationInter
       {(schedule[day] || []).map((cls, idx) =>
         visibleArray.includes(idx) ? (
           <div className="folder-container" key={idx} style={{ animationDelay: `${idx * 0.4}s` }}>
-            <div className="folder-tab">CLASS {idx + 1}</div>
+            <div className="folder-tab">  <p className="folder-writing"> CLASS {idx + 1}</p> </div>
             <div className="folder-body">
                <div className="folder-content">
                 <div className="entry-time">{formatTime(cls.start)}</div>
