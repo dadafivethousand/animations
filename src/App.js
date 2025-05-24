@@ -16,13 +16,14 @@ import GigaChadSchedule from "./Components/GigaChadSchedule";
 import FridaySchedule from "./Components/FridaySchedule";
  import RealisticFolder from "./Components/RealisticFolder";
 import FBIFolderSchedule from "./Components/FBISchedule";
+import MafiaSchedule from "./Components/MafiaSchedule";
  
   
 
 function App() {
   return (
     <>
-      < FBIFolderSchedule day="Saturday" />
+      < MafiaSchedule day="Sunday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
