@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
+
+.code-editor-container {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  background: #0f111a;
+  font-family: 'Fira Code', monospace;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+ }
+
+.blurred-code-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  padding: 3rem;
+  box-sizing: border-box;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #fff;
+  opacity: 0.6;
+  filter: blur(5px)  ;
+  display: flex;
+  flex-direction: column;
+  white-space: pre;
+  pointer-events: none;
+}
+
+/* Schedule block in focus */
+.focused-code {
+  position: relative;
+  z-index: 2;
+  font-size: 1.1rem;
+  white-space: pre-wrap;
+  background: rgba(15, 17, 26, 0.6);
+  padding: 2rem;
+  border-radius: 6px;
+  color: #dcdcdc;
+  border-left: 4px solid #f1c40f;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+  max-width: 90vw;
+  min-height: 20vh;
+  width: 70vw
+ 
+}
+
+/* Syntax Coloring */
+.code-keyword    { color: #569cd6; }
+.code-variable   { color: #9cdcfe; }
+.code-string     { color: #ce9178; }
+.code-function   { color: #dcdcaa; }
+.code-comment    { color: #6a9955; }
+.code-number     { color: #b5cea8; }
+.code-boolean    { color: #c586c0; }
