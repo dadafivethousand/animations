@@ -47,7 +47,7 @@
 .prison-classes {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 20px;
   align-items: center;
   z-index: 2;
   position: relative;
