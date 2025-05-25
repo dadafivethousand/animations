@@ -1,0 +1,196 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+.prison-wall {
+  background: url('https://www.transparenttextures.com/patterns/concrete-wall.png'), #2e2e2e;
+  background-size: cover;
+  color: #fafafa;
+  min-height: 100vh;
+  padding: 60px 20px;
+  font-family: 'Share Tech Mono', monospace;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Flickering light overlay */
+.lighting-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.068), transparent 70%);
+  animation: flicker 4s infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    opacity: 1;
+  }
+  20%, 22%, 24%, 55% {
+    opacity: 0.5;
+  }
+}
+
+.prison-day {
+  font-size: 2.4rem;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 40px;
+  color: #a2a2a2;
+  text-shadow: 1px 1px 0 #111;
+  z-index: 2;
+  position: relative;
+}
+
+.prison-classes {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+  z-index: 2;
+  position: relative;
+}
+
+.prison-class {
+  text-align: center;
+  text-transform: uppercase;
+  color: #bbb;
+  text-shadow: 1px 1px 0 #111;
+  font-size: 1.3rem;
+  background: rgba(0,0,0,0.15);
+  padding: 12px 20px;
+  border-radius: 4px;
+  box-shadow: inset 0 0 3px rgba(255,255,255,0.1);
+  animation: fadeIn 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+.prison-class:nth-child(even) {
+  transform: rotate(-1.5deg);
+}
+.prison-class:nth-child(odd) {
+  transform: rotate(1.5deg);
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.carved-time {
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+}
+
+.carved-name {
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  margin-top: 4px;
+}
+
+
+.lighting-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, rgba(255,255,255,0.15), transparent 70%);
+  animation: flicker 2.5s infinite;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: screen;
+  opacity: 1;
+}
+
+@keyframes flicker {
+  0%, 100% {
+    opacity: 1;
+  }
+  5% {
+    opacity: 0.3;
+  }
+  10% {
+    opacity: 0.9;
+  }
+  15% {
+    opacity: 0.1;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  25% {
+    opacity: 0.2;
+  }
+  30% {
+    opacity: 1;
+  }
+  35% {
+    opacity: 0.4;
+  }
+  40% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0.1;
+  }
+  60% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.3;
+  }
+}
+
+.lighting-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, rgba(255,255,255,0.08), transparent 70%);
+  animation: flicker 4s infinite;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: screen;
+  opacity: 1;
+}
+
+@keyframes flicker {
+  0%, 100% {
+    opacity: 1;
+  }
+  10% {
+    opacity: 0.9;
+  }
+  15% {
+    opacity: 0.6;
+  }
+  22% {
+    opacity: 0.85;
+  }
+  28% {
+    opacity: 0.5;
+  }
+  32% {
+    opacity: 0.75;
+  }
+  40% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0.95;
+  }
+  75% {
+    opacity: 0.7;
+  }
+  88% {
+    opacity: 0.8;
+  }
+}
