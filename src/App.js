@@ -20,13 +20,14 @@ import MafiaSchedule from "./Components/MafiaSchedule";
 import CodeSchedule from "./Components/CodeSchedule";
 import AITerminalSchedule from "./Components/AITerminalSchedule";
 import PrisonWallSchedule from "./Components/PrisonWallSchedule";
- 
+import FoxNewsSchedule from "./Components/FoxNewsSchedule";
+  
   
 
 function App() {
   return (
     <>
-      < PrisonWallSchedule day="Tuesday" />
+      < FoxNewsSchedule day="Wednesday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
