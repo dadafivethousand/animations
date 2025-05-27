@@ -27,7 +27,7 @@ import FoxNewsSchedule from "./Components/FoxNewsSchedule";
 function App() {
   return (
     <>
-      < PrisonWallSchedule day="Tuesday" />
+      < PrisonWallSchedule day="Wednesday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
