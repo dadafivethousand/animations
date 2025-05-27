@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import schedule from "../Schedule";
 import "../Stylesheets/FoxNewsSchedule.css";
 
-export default function FoxNewsSchedule({ day, animationDelay = 1000, animationInterval = 400 }) {
+export default function FoxNewsSchedule({ day, animationDelay = 1500, animationInterval = 400 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
