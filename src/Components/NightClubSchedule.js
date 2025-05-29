@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/BoxSchedule.css";
+import "../Stylesheets/NightclubSchedule.css";
 import schedule from "../Schedule";
 
-export default function BoxSchedule({ day, animationDelay = 1000, animationInterval = 300 }) {
+export default function NightclubSchedule({ day, animationDelay = 1000, animationInterval = 400 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
@@ -23,19 +23,19 @@ export default function BoxSchedule({ day, animationDelay = 1000, animationInter
   };
 
   return (
-    <div className="box-wrapper">
-      <h1 className="box-title">{day.toUpperCase()}</h1>
-      <div className="box-grid">
+    <div className="nightclub-container">
+      <h1 className="nightclub-day">{day}</h1>
+      <div className="nightclub-classes">
         {(schedule[day] || []).map((cls, idx) =>
           visibleArray.includes(idx) ? (
-            <div className="box-card" key={idx}>
-              <span className="box-class">{cls.name}</span>
-              <span className="box-time">{formatTime(cls.start)}</span>
+            <div className="neon-class" key={idx}>
+                              <span className="neon-name">{cls.name}</span>
+              <span className="neon-time">{formatTime(cls.start)}</span>
+
             </div>
           ) : null
         )}
       </div>
-      <img src='https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWhjNmYwb2F1eHVyYWhyb212cDVlcDRyYjRkbGNycTJkeGYyOTZzdyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/nqxqoSbRaDmgbgyXJK/giphy.gif' />
     </div>
   );
 }
