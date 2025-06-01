@@ -5,13 +5,14 @@ import VegasSchedule from "./Components/VegasSchedule"
 import NightclubSchedule from "./Components/NightClubSchedule";
 import JoeRoganSchedule from "./Components/JoeRoganSchedule"
 import AlienSchedule from "./Components/AlienSchedule"
+import gothicSchedule from "./Components/GothicSchedule"
   
   
 
 function App() {
   return (
     <>
-      < AlienSchedule day="Saturday" />
+      < GothicSchedule day="Sunday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
