@@ -19,7 +19,7 @@ body {
 }
 
 .poster-content {
-  display: none;
+  opacity: 0;
   text-align: center;
   padding: 40px 30px;
   border: 2px solid #111111;
@@ -33,6 +33,7 @@ body {
   overflow: hidden;
   min-height:400px;
   background-size: 1200px;
+  transition: opacity 2s ease-in;
 }
 
 .poster-overlay {
@@ -43,7 +44,7 @@ body {
 }
 
 .poster-content-show {
-  display: block;
+  opacity: 1;
   z-index: 50;
 }
 
@@ -174,7 +175,7 @@ body {
 
 
 .no-background-logo{
-width:200px;
+width:300px;
 position: fixed;
 bottom:15px;
  left:50%;

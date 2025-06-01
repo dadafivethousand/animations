@@ -15,13 +15,17 @@ export default function Poster() {
   const [showRsvp, setShowRsvp] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => setShowContent(true), 5000);
+    setTimeout(() => setShowContent(true), 4000);
   }, []);
 
   useEffect(() => {
     setTimeout(() => setShowLogo(true), 1000);
   }, []);
 
+  useEffect(() => { setTimeout(() => {
+    setShowLogo(false)
+  }, 2500);
+  }, []);
   useEffect(() => {
     if (showContent) {
       setTimeout(() => setShowTitle(true), 500);
