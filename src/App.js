@@ -12,7 +12,7 @@ import GothicSchedule from "./Components/GothicSchedule"
 function App() {
   return (
     <>
-      < GothicSchedule day="Sunday" />
+      < JoeRoganSchedule day="Monday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
