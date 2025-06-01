@@ -166,6 +166,21 @@ body {
   letter-spacing: 1px;
   transition: all 0.3s ease;
   z-index: 2;
+  animation: 3s pulsate ease-in infinite;
+}
+
+@keyframes pulsate {
+  0%{
+    transform:scale(1);
+  }
+
+    50%{
+    transform:scale(0.7);
+  }
+    100%{
+    transform:scale(1);
+  }
+  
 }
 
 .rsvp-box:hover {
