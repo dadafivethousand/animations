@@ -38,7 +38,7 @@ body {
 .poster-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.556); /* Dim the background */
+  background:linear-gradient(to bottom , rgba(0, 0, 0, 0.454), rgba(107, 107, 107, 0.351) );
   z-index: 1;
 }
 
@@ -75,10 +75,10 @@ body {
 
 .poster-logo-writing {
   font-family: "Cinzel";
-  font-size: 20px;
+  font-size: 24px;
   z-index: 45;
   position: relative;
-  top: 30px;
+  top: 25px;
   left: 100px;
   white-space: nowrap;
   opacity: .9;
@@ -88,6 +88,11 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   height: 50px;
+}
+
+.move-left{
+  position: relative;
+  right: 0;
 }
 
 /* FLOAT-IN ANIMATION */
@@ -171,7 +176,8 @@ body {
 .no-background-logo{
 width:200px;
 position: fixed;
-bottom:10px;
+bottom:15px;
  left:50%;
  transform: translateX(-50%);
+ z-index:50
 }

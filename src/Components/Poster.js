@@ -35,11 +35,8 @@ export default function Poster() {
   return (
     <div className="poster-container">
       <div className={`poster-logo ${showLogo ? 'show-logo' : ''}`}>
-        <img src={wolflogo} />
-        <div className='poster-logo-writing'>
-          <div><Typewriter delay={2000} text="Richmond Hill" /></div>
-          <div><Typewriter delay={3500} text="Jiu-Jitsu" /></div>
-        </div>
+        <img src={nobackgroundlogo} />
+       
       </div>
 
       <div className={`poster-content ${showContent ? 'poster-content-show' : ""}`}>
