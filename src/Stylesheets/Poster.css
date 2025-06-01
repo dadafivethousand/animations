@@ -33,7 +33,7 @@ body {
   overflow: hidden;
   min-height:400px;
   background-size: 1200px;
-  transition: opacity 2s ease-in;
+  transition: opacity 1s ease-in;
 }
 
 .poster-overlay {
