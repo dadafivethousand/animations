@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../Stylesheets/AvatarSchedule.css";
 import schedule from "../Schedule";
 
-export default function AvatarSchedule({ day, animationDelay = 1000, animationInterval = 300 }) {
+export default function AvatarSchedule({ day, animationDelay = 1800, animationInterval = 300 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
