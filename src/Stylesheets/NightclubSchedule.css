@@ -55,13 +55,7 @@ body {
 }
 @import url('https://fonts.googleapis.com/css2?family=Monoton&display=swap');
 
-body {
-  margin: 0;
-  padding: 0;
-  background-color: #000;
-    background-image: url(../Images/brickwall.jpg);
-  background-size: cover;
-}
+ 
 
 .nightclub-container {
    background-size: cover;

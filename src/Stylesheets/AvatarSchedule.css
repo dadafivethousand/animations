@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Caudex&display=swap');
+
+.avatar-container {
+  background: linear-gradient(#001f1f, #003333);
+  min-height: 100vh;
+  padding: 80px 20px 40px;
+  font-family: 'Caudex', serif;
+  color: #aef2f2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.avatar-container::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: url("https://images.unsplash.com/photo-1619217009485-fb7b3e3885a1?auto=format&fit=crop&w=1400&q=80") center/cover no-repeat;
+  opacity: 0.18;
+  z-index: 0;
+}
+
+.avatar-header {
+  margin-bottom: 20px;
+  text-align: center;
+  z-index: 1;
+}
+
+.avatar-day {
+  font-size: 9vw;
+  color: #aef2f2;
+  letter-spacing: 3px;
+  text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff88;
+}
+
+.avatar-track {
+  width: 100%;
+  max-width: 800px;
+  z-index: 1;
+}
+
+.avatar-class-container {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.avatar-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 16px;
+  background: rgba(0, 51, 51, 0.8);
+  border-left: 4px solid #00ffff;
+  border-right: 4px solid #00ffff;
+  border-top: 1px solid #005959;
+  border-bottom: 1px solid #005959;
+  color: #e0fafa;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInAvatar 0.5s ease-out forwards;
+  box-shadow: 0 0 15px #00ffff66, 0 0 40px #00ffff33;
+  border-radius: 12px;
+}
+
+.avatar-class-name {
+  font-size: 22px;
+  text-shadow: 0 0 6px #00ffff;
+}
+
+.avatar-class-time {
+  font-size: 20px;
+  color: #b2fffa;
+  font-style: italic;
+  text-shadow: 0 0 4px #008080;
+}
+
+@keyframes fadeInAvatar {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
