@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Caudex&display=swap');
 
 .avatar-container {
-  background: linear-gradient(#b1c1f3, #c5daf0);
+  background: linear-gradient(#dbeeff, #b0d8f3);
   min-height: 100vh;
   padding: 80px 20px 40px;
   font-family: 'Caudex', serif;
-  color: #0b3d91;
+  color: #1a3063;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,9 +17,9 @@
   content: "";
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-   opacity: 0.2;
+   opacity: 0.1;
   z-index: 0;
-  filter: brightness(0.5) saturate(1.3);
+  filter: brightness(0.8);
 }
 
 .avatar-header {
@@ -30,9 +30,9 @@
 
 .avatar-day {
   font-size: 9vw;
-
-  letter-spacing: 3px;
-  text-shadow: 0 0 20px #005f99, 0 0 40px #003366;
+  color: #1a3063;
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px #3fa9f5;
 }
 
 .avatar-track {
@@ -42,7 +42,7 @@
 }
 
 .avatar-class-container {
-  margin: 20px 0;
+  margin: 10px 0;
   display: flex;
   justify-content: center;
 }
@@ -52,30 +52,31 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 16px;
-  background: rgba(211, 212, 212, 0.651);
-  border-left: 4px solid #002f5f;
-  border-right: 4px solid #002f5f;
-  border-top: 1px solid #003366;
-  border-bottom: 1px solid #003366;
-  color: #0b3d91;
+  padding: 10px;
+  background: #f0f9ff;
+  border-left: 4px solid #3fa9f5;
+  border-right: 4px solid #3fa9f5;
+  border-top: 1px solid #8fd3e4;
+  border-bottom: 1px solid #8fd3e4;
+  color: #1a3063;
   opacity: 0;
   transform: translateY(20px);
   animation: fadeInAvatar 0.5s ease-out forwards;
-  box-shadow: 0 0 20px #00408066, 0 0 50px #001f3f33;
-  border-radius: 14px;
+  box-shadow: 0 0 15px #2f7fc266;
+  border-radius: 16px;
 }
 
 .avatar-class-name {
   font-size: 22px;
- 
- }
+  text-shadow: 0 0 5px #3fa9f5;
+}
 
 .avatar-class-time {
   font-size: 20px;
-   color: #0b3d91;
+  color: #2f7fc2;
   font-style: italic;
- }
+  text-shadow: 0 0 3px #3fa9f5;
+}
 
 @keyframes fadeInAvatar {
   to {
