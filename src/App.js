@@ -4,12 +4,13 @@ import './Stylesheets/App.css';
  
 import Poster from "./Components/Poster"
 import LuxuryJewelrySchedule from "./Components/LuxuryJewelrySchedule";
+import EspnSchedule from "./Components/EspnSchedule";
   
 
 function App() {
   return (
     <>
-      < LuxuryJewelrySchedule day="Wednesday" />
+      < EspnSchedule day="Wednesday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
