@@ -4,13 +4,13 @@ import './Stylesheets/App.css';
  
 import Poster from "./Components/Poster"
 import AvatarSchedule from "./Components/AvatarSchedule";
-  
+import AITerminalSchedule from "./Components/AITerminalSchedule"
   
 
 function App() {
   return (
     <>
-      < AvatarSchedule day="Tuesday" />
+      < AITerminalSchedule day="Tuesday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
