@@ -10,7 +10,7 @@ import AITerminalSchedule from "./Components/AITerminalSchedule"
 function App() {
   return (
     <>
-      < AITerminalSchedule day="Tuesday" />
+      < AITerminalSchedule day="Thursday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
