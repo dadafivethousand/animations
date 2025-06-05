@@ -1,62 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import '../Stylesheets/Poster.css';
-import wolflogo from "../Images/wolflogo.png";
+import matspace from "../Images/20250604_175603.jpg";
+import nobackgroundlogo from "../Images/png/logo-no-background.png";
 import Typewriter from '../Utils/utils';
-import nobackgroundlogo from "../Images/png/logo-no-background.png"
 
 export default function Poster() {
-  const [showLogo, setShowLogo] = useState(false);
-  const [showContent, setShowContent] = useState(false);
-
-  const [showTitle, setShowTitle] = useState(false);
-  const [showDate, setShowDate] = useState(false);
-  const [showTime, setShowTime] = useState(false);
-  const [showAddress, setShowAddress] = useState(false);
-  const [showRsvp, setShowRsvp] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => setShowContent(true), 4000);
-  }, []);
-
-  useEffect(() => {
-    setTimeout(() => setShowLogo(true), 1000);
-  }, []);
-
-  useEffect(() => { setTimeout(() => {
-    setShowLogo(false)
-  }, 2500);
-  }, []);
-  useEffect(() => {
-    if (showContent) {
-      setTimeout(() => setShowTitle(true), 500);
-      setTimeout(() => setShowDate(true), 1000);
-      setTimeout(() => setShowTime(true), 1500);
-      setTimeout(() => setShowAddress(true), 2000);
-      setTimeout(() => setShowRsvp(true), 2500);
-    }
-  }, [showContent]);
-
   return (
-    <div className="poster-container">
-      <div className={`poster-logo ${showLogo ? 'show-logo' : ''}`}>
-        <img src={nobackgroundlogo} />
-       
+    <div className='poster-container'>
+      <div className="typewriter-wrapper">
+        <div className="announcement">
+          <Typewriter text="Announcement" delay='1200' />
+        </div>
+        <div className="details">
+          <Typewriter
+            delay='2500'
+            text="The Saturday noon jiu-jitsu class will be held at Richmond Hill Jiu-Jitsu as part of the grand opening. Hope to see everyone there."
+          />
+        </div>
       </div>
 
-      <div className={`poster-content ${showContent ? 'poster-content-show' : ""}`}>
-        <div className="poster-overlay"></div>
-
-        {showTitle && <h1 className="title float-in">GRAND OPENING</h1>}
- 
-        {showDate && <p className="date float-in">Saturday, June 7</p>}
-        {showTime && <p className="time float-in">12:00 PM — 3:00 PM</p>}
-        {showAddress && <p className="address float-in">132 King Road</p>}
-        {showRsvp &&
-          <div className="rsvp-box float-in">
-            <p>DON'T MISS IT</p>
-          </div>}
-          <img className='no-background-logo' src={nobackgroundlogo}/>
-      </div>
+      <img src={nobackgroundlogo} className="no-background-logo" alt="Logo" />
     </div>
   );
 }

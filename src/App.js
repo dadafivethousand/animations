@@ -7,12 +7,12 @@ import LuxuryJewelrySchedule from "./Components/LuxuryJewelrySchedule";
 import EspnSchedule from "./Components/EspnSchedule";
 import AvatarSchedule from "./Components/AvatarSchedule";
 import AITerminalSchedule from "./Components/AITerminalSchedule"
-  
+   
 
 function App() {
   return (
     <>
-       < AITerminalSchedule day="Thursday" />
+       <LuxuryJewelrySchedule day="Friday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

@@ -8,11 +8,7 @@
   --espn-muted: #bbbbbb;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  background: var(--espn-bg);
-}
+ 
 
 .espn-container {
   background: var(--espn-bg);
