@@ -15,7 +15,7 @@ export default function Poster() {
         <div className="details">
           <Typewriter
             delay='2500'
-            typingSpeed = '80'
+            typingSpeed='50'
             text="This Saturday's 12:00 jiu-jitsu class will be held at the Richmond Hill location as part of the grand opening celebration. 132 King Road - pull up."
           />
         </div>
