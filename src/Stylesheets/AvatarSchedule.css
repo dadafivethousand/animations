@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Caudex&display=swap');
+
+.avatar-container {
+  background: linear-gradient(#dbeeff, #b0d8f3);
+  min-height: 100vh;
+  padding: 80px 20px 40px;
+  font-family: 'Caudex', serif;
+  color: #1a3063;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.avatar-container::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+   opacity: 0.1;
+  z-index: 0;
+  filter: brightness(0.8);
+}
+
+.avatar-header {
+  margin-bottom: 20px;
+  text-align: center;
+  z-index: 1;
+}
+
+.avatar-day {
+  font-size: 9vw;
+  color: #1a3063;
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px #3fa9f5;
+}
+
+.avatar-track {
+  width: 100%;
+  max-width: 800px;
+  z-index: 1;
+}
+
+.avatar-class-container {
+  margin: 10px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.avatar-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+  background: #f0f9ff;
+  border-left: 4px solid #3fa9f5;
+  border-right: 4px solid #3fa9f5;
+  border-top: 1px solid #8fd3e4;
+  border-bottom: 1px solid #8fd3e4;
+  color: #1a3063;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInAvatar 0.5s ease-out forwards;
+  box-shadow: 0 0 15px #2f7fc266;
+  border-radius: 16px;
+}
+
+.avatar-class-name {
+  font-size: 22px;
+  text-shadow: 0 0 5px #3fa9f5;
+}
+
+.avatar-class-time {
+  font-size: 20px;
+  color: #2f7fc2;
+  font-style: italic;
+  text-shadow: 0 0 3px #3fa9f5;
+}
+
+@keyframes fadeInAvatar {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
