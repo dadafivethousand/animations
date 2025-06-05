@@ -50,7 +50,8 @@
 .chat-bubble.user {
   border-left: 4px solid #10a37f;
   background: #eefdf5;
-  height:30px
+  height:30px;
+  padding-right: 0px;
 }
 
 .chat-bubble.bot {
