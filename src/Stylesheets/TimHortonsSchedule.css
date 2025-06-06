@@ -86,7 +86,7 @@
 
 .tim-container {
   background: var(--tim-red);
-   height: 60vh;
+   height: 55vh;
   padding: 40px 16px 80px;
   display: flex;
   flex-direction: column;
