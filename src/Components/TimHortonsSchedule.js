@@ -42,7 +42,8 @@ export default function TimHortonsSchedule({ day, animationDelay = 1300, animati
                 {idx==0?<div className="tim-class-disclaimer">  <Typewriter typingSpeed="200" text="At 132 King Rd" />  </div> :''} 
                
                </div>
-                <span className="tim-class-time">{formatTime(cls.start)}</span>
+                <span className="tim-class-time">{formatTime(cls.start)}</span><br></br> 
+                   {idx==1?<div className="tim-class-disclaimer">  <Typewriter typingSpeed="200" text="Regular Location" />  </div> :''} 
               </div>
             )}
           </div>
