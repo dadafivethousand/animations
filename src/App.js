@@ -8,12 +8,13 @@ import EspnSchedule from "./Components/EspnSchedule";
 import AvatarSchedule from "./Components/AvatarSchedule";
 import AITerminalSchedule from "./Components/AITerminalSchedule"
 import MapleJiuJitsuHeader from "./Components/MapleJiuJitsuHeader";
+import TimHortonsSchedule from "./Components/TimHortonsSchedule";
    
 
 function App() {
   return (
     <>
-       <LuxuryJewelrySchedule day="Friday" />
+       <TimHortonsSchedule day="Saturday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

@@ -38,8 +38,7 @@ const schedule = {
       { name: "BJJ NoGi", start: 19.25, end: 20.25 }
     ],
     Saturday: [ 
-      { name: "MMA", start: 11, end: 12},
-      { name: "BJJ NoGi", start: 12, end: 13},
+       { name: "BJJ NoGi", start: 12, end: 13},
         { name: "Kids", start: 14, end: 15},
     ]
     ,
