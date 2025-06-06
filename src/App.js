@@ -13,7 +13,7 @@ import MapleJiuJitsuHeader from "./Components/MapleJiuJitsuHeader";
 function App() {
   return (
     <>
-       <LuxuryJewelrySchedule />
+       <LuxuryJewelrySchedule day="friday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
