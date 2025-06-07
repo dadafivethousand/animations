@@ -44,8 +44,7 @@ const schedule = {
     ,
     Sunday: [
       { name: "Kids", start: 11, end: 12, image:kids, description: "Building confidence & discipline."},
-      { name: "Wrestling", start: 12, end: 13, image:Wrestling, description: "Learn takedowns & takedown defense."},
-      { name: "Open Mat", start: 13, end: 14, image:openmat, description: "Practice techniques and roll."},
+       { name: "Open Mat", start: 12, end: 13, image:openmat, description: "Practice techniques and roll."},
     ]
   }; 
 

@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
+
+:root {
+  --lv-brown: #4b3621;
+  --lv-darkbrown: #3b2817;
+  --lv-gold: #d4af37;
+  --lv-cream: #f5f5dc;
+}
+
+.lv-container {
+  background: url('../Images/41636-2560x1600-desktop-hd-louis-vuitton-background-image.jpg');
+  min-height: 100vh;
+  padding: 40px 16px 20px;
+  display: flex;
+  flex-direction: column;
+ 
+  align-items: center;
+  font-family: 'Playfair Display', serif;
+    background-size: contain;
+
+}
+
+.lv-day {
+  font-size: 15vw;
+  color: var(--lv-gold);
+  margin-bottom: 30px;
+  letter-spacing: 3px;
+  text-shadow: 0 0 10px rgba(0,0,0,0.4);
+  margin-top: 100px;
+}
+
+.lv-track {
+  width: 100%;
+  max-width: 500px;
+}
+
+.lv-class-container {
+  margin-bottom: 20px;
+}
+
+.lv-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--lv-darkbrown);
+  border: 2px solid var(--lv-gold);
+  padding: 20px 24px;
+  border-radius: 16px;
+  transform: translateY(20px);
+  opacity: 0;
+  animation: fadeInLV 0.5s forwards;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+.lv-class-name {
+  font-size: 5vw;
+  color: var(--lv-cream);
+  max-width: 70%;
+  word-break: break-word;
+  font-weight: 700;
+}
+
+.lv-class-time {
+  font-size: 4.5vw;
+  color: var(--lv-gold);
+  font-weight: 700;
+}
+
+@keyframes fadeInLV {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

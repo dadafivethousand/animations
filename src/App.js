@@ -10,12 +10,14 @@ import AITerminalSchedule from "./Components/AITerminalSchedule"
 import MapleJiuJitsuHeader from "./Components/MapleJiuJitsuHeader";
 import TimHortonsSchedule from "./Components/TimHortonsSchedule";
 import GrandOpening from "./Components/GrandOpening";
+import JonJonesSchedule from "./Components/JonJonesSchedule";
+import LouisVuittonSchedule from "./Components/LouisVuittonSchedule";
  
 
 function App() {
   return (
     <>
-       <GrandOpening />
+       <LouisVuittonSchedule day="Sunday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
