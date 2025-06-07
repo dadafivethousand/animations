@@ -121,14 +121,14 @@
   z-index: 3;
   width: 100%;
   background: linear-gradient(90deg, #ff6600, #ff9900);
-  padding: 10px 15px;
+  padding: 10px 0px;
   box-shadow: 0 -3px 25px rgba(0,0,0,0.8);
  
  
   display: flex;
   justify-content: flex-end; 
   align-items: center;
- width:95vw
+ width:100vw
 
 }
 
