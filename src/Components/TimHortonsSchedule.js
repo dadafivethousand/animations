@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/TimHortonsSchedule.css";
 import schedule from "../Schedule";
-import timhortons from "../Images/timhortons.png"
+import timhortons from "../Images/timmy.png"
 import Typewriter from "../Utils/utils";
 
 export default function TimHortonsSchedule({ day, animationDelay = 1300, animationInterval = 150 }) {
@@ -39,8 +39,8 @@ export default function TimHortonsSchedule({ day, animationDelay = 1300, animati
               <div className={`tim-class class-${idx}`}>
                 <div>
                 <span className="tim-class-name">{cls.name}</span>  
-                {idx==0?<div className="tim-class-disclaimer">  <Typewriter typingSpeed="200" text="At 132 King Rd" />  </div> :''} 
-                             {idx==1?<div className="tim-class-disclaimer">  <Typewriter delay="1000" typingSpeed="200" text="Regular Location" />  </div> :''} 
+                {idx==0?<div className="tim-class-disclaimer">  <Typewriter typingSpeed="100" text="At 132 King Rd" />  </div> :''} 
+                             {idx==1?<div className="tim-class-disclaimer">  <Typewriter delay="1000" typingSpeed="100" text="Regular Location" />  </div> :''} 
                
                </div>
                 <span className="tim-class-time">{formatTime(cls.start)}</span> 
