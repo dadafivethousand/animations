@@ -9,7 +9,7 @@ import AvatarSchedule from "./Components/AvatarSchedule";
 import AITerminalSchedule from "./Components/AITerminalSchedule"
 import MapleJiuJitsuHeader from "./Components/MapleJiuJitsuHeader";
 import TimHortonsSchedule from "./Components/TimHortonsSchedule";
-   
+ 
 
 function App() {
   return (
