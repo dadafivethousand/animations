@@ -32,10 +32,12 @@
 
 .main-logo {
   width: 150px;
-  margin-bottom: 25px;
+ 
   filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.411));
   animation: fadeIn 1.5s ease forwards;
-  margin-bottom:120px;
+  margin-bottom:50px;
+
+    margin-top:50px;
  
   
 
