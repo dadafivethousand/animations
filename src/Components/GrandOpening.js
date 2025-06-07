@@ -53,7 +53,7 @@ export default function GrandOpening() {
   
        <div className="event-details">
           📍 132 King Rd, Richmond Hill <br />
-          📅 Saturday, June 7 — 12PM-3PM <br />
+          📅 Saturday, June 7 — 12PM-3PM  
          </div>
 
     </div>

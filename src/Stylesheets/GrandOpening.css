@@ -12,6 +12,7 @@
  
   font-family: 'Oswald', sans-serif;
   color: #fff;
+  overflow:hidden;
 }
 
 .background-overlay {
@@ -75,7 +76,7 @@
   box-shadow: 0 0 15px rgba(0,0,0,0.8);
   line-height: 1.7;
  position: absolute;
- bottom: 0px;
+ bottom: 15px;
  
  margin: 0 auto;
   width: 100vw;
