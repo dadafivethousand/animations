@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../Stylesheets/LouisVuittonSchedule.css";
 import schedule from "../Schedule";
 
-export default function LouisVuittonSchedule({ day, animationDelay = 1800, animationInterval = 150 }) {
+export default function LouisVuittonSchedule({ day, animationDelay = 1800, animationInterval = 400 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
