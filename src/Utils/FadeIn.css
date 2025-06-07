@@ -1,0 +1,18 @@
+.fade-in {
+  opacity: 0;
+  transition: opacity var(--fade-speed) ease-in-out;
+}
+
+.fade-in.visible {
+  opacity: 1;
+}
+
+.fade-in.blinking {
+  animation: blinking-animation 2s infinite;
+}
+
+@keyframes blinking-animation {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
