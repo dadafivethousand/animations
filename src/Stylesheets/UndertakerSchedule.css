@@ -25,15 +25,18 @@
 }
 
 .undertaker-day {
-  font-size: 19vw;
-  color: #ff4400;
+  font-size: 15vw;
+  color: #ffffff;
   margin-bottom: 30px;
   letter-spacing: 3px;
   text-shadow: 0 0 15px var(--glow-shadow);
   text-align: center;
    width:100%;
   margin: 0 auto;
-            background-color: #002f809c;
+            background-color: #0000008a;
+            border-top:4px solid white;
+                    border-bottom:4px solid white;
+                    margin-bottom: 20px;
 }
 
 .undertaker-track {
@@ -50,7 +53,7 @@
 .undertaker-day-track{
   position: absolute;
   bottom:5px;
-    min-height:52vh
+    min-height:54vh
 }
 
 .undertaker-class {
@@ -60,7 +63,7 @@
   background: linear-gradient(145deg, #0045a5, #003080);
   border: 3px solid var(--metallic-blue);
   padding: 7px 24px;
-  border-radius: 18px;
+  border-radius: 8px;
   box-shadow: 0 0 20px var(--glow-shadow), 0 10px 30px rgba(0, 0, 0, 0.6);
   transform: translateY(20px);
   opacity: 0;
@@ -68,6 +71,7 @@
   transition: transform 0.3s ease;
   width:85%;
   margin: 0 auto;
+
 }
 
 .undertaker-class:hover {
