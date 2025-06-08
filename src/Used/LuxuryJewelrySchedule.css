@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+
+.luxury-container {
+
+  background: url("../Images//2chainz.jpg");
+      background-color: black;
+  background-size:contain;
+  min-height: 100vh;
+  padding: 80px 20px 40px;
+  font-family: 'Playfair Display', serif;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  background-repeat: no-repeat;
+}
+
+.luxury-header {
+  margin-bottom: 20px;
+  text-align: center;
+  z-index: 1;
+}
+
+.luxury-day {
+  font-size: 7vw;
+
+  color: #ffd700;
+  letter-spacing: 3px;
+  text-shadow: 0 0 10px #fff, 0 0 40px #ffd700aa;
+}
+
+.luxury-track {
+  width: 100%;
+  max-width: 800px;
+  z-index: 1;
+}
+
+.luxury-class-container {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.luxury-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+  background: rgba(20, 20, 20, 0.95);
+  border: 2px solid #ffd700;
+  color: #fff;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInLuxury 0.6s ease-out forwards;
+  box-shadow: 0 0 15px #ffd70066, 0 0 40px #ffffff33;
+  border-radius: 16px;
+  position: relative;
+}
+
+.luxury-class::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.15) 50%, transparent 60%);
+  opacity: 0;
+  animation: sparkle 3s infinite;
+  pointer-events: none;
+}
+
+@keyframes sparkle {
+  0% { opacity: 0; }
+  45% { opacity: 0; }
+  50% { opacity: 0.4; }
+  55% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+.luxury-class-name {
+  font-size: 22px;
+  text-shadow: 0 0 6px #ffd700;
+}
+
+.luxury-class-time {
+  font-size: 20px;
+  color: #e0e0e0;
+  font-style: italic;
+  text-shadow: 0 0 4px #999;
+}
+
+@keyframes fadeInLuxury {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

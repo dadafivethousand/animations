@@ -1,33 +1,27 @@
-import React from "react";
-import "../Stylesheets/Poster.css";
-import max_image from "../Images/OTO09135 (1).jpg";
+import React from 'react';
+import '../Stylesheets/Poster.css';
+import nobackgroundlogo from "../Images/png/logo-no-background.png";
+import Typewriter from '../Utils/utils';
 
 export default function Poster() {
   return (
-    <div className="poster-container">
-      <img src={max_image} alt="Max Li Seminar" className="poster-image" />
-      <div className="poster-text">
-        <div>
-        <h1 className="poster-title">Brazilian Jiu-Jitsu Seminar</h1>
-        <div className="poster-datetime">
-  <p><strong>Date:</strong> May 12</p>
-  <p><strong>Time:</strong> 7:45 PM</p>
-</div>
+    <div className='poster-container'>
+      <div className='overlay'></div>
+
+      <div className="typewriter-wrapper">
+        <div className="announcement">
+          <Typewriter text="Announcement!" delay='1200' />
         </div>
-        <div className="name-and-accomplishments">
-        <h2 className="poster-name">Max Li</h2>
-        <ul className="poster-accomplishments">
-          <li>Brazilian Jiu-Jitsu Black Belt</li>
-          <li>Professional MMA Experience</li>
-          <li> ADCC Toronto Open Champion </li>
-          <li> IBJJF Milan Open Champion</li>
-          <li> IBJJF Charlotte Open Champion</li>
-          <li> Canadian National Champion</li>
-          <li> IBJJF American Nationals Bronze Medalist</li>
-          <li> Ontario Open Champion</li>
-        </ul>
+        <div className="details">
+          <Typewriter
+            delay='2500'
+            typingSpeed='90'
+            text="This Saturday's 12:00 jiu-jitsu class will be held at the Richmond Hill location as part of the grand opening celebration. 132 King Road - pull up."
+          />
         </div>
       </div>
+
+      <img src={nobackgroundlogo} className="no-background-logo" alt="Logo" />
     </div>
   );
 }

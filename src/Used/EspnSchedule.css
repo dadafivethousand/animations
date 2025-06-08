@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600&display=swap');
+
+:root {
+  --espn-red: #e82110;
+  --espn-bg: #121212;
+  --espn-card: #1e1e1e;
+  --espn-text: #ffffff;
+  --espn-muted: #bbbbbb;
+}
+
+ 
+
+.espn-container {
+  background: var(--espn-bg);
+  min-height: 100vh;
+  padding: 40px 40px 20px;
+  font-family: 'Rajdhani', sans-serif;
+  color: var(--espn-text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.espn-day {
+  font-size: 9vw;
+  color: var(--espn-text);
+   margin-bottom: 30px;
+  padding-bottom: 6px;
+  letter-spacing: 1px;
+  margin-top: 30px;
+}
+
+.espn-track {
+  width: 100%;
+  max-width: 500px;
+}
+
+.espn-class-container {
+  margin-bottom: 18px;
+}
+
+.espn-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--espn-card);
+  border-left: 6px solid var(--espn-red);
+  padding: 18px 20px;
+  border-radius: 6px;
+  transform: translateY(20px);
+  opacity: 0;
+  animation: fadeInEspn 0.5s forwards;
+}
+
+.espn-class-name {
+  font-size: 5.5vw;
+  color: var(--espn-text);
+  max-width: 70%;
+  word-break: break-word;
+  text-transform: uppercase;
+}
+
+.espn-class-time {
+  font-size: 4.8vw;
+  color: var(--espn-red);
+  font-weight: 600;
+}
+
+@keyframes fadeInEspn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

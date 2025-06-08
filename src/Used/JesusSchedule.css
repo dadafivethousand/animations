@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Cardo:wght@700&display=swap');
+
+.jesus-wrapper {
+  position: relative;
+  min-height: 100vh;
+  padding: 80px 20px;
+  font-family: 'Cardo', serif;
+  background: linear-gradient(to bottom, #fff8e1 0%, #fceabb 100%);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Radiant golden burst behind everything */
+.heaven-glow {
+  position: absolute;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1200px;
+  height: 1200px;
+  background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,230,140,0.6) 40%, transparent 80%);
+  filter: blur(60px);
+  animation: glowPulse 6s ease-in-out infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+/* ✝ Floating cross animation ✝ */
+.floating-crosses {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 5;
+  overflow: hidden;
+}
+
+.cross-float {
+  position: absolute;
+  font-size: 150px;
+  color: rgba(255,255,255,0.8);
+  text-shadow: 0 0 6px #fff, 0 0 10px #fff4d6;
+  animation: floatUp 10s linear infinite;
+  left: calc(10% + 80% * var(--x));
+  top: 100%;
+  transform: translateY(0);
+  opacity: 0.8;
+}
+
+.cross-float:nth-child(odd) { --x: 0.1; animation-duration: 5s; }
+.cross-float:nth-child(even) { --x: 0.7; animation-duration: 6s; }
+.cross-float:nth-child(3n) { --x: 0.4; animation-duration: 4s; }
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  20% { opacity: 0.7; }
+  100% {
+    transform: translateY(-120vh);
+    opacity: 0;
+  }
+}
+
+/* Title */
+.jesus-day {
+  font-size: 10vw;
+  color: #a57c00;
+  text-shadow: 0 0 20px #fffbd6, 0 0 40px rgba(255,230,150,0.4);
+  z-index: 2;
+  margin-bottom: 40px;
+}
+
+/* Schedule list */
+.jesus-schedule {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 2;
+}
+
+/* Class cards styled like radiant golden scrolls */
+.jesus-class-card {
+  background: linear-gradient(145deg, #fff9e5, #ffe7a3);
+  border: 2px solid #f4d26a;
+  border-radius: 12px;
+  padding: 8px 24px;
+  box-shadow:
+    0 0 20px rgba(255,255,200,0.5),
+    inset 0 0 10px rgba(255,255,255,0.4);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transform: scale(0.95);
+  opacity: 0;
+  animation: fadeIn 0.5s ease forwards;
+  z-index: 70;
+}
+
+.jesus-class-card:hover {
+  transform: scale(1.03);
+  box-shadow:
+    0 0 25px rgba(255,255,210,0.7),
+    inset 0 0 12px rgba(255,255,255,0.6);
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.class-name {
+  font-size: 22px;
+  color: #7c5b1b;
+  text-shadow: 1px 1px #fff;
+}
+
+.class-time {
+  font-size: 18px;
+  color: #5c4311;
+  font-style: italic;
+}

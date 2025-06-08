@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/8MileSchedule.css";
-import schedule from "../Schedule"; // Assuming schedule data exists
+import schedule from "../../Schedule"; // Assuming schedule data exists
 import eightmileposter from '../Images/8mile.jpg';
 
 function EightMileSchedule({ day, animationDelay = 8300, animationInterval = 500 }) {

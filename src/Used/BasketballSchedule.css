@@ -1,0 +1,99 @@
+/* 🏀 SELF-CONTAINED BASKETBALL UI */
+.basketball-container {
+    position: relative;
+    width: 96%;
+
+    max-width: 500px;
+    margin: auto;
+    background: url('https://www.transparenttextures.com/patterns/basketball.png'), linear-gradient(to bottom, #E95C28 60%, #D35400 100%);
+    background-blend-mode: multiply;
+    background-size: cover;
+ 
+    border-radius: 15px;
+    border: 5px solid black; /* Mimics the black rubber trim of a basketball */
+    box-shadow: 0px 0px 20px rgba(255, 140, 0, 0.6); /* Arena lights effect */
+    overflow: hidden;
+    height:98vh
+  }
+  
+  /* 🏀 BASKETBALL COURT TITLE */
+  .basketball-day {
+    text-align: center;
+    font-size: 42px;
+    font-weight: bold;
+    font-family: "Impact", sans-serif;
+    color: white;
+    text-shadow: 6px 6px 0px black, 12px 12px 20px rgba(0, 0, 0, 0.9);
+    animation: scoreboardGlitch .3s infinite alternate ease-in-out;
+    letter-spacing: 2px;
+    background: linear-gradient(to right, #FFD700, #FFAA00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-top: 70px;
+  }
+  
+  /* 🏀 BASKETBALL COURT-STYLE UI */
+  .basketball-schedule {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    position: relative;
+    padding: 15px;
+    border-top: 3px solid black;
+     box-shadow: 0px 0px 15px rgba(255, 140, 0, 0.4);
+  }
+  
+  /* 🏀 INDIVIDUAL SCHEDULE ENTRIES */
+  .basketball-class {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 70%;
+    margin: 5px auto;
+    padding: 10px;
+    font-size: 22px;
+    font-weight: bold;
+    font-family: "Arial Black", sans-serif;
+    color: white;
+    background: #2C2C2C;
+    border: 2px solid white;
+    text-shadow: 3px 3px 0px black, 5px 5px 15px rgba(255, 255, 255, 0.8);
+    box-shadow: 0px 0px 10px rgba(255, 150, 50, 0.6);
+    transform: rotate(var(--arc)); /* Slight arc effect like a basketball shot */
+    transition: transform 0.3s ease-in-out;
+    animation: bounceEntry 1s ease-out forwards;
+    position: relative;
+
+  }
+  
+  /* 🏀 BOUNCING ENTRY EFFECT */
+  @keyframes bounceEntry {
+    0% { transform: translateY(-40px) scale(0.8) rotate(var(--arc)); opacity: 0; }
+    50% { transform: translateY(10px) scale(1.1) rotate(var(--arc)); opacity: 0.8; }
+    100% { transform: translateY(0px) scale(1) rotate(var(--arc)); opacity: 1; }
+  }
+  
+  /* 🏀 ESPN-STYLE TEXT */
+  .basketball-class-name {
+    display: block;
+    font-size: 24px;
+    color: #FFD700; /* Gold like an NBA trophy */
+    text-shadow: 4px 4px 0px black, 6px 6px 10px rgba(255, 255, 255, 0.8);
+  }
+  
+  /* 🏀 CLOCK-STYLE TIME TEXT */
+  .basketball-class-time {
+    font-size: 20px;
+    color: white;
+    text-shadow: 3px 3px 0px black, 5px 5px 15px rgba(255, 255, 255, 0.8);
+    font-family: monospace;
+  }
+  
+  /* 🏀 LIGHT BUZZER GLOW EFFECT */
+  @keyframes scoreboardGlitch {
+    0% { text-shadow: 6px 6px 0px black, 10px 10px 15px rgba(255, 215, 0, 0.8); }
+    50% { text-shadow: 4px 4px 0px black, 6px 6px 15px rgba(255, 215, 0, 0.6); }
+    100% { text-shadow: 3px 3px 0px black, 5px 5px 10px rgba(255, 215, 0, 0.8); }
+  }
+  

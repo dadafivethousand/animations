@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import schedule from "../Schedule";
-import "../Stylesheets/BigShowSchedule.css"; 
+import "./BigShowSchedule.css"; 
 import wwe_logo from '../Images/WWE_Logo.svg';
 
 function BigShowSchedule({ day }) {

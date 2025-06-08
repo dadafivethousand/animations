@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
+
+.ai-wrapper {
+  background: #ffffff;
+  color: #1e1e1e;
+  font-family: 'Fira Code', monospace;
+  padding: 40px 20px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Header mimicking ChatGPT */
+.chat-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+
+.chat-logo {
+  width: 36px;
+  height: 36px;
+  background: #10a37f;
+  border-radius: 50%;
+  color: white;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #000000;
+}
+
+/* ChatGPT bubbles */
+.chat-bubble {
+  background: #f7f7f8;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  white-space: pre-wrap;
+  line-height: 1.6;
+  box-shadow: 0 0 5px rgba(0,0,0,0.05);
+  border: 1px solid #e5e5e5;
+}
+
+.chat-bubble.user {
+  border-left: 4px solid #10a37f;
+  background: #eefdf5;
+  height:30px;
+  padding-right: 0px;
+}
+
+.chat-bubble.bot {
+  border-left: 4px solid #dadada;
+}
+
+.chat-line {
+  margin-top: 6px;
+}
+
+.chat-header img{
+width:70px
+
+}
