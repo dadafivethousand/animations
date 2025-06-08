@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+:root {
+  --arena-blue: #0a0f2c;
+  --metallic-blue: #0073e6;
+  --undertaker-flame: #ff4400;
+  --text-white: #ffffff;
+  --glow-shadow: rgba(0, 115, 230, 0.7);
+}
+
+.undertaker-container {
+    background-color: black;
+    background-image: url("../Images/taker.gif");
+    background-repeat: no-repeat;
+  min-height: 100vh;
+  padding: 40px 16px 20px;
+  font-family: 'Bebas Neue', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-position: top;
+  background-size: contain;
+  justify-content: flex-start;
+
+}
+
+.undertaker-day {
+  font-size: 19vw;
+  color: #ff4400;
+  margin-bottom: 30px;
+  letter-spacing: 3px;
+  text-shadow: 0 0 15px var(--glow-shadow);
+  text-align: center;
+   width:100%;
+  margin: 0 auto;
+            background-color: #002f809c;
+}
+
+.undertaker-track {
+  width: 100vw;
+  max-width: 500px;
+ 
+ 
+}
+
+.undertaker-class-container {
+  margin-bottom: 4px;
+}
+
+.undertaker-day-track{
+  position: absolute;
+  bottom:5px;
+    min-height:52vh
+}
+
+.undertaker-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(145deg, #0045a5, #003080);
+  border: 3px solid var(--metallic-blue);
+  padding: 7px 24px;
+  border-radius: 18px;
+  box-shadow: 0 0 20px var(--glow-shadow), 0 10px 30px rgba(0, 0, 0, 0.6);
+  transform: translateY(20px);
+  opacity: 0;
+  animation: fadeInUndertaker 0.5s forwards;
+  transition: transform 0.3s ease;
+  width:85%;
+  margin: 0 auto;
+}
+
+.undertaker-class:hover {
+  transform: scale(1.03);
+}
+
+.undertaker-class-name {
+  font-size: 5.5vw;
+  color: var(--text-white);
+  max-width: 70%;
+  word-break: break-word;
+}
+
+.undertaker-class-time {
+  font-size: 4.8vw;
+  color: var(--undertaker-flame);
+  font-weight: 700;
+}
+
+@keyframes fadeInUndertaker {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

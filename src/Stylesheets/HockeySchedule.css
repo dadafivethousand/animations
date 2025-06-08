@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+:root {
+  --ice-white: #edf4fa;
+  --blue-line: #1f78d1;
+  --red-line: #d72638;
+  --text-color: #1a1a1a;
+  --shadow-color: rgba(0, 0, 0, 0.15);
+}
+
+.hockey-container {
+  background: linear-gradient(180deg, #f5fafe 0%, #e2edf6 100%);
+  min-height: 100vh;
+  padding: 40px 16px 20px;
+  font-family: 'Bebas Neue', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.rink-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.red-line.center {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--red-line);
+  transform: translateY(-50%);
+  opacity: 0.2;
+}
+
+.blue-line.top, .blue-line.bottom {
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  background: var(--blue-line);
+  opacity: 0.2;
+}
+
+.blue-line.top {
+  top: 30%;
+}
+
+.blue-line.bottom {
+  bottom: 30%;
+}
+
+.faceoff-circle {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid var(--red-line);
+  background: rgba(255, 255, 255, 0.733);
+  opacity: 0.3;
+}
+
+.faceoff-circle.top-left {
+  top: 20%;
+  left: 15%;
+}
+
+.faceoff-circle.top-right {
+  top: 20%;
+  right: 15%;
+}
+
+.faceoff-circle.bottom-left {
+  bottom: 20%;
+  left: 15%;
+}
+
+.faceoff-circle.bottom-right {
+  bottom: 20%;
+  right: 15%;
+}
+
+.hockey-day {
+  font-size: 10vw;
+  color: var(--red-line);
+  margin-bottom: 30px;
+  letter-spacing: 2px;
+  z-index: 1;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.hockey-track {
+  width: 100%;
+  max-width: 500px;
+  z-index: 1;
+}
+
+.hockey-class-container {
+  margin-bottom: 20px;
+}
+
+.hockey-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  border: 2px solid #e0e0e0;
+  padding: 20px 24px;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px var(--shadow-color);
+  transform: translateY(20px);
+  opacity: 0;
+  animation: fadeInHockey 0.5s forwards;
+  transition: transform 0.3s;
+}
+
+.hockey-class:hover {
+  transform: translateY(0) scale(1.02);
+}
+
+.hockey-class-name {
+  font-size: 5.5vw;
+  color: var(--text-color);
+  max-width: 70%;
+  word-break: break-word;
+}
+
+.hockey-class-time {
+  font-size: 4.8vw;
+  color: var(--red-line);
+  font-weight: 700;
+}
+
+@keyframes fadeInHockey {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.faceoff-circle {
+  position: absolute;
+  width: 20vw;
+  height: 20vw;
+  border-radius: 50%;
+  border: 3px solid var(--red-line);
+  background: rgba(255, 255, 255, 0.1);
+  opacity: 0.5;
+}
+
+.faceoff-circle.top-left {
+  top: 15vh;
+  left: 10vw;
+}
+
+.faceoff-circle.top-right {
+  top: 15vh;
+  right: 10vw;
+}
+
+.faceoff-circle.bottom-left {
+  bottom: 15vh;
+  left: 10vw;
+}
+
+.faceoff-circle.bottom-right {
+  bottom: 15vh;
+  right: 10vw;
+}

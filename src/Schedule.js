@@ -1,6 +1,4 @@
-import kids from "./Images/kids.jpg"
-import Wrestling from "./Images/wrestling.webp"
-import openmat from "./Images/openmat.webp"
+ 
 const schedule = {
     Monday: [
       { name: "BJJ NoGi", start: 7.5, end: 8.5 },
@@ -43,8 +41,8 @@ const schedule = {
     ]
     ,
     Sunday: [
-      { name: "Kids", start: 11, end: 12, image:kids, description: "Building confidence & discipline."},
-       { name: "Open Mat", start: 12, end: 13, image:openmat, description: "Practice techniques and roll."},
+      { name: "Kids", start: 11, end: 12,  description: "Building confidence & discipline."},
+       { name: "Open Mat", start: 12, end: 13,  description: "Practice techniques and roll."},
     ]
   }; 
 

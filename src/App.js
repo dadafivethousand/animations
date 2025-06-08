@@ -1,23 +1,14 @@
 import React from "react";
-import './Stylesheets/App.css';
- import JoeRoganSchedule from"./Components/JoeRoganSchedule"
- 
-import Poster from "./Components/Poster"
-import LuxuryJewelrySchedule from "./Components/LuxuryJewelrySchedule";
-import EspnSchedule from "./Components/EspnSchedule";
-import AvatarSchedule from "./Components/AvatarSchedule";
-import AITerminalSchedule from "./Components/AITerminalSchedule"
-import MapleJiuJitsuHeader from "./Components/MapleJiuJitsuHeader";
-import TimHortonsSchedule from "./Components/TimHortonsSchedule";
-import GrandOpening from "./Components/GrandOpening";
-import JonJonesSchedule from "./Components/JonJonesSchedule";
-import LouisVuittonSchedule from "./Components/LouisVuittonSchedule";
- 
+import "./Stylesheets/App.css"
+import ArmyCamoSchedule from "./Components/ArmyCamoSchedule";
+import YoungJeezySchedule from "./Components/YoungJeezySchedule";
+import HockeySchedule from "./Components/HockeySchedule";
+import UndertakerSchedule from "./Components/UndertakerSchedule";
 
 function App() {
   return (
     <>
-       <LouisVuittonSchedule day="Sunday" />
+       <UndertakerSchedule day="Monday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

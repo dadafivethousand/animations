@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+:root {
+  --jeezy-black: #0d0d0d;
+  --jeezy-gold: #ffffff;
+  --jeezy-silver: #bb9900;
+  --jeezy-darkbrown: #2e2e2e;
+}
+
+.jeezy-container {
+
+
+  background: url("../Images/jeezy.jpg");
+      background-color: var(--jeezy-black);
+    background-size: contain;
+    background-repeat: no-repeat;
+  min-height: 100vh;
+  padding: 40px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Bebas Neue', sans-serif;
+
+}
+
+.jeezy-day {
+  font-size: 15vw;
+  color: var(--jeezy-gold);
+  margin-bottom: 30px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(0,0,0,0.5);
+  margin-top:190px;
+}
+
+.jeezy-track {
+  width: 100%;
+  max-width: 500px;
+}
+
+ 
+
+.jeezy-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--jeezy-darkbrown);
+  border: 2px solid var(--jeezy-gold);
+  padding: 15px 24px;
+  border-radius: 14px;
+  transform: translateY(20px);
+  opacity: 0;
+  animation: fadeInJeezy 0.5s forwards;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+  margin-bottom: 5px;
+}
+
+.jeezy-class-name {
+  font-size: 5.5vw;
+  color: var(--jeezy-silver);
+  max-width: 70%;
+  word-break: break-word;
+
+}
+
+.jeezy-class-time {
+  font-size: 4.8vw;
+  color: var(--jeezy-gold);
+  font-weight: 700;
+}
+
+@keyframes fadeInJeezy {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

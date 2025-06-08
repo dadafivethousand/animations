@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600&display=swap');
+
+:root {
+  --army-green: #7c8c6e;
+  --army-dark: #2f332b;
+  --army-tan: #d9c7a4;
+  --army-brown: #4b4032;
+  --army-black: #1e1e1e;
+}
+
+.army-container {
+  background: url("../Images/camo.jpg");
+  min-height: 100vh;
+  padding: 40px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Rajdhani', sans-serif;
+}
+
+.army-day {
+  font-size: 13vw;
+  color: var(--army-tan);
+  margin-bottom: 30px;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.4);
+  background: rgba(32, 36, 28, 0.85);
+  border: 2px solid var(--army-tan);
+  padding: 0px 24px;
+  border-radius: 16px;
+ 
+}
+
+.army-track {
+  width: 100%;
+  max-width: 500px;
+}
+
+.army-class-container {
+  margin-bottom: 20px;
+}
+
+.army-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(32, 36, 28, 0.85);
+  border: 2px solid var(--army-tan);
+  padding: 20px 24px;
+  border-radius: 16px;
+  backdrop-filter: blur(2px);
+  transform: translateY(20px);
+  opacity: 0;
+  animation: tacticalDropIn 0.6s ease-out forwards;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease;
+}
+
+.army-class:hover {
+  transform: scale(1.02);
+}
+
+.army-class-name {
+  font-size: 5.5vw;
+  color: var(--army-tan);
+  max-width: 70%;
+  word-break: break-word;
+  font-weight: 600;
+}
+
+.army-class-time {
+  font-size: 4.8vw;
+  color: var(--army-tan);
+  font-weight: 700;
+}
+
+@keyframes tacticalDropIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
