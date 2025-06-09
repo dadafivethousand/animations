@@ -1,87 +1,76 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
-body {
-  margin: 0;
-  padding: 0;
-  background: radial-gradient(#0a0a0a, #1b1b1b);
-  color: #fff;
-  font-family: 'Orbitron', sans-serif;
+:root {
+  --vegas-background: #fff9f0;
+  --vegas-red: #e50914;
+  --vegas-gold: #ffcc33;
+  --vegas-white: #ffffff;
+  --vegas-text: #1a1a1a;
+  --vegas-softshadow: rgba(0, 0, 0, 0.1);
 }
 
-.vegas-wrapper {
-  padding: 50px 20px;
-  text-align: center;
-  background: #111;
+.vegas-container {
+  background: linear-gradient(180deg, #0143be, #ffffff);
   min-height: 100vh;
-}
-
-.vegas-title {
-  font-size: 2rem;
-  color: #ffe600;
-  text-shadow: 0 0 10px #ffdf00, 0 0 20px #ffdf00;
-  margin-bottom: 40px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-}
-
-/* Slot machine structure */
-.slot-machine {
+  padding: 40px 16px 20px;
+  font-family: 'Bebas Neue', sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
 }
 
-.slot-result {
-  width: 260px;
-  height: 80px;
-  background: #2c2c2c;
-  border: 3px solid #ffd700;
-  border-radius: 10px;
-  box-shadow: inset 0 0 10px #000, 0 4px 10px rgba(0,0,0,0.6);
+.vegas-day {
+  font-size: 12vw;
+  color: var(--vegas-gold);
+  margin-bottom: 30px;
+  letter-spacing: 3px;
+  text-shadow: 0 0 8px rgba(255, 204, 51, 0.5);
+}
+
+.vegas-track {
+  width: 100%;
+  max-width: 500px;
+}
+
+.vegas-class-container {
+  margin-bottom: 10px;
+}
+
+.vegas-class {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  animation: slideIn 0.5s ease-out forwards;
+  background: linear-gradient(145deg, #ffe8d4, #ffe1c4);
+  border: 3px solid var(--vegas-gold);
+  padding: 20px 24px;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px var(--vegas-softshadow);
+  transform: translateY(20px);
   opacity: 0;
-  transform: translateY(30px);
+  animation: fadeInVegas 0.5s forwards;
+  transition: transform 0.3s ease;
 }
 
-@keyframes slideIn {
+.vegas-class:hover {
+  transform: scale(1.03);
+}
+
+.vegas-class-name {
+  font-size: 5.5vw;
+  color: var(--vegas-text);
+  max-width: 70%;
+  word-break: break-word;
+}
+
+.vegas-class-time {
+  font-size: 5.8vw;
+  color: var(--vegas-red);
+  font-weight: 700;
+}
+
+@keyframes fadeInVegas {
   to {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-.slot-window {
-  width: 100%;
-  padding: 10px 20px;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.slot-time {
-  font-size: 1.2rem;
-  color: #ffe600;
-}
-
-.slot-name {
-  font-size: 1.4rem;
-  font-weight: bold;
-  margin-top: 5px;
-}
-
-/* Placeholder while spinning */
-.placeholder {
-  background: repeating-linear-gradient(
-    45deg,
-    #222,
-    #222 10px,
-    #333 10px,
-    #333 20px
-  );
-  border-color: #444;
 }
