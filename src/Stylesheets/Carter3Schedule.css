@@ -1,0 +1,40 @@
+.carter-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100vh;
+  background-color: black;
+  color: white;
+  font-family: 'Arial', sans-serif;
+  flex-direction: column;
+  background-image: url('../Images/carter3.jpg');
+  background-size: contain;
+  background-position: bottom;
+  background-repeat: no-repeat;
+}
+
+.lines {
+  text-align: center;
+}
+
+.day-line {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-top:50px;
+  color:rgb(173, 6, 40)
+}
+
+.class-line {
+  font-size: 1.5rem;
+  margin: 5px 0;
+  opacity: 0;
+  animation: fadeIn 0.5s forwards;
+  width:70v;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}

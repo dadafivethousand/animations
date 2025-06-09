@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import "../Stylesheets/MatrixSchedule.css";
-import schedule from "../Schedule"; // same shape: { Monday: [{ name, start }, ...], ... }
+import "./MatrixSchedule.css";
+import schedule from "../../RhSchedule"; // same shape: { Monday: [{ name, start }, ...], ... }
 
 function MatrixSchedule({ day, animationDelay = 2000, animationInterval = 500 }) {
   const canvasRef = useRef(null);
