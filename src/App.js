@@ -10,7 +10,7 @@ import MatrixSchedule from "./Used/Lit/MatrixSchedule"
 function App() {
   return (
     <>
-       < MatrixSchedule day="Monday" />
+       < Carter3Schedule day="Tuesday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
