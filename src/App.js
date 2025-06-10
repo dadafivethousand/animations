@@ -6,11 +6,12 @@ import HockeySchedule from "./Components/HockeySchedule";
  import VegasSchedule from "./Components/VegasSchedule";
 import Carter3Schedule from "./Components/Carter3Schedule";
 import MatrixSchedule from "./Used/Lit/MatrixSchedule"
+import MarioSchedule from "./Used/Lit/MarioSchedule"
 
 function App() {
   return (
     <>
-       < Carter3Schedule day="Tuesday" />
+       < MarioSchedule day="Tuesday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
