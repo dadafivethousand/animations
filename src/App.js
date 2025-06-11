@@ -8,13 +8,14 @@ import HockeySchedule from "./Components/HockeySchedule";
 import MatrixSchedule from "./Used/Lit/MatrixSchedule"
 import MarioSchedule from "./Used/Lit/MarioSchedule"
 import PokemonSchedule from "./Used/Lit/PokemonSchedule"
-import TravisBarkerSchedule from "./Components/TravisBarkerSchedule";
+ import FarmSchedule from "./Components/FarmSchedule";
+import KhabibNurmagomedovSchedule from "./Used/Lit/KhabibNurmagomedovSchedule"
 
 
 function App() {
   return (
     <>
-       < TravisBarkerSchedule day="Thursday" />
+       < KhabibNurmagomedovSchedule day="Thursday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

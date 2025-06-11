@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/KhabibNurmagomedovSchedule.css";
-import schedule from "../Schedule";
+import "./KhabibNurmagomedovSchedule.css";
+import schedule from "../../RhSchedule";
 
 function KhabibNurmagomedovSchedule({ day, animationDelay = 2000, animationInterval = 300 }) {
   const [showSchedule, setShowSchedule] = useState(false);
@@ -10,7 +10,7 @@ function KhabibNurmagomedovSchedule({ day, animationDelay = 2000, animationInter
   const [zoomPicture, setZoomPicture] = useState(false)
 
   const location = "Location:"
-  const address = "20 Cranston Park, Maple, Ontario, Canada, L6A 2W2"
+  const address = "132 King Road, Richmond Hill, Ontario, Canada"
   useEffect(() => {
     setTimeout(() => {
       let i = 0;

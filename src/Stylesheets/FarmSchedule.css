@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Signika+Negative:wght@600&display=swap');
+
+:root {
+  --farm-bg1: #fff3d1;
+  --farm-bg2: #fce6a0;
+  --farm-wood: #d2b48c;
+  --farm-darkwood: #8b5c2d;
+  --farm-green: #4b7f2d;
+  --farm-white: #ffffff;
+  --farm-shadow: rgba(0, 0, 0, 0.2);
+}
+
+.farm-container {
+  background: linear-gradient(to bottom, var(--farm-bg1), var(--farm-bg2));
+  min-height: 100vh;
+  padding: 40px 16px 20px;
+  font-family: 'Signika Negative', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-repeat: repeat;
+  background-size: cover;
+}
+
+.farm-day {
+  font-size: 14vw;
+  color: var(--farm-darkwood);
+  margin-bottom: 30px;
+  letter-spacing: 2px;
+  text-shadow: 1px 1px 0 var(--farm-white), 0 2px 8px var(--farm-shadow);
+}
+
+.farm-track {
+  width: 100%;
+  max-width: 500px;
+}
+
+.farm-class-container {
+  margin-bottom: 20px;
+}
+
+.farm-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, var(--farm-wood), #f5deb3);
+  border: 2px solid var(--farm-darkwood);
+  padding: 20px 24px;
+  border-radius: 18px;
+  box-shadow:
+    inset 0 0 8px rgba(255, 255, 255, 0.2),
+    0 10px 30px rgba(139, 69, 19, 0.2);
+  transform: translateY(20px);
+  opacity: 0;
+  animation: fadeInFarmUltra 0.5s forwards;
+  transition: transform 0.3s ease;
+}
+
+.farm-class:hover {
+  transform: scale(1.03);
+  box-shadow: 0 12px 40px rgba(139, 69, 19, 0.3);
+}
+
+.farm-class-name {
+  font-size: 5.5vw;
+  color: var(--farm-darkwood);
+  max-width: 70%;
+  word-break: break-word;
+}
+
+.farm-class-time {
+  font-size: 5.8vw;
+    color: var(--farm-darkwood);
+  font-weight: 700;
+}
+
+@keyframes fadeInFarmUltra {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
