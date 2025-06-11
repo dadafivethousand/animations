@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+:root {
+  --barker-bg: #000;
+  --barker-text: #fff;
+  --barker-green: #ff0000d3;
+  --barker-shadow: rgba(255, 28, 20, 0.4);
+}
+
+.barker-container {
+  background: var(--barker-bg);
+  min-height: 100vh;
+  padding: 40px 16px 20px;
+  font-family: 'Bebas Neue', sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url('https://64.media.tumblr.com/fb5642d825c90fd1de0428fe7e2befc3/tumblr_mwu0h20uL11ridzeuo1_500.gifv');
+}
+
+.barker-day {
+  font-size: 19vw;
+  color: var(--barker-green);
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 12px var(--barker-shadow);
+}
+
+.barker-track {
+  width: 100%;
+  max-width: 500px;
+}
+
+.barker-class-container {
+  margin-bottom: 10px;
+}
+
+.barker-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #111;
+  border: 2px dashed var(--barker-green);
+  padding: 15px 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px var(--barker-shadow);
+  transform: translateY(20px);
+  opacity: 0;
+  animation: fadeInBarker 0.5s forwards;
+  transition: transform 0.3s ease;
+}
+
+.barker-class:hover {
+  transform: scale(1.03);
+}
+
+.barker-class-name {
+  font-size: 7.5vw;
+  color: var(--barker-text);
+  max-width: 70%;
+  word-break: break-word;
+}
+
+.barker-class-time {
+  font-size: 7.8vw;
+  color: var(--barker-green);
+  font-weight: 700;
+}
+
+@keyframes fadeInBarker {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
