@@ -33,7 +33,7 @@
 }
 
 .barker-class-container {
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .barker-class {
@@ -42,7 +42,7 @@
   align-items: center;
   background: #111;
   border: 2px dashed var(--barker-green);
-  padding: 15px 20px;
+  padding: 5px 20px;
   border-radius: 12px;
   box-shadow: 0 8px 20px var(--barker-shadow);
   transform: translateY(20px);
@@ -56,14 +56,14 @@
 }
 
 .barker-class-name {
-  font-size: 7.5vw;
+  font-size: 6.5vw;
   color: var(--barker-text);
   max-width: 70%;
   word-break: break-word;
 }
 
 .barker-class-time {
-  font-size: 7.8vw;
+  font-size: 6.8vw;
   color: var(--barker-green);
   font-weight: 700;
 }
