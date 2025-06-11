@@ -17,6 +17,7 @@
   justify-content: flex-start;
   align-items: center;
   background-image: url('https://64.media.tumblr.com/fb5642d825c90fd1de0428fe7e2befc3/tumblr_mwu0h20uL11ridzeuo1_500.gifv');
+  background-position: top;
 }
 
 .barker-day {
