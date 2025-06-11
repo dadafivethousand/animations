@@ -7,11 +7,12 @@ import HockeySchedule from "./Components/HockeySchedule";
 import Carter3Schedule from "./Used/Carter3Schedule";
 import MatrixSchedule from "./Used/Lit/MatrixSchedule"
 import MarioSchedule from "./Used/Lit/MarioSchedule"
+import PokemonSchedule from "./Used/Lit/PokemonSchedule"
 
 function App() {
   return (
     <>
-       < ArmyCamoSchedule day="Wednesday" />
+       < PokemonSchedule day="Wednesday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

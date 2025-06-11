@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Schedule from "../Schedule"; // Correct import path
-import "../Stylesheets/PokemonSchedule.css";
+import Schedule from "../../RhSchedule"; // Correct import path
+import "./PokemonSchedule.css";
 
 export default function PokemonSchedule({ day }) {
   const todaysSchedule = Schedule[day] || [];
@@ -32,7 +32,7 @@ export default function PokemonSchedule({ day }) {
   return (
     <div className="pokemon-container">
       {/* Pokémon Style Title */}
-      <h1 className="pokemon-title">Maple Jiu-Jitsu</h1>
+      <h1 className="pokemon-title">Richmond Hill <br></br> Jiu-Jitsu</h1>
 
       {/* Pokéball */}
       <div className={`pokeball-container ${isShaking ? "shake" : ""} ${isOpening ? "open" : ""}`}>
