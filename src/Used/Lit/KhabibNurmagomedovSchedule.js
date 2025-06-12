@@ -10,7 +10,7 @@ function KhabibNurmagomedovSchedule({ day, animationDelay = 2000, animationInter
   const [zoomPicture, setZoomPicture] = useState(false)
 
   const location = "Location:"
-  const address = "132 King Road, Richmond Hill, Ontario, Canada"
+  const address = "132 King Road, Richmond Hill, Ontario, Canada, L4E 2T6"
   useEffect(() => {
     setTimeout(() => {
       let i = 0;
