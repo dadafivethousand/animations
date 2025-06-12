@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/BruceSchedule.css";
-import schedule from "../Schedule";
+import "./BruceSchedule.css";
+import schedule from "../RhSchedule";
 
 export default function BruceSchedule({ day, animationDelay = 500, animationInterval = 300 }) {
   const [visibleArray, setVisibleArray] = useState([]);
