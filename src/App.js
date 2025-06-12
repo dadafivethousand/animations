@@ -15,7 +15,7 @@ import KhabibNurmagomedovSchedule from "./Used/Lit/KhabibNurmagomedovSchedule"
 function App() {
   return (
     <>
-       < KhabibNurmagomedovSchedule day="Thursday" />
+       < FarmSchedule day="Thursday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
