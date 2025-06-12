@@ -23,7 +23,7 @@
   animation: fadeIn 1.5s ease-in-out, pulse 2s infinite alternate;
  
   position: absolute;
-  top: 63%;
+  top: 53%;
 }
 
 .addy {
@@ -75,7 +75,7 @@
   box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
   animation: fadeIn 1.8s ease-in-out;
   position: absolute;
-  bottom: 6%;
+  bottom: 20%;
   min-height: 120px;
   max-height: 120px;
 }
