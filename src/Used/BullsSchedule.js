@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/BullsSchedule.css";
-import schedule from "../Schedule"; // Assuming schedule data exists
+import "./BullsSchedule.css";
+import schedule from "../RhSchedule" // Assuming schedule data exists
 
 function BullsSchedule({ day, animationDelay = 1000, animationInterval = 400 }) {
   const [showSchedule, setShowSchedule] = useState(false);
