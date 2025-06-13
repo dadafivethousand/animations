@@ -11,12 +11,13 @@ import PokemonSchedule from "./Used/Lit/PokemonSchedule"
  import FarmSchedule from "./Components/FarmSchedule";
 import KhabibNurmagomedovSchedule from "./Used/Lit/KhabibNurmagomedovSchedule"
 import BruceSchedule from "./Used/BruceSchedule"
+import RedBullSchedule from "./Components/RedBullSchedule";
 
 
 function App() {
   return (
     <>
-       < BruceSchedule day="Friday" />
+       < RedBullSchedule day="Saturday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

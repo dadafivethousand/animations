@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+:root {
+  --redbull-white: #ffffff;
+  --redbull-blue: #00205b;
+  --redbull-red: #d91f26;
+  --shadow: rgba(0, 0, 0, 0.08);
+}
+
+.redbull-container {
+  background: var(--redbull-white);
+  min-height: 100vh;
+  padding: 40px 16px 20px;
+  font-family: 'Anton', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: scroll;
+}
+
+
+.redbull-container img{
+display: block;
+}
+
+.redbull-day {
+  font-size: 15vw;
+  color: var(--redbull-blue);
+  margin-bottom: 0px;
+  letter-spacing: 2px;
+   padding-bottom: 8px;
+}
+
+.redbull-track {
+  width: 100%;
+  max-width: 500px;
+}
+
+.redbull-class-container {
+  margin-top: 12px;
+}
+
+.redbull-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--redbull-white);
+  padding: 20px 24px;
+  border: 3px solid var(--redbull-blue);
+  border-radius: 14px;
+  box-shadow: 0 4px 12px var(--shadow);
+  transform: translateY(20px);
+  opacity: 0;
+  animation: fadeInRedBull 0.5s forwards;
+  transition: transform 0.3s ease;
+}
+
+.redbull-class:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+}
+
+.redbull-class-name {
+  font-size: 5.5vw;
+  color: var(--redbull-red);
+  max-width: 70%;
+  word-break: break-word;
+}
+
+.redbull-class-time {
+  font-size: 4.8vw;
+  font-weight: 700;
+  color: var(--redbull-red);
+}
+
+@keyframes fadeInRedBull {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
