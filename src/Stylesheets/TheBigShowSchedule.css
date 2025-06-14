@@ -71,7 +71,7 @@
 
 .thebigshow-gif-container {
   margin-top: 0px;
-  width: 100vw;
+  width: 90%;
   display: flex;
   justify-content: center;
 }
@@ -79,6 +79,6 @@
 .bigshow-gif {
   width: 100%;
   max-width: 400px;
- 
-  box-shadow: 0 0 20px rgba(20, 115, 230, 0.4);
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(20, 115, 230, 0.877);
 }
