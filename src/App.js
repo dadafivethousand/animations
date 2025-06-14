@@ -18,7 +18,7 @@ import BullsSchedule from "./Used/BullsSchedule"
 function App() {
   return (
     <>
-       < BullsSchedule day="Saturday" />
+       < RedBullSchedule day="Saturday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

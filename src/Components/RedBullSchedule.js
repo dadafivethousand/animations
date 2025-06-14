@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../Stylesheets/RedBullSchedule.css";
 import schedule from "../Schedule";
 
-export default function RedBullSchedule({ day, animationDelay = 300, animationInterval = 150 }) {
+export default function RedBullSchedule({ day, animationDelay = 1300, animationInterval = 150 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
