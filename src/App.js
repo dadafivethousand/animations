@@ -13,12 +13,13 @@ import KhabibNurmagomedovSchedule from "./Used/Lit/KhabibNurmagomedovSchedule"
 import BruceSchedule from "./Used/BruceSchedule"
 import RedBullSchedule from "./Components/RedBullSchedule";
 import BullsSchedule from "./Used/BullsSchedule"
+import TheBigShowSchedule from "./Components/TheBigShowSchedule";
 
 
 function App() {
   return (
     <>
-       < RedBullSchedule day="Saturday" />
+       < TheBigShowSchedule day="Sunday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/HockeySchedule.css";
+import "../Stylesheets/TheBigShowSchedule.css";
 import schedule from "../Schedule";
 
-export default function HockeySchedule({ day, animationDelay = 300, animationInterval = 150 }) {
+export default function TheBigShowSchedule({ day, animationDelay = 300, animationInterval = 200 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
@@ -24,21 +24,30 @@ export default function HockeySchedule({ day, animationDelay = 300, animationInt
   };
 
   return (
-    <div className="hockey-container">
-      <div className="rink-overlay" />
-      <h1 className="hockey-day">{day.toUpperCase()}</h1>
-      <div className="hockey-track">
+    <div className="thebigshow-container">
+      <h1 className="thebigshow-header">{day.toUpperCase()}</h1>
+      <div className="thebigshow-track">
         {schedule[day]?.map((cls, idx) => (
-          <div key={idx} className="hockey-class-container">
+          <div key={idx} className="thebigshow-class-container">
             {visibleArray.includes(idx) && (
-              <div className="hockey-class">
-                <span className="hockey-class-name">{cls.name}</span>
-                <span className="hockey-class-time">{formatTime(cls.start)}</span>
+              <div className="thebigshow-class">
+                <span className="thebigshow-class-name">{cls.name}</span>
+                <span className="thebigshow-class-time">{formatTime(cls.start)}</span>
               </div>
             )}
           </div>
         ))}
       </div>
+ 
+     <div className="thebigshow-gif-container">
+ <img
+  src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMjJ0ZzU0anE2MmYxdnQyc3JkNXJlNWM3czJyNWR2Z2dnamZvZThqYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/S6ptnsaiM2S4/giphy.gif"
+  alt="Big Show Entrance"
+  className="bigshow-gif"
+/>
+
+</div>
+
     </div>
   );
 }

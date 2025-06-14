@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+:root {
+  --arena-black: #0a0a0a;
+  --spotlight-blue: #1473e6;
+  --frost-white: #f1f1f1;
+  --smack-border: #0f4ea0;
+}
+
+.thebigshow-container {
+  background: radial-gradient(circle at center, #111 0%, var(--arena-black) 100%);
+  min-height: 100vh;
+  padding: 60px 20px 30px;
+  font-family: 'Anton', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+.thebigshow-header {
+  font-size: 11vw;
+  color: var(--spotlight-blue);
+  text-shadow: 0 0 20px #1e90ff, 2px 2px 5px black;
+  margin-bottom: 40px;
+  letter-spacing: 3px;
+}
+
+.thebigshow-track {
+  width: 100%;
+  max-width: 500px;
+  z-index: 1;
+}
+
+.thebigshow-class-container {
+  margin-bottom: 24px;
+}
+
+.thebigshow-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1c1c1c;
+  border: 2px solid var(--smack-border);
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 0 20px rgba(20, 115, 230, 0.3);
+  transform: translateY(20px);
+  opacity: 0;
+  animation: fadeInBigShow 0.5s forwards;
+}
+
+.thebigshow-class-name {
+  font-size: 6vw;
+  color: var(--frost-white);
+}
+
+.thebigshow-class-time {
+  font-size: 5vw;
+  color: var(--spotlight-blue);
+  font-weight: bold;
+}
+
+@keyframes fadeInBigShow {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.thebigshow-gif-container {
+  margin-top: 0px;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+
+.bigshow-gif {
+  width: 100%;
+  max-width: 400px;
+ 
+  box-shadow: 0 0 20px rgba(20, 115, 230, 0.4);
+}
