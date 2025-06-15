@@ -1,15 +1,15 @@
 import React from "react";
 import "./Stylesheets/App.css"
-import GatoradeSchedule from "./Components/GatoradeSchedule";
-import VenomSchedule from "./Used/VenomSchedule"
-import HockeySchedule from "./Components/HockeySchedule";
+ 
+import MapleJiuJitsuHeader from "./Components/MapleJiuJitsuHeader";
+import ASAPRockySchedule from "./Components/ASAPRockySchedule";
  
 
 
 function App() {
   return (
     <>
-       <HockeySchedule day="Wednesday" />
+       <ASAPRockySchedule day="Wednesday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

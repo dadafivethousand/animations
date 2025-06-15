@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap');
+
+:root {
+  --black: #000;
+  --yellow: #ffeb3b;
+  --white: #fff;
+  --shadow: rgba(0, 0, 0, 0.3);
+}
+
+.ar-container {
+  background: var(--black);
+  min-height: 100vh;
+  padding: 24px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ar-header{
+    background-image: url(../Images/testing.jpg);
+    width:100vw;
+  height:100vw;
+  
+    background-size: 100vw;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #ffeb3b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ar-day {
+  font-family: 'Oswald', sans-serif;
+  font-size: 8vw;
+  color: var(--yellow);
+  letter-spacing: 2px;
+  margin: 5px 0;
+  text-shadow: 0 2px 4px var(--shadow);
+}
+
+.ar-track {
+  width: 100%;
+  max-width: 550px;
+}
+
+.ar-class {
+  background: var(--black);
+
+  padding: 1px 20px;
+  margin-bottom: 2px;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px var(--shadow);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transform: translateY(20px);
+  opacity: 0;
+  animation: ar-reveal 0.5s forwards;
+}
+
+@keyframes ar-reveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ar-class-name {
+  font-family: 'Oswald', sans-serif;
+  font-size: 5vw;
+  color: var(--white);
+     color: var(--yellow);
+}
+
+.ar-class-time {
+  font-family: 'Oswald', sans-serif;
+  font-size: 4.5vw;
+  color: var(--black);
+  background: var(--yellow);
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-weight: bold;
+}
