@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+
+:root {
+  --black: #000;
+  --charcoal: #111;
+  --neon-accent: #00d8ff; /* choose blue, or swap to pink/green */
+  --white: #fff;
+  --shadow: rgba(0, 216, 255, 0.2);
+}
+
+.six-container {
+  background: var(--black);
+  padding: 40px 16px 20px;
+  font-family: 'Righteous', cursive;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.six-header {
+  font-size: 10vw;
+  margin-bottom: 30px;
+  background: var(--neon-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 10px var(--neon-accent);
+}
+
+.six-track {
+  width: 100%;
+  max-width: 520px;
+  z-index: 4;
+}
+
+.six-class-container {
+  margin-bottom: 5px;
+    z-index:50
+}
+
+.six-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--charcoal);
+  border-left: 5px solid var(--neon-accent);
+  padding: 6px 20px;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px var(--shadow);
+  transform: translateX(-200px);
+  opacity: 0;
+  animation: fadeIn 0.5s forwards;
+
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.six-class:hover {
+  box-shadow: 0 12px 30px var(--shadow);
+}
+
+.six-class-name {
+  font-size: 5.5vw;
+  color: var(--white);
+  max-width: 60%;
+}
+
+.six-class-time {
+  font-size: 4.8vw;
+  color: var(--white);
+  background: var(--neon-accent);
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+:root {
+  --black: #000;
+  --charcoal: #111;
+  --accent-red: #ff1a1a;
+  --white: #fff;
+  --shadow: rgba(255, 26, 26, 0.2);
+}
+
+.six-header {
+  background: var(--accent-red);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 10px var(--accent-red);
+}
+
+.six-class {
+  background: var(--charcoal);
+  border-left: 5px solid var(--accent-red);
+  box-shadow: 0 8px 20px var(--shadow);
+}
+
+.six-class-time {
+  background: var(--accent-red);
+  color: var(--white);
+}
+
+
+.six-container img{
+position: absolute;
+bottom: 0;
+display: block;
+
+}

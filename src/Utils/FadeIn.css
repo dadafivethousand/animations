@@ -1,6 +1,7 @@
 .fade-in {
   opacity: 0;
   transition: opacity var(--fade-speed) ease-in-out;
+ width:100vw
 }
 
 .fade-in.visible {

@@ -1,40 +1,48 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/SixNineSchedule.css";
+import "../Stylesheets/Six.css";
 import schedule from "../Schedule";
+import FadeIn from "../Utils/FadeIn"
 
-export default function SixNineSchedule({ day, animationDelay = 300, animationInterval = 150 }) {
+export default function Six9ineSchedule({ day, animationDelay = 1500, animationInterval = 200 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
-    const entries = schedule[day] || [];
-    entries.forEach((_, idx) => {
+    const classes = schedule[day] || [];
+    classes.forEach((_, idx) => {
       setTimeout(() => {
         setVisibleArray(prev => [...prev, idx]);
       }, animationDelay + idx * animationInterval);
     });
   }, [day, animationDelay, animationInterval]);
 
-  const formatTime = (decimalTime) => {
-    const hour = Math.floor(decimalTime);
-    const minutes = Math.round((decimalTime - hour) * 60);
-    const hour12 = hour % 12 === 0 ? 12 : hour % 12;
-    const amPm = hour < 12 ? "AM" : "PM";
-    return `${hour12}:${minutes.toString().padStart(2, "0")} ${amPm}`;
+  const formatTime = dt => {
+    const hour = Math.floor(dt);
+    const minutes = Math.round((dt - hour) * 60);
+    const hr12 = hour % 12 === 0 ? 12 : hour % 12;
+    const ampm = hour < 12 ? "AM" : "PM";
+    const mins = minutes < 10 ? `0${minutes}` : minutes;
+    return `${hr12}:${mins} ${ampm}`;
   };
 
   return (
-    <div className="sixnine-wrapper">
-      <h3 className="sixnine-title">{day.toUpperCase()}</h3>
-      <div className="sixnine-grid">
-        {(schedule[day] || []).map((cls, idx) =>
-          visibleArray.includes(idx) ? (
-            <div className="sixnine-card" key={idx}>
-              <span className="sixnine-class">{cls.name}</span>
-              <span className="sixnine-time">{formatTime(cls.start)}</span>
-            </div>
-          ) : null
-        )}
+    <div className="six-container">
+      <h1 className="six-header">{day.toUpperCase()}</h1>
+      <div className="six-track">
+        {schedule[day]?.map((cls, idx) => (
+          <div key={idx} className="six-class-container">
+            {visibleArray.includes(idx) && (
+              <div className="six-class">
+                <span className="six-class-name">{cls.name}</span>
+                <span className="six-class-time">{formatTime(cls.start)}</span>
+              </div>
+            )}
+          </div>
+        ))}
       </div>
+      <FadeIn   speed = {3000} delay={1800} >
+      <img src={'https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZnc5NThhMjZvMHQwbjZ5b2Nocm4wMmUwb3ExdDk2ZmNvc3ZwamdvcSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/39m7vdeuZ5kQcNtNoN/giphy.gif'} />
+  </FadeIn>
+    
     </div>
   );
 }
