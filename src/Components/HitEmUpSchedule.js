@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../Stylesheets/HitEmUpSchedule.css";
 import schedule from "../Schedule";
 
-export default function HitEmUpSchedule({ day, animationDelay = 300, animationInterval = 200 }) {
+export default function HitEmUpSchedule({ day, animationDelay = 1800, animationInterval = 200 }) {
   const [visible, setVisible] = useState([]);
 
   useEffect(() => {
