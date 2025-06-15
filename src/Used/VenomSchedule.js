@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/VenomSchedule.css";
-import schedule from "../Schedule";
+import "./VenomSchedule.css";
+import schedule from "../RhSchedule";
 
 function VenomSchedule({ day }) {
   const [showSchedule, setShowSchedule] = useState(false);
