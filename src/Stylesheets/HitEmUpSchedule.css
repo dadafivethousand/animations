@@ -88,6 +88,7 @@
   border-radius: 4px;
   font-weight: bold;
   letter-spacing: 1px;
+  width:max-content;
 }
 
 img {
