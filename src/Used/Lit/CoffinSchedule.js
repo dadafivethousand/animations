@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/CoffinSchedule.css";
-import schedule from "../Schedule";
-import tombcarriers from "../Images/tombcarriers.gif";
+import "./CoffinSchedule.css";
+import schedule from "../../RhSchedule";
+import tombcarriers from "../../Images/Used/tombcarriers.gif";
 
-export default function CoffinSchedule({ day, animationDelay = 400, animationInterval = 300 }) {
+export default function CoffinSchedule({ day, animationDelay = 1400, animationInterval = 300 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
