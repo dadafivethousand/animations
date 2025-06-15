@@ -3,8 +3,11 @@ import "../Stylesheets/MapleJiuJitsuHeader.css";
 
 export default function MapleJiuJitsuHeader() {
   return (
-    <div className="maple-container">
-      <h1 className="maple-title">Maple Jiu-Jitsu</h1>
+    <div className="mj-header-container">
+      <div className="mj-header-text">
+        <span>MAPLE</span>
+        <span>JIU‑JITSU</span>
+      </div>
     </div>
   );
 }

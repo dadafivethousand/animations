@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/RolexSchedule.css";
-import schedule from "../Schedule";
+import "./RolexSchedule.css";
+import schedule from "../../RhSchedule";
 import RolexTypewriter from "./RolexTypewriter";
 
 export default function RolexSchedule({ day, animationDelay = 7500, animationInterval = 500 }) {

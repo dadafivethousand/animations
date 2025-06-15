@@ -1,6 +1,6 @@
 import React from "react";
-import Schedule from "../Schedule"; // Capitalized as requested
-import "../Stylesheets/GodfatherSchedule.css";
+import Schedule from "../../RhSchedule"; // Capitalized as requested
+import "./GodfatherSchedule.css";
 
 export default function GodfatherSchedule({ day }) {
   const todaysSchedule = Schedule[day] || [];

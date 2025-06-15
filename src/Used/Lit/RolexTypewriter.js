@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/RolexTypewriter.css";
-import RolexLogo from "../Images/rolex-logo.png";
+import "./RolexTypewriter.css";
+import RolexLogo from "../../Images/Used/rolex-logo.png"
 
 export default function RolexTypewriter() {
-  const fullText = "ROLL WITH US";
+  const fullText = "RICHMOND HILL JIU-JITSU";
   const [displayedText, setDisplayedText] = useState("ROLEX");
   const [phase, setPhase] = useState("backspacing");
   const [i, setI] = useState(0);
@@ -40,7 +40,7 @@ export default function RolexTypewriter() {
       } else {
         timeoutId = setTimeout(() => {
           setPhase("typing");
-          setI(2);
+          setI(1);
         }, 500);
       }
     }
