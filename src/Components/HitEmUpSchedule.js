@@ -20,6 +20,8 @@ export default function HitEmUpSchedule({ day, animationDelay = 300, animationIn
 
   return (
     <div className="he-container">
+              <img src={'https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExOW0yZzBjMnhsbGxxM2lkcDJpeHpwbHA2NWxxYWVhdzl4MzJ2dXhkdiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/9nSWOyPuQfUCA/giphy.gif'}/>
+
       <h1 className="he-header">{day.toUpperCase()}</h1>
       <div className="he-track">
         {schedule[day]?.map((cls, i) =>
@@ -31,7 +33,6 @@ export default function HitEmUpSchedule({ day, animationDelay = 300, animationIn
           )
         )}
       </div>
-      <img src={'https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExOW0yZzBjMnhsbGxxM2lkcDJpeHpwbHA2NWxxYWVhdzl4MzJ2dXhkdiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/9nSWOyPuQfUCA/giphy.gif'}/>
     </div>
   );
 }
