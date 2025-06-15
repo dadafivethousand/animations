@@ -28,8 +28,8 @@ export default function GodfatherSchedule({ day }) {
           {todaysSchedule.length > 0 ? (
             todaysSchedule.map((event, index) => (
               <li key={index}>
-                {event.name} ({formatTime(event.start)} - {formatTime(event.end)})
-              </li>
+                {event.name} {formatTime(event.start)}
+                              </li>
             ))
           ) : (
             <li>No classes today. Rest up!</li>
