@@ -5,7 +5,7 @@ import MapleJiuJitsuHeader from "./MapleJiuJitsuHeader";
  
 export default function ASAPRockySchedule({
   day,
-  animationDelay = 300,
+  animationDelay = 1700,
   animationInterval = 200,
 }) {
   const [visible, setVisible] = useState([]);
