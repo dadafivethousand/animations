@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap');
+
+:root {
+  --white: #fff;
+  --light-gray: #f3f3f3;
+  --medium-gray: #ccc;
+  --dark-gray: #333;
+  --shadow: rgba(0, 0, 0, 0.1);
+}
+
+.dk-container {
+  background: var(--white);
+  min-height: 100vh;
+  padding: 24px 16px;
+  font-family: 'Oswald', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dk-header {
+  font-size: 8vw;
+  color: var(--dark-gray);
+  margin-bottom: 24px;
+  letter-spacing: 2px;
+}
+
+.dk-track {
+  width: 100%;
+  max-width: 540px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dk-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--dark-gray);
+  padding: 6px 20px;
+  border-left: 6px solid var(--medium-gray);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px var(--shadow);
+  transform: translateY(20px);
+  opacity: 0;
+  animation: dk-reveal 0.5s forwards ease-out;
+  z-index: 5;
+}
+
+@keyframes dk-reveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dk-class-name {
+  font-size: 5vw;
+  color: var(--light-gray);
+  max-width: 60%;
+}
+
+.dk-class-time {
+  font-size: 4.5vw;
+  background: var(--medium-gray);
+  color: var(--dark-gray);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.dk-container img{
+    position: absolute;
+    bottom:10px;
+}

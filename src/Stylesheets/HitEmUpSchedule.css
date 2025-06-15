@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap');
+
+:root {
+  --bg-light: rgb(247, 252, 244);  /* Your chosen pale mint/ivory background */
+  --accent-brown: #8B5E3C;        /* Warm tobacco/brown accent */
+  --accent-black: #332B25;        /* Deep charcoal accent */
+  --white: #ffffff;
+  --shadow: rgba(0, 0, 0, 0.1);
+}
+
+.he-container {
+  background-color: var(--bg-light);
+  min-height: 100vh;
+  padding: 24px 16px;
+  font-family: 'Oswald', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.he-header {
+  font-size: 12vw;
+  color: var(--accent-black);
+  margin-bottom: 24px;
+  letter-spacing: 2px;
+  text-shadow: 1px 1px 2px var(--shadow);
+  position: relative;
+  z-index: 4;
+}
+
+ 
+
+.he-track {
+  width: 80%;
+  max-width: 540px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+    position: absolute;
+    bottom:20px
+    
+}
+
+.he-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  padding: 6px 20px;
+  border-left: 6px solid var(--accent-brown);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px var(--shadow);
+  transform: translateY(20px);
+  opacity: 0;
+  animation: he-reveal 0.5s forwards ease-out;
+  z-index: 5;
+
+}
+
+@keyframes he-reveal {
+  to {
+    opacity: .7;
+    transform: translateY(0);
+  }
+}
+
+.he-class-name {
+  font-size: 5vw;
+  color: var(--accent-black);
+  max-width: 70%;
+}
+
+.he-class-time {
+  font-size: 4.5vw;
+  background-color: var(--accent-brown);
+  color: var(--white);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+
+.he-container img{
+    position: absolute;
+    top:50px;
+}
