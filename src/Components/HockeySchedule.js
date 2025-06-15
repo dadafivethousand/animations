@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../Stylesheets/HockeySchedule.css";
 import schedule from "../Schedule";
 
-export default function HockeySchedule({ day, animationDelay = 300, animationInterval = 150 }) {
+export default function HockeySchedule({ day, animationDelay = 1800, animationInterval = 150 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
