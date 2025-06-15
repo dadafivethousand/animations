@@ -98,7 +98,7 @@
 .parchment {
   width: 60%;
   max-width: 600px;
-   padding: 30px 10px;
+   padding:10px;
   border-radius: 5px;
   text-align: center;
   font-family: 'Pirata One', cursive;
@@ -137,4 +137,9 @@
   font-weight: lighter;
   color: white;
   padding: 5px 0;
+}
+
+.godfather-class{
+  display: flex;
+  justify-content: space-between;
 }

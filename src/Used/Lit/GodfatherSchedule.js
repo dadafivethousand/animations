@@ -27,8 +27,8 @@ export default function GodfatherSchedule({ day }) {
         <ul className="schedule-list">
           {todaysSchedule.length > 0 ? (
             todaysSchedule.map((event, index) => (
-              <li key={index}>
-                {event.name} {formatTime(event.start)}
+              <li className="godfather-class" key={index}>
+               <span>{event.name}  </span>   <span>{formatTime(event.start)}</span>
                               </li>
             ))
           ) : (
