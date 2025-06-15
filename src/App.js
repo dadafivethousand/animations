@@ -1,14 +1,14 @@
 import React from "react";
 import "./Stylesheets/App.css"
+import GatoradeSchedule from "./Components/GatoradeSchedule";
  
- import CoffinSchedule from "./Used/Lit/CoffinSchedule"
-import Six9ineSchedule from "./Components/SixNineSchedule";
+ 
 
 
 function App() {
   return (
     <>
-       < CoffinSchedule day="Monday" />
+       < GatoradeSchedule day="Tuesday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
