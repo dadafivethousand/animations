@@ -27,7 +27,7 @@
   letter-spacing: 0.15em;
   position: relative;
   padding: 0.1em 0;
-  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), 0 calc(100% - 20px));
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 4px), 0 calc(100% - 4px));
   background: transparent;
 }
 
