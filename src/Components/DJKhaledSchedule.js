@@ -4,7 +4,7 @@ import schedule from "../Schedule";
 
 export default function DJKhaledSchedule({
   day,
-  animationDelay = 300,
+  animationDelay = 1700,
   animationInterval = 200,
 }) {
   const [visible, setVisible] = useState([]);

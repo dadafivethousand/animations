@@ -9,7 +9,7 @@ import HitEmUpSchedule from "./Components/HitEmUpSchedule";
 function App() {
   return (
     <>
-       <HitEmUpSchedule day="Monday" />
+       <DJKhaledSchedule day="Thursday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

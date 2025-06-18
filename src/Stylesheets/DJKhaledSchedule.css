@@ -19,7 +19,7 @@
 }
 
 .dk-header {
-  font-size: 8vw;
+  font-size: 10vw;
   color: var(--dark-gray);
   margin-bottom: 24px;
   letter-spacing: 2px;
@@ -30,7 +30,7 @@
   max-width: 540px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 6px;
 }
 
 .dk-class {
@@ -68,6 +68,8 @@
   padding: 6px 12px;
   border-radius: 4px;
   font-weight: bold;
+  min-width:70px;
+  text-align: center;
 }
 
 .dk-container img{
