@@ -7,7 +7,7 @@ import VegasSchedule from "./Components/VegasSchedule";
 function App() {
   return (
     <>
-       <VegasSchedule day="Thursday" />
+       <VegasSchedule day="Friday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
