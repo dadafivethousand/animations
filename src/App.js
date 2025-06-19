@@ -2,11 +2,12 @@ import React from "react";
 import "./Stylesheets/App.css"
  
 import WarcraftSchedule from "./Used/WarcraftSchedule";
+import VegasSchedule from "./Components/VegasSchedule";
 
 function App() {
   return (
     <>
-       <WarcraftSchedule day="Thursday" />
+       <VegasSchedule day="Thursday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
@@ -14,3 +15,4 @@ function App() {
 }
 
 export default App;
+ 
