@@ -3,11 +3,12 @@ import "./Stylesheets/App.css"
  
 import WarcraftSchedule from "./Used/WarcraftSchedule";
 import VegasSchedule from "./Components/VegasSchedule";
+import KingKongSchedule from "./Used/KingKongSchedule";
 
 function App() {
   return (
     <>
-       <VegasSchedule day="Friday" />
+       <KingKongSchedule day="Friday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

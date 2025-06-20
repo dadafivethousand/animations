@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/KingKongSchedule.css"; 
-import schedule from "../Schedule"; 
+import "../Used/KingKongSchedule.css"
+import schedule from "../RhSchedule"; 
 
 function KingKongSchedule({ day }) {
   const [visibleClasses, setVisibleClasses] = useState([]);
