@@ -1,30 +1,30 @@
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
 
 :root {
-  --deep-red: #b30000;
-  --rich-cream: #fff2e6;
-  --shadow-dark: rgba(0, 0, 0, 0.2);
+  --cadillac-red: #b30000;
+  --cadillac-cream: #fff2e6;
+  --shadow-dark: rgba(0, 0, 0, 0.25);
 }
 
-.cadillac-clean-container {
-  background: var(--rich-cream);
+.cadillac-container {
+  background: var(--cadillac-cream);
   min-height: 100vh;
-  padding: 50px 24px;
+  padding: 48px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.cadillac-clean-day {
+.cadillac-day {
   font-family: 'Archivo Black', sans-serif;
   font-size: 10vw;
-  color: var(--deep-red);
-  letter-spacing: 4px;
+  color: var(--cadillac-red);
+  letter-spacing: 3px;
   text-shadow: 2px 2px 6px var(--shadow-dark);
   margin-bottom: 40px;
 }
 
-.cadillac-clean-track {
+.cadillac-track {
   width: 100%;
   max-width: 520px;
   display: flex;
@@ -32,9 +32,9 @@
   gap: 24px;
 }
 
-.cadillac-clean-class {
+.cadillac-class {
   background: white;
-  border: 3px solid var(--deep-red);
+  border: 3px solid var(--cadillac-red);
   border-radius: 16px;
   padding: 20px 24px;
   display: flex;
@@ -42,25 +42,42 @@
   align-items: center;
   font-family: 'Archivo Black', sans-serif;
   font-size: 5vw;
-  color: var(--deep-red);
+  color: var(--cadillac-red);
   box-shadow: 0 6px 16px var(--shadow-dark);
   opacity: 0;
-  transform: translateY(15px);
-  animation: fadeInCadillacClean 0.45s ease-out forwards;
+  transform: translateY(20px);
+  animation: fadeIn 0.4s ease-out forwards,
+             carBump 2.6s ease-in-out infinite;
+  animation-delay: var(--delay);
 }
 
-@keyframes fadeInCadillacClean {
+@keyframes fadeIn {
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-.cadillac-clean-name {
+@keyframes carBump {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-5px);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+  75% {
+    transform: translateY(-3px);
+  }
+}
+
+.cadillac-name {
   max-width: 65%;
   word-break: break-word;
 }
 
-.cadillac-clean-time {
-  font-size: 4.4vw;
+.cadillac-time {
+  font-size: 4.2vw;
 }

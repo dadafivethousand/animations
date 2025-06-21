@@ -23,14 +23,18 @@ export default function CadillacSchedule({ day, animationDelay = 1200, animation
   };
 
   return (
-    <div className="cadillac-clean-container">
-      <h1 className="cadillac-clean-day">{day.toUpperCase()}</h1>
-      <div className="cadillac-clean-track">
+    <div className="cadillac-container">
+      <h1 className="cadillac-day">{day.toUpperCase()}</h1>
+      <div className="cadillac-track">
         {schedule[day]?.map((cls, i) =>
           visible.includes(i) && (
-            <div key={i} className="cadillac-clean-class">
-              <span className="cadillac-clean-name">{cls.name}</span>
-              <span className="cadillac-clean-time">{formatTime(cls.start)}</span>
+            <div
+              key={i}
+              className="cadillac-class"
+              style={{ "--delay": `${0.3 * i}s` }}
+            >
+              <span className="cadillac-name">{cls.name}</span>
+              <span className="cadillac-time">{formatTime(cls.start)}</span>
             </div>
           )
         )}
