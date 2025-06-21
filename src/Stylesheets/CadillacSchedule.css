@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
+
+:root {
+  --deep-red: #b30000;
+  --rich-cream: #fff2e6;
+  --shadow-dark: rgba(0, 0, 0, 0.2);
+}
+
+.cadillac-clean-container {
+  background: var(--rich-cream);
+  min-height: 100vh;
+  padding: 50px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cadillac-clean-day {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 10vw;
+  color: var(--deep-red);
+  letter-spacing: 4px;
+  text-shadow: 2px 2px 6px var(--shadow-dark);
+  margin-bottom: 40px;
+}
+
+.cadillac-clean-track {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.cadillac-clean-class {
+  background: white;
+  border: 3px solid var(--deep-red);
+  border-radius: 16px;
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 5vw;
+  color: var(--deep-red);
+  box-shadow: 0 6px 16px var(--shadow-dark);
+  opacity: 0;
+  transform: translateY(15px);
+  animation: fadeInCadillacClean 0.45s ease-out forwards;
+}
+
+@keyframes fadeInCadillacClean {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cadillac-clean-name {
+  max-width: 65%;
+  word-break: break-word;
+}
+
+.cadillac-clean-time {
+  font-size: 4.4vw;
+}

@@ -120,7 +120,7 @@
 /* 🌟 CLASS NAME */
 .class-name {
     font-weight: bold;
-    text-shadow: 2px 2px var(--kong-dark);
+ 
 }
 
 /* ⏰ CLASS TIME */
@@ -128,5 +128,5 @@
     font-size: 1.5rem;
     font-weight: bold;
     color: #E6C200;
-    text-shadow: 2px 2px var(--kong-dark);
+ 
 }

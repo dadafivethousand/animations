@@ -1,6 +1,6 @@
 import React from "react";
-import schedule from "../Schedule";
-import "../Stylesheets/WolverineSchedule.css";
+import schedule from "../../RhSchedule";
+import "./WolverineSchedule.css";
 import { useState, useEffect } from "react";
 
 function WolverineSchedule({ day }) {
