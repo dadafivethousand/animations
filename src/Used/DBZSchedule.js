@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import schedule from "../Schedule"; // Ensure correct schedule import
-import "../Stylesheets/DBZSchedule.css"; // Link CSS file
+import schedule from "../RhSchedule"; // Ensure correct schedule import
+import "./DBZSchedule.css"; // Link CSS file
 
 function DBZSchedule({ day }) {
   const [poweringUp, setPoweringUp] = useState(true);
