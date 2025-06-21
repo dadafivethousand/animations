@@ -9,11 +9,13 @@ import DBZSchedule from "./Used/DBZSchedule";
 import CreditCardSchedule from "./Components/CreditCardSchedule";
 import WolverineSchedule from "./Used/Lit/WolverineSchedule";
 import CadillacSchedule from "./Components/CadillacSchedule";
+import Six9ineSchedule from "./Components/SixNineSchedule";
+import OvoSchedule from "./Components/OvoSchedule";
 
 function App() {
   return (
     <>
-       <CadillacSchedule day="Sunday" />
+       <OvoSchedule day="Monday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

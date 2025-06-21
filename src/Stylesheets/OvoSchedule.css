@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
+
+:root {
+  --ovo-black: #0a0a0a;
+  --ovo-gold: #d1c393;
+  --ovo-dark-gold: #dac794;
+}
+
+.ovo-container {
+  background: var(--ovo-black);
+  min-height: 100vh;
+  padding: 48px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image: url('../Images/ovo.webp');
+  background-position: center bottom;
+  background-size: 80vw;
+  background-repeat: no-repeat;
+}
+
+.ovo-day {
+  font-family: 'Playfair Display', serif;
+  font-size: 10vw;
+  color: var(--ovo-gold);
+  letter-spacing: 4px;
+  text-shadow: 0 0 6px var(--ovo-gold);
+  margin-bottom: 32px;
+}
+
+.ovo-track {
+  width: 100%;
+  max-width: 540px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ovo-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--ovo-gold);
+  border-radius: 12px;
+  padding: 8px 20px;
+  font-family: 'Playfair Display', serif;
+  font-size: 5vw;
+  color: var(--ovo-gold);
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeIn 0.4s ease-out forwards;
+  animation-delay: var(--delay);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.25);
+}
+
+.ovo-name {
+  max-width: 70%;
+}
+
+.ovo-time {
+  font-size: 5.5vw;
+  font-style: italic;
+  color: var(--ovo-dark-gold);
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
