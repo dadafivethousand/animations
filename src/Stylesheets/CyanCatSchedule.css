@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+:root {
+  --bg: #e0f7fa;
+  --pink: #ff90b3;
+  --cyan: #00e5ff;
+  --yellow: #ffff00;
+  --purple: #9c27b0;
+  --blue: #2979ff;
+  --red: #f44336;
+  --white: #ffffff;
+  --dark: #212121;
+}
+
+.cc-container {
+  background: var(--bg);
+  min-height: 100vh;
+  padding: 0px 12px;
+  font-family: 'Press Start 2P', cursive;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 40;
+ 
+}
+
+.cc-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0px;
+  margin-bottom: 28px;
+  margin-top:230px;
+}
+
+.cc-title {
+  font-size: 9vw;
+  color: var(--bg);
+  text-align: center;
+  text-shadow: 2px 2px var(--pink);
+    z-index: 40;
+}
+
+.cc-rainbow-bar {
+  width: 100%;
+  height: 10px;
+  max-width: 320px;
+  background: linear-gradient(to right, red, orange, yellow, lime, cyan, blue, violet);
+  animation: wave 3s linear infinite;
+  border-radius: 8px;
+    z-index: 40;
+}
+
+@keyframes wave {
+  from {
+    background-position: 0%;
+  }
+  to {
+    background-position: 1000%;
+  }
+}
+
+.cc-track {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 540px;
+}
+
+.cc-class {
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: var(--white);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 4px dashed var(--cyan);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  transform: scale(0.95);
+  opacity: 0;
+      z-index: 40;
+ 
+  animation: cc-reveal 0.4s ease-out forwards;
+}
+
+@keyframes cc-reveal {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.cc-class-name {
+  font-size: 3.6vw;
+  max-width: 65%;
+}
+
+.cc-class-time {
+  font-size: 3.4vw;
+  background: var(--yellow);
+  color: var(--dark);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  border: 2px solid var(--dark);
+}
+
+.tenor-gif-embed{
+    width: 300px
+}
+
+.cyan-cats{
+    position: absolute;
+    height:100vh;
+    width: 100vw;
+}
