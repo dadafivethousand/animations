@@ -10,11 +10,12 @@ import Six9ineSchedule from "./Components/SixNineSchedule";
 import OvoSchedule from "./Components/OvoSchedule";
 import MichaelJacksonSchedule from "./Components/MichaelJacksonSchedule";
 import RockySchedule from "./Components/RockySchedule";
+import BatmanSchedule from "./Used/BatmanSchedule"
 
 function App() {
   return (
     <>
-       <OvoSchedule day="Tuesday" />
+       <BatmanSchedule day="Tuesday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
