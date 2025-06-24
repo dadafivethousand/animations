@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+:root {
+  --rocky-bg: #f4f7fb;
+  --rocky-blue: #0033a0;
+  --rocky-red: #d71920;
+  --rocky-white: #ffffff;
+}
+
+.rocky-container {
+  background: var(--rocky-bg);
+  min-height: 100vh;
+  padding: 48px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rocky-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 11vw;
+  color: var(--rocky-blue);
+  text-shadow: 2px 2px var(--rocky-red);
+  margin-bottom: 36px;
+  letter-spacing: 4px;
+  border-bottom: 3px solid var(--rocky-red);
+  padding-bottom: 10px;
+}
+
+.rocky-track {
+  width: 100%;
+  max-width: 550px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.rocky-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--rocky-white);
+  border-left: 6px solid var(--rocky-blue);
+  border-right: 6px solid var(--rocky-red);
+  border-radius: 10px;
+  padding: 18px 22px;
+  font-family: 'Anton', sans-serif;
+  font-size: 5.2vw;
+  color: var(--rocky-blue);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: punchIn 0.5s ease-out forwards;
+  animation-delay: var(--delay);
+}
+
+.rocky-time {
+  color: var(--rocky-red);
+  font-size: 4.4vw;
+  font-style: italic;
+}
+
+@keyframes punchIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
