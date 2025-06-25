@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/TokyoSchedule.css";
 import schedule from "../Schedule";
-import tokyo from "../Images/Tokyo GIF - Find & Share on GIPHY.gif"
-
+import tokyo from "../Images/Used/Tokyo GIF - Find & Share on GIPHY.gif"
 export default function TokyoSchedule({ day, animationDelay = 800, animationInterval = 300 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 

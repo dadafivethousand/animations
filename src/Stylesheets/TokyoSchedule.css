@@ -33,9 +33,11 @@
 .tokyo-grid {
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   gap: 0px;
   width: 90vw;
   max-width: 600px;
+  height:400px
 }
 
 .tokyo-card {
