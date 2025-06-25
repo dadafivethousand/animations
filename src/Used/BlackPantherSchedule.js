@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/BlackPantherSchedule.css";
-import schedule from "../Schedule";
+import "./BlackPantherSchedule.css";
+import schedule from "../RhSchedule";
 
 function BlackPantherSchedule({ day }) {
   const [showSchedule, setShowSchedule] = useState(false);
