@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/TmntSchedule.css";
-import schedule from "../Schedule"; // Assuming schedule data exists
+import "./TmntSchedule.css";
+import schedule from "../RhSchedule"; // Assuming schedule data exists
 
 function TmntSchedule({ day, animationDelay = 1000, animationInterval = 400 }) {
   const [visibleArray, setVisibleArray] = useState([]);
