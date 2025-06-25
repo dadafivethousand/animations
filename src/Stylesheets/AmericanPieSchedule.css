@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+
+:root {
+  --pie-red: #b30000;
+  --pie-yellow: #fff3b0;
+  --pie-white: #ffffff;
+  --pie-bg: #fceedd;
+}
+
+.ap-container {
+  background: var(--pie-bg);
+  min-height: 100vh;
+  padding: 48px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ap-title {
+  font-family: 'Bangers', cursive;
+  font-size: 12vw;
+  color: var(--pie-red);
+  text-shadow: 2px 2px var(--pie-yellow);
+  border-bottom: 4px dashed var(--pie-red);
+  padding-bottom: 10px;
+  margin-bottom: 36px;
+  letter-spacing: 2px;
+}
+
+.ap-track {
+  width: 100%;
+  max-width: 540px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ap-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--pie-white);
+  border: 2px dashed var(--pie-red);
+  border-radius: 12px;
+  padding: 16px 22px;
+  font-family: 'Bangers', cursive;
+  font-size: 5.5vw;
+  color: var(--pie-red);
+  box-shadow: 0 0 8px rgba(179, 0, 0, 0.25);
+  transform: translateY(20px);
+  opacity: 0;
+  animation: slideUp 0.5s ease-out forwards;
+  animation-delay: var(--delay);
+}
+
+.ap-time {
+  color: var(--pie-red);
+  font-size: 4.5vw;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+@keyframes slideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

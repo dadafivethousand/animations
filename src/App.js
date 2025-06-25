@@ -13,11 +13,13 @@ import RockySchedule from "./Components/RockySchedule";
 import BatmanSchedule from "./Used/BatmanSchedule"
 import TokyoSchedule from "./Components/TokyoSchedule"
 import BlackPantherSchedule from "./Used/BlackPantherSchedule";
+import AmericanPieSchedule from "./Components/AmericanPieSchedule";
+import IcedOutSchedule from "./Components/IcedOutSchedule";
 
 function App() {
   return (
     <>
-       < BlackPantherSchedule day="Wednesday" />
+       < IcedOutSchedule day="Thursday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
