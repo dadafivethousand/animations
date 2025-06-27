@@ -21,7 +21,7 @@
 
 .sn-title {
   font-family: 'Bangers', cursive;
-  font-size: 12vw;
+  font-size: 15vw;
   background: var(--title-red);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
