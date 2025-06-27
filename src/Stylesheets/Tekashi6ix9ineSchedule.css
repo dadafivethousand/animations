@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+
+:root {
+  --white-bg: #ffffff;
+  --title-red: linear-gradient(90deg, #ff0000, #ff5a5a);
+  --class-fill: linear-gradient(135deg, #ff00cc, #ffea00, #00f0ff);
+  --class-text: #000;
+  --neon-shadow: 0 0 5px #000, 0 0 10px #ff00cc, 0 0 15px #00f0ff;
+  --hover-glow: 0 0 12px #ff00cc, 0 0 20px #00f0ff;
+}
+
+.sn-container {
+  background: var(--white-bg);
+  min-height: 100vh;
+  padding: 40px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+.sn-title {
+  font-family: 'Bangers', cursive;
+  font-size: 12vw;
+  background: var(--title-red);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+  text-shadow:
+    0 0 2px #ff0000,
+    0 0 6px #ff5a5a,
+    0 0 10px rgba(255, 0, 0, 0.4);
+}
+
+.sn-title span {
+  animation: bounce 1s infinite;
+  animation-delay: calc(var(--i) * 0.1s);
+}
+
+.sn-track {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sn-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--class-fill);
+  border-radius: 20px;
+  padding: 10px 24px;
+  font-family: 'Bangers', cursive;
+  font-size: 7vw;
+  text-transform: uppercase;
+  color: var(--class-text);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+ width:60%;
+ margin: 0 auto;
+  opacity: 0;
+  animation: popIn 0.4s ease-out forwards;
+  animation-delay: var(--delay);
+  transition: transform 0.3s ease;
+}
+
+.sn-class:hover {
+  transform: scale(1.05) rotate(1deg);
+  box-shadow: var(--hover-glow);
+}
+
+.sn-name,
+.sn-time {
+  color: #000;
+ 
+  font-weight: bold;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes popIn {
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+ 
+.tenor-gif-embed{
+    width:100vw;
+    height:50vh;
+    position: absolute;
+}

@@ -16,11 +16,12 @@ import BlackPantherSchedule from "./Used/BlackPantherSchedule";
 import AmericanPieSchedule from "./Components/AmericanPieSchedule";
 import IcedOutSchedule from "./Components/IcedOutSchedule";
 import TMNTSchedule from "./Used/TmntSchedule"
+import Tekashi6ix9ineSchedule from "./Components/Tekashi6ix9ineSchedule";
 
 function App() {
   return (
     <>
-       < TMNTSchedule day="Thursday" />
+       < Tekashi6ix9ineSchedule day="Friday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
