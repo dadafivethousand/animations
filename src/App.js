@@ -21,7 +21,7 @@ import Tekashi6ix9ineSchedule from "./Components/Tekashi6ix9ineSchedule";
 function App() {
   return (
     <>
-       < Tekashi6ix9ineSchedule day="Friday" />
+       < TokyoSchedule day="Friday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
