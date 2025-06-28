@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/CaptainAmericaSchedule.css";
-import schedule from "../Schedule";
+import "./CaptainAmericaSchedule.css";
+import schedule from "../RhSchedule";
 
 export default function CaptainAmericaSchedule({ day, animationDelay = 1000, animationInterval = 300 }) {
   const [visibleArray, setVisibleArray] = useState([]);

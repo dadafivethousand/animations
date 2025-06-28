@@ -77,16 +77,16 @@
 
 
 .biggie-photo {
-  background-image: url(../Images/biggie.jpg);
+  background-image: url(../Images/Used/biggie.jpg);
   background-repeat: no-repeat;
   background-position: center;
   position: absolute;
   height:100vh;
   width: 100vw;
   opacity:0;
-  transform: translateY(150px) scale(.7);;
+  transform: translateY(150px) scale(.1);;
   transition: opacity 5s ease-in,  transform 5s ease-in;
- 
+ background-size: contain;
 }
 
 

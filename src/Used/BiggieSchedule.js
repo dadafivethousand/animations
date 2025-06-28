@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/BiggieSchedule.css";
-import schedule from "../Schedule";
+import "./BiggieSchedule.css";
+import schedule from "../RhSchedule";
 
 function BiggieSchedule({ day, animationDelay = 2000, animationInterval = 550 }) {
   const [showSchedule, setShowSchedule] = useState(false);
