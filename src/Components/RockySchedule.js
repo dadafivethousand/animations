@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../Stylesheets/RockySchedule.css";
 import schedule from "../Schedule";
 
-export default function RockySchedule({ day, animationDelay = 1200, animationInterval = 300 }) {
+export default function RockySchedule({ day, animationDelay = 800, animationInterval = 250 }) {
   const [visible, setVisible] = useState([]);
 
   useEffect(() => {
@@ -15,24 +15,31 @@ export default function RockySchedule({ day, animationDelay = 1200, animationInt
   }, [day, animationDelay, animationInterval]);
 
   const formatTime = (dt) => {
-    const h = Math.floor(dt), m = Math.round((dt - h) * 60);
-    const hr = h % 12 || 12, ap = h < 12 ? "AM" : "PM";
+    const h = Math.floor(dt),
+      m = Math.round((dt - h) * 60),
+      hr = h % 12 || 12,
+      ap = h < 12 ? "AM" : "PM";
     return `${hr}:${m < 10 ? "0" + m : m} ${ap}`;
   };
 
   return (
     <div className="rocky-container">
-      <h1 className="rocky-title">{day.toUpperCase()}</h1>
+      <h1 className="rocky-title">
+        {day.toUpperCase().split("").map((char, i) => (
+          <span key={i} style={{ "--i": i }}>{char}</span>
+        ))}
+      </h1>
       <div className="rocky-track">
         {schedule[day]?.map((cls, i) =>
           visible.includes(i) && (
-            <div key={i} className="rocky-class" style={{ "--delay": `${i * 0.3}s` }}>
+            <div key={i} className="rocky-class" style={{ "--delay": `${i * 0.25}s` }}>
               <span className="rocky-name">{cls.name}</span>
               <span className="rocky-time">{formatTime(cls.start)}</span>
             </div>
           )
         )}
       </div>
+ 
     </div>
   );
 }
