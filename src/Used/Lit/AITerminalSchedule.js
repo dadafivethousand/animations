@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import schedule from "../Schedule";
-import "../Stylesheets/AITerminalSchedule.css";
-import chatlogo from "../Images/chat-logo.png"
+import schedule from "../../RhSchedule";
+import "./AITerminalSchedule.css";
+import chatlogo from "../../Images/Used/chat-logo.png"
 
 export default function AITerminalSchedule({ day, animationDelay = 800, typingSpeed = 30 }) {
   const [userPrompt, setUserPrompt] = useState("");
