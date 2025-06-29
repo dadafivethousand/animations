@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap');
+
+:root {
+  --dragon-bg: linear-gradient(to bottom, #1a1a1a, #0f0f0f);
+  --dragon-gold: #ffd700;
+  --dragon-red: #8b0000;
+  --dragon-card: #1a1a1a;
+  --glow-light: 0 0 5px #ffcc00, 0 0 12px #ff8c00;
+}
+
+.dragon-container {
+  background: var(--dragon-bg);
+  min-height: 100vh;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+}
+
+.dragon-title {
+  font-family: 'UnifrakturCook', cursive;
+  font-size: 14vw;
+  color: var(--dragon-gold);
+  text-shadow:
+    1px 1px 0 #000,
+    0 0 5px #ff8c00,
+    0 0 10px #ff8c00;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 40px;
+  animation: fadeInTitle 0.1s ease forwards;
+  animation-delay: var(--title-delay);
+  animation-fill-mode: both;
+}
+
+.dragon-title span {
+  opacity: 0;
+  animation: flameRise 0.6s ease-out forwards;
+  animation-delay: calc(var(--i) * 0.12s + var(--title-delay));
+}
+
+.dragon-track {
+  width: 100%;
+  max-width: 620px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dragon-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--dragon-card);
+  border: 2px solid var(--dragon-gold);
+  border-radius: 16px;
+  padding: 20px 24px;
+  font-family: 'UnifrakturCook', cursive;
+  font-size: 5vw;
+  color: var(--dragon-gold);
+  box-shadow: 0 0 12px rgba(255, 140, 0, 0.5);
+  transform: translateY(20px);
+  opacity: 0;
+  animation: ignite 0.4s ease-out forwards;
+  animation-delay: var(--delay);
+  transition: transform 0.3s ease;
+}
+
+.dragon-class:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #ffcc00, 0 0 40px #ff8c00;
+}
+
+.dragon-name,
+.dragon-time {
+  color: var(--dragon-gold);
+  text-shadow:
+    0 0 2px #000,
+    0 0 6px #ff8c00,
+    0 0 10px #ffaa00;
+  font-size: 8vw;
+}
+
+@keyframes ignite {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes flameRise {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInTitle {
+  to {
+    opacity: 1;
+  }
+}
