@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
+
+:root {
+  --af1-bg: radial-gradient(circle at top, #f7f7f7, #e6e6e6);
+  --af1-red: #b30000;
+  --af1-white: #ffffff;
+  --af1-grey: #d2d2d2;
+  --af1-border: #c0c0c0;
+  --af1-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  --af1-hover-shadow: 0 10px 24px rgba(179, 0, 0, 0.2);
+}
+
+.af1-container {
+  background: var(--af1-bg);
+  min-height: 100vh;
+  padding: 50px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.af1-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 9.5vw;
+  color: var(--af1-red);
+  letter-spacing: 4px;
+  margin-bottom: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  text-shadow:
+    1px 1px 0 #fff,
+    2px 2px 4px rgba(0, 0, 0, 0.1);
+  animation: fadeInTitle 0.2s ease forwards;
+}
+
+.af1-title span {
+  opacity: 0;
+  animation: flyIn 0.6s ease-out forwards;
+  animation-delay: calc(var(--i) * 0.08s);
+}
+
+.af1-track {
+  width: 100%;
+  max-width: 620px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.af1-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--af1-white);
+  border: 2px solid var(--af1-border);
+  border-radius: 14px;
+  padding: 22px 28px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 5vw;
+  color: var(--af1-red);
+  box-shadow: var(--af1-shadow);
+  transform: translateY(20px);
+  opacity: 0;
+  animation: slideUp 0.4s ease-out forwards;
+  animation-delay: var(--delay);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.af1-class:hover {
+  transform: scale(1.03);
+  box-shadow: var(--af1-hover-shadow);
+}
+
+.af1-name,
+.af1-time {
+  font-weight: bold;
+  color: var(--af1-red);
+  text-shadow:
+    0 1px 0 #fff,
+    0 0 4px rgba(255, 0, 0, 0.1);
+}
+
+@keyframes flyIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInTitle {
+  to {
+    opacity: 1;
+  }
+}
+.af1-title {
+  animation: fadeInTitle 0.2s ease forwards;
+  animation-delay: var(--title-delay);
+  animation-fill-mode: both;
+}
+
+.af1-title span {
+  opacity: 0;
+  animation: flyIn 0.6s ease-out forwards;
+  animation-delay: calc(var(--i) * 0.08s + var(--title-delay));
+}
