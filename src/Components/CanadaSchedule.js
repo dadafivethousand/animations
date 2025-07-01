@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/CanadaSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function CanadaSchedule({ day, animationDelay = 800, animationInterval = 250 }) {
   const [visible, setVisible] = useState([]);
