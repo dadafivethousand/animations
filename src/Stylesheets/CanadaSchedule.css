@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&display=swap');
+
+:root {
+  --canada-red: #d90429;
+  --canada-white: #ffffff;
+  --canada-black: #111111;
+  --canada-bg: linear-gradient(135deg, #9e0000 0%, #b50000 50%, #d90429 100%);
+  --canada-glass: rgba(255, 255, 255, 0.15);
+  --canada-glow: 0 0 12px rgba(255, 255, 255, 0.15);
+}
+
+.canada-container {
+  background: var(--canada-bg);
+  min-height: 100vh;
+  padding: 30px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.canada-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 18vw;
+  color: var(--canada-white);
+  background: var(--canada-red);
+  padding: 16px 40px;
+  border-radius: 16px;
+  box-shadow: inset 0 -6px 0 #8b0000, 0 6px 16px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  letter-spacing: 2px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: fadeInTitle 0.4s ease-out forwards;
+  animation-delay: var(--title-delay);
+  animation-fill-mode: both;
+}
+
+.canada-title span {
+  opacity: 0;
+  animation: revealChar 0.5s ease-out forwards;
+  animation-delay: calc(var(--i) * 0.08s + var(--title-delay));
+}
+
+.canada-track {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+ 
+}
+
+.canada-class {
+      border:1px solid white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--canada-glass);
+  border-left: 10px solid var(--canada-white);
+  border-radius: 16px;
+  padding: 10px 28px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 9vw;
+  color: var(--canada-white);
+  box-shadow: var(--canada-glow);
+  backdrop-filter: blur(10px);
+  transform: translateY(20px);
+  opacity: 0;
+  animation: slideUp 0.5s ease-out forwards;
+  animation-delay: var(--delay);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+}
+
+.canada-class:hover {
+  transform: scale(1.04);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.15);
+}
+
+.canada-name,
+.canada-time {
+  font-weight: bold;
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.6);
+}
+
+@keyframes revealChar {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInTitle {
+  to {
+    opacity: 1;
+  }
+}

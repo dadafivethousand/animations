@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+:root {
+  --track-bg: #0a0a0a;
+  --stripe-yellow: #ffd700;
+  --stripe-yellow2: #ffcc33;
+  --stripe-red: #d4001a;
+  --stripe-red2: #ff1a1a;
+  --stripe-blue: #0077cc;
+  --card-bg: #1c1c1c;
+  --card-border: #ffffff33;
+  --text-color: #ffffff;
+}
+
+.nascar-container {
+  background: var(--track-bg);
+  min-height: 100vh;
+  padding: 60px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nascar-logo-title {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+ 
+ 
+}
+
+.nascar-stripes {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+}
+
+.stripe {
+  width: 8px;
+  height: 60px;
+  transform: skewX(-20deg);
+  border-radius: 2px;
+}
+
+.stripe.yellow { background: var(--stripe-yellow); }
+.stripe.yellow2 { background: var(--stripe-yellow2); }
+.stripe.red { background: var(--stripe-red); }
+.stripe.red2 { background: var(--stripe-red2); }
+.stripe.blue { background: var(--stripe-blue); }
+
+.nascar-text {
+  font-family: 'Anton', sans-serif;
+  font-size: 17vw;
+  color: white;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  font-style: italic;
+}
+
+.nascar-track {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.nascar-class {
+  background: var(--card-bg);
+  border: 2px solid var(--card-border);
+  border-left: 10px solid var(--stripe-red);
+  border-radius: 10px;
+  padding: 5px 24px;
+  font-family: 'Anton', sans-serif;
+  font-size: 7vw;
+  color: var(--text-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transform: translateX(-20px);
+  opacity: 0;
+  animation: slideIn 0.5s ease-out forwards;
+  animation-delay: var(--delay);
+}
+
+@keyframes slideIn {
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

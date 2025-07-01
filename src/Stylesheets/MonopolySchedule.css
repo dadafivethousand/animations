@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+
+:root {
+  --mono-bg: #fcefc4; /* board-like cream background */
+  --mono-red: #c10000;
+  --mono-green: #2e8b57;
+  --mono-blue: #00b0ff;
+  --mono-black: #1c1c1c;
+  --mono-white: #ffffff;
+  --mono-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.mono-container {
+  background: var(--mono-bg);
+  min-height: 100vh;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mono-title {
+ 
+  color: var(--mono-red);
+  padding: 12px 28px;
+  border-radius: 12px;
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 17vw;
+  text-align: center;
+  text-shadow: 2px 2px 0 #000;
+  animation: fadeInTitle 0.3s ease forwards;
+  animation-delay: var(--title-delay);
+  animation-fill-mode: both;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.mono-title span {
+  opacity: 0;
+  animation: popUp 0.5s ease-out forwards;
+  animation-delay: calc(var(--i) * 0.1s + var(--title-delay));
+}
+
+.mono-track {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mono-class {
+  background: var(--mono-blue);
+ 
+  border-radius: 16px;
+  box-shadow: var(--mono-shadow);
+  padding: 18px 24px;
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 5vw;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transform: translateY(20px);
+  opacity: 0;
+  animation: slideUp 0.5s ease-out forwards;
+  animation-delay: var(--delay);
+  transition: transform 0.3s ease;
+}
+
+.mono-class:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 16px #00b0ff;
+}
+
+.mono-name,
+.mono-time {
+  text-shadow: 1px 1px 2px black;
+}
+
+@keyframes slideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes popUp {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(-10deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes fadeInTitle {
+  to {
+    opacity: 1;
+  }
+}

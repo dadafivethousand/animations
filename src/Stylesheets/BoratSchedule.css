@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+:root {
+  --borat-bg: #675b61;
+  --borat-card: #f0e6d2;
+  --borat-red: #9e1b32;
+  --borat-khaki: #cabf9d;
+  --borat-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.borat-container {
+  background: var(--borat-bg);
+  min-height: 100vh;
+  padding: 50px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.borat-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 19vw;
+  color: var(--borat-khaki);
+ 
+  border-radius: 12px;
+  letter-spacing: 3px;
+  text-align: center;
+ 
+   animation: fadeInTitle 0.3s ease forwards;
+  animation-delay: var(--title-delay);
+  animation-fill-mode: both;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+margin-top: 150px;
+  z-index: 4;
+}
+
+.borat-title span {
+  opacity: 0;
+  animation: letterWobble 0.7s ease-out forwards;
+  animation-delay: calc(var(--i) * 0.12s + var(--title-delay));
+}
+
+.borat-track {
+  width: 95%;
+  max-width: 620px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 5px;
+  z-index: 5;
+  opacity: .8;
+  position: absolute;
+  bottom: 20px;
+  height:330px;
+}
+
+.borat-class {
+  background: var(--borat-card);
+  color: var(--borat-bg);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 9vw;
+  padding: 10px 24px;
+ 
+  border-radius: 10px;
+  box-shadow: var(--borat-shadow);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  opacity: 0;
+  transform: rotateX(-90deg) scale(0.95);
+  animation: cardFlipUp 0.6s ease-out forwards;
+  animation-delay: var(--delay);
+  transform-origin: bottom center;
+  backface-visibility: hidden;
+  transition: transform 0.3s ease;
+}
+
+.borat-class:hover {
+  transform: scale(1.02) rotateX(0deg);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.borat-name,
+.borat-time {
+  text-shadow: 1px 1px 1px #fff;
+}
+
+/* Animations */
+@keyframes fadeInTitle {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes letterWobble {
+  0% {
+    opacity: 0;
+    transform: rotate(-20deg) scale(0.4);
+  }
+  60% {
+    transform: rotate(10deg) scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(0) scale(1);
+      opacity: 1;
+  }
+}
+
+@keyframes cardFlipUp {
+  0% {
+    opacity: 0;
+    transform: rotateX(-90deg) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: rotateX(0deg) scale(1);
+  }
+}
+
+
+.borat-container img {
+    position: absolute;
+    top: 0
+}

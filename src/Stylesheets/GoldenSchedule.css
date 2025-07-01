@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap');
+
+:root {
+  --gold-deep: #d4af37;
+  --gold-rich: linear-gradient(90deg, #fff7b3, #ffd700, #b8860b);
+  --gold-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
+  --black-bg: #000000;
+  --glass-dark: rgba(255, 215, 0, 0.08);
+}
+
+.gold-container {
+  background: var(--black-bg);
+  min-height: 100vh;
+  padding: 60px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+.gold-title {
+  font-family: 'Cinzel', serif;
+  font-size: 14vw;
+ 
+   color: var(--gold-deep);
+ 
+  letter-spacing: 4px;
+  margin-bottom: 25px;
+  text-align: center;
+ 
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: fadeInGold 0.5s ease-out forwards;
+  animation-delay: var(--title-delay);
+  animation-fill-mode: both;
+}
+
+.gold-title span {
+  opacity: 0;
+  animation: shimmerLetter 0.8s ease-out forwards;
+  animation-delay: calc(var(--i) * 0.12s + var(--title-delay));
+}
+
+.gold-track {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gold-class {
+  background: var(--glass-dark);
+  border: 2px solid var(--gold-deep);
+  border-radius: 14px;
+  padding: 12px 30px;
+  font-family: 'Cinzel', serif;
+  font-size: 5vw;
+  color: var(--gold-deep);
+  box-shadow: inset 0 0 0.5px #fff9cc, 0 0 14px rgba(255, 215, 0, 0.2);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  opacity: 0;
+  transform: scale(0.9);
+  animation: goldReveal 0.6s ease-out forwards;
+  animation-delay: var(--delay);
+  transition: transform 0.3s ease;
+}
+
+.gold-class:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 24px rgba(255, 215, 0, 0.4);
+}
+
+.gold-name,
+.gold-time {
+  text-shadow: 1px 1px 2px black;
+}
+
+/* Animations */
+@keyframes fadeInGold {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes shimmerLetter {
+  0% {
+    opacity: 0;
+    transform: scale(1) rotate(-5deg);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1) rotate(3deg);
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes goldReveal {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

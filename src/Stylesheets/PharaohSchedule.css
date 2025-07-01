@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap');
+
+:root {
+  --pharaoh-bg: radial-gradient(circle at top, #a67c52 0%,  #d2b48c 100%);
+  --pharaoh-gold: #d4af37;
+  --pharaoh-glow: rgba(255, 235, 150, 0.6);
+  --pharaoh-shadow: 0 0 14px rgba(255, 235, 150, 0.2);
+  --papyrus: #f8ebc8;
+}
+
+.pharaoh-container {
+  background: var(--pharaoh-bg);
+  min-height: 100vh;
+  padding: 60px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+.pharaoh-title {
+  font-family: 'Cinzel', serif;
+  font-size: 15vw;
+  color: var(--pharaoh-gold);
+  letter-spacing: 5px;
+  text-shadow: 2px 2px 2px #4b2e00, 0 0 12px var(--pharaoh-glow);
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: fadeTitle 0.5s ease-out forwards;
+  animation-delay: var(--title-delay);
+  animation-fill-mode: both;
+}
+
+.pharaoh-title span {
+  opacity: 0;
+  animation: riseLetter 0.7s ease-out forwards;
+  animation-delay: calc(var(--i) * 0.14s + var(--title-delay));
+}
+
+.pharaoh-track {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.pharaoh-class {
+  background: var(--papyrus);
+  border: 2px solid var(--pharaoh-gold);
+  border-radius: 12px;
+  padding: 15px 28px;
+  font-family: 'Cinzel', serif;
+  font-size: 6vw;
+  color: #4b2e00;
+  box-shadow: var(--pharaoh-shadow);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  animation: riseRelic 0.7s ease-out forwards;
+  animation-delay: var(--delay);
+  transition: transform 0.3s ease;
+}
+
+.pharaoh-class:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 24px var(--pharaoh-glow);
+}
+
+.pharaoh-name,
+.pharaoh-time {
+  text-shadow: 1px 1px 1px #fff3db;
+}
+
+/* Animations */
+@keyframes fadeTitle {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes riseLetter {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes riseRelic {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

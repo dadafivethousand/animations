@@ -1,13 +1,18 @@
 import React from "react";
 import "./Stylesheets/App.css"
-import AirForceOnesSchedule from "./Components/AirForceOnesSchedule";
-import AiTerminalSchedule from "./Used/Lit/AITerminalSchedule"
- 
+import MonopolySchedule from "./Components/MonopolySchedule";
+import CanadaSchedule from "./Components/CanadaSchedule";
+import BoratSchedule from "./Components/BoratSchedule";
+import GoldenSchedule from "./Components/GoldenSchedule";
+import PharaohSchedule from "./Components/PharaohSchedule";
+import JayZSchedule from "./Components/JayZSchedule";
+import NASCARSchedule from "./Components/NASCARSchedule";
+
 
 function App() {
   return (
     <>
-       < AiTerminalSchedule day="Monday" />
+       < CanadaSchedule day="Tuesday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
