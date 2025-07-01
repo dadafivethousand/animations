@@ -13,7 +13,7 @@ import NASCARSchedule from "./Components/NASCARSchedule";
 function App() {
   return (
     <>
-       < BoratSchedule day="Tuesday" />
+       < BoratSchedule day="Wednesday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
