@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/BoratSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function BoratSchedule({ day, animationDelay = 1000, animationInterval = 250 }) {
   const [visible, setVisible] = useState([]);
