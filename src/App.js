@@ -7,13 +7,13 @@ import GoldenSchedule from "./Components/GoldenSchedule";
 import PharaohSchedule from "./Components/PharaohSchedule";
 import JayZSchedule from "./Components/JayZSchedule";
 import NASCARSchedule from "./Components/NASCARSchedule";
-
+import YoungJeezySchedule from "./Components/YoungJeezySchedule"
 
 
 function App() {
   return (
     <>
-       < BoratSchedule day="Wednesday" />
+       < YoungJeezySchedule day="Thursday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

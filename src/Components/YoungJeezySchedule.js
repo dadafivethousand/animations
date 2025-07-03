@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/YoungJeezySchedule.css";
 import schedule from "../Schedule";
+import TypewriterCycle from "../Utils/TypewriterCycle";
+ 
 
 export default function YoungJeezySchedule({ day, animationDelay = 1300, animationInterval = 150 }) {
   const [visibleArray, setVisibleArray] = useState([]);
@@ -25,7 +27,10 @@ export default function YoungJeezySchedule({ day, animationDelay = 1300, animati
 
   return (
     <div className="jeezy-container">
-      <h1 className="jeezy-day">{day.toUpperCase()}</h1>
+      <h1 className="jeezy-day">
+        <TypewriterCycle deletingSpeed={10000000} texts={['Thursday']}/>
+ 
+        </h1>
       <div className="jeezy-track">
         {schedule[day]?.map((cls, idx) => (
           <div key={idx} className="jeezy-class-container">
