@@ -8,12 +8,13 @@ import PharaohSchedule from "./Components/PharaohSchedule";
 import JayZSchedule from "./Components/JayZSchedule";
 import NASCARSchedule from "./Components/NASCARSchedule";
 import YoungJeezySchedule from "./Components/YoungJeezySchedule"
+import ApesSchedule from "./Used/ApesSchedule";
 
 
 function App() {
   return (
     <>
-       < YoungJeezySchedule day="Thursday" />
+       < ApesSchedule day="Thursday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

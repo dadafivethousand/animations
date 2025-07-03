@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/ApesSchedule.css";
-import schedule from "../Schedule";
+import "./ApesSchedule.css";
+import schedule from "../RhSchedule";
 
 export default function ApesSchedule({ day, animationDelay = 1200, animationInterval = 400 }) {
   const [visibleArray, setVisibleArray] = useState([]);
