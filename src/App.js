@@ -14,7 +14,7 @@ import ApesSchedule from "./Used/ApesSchedule";
 function App() {
   return (
     <>
-       < ApesSchedule day="Thursday" />
+       < NASCARSchedule day="Friday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
