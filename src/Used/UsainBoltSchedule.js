@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/UsainBoltSchedule.css";
-import schedule from "../Schedule";
+import "./UsainBoltSchedule.css";
+import schedule from "../RhSchedule";
 
 function UsainBoltSchedule({ day, animationDelay = 800, animationInterval = 200 }) {
   const [showSchedule, setShowSchedule] = useState(false);
