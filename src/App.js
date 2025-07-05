@@ -14,7 +14,7 @@ import UsainBoltSchedule from "./Used/UsainBoltSchedule"
 function App() {
   return (
     <>
-       < UsainBoltSchedule day="Friday" />
+       < MonopolySchedule day="Saturday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
