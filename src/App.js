@@ -10,11 +10,13 @@ import NASCARSchedule from "./Components/NASCARSchedule";
 import YoungJeezySchedule from "./Components/YoungJeezySchedule"
 import ApesSchedule from "./Used/ApesSchedule";
 import UsainBoltSchedule from "./Used/UsainBoltSchedule"
+import BuzzSchedule from "./Used/BuzzSchedule";
+
 
 function App() {
   return (
     <>
-       < MonopolySchedule day="Saturday" />
+       < BuzzSchedule day="Saturday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

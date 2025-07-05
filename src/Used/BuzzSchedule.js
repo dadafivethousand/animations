@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/BuzzSchedule.css";
-import schedule from "../Schedule"; // Assuming schedule data exists
+import "./BuzzSchedule.css";
+import schedule from "../RhSchedule"; // Assuming schedule data exists
 
 function BuzzSchedule({ day, animationDelay = 2000, animationInterval = 500 }) {
   const [showSchedule, setShowSchedule] = useState(false);
