@@ -16,12 +16,13 @@ import PandaSchedule from "./Components/PandaSchedule";
 import BadBoysSchedule from "./Components/BadBoysSchedule";
 import VisionSchedule from "./Components/VisionSchedule";
 import ShmurdaSchedule from "./Components/ShmurdaSchedule";
+import TravisBarkerSchedule from "./Used/TravisBarkerSchedule"
 
 
 function App() {
   return (
     <>
-       < PandaSchedule day="Monday" />
+       < TravisBarkerSchedule day="Monday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

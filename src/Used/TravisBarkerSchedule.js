@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/TravisBarkerSchedule.css";
-import schedule from "../Schedule";
+import "./TravisBarkerSchedule.css";
+import schedule from "../RhSchedule";
 
 export default function TravisBarkerSchedule({ day, animationDelay = 1800, animationInterval = 150 }) {
   const [visibleArray, setVisibleArray] = useState([]);
