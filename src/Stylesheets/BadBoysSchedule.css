@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+/* Hide on desktop */
+@media (min-width: 768px) {
+  .badboys-container {
+    display: none !important;
+  }
+}
+
+.badboys-container {
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(to bottom, #050505 0%, #1a0000 85%);
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(255, 80, 0, 0.1) 0%, transparent 60%),
+    radial-gradient(circle at 80% 80%, rgba(255, 170, 0, 0.08) 0%, transparent 60%),
+    url("https://www.transparenttextures.com/patterns/pw-maze-white.png");
+  background-blend-mode: overlay;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 200px;
+  font-family: 'Bebas Neue', sans-serif;
+  overflow-y: auto;
+  color: #ffc107;
+}
+
+/* Title */
+.badboys-day {
+  font-size: 74px;
+  text-transform: uppercase;
+  color: #ffc107;
+  padding: 12px 24px;
+ 
+  border-radius: 8px;
+   animation: badgeReveal 1s ease-out;
+  position: absolute;
+  top:100px;
+ 
+
+}
+
+/* Schedule container */
+.badboys-schedule {
+  margin-top: 24px;
+  width: 90%;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid #ff5722;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 0 10px rgba(255, 87, 34, 0.25);
+  height: 380px;
+  backdrop-filter: blur(5px);
+}
+
+/* Class cards — tighter, centered */
+.badboys-class {
+  background: linear-gradient(to right, #191919, #0b0b0b);
+  border: 2px solid #ff3d00;
+  border-radius: 6px;
+  width: 85%;
+  height: 56px;
+  padding: 0 14px;
+  margin: 12px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff4ce;
+  font-size: 15px;
+  animation: heatEntry 0.4s ease-out;
+  transition: transform 0.2s ease;
+  box-shadow: 0 2px 6px rgba(255, 61, 0, 0.3);
+ 
+}
+
+.badboys-class:hover {
+  transform: scale(1.04);
+  background: #2a1200;
+  box-shadow: 0 0 8px #ff3d00;
+}
+
+.badboys-class-name {
+  font-weight: bold;
+  font-size: 20px;
+  letter-spacing: 1px;
+  text-shadow: 0 0 2px #000;
+}
+
+.badboys-class-time {
+  font-size: 20px;
+  color: #ffd699;
+  text-shadow: 0 0 1px #000;
+}
+
+/* Animations */
+@keyframes heatEntry {
+  from {
+    opacity: 0;
+    transform: translateY(15px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes badgeReveal {
+  from {
+    opacity: 0;
+    transform: scale(0.85) rotateX(8deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotateX(0);
+  }
+}

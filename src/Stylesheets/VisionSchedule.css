@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');
+
+/* Hide on desktop */
+@media (min-width: 768px) {
+  .vision-container {
+    display: none !important;
+  }
+}
+
+.vision-container {
+  height: 100vh;
+  width: 100vw;
+  background: radial-gradient(ellipse at center, #0c0c0c, #000);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 60px;
+  font-family: 'Inter', sans-serif;
+  color: #ffffff;
+  overflow-y: auto;
+}
+
+/* Frosted-glass title */
+.vision-day {
+  font-size: 28px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 14px 24px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  animation: fadeUp 1s ease-out;
+}
+
+/* Panel container */
+.vision-schedule {
+  margin-top: 30px;
+  width: 90%;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 24px;
+  padding: 24px 18px;
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+/* Floating glass cards */
+.vision-class {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  margin: 12px 0;
+  padding: 16px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  color: #eaeaea;
+  transition: transform 0.2s ease, background 0.2s ease;
+  animation: floatIn 0.5s ease forwards;
+}
+
+.vision-class:hover {
+  transform: scale(1.015);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.vision-class-name {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.vision-class-time {
+  font-size: 14px;
+  color: #b0b0b0;
+}
+
+/* Animations */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes floatIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

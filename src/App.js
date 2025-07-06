@@ -12,12 +12,16 @@ import ApesSchedule from "./Used/ApesSchedule";
 import UsainBoltSchedule from "./Used/UsainBoltSchedule"
 import BuzzSchedule from "./Used/BuzzSchedule";
 import RoboCopSchedule from "./Components/RoboCopSchedule"
+import PandaSchedule from "./Components/PandaSchedule";
+import BadBoysSchedule from "./Components/BadBoysSchedule";
+import VisionSchedule from "./Components/VisionSchedule";
+import ShmurdaSchedule from "./Components/ShmurdaSchedule";
 
 
 function App() {
   return (
     <>
-       < RoboCopSchedule day="Sunday" />
+       < PandaSchedule day="Monday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

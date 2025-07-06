@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap');
+
+.panda-container {
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(to bottom, #2b1e12 0%, #0f0d0a 100%);
+  background-image: url("https://www.transparenttextures.com/patterns/fur.png");
+  background-size: cover;
+  background-blend-mode: overlay;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+ 
+  font-family: 'ZCOOL KuaiLe', cursive;
+  overflow: hidden;
+  color: #f5e6b0;
+}
+
+/* Scroll-Style Header */
+.panda-header-scroll {
+    margin:50px 0;
+  font-size: 44px;
+  text-transform: uppercase;
+  color: #f9e89d;
+  letter-spacing: 4px;
+  padding: 20px 60px;
+  background: linear-gradient(to right, #9e1b1b, #8a0303);
+  border: 6px solid #f5e6b0;
+  border-radius: 18px;
+  box-shadow: 0 0 20px #ffcc00aa;
+  animation: fadeInDrop 1s ease-out;
+  display:flex;
+  flex-direction: column;
+  height:40px;
+  
+}
+
+/* Scroll Panel */
+.panda-scroll {
+ 
+  width: 90%;
+  max-width: 700px;
+  background: rgba(255, 249, 212, 0.9);
+  border: 4px solid #a36827;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+  height:100vh;
+}
+
+/* Each class = Bamboo scroll element */
+.panda-class {
+  background: linear-gradient(135deg, #ffe8a0, #f1d391);
+  border: 3px solid #aa833c;
+  border-radius: 12px;
+  padding: 16px 24px;
+  margin-bottom: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #3e260b;
+  font-size: 20px;
+  animation: pandaPunch 0.5s ease forwards;
+  transition: transform 0.3s ease;
+}
+
+.panda-class:hover {
+  transform: scale(1.05) rotate(-1deg);
+  background: #fff1b0;
+}
+
+.panda-class-name {
+  font-weight: bold;
+}
+
+.panda-class-time {
+  font-style: italic;
+}
+
+/* Animations */
+@keyframes pandaPunch {
+  from {
+    opacity: 0;
+    transform: scale(0.8) rotate(-3deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes fadeInDrop {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
