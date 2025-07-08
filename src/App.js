@@ -21,12 +21,13 @@ import UncleSamSchedule from "./Components/UncleSamSchedule";
 import NapoleonSchedule from "./Components/NapoleonSchedule";
 import FlintstoneSchedule from "./Components/FlintstoneSchedule";
 import CharlieSchedule from "./Components/CharlieSchedule"
+import ArmyCamoSchedule from "./Used/ArmyCamoSchedule"
 
 
 function App() {
   return (
     <>
-       < UncleSamSchedule day="Tuesday" />
+       < ArmyCamoSchedule day="Tuesday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

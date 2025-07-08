@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/ArmyCamoSchedule.css";
-import schedule from "../Schedule";
+import "./ArmyCamoSchedule.css";
+import schedule from "../RhSchedule";
 
 export default function ArmyCamoSchedule({ day, animationDelay = 1800, animationInterval = 150 }) {
   const [visibleArray, setVisibleArray] = useState([]);
