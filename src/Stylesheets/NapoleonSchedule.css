@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
+
+/* MOBILE ONLY */
+@media (min-width: 768px) {
+  .napoleon-container {
+    display: none !important;
+  }
+}
+
+.napoleon-container {
+  height: 100vh;
+  width: 100vw;
+  background: url('https://www.transparenttextures.com/patterns/lined-paper.png');
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 60px;
+  font-family: 'Gloria Hallelujah', cursive;
+  overflow-y: auto;
+  color: #111;
+}
+
+/* 🧠 Title – Notebook Vibe */
+.napoleon-day {
+  font-size: 36px;
+  text-transform: uppercase;
+  color: #000;
+  background: #ffe;
+  padding: 10px 24px;
+  border: 2px dashed #222;
+  border-radius: 10px;
+  box-shadow: 3px 3px 0 #999;
+  animation: popIn 0.6s ease-out;
+  height:70px;
+}
+
+/* 📘 Schedule Section */
+.napoleon-schedule {
+  margin-top: 30px;
+  width: 92%;
+  background: rgba(255, 255, 255, 0.85);
+  border: 2px solid #aaa;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 0 8px #ccc;
+  height:430px;
+}
+
+/* ✏️ Class Cards */
+.napoleon-class {
+  background: #fff;
+  border: 2px dashed #444;
+  border-radius: 10px;
+  width: 85%;
+  margin: 12px auto;
+  padding: 16px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  box-shadow: 3px 3px 0 #aaa;
+  animation: popIn 0.4s ease-in-out;
+  transition: transform 0.2s ease-in-out;
+}
+
+.napoleon-class:hover {
+  transform: rotate(-1deg) scale(1.02);
+  background: #fdf7e9;
+}
+
+.napoleon-class-name {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.napoleon-class-time {
+  font-size: 16px;
+  color: #444;
+  font-weight: 600;
+}
+
+/* 🌀 Animation */
+@keyframes popIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

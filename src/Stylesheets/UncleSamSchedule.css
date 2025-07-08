@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+/* MOBILE ONLY */
+@media (min-width: 768px) {
+  .sam-container {
+    display: none !important;
+  }
+}
+
+.sam-container {
+  height: 100vh;
+  width: 100vw;
+  background:
+  
+    url("https://www.transparenttextures.com/patterns/stardust.png");
+  background-blend-mode: overlay;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 60px;
+  font-family: 'Anton', sans-serif;
+  overflow-y: auto;
+  color: #fff;
+  background-image: url(../Images/Uncle-Sam-1.webp);
+  background-size: contain;
+  background-position: bottom center;
+  background-repeat: no-repeat;
+}
+
+/* 🇺🇸 Day Title */
+.sam-day {
+  font-size: 40px;
+  text-transform: uppercase;
+  color: #fff;
+  background: #c00;
+  padding: 6px 30px;
+  border: 4px solid #ffffff91;
+  border-radius: 12px;
+  letter-spacing: 2px;
+  box-shadow: 0 0 12px #ff000066;
+  animation: pulseTitle 1s ease-out;
+}
+
+/* 📘 Schedule Container */
+.sam-schedule {
+ 
+  width: 92%;
+  background: rgba(0, 34, 102, 0.747);
+  border: 2px solid #fff;
+  border-radius: 18px;
+  padding: 26px;
+  box-shadow: 0 0 10px #004b8d;
+}
+
+/* 🪖 Class Card */
+.sam-class {
+  background: #fff;
+  border: 2px solid #c00;
+  color: #001f3f;
+  border-radius: 8px;
+  width: 85%;
+  margin: 2px auto;
+  padding: 6px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 17px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  animation: flyIn 0.4s ease-out;
+  transition: transform 0.2s ease-in-out;
+}
+
+.sam-class:hover {
+  transform: scale(1.04);
+  background: #ffebeb;
+  box-shadow: 0 0 10px #ff0000;
+}
+
+.sam-class-name {
+  font-size: 18px;
+ 
+  text-transform: uppercase;
+}
+
+.sam-class-time {
+  font-size: 17px;
+  color: #004b8d;
+ 
+}
+
+/* 🎖️ Animations */
+@keyframes flyIn {
+  from {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulseTitle {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

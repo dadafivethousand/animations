@@ -17,12 +17,16 @@ import BadBoysSchedule from "./Components/BadBoysSchedule";
 import VisionSchedule from "./Components/VisionSchedule";
 import ShmurdaSchedule from "./Components/ShmurdaSchedule";
 import TravisBarkerSchedule from "./Used/TravisBarkerSchedule"
+import UncleSamSchedule from "./Components/UncleSamSchedule";
+import NapoleonSchedule from "./Components/NapoleonSchedule";
+import FlintstoneSchedule from "./Components/FlintstoneSchedule";
+import CharlieSchedule from "./Components/CharlieSchedule"
 
 
 function App() {
   return (
     <>
-       < TravisBarkerSchedule day="Monday" />
+       < UncleSamSchedule day="Tuesday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
