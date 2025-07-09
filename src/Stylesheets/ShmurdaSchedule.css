@@ -40,7 +40,7 @@ background-size: contain;
   box-shadow: 0 0 18px #00bfffaa;
   animation: sprayReveal 0.6s ease-out;
   position: absolute;
-  top:210px;
+  top:150px;
 }
 
 /* 📦 Schedule Panel */
@@ -49,13 +49,10 @@ background-size: contain;
     top:50px;
  
   width: 92%;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(0, 191, 255, 0.2);
-  border-radius: 18px;
+ 
+   border-radius: 18px;
   padding: 20px;
-  backdrop-filter: blur(3px);
-  box-shadow: 0 0 12px rgba(0, 191, 255, 0.2);
-  display: flex;
+    display: flex;
   flex-direction: column;
   justify-content: flex-start;
   height:400px
@@ -67,7 +64,7 @@ background-size: contain;
   border: 2px solid #00bfff;
   border-radius: 8px;
   width: 85%;
-  margin: 4px auto;
+  margin: 1px auto;
   padding: 14px 16px;
   display: flex;
   justify-content: space-between;

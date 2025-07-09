@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import schedule from "../Schedule";
-import "../Stylesheets/CodeSchedule.css";
+import schedule from "../RhSchedule";
+import "./CodeSchedule.css";
 
 export default function CodeSchedule({ day, animationDelay = 800, typingSpeed = 40 }) {
   const [typedCode, setTypedCode] = useState("");

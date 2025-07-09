@@ -22,12 +22,12 @@ import NapoleonSchedule from "./Components/NapoleonSchedule";
 import FlintstoneSchedule from "./Components/FlintstoneSchedule";
 import CharlieSchedule from "./Components/CharlieSchedule"
 import ArmyCamoSchedule from "./Used/ArmyCamoSchedule"
-
+import CodeSchedule from "./Used/CodeSchedule"
 
 function App() {
   return (
     <>
-       < ShmurdaSchedule day="Wednesday" />
+       <  ShmurdaSchedule day="Wednesday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
