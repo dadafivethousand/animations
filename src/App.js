@@ -27,7 +27,7 @@ import ArmyCamoSchedule from "./Used/ArmyCamoSchedule"
 function App() {
   return (
     <>
-       < ArmyCamoSchedule day="Tuesday" />
+       < ShmurdaSchedule day="Wednesday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
