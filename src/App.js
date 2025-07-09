@@ -27,7 +27,7 @@ import CodeSchedule from "./Used/CodeSchedule"
 function App() {
   return (
     <>
-       <  ShmurdaSchedule day="Wednesday" />
+       <  CodeSchedule day="Wednesday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
