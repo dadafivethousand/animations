@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/DiorSchedule.css";
-import schedule from "../Schedule";
+import "./DiorSchedule.css";
+import schedule from "../RhSchedule";
 
 export default function DiorSchedule({ day, animationDelay = 1500, animationInterval = 500 }) {
   const [visibleArray, setVisibleArray] = useState([]);

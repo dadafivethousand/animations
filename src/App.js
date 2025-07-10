@@ -23,11 +23,14 @@ import FlintstoneSchedule from "./Components/FlintstoneSchedule";
 import CharlieSchedule from "./Components/CharlieSchedule"
 import ArmyCamoSchedule from "./Used/ArmyCamoSchedule"
 import CodeSchedule from "./Used/CodeSchedule"
+import DiorSchedule from "./Used/DiorSchedule"
+import Spray from "./Used/Spray"
 
 function App() {
   return (
     <>
-       <  NapoleonSchedule day="Thursday" />
+    
+       <  DiorSchedule day="Thursday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

@@ -1,5 +1,5 @@
 import React from "react";
-import "../Stylesheets/Spray.css";
+import "./Spray.css";
 
 export default function Spray() {
   const handleSpray = () => {
