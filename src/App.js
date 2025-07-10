@@ -27,7 +27,7 @@ import CodeSchedule from "./Used/CodeSchedule"
 function App() {
   return (
     <>
-       <  CodeSchedule day="Wednesday" />
+       <  NapoleonSchedule day="Thursday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
