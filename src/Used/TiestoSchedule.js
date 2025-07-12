@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./TiestoSchedule.css";
-import schedule from "../RhSchedulef";
+import schedule from "../RhSchedule";
 
 export default function TiestoSchedule({ day, animationDelay = 1000, animationInterval = 300 }) {
   const [visibleArray, setVisibleArray] = useState([]);
