@@ -30,7 +30,7 @@ function App() {
   return (
     <>
     
-       <  DiorSchedule day="Thursday" />
+       <FlintstoneSchedule day="Saturday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
