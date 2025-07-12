@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/TiestoSchedule.css";
+import "./TiestoSchedule.css";
 import schedule from "../Schedule";
 
 export default function TiestoSchedule({ day, animationDelay = 1000, animationInterval = 300 }) {

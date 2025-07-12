@@ -6,7 +6,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px 20px;
+  padding: 150px 20px;
   position: relative;
   overflow: hidden;
 }
@@ -29,6 +29,7 @@
 .tiesto-header {
   position: relative;
   z-index: 2;
+  
 }
 
 .tiesto-day {
@@ -60,7 +61,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 10px;
+  padding: 50px;
   border: 2px solid #00ffff;
   border-radius: 10px;
   font-family: 'Orbitron', sans-serif;

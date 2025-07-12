@@ -25,7 +25,7 @@ import ArmyCamoSchedule from "./Used/ArmyCamoSchedule"
 import CodeSchedule from "./Used/CodeSchedule"
 import DiorSchedule from "./Used/DiorSchedule"
 import Spray from "./Used/Spray"
-
+import TiestoSchedule from "./Used/TiestoSchedule"
 function App() {
   return (
     <>
