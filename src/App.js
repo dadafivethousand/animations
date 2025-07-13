@@ -7,10 +7,11 @@ import RaptorsSchedule from "./Components/RaptorsSchedule"
 import PabloSchedule from "./Components/PabloSchedule";
 import IceAgeSchedule from "./Components/IceAgeSchedule";
 import RingSchedule from "./Components/RingSchedule";
+import BreakingBadSchedule from "./Used/BreakingBadSchedule";
 function App() {
   return (
     <>
-  <RingSchedule day={"Monday"}/>
+  <BreakingBadSchedule day={"Tuesday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
