@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap');
+
+/* Mobile Only */
+@media (min-width: 768px) {
+  .mysterio-container {
+    display: none !important;
+  }
+}
+
+.mysterio-container {
+  height: 100vh;
+  width: 100vw;
+  background: radial-gradient(ellipse at top, #111 0%, #000 100%);
+  background-image: url('https://www.transparenttextures.com/patterns/rocky-wall.png');
+  background-size: cover;
+  background-blend-mode: overlay;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 60px;
+  font-family: 'UnifrakturCook', cursive;
+  overflow-y: auto;
+  color: #fff;
+}
+
+/* Day Title */
+.mysterio-day {
+  font-size: 44px;
+  background: linear-gradient(to right, #00ff00, #ffffff, #ff0000);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding: 10px 24px;
+  border: 3px solid #ff0000;
+  border-radius: 14px;
+  letter-spacing: 2px;
+  text-align: center;
+  animation: titleFlash 1.2s ease-in-out;
+}
+
+/* Schedule Container */
+.mysterio-schedule {
+  margin-top: 30px;
+  width: 92%;
+  background: rgba(0, 0, 0, 0.65);
+  border: 2px solid #00ffcc;
+  border-radius: 20px;
+  padding: 26px;
+  box-shadow: 0 0 20px rgba(0,255,255,0.15);
+}
+
+/* Each Class Entry */
+.mysterio-class {
+  background: #141414;
+  border: 3px solid #009688;
+  border-radius: 18px;
+  width: 90%;
+  margin: 14px auto;
+  padding: 16px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 20px;
+  color: #ffffff;
+  box-shadow: 0 0 6px #00ffcc;
+  animation: mystFadeIn 0.5s ease-out;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out;
+}
+
+.mysterio-class:hover {
+  transform: scale(1.03);
+  background: #222;
+}
+
+.mysterio-name {
+  font-weight: bold;
+  text-transform: uppercase;
+  text-shadow: 0 0 3px rgba(0, 255, 255, 0.6);
+}
+
+.mysterio-time {
+  font-size: 17px;
+  font-weight: 600;
+  color: #00ffff;
+  text-shadow: 0 0 3px rgba(0, 255, 255, 0.4);
+}
+
+/* Animations */
+@keyframes mystFadeIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes titleFlash {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

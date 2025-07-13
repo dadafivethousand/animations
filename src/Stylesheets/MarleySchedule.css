@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Rye&display=swap');
+
+/* MOBILE ONLY */
+@media (min-width: 768px) {
+  .marley-container {
+    display: none !important;
+  }
+}
+
+.marley-container {
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(to bottom right, #1e1e1e, #111);
+  background-image: url('https://www.transparenttextures.com/patterns/black-linen.png');
+  background-blend-mode: overlay;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 60px;
+  font-family: 'Rye', cursive;
+  overflow-y: auto;
+  color: #fff;
+}
+
+/* Reggae Title */
+.marley-day {
+  font-size: 58px;
+  background: linear-gradient(to right, #ff0000, #fcd116, #009e49);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding: 10px 20px;
+  border: 3px solid #fcd116;
+  border-radius: 14px;
+  letter-spacing: 2px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+  animation: pulseFade 1s ease-in-out;
+}
+
+/* Schedule Container */
+.marley-schedule {
+  margin-top: 30px;
+  width: 92%;
+ 
+ 
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+/* Class Card */
+.marley-class {
+  background: linear-gradient(to right, #ff0000, #fcd116, #009e49);
+  color: #111;
+  border: 2px solid #000;
+  border-radius: 16px;
+  width: 90%;
+  margin: 14px auto;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  animation: fadePop 0.4s ease-in;
+  transition: transform 0.2s ease;
+}
+
+.marley-class:hover {
+  transform: scale(1.04);
+  background: #ffe066;
+  color: #000;
+}
+
+.marley-name {
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.marley-time {
+  font-weight: 700;
+}
+
+/* Animations */
+@keyframes fadePop {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes pulseFade {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Freckle+Face&display=swap');
+
+@media (min-width: 768px) {
+  .iceage-container {
+    display: none !important;
+  }
+}
+
+.iceage-container {
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(to bottom, #152033, #0c121c);
+  background-image: url("https://www.transparenttextures.com/patterns/diamond-upholstery.png");
+  background-blend-mode: overlay;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 60px;
+  font-family: 'Freckle Face', cursive;
+  overflow-y: auto;
+  color: #e0f7ff;
+}
+
+/* Day Title */
+.iceage-day {
+  font-size: 72px;
+  text-transform: uppercase;
+ 
+  color: #1e2d44;
+ 
+  padding: 12px 28px;
+  border-radius: 16px;
+ 
+  animation: frostSlide 0.7s ease;
+}
+
+/* Schedule Container */
+.iceage-schedule {
+  margin-top: 30px;
+  width: 95%;
+  max-width: 400px;
+ 
+  border-radius: 20px;
+  padding: 18px;
+  box-shadow: 0 0 14px rgba(110, 198, 255, 0.2);
+}
+
+/* Class Card */
+.iceage-class {
+  background: #1e2d44;
+  border: 2px solid #6ec6ff;
+  border-radius: 14px;
+  width: 72%;
+  max-width: 360px;
+  margin: 12px auto;
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  animation: slideUpSnow 0.4s ease-out;
+  transition: transform 0.2s ease-in-out;
+}
+
+.iceage-class:hover {
+  transform: scale(1.04);
+  background: #2a3b5c;
+}
+
+.iceage-name {
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #ffffff;
+    font-size: 26px;
+}
+
+.iceage-time {
+  font-size: 26px;
+  font-weight: 600;
+  color: #b3e5fc;
+}
+
+/* Animations */
+@keyframes frostSlide {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideUpSnow {
+  0% {
+    transform: translateY(15px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
