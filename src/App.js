@@ -8,10 +8,11 @@ import PabloSchedule from "./Components/PabloSchedule";
 import IceAgeSchedule from "./Components/IceAgeSchedule";
 import RingSchedule from "./Components/RingSchedule";
 import BreakingBadSchedule from "./Used/BreakingBadSchedule";
+import AuraFarmingSchedule from "./Components/AuraFarmingSchedule";
 function App() {
   return (
     <>
-  <BreakingBadSchedule day={"Tuesday"}/>
+  <AuraFarmingSchedule day={"Tuesday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Zen+Kurenaido&display=swap');
+
+@media (min-width: 768px) {
+  .aura-container {
+    display: none !important;
+  }
+}
+
+.aura-container {
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(to bottom, #1a0a0a 0%, #0b0000 100%), 
+              url("https://i.imgur.com/twZqs7Y.jpeg") center center / cover no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Zen Kurenaido', sans-serif;
+  color: #ffeaea;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Day Header */
+.aura-day {
+  font-size: 42px;
+  color: #ffcccc;
+  text-shadow: 0 0 12px #6a1a1a, 0 0 20px #8b2e2e;
+  animation: slowGlow 4s ease-in-out infinite;
+  margin-bottom: 4px;
+  z-index: 5;
+  letter-spacing: 2px;
+}
+
+/* Schedule Panel */
+.aura-schedule {
+  width: 90%;
+  max-width: 370px;
+   padding: 20px;
+   box-shadow: 0 0 30px rgba(191, 77, 77, 0.2);
+  z-index: 5;
+  backdrop-filter: blur(6px);
+}
+
+/* Class Entry */
+.aura-class {
+  background: rgba(255, 240, 240, 0.05);
+  border: 1px solid #c56d6d;
+  margin: 12px auto;
+  padding: 14px 20px;
+  border-radius: 10px;
+  width: 90%;
+  color: #ffecec;
+  font-size: 17px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: fadeInRise 0.5s ease-out forwards;
+  transition: all 0.3s ease;
+}
+
+.aura-class:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.02);
+  box-shadow: 0 0 8px rgba(255, 210, 210, 0.2);
+}
+
+.aura-name {
+  font-weight: bold;
+    font-size: 20px;
+}
+
+.aura-time {
+  font-size: 24px;
+  color: #fbcfcf;
+}
+
+/* Animations */
+@keyframes fadeInRise {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slowGlow {
+  0%, 100% {
+    text-shadow: 0 0 12px #6a1a1a, 0 0 20px #8b2e2e;
+  }
+  50% {
+    text-shadow: 0 0 20px #aa2d2d, 0 0 30px #ff5e5e;
+  }
+}
