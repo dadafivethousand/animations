@@ -22,7 +22,7 @@
 
 /* Day Header */
 .aura-day {
-  font-size: 72px;
+  font-size: 71px;
   color: #000000;
   text-shadow: 0 0 12px #6a1a1a, 0 0 20px #8b2e2e;
   animation: slowGlow 4s ease-in-out infinite;
