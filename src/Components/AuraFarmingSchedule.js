@@ -34,7 +34,11 @@ function AuraFarmingSchedule({ day }) {
 
   return (
     <div className="aura-container">
+    
         <div class="tenor-gif-embed" data-postid="13961136228978115920" data-share-method="host" data-aspect-ratio="1" data-width="100%"><a href="https://tenor.com/view/boat-kid-aura-farming-pacu-jalur-indonesia-boat-race-aura-farming-kid-gif-13961136228978115920">Boat Kid Aura Farming Pacu Jalur GIF</a>from <a href="https://tenor.com/search/boat+kid+aura+farming-gifs">Boat Kid Aura Farming GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+        <div class="tenor-gif-embed" data-postid="13961136228978115920" data-share-method="host" data-aspect-ratio="1" data-width="100%"><a href="https://tenor.com/view/boat-kid-aura-farming-pacu-jalur-indonesia-boat-race-aura-farming-kid-gif-13961136228978115920">Boat Kid Aura Farming Pacu Jalur GIF</a>from <a href="https://tenor.com/search/boat+kid+aura+farming-gifs">Boat Kid Aura Farming GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+
+ <div className="aura-day-and-schedule">
       <div className="aura-day">{displayDay}</div>
       <div className="aura-schedule">
         {(schedule[day] || []).map((cls, idx) =>
@@ -45,6 +49,7 @@ function AuraFarmingSchedule({ day }) {
             </div>
           ) : null
         )}
+      </div>
       </div>
     </div>
   );

@@ -9,8 +9,7 @@
 .aura-container {
   height: 100vh;
   width: 100vw;
-  background: linear-gradient(to bottom, #1a0a0a 0%, #0b0000 100%), 
-              url("https://i.imgur.com/twZqs7Y.jpeg") center center / cover no-repeat;
+    background-image: url(https://tenor.com/qNujACT8PYG.gif);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,13 +22,15 @@
 
 /* Day Header */
 .aura-day {
-  font-size: 42px;
-  color: #ffcccc;
+  font-size: 72px;
+  color: #000000;
   text-shadow: 0 0 12px #6a1a1a, 0 0 20px #8b2e2e;
   animation: slowGlow 4s ease-in-out infinite;
   margin-bottom: 4px;
   z-index: 5;
   letter-spacing: 2px;
+  text-align: center;
+  font-weight: 600;
 }
 
 /* Schedule Panel */
@@ -37,26 +38,25 @@
   width: 90%;
   max-width: 370px;
    padding: 20px;
-   box-shadow: 0 0 30px rgba(191, 77, 77, 0.2);
-  z-index: 5;
-  backdrop-filter: blur(6px);
-}
+   z-index: 5;
+ }
 
 /* Class Entry */
 .aura-class {
-  background: rgba(255, 240, 240, 0.05);
-  border: 1px solid #c56d6d;
+  background:  #000000;;
+  border: 1px solid #000000;
   margin: 12px auto;
-  padding: 14px 20px;
+  padding: 11px 20px;
   border-radius: 10px;
-  width: 90%;
-  color: #ffecec;
+  width: 80%;
+    color: #ffffff;
   font-size: 17px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   animation: fadeInRise 0.5s ease-out forwards;
   transition: all 0.3s ease;
+  background-color: rgba(0, 0, 0, 0.705);
 }
 
 .aura-class:hover {
@@ -72,7 +72,7 @@
 
 .aura-time {
   font-size: 24px;
-  color: #fbcfcf;
+   color: #ffffff;
 }
 
 /* Animations */
@@ -94,4 +94,17 @@
   50% {
     text-shadow: 0 0 20px #aa2d2d, 0 0 30px #ff5e5e;
   }
+}
+
+.aura-day-and-schedule{
+    position: absolute;
+     width:80vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    top:300px
+    
+    
 }
