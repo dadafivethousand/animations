@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/CrazyFrogSchedule.css";
-import schedule from "../Schedule";
+import "./CrazyFrogSchedule.css";
+import schedule from "../RhSchedule";
 
 export default function CrazyFrogSchedule({ day, animationDelay = 2000, animationInterval = 300 }) {
   const [visibleArray, setVisibleArray] = useState([]);

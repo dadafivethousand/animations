@@ -8,11 +8,12 @@ import PabloSchedule from "./Components/PabloSchedule";
 import IceAgeSchedule from "./Components/IceAgeSchedule";
 import RingSchedule from "./Components/RingSchedule";
 import BreakingBadSchedule from "./Used/BreakingBadSchedule";
-import AuraFarmingSchedule from "./Components/AuraFarmingSchedule";
+import AuraFarmingSchedule from "./Components/AuraFarmingSchedule"; 
+import CrazyFrogschedule from "./Used/CrazyFrogSchedule"; 
 function App() {
   return (
     <>
-  <PabloSchedule day={"Wednesday"}/>
+  <CrazyFrogschedule day={"Wednesday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

@@ -37,13 +37,13 @@
   max-width: 500px;
   position:absolute ;
   height:200px;
-  bottom:80px;
+  bottom:430px;
 }
 
 .crazyfrog-card {
   background: linear-gradient(135deg, #00ccff, #00ffcc);
   color: #003366;
-  padding: 5px 30px;
+  padding: 15px 30px;
   border-radius: 20px;
   border: 4px dashed #00ffff;
   box-shadow:
