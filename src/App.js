@@ -12,7 +12,7 @@ import AuraFarmingSchedule from "./Components/AuraFarmingSchedule";
 function App() {
   return (
     <>
-  <AuraFarmingSchedule day={"Tuesday"}/>
+  <PabloSchedule day={"Wednesday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
