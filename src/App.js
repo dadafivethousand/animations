@@ -10,10 +10,11 @@ import RingSchedule from "./Components/RingSchedule";
 import BreakingBadSchedule from "./Used/BreakingBadSchedule";
 import AuraFarmingSchedule from "./Components/AuraFarmingSchedule"; 
 import CrazyFrogschedule from "./Used/CrazyFrogSchedule"; 
+import DigimonSchedule from "./Used/DigimonSchedule"
 function App() {
   return (
     <>
-  <MarleySchedule day={"Thursday"}/>
+  <DigimonSchedule day={"Thursday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

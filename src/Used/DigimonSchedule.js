@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import schedule from "../Schedule"; // Ensure correct schedule import
-import "../Stylesheets/DigimonSchedule.css"; // Link CSS file
+import schedule from "../RhSchedule"; // Ensure correct schedule import
+import "./DigimonSchedule.css"; // Link CSS file
 
 function DigimonSchedule({ day }) {
   const [visibleClasses, setVisibleClasses] = useState([]);
