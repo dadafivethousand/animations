@@ -41,7 +41,7 @@
 .paint-schedule {
   width: 92%;
   max-width: 380px;
-  height: 320px;
+  height: 270px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -71,7 +71,7 @@
   background: rgba(255, 0, 0, 0.05);
   border: 1px solid #ff5555;
   margin: 2px auto;
-  padding: 16px 20px;
+  padding: 10px 20px;
   border-radius: 12px;
   width: 82%;
   color: #fff;
