@@ -13,7 +13,7 @@ import CrazyFrogschedule from "./Used/CrazyFrogSchedule";
 function App() {
   return (
     <>
-  <CrazyFrogschedule day={"Wednesday"}/>
+  <MarleySchedule day={"Thursday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
