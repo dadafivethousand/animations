@@ -41,7 +41,7 @@
 .paint-schedule {
   width: 92%;
   max-width: 380px;
-  height: 270px;
+  height: 240px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -75,7 +75,7 @@
   border-radius: 12px;
   width: 82%;
   color: #fff;
-  font-size: 20px;
+  font-size: 17px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -96,7 +96,7 @@
 }
 
 .paint-time {
-  font-size: 18px;
+  font-size: 15px;
   color: #ffb3b3;
 }
 
