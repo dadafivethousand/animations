@@ -11,10 +11,11 @@ import BreakingBadSchedule from "./Used/BreakingBadSchedule";
 import AuraFarmingSchedule from "./Components/AuraFarmingSchedule"; 
 import CrazyFrogschedule from "./Used/CrazyFrogSchedule"; 
 import DigimonSchedule from "./Used/DigimonSchedule"
+import HardInDaPaintSchedule from "./Components/HardInDaPaintSchedule";
 function App() {
   return (
     <>
-  <DigimonSchedule day={"Thursday"}/>
+  <HardInDaPaintSchedule day={"Friday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
