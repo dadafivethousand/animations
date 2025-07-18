@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/FerrariSchedule.css";
-import schedule from "../Schedule";
+import "./FerrariSchedule.css";
+import schedule from "../RhSchedule";
 
 export default function FerrariSchedule({ day, animationDelay = 2000, animationInterval = 150 }) {
   const [visibleArray, setVisibleArray] = useState([]);
