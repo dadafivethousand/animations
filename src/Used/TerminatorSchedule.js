@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/TerminatorSchedule.css";
-import schedule from "../Schedule"; // Assuming schedule data exists
+import "./TerminatorSchedule.css";
+import schedule from "../RhSchedule"; // Assuming schedule data exists
 
 function TerminatorSchedule({ day, animationDelay = 800, animationInterval = 600 }) {
   const [showSchedule, setShowSchedule] = useState(false);

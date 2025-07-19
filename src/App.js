@@ -13,10 +13,11 @@ import CrazyFrogschedule from "./Used/CrazyFrogSchedule";
 import DigimonSchedule from "./Used/DigimonSchedule"
 import HardInDaPaintSchedule from "./Components/HardInDaPaintSchedule";
 import FerrariSchedule from "./Used/FerrariSchedule";
+import TerminatorSchedule from "./Used/TerminatorSchedule"
 function App() {
   return (
     <>
-  <IceAgeSchedule day={"Saturday"}/>
+  <TerminatorSchedule day={"Saturday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
