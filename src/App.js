@@ -16,7 +16,7 @@ import FerrariSchedule from "./Used/FerrariSchedule";
 function App() {
   return (
     <>
-  <FerrariSchedule day={"Friday"}/>
+  <IceAgeSchedule day={"Saturday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
