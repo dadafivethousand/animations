@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap');
+
+@media (min-width: 768px) {
+  .panther-container {
+    display: none !important;
+  }
+}
+
+.panther-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  font-family: 'Quicksand', sans-serif;
+  color: #4a0033;
+  padding-top: 60px;
+  overflow-y: auto;
+  position: relative;
+
+  background-image: 
+    linear-gradient(to bottom right, #86093b, #cf56bf),
+    url('https://media.tenor.com/0quoi4-McbkAAAAi/pink-panther-cartoon.gif');
+  background-blend-mode: lighten;
+  background-size: cover, contain;
+  background-position: center, bottom center;
+  background-repeat: no-repeat, no-repeat;
+}
+
+
+/* Day Title */
+.panther-day {
+  font-size: 44px;
+  color: #ff69b4;
+ 
+  padding: 14px 40px;
+  border-radius: 12px;
+ 
+ 
+  margin-bottom: 28px;
+  letter-spacing: 2px;
+  text-transform: capitalize;
+  font-weight: 700;
+}
+
+/* Schedule Container */
+.panther-schedule {
+  width: 90%;
+  max-width: 420px;
+  background: rgba(255, 240, 245, 0.4);
+  border: 2px solid #ffb6c1;
+  padding: 24px;
+  border-radius: 18px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 0 30px #ffc0cb70;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Each Class */
+.panther-class {
+  background: #fff0f5;
+  border-left: 6px solid #ff69b4;
+  padding: 16px 20px;
+  border-radius: 10px;
+  font-size: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: floatUp 0.5s ease-out forwards;
+  transition: 0.2s ease-in-out;
+}
+
+.panther-class:hover {
+  background: #ffe4e1;
+  transform: scale(1.02);
+}
+
+.panther-name {
+  font-weight: 700;
+  color: #d10087;
+  font-size: 24px;
+}
+
+.panther-time {
+  color: #aa0077;
+  font-size: 24px;
+}
+
+/* Entry Animation */
+@keyframes floatUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

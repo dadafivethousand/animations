@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/JonJonesSchedule.css";
+import "../Stylesheets/PinkPantherSchedule.css";
 import schedule from "../Schedule";
 
-function JonJonesSchedule({ day, delay = 800 }) {
+function PinkPantherSchedule({ day, delay = 800 }) {
   const [visibleClasses, setVisibleClasses] = useState([]);
   const [displayDay, setDisplayDay] = useState("");
 
@@ -24,9 +24,9 @@ function JonJonesSchedule({ day, delay = 800 }) {
       classes.forEach((_, idx) => {
         setTimeout(() => {
           setVisibleClasses((prev) => [...prev, idx]);
-        }, idx * 300);
+        }, idx * 250);
       });
-    }, 1000+delay);
+    }, delay);
 
     return () => clearTimeout(animationDelay);
   }, [day, delay]);
@@ -40,14 +40,14 @@ function JonJonesSchedule({ day, delay = 800 }) {
   };
 
   return (
-    <div className="jones-container">
-      <div className="jones-day">{displayDay}</div>
-      <div className="jones-schedule">
+    <div className="panther-container">
+      <div className="panther-day">{displayDay}</div>
+      <div className="panther-schedule">
         {(schedule[day] || []).map((cls, idx) =>
           visibleClasses.includes(idx) ? (
-            <div className="jones-class" key={idx}>
-              <span className="jones-name">{cls.name}</span>
-              <span className="jones-time">{formatTime(cls.start)}</span>
+            <div className="panther-class" key={idx}>
+              <span className="panther-name">{cls.name}</span>
+              <span className="panther-time">{formatTime(cls.start)}</span>
             </div>
           ) : null
         )}
@@ -56,4 +56,4 @@ function JonJonesSchedule({ day, delay = 800 }) {
   );
 }
 
-export default JonJonesSchedule;
+export default PinkPantherSchedule;
