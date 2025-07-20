@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+@media (min-width: 768px) {
+  .tonyhawk-container {
+    display: none !important;
+  }
+}
+
+.tonyhawk-container {
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(to bottom, #111, #000),
+              url("https://i.imgur.com/jAVrh3x.jpeg") center center / cover no-repeat;
+  background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 50px;
+  font-family: 'VT323', monospace;
+  color: #fff;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* Stylized title like THPS menu label */
+.tonyhawk-day {
+  font-size: 48px;
+  color: #00ffe1;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 12px 36px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px #00ffe1;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+  border: 3px solid #00ffe1;
+  letter-spacing: 2px;
+}
+
+/* Container with grungy style */
+.tonyhawk-schedule {
+  width: 92%;
+  max-width: 420px;
+  background: rgba(0, 0, 0, 0.7);
+  border: 3px solid #ffba08;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(255, 186, 8, 0.4);
+  backdrop-filter: blur(6px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Class item with deck-metal hybrid style */
+.tonyhawk-class {
+  background: linear-gradient(to right, #2a2a2a, #1c1c1c);
+  border-left: 6px solid #fcbf49;
+  padding: 18px 24px;
+  border-radius: 10px;
+  color: #eee;
+  font-size: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: trickDrop 0.4s ease-out forwards;
+  transition: 0.3s ease-in-out;
+}
+
+.tonyhawk-class:hover {
+  transform: scale(1.05) rotate(-1deg);
+  background: #333;
+  box-shadow: 0 0 12px rgba(255, 186, 8, 0.3);
+}
+
+.tonyhawk-name {
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #ffffff;
+  letter-spacing: 1px;
+    font-size: 24px;
+}
+
+.tonyhawk-time {
+  font-size: 24px;
+  color: #ffda99;
+}
+
+/* Skate-style trick animation */
+@keyframes trickDrop {
+  0% {
+    transform: translateY(-50px) scale(0.9) rotateX(80deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1) rotateX(0);
+    opacity: 1;
+  }
+}

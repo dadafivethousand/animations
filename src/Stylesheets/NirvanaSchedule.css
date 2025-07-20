@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+
+@media (min-width: 768px) {
+  .nirvana-container {
+    display: none !important;
+  }
+}
+
+.nirvana-container {
+  height: 90vh;
+  width: 100vw;
+  background: #000000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 100px;
+  font-family: 'Special Elite', monospace;
+  color: #fefefe;
+  overflow-y: auto;
+  position: relative;
+  background-image: url('https://media1.tenor.com/m/XkPZbMIhSJIAAAAC/adgrunge.gif');
+  background-size: contain;
+  background-position: bottom center;
+  background-repeat: no-repeat;
+}
+
+/* Header */
+.nirvana-day {
+  font-size: 48px;
+  color: #f6c700;
+  background: #000;
+  padding: 12px 36px;
+  border: 2px solid #f6c700;
+  border-radius: 4px;
+  margin-bottom: 28px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  box-shadow: 0 0 10px #f6c70033;
+}
+
+/* Schedule box */
+.nirvana-schedule {
+  width: 92%;
+  max-width: 420px;
+  background: rgba(255, 255, 255, 0.03);
+ 
+  padding: 24px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* Class item */
+.nirvana-class {
+  background: #0f0f0fde;
+  border-left: 6px solid #f6c700;
+  padding: 20px;
+  border-radius: 6px;
+  color: #fefefe;
+  font-size: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: fadeSlideIn 0.4s ease-out forwards;
+  transition: 0.3s ease-in-out;
+}
+
+.nirvana-class:hover {
+  background: #1a1a1a;
+  transform: scale(1.02);
+}
+
+.nirvana-name {
+  font-weight: bold;
+  font-size: 24px;
+  color: #fefefe;
+}
+
+.nirvana-time {
+  font-size: 24px;
+  color: #f6c700;
+}
+
+/* Animation */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

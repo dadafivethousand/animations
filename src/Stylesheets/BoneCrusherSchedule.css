@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+@media (min-width: 768px) {
+  .bonecrusher-container {
+    display: none !important;
+  }
+}
+
+.bonecrusher-container {
+  height: 100vh;
+  width: 100vw;
+  background-image: url('https://media1.tenor.com/m/9ck69d7A3xIAAAAd/bone-crusher.gif');
+
+background-size: contain;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  font-family: 'Bebas Neue', sans-serif;
+  color: #f4f4f4;
+  padding-top: 120px;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.8);
+}
+
+/* Title Header */
+.bonecrusher-day {
+  font-size: 52px;
+  color: #ffffff;
+  background: #ff0033;
+  padding: 12px 40px;
+  border-radius: 4px;
+  box-shadow: 0 0 18px rgba(255, 0, 51, 0.6);
+  border: 3px solid #fff;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  margin-bottom: 30px;
+}
+
+/* Schedule Container */
+.bonecrusher-schedule {
+  width: 92%;
+  max-width: 420px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 2px solid #999;
+  padding: 26px;
+  border-radius: 14px;
+  backdrop-filter: blur(3px);
+  box-shadow: 0 0 40px rgba(255, 0, 51, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Class Card */
+.bonecrusher-class {
+  background: #121212;
+  border-left: 8px solid #ff0033;
+  padding: 25px 22px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  color: #eee;
+  animation: blastIn 0.4s ease-out forwards;
+  transition: 0.25s ease-in-out;
+  box-shadow: 0 0 6px rgba(255, 0, 51, 0.25);
+}
+
+.bonecrusher-class:hover {
+  background: #1c1c1c;
+  transform: scale(1.04);
+  box-shadow: 0 0 14px rgba(255, 0, 51, 0.4);
+}
+
+.bonecrusher-name {
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #ffffff;
+    font-size: 24px;
+}
+
+.bonecrusher-time {
+  font-size: 24px;
+  color: #ff8080;
+}
+
+/* Animation */
+@keyframes blastIn {
+  0% {
+    transform: translateY(-50px) scale(0.85) rotate(-3deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1) rotate(0);
+    opacity: 1;
+  }
+}
