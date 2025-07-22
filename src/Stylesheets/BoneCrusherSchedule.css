@@ -18,7 +18,7 @@ background-size: contain;
   justify-content: flex-start;
   font-family: 'Bebas Neue', sans-serif;
   color: #f4f4f4;
-  padding-top: 120px;
+  padding-top: 160px;
   overflow-y: auto;
   position: relative;
   box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.8);
@@ -57,7 +57,7 @@ background-size: contain;
 .bonecrusher-class {
   background: #121212;
   border-left: 8px solid #ff0033;
-  padding: 5px 22px;
+  padding: 5px 27px;
   border-radius: 8px;
   display: flex;
   justify-content: space-between;
