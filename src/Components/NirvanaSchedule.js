@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../Stylesheets/NirvanaSchedule.css";
 import schedule from "../Schedule";
 
-function NirvanaSchedule({ day, delay = 800 }) {
+function NirvanaSchedule({ day, delay = 1800 }) {
   const [visibleClasses, setVisibleClasses] = useState([]);
   const [displayDay, setDisplayDay] = useState("");
 
@@ -26,7 +26,7 @@ function NirvanaSchedule({ day, delay = 800 }) {
           setVisibleClasses((prev) => [...prev, idx]);
         }, idx * 300);
       });
-    }, delay);
+    }, 1000+delay);
 
     return () => clearTimeout(animationDelay);
   }, [day, delay]);
