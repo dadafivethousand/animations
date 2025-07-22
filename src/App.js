@@ -8,7 +8,7 @@ import PinkPantherSchedule from "./Components/PinkPantherSchedule";
 function App() {
   return (
     <>
-  <PinkPantherSchedule day={"Monday"}/>
+  <NirvanaSchedule day={"Tuesday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

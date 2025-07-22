@@ -56,7 +56,7 @@
 .nirvana-class {
   background: #0f0f0fde;
   border-left: 6px solid #f6c700;
-  padding: 20px;
+  padding: 10px 20px;
   border-radius: 6px;
   color: #fefefe;
   font-size: 24px;
@@ -74,12 +74,12 @@
 
 .nirvana-name {
   font-weight: bold;
-  font-size: 24px;
+  font-size: 16px;
   color: #fefefe;
 }
 
 .nirvana-time {
-  font-size: 24px;
+  font-size: 16px;
   color: #f6c700;
 }
 
