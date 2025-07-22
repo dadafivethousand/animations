@@ -35,7 +35,7 @@ background-size: contain;
   border: 3px solid #fff;
   text-transform: uppercase;
   letter-spacing: 4px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 /* Schedule Container */
@@ -43,8 +43,8 @@ background-size: contain;
   width: 92%;
   max-width: 420px;
   background: rgba(255, 255, 255, 0.03);
-  border: 2px solid #999;
-  padding: 26px;
+ 
+  padding: 6px;
   border-radius: 14px;
   backdrop-filter: blur(3px);
   box-shadow: 0 0 40px rgba(255, 0, 51, 0.15);
@@ -57,7 +57,7 @@ background-size: contain;
 .bonecrusher-class {
   background: #121212;
   border-left: 8px solid #ff0033;
-  padding: 25px 22px;
+  padding: 5px 22px;
   border-radius: 8px;
   display: flex;
   justify-content: space-between;
