@@ -64,6 +64,8 @@
   text-shadow: 4px 4px 10px black;
   position: relative;
   z-index: 2;
+  position:relative;
+  top:40px;
 }
 
 /* 🕷️ Classes Section */
