@@ -5,10 +5,11 @@ import JonJonesSchedule from "./Components/JonJonesSchedule";
  
 import HappyDadSchedule from "./Components/HappyDadSchedule"
 import PinkPantherSchedule from "./Components/PinkPantherSchedule";
+import SpiderManSchedule from "./Used/SpiderManSchedule"
 function App() {
   return (
     <>
-  <NirvanaSchedule day={"Tuesday"}/>
+  <SpiderManSchedule day={"Tuesday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

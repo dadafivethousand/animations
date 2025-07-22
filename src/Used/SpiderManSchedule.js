@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/SpiderManSchedule.css";
-import schedule from "../Schedule";
+import "./SpiderManSchedule.css";
+import schedule from "../RhSchedule";
 
 function SpiderManSchedule({ day }) {
   const [showClasses, setShowClasses] = useState(false);
