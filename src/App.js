@@ -7,10 +7,11 @@ import HappyDadSchedule from "./Components/HappyDadSchedule"
 import PinkPantherSchedule from "./Components/PinkPantherSchedule";
 import SpiderManSchedule from "./Used/SpiderManSchedule"
 import BoneCrusherSchedule from "./Components/BoneCrusherSchedule";
+import TonyHawkSchedule from "./Components/TonyHawkSchedule";
 function App() {
   return (
     <>
-  <BoneCrusherSchedule day={"Wednesday"}/>
+  <TonyHawkSchedule day={"Thursday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
