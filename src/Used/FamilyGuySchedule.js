@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/FamilyGuySchedule.css";
-import schedule from "../Schedule"; // Assuming schedule data exists
+import "./FamilyGuySchedule.css";
+import schedule from "../RhSchedule"; // Assuming schedule data exists
 
 function FamilyGuySchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
   const [showSchedule, setShowSchedule] = useState(false);
