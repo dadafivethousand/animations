@@ -11,6 +11,7 @@ import TonyHawkSchedule from "./Components/TonyHawkSchedule";
 import FamilyGuySchedule from "./Used/FamilyGuySchedule";
 import JokerSchedule from "./Used/JokerSchedule"
 import BlueJaysSchedule from "./Components/BlueJaysSchedule";
+import FarmSchedule from "./Used/FarmSchedule";
 function App() {
   return (
     <>

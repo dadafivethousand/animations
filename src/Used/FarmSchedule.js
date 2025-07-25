@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/FarmSchedule.css";
-import schedule from "../Schedule";
+import "./FarmSchedule.css";
+import schedule from "../RhSchedule";
 
 export default function FarmSchedule({ day, animationDelay = 1800, animationInterval = 150 }) {
   const [visibleArray, setVisibleArray] = useState([]);
