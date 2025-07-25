@@ -13,7 +13,7 @@
     /* 🃏 CHAOTIC SPRAY-PAINTED TITLE */
     .joker-day {
       position: absolute;
-      top: 5%;
+      top: 15%;
       left: 50%;
       transform: translateX(-50%) rotate(-3deg);
       font-size: 42px;
@@ -27,7 +27,7 @@
     /* 🃏 JOKER-STYLE SPRAY PAINTED CLASSES */
     .joker-schedule {
       position: absolute;
-      top: 15%;
+      top: 35%;
       left: 5%;
       width: 93%;
     }

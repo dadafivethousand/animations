@@ -9,10 +9,11 @@ import SpiderManSchedule from "./Used/SpiderManSchedule"
 import BoneCrusherSchedule from "./Components/BoneCrusherSchedule";
 import TonyHawkSchedule from "./Components/TonyHawkSchedule";
 import FamilyGuySchedule from "./Used/FamilyGuySchedule";
+import JokerSchedule from "./Used/JokerSchedule"
 function App() {
   return (
     <>
-  <JonJonesSchedule day={"Friday"}/>
+  <JokerSchedule day={"Friday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/JokerSchedule.css";
-import schedule from "../Schedule"; // Assuming schedule data exists
+import "./JokerSchedule.css";
+import schedule from "../RhSchedule"; // Assuming schedule data exists
 
 function JokerSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
   const [showSchedule, setShowSchedule] = useState(false);
