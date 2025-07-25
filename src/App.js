@@ -12,7 +12,7 @@ import FamilyGuySchedule from "./Used/FamilyGuySchedule";
 function App() {
   return (
     <>
-  <FamilyGuySchedule day={"Thursday"}/>
+  <JonJonesSchedule day={"Friday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
