@@ -24,7 +24,7 @@ function BlueJaysSchedule({ day, delay = 800 }) {
       classes.forEach((_, idx) => {
         setTimeout(() => {
           setVisibleClasses((prev) => [...prev, idx]);
-        }, idx * 450);
+        }, idx * 650);
       });
     }, 1500 + delay);
 

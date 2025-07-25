@@ -25,7 +25,7 @@
 .jays-day {
   font-size: 48px;
   color: #ffffff;
- 
+ min-height:70px;
   padding: 12px 36px;
   border-radius: 8px;
   
