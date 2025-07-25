@@ -52,20 +52,20 @@
   backdrop-filter: blur(3px);
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 2px;
 }
 
 /* Class card */
 .jones-class {
   background: rgba(0, 0, 0, 0.8);
   border-left: 6px solid #ff004c;
-  padding: 10px;
+  padding: 5px 10px;
   border-radius: 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: #fff;
-  font-size: 20px;
+ 
   animation: popSlideIn 0.4s ease-out forwards;
   transition: 0.3s ease-in-out;
 }
@@ -77,13 +77,13 @@
 }
 
 .jones-name {
-  font-size: 20px;
+  font-size: 15px;
   font-weight: bold;
   color: #ffffff;
 }
 
 .jones-time {
-  font-size: 20px;
+  font-size: 15px;
   color: #ff91c1;
 }
 
