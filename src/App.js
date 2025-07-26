@@ -12,10 +12,11 @@ import FamilyGuySchedule from "./Used/FamilyGuySchedule";
 import JokerSchedule from "./Used/JokerSchedule"
 import BlueJaysSchedule from "./Components/BlueJaysSchedule";
 import FarmSchedule from "./Used/FarmSchedule";
+import CodeNinjasSchedule from "./Components/CodeNinjasSchedule";
 function App() {
   return (
     <>
-  <BlueJaysSchedule day={"Saturday"}/>
+  <CodeNinjasSchedule day={"Sunday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* Hide on desktop */
+@media (min-width: 768px) {
+  .ninja-terminal {
+    display: none !important;
+  }
+}
+
+.ninja-terminal {
+  height: 100vh;
+  width: 100vw;
+  background-color: #000000;
+  background-image: radial-gradient(circle at 20% 30%, #002b36 0%, #000000 100%);
+  color: #00ffcc;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  padding: 130px 20px;
+  white-space: pre-wrap;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-shadow: 0 0 4px #00ffcc88;
+  line-height: 2.2;
+}
+
+/* Each line of code */
+.terminal-line {
+  letter-spacing: 0.8px;
+}
+
+/* Optional blinking cursor for final line (commented out for now) */
+/*
+.ninja-terminal::after {
+  content: "_";
+  animation: blink 1s step-start infinite;
+  color: #00ffcc;
+  font-size: 14px;
+  padding-left: 4px;
+}
+*/
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
