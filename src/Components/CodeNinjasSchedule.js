@@ -5,16 +5,15 @@ import schedule from "../Schedule";
 function CodeNinjasSchedule({ day, delay = 800 }) {
   const [lines, setLines] = useState([]);
   const [typedLines, setTypedLines] = useState([]);
+  const [displaying, setDisplaying] = useState([]);
 
   useEffect(() => {
     const classes = schedule[day] || [];
-    const allLines = [`<span class="comment"># ${day.toUpperCase()} schedule</span>`];
+    const allLines = [`# ${day.toUpperCase()} schedule`];
 
     classes.forEach((cls) => {
       const time = formatTime(cls.start);
-      allLines.push(
-        `<span class="var">${snakeCase(cls.name)}</span> = <span class="string">"${time}"</span>`
-      );
+      allLines.push(`${snakeCase(cls.name)} = "${time}"`);
     });
 
     setLines(allLines);
@@ -23,21 +22,25 @@ function CodeNinjasSchedule({ day, delay = 800 }) {
   useEffect(() => {
     const startTyping = async () => {
       await new Promise((res) => setTimeout(res, delay));
-      for (const line of lines) {
-        let typed = "";
-        for (let i = 0; i <= line.length; i++) {
-          setTypedLines((prev) => [
-            ...prev.slice(0, -1),
-            line.substring(0, i) + (i < line.length ? "|" : ""),
-          ]);
-          await new Promise((res) => setTimeout(res, 20));
+      const builtLines = [];
+
+      for (const rawLine of lines) {
+        let current = "";
+        for (let i = 0; i <= rawLine.length; i++) {
+          setTypedLines([...builtLines, current + (i < rawLine.length ? "|" : "")]);
+          await new Promise((res) => setTimeout(res, 30));
+          current = rawLine.substring(0, i);
         }
-        setTypedLines((prev) => [...prev, ""]);
+        builtLines.push(current);
       }
+
+      setTypedLines([]);
+      setDisplaying(builtLines);
     };
 
     if (lines.length) {
       setTypedLines([""]);
+      setDisplaying([]);
       startTyping();
     }
   }, [lines, delay]);
@@ -57,15 +60,31 @@ function CodeNinjasSchedule({ day, delay = 800 }) {
       .toLowerCase()
       .replace(/\s+/g, "_");
 
+  // Convert plain lines to highlighted syntax after typing finishes
+  const highlight = (line) => {
+    if (line.startsWith("#")) {
+      return `<span class="comment">${line}</span>`;
+    } else {
+      const [variable, value] = line.split(" = ");
+      return `<span class="var">${variable}</span> = <span class="string">${value}</span>`;
+    }
+  };
+
   return (
     <div className="ninja-editor">
-      {typedLines.map((line, idx) => (
-        <div
-          className="code-line"
-          key={idx}
-          dangerouslySetInnerHTML={{ __html: line }}
-        />
-      ))}
+      {typedLines.length > 0
+        ? typedLines.map((line, i) => (
+            <div className="code-line" key={i}>
+              {line}
+            </div>
+          ))
+        : displaying.map((line, i) => (
+            <div
+              className="code-line"
+              key={i}
+              dangerouslySetInnerHTML={{ __html: highlight(line) }}
+            />
+          ))}
     </div>
   );
 }
