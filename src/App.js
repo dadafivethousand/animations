@@ -15,7 +15,7 @@ import FarmSchedule from "./Used/FarmSchedule";
 function App() {
   return (
     <>
-  <FarmSchedule day={"Saturday"}/>
+  <BlueJaysSchedule day={"Saturday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
