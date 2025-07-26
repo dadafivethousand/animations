@@ -8,11 +8,13 @@ function CodeNinjasSchedule({ day, delay = 800 }) {
 
   useEffect(() => {
     const classes = schedule[day] || [];
-    const allLines = [`# ${day.toUpperCase()} schedule`];
+    const allLines = [`<span class="comment"># ${day.toUpperCase()} schedule</span>`];
 
     classes.forEach((cls) => {
       const time = formatTime(cls.start);
-      allLines.push(`${snakeCase(cls.name)} = "${time}"`);
+      allLines.push(
+        `<span class="var">${snakeCase(cls.name)}</span> = <span class="string">"${time}"</span>`
+      );
     });
 
     setLines(allLines);
@@ -24,8 +26,11 @@ function CodeNinjasSchedule({ day, delay = 800 }) {
       for (const line of lines) {
         let typed = "";
         for (let i = 0; i <= line.length; i++) {
-          setTypedLines((prev) => [...prev.slice(0, -1), line.substring(0, i) + (i < line.length ? "|" : "")]);
-          await new Promise((res) => setTimeout(res, 25));
+          setTypedLines((prev) => [
+            ...prev.slice(0, -1),
+            line.substring(0, i) + (i < line.length ? "|" : ""),
+          ]);
+          await new Promise((res) => setTimeout(res, 20));
         }
         setTypedLines((prev) => [...prev, ""]);
       }
@@ -53,11 +58,13 @@ function CodeNinjasSchedule({ day, delay = 800 }) {
       .replace(/\s+/g, "_");
 
   return (
-    <div className="ninja-terminal">
+    <div className="ninja-editor">
       {typedLines.map((line, idx) => (
-        <div className="terminal-line" key={idx}>
-          {line}
-        </div>
+        <div
+          className="code-line"
+          key={idx}
+          dangerouslySetInnerHTML={{ __html: line }}
+        />
       ))}
     </div>
   );

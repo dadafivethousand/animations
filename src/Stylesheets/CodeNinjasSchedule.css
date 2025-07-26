@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
 
-/* Mobile only */
+/* Hide on desktop */
 @media (min-width: 768px) {
   .ninja-editor {
     display: none !important;
@@ -24,14 +24,14 @@
   position: relative;
 }
 
-/* Each line of code */
+/* Code line */
 .code-line {
   white-space: pre-wrap;
   line-height: 2;
   letter-spacing: 0.4px;
 }
 
-/* Syntax highlighting with Python color theme */
+/* Python-style syntax highlighting */
 .code-line span.comment {
   color: #999999;
 }
@@ -44,7 +44,7 @@
   color: #3776AB; /* Python Blue */
 }
 
-/* Blinking terminal-style cursor on last line */
+/* Blinking underscore cursor on last line */
 .ninja-editor .code-line:last-child::after {
   content: "_";
   animation: blink 1s step-start infinite;
