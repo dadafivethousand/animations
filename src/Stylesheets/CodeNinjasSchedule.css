@@ -1,52 +1,57 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
 
-/* Hide on desktop */
+/* Mobile only */
 @media (min-width: 768px) {
-  .ninja-terminal {
+  .ninja-editor {
     display: none !important;
   }
 }
 
-.ninja-terminal {
+.ninja-editor {
   height: 100vh;
   width: 100vw;
-  background-color: #0c0c0c;
-  color: #f5f5f5;
-  font-family: 'Source Code Pro', monospace;
+  background: linear-gradient(to bottom right, #1a2b3d, #0f1a28);
+  color: #ffffff;
+  font-family: 'Fira Code', monospace;
   font-size: 16px;
-  padding: 148px 18px;
+  padding: 140px 52px;
   white-space: pre-wrap;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   line-height: 2;
+  position: relative;
 }
 
-/* Line styling */
-.terminal-line {
-  line-height: 2.1;
-  letter-spacing: 0.5px;
+/* Each line of code */
+.code-line {
+  white-space: pre-wrap;
+  line-height: 2;
+  letter-spacing: 0.4px;
 }
 
-/* Simulated syntax (optional upgrade) */
-/*
-.terminal-line::before {
-  content: ">>> ";
-  color: #2b9ed8;
+/* Syntax highlighting with Python color theme */
+.code-line span.comment {
+  color: #999999;
 }
-*/
 
-/* Optional blinking cursor */
-/*
-.ninja-terminal::after {
+.code-line span.var {
+  color: #FFD43B; /* Python Yellow */
+}
+
+.code-line span.string {
+  color: #3776AB; /* Python Blue */
+}
+
+/* Blinking terminal-style cursor on last line */
+.ninja-editor .code-line:last-child::after {
   content: "_";
   animation: blink 1s step-start infinite;
-  color: #2b9ed8;
-  font-size: 16px;
-  padding-left: 4px;
+  color: #ffffff;
+  padding-left: 5px;
+  font-weight: bold;
 }
-*/
 
 @keyframes blink {
   50% {
