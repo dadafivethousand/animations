@@ -2,17 +2,17 @@ import React, { useEffect, useState } from "react";
 import "../Stylesheets/CodeNinjasSchedule.css";
 import schedule from "../Schedule";
 
-function CodeNinjasSchedule({ day, delay = 1800 }) {
+function CodeNinjasSchedule({ day, delay = 800 }) {
   const [lines, setLines] = useState([]);
   const [typedLines, setTypedLines] = useState([]);
 
   useEffect(() => {
     const classes = schedule[day] || [];
-    const allLines = [`// ${day.toUpperCase()} SCHEDULE`];
+    const allLines = [`# ${day.toUpperCase()} schedule`];
 
     classes.forEach((cls) => {
       const time = formatTime(cls.start);
-      allLines.push(`${(cls.name)} = "${time}";`);
+      allLines.push(`${snakeCase(cls.name)} = "${time}"`);
     });
 
     setLines(allLines);
@@ -45,16 +45,12 @@ function CodeNinjasSchedule({ day, delay = 1800 }) {
     return `${hour12}:${minutes.toString().padStart(2, "0")} ${amPm}`;
   };
 
-  const camelize = (str) =>
+  const snakeCase = (str) =>
     str
       .replace(/[^a-zA-Z0-9 ]/g, "")
-      .replace(/\s(.)/g, function (match, group1) {
-        return group1.toUpperCase();
-      })
-      .replace(/\s/g, "")
-      .replace(/^(.)/, function (match, group1) {
-        return group1.toLowerCase();
-      });
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, "_");
 
   return (
     <div className="ninja-terminal">

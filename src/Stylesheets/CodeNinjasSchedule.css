@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap');
 
 /* Hide on desktop */
 @media (min-width: 768px) {
@@ -10,33 +10,40 @@
 .ninja-terminal {
   height: 100vh;
   width: 100vw;
-  background-color: #000000;
-  background-image: radial-gradient(circle at 20% 30%, #002b36 0%, #000000 100%);
-  color: #00ffcc;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 14px;
-  padding: 130px 20px;
+  background-color: #0c0c0c;
+  color: #f5f5f5;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 16px;
+  padding: 148px 18px;
   white-space: pre-wrap;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  text-shadow: 0 0 4px #00ffcc88;
-  line-height: 2.2;
+  line-height: 2;
 }
 
-/* Each line of code */
+/* Line styling */
 .terminal-line {
-  letter-spacing: 0.8px;
+  line-height: 2.1;
+  letter-spacing: 0.5px;
 }
 
-/* Optional blinking cursor for final line (commented out for now) */
+/* Simulated syntax (optional upgrade) */
+/*
+.terminal-line::before {
+  content: ">>> ";
+  color: #2b9ed8;
+}
+*/
+
+/* Optional blinking cursor */
 /*
 .ninja-terminal::after {
   content: "_";
   animation: blink 1s step-start infinite;
-  color: #00ffcc;
-  font-size: 14px;
+  color: #2b9ed8;
+  font-size: 16px;
   padding-left: 4px;
 }
 */
