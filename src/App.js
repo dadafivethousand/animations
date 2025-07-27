@@ -1,22 +1,12 @@
 import React from "react";
 import "./Stylesheets/App.css"
-import NirvanaSchedule from "./Components/NirvanaSchedule";
-import JonJonesSchedule from "./Components/JonJonesSchedule";
  
-import HappyDadSchedule from "./Components/HappyDadSchedule"
-import PinkPantherSchedule from "./Components/PinkPantherSchedule";
-import SpiderManSchedule from "./Used/SpiderManSchedule"
-import BoneCrusherSchedule from "./Components/BoneCrusherSchedule";
-import TonyHawkSchedule from "./Components/TonyHawkSchedule";
-import FamilyGuySchedule from "./Used/FamilyGuySchedule";
-import JokerSchedule from "./Used/JokerSchedule"
-import BlueJaysSchedule from "./Components/BlueJaysSchedule";
-import FarmSchedule from "./Used/FarmSchedule";
-import CodeNinjasSchedule from "./Components/CodeNinjasSchedule";
+import MetallicaSchedule from "./Components/MetallicaSchedule";
+import LittleEinsteinsSchedule from "./Components/LittleEinsteinsSchedule";
 function App() {
   return (
     <>
-  <CodeNinjasSchedule day={"Sunday"}/>
+  <LittleEinsteinsSchedule day={"Monday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

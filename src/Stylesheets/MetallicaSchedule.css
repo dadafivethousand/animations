@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+@media (min-width: 768px) {
+  .metallica-container {
+    display: none !important;
+  }
+}
+
+.metallica-container {
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(to bottom, #0d0d0d, #000);
+  background-image: url("https://www.transparenttextures.com/patterns/asfalt-dark.png");
+  color: #f2f2f2;
+  font-family: 'Share Tech Mono', monospace;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 60px;
+  overflow-y: auto;
+  box-shadow: inset 0 0 40px rgba(255, 255, 255, 0.05);
+}
+
+/* Day Title */
+.metallica-day {
+  font-size: 36px;
+  color: #e60012;
+  letter-spacing: 2px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #e60012;
+  padding-bottom: 10px;
+  text-shadow: 0 0 4px rgba(255, 0, 0, 0.4);
+}
+
+/* Schedule List */
+.metallica-schedule {
+  width: 90%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Class Card */
+.metallica-class {
+  background: #219bb9;
+  border-left: 6px solid #e60012;
+  padding: 18px 22px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 17px;
+  color: #fff;
+  animation: blastIn 0.45s ease forwards;
+  box-shadow: 0 0 12px rgba(255, 0, 0, 0.15);
+}
+
+.metallica-class:hover {
+  background: #222;
+  transform: scale(1.03);
+  box-shadow: 0 0 16px rgba(255, 0, 0, 0.3);
+}
+
+.metallica-name {
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.metallica-time {
+  font-size: 19px;
+   color: #e60012;
+}
+
+/* Animation */
+@keyframes blastIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
