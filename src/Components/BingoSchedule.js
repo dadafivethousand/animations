@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/JonJonesSchedule.css";
+import "../Stylesheets/BingoSchedule.css";
 import schedule from "../Schedule";
 
-function JonJonesSchedule({ day, delay = 800 }) {
+function BingoSchedule({ day, delay = 1600 }) {
   const [visibleClasses, setVisibleClasses] = useState([]);
   const [displayDay, setDisplayDay] = useState("");
 
@@ -13,7 +13,7 @@ function JonJonesSchedule({ day, delay = 800 }) {
         setDisplayDay(day.substring(0, i + 1));
         i++;
         if (i > day.length) clearInterval(typeInterval);
-      }, 80);
+      }, 60);
     }, delay);
     return () => clearTimeout(timer);
   }, [day, delay]);
@@ -24,9 +24,9 @@ function JonJonesSchedule({ day, delay = 800 }) {
       classes.forEach((_, idx) => {
         setTimeout(() => {
           setVisibleClasses((prev) => [...prev, idx]);
-        }, idx * 300);
+        }, idx * 250);
       });
-    }, 1000+delay);
+    }, 1000 + delay);
 
     return () => clearTimeout(animationDelay);
   }, [day, delay]);
@@ -40,14 +40,14 @@ function JonJonesSchedule({ day, delay = 800 }) {
   };
 
   return (
-    <div className="jones-container">
-      <div className="jones-day">{displayDay}</div>
-      <div className="jones-schedule">
+    <div className="bingo-container">
+      <div className="bingo-day">{displayDay}</div>
+      <div className="bingo-schedule">
         {(schedule[day] || []).map((cls, idx) =>
           visibleClasses.includes(idx) ? (
-            <div className="jones-class" key={idx}>
-              <span className="jones-name">{cls.name}</span>
-              <span className="jones-time">{formatTime(cls.start)}</span>
+            <div className="bingo-class" key={idx}>
+              <span className="bingo-name">{cls.name}</span>
+              <span className="bingo-time">{formatTime(cls.start)}</span>
             </div>
           ) : null
         )}
@@ -56,4 +56,4 @@ function JonJonesSchedule({ day, delay = 800 }) {
   );
 }
 
-export default JonJonesSchedule;
+export default BingoSchedule;

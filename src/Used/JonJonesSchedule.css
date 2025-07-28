@@ -1,70 +1,100 @@
-@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
 
-:root {
-  --jon-black: #121212;
-  --jon-gold: #c5a43f;
-  --jon-white: #f5f5f5;
-  --jon-red: #a80b0b;
+@media (min-width: 768px) {
+  .jones-container {
+    display: none !important;
+  }
 }
 
-.jon-container {
-  background: var(--jon-black);
-  min-height: 100vh;
-  padding: 40px 16px 20px;
+.jones-container {
+  height: 90vh;
+  width: 100vw;
+   background-color: #0c0113;
+  background-size: cover;
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: 'Rajdhani', sans-serif;
+  justify-content: flex-start;
+  padding-top: 40px;
+  font-family: 'Orbitron', sans-serif;
+  color: #ffffff;
+  overflow-y: auto;
+  background-image: url('https://media1.tenor.com/m/5bQOIumPBZ4AAAAd/jon-jones-jon-bones-jones.gif');
+    background-position: bottom center;
+    background-size: contain;
+    background-repeat: no-repeat;
+
 }
 
-.jon-day {
-  font-size: 9vw;
-  color: var(--jon-gold);
+/* Title (Day) */
+.jones-day {
+  font-size: 44px;
+  color: #fff;
+  background: rgba(138, 43, 226, 0.85); /* purple overlay */
+  padding: 14px 36px;
+  border-radius: 10px;
+  border: 2px solid #fff;
+  box-shadow: 0 0 20px rgba(138, 43, 226, 0.5);
   margin-bottom: 30px;
   letter-spacing: 2px;
-  text-shadow: 0 0 10px rgba(0,0,0,0.5);
+  text-transform: uppercase;
 }
 
-.jon-track {
-  width: 100%;
-  max-width: 500px;
+/* Schedule box */
+.jones-schedule {
+  width: 92%;
+  max-width: 400px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #883cff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(138, 43, 226, 0.3);
+  backdrop-filter: blur(3px);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.jon-class-container {
-  margin-bottom: 20px;
-}
-
-.jon-class {
+/* Class card */
+.jones-class {
+  background: rgba(0, 0, 0, 0.8);
+  border-left: 6px solid #ff004c;
+  padding: 5px 10px;
+  border-radius: 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: var(--jon-black);
-  border: 2px solid var(--jon-gold);
-  padding: 20px 24px;
-  border-radius: 12px;
-  transform: translateY(20px);
-  opacity: 0;
-  animation: fadeInJon 0.5s forwards;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  color: #fff;
+ 
+  animation: popSlideIn 0.4s ease-out forwards;
+  transition: 0.3s ease-in-out;
 }
 
-.jon-class-name {
-  font-size: 5.5vw;
-  color: var(--jon-white);
-  max-width: 70%;
-  word-break: break-word;
-  font-weight: 700;
+.jones-class:hover {
+  background: #1a001f;
+  transform: scale(1.02);
+  box-shadow: 0 0 10px rgba(255, 0, 76, 0.3);
 }
 
-.jon-class-time {
-  font-size: 4.8vw;
-  color: var(--jon-gold);
-  font-weight: 700;
+.jones-name {
+  font-size: 15px;
+  font-weight: bold;
+  color: #ffffff;
 }
 
-@keyframes fadeInJon {
+.jones-time {
+  font-size: 15px;
+  color: #ff91c1;
+}
+
+/* Animation */
+@keyframes popSlideIn {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
   to {
-    opacity: 1;
     transform: translateY(0);
+    opacity: 1;
   }
 }

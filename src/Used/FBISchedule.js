@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/RealisticFolder.css";
-import schedule from "../Schedule";
+import "./RealisticFolder.css";
+import schedule from "../RhSchedule";
 
 export default function FBISchedule({ day, animationDelay = 1800, animationInterval = 400 }) {
   const [visibleArray, setVisibleArray] = useState([]);
