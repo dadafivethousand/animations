@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/FiremanSchedule.css"; 
-import schedule from "../Schedule"; 
+import "./FiremanSchedule.css"; 
+import schedule from "../RhSchedule"; 
 
 function FiremanSchedule({ day }) {
   const [showSchedule, setShowSchedule] = useState(false);
