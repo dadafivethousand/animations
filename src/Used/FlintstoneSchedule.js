@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/FlintstoneSchedule.css";
-import schedule from "../Schedule";
+import "./FlintstoneSchedule.css";
+import schedule from "../RhSchedule";
 
 function FlintstoneSchedule({ day }) {
   const [visible, setVisible] = useState([]);
