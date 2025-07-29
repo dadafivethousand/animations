@@ -10,7 +10,7 @@ import FlinstoneSchedule from "./Used/FlintstoneSchedule"
 function App() {
   return (
     <>
-  <FlinstoneSchedule day={"Monday"}/>
+  <WuTangSchedule day={"Tuesday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
