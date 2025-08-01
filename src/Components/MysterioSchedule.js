@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/MysterioSchedule.css";
-import schedule from "../Schedule";
+import "./MysterioSchedule.css";
+import schedule from "../RhSchedule";
 
 function MysterioSchedule({ day }) {
   const [visible, setVisible] = useState([]);

@@ -1,11 +1,11 @@
 import React from "react";
-import "../Stylesheets/MapleJiuJitsuHeader.css";
+import "./MapleJiuJitsuHeader.css";
 
 export default function MapleJiuJitsuHeader() {
   return (
     <div className="mj-header-container">
       <div className="mj-header-text">
-        <span>MAPLE</span>
+        <span>RICHMOND HILL</span>
         <span>JIU‑JITSU</span>
       </div>
     </div>

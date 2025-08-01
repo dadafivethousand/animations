@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/MetallicaSchedule.css";
+import "..//MetallicaSchedule.css";
 import schedule from "../Schedule";
 
 function MetallicaSchedule({ day, delay = 1800 }) {
