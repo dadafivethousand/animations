@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../Stylesheets/MetallicaSchedule.css";
 import schedule from "../Schedule";
 
-function MetallicaSchedule({ day, delay = 800 }) {
+function MetallicaSchedule({ day, delay = 1800 }) {
   const [visibleClasses, setVisibleClasses] = useState([]);
   const classes = schedule[day] || [];
 
