@@ -65,14 +65,16 @@
 }
 
 .metallica-name {
+    font-size: 25px;
   font-weight: bold;
   text-transform: uppercase;
   color: #ffffff;
 }
 
 .metallica-time {
-  font-size: 19px;
+  font-size: 25px;
    color: #e60012;
+   font-weight: bold;
 }
 
 /* Animation */
