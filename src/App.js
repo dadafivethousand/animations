@@ -7,10 +7,11 @@ import WuTangSchedule from "./Components/WuTangSchedule";
 import BingoSchedule from "./Components/BingoSchedule";
 import FbiSchedule from "./Used/FBISchedule"
 import FlinstoneSchedule from "./Used/FlintstoneSchedule"
+import AsapRockySchedule from "./Used/ASAPRockySchedule"
 function App() {
   return (
     <>
-  <MetallicaSchedule day={"Friday"}/>
+  <AsapRockySchedule day={"Friday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
