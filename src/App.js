@@ -1,12 +1,13 @@
 import React from "react";
 import "./Stylesheets/App.css"
+import ScoobySchedule from "./Used/ScoobySchedule";
  
  
 import AsapRockySchedule from "./Used/ASAPRockySchedule"
 function App() {
   return (
     <>
-  <AsapRockySchedule day={"Friday"}/>
+  <ScoobySchedule day={"Saturday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
