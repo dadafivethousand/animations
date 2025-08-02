@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/GladiatorSchedule.css";
-import schedule from "../Schedule";
+import "./GladiatorSchedule.css";
+import schedule from "../RhSchedule";
 
 export default function GladiatorSchedule({ day, animationDelay = 1300, animationInterval = 150 }) {
   const [visibleArray, setVisibleArray] = useState([]);

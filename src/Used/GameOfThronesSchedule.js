@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Schedule from "../Schedule"; // Corrected import path
-import "../Stylesheets/GameOfThronesSchedule.css";
+import Schedule from "../RhSchedule"; // Corrected import path
+import "./GameOfThronesSchedule.css";
 
 export default function GameOfThronesSchedule({ day }) {
   const todaysSchedule = Schedule[day] || [];
