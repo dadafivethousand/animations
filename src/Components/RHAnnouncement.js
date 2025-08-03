@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './RHAnnouncement.css';
 
 const RHAnnouncement = () => {
-  const message = `Richmond Hill Jiu-Jitsu Academy will be closed on Monday for the Civic Holiday. Classes at our Maple location (20 Cranston Park) will run as per the regular schedule.`;
+  const message = `Riichmond Hill Jiu-Jitsu Academy will be closed on Monday for the Civic Holiday. Classes at our Maple location (20 Cranston Park) will run as per the regular schedule.`;
   const nextMessage = `All students are welcome to attend there.`;
 
   const [text, setText] = useState('');
@@ -11,22 +11,25 @@ const RHAnnouncement = () => {
   useEffect(() => {
     let i = 0;
     const mainInterval = setInterval(() => {
-      setText((prev) => prev + message.charAt(i));
+      setText((prev) => prev + message[i]);
       i++;
       if (i >= message.length) clearInterval(mainInterval);
     }, 50);
+
     return () => clearInterval(mainInterval);
   }, []);
 
   useEffect(() => {
+    const totalTimeForFirst = message.length * 50 + 200;
+
     const timeout = setTimeout(() => {
       let j = 0;
       const nextInterval = setInterval(() => {
-        setNextText((prev) => prev + nextMessage.charAt(j));
+        setNextText((prev) => prev + nextMessage[j]);
         j++;
         if (j >= nextMessage.length) clearInterval(nextInterval);
       }, 50);
-    }, message.length * 50 + 250); // Wait until first message finishes + slight buffer
+    }, totalTimeForFirst);
 
     return () => clearTimeout(timeout);
   }, []);
