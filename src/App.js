@@ -9,13 +9,13 @@ import MinionSchedule from "./Components/MinionSchedule";
 import MonstersIncSchedule from "./Components/MonstersIncSchedule";
 import WorldStarSchedule from "./Components/WorldStarSchedule";
 import StackOverflowSchedule from "./Components/StackOverflowSchedule";
-import RHAnnouncement from "./Components/RHAnnouncement";
+ import MachineSchedule from "./Components/MachineSchedule";
 
 
 function App() {
   return (
     <>
-  <RHAnnouncement day={"Wednesday"}/>
+  <MachineSchedule day={"Monday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
