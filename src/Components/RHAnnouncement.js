@@ -11,25 +11,22 @@ const RHAnnouncement = () => {
   useEffect(() => {
     let i = 0;
     const mainInterval = setInterval(() => {
-      setText((prev) => prev + message[i]);
+      setText((prev) => prev + message.charAt(i));
       i++;
       if (i >= message.length) clearInterval(mainInterval);
     }, 50);
-
     return () => clearInterval(mainInterval);
   }, []);
 
   useEffect(() => {
-    const totalTimeForFirst = message.length * 50 + 200;
-
     const timeout = setTimeout(() => {
       let j = 0;
       const nextInterval = setInterval(() => {
-        setNextText((prev) => prev + nextMessage[j]);
+        setNextText((prev) => prev + nextMessage.charAt(j));
         j++;
         if (j >= nextMessage.length) clearInterval(nextInterval);
       }, 50);
-    }, totalTimeForFirst);
+    }, message.length * 50 + 250); // Wait until first message finishes + slight buffer
 
     return () => clearTimeout(timeout);
   }, []);
