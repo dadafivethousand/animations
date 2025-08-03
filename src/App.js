@@ -11,12 +11,13 @@ import WorldStarSchedule from "./Components/WorldStarSchedule";
 import StackOverflowSchedule from "./Components/StackOverflowSchedule";
  import MachineSchedule from "./Components/MachineSchedule";
 import MachineGunSchedule from "./Components/MachineGunSchedule";
+import DanaherSchedule from "./Components/DanaherSchedule";
 
 
 function App() {
   return (
     <>
-  <MachineGunSchedule day={"Tuesday"}/>
+  <DanaherSchedule day={"Thursday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
