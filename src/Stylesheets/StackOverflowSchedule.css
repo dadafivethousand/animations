@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap');
+
+@media (min-width: 768px) {
+  .stack-container {
+    display: none !important;
+  }
+}
+
+.stack-container {
+  height: 90vh;
+  width: 100vw;
+  padding-top: 60px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Roboto Mono', monospace;
+  overflow-y: auto;
+  background-image: url(../Images/stack.gif);
+  background-repeat: no-repeat;
+  background-position: bottom center;
+}
+
+/* Day Header */
+.stack-day {
+  font-size: 50px;
+  color: #f34418;
+  min-height: 60px;
+  padding: 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 30px;
+}
+
+/* Schedule List */
+.stack-schedule {
+  width: 92%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Class Card */
+.stack-class {
+  background: #f8f9f9;
+  border-left: 6px solid #f48024;
+  padding: 14px 22px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 6px rgba(35, 38, 41, 0.1);
+  animation: codeSlide 0.4s ease-out forwards;
+  transition: transform 0.3s ease;
+}
+
+.stack-class:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 10px rgba(35, 38, 41, 0.2);
+}
+
+.stack-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #232629;
+}
+
+.stack-time {
+  font-size: 15px;
+  color: #ea6c00;
+}
+
+/* Animation */
+@keyframes codeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

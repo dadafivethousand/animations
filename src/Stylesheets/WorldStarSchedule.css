@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+@media (min-width: 768px) {
+  .worldstar-container {
+    display: none !important;
+  }
+}
+
+.worldstar-container {
+  height: 90vh;
+  width: 100vw;
+  padding-top: 60px;
+  background: linear-gradient(to bottom, white,   #b21e1e );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Anton', sans-serif;
+  color: #fff;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* Header Title */
+.worldstar-day {
+  font-size: 44px;
+ 
+  color: #b21e1e;
+  padding: 18px 50px;
+  border-radius: 10px;
+  min-height: 80px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 30px;
+ 
+}
+
+/* Schedule List */
+.worldstar-schedule {
+  width: 92%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Class Cards */
+.worldstar-class {
+  background: #ffffff;
+  border-left: 8px solid #1a1a1a;
+  border-radius: 12px;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: dropIn 0.5s ease-out forwards;
+  transition: 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.worldstar-class:hover {
+  background: #f4f4f4;
+  transform: scale(1.03);
+  box-shadow: 0 0 12px #00000044;
+}
+
+.worldstar-name {
+  font-size: 22px;
+ 
+  color: #1a1a1a;
+}
+
+.worldstar-time {
+  font-size: 20px;
+ 
+  color: #b21e1e;
+}
+
+/* Drop-in effect */
+@keyframes dropIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.worldstar-day img{
+    height:100px;
+    position: relative;
+    top:35px
+}

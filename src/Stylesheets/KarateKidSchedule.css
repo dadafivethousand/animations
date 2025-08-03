@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+@media (min-width: 768px) {
+  .dojo-wrapper {
+    display: none !important;
+  }
+}
+
+.dojo-wrapper {
+  height: 90vh;
+  width: 100vw;
+  padding-top: 60px;
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png'), #111;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  font-family: 'Anton', sans-serif;
+  overflow-y: auto;
+  position: relative;
+}
+
+.dojo-banner {
+  background: linear-gradient(135deg, #c62828, #fdd835);
+  color: #111;
+  font-size: 42px;
+  text-transform: uppercase;
+  padding: 20px 50px;
+  border-radius: 12px;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 4px;
+  margin-bottom: 30px;
+  box-shadow: 0 0 12px #fdd835aa;
+}
+
+.belt-scroll {
+  width: 92%;
+  max-width: 440px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  z-index: 1;
+}
+
+.belt-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 24px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  font-size: 20px;
+  animation: fadeLift 0.4s ease forwards;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.belt-item.light {
+  background: #fafafa;
+  color: #111;
+  border-left: 6px solid #c62828;
+}
+
+.belt-item.dark {
+  background: #333;
+  color: #fff;
+  border-left: 6px solid #fdd835;
+}
+
+.belt-name {
+  font-weight: bold;
+}
+
+.belt-time {
+  font-size: 16px;
+  font-weight: normal;
+  opacity: 0.85;
+}
+
+/* Subtle entrance animation */
+@keyframes fadeLift {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
