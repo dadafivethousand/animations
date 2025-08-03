@@ -3,7 +3,7 @@ import './RHAnnouncement.css';
 
 const RHAnnouncement = () => {
   const message = `Riichmond Hill Jiu-Jitsu Academy will be closed on Monday for the Civic Holiday. Classes at our Maple location (20 Cranston Park) will run as per the regular schedule.`;
-  const nextMessage = `All students are welcome to attend there.`;
+  const nextMessage = `Alll students are welcome to attend there.`;
 
   const [text, setText] = useState('');
   const [nextText, setNextText] = useState('');
