@@ -11,7 +11,7 @@
 
 .dk-container {
   background: var(--white);
-  min-height: 100vh;
+  height:90vh;
   padding: 24px 16px;
   font-family: 'Oswald', sans-serif;
   display: flex;
@@ -88,6 +88,6 @@
 .dk-container img {
   position: absolute;
   bottom: 10px;
-  width: 700px;
+  width: 600px;
   height: auto;
 }
