@@ -12,12 +12,13 @@ import StackOverflowSchedule from "./Components/StackOverflowSchedule";
  import MachineSchedule from "./Components/MachineSchedule";
 import MachineGunSchedule from "./Components/MachineGunSchedule";
 import DanaherSchedule from "./Components/DanaherSchedule";
+import DJKhaledSchedule from "./Used/DJKhaledSchedule";
 
 
 function App() {
   return (
     <>
-  <DanaherSchedule day={"Thursday"}/>
+  <DJKhaledSchedule day={"Tuesday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

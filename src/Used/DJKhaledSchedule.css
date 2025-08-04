@@ -6,6 +6,7 @@
   --medium-gray: #ccc;
   --dark-gray: #333;
   --shadow: rgba(0, 0, 0, 0.1);
+  --highlight: #ffe066;
 }
 
 .dk-container {
@@ -16,6 +17,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 }
 
 .dk-header {
@@ -55,10 +57,21 @@
   }
 }
 
+.dk-class-info {
+  display: flex;
+  flex-direction: column;
+  max-width: 60%;
+}
+
 .dk-class-name {
   font-size: 5vw;
   color: var(--light-gray);
-  max-width: 60%;
+}
+
+.dk-maple-tag {
+  font-size: 3.2vw;
+  color: var(--highlight);
+  margin-top: 2px;
 }
 
 .dk-class-time {
@@ -68,11 +81,13 @@
   padding: 6px 12px;
   border-radius: 4px;
   font-weight: bold;
-  min-width:70px;
+  min-width: 70px;
   text-align: center;
 }
 
-.dk-container img{
-    position: absolute;
-    bottom:10px;
+.dk-container img {
+  position: absolute;
+  bottom: 10px;
+  width: 700px;
+  height: auto;
 }
