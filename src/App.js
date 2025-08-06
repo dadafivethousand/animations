@@ -13,12 +13,13 @@ import StackOverflowSchedule from "./Components/StackOverflowSchedule";
 import MachineGunSchedule from "./Components/MachineGunSchedule";
 import DanaherSchedule from "./Components/DanaherSchedule";
 import DJKhaledSchedule from "./Used/DJKhaledSchedule";
+import GraffitiSchedule from "./Used/GraffitiSchedule";
 
 
 function App() {
   return (
     <>
-  <WorldStarSchedule day={"Wednesday"}/>
+  <GraffitiSchedule day={"Wednesday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
