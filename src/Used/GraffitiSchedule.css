@@ -25,7 +25,7 @@
 .graffiti-card {
   background: #222;
   border-left: 5px solid #FF3CAC;
-  padding: 20px;
+  padding: 5px;
   border-radius: 10px;
   box-shadow: 0 0 10px #000;
   transition: transform 0.3s ease;
