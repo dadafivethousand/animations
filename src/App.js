@@ -19,7 +19,7 @@ import GraffitiSchedule from "./Used/GraffitiSchedule";
 function App() {
   return (
     <>
-  <GraffitiSchedule day={"Wednesday"}/>
+  <DanaherSchedule day={"Thursday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
