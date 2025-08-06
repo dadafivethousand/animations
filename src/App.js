@@ -18,7 +18,7 @@ import DJKhaledSchedule from "./Used/DJKhaledSchedule";
 function App() {
   return (
     <>
-  <DJKhaledSchedule day={"Tuesday"}/>
+  <WorldStarSchedule day={"Wednesday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
