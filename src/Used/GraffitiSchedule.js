@@ -31,7 +31,7 @@ export default function GraffitiSchedule({ day, animationDelay = 1000, animation
           visibleArray.includes(idx) ? (
             <div className={`graffiti-card ${cls.maple ? "maple" : ""}`} key={idx}>
               <span className="graffiti-class">
-                {cls.name} <br></br>
+                {cls.name}  
                 {cls.maple && <span className="maple-badge">MAPLE LOCATION</span>}
               </span>
               <span className="graffiti-time">{formatTime(cls.start)}</span>
