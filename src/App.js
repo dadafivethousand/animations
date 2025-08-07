@@ -19,7 +19,7 @@ import SpotifySchedule from "./Used/SpotifySchedule";
 function App() {
   return (
     <>
-  <SpotifySchedule day={"Thursday"}/>
+  <StackOverflowSchedule day={"Friday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
