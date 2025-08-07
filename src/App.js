@@ -14,12 +14,12 @@ import MachineGunSchedule from "./Components/MachineGunSchedule";
 import DanaherSchedule from "./Components/DanaherSchedule";
 import DJKhaledSchedule from "./Used/DJKhaledSchedule";
 import GraffitiSchedule from "./Used/GraffitiSchedule";
-
+import SpotifySchedule from "./Used/SpotifySchedule"; 
 
 function App() {
   return (
     <>
-  <DanaherSchedule day={"Thursday"}/>
+  <SpotifySchedule day={"Thursday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
