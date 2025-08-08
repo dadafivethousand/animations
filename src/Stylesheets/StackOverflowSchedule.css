@@ -53,6 +53,7 @@
   box-shadow: 0 2px 6px rgba(35, 38, 41, 0.1);
   animation: codeSlide 0.4s ease-out forwards;
   transition: transform 0.3s ease;
+  opacity:0.8
 }
 
 .stack-class:hover {
