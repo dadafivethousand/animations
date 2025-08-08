@@ -16,11 +16,12 @@ import DJKhaledSchedule from "./Used/DJKhaledSchedule";
 import GraffitiSchedule from "./Used/GraffitiSchedule";
 import SpotifySchedule from "./Used/SpotifySchedule"; 
 import UncleSamSchedule from "./Used/UncleSamSchedule";
+import AuraFarmingSchedule from "./Used/AuraFarmingSchedule"
 
 function App() {
   return (
     <>
-  <MinionSchedule day={"Saturday"}/>
+  <AuraFarmingSchedule day={"Saturday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
