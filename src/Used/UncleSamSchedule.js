@@ -1,27 +1,46 @@
-import React, { useEffect, useState } from "react";
-import "../Stylesheets/UncleSamSchedule.css";
-import schedule from "../Schedule";
+import React, { useEffect, useRef, useState } from "react";
+import "./UncleSamSchedule.css";
+import schedule from "../RhSchedule";
 
-function UncleSamSchedule({ day, animationDelay = 1000, animationInterval = 400 }) {
+export default function UncleSamSchedule({
+  day,
+  animationDelay = 1000,
+  animationInterval = 400,
+}) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [visibleArray, setVisibleArray] = useState([]);
-  const [displayDay, setDisplayDay] = useState("");
+  const timeoutsRef = useRef([]);
 
- 
+  const clearAllTimeouts = () => {
+    timeoutsRef.current.forEach(clearTimeout);
+    timeoutsRef.current = [];
+  };
 
   useEffect(() => {
-    setTimeout(() => setShowSchedule(true), animationDelay + 1200);
-  }, [animationDelay]);
+    clearAllTimeouts();
+    setShowSchedule(false);
+    setVisibleArray([]);
+
+    const t = setTimeout(() => setShowSchedule(true), animationDelay + 1200);
+    timeoutsRef.current.push(t);
+
+    return clearAllTimeouts;
+  }, [day, animationDelay]);
 
   useEffect(() => {
-    if (showSchedule) {
-      const classes = schedule[day] || [];
-      classes.forEach((_, idx) => {
-        setTimeout(() => {
-          setVisibleArray((prev) => [...prev, idx]);
-        }, idx * animationInterval);
-      });
-    }
+    if (!showSchedule) return;
+
+    const classes = schedule[day] || [];
+    setVisibleArray([]);
+
+    classes.forEach((_, idx) => {
+      const t = setTimeout(() => {
+        setVisibleArray((prev) => [...prev, idx]);
+      }, idx * animationInterval);
+      timeoutsRef.current.push(t);
+    });
+
+    return clearAllTimeouts;
   }, [showSchedule, day, animationInterval]);
 
   const formatTime = (decimalTime) => {
@@ -37,10 +56,15 @@ function UncleSamSchedule({ day, animationDelay = 1000, animationInterval = 400 
     <div className="sam-container">
       <div className="sam-day">{day}</div>
       <div className="sam-schedule">
-        {schedule[day]?.map((cls, idx) =>
+        {(schedule[day] || []).map((cls, idx) =>
           visibleArray.includes(idx) ? (
             <div key={idx} className="sam-class">
-              <span className="sam-class-name">{cls.name}</span>
+              <div className="sam-class-left">
+                <span className="sam-class-name">{cls.name}</span>
+                {cls.maple && (
+                  <span className="sam-badge maple">📍 Maple</span>
+                )}
+              </div>
               <span className="sam-class-time">{formatTime(cls.start)}</span>
             </div>
           ) : null
@@ -49,5 +73,3 @@ function UncleSamSchedule({ day, animationDelay = 1000, animationInterval = 400 
     </div>
   );
 }
-
-export default UncleSamSchedule;

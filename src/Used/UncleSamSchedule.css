@@ -10,17 +10,14 @@
 .sam-container {
   height: 100vh;
   width: 100vw;
-  background:
-  
-    url("https://www.transparenttextures.com/patterns/stardust.png");
+  background: url("https://www.transparenttextures.com/patterns/stardust.png");
   background-blend-mode: overlay;
   background-size: cover;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 30px;
-    padding-bottom: 10px;
-
+  padding-bottom: 10px;
   font-family: 'Anton', sans-serif;
   overflow-y: auto;
   color: #fff;
@@ -47,7 +44,6 @@
 
 /* 📘 Schedule Container */
 .sam-schedule {
- 
   width: 92%;
   background: rgba(0, 34, 102, 0.747);
   border: 2px solid #fff;
@@ -63,7 +59,7 @@
   color: #001f3f;
   border-radius: 8px;
   width: 85%;
-  margin: 2px auto;
+  margin: 4px auto;
   padding: 6px 18px;
   display: flex;
   justify-content: space-between;
@@ -80,16 +76,33 @@
   box-shadow: 0 0 10px #ff0000;
 }
 
+.sam-class-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .sam-class-name {
   font-size: 18px;
- 
   text-transform: uppercase;
 }
 
+/* 📍 Maple Badge */
+.sam-badge.maple {
+  background: #004b8d;
+  color: white;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  border: 1px solid #fff;
+  box-shadow: 0 0 6px rgba(0,0,0,0.3);
+  text-transform: uppercase;
+}
+
+/* 🕒 Class Time */
 .sam-class-time {
   font-size: 17px;
   color: #004b8d;
- 
 }
 
 /* 🎖️ Animations */

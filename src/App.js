@@ -15,11 +15,12 @@ import DanaherSchedule from "./Components/DanaherSchedule";
 import DJKhaledSchedule from "./Used/DJKhaledSchedule";
 import GraffitiSchedule from "./Used/GraffitiSchedule";
 import SpotifySchedule from "./Used/SpotifySchedule"; 
+import UncleSamSchedule from "./Used/UncleSamSchedule";
 
 function App() {
   return (
     <>
-  <StackOverflowSchedule day={"Friday"}/>
+  <UncleSamSchedule day={"Friday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
