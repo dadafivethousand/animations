@@ -20,7 +20,7 @@ import UncleSamSchedule from "./Used/UncleSamSchedule";
 function App() {
   return (
     <>
-  <UncleSamSchedule day={"Friday"}/>
+  <StackOverflowSchedule day={"Friday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
