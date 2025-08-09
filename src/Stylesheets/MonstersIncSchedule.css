@@ -46,11 +46,12 @@
 /* Class Card */
 .monsters-class {
   background: #ffffff;
+    border: 1px solid #512e87;
   border-left: 8px solid #512e87;
 
   border-right: 8px solid #512e87;
   border-radius: 18px;
-  padding: 16px 24px;
+  padding: 26px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Stardos+Stencil:wght@700&display=swap');
+
+:root {
+  --jungle-green: #355e3b;
+  --tan: #d2b48c;
+  --dark-brown: #3a2c1a;
+}
+
+.safari-wrapper {
+  background: var(--jungle-green) url('https://www.transparenttextures.com/patterns/linen.png');
+  background-size: cover;
+  min-height: 100vh;
+  padding: 50px 20px;
+  font-family: 'Stardos Stencil', sans-serif;
+  color: var(--tan);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.safari-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.safari-title {
+  font-size: 3rem;
+  color: var(--tan);
+  text-shadow: 2px 2px 0 var(--dark-brown), 0 0 15px rgba(0,0,0,0.5);
+  letter-spacing: 4px;
+}
+
+.safari-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 620px;
+}
+
+.safari-card {
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') center/cover;
+  border: 3px solid var(--dark-brown);
+  border-radius: 8px;
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+  transform: translateX(-30px);
+  opacity: 0;
+  animation: slideFadeIn 0.5s ease forwards;
+}
+
+.safari-time {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #fff2cc;
+}
+
+.safari-class {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: white;
+}
+
+.safari-tag {
+  margin-left: 10px;
+  font-size: 0.7rem;
+  background: var(--jungle-green);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--tan);
+}
+
+@keyframes slideFadeIn {
+  0% {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

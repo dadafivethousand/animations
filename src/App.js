@@ -1,27 +1,17 @@
 import React from "react";
 import "./Stylesheets/App.css"
  
-import HelloKittySchedule from "./Components/HelloKittySchedule"
-import KarateKidSchedule from "./Components/KarateKidSchedule";
-import TourDeFranceSchedule from "./Components/TourDeFranceSchedule";
  
-import MinionSchedule from "./Components/MinionSchedule";
-import MonstersIncSchedule from "./Components/MonstersIncSchedule";
-import WorldStarSchedule from "./Components/WorldStarSchedule";
-import StackOverflowSchedule from "./Components/StackOverflowSchedule";
- import MachineSchedule from "./Components/MachineSchedule";
-import MachineGunSchedule from "./Components/MachineGunSchedule";
-import DanaherSchedule from "./Components/DanaherSchedule";
-import DJKhaledSchedule from "./Used/DJKhaledSchedule";
-import GraffitiSchedule from "./Used/GraffitiSchedule";
-import SpotifySchedule from "./Used/SpotifySchedule"; 
-import UncleSamSchedule from "./Used/UncleSamSchedule";
-import AuraFarmingSchedule from "./Used/AuraFarmingSchedule"
+import BrockSchedule from "./Components/BrockSchedule";
+import TrueReligionSchedule from "./Components/TrueReligionSchedule";
+import SafariSchedule from "./Components/SafariSchedule";
+import ADCCSchedule from "./Components/ADCCSchedule";
+import MonstersIncSchedule from "./Components/MonstersIncSchedule"
 
 function App() {
   return (
     <>
-  <AuraFarmingSchedule day={"Saturday"}/>
+  <MonstersIncSchedule day={"Sunday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

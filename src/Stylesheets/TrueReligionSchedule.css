@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Oswald:wght@500&display=swap');
+
+:root {
+  --tr-black: #0b0b0b;
+  --tr-deep-black: #050505;
+  --tr-thread-gold: #b8860b;
+  --tr-thread-glow: rgba(184, 134, 11, 0.4);
+}
+
+body {
+  margin: 0;
+}
+
+.tr-wrapper {
+  background-color: var(--tr-deep-black);
+  background-image: url("https://www.transparenttextures.com/patterns/denim.png");
+  background-size: 200px;
+  background-blend-mode: multiply;
+  min-height: 100vh;
+  padding: 50px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tr-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.tr-logo {
+  background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/True_Religion_logo.svg/800px-True_Religion_logo.svg.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 80px;
+  height: 80px;
+  filter: brightness(0.85) sepia(1) hue-rotate(20deg) saturate(2);
+}
+
+.tr-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.8rem;
+  color: var(--tr-thread-gold);
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  margin-top: 10px;
+}
+
+.tr-schedule {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  max-width: 700px;
+}
+
+.tr-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--tr-black);
+  border-radius: 10px;
+  padding: 18px 26px;
+  border: 2px dashed var(--tr-thread-gold);
+  box-shadow: 0 0 6px var(--tr-thread-glow);
+  font-family: 'Oswald', sans-serif;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.tr-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.15), transparent);
+  transform: skewX(-20deg);
+  transition: all 0.8s ease;
+}
+
+.tr-card:hover::after {
+  left: 120%;
+}
+
+.tr-card:hover {
+  box-shadow: 0 0 12px var(--tr-thread-glow);
+}
+
+.tr-details {
+  z-index: 1;
+}
+
+.tr-class {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: white;
+}
+
+.tr-premium {
+  font-size: 0.75rem;
+  color: var(--tr-thread-gold);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.tr-time {
+  z-index: 1;
+  font-size: 1.1rem;
+  color: #ccc;
+  font-weight: 500;
+}
