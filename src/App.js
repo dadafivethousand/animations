@@ -11,7 +11,7 @@ import MonstersIncSchedule from "./Components/MonstersIncSchedule"
 function App() {
   return (
     <>
-  <MonstersIncSchedule day={"Sunday"}/>
+  <ADCCSchedule day={"Monday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
