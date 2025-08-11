@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/VegasSchedule.css";
-import schedule from "../Schedule";
+import "./VegasSchedule.css";
+import schedule from "../RhSchedule";
 
 export default function VegasSchedule({ day, animationDelay = 1800, animationInterval = 150 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
+    setVisibleArray([]);
     const classes = schedule[day] || [];
+    const timers = [];
+
     classes.forEach((_, idx) => {
-      setTimeout(() => {
+      const t = setTimeout(() => {
         setVisibleArray((prev) => [...prev, idx]);
       }, animationDelay + idx * animationInterval);
+      timers.push(t);
     });
+
+    return () => timers.forEach(clearTimeout);
   }, [day, animationDelay, animationInterval]);
 
   const formatTime = (decimalTime) => {
@@ -29,12 +35,17 @@ export default function VegasSchedule({ day, animationDelay = 1800, animationInt
 
       <div className="vegas-track">
         {schedule[day]?.map((cls, idx) => (
-          <div key={idx} className="vegas-class-container">
+          <div key={idx} className="vegas-class-wrapper">
             {visibleArray.includes(idx) && (
-              <div className="vegas-class">
-                <span className="vegas-class-name">{cls.name}</span>
-                <span className="vegas-class-time">{formatTime(cls.start)}</span>
-              </div>
+              <>
+                <div className="vegas-outer-class">
+                <div className="vegas-class">
+                  <span className="vegas-class-name">{cls.name}</span>
+                  <span className="vegas-class-time">{formatTime(cls.start)}</span>
+                </div>
+                {cls.maple && <div className="vegas-maple">📍 Maple Location</div>}
+                </div>
+              </>
             )}
           </div>
         ))}

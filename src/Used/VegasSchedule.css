@@ -30,6 +30,8 @@
 .vegas-track {
   width: 100%;
   max-width: 500px;
+  height:70vh;
+  gap:10px;
 }
 
 .vegas-class-container {
@@ -49,6 +51,12 @@
   opacity: 0;
   animation: fadeInVegas 0.5s forwards;
   transition: transform 0.3s ease;
+ 
+}
+
+
+.vegas-outer-class{
+  margin-bottom: 20px;
 }
 
 .vegas-class:hover {
@@ -73,4 +81,27 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+
+/* Wrapper for class + maple label */
+.vegas-class-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Maple location row under card */
+.vegas-maple {
+  background: var(--vegas-gold);
+  color: var(--vegas-text);
+  font-size: 14px;
+  padding: 4px 8px;
+  text-align: center;
+  border: 2px solid var(--vegas-gold);
+  border-top: none;
+  border-radius: 0 0 80px 80px; /* matches vegas-class radius */
+  font-weight: 600;
+  box-shadow: 0 0 8px rgba(255, 204, 51, 0.4);
+  width:85%;
+  margin: 0 auto
 }

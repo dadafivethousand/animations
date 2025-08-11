@@ -1,20 +1,26 @@
 import React, { useEffect, useState } from "react";
-import schedule from "../Schedule"; // Ensure correct schedule import
-import "../Stylesheets/TransformersSchedule.css"; // Link CSS file
+import schedule from "../RhSchedule";
+import "./TransformersSchedule.css";
+
 function TransformersSchedule({ day }) {
   const [visibleClasses, setVisibleClasses] = useState([]);
 
   useEffect(() => {
+    setVisibleClasses([]);
+    const timers = [];
+
     if (schedule[day]) {
       schedule[day].forEach((_, idx) => {
-        setTimeout(() => {
+        const t = setTimeout(() => {
           setVisibleClasses((prev) => [...prev, idx]);
         }, idx * 400);
+        timers.push(t);
       });
     }
+
+    return () => timers.forEach(clearTimeout);
   }, [day]);
 
-  // Convert decimal hours to AM/PM format
   const formatTime = (decimalTime) => {
     const hour = Math.floor(decimalTime);
     const minutes = Math.round((decimalTime - hour) * 60);
@@ -31,19 +37,29 @@ function TransformersSchedule({ day }) {
       <div className="tf-schedule">
         {schedule[day] &&
           schedule[day].map((cls, idx) => (
+            <div>
             <div
               key={idx}
               className={`tf-class ${visibleClasses.includes(idx) ? "tf-slide-in" : ""}`}
             >
-              {/* 🔥 Flickering Lights in All 4 Corners */}
-              <div className="tf-light tl"></div>
-              <div className="tf-light tr"></div>
-              <div className="tf-light bl"></div>
-              <div className="tf-light br"></div>
+              {/* corner lights */}
+              <div className="tf-light tl" />
+              <div className="tf-light tr" />
+              <div className="tf-light bl" />
+              <div className="tf-light br" />
 
-              {/* Class Info */}
-              {cls.name} - {formatTime(cls.start)}
+    
+                <span className="tf-name">{cls.name}</span>
+            
+             
+
+              {/* right: time */}
+              <span className="tf-time">{formatTime(cls.start)}</span>
+              
             </div>
+                            {cls.maple && <span className="tf-badge tf-badge--maple">📍 Maple</span>}
+
+              </div>
           ))}
       </div>
     </div>

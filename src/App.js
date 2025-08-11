@@ -7,11 +7,13 @@ import TrueReligionSchedule from "./Components/TrueReligionSchedule";
 import SafariSchedule from "./Components/SafariSchedule";
 import ADCCSchedule from "./Components/ADCCSchedule";
 import MonstersIncSchedule from "./Components/MonstersIncSchedule"
+import TransformersSchedule from "./Used/TransformersSchedule";
+import VegasSchedule from "./Used/VegasSchedule";
 
 function App() {
   return (
     <>
-  <ADCCSchedule day={"Monday"}/>
+  <VegasSchedule day={"Monday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
