@@ -9,11 +9,12 @@ import ADCCSchedule from "./Components/ADCCSchedule";
 import MonstersIncSchedule from "./Components/MonstersIncSchedule"
 import TransformersSchedule from "./Used/TransformersSchedule";
 import VegasSchedule from "./Used/VegasSchedule";
+import StreetFighterSchedule from "./Used/StreetFighterSchedule";
 
 function App() {
   return (
     <>
-  <VegasSchedule day={"Monday"}/>
+  <StreetFighterSchedule   day={"Monday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

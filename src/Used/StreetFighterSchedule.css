@@ -5,7 +5,7 @@
   max-height: 100vh;
   background: linear-gradient(135deg, #1a0000, #000000 60%);
   font-family: 'Bebas Neue', cursive;
-  padding: 80px 20px;
+  padding: 40px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -49,7 +49,7 @@
   max-width: 720px;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 10px;
   z-index: 2;
   min-height:215px;
   position:relative;
@@ -91,7 +91,7 @@
 }
 
 .sf-gif img{
-    width:100vw;
+    width:70vw;
     position:relative;
     top:-13px;
     left:10px
@@ -115,4 +115,27 @@
   .sf-time {
     font-size: 1.4rem;
   }
+}
+
+
+/* Wrap card + maple row together */
+.sf-card-wrap {
+  display: flex;
+  flex-direction: column;
+ }
+
+/* Maple bar under the card (matches your red/yellow theme) */
+.sf-maple-row {
+  background: #2a0000;
+  color: #ffe600;
+  font-size: 0.75rem;
+  text-align: center;
+  padding: 6px 10px;
+  border: 2px solid #ff0000;
+  border-top: none;             /* attaches to the sf-card */
+  border-radius: 0 0 20px 20px; /* matches .sf-card radius */
+  box-shadow: 0 6px 18px rgba(255, 0, 0, 0.25);
+  transform: translateY(-2px);  /* hides seam with the card border */
+  WIDTH:30%;
+  margin: 0 auto;
 }
