@@ -14,7 +14,7 @@ import StreetFighterSchedule from "./Used/StreetFighterSchedule";
 function App() {
   return (
     <>
-  <StreetFighterSchedule   day={"Monday"}/>
+  <StreetFighterSchedule   day={"Tuesday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
