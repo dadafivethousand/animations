@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/BrockSchedule.css";
-import schedule from "../RhSchedule";
+import schedule from "../Schedule";
 
 export default function BrockLesnarSchedule({ day, animationDelay = 1200, animationInterval = 200 }) {
   const [visibleArray, setVisibleArray] = useState([]);
