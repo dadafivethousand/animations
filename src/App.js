@@ -11,10 +11,11 @@ import TransformersSchedule from "./Used/TransformersSchedule";
 import VegasSchedule from "./Used/VegasSchedule";
 import StreetFighterSchedule from "./Used/StreetFighterSchedule";
  import KarateKidSchedule from "./Components/KarateKidSchedule";
+import TourDeFranceSchedule from "./Components/TourDeFranceSchedule";
 function App() {
   return (
     <>
-  < KarateKidSchedule  day={"Tuesday"}/>
+  < BrockSchedule day={"Wednesday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
