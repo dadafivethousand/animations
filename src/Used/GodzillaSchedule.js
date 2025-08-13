@@ -48,15 +48,17 @@ function GodzillaSchedule({ day, animationDelay = 1000, animationInterval = 500 
             {(schedule[day] || []).map((cls, idx) =>
               visibleArray.includes(idx) ? (
                 <div key={idx} className="godzilla-class-wrap">
+
                   <div className="godzilla-class">
+                    <div className="godzilla-flex">
                     <div className="godzilla-left">
                       {cls.replacement ? (
                         <span className="godzilla-name-group">
                           <span className="godzilla-name godzilla-name-replaced">
                             {cls.name}
                           </span>
-                          <span className="godzilla-replacement">
-                            → {String(cls.replacement)}
+                          <span className="godzilla-replacement"> <br></br>
+                           {String(cls.replacement)}
                           </span>
                         </span>
                       ) : (
@@ -64,9 +66,11 @@ function GodzillaSchedule({ day, animationDelay = 1000, animationInterval = 500 
                       )}
                     </div>
                     <span className="godzilla-class-time">{formatTime(cls.start)}</span>
-                      {cls.maple && (
+                    </div>
+    {cls.maple && (
                     <div className="godzilla-maple-row">📍 MAPLE LOCATION</div>
                   )}
+                  
                   </div>
 
                 
