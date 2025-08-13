@@ -12,10 +12,12 @@ import VegasSchedule from "./Used/VegasSchedule";
 import StreetFighterSchedule from "./Used/StreetFighterSchedule";
  import KarateKidSchedule from "./Components/KarateKidSchedule";
 import TourDeFranceSchedule from "./Components/TourDeFranceSchedule";
+import FoxNewsSchedule from "./Used/FoxNewsSchedule";
+import GodzillaSchedule from "./Used/GodzillaSchedule";
 function App() {
   return (
     <>
-  < BrockSchedule day={"Wednesday"}/>
+  < GodzillaSchedule day={"Wednesday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

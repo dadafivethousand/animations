@@ -116,3 +116,65 @@
     transform: translateX(-100%);
   }
 }
+
+
+/* wrap each class card + optional maple bar */
+.fox-class-wrap {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* keep content row tidy inside the card */
+.fox-name-time {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+}
+
+.fox-name-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* replacement styles */
+.fox-name-replaced {
+  opacity: 0.6;
+  text-decoration: line-through;
+  text-decoration-thickness: 3px;
+  text-decoration-color: #ff3b3b; /* subtle red strike */
+}
+
+.fox-replacement {
+  color: #ffcc00;
+  letter-spacing: 1px;
+}
+
+/* MAPLE bar attaches under the card */
+.fox-maple-row {
+  background: #0d1e40;
+  color: #ffcc00;
+  font-size: 0.95rem;
+  text-align: center;
+  padding: 6px 10px;
+  border: 1px solid #ffcc00;
+  border-top: none;                 /* visually attached to card */
+  border-radius: 0 0 6px 6px;       /* matches .fox-class-card radius */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.45);
+  transform: translateY(-2px);      /* hide seam between borders */
+}
+
+/* (existing) .fox-class-card already has radius all around.
+   This small tweak makes the top card look like a "header" for the maple row */
+.fox-class-card {
+  border-radius: 6px 6px 0 0;
+}
+
+/* keep original look of .fox-name/.fox-time */
+.fox-name { font-size: 1.4rem; color: #fff; letter-spacing: 1px; }
+.fox-time { font-size: 1.4rem; color: #ffcc00; }

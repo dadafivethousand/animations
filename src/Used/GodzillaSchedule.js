@@ -1,31 +1,32 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/GodzillaSchedule.css"; // Custom CSS
-import schedule from "../Schedule"; // Assume schedule data exists
+import "./GodzillaSchedule.css";
+import schedule from "../RhSchedule";
 
 function GodzillaSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
-    setTimeout(() => {
-      setShowSchedule(true);
-    }, animationDelay); // Controlled start time
-  }, [animationDelay]);
+    setShowSchedule(false);
+    setVisibleArray([]);
+    const showTimer = setTimeout(() => setShowSchedule(true), animationDelay);
+    return () => clearTimeout(showTimer);
+  }, [day, animationDelay]);
 
   useEffect(() => {
-    if (showSchedule) {
-      const classes = schedule[day] || [];
-      if (classes.length === 0) return;
-
-      classes.forEach((_, idx) => {
-        setTimeout(() => {
-          setVisibleArray((prev) => [...prev, idx]); // Reveal one by one
-        }, idx * animationInterval);
-      });
-    }
+    if (!showSchedule) return;
+    setVisibleArray([]);
+    const classes = schedule[day] || [];
+    const timers = [];
+    classes.forEach((_, idx) => {
+      const t = setTimeout(() => {
+        setVisibleArray((prev) => [...prev, idx]);
+      }, idx * animationInterval);
+      timers.push(t);
+    });
+    return () => timers.forEach(clearTimeout);
   }, [showSchedule, day, animationInterval]);
 
-  // Convert decimal hours to AM/PM format
   const formatTime = (decimalTime) => {
     const hour = Math.floor(decimalTime);
     const minutes = Math.round((decimalTime - hour) * 60);
@@ -37,23 +38,41 @@ function GodzillaSchedule({ day, animationDelay = 1000, animationInterval = 500 
 
   return (
     <div className="godzilla-container">
-      {/* Green Energy Background Animation */}
-      <div className={`godzilla-bg ${showSchedule ? "active" : ""}`}></div>
+      <div className={`godzilla-bg ${showSchedule ? "active" : ""}`} />
 
       <div className="godzilla-content">
-        {/* Always Visible Day of the Week */}
         <h1 className="godzilla-title">{day}</h1>
 
         {showSchedule && (
           <div className="godzilla-classes">
-            {schedule[day]?.map((cls, idx) => (
-              visibleArray.includes(idx) && (
-                <div key={idx} className="godzilla-class">
-                  <span className="godzilla-class-name">{cls.name}</span> -{" "}
-                  <span className="godzilla-class-time">{formatTime(cls.start)}</span>
+            {(schedule[day] || []).map((cls, idx) =>
+              visibleArray.includes(idx) ? (
+                <div key={idx} className="godzilla-class-wrap">
+                  <div className="godzilla-class">
+                    <div className="godzilla-left">
+                      {cls.replacement ? (
+                        <span className="godzilla-name-group">
+                          <span className="godzilla-name godzilla-name-replaced">
+                            {cls.name}
+                          </span>
+                          <span className="godzilla-replacement">
+                            → {String(cls.replacement)}
+                          </span>
+                        </span>
+                      ) : (
+                        <span className="godzilla-name">{cls.name}</span>
+                      )}
+                    </div>
+                    <span className="godzilla-class-time">{formatTime(cls.start)}</span>
+                      {cls.maple && (
+                    <div className="godzilla-maple-row">📍 MAPLE LOCATION</div>
+                  )}
+                  </div>
+
+                
                 </div>
-              )
-            ))}
+              ) : null
+            )}
           </div>
         )}
       </div>

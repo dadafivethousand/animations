@@ -1,17 +1,25 @@
 import React, { useEffect, useState } from "react";
-import schedule from "../Schedule";
-import "../Stylesheets/FoxNewsSchedule.css";
+import schedule from "../RhSchedule";
+import "./FoxNewsSchedule.css";
 
-export default function FoxNewsSchedule({ day, animationDelay = 1500, animationInterval = 400 }) {
+export default function FoxNewsSchedule({
+  day,
+  animationDelay = 1500,
+  animationInterval = 400,
+}) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
+    setVisibleArray([]);
     const entries = schedule[day] || [];
+    const timers = [];
     entries.forEach((_, idx) => {
-      setTimeout(() => {
-        setVisibleArray(prev => [...prev, idx]);
+      const t = setTimeout(() => {
+        setVisibleArray((prev) => [...prev, idx]);
       }, animationDelay + idx * animationInterval);
+      timers.push(t);
     });
+    return () => timers.forEach(clearTimeout);
   }, [day, animationDelay, animationInterval]);
 
   const formatTime = (decimalTime) => {
@@ -25,17 +33,39 @@ export default function FoxNewsSchedule({ day, animationDelay = 1500, animationI
   return (
     <div className="fox-wrapper">
       <div className="fox-top-bar">
- 
         <div className="fox-day">{day.toUpperCase()} SCHEDULE</div>
       </div>
 
       <div className="fox-schedule-container">
         {(schedule[day] || []).map((cls, idx) =>
           visibleArray.includes(idx) ? (
-            <div className="fox-class-card" key={idx}>
-                            <div className="fox-name">{cls.name.toUpperCase()}</div>
-              <div className="fox-time">{formatTime(cls.start)}</div>
-  
+            <div className="fox-class-wrap" key={idx}>
+              <div className="fox-class-card">
+                <div className="fox-name-time">
+                  {/* name / replacement */}
+                  <div className="fox-name-block">
+                    {cls.replacement ? (
+                      <>
+                        <span className="fox-name fox-name-replaced">
+                          {cls.name.toUpperCase()}
+                        </span>
+                        <span className="fox-replacement">
+                          → {String(cls.replacement).toUpperCase()}
+                        </span>
+                      </>
+                    ) : (
+                      <span className="fox-name">{cls.name.toUpperCase()}</span>
+                    )}
+                  </div>
+                  {/* time */}
+                  <div className="fox-time">{formatTime(cls.start)}</div>
+                </div>
+              </div>
+
+              {/* maple location bar under the card */}
+              {cls.maple && (
+                <div className="fox-maple-row">📍 MAPLE LOCATION</div>
+              )}
             </div>
           ) : null
         )}
@@ -43,7 +73,8 @@ export default function FoxNewsSchedule({ day, animationDelay = 1500, animationI
 
       <div className="fox-ticker">
         <div className="ticker-text">
-          🔴 LIVE · MAPLE BJJ · {day.toUpperCase()} COVERAGE · TRAIN HARD · STAY SHARP · OSS! 🔥
+          🔴 LIVE · MAPLE BJJ · {day.toUpperCase()} COVERAGE · TRAIN HARD · STAY
+          SHARP · OSS! 🔥
         </div>
       </div>
     </div>
