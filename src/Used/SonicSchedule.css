@@ -21,7 +21,7 @@
 
 /* 🔥 Title */
 .sonic-title {
-  font-size: 3rem;
+  font-size: 2.5rem;
   text-transform: uppercase;
   color: #ffcc00;
   text-shadow: 5px 5px 15px rgba(255, 204, 0, 0.8);
@@ -34,7 +34,7 @@
 .sonic-classes {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1.5rem;
   width: 100%;
   align-items: center;
 }
@@ -123,4 +123,49 @@
 .sonic-class .sonic-class-time {
   opacity: 1;
   transform: scale(1);
+}
+/* Wrap each pill + plaque vertically */
+.sonic-card-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+/* Maple plaque under the class pill */
+.sonic-maple {
+  margin-top: -2px;                    /* visually attach to pill */
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  color: #00113a;
+  background: #ffcc00;                 /* Sonic gold */
+  border: 3px solid #ffcc00;
+  border-top: none;                    /* attaches to pill’s border */
+  border-radius: 0 0 20px 20px;        /* matches .morph end radius */
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  text-transform: uppercase;
+}
+
+/* Ensure the pill has top-only rounding when it finishes morphing */
+@keyframes morph {
+  0% {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+  }
+  100% {
+    width: 300px;
+    height: 60px;
+    border-radius: 20px 20px 0 0;      /* top-only so plaque fits */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border: 3px solid #ffcc00;
+  }
+}
+
+/* If your original morph is used elsewhere and you don't want global change,
+   you can target the specific pill state instead: */
+.sonic-class {
+  /* existing styles unchanged */
 }

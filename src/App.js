@@ -14,10 +14,12 @@ import StreetFighterSchedule from "./Used/StreetFighterSchedule";
 import TourDeFranceSchedule from "./Components/TourDeFranceSchedule";
 import FoxNewsSchedule from "./Used/FoxNewsSchedule";
 import GodzillaSchedule from "./Used/GodzillaSchedule";
+import SpartanSchedule from "./Used/SpartanSchedule";
+import SonicSchedule from "./Used/SonicSchedule";
 function App() {
   return (
     <>
-  < TrueReligionSchedule day={"Thursday"}/>
+  < SonicSchedule day={"Thursday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
