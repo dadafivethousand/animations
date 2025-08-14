@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/TrueReligionSchedule.css";
-import schedule from "../RhSchedule";
+import schedule from "../Schedule";
 
 export default function TrueReligionSchedule({ day, animationDelay = 1500, animationInterval = 200 }) {
   const [visibleArray, setVisibleArray] = useState([]);

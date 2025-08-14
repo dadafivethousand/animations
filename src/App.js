@@ -17,7 +17,7 @@ import GodzillaSchedule from "./Used/GodzillaSchedule";
 function App() {
   return (
     <>
-  < GodzillaSchedule day={"Wednesday"}/>
+  < TrueReligionSchedule day={"Thursday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
