@@ -16,10 +16,11 @@ import FoxNewsSchedule from "./Used/FoxNewsSchedule";
 import GodzillaSchedule from "./Used/GodzillaSchedule";
 import SpartanSchedule from "./Used/SpartanSchedule";
 import SonicSchedule from "./Used/SonicSchedule";
+import BadBoysSchedule from "./Used/BadBoysSchedule";
 function App() {
   return (
     <>
-  < SafariSchedule day={"Friday"}/>
+  < BadBoysSchedule day={"Friday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
