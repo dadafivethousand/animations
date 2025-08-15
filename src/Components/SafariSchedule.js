@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/SafariSchedule.css";
-import schedule from "../RhSchedule";
+import schedule from "../Schedule";
 
 export default function SafariSchedule({ day, animationDelay = 1000, animationInterval = 200 }) {
   const [visibleArray, setVisibleArray] = useState([]);
@@ -34,7 +34,7 @@ export default function SafariSchedule({ day, animationDelay = 1000, animationIn
             <div className="safari-card" key={idx}>
               <div className="safari-class">
                 {cls.name}
-                {cls.maple && <span className="safari-tag">MAPLE</span>}
+                {cls.maple && <span className="safari-tag">📍MAPLE</span>}
               </div>
               <div className="safari-time">{formatTime(cls.start)}</div>
             </div>

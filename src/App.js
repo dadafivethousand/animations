@@ -19,7 +19,7 @@ import SonicSchedule from "./Used/SonicSchedule";
 function App() {
   return (
     <>
-  < SonicSchedule day={"Thursday"}/>
+  < SafariSchedule day={"Friday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
