@@ -20,7 +20,7 @@ import BadBoysSchedule from "./Used/BadBoysSchedule";
 function App() {
   return (
     <>
-  < BadBoysSchedule day={"Friday"}/>
+  < TourDeFranceSchedule day={"Saturday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

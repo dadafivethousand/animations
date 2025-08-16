@@ -20,7 +20,7 @@
   display:flex;
   flex-direction:column;
   align-items:center;
-  padding: 18px 12px 36px;
+  padding: 68px 12px 36px;
   position: relative;
 }
 
@@ -37,33 +37,34 @@
 
 /* header jersey (yellow) */
 .tdf-header{
-  width:min(100px,96%);
+  width:230px;
   margin: 6px auto 18px;
   z-index:1;
   text-align: center;
+  margin-bottom: 50px;
 }
 .tdf-jersey{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+ 
+ text-align: center;
   background: linear-gradient(180deg, #ffe34a, var(--tdf-yellow));
   color:#111;
   padding: 12px 16px;
   border-radius: 14px;
   border: 1px solid #f4c700;
   box-shadow: 0 8px 24px rgba(0,0,0,.35), inset 0 -6px 12px rgba(0,0,0,.08);
+  margin: 0 auto;
 }
 .tdf-jersey-title{
   font-family:'Oswald', sans-serif;
   letter-spacing:.06em;
   font-weight:700;
-  font-size: clamp(18px, 3.8vw, 28px);
+  font-size: 30px
 }
 .tdf-day{
   font-family:'Oswald', sans-serif;
   letter-spacing:.14em;
   font-weight:700;
-  font-size: clamp(14px, 3.2vw, 20px);
+  font-size: 30px;
   color:#222;
 }
 
@@ -72,7 +73,7 @@
   width:min(880px,80%);
   display:flex;
   flex-direction:column;
-  gap:12px;
+  gap:32px;
   z-index:1;
   margin: 0 auto;
 }

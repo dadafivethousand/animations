@@ -46,7 +46,7 @@ export default function TourDeFranceSchedule({
                 <article className="tdf-stage-card">
                   <div className="tdf-left">
                     {/* bib number style dot */}
-                    <span className="tdf-bib">{i + 1}</span>
+                 
                     <span className="tdf-name">{cls.name}</span>
                   </div>
                   <span className="tdf-time">{formatTime(cls.start)}</span>
