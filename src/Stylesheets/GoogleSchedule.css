@@ -237,7 +237,7 @@ max-width: 240px;
 }
 
 /* Footer Googlebar */
-.g-footer{ margin-top: 36px; }
+.g-footer{ margin-top: 16px; }
 .g-gbar{
   display:flex; align-items:center; justify-content:center; gap:2px;
   font-weight: 900; font-size: 28px; letter-spacing: -1px;
