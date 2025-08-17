@@ -18,10 +18,11 @@ import SpartanSchedule from "./Used/SpartanSchedule";
 import SonicSchedule from "./Used/SonicSchedule";
 import BadBoysSchedule from "./Used/BadBoysSchedule";
 import GtaSchedule from "./Used/GTASchedule";
+import RaptorsSchedule from "./Components/RaptorsSchedule"
 function App() {
   return (
     <>
-  < GtaSchedule day={"Saturday"}/>
+  < RaptorsSchedule day={"Sunday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
