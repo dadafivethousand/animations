@@ -19,10 +19,12 @@ import SonicSchedule from "./Used/SonicSchedule";
 import BadBoysSchedule from "./Used/BadBoysSchedule";
 import GtaSchedule from "./Used/GTASchedule";
 import RaptorsSchedule from "./Components/RaptorsSchedule"
+import NetflixSchedule from "./Components/NetflixSchedule";
+import GoogleSchedule from "./Components/GoogleSchedule";
 function App() {
   return (
     <>
-  < RaptorsSchedule day={"Sunday"}/>
+  < GoogleSchedule day={"Monday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
