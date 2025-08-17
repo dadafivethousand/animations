@@ -28,7 +28,17 @@
 
 .so-day{margin: 0;
 font-size: 30px;
+opacity: 0;
+animation: appear 6s forwards;
 }
+
+
+@keyframes appear { 50%{ opacity:0 } 
+
+100%{ opacity:1} 
+
+}
+
 
 /* === Poster === */
 .so-poster{
