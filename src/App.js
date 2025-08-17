@@ -22,10 +22,12 @@ import RaptorsSchedule from "./Components/RaptorsSchedule"
 import NetflixSchedule from "./Components/NetflixSchedule";
 import GoogleSchedule from "./Components/GoogleSchedule";
 import JockoSchedule from "./Components/JockoSchedule";
+import StraightOuttaSchedule from "./Components/StraightOuttaSchedule";
+
 function App() {
   return (
     <>
-  < JockoSchedule day={"Tuesday"}/>
+  < StraightOuttaSchedule day={"Tuesday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
