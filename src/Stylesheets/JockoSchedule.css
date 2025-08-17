@@ -1,0 +1,180 @@
+/* JockoSchedule.css */
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@500;600;700&display=swap');
+
+:root{
+  --steel:#1a1c20;
+  --steel-2:#0e0f12;
+  --edge:#2b2e35;
+  --ink:#0a0a0a;
+  --ash:#b9bdc6;
+  --white:#f2f3f5;
+  --accent:#8fffa3; /* subtle green for time chip if desired */
+}
+
+*{ box-sizing:border-box; }
+
+.jocko-wrap{
+  min-height:100vh;
+  width:100%;
+  background:
+    radial-gradient(1200px 600px at 120% -10%, rgba(255,255,255,.06), transparent 60%),
+    radial-gradient(900px 500px at -10% 120%, rgba(255,255,255,.04), transparent 60%),
+    linear-gradient(180deg, #070707 0%, #0a0a0a 60%, #060606 100%);
+  color: var(--white);
+  font-family: 'Teko', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  padding: 58px 16px 48px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap: 6px;
+  position:relative;
+  isolation:isolate;
+  overflow-x:hidden;
+  background-image: url('https://media1.tenor.com/m/be32O4jbtJ4AAAAC/check-jocko.gif');
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-color: #060606;
+}
+
+/* grain + vignette for gritty vibe */
+.jocko-wrap::before{
+  content:"";
+  position:absolute; inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='110' height='110'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0 .05 0'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect filter='url(%23n)' width='100%25' height='100%25'/%3E%3C/svg%3E");
+  opacity:.45; mix-blend-mode: overlay; pointer-events:none;
+  z-index:-1;
+}
+.jocko-wrap::after{
+  content:"";
+  position:absolute; inset:0;
+  background: radial-gradient(120% 100% at 50% 10%, transparent 55%, rgba(0,0,0,.65) 85%);
+  pointer-events:none;
+  z-index:-1;
+}
+
+/* DAY */
+.jocko-day{
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  font-weight:700;
+  font-size: 30px;
+  color:#fff;
+  text-shadow: 0 0 24px rgba(255,255,255,.07);
+}
+
+/* LIST */
+.jocko-list{
+  width:min(960px, 96%);
+  display:flex;
+  flex-direction:column;
+  gap: 3px;
+}
+
+/* WRAP each card + maple plaque */
+.jocko-card-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  animation: jc-in .28s ease-out both;
+}
+@keyframes jc-in{ from{ opacity:0; transform: translateY(8px) } to{ opacity:1; transform: translateY(0) } }
+
+/* CARD */
+.jocko-card{
+  position:relative;
+  display:grid;
+  grid-template-columns: 1fr auto;
+  align-items:center;
+  gap: 12px;
+  padding: 6px 18px;
+  border-radius: 10px 10px 0 0; /* maple plaque attaches under */
+  background:
+    linear-gradient(180deg, var(--steel), var(--steel-2));
+  border: 1px solid var(--edge);
+  box-shadow:
+    0 18px 46px rgba(0,0,0,.55),
+    inset 0 0 18px rgba(255,255,255,.02);
+  overflow:hidden;
+}
+
+/* metallic edges */
+.jc-corner{
+  position:absolute; width:14px; height:14px; border:2px solid #5a5e66;
+  filter: drop-shadow(0 0 8px rgba(255,255,255,.06));
+}
+.jc-corner.tl{ top:-6px; left:-6px; border-bottom:none; border-right:none; border-radius:6px 0 0 0; }
+.jc-corner.tr{ top:-6px; right:-6px; border-bottom:none; border-left:none; border-radius:0 6px 0 0; }
+.jc-corner.bl{ bottom:-6px; left:-6px; border-top:none; border-right:none; border-radius:0 0 0 6px; }
+.jc-corner.br{ bottom:-6px; right:-6px; border-top:none; border-left:none; border-radius:0 0 6px 0; }
+
+/* LEFT */
+.jocko-left{
+  display:flex; align-items:center; gap:12px; min-width:0; flex-wrap:wrap;
+}
+
+.jocko-name{
+  font-weight:700;
+  font-size: clamp(18px, 5vw, 24px);
+  letter-spacing:.04em;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+
+.jocko-name-block{
+  display:inline-flex; gap:10px; align-items:baseline; min-width:0; flex-wrap:wrap;
+}
+.jocko-name.old{
+  opacity:.55;
+  text-decoration: line-through;
+  text-decoration-thickness: 3px;
+  text-decoration-color: #888;
+}
+.jocko-name.new{
+  color:#fff;
+  text-shadow: 0 0 10px rgba(255,255,255,.15);
+}
+
+/* TIME chip — utilitarian */
+.jocko-time{
+  font-weight:700;
+
+  color:#0c0d10;
+  background: linear-gradient(180deg, #cfd3db, #b9bdc6);
+  border: 1px solid #8d949f;
+  border-radius: 6px;
+  padding: 2px 10px;
+  box-shadow:
+    inset 0 0 12px rgba(0,0,0,.15),
+    0 0 16px rgba(255,255,255,.06);
+    width: 100px;
+    text-align: center;
+}
+
+/* MAPLE plaque */
+.jocko-maple{
+  text-align:center;
+  font-weight:700;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:#e6e9ef;
+  background: #15171b;
+  border: 1px solid var(--edge);
+  border-top:none;
+  border-radius: 0 0 10px 10px;
+  padding: 8px 10px;
+  box-shadow: 0 12px 26px rgba(0,0,0,.45), inset 0 -8px 14px rgba(255,255,255,.02);
+  transform: translateY(-2px);
+}
+
+/* ADVANCED polish: glass blur if supported */
+@supports (backdrop-filter: blur(6px)){
+  .jocko-card{
+    background: linear-gradient(180deg, rgba(26,28,32,.7), rgba(14,15,18,.7));
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+}
+
+/* Small screens */
+@media (max-width: 420px){
+  .jocko-time{ font-size:18px; }
+}
