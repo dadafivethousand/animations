@@ -23,11 +23,12 @@ import NetflixSchedule from "./Components/NetflixSchedule";
 import GoogleSchedule from "./Components/GoogleSchedule";
 import JockoSchedule from "./Components/JockoSchedule";
 import StraightOuttaSchedule from "./Components/StraightOuttaSchedule";
+import HandshakeSchedule from "./Components/HandshakeSchedule";
 
 function App() {
   return (
     <>
-  < StraightOuttaSchedule day={"Tuesday"}/>
+  < HandshakeSchedule day={"Wednesday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

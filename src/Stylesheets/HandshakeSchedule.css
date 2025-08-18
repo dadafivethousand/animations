@@ -1,0 +1,188 @@
+/* HandshakeSchedule.css */
+/* Palette pulled from image: locker-room charcoal, team red polos, white type, warm wood accent */
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap');
+
+:root{
+  --hs-red: #c62828;        /* shirt red */
+  --hs-red-d: #8e1b1b;
+  --hs-ink: #0d0f12;        /* deep charcoal */
+  --hs-panel: #13151a;
+  --hs-edge: #2f3239;
+  --hs-white:#ffffff;
+  --hs-warm:#c8a97e;        /* wood accent */
+}
+
+*{ box-sizing: border-box; }
+
+.hs-wrap{
+  min-height:100vh;
+  width:100%;
+  color: var(--hs-white);
+  font-family: 'Oswald', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  padding: 28px 14px 44px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:14px;
+  position:relative;
+  isolation:isolate;
+  overflow-x:hidden;
+
+  /* one multi-layer background: gradients on top, image at bottom */
+  background:
+
+ 
+ 
+    /* make the tint gradient translucent so the image is visible */
+ 
+    url("https://media1.tenor.com/m/cfVdO5ZwGLoAAAAC/obama-handshake.gif");
+
+  background-size:contain;
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  /* optional: tweak how the layers mix; comment out if you don’t want blending */
+  /* background-blend-mode: normal, normal, multiply, normal; */
+    background-color: #060606;
+}
+
+
+/* subtle grain + vignette for realism */
+.hs-wrap::before{
+  content:"";
+  position:absolute; inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0 .05 0'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect filter='url(%23g)' width='100%25' height='100%25'/%3E%3C/svg%3E");
+  opacity:.4; mix-blend-mode: overlay; pointer-events:none; z-index:-1;
+}
+.hs-wrap::after{
+  content:"";
+  position:absolute; inset:0;
+  background: radial-gradient(120% 120% at 50% 10%, transparent 55%, rgba(0,0,0,.55) 85%);
+  pointer-events:none; z-index:-1;
+}
+
+/* DAY */
+.hs-day{
+  font-weight:700;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  font-size: 30px;
+  text-shadow: 0 0 20px rgba(198,40,40,.25);
+ 
+}
+
+/* LIST */
+.hs-list{
+  width:min(960px, 96%);
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+/* wrap each card + maple plaque */
+.hs-card-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+}
+
+/* CARD */
+.hs-card{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:2px;
+  padding: 4px 16px;
+  border-radius: 12px 12px 0 0;   /* maple plaque attaches under */
+  background:
+    linear-gradient(180deg, var(--hs-panel), #10131a);
+  border: 1px solid var(--hs-edge);
+  box-shadow:
+    0 18px 42px rgba(0,0,0,.55),
+    inset 0 0 14px rgba(255,255,255,.03);
+  transform: translateY(12px);
+  opacity:0;
+  animation: hs-in .34s ease-out forwards;
+}
+@keyframes hs-in{ to{ transform: translateY(0); opacity:1; } }
+
+/* red left stripe hint */
+.hs-card::before{
+  content:"";
+  position:absolute; left:0; top:0; bottom:0; width:5px;
+  background: linear-gradient(180deg, var(--hs-red), var(--hs-red-d));
+  box-shadow: 0 0 12px rgba(198,40,40,.35);
+}
+
+/* brackets corners */
+.hs-corner{
+  position:absolute; width:14px; height:14px; border:2px solid var(--hs-red);
+  filter: drop-shadow(0 0 8px rgba(198,40,40,.35));
+}
+.hs-corner.tl{ top:-6px; left:-6px; border-bottom:none; border-right:none; border-radius:6px 0 0 0; }
+.hs-corner.tr{ top:-6px; right:-6px; border-bottom:none; border-left:none; border-radius:0 6px 0 0; }
+.hs-corner.bl{ bottom:-6px; left:-6px; border-top:none; border-right:none; border-radius:0 0 0 6px; }
+.hs-corner.br{ bottom:-6px; right:-6px; border-top:none; border-left:none; border-radius:0 0 6px 0; }
+
+.hs-name-time{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+/* NAME + replacement handling */
+.hs-name{
+  font-weight:700;
+  font-size: clamp(16px, 4.6vw, 22px);
+  letter-spacing:.02em;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.hs-name-block{
+  display:inline-flex; gap:10px; align-items:baseline;
+}
+.hs-name-block .old{
+  opacity:.6;
+  text-decoration: line-through;
+  text-decoration-thickness: 3px;
+  text-decoration-color: #ffecec;
+}
+.hs-name-block .new{
+  color: #ffefef;
+  text-shadow: 0 0 10px rgba(255,255,255,.15);
+}
+
+/* TIME chip — wood accent */
+.hs-time{
+  font-weight:800;
+  color:#1a1208;
+  background: linear-gradient(180deg, #e6caa0, var(--hs-warm));
+  border: 1px solid #a3835a;
+  border-radius: 8px;
+  padding: 6px 10px;
+  box-shadow:
+    inset 0 0 10px rgba(0,0,0,.12),
+    0 0 16px rgba(200,169,126,.2);
+}
+
+/* MAPLE plaque */
+.hs-maple{
+  text-align:center;
+  font-weight:700;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:#fff;
+  background: linear-gradient(180deg, var(--hs-red), var(--hs-red-d));
+  border: 1px solid #7a1414;
+  border-top:none;
+  border-radius: 0 0 12px 12px;
+  padding: 8px 10px;
+  box-shadow: 0 12px 26px rgba(0,0,0,.45), inset 0 -8px 14px rgba(0,0,0,.12);
+  transform: translateY(-2px);
+}
+
+/* small screens */
+@media (max-width: 420px){
+  .hs-time{ font-size:14px; }
+}
