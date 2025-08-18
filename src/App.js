@@ -31,7 +31,7 @@ import OldUFCSchedule from "./Components/OldUFCSchedule";
 function App() {
   return (
     <>
-  < OldUFCSchedule day={"Thursday"}/>
+  < OldUFCSchedule day={"Friday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
