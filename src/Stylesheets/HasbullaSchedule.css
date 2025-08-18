@@ -1,0 +1,171 @@
+/* HasbullaSchedule.css */
+/* Color theme from the images: deep navy/ink, teal-cyan highlight, crisp white, UFC red accent */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+:root{
+  --hb-ink:#0b0f14;        /* deep background */
+  --hb-slate:#121821;      /* panel */
+  --hb-slate-2:#0f141b;    /* panel dark */
+  --hb-edge:#2b3441;       /* borders */
+  --hb-teal:#2fb7d4;       /* teal highlight from arena floor */
+  --hb-white:#f5f7fb;      /* white shirt */
+  --hb-red:#d81f26;        /* UFC red accent */
+}
+
+*{ box-sizing:border-box; }
+
+.hb-wrap{
+  min-height:100vh;
+  width:100%;
+  color: var(--hb-white);
+  font-family: 'Bebas Neue', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  padding: 178px 14px ;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap: 14px;
+  background:
+    radial-gradient(520px 280px at 85% 15%, rgba(47,183,212,.12), transparent 60%),
+    radial-gradient(900px 520px at -10% 110%, rgba(255,255,255,.05), transparent 60%),
+    linear-gradient(180deg, var(--hb-ink) 0%, #0a0d12 60%, #080b10 100%);
+  position:relative;
+  isolation:isolate;
+  overflow-x:hidden;
+  background-image: url('https://media1.tenor.com/m/0VfTHU_qGaUAAAAC/saucelessss-hasbullah.gif');
+}
+
+/* subtle grain + vignette for gritty fight-night look */
+.hb-wrap::before{
+  content:"";
+  position:absolute; inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0 .05 0'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect filter='url(%23g)' width='100%25' height='100%25'/%3E%3C/svg%3E");
+  opacity:.4; mix-blend-mode: overlay; pointer-events:none; z-index:-1;
+}
+.hb-wrap::after{
+  content:"";
+  position:absolute; inset:0;
+  background: radial-gradient(120% 120% at 50% 10%, transparent 55%, rgba(0,0,0,.55) 85%);
+  pointer-events:none; z-index:-1;
+}
+
+/* Day */
+.hb-day{
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  font-weight:700;
+  font-size: 45px;
+  text-shadow: 0 0 28px rgba(47,183,212,.25);
+  text-align: left;
+  color:red;
+  margin-bottom:10px;
+    background:
+    linear-gradient(180deg, var(--hb-slate), var(--hb-slate-2));
+ 
+}
+
+/* List */
+.hb-list{
+  width:min(960px, 96%);
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+
+/* Wrap each card + maple plaque */
+.hb-card-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  animation: hb-in .28s ease-out both;
+}
+@keyframes hb-in{ from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:translateY(0)} }
+
+/* Card */
+.hb-card{
+  position:relative;
+  display:grid;
+  grid-template-columns: 1fr auto;
+  align-items:center;
+  gap:2px;
+  padding: 16px 18px;
+  border-radius: 12px 12px 0 0; /* maple plaque attaches under */
+  background:
+    linear-gradient(180deg, var(--hb-slate), var(--hb-slate-2));
+  border: 1px solid var(--hb-edge);
+  box-shadow:
+    0 18px 44px rgba(0,0,0,.55),
+    inset 0 0 14px rgba(255,255,255,.03);
+  overflow:hidden;
+}
+
+/* Neon corners (teal) */
+.hb-corner{
+  position:absolute; width:14px; height:14px; border:2px solid var(--hb-teal);
+  filter: drop-shadow(0 0 8px rgba(47,183,212,.45));
+}
+.hb-corner.tl{ top:-6px; left:-6px; border-bottom:none; border-right:none; border-radius:6px 0 0 0; }
+.hb-corner.tr{ top:-6px; right:-6px; border-bottom:none; border-left:none; border-radius:0 6px 0 0; }
+.hb-corner.bl{ bottom:-6px; left:-6px; border-top:none; border-right:none; border-radius:0 0 0 6px; }
+.hb-corner.br{ bottom:-6px; right:-6px; border-top:none; border-left:none; border-radius:0 0 6px 0; }
+
+/* Left column */
+.hb-left{
+  display:flex; align-items:center; gap:12px; min-width:0; flex-wrap:wrap;
+}
+
+.hb-name{
+  font-weight:800;
+   font-size: 20px;
+  letter-spacing:.02em;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.hb-name-block{ display:inline-flex; gap:10px; align-items:baseline; }
+.hb-name.old{
+  opacity:.55;
+  text-decoration: line-through;
+  text-decoration-thickness: 3px;
+  text-decoration-color: rgba(216,31,38,.6);
+}
+.hb-name.new{
+  color: var(--hb-white);
+  text-shadow: 0 0 12px rgba(47,183,212,.25);
+}
+
+/* Time chip (UFC red) */
+.hb-time{
+  font-weight:900;
+  font-size: 20px;
+  color:#fff;
+  background: linear-gradient(180deg, #a7171d, var(--hb-red));
+  border: 1px solid #7e1116;
+  border-radius: 10px;
+  padding: 6px 12px;
+  box-shadow:
+    inset 0 0 12px rgba(255,255,255,.07),
+    0 0 18px rgba(216,31,38,.25);
+}
+
+/* Maple plaque attaches under card */
+.hb-maple{
+  text-align:center;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:#0a0d12;
+  background: var(--hb-teal);
+  border: 1px solid #1e8fa6;
+  border-top:none;
+  border-radius: 0 0 12px 12px;
+  padding: 8px 10px;
+  box-shadow: 0 12px 26px rgba(0,0,0,.45), inset 0 -8px 14px rgba(0,0,0,.12);
+  transform: translateY(-2px);
+}
+
+/* Glass blur if supported */
+@supports (backdrop-filter: blur(6px)){
+  .hb-card{
+    background: linear-gradient(180deg, rgba(18,24,33,.68), rgba(15,20,27,.68));
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+}

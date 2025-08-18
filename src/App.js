@@ -24,11 +24,12 @@ import GoogleSchedule from "./Components/GoogleSchedule";
 import JockoSchedule from "./Components/JockoSchedule";
 import StraightOuttaSchedule from "./Components/StraightOuttaSchedule";
 import HandshakeSchedule from "./Components/HandshakeSchedule";
+import HasbullaSchedule from "./Components/HasbullaSchedule";
 
 function App() {
   return (
     <>
-  < HandshakeSchedule day={"Wednesday"}/>
+  < HasbullaSchedule day={"Thursday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
