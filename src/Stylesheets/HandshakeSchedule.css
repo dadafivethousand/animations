@@ -15,7 +15,7 @@
 *{ box-sizing: border-box; }
 
 .hs-wrap{
-height: 90vh;
+height: 100vh;
   width:100%;
   color: var(--hs-white);
   font-family: 'Oswald', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -67,6 +67,7 @@ height: 90vh;
   text-transform:uppercase;
   font-size: 30px;
   text-shadow: 0 0 20px rgba(198,40,40,.25);
+  margin-bottom:0
  
 }
 
