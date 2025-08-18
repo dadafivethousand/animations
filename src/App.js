@@ -27,11 +27,14 @@ import HandshakeSchedule from "./Components/HandshakeSchedule";
 import HasbullaSchedule from "./Components/HasbullaSchedule";
 import DeepOceanSchedule from "./Components/DeepOceanSchedule";
 import OldUFCSchedule from "./Components/OldUFCSchedule";
+import MickeySchedule from "./Components/MickeySchedule";
+import GothicSchedule from "./Used/GothicSchedule";
+
 
 function App() {
   return (
     <>
-  < OldUFCSchedule day={"Friday"}/>
+  < GothicSchedule day={"Friday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

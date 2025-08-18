@@ -1,0 +1,99 @@
+/* MickeySimpleSchedule.css */
+:root{
+  --mk-black:#0b0b0b;
+  --mk-red:#e21c23;
+  --mk-white:#ffffff;
+  --mk-yellow:#ffd200;
+  --mk-edge:#1e1e1e;
+}
+
+*{ box-sizing:border-box; }
+
+.mk-wrap{
+  min-height:100vh;
+  width:100%;
+  background: var(--mk-black);
+  color: var(--mk-white);
+  padding: 48px 16px 40px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:18px;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+.mk-day{
+  font-weight:900;
+  letter-spacing:.12em;
+  color: var(--mk-yellow);
+  font-size: 30px;
+  text-align:center;
+}
+
+.mk-list{
+  width:min(900px, 96%);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.mk-item{ display:flex; flex-direction:column; }
+
+.mk-card{
+  position:relative;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 16px;
+  border-radius:14px;
+  background: var(--mk-red);
+  border: 1px solid var(--mk-edge);
+  animation: fade .25s ease-out both;
+}
+@keyframes fade { from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:translateY(0)} }
+
+.mk-left{ min-width:0; }
+
+.mk-name{
+  font-weight:800;
+  font-size: clamp(16px, 4.8vw, 22px);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.mk-name .old{
+  opacity:.7;
+  text-decoration: line-through;
+  margin-right:8px;
+}
+.mk-name .arrow{ margin-right:8px; }
+.mk-name .new{ font-weight:900; }
+
+/* time pill */
+.mk-time{
+  font-weight:900;
+  font-size: clamp(14px, 4vw, 18px);
+  color:#1e1e1e;
+  background: var(--mk-yellow);
+  padding:6px 10px;
+  border-radius:10px;
+}
+
+/* two white "buttons" */
+.mk-dot{
+  position:absolute;
+  left:14px;
+  width:12px; height:20px;
+  background: var(--mk-white);
+  border-radius:10px/18px;
+  opacity:.95;
+}
+.mk-dot.a{ top:10px; }
+.mk-dot.b{ top:38px; }
+
+/* maple indicator (simple, small) */
+.mk-maple{
+  align-self:center;
+  margin-top:6px;
+  font-size:12px;
+  letter-spacing:.18em;
+  color:#cfcfcf;
+}
