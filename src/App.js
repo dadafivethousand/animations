@@ -25,11 +25,13 @@ import JockoSchedule from "./Components/JockoSchedule";
 import StraightOuttaSchedule from "./Components/StraightOuttaSchedule";
 import HandshakeSchedule from "./Components/HandshakeSchedule";
 import HasbullaSchedule from "./Components/HasbullaSchedule";
+import DeepOceanSchedule from "./Components/DeepOceanSchedule";
+import OldUFCSchedule from "./Components/OldUFCSchedule";
 
 function App() {
   return (
     <>
-  < HasbullaSchedule day={"Thursday"}/>
+  < OldUFCSchedule day={"Thursday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

@@ -1,0 +1,203 @@
+/* OldSchoolUFCSchedule.css */
+/* 90s/2000s UFC vibe: globe-blue, banner-gold, poster-red, CRT grit, chain-link nod */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Staatliches&display=swap');
+
+:root{
+  --os-ink:#0b0c10;
+  --os-deck:#14161b;
+  --os-blue:#1f4aa3;        /* globe blue */
+  --os-red:#cc1b1b;         /* poster red */
+  --os-gold:#f4c542;        /* banner gold */
+  --os-gold-dark:#b28c25;
+  --os-cream:#faf5e5;       /* old TV white */
+  --os-edge:#343a46;
+}
+
+*{ box-sizing: border-box; }
+
+.os-ufc-wrap{
+  height: 100vh;
+  width:100%;
+  color: var(--os-cream);
+  font-family: 'Bebas Neue', 'Staatliches', Impact, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  padding: 28px 16px 48px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:16px;
+ 
+  background:
+    /* faint fence */
+     radial-gradient(1100px 600px at 110% -10%, rgba(244,197,66,.10), transparent 60%),
+    linear-gradient(180deg, var(--os-ink) 0%, var(--os-deck) 55%, #0b0d12 100%);
+      background-image: url('../Images/ufc.jpeg');
+      background-repeat: no-repeat;
+  background-size: contain;
+  background-position: 0 450px;
+ 
+  position:relative;
+  isolation:isolate;
+  overflow-x:hidden;
+  background-color: black;
+
+}
+
+/* VHS grit + scanlines */
+.os-ufc-wrap::before{
+  content:"";
+  position:absolute; inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2' type='fractalNoise'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0 .05 0'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect filter='url(%23n)' width='100%25' height='100%25' fill='white'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay; opacity:.42; pointer-events:none; z-index:-1;
+}
+.os-ufc-wrap::after{
+  content:"";
+  position:absolute; inset:0;
+  background: repeating-linear-gradient(180deg, rgba(255,255,255,.025) 0 1px, transparent 1px 3px);
+  opacity:.25; pointer-events:none; z-index:-1;
+}
+
+/* Ribbon banner with day text */
+.os-banner{
+  margin-top: 6px;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:min(980px, 96%);
+}
+.os-day{
+  text-transform:uppercase;
+  font-weight:900;
+  letter-spacing:.22em;
+  font-size: clamp(26px, 7.5vw, 52px);
+  color:#1a1200;
+  background: linear-gradient(180deg, #ffd976, var(--os-gold));
+  border: 3px solid var(--os-gold-dark);
+  border-radius: 10px;
+  padding: 10px 18px;
+  text-shadow: 0 2px 0 rgba(255,255,255,.35);
+  box-shadow:
+    inset 0 -8px 12px rgba(0,0,0,.18),
+    0 8px 26px rgba(0,0,0,.45);
+}
+.os-ribbon-left,
+.os-ribbon-right{
+  content:"";
+  position:absolute; top:50%; width:60px; height:26px;
+  background: linear-gradient(180deg, #ffd976, var(--os-gold));
+  border: 3px solid var(--os-gold-dark);
+  transform: translateY(-50%) skewX(-20deg);
+  box-shadow: inset 0 -6px 10px rgba(0,0,0,.18);
+}
+.os-ribbon-left{ left: -10px; border-right:none; border-radius: 8px 0 0 8px; }
+.os-ribbon-right{ right: -10px; border-left:none; border-radius: 0 8px 8px 0; transform: translateY(-50%) skewX(20deg); }
+
+/* List */
+.os-list{
+  width:min(980px, 96%);
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+/* wrapper for card + maple plaque */
+.os-card-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  animation: os-rise .3s ease-out both;
+}
+@keyframes os-rise{ from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:translateY(0)} }
+
+/* card */
+.os-card{
+  position:relative;
+  display:grid;
+  grid-template-columns: 1fr auto;
+  align-items:center;
+  gap:12px;
+  padding: 6px 18px;
+  border-radius: 12px 12px 0 0;  /* maple attaches under */
+  background: linear-gradient(180deg, rgba(28,34,52,.9), rgba(22,26,38,.9));
+  border: 2px solid var(--os-edge);
+  box-shadow:
+    inset 0 0 18px rgba(255,255,255,.04),
+    0 18px 46px rgba(0,0,0,.6);
+  overflow:hidden;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* Red/Blue corner stripe */
+.os-card-wrap.red .os-card::before,
+.os-card-wrap.blue .os-card::before{
+  content:"";
+  position:absolute; left:0; top:0; bottom:0; width:8px;
+  box-shadow: 0 0 16px rgba(255,255,255,.15);
+}
+.os-card-wrap.red .os-card::before{ background: linear-gradient(180deg, var(--os-red), #7d0f0f); }
+.os-card-wrap.blue .os-card::before{ background: linear-gradient(180deg, var(--os-blue), #122b66); }
+
+/* golden corner brackets */
+.os-corner{
+  position:absolute; width:16px; height:16px; border:3px solid var(--os-gold);
+  filter: drop-shadow(0 0 8px rgba(244,197,66,.35));
+}
+.os-corner.tl{ top:-7px; left:-7px; border-bottom:none; border-right:none; border-radius:8px 0 0 0; }
+.os-corner.tr{ top:-7px; right:-7px; border-bottom:none; border-left:none; border-radius:0 8px 0 0; }
+.os-corner.bl{ bottom:-7px; left:-7px; border-top:none; border-right:none; border-radius:0 0 0 8px; }
+.os-corner.br{ bottom:-7px; right:-7px; border-top:none; border-left:none; border-radius:0 0 8px 0; }
+
+/* left cluster */
+.os-left{ display:flex; align-items:center; gap:12px; min-width:0; flex-wrap:wrap; }
+.os-name{
+  font-weight:900;
+  font-size: clamp(18px, 5vw, 24px);
+  letter-spacing:.03em;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.os-name-block{ display:inline-flex; gap:10px; align-items:baseline; }
+.os-name.old{
+  opacity:.65;
+  text-decoration: line-through;
+  text-decoration-thickness: 3px;
+  text-decoration-color: var(--os-gold);
+}
+.os-name.new{ color:#fff; text-shadow: 0 0 10px rgba(244,197,66,.25); }
+
+/* time chip (gold-on-blue poster look) */
+.os-time{
+  font-weight:900;
+  font-size: 25px;
+  color:#1b1400;
+  background: linear-gradient(180deg, #ffe07a, var(--os-gold));
+  border: 2px solid var(--os-gold-dark);
+  border-radius: 10px;
+  padding: 6px 12px;
+  box-shadow:
+    inset 0 0 12px rgba(255,255,255,.25),
+    0 0 18px rgba(244,197,66,.25);
+    width:100px;
+    text-align: center;
+}
+
+/* Maple plaque (sticker) */
+.os-maple{
+  text-align:center;
+  font-weight:900;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:#1a1200;
+  background: linear-gradient(180deg, #ffd976, var(--os-gold));
+  border: 2px solid var(--os-gold-dark);
+  border-top:none;
+  border-radius: 0 0 12px 12px;
+  padding: 8px 10px;
+  box-shadow: 0 14px 28px rgba(0,0,0,.55), inset 0 -8px 14px rgba(0,0,0,.12);
+  transform: translateY(-2px);
+}
+
+/* small screens */
+@media (max-width: 420px){
+  .os-time{ font-size:20px; }
+}
