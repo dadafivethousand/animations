@@ -29,12 +29,13 @@ import DeepOceanSchedule from "./Components/DeepOceanSchedule";
 import OldUFCSchedule from "./Components/OldUFCSchedule";
 import MickeySchedule from "./Components/MickeySchedule";
 import GothicSchedule from "./Used/GothicSchedule";
+import GladiatorSchedule from "./Used/GladiatorSchedule";
 
 
 function App() {
   return (
     <>
-  < GothicSchedule day={"Monday"}/>
+  < GladiatorSchedule day={"Monday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
