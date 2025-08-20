@@ -35,7 +35,7 @@ import GladiatorSchedule from "./Used/GladiatorSchedule";
 function App() {
   return (
     <>
-  < GladiatorSchedule day={"Tuesday"}/>
+  < HasbullaSchedule day={"Wednesday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
