@@ -1,3 +1,4 @@
+// TransformersSchedule.js
 import React, { useEffect, useState } from "react";
 import schedule from "../RhSchedule";
 import "./TransformersSchedule.css";
@@ -8,16 +9,13 @@ function TransformersSchedule({ day }) {
   useEffect(() => {
     setVisibleClasses([]);
     const timers = [];
-
-    if (schedule[day]) {
-      schedule[day].forEach((_, idx) => {
-        const t = setTimeout(() => {
-          setVisibleClasses((prev) => [...prev, idx]);
-        }, idx * 400);
-        timers.push(t);
-      });
-    }
-
+    const items = schedule[day] || [];
+    items.forEach((_, idx) => {
+      const t = setTimeout(() => {
+        setVisibleClasses((prev) => [...prev, idx]);
+      }, idx * 400);
+      timers.push(t);
+    });
     return () => timers.forEach(clearTimeout);
   }, [day]);
 
@@ -35,32 +33,27 @@ function TransformersSchedule({ day }) {
       <h2 className="tf-day">{day}</h2>
 
       <div className="tf-schedule">
-        {schedule[day] &&
-          schedule[day].map((cls, idx) => (
-            <div>
-            <div
-              key={idx}
-              className={`tf-class ${visibleClasses.includes(idx) ? "tf-slide-in" : ""}`}
-            >
-              {/* corner lights */}
-              <div className="tf-light tl" />
-              <div className="tf-light tr" />
-              <div className="tf-light bl" />
-              <div className="tf-light br" />
+        {(schedule[day] || []).map((cls, idx) => (
+          <div
+            key={idx}
+            className={`tf-class ${visibleClasses.includes(idx) ? "tf-slide-in" : ""}`}
+          >
+            {/* glitchy border pieces */}
+            <span className="tf-border-top" />
+            <span className="tf-border-bottom" />
+            <span className="tf-border-left" />
+            <span className="tf-border-right" />
 
-    
-                <span className="tf-name">{cls.name}</span>
-            
-             
-
-              {/* right: time */}
-              <span className="tf-time">{formatTime(cls.start)}</span>
-              
+            {/* left: name + maple badge (kept INSIDE the class) */}
+            <div className="tf-left">
+              <span className="tf-name">{cls.name}</span>
+              {cls.maple && <span className="tf-badge tf-badge--maple">📍 Maple</span>}
             </div>
-                            {cls.maple && <span className="tf-badge tf-badge--maple">📍 Maple</span>}
 
-              </div>
-          ))}
+            {/* right: time */}
+            <span className="tf-time">{formatTime(cls.start)}</span>
+          </div>
+        ))}
       </div>
     </div>
   );

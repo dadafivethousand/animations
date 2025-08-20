@@ -2,40 +2,30 @@ import React from "react";
 import "./Stylesheets/App.css"
  
  
-import BrockSchedule from "./Components/BrockSchedule";
-import TrueReligionSchedule from "./Components/TrueReligionSchedule";
-import SafariSchedule from "./Components/SafariSchedule";
-import ADCCSchedule from "./Components/ADCCSchedule";
-import MonstersIncSchedule from "./Components/MonstersIncSchedule"
-import TransformersSchedule from "./Used/TransformersSchedule";
+
+ import TransformersSchedule from "./Used/TransformersSchedule";
 import VegasSchedule from "./Used/VegasSchedule";
 import StreetFighterSchedule from "./Used/StreetFighterSchedule";
- import KarateKidSchedule from "./Components/KarateKidSchedule";
-import TourDeFranceSchedule from "./Components/TourDeFranceSchedule";
-import FoxNewsSchedule from "./Used/FoxNewsSchedule";
+ import FoxNewsSchedule from "./Used/FoxNewsSchedule";
 import GodzillaSchedule from "./Used/GodzillaSchedule";
 import SpartanSchedule from "./Used/SpartanSchedule";
 import SonicSchedule from "./Used/SonicSchedule";
 import BadBoysSchedule from "./Used/BadBoysSchedule";
 import GtaSchedule from "./Used/GTASchedule";
-import RaptorsSchedule from "./Components/RaptorsSchedule"
-import NetflixSchedule from "./Components/NetflixSchedule";
-import GoogleSchedule from "./Components/GoogleSchedule";
+
 import JockoSchedule from "./Components/JockoSchedule";
-import StraightOuttaSchedule from "./Components/StraightOuttaSchedule";
-import HandshakeSchedule from "./Components/HandshakeSchedule";
-import HasbullaSchedule from "./Components/HasbullaSchedule";
+ import HandshakeSchedule from "./Components/HandshakeSchedule";
 import DeepOceanSchedule from "./Components/DeepOceanSchedule";
 import OldUFCSchedule from "./Components/OldUFCSchedule";
 import MickeySchedule from "./Components/MickeySchedule";
 import GothicSchedule from "./Used/GothicSchedule";
 import GladiatorSchedule from "./Used/GladiatorSchedule";
-
+import NetflixSchedule from "./Components/NetflixSchedule";
 
 function App() {
   return (
     <>
-  < HasbullaSchedule day={"Wednesday"}/>
+  <TransformersSchedule day={"Wednesday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
