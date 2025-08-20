@@ -153,12 +153,16 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+    position: relative;
+  left:10px;
 }
 
 /* Time on the right */
 .tf-time {
   color: var(--tf-white);
   letter-spacing: 1px;
+  position: relative;
+  right:10px;
 }
 
 /* Maple badge (kept within .tf-class) */
@@ -177,6 +181,8 @@
   background: #1c1f2b;
   color: #fff;
   box-shadow: 0 0 10px rgba(255,0,0,0.25);
+   position: relative;
+  left:4px;
 }
 
 /* Responsive tweak */
