@@ -20,9 +20,7 @@
     font-weight: bold;
     font-family: "Impact", sans-serif;
     color: white;
-    text-shadow: 6px 6px 0px black, 12px 12px 20px rgba(0, 0, 0, 0.9);
-    animation: nosBoost 0.5s infinite alternate ease-in-out;
-    letter-spacing: 2px;
+     letter-spacing: 2px;
     background: linear-gradient(to right, #FFD700, #FF4500);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
