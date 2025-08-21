@@ -21,11 +21,12 @@ import MickeySchedule from "./Components/MickeySchedule";
 import GothicSchedule from "./Used/GothicSchedule";
 import GladiatorSchedule from "./Used/GladiatorSchedule";
 import NetflixSchedule from "./Components/NetflixSchedule";
+import FastFuriousSchedule from "./Used/FastFuriousSchedule";
 
 function App() {
   return (
     <>
-  <JockoSchedule day={"Thursday"}/>
+  <FastFuriousSchedule day={"Thursday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
