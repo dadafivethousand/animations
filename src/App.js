@@ -25,7 +25,7 @@ import NetflixSchedule from "./Components/NetflixSchedule";
 function App() {
   return (
     <>
-  <TransformersSchedule day={"Wednesday"}/>
+  <JockoSchedule day={"Thursday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
