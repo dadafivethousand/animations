@@ -22,11 +22,12 @@ import GothicSchedule from "./Used/GothicSchedule";
 import GladiatorSchedule from "./Used/GladiatorSchedule";
 import NetflixSchedule from "./Components/NetflixSchedule";
 import FastFuriousSchedule from "./Used/FastFuriousSchedule";
+ import KhabibSchedule from "./Used/KhabibSchedule";
 
 function App() {
   return (
     <>
-  <NetflixSchedule day={"Friday"}/>
+  <KhabibSchedule day={"Friday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

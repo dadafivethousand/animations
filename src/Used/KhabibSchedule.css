@@ -1,10 +1,11 @@
+/* KhabibSchedule.css */
 /* 🦅 Dagestani Warrior Font */
 @import url("https://fonts.googleapis.com/css2?family=Teko:wght@600&display=swap");
 
 .khabib-container {
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(to bottom, #222, #444); /* Dark, strong tones */
+  background: linear-gradient(to bottom, #222, #444);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,7 +22,7 @@
   color: #c49a6c; /* Gold Warrior Color */
   text-transform: uppercase;
   margin-bottom: 30px;
-  margin-top:50px;
+  margin-top: 50px;
   letter-spacing: 3px;
   text-shadow: 5px 5px 15px black;
 }
@@ -44,6 +45,7 @@
   animation: slideUp 0.8s ease-out forwards;
   opacity: 0;
   position: relative;
+
 }
 
 /* 🦅 The Papakha Hat */
@@ -52,41 +54,40 @@
   height: 92px;
   background: #e2d2be; /* Light beige Papakha color */
   border-radius: 50px;
- 
   position: absolute;
   top: -35px;
   display: flex;
   justify-content: center;
   align-items: center;
-   overflow: hidden;
+  overflow: hidden;
+}
+.papakha-hat::before {
+  content: "";
+  position: absolute;
+  width: 180px;
+  height: 40px;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, #efd8ad 30%, transparent 70%);
+  border-radius: 50%;
 }
 
-/* 🦅 Fluffy Texture */
-.papakha-hat::before {
- 
-    position: absolute;
-    width: 180px;
-    height: 40px;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    background: radial-gradient(circle, #efd8ad 30%, transparent 70%);
-    border-radius: 50%;
-   }
-  
 /* 🦅 Class Content (Sits Under the Hat) */
 .khabib-class-content {
   width: 70px; /* Narrow width so Papakha looks real */
   background: #c49a6c;
   color: black;
   text-align: center;
-  padding: 5px;
+  padding: 6px 5px 8px;
   border-radius: 10px;
   border: 3px solid black;
-   display: flex;
+  display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   position: relative;
+  gap: 4px;
+      height:90px;
 }
 
 /* 🦅 Class Name */
@@ -94,22 +95,40 @@
   font-weight: bold;
   font-size: 1rem;
   text-transform: uppercase;
+  line-height: 1.05;
+  word-break: break-word;
+}
+
+/* 🧭 Maple inline badge (kept within the class content) */
+.khabib-maple {
+  display: inline-flex;
+  align-self: center;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #1a1200;
+  background: #f4e4c7;
+  border: 1px solid #2b2320;
+  border-radius: 999px;
+  box-shadow: inset 0 0 6px rgba(255,255,255,0.25), 0 0 6px rgba(0,0,0,0.25);
+}
+.khabib-pin {
+  line-height: 1;
+  filter: drop-shadow(0 0 2px rgba(0,0,0,0.25));
 }
 
 /* 🦅 Class Time */
 .khabib-class-time {
   font-size: 1rem;
   font-style: italic;
+  line-height: 1.05;
 }
 
 /* 🦅 Slide-up Animation */
 @keyframes slideUp {
-  0% {
-    opacity: 0;
-    transform: translateY(100px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  0% { opacity: 0; transform: translateY(100px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
