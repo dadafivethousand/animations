@@ -26,7 +26,7 @@ import FastFuriousSchedule from "./Used/FastFuriousSchedule";
 function App() {
   return (
     <>
-  <FastFuriousSchedule day={"Thursday"}/>
+  <NetflixSchedule day={"Friday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
