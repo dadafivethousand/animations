@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/TupacSchedule.css";
-import schedule from "../Schedule";
+import "./TupacSchedule.css";
+import schedule from "../RhSchedule";
 
 const quotes = [
   "Reality is wrong. Dreams are for real.",
