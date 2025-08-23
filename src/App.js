@@ -28,7 +28,7 @@ import TupacSchedule from "./Used/TupacSchedule";
 function App() {
   return (
     <>
-  <TupacSchedule day={"Saturday"}/>
+  <MickeySchedule day={"Sunday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
