@@ -23,11 +23,13 @@ import GladiatorSchedule from "./Used/GladiatorSchedule";
 import NetflixSchedule from "./Components/NetflixSchedule";
 import FastFuriousSchedule from "./Used/FastFuriousSchedule";
  import KhabibSchedule from "./Used/KhabibSchedule";
- 
+ import RockSchedule from "./Used/RockSchedule"
+
+
 function App() {
   return (
     <>
-  <OldUFCSchedule day={"Monday"}/>
+  <RockSchedule day={"Monday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
