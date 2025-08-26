@@ -29,7 +29,7 @@ import FastFuriousSchedule from "./Used/FastFuriousSchedule";
 function App() {
   return (
     <>
-  <RockSchedule day={"Monday"}/>
+  <HandshakeSchedule day={"Tuesday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
