@@ -24,12 +24,13 @@ import NetflixSchedule from "./Components/NetflixSchedule";
 import FastFuriousSchedule from "./Used/FastFuriousSchedule";
  import KhabibSchedule from "./Used/KhabibSchedule";
  import RockSchedule from "./Used/RockSchedule"
+ import ZeldaSchedule from "./Used/ZeldaSchedule";
 
 
 function App() {
   return (
     <>
-  <HandshakeSchedule day={"Tuesday"}/>
+  <ZeldaSchedule day={"Tuesday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
