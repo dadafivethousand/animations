@@ -25,12 +25,14 @@ import FastFuriousSchedule from "./Used/FastFuriousSchedule";
  import KhabibSchedule from "./Used/KhabibSchedule";
  import RockSchedule from "./Used/RockSchedule"
  import ZeldaSchedule from "./Used/ZeldaSchedule";
+ import AnonymousSchedule from "./Used/AnonymousSchedule"
+import ZenSchedule from "./Components/ZenSchedule";
 
 
 function App() {
   return (
     <>
-  <ZeldaSchedule day={"Tuesday"}/>
+  <AnonymousSchedule day={"Wednesday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
