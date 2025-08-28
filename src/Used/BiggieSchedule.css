@@ -1,7 +1,8 @@
+/* BiggieSchedule.css (refactored with MAPLE badge) */
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Space+Grotesk:wght@400;600&display=swap');
 
 .biggie-container {
-  background: #000; /* Solid black */
+  background: #000;
   color: #fff;
   min-height: 100vh;
   width: 100vw;
@@ -10,11 +11,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
- 
+  position: relative;
 }
 
- 
-
+/* Header */
+.biggie-header { z-index: 5; }
 .biggie-day {
   font-size: 2.8rem;
   font-family: 'Playfair Display', serif;
@@ -23,10 +24,9 @@
   letter-spacing: 5px;
   text-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
   margin-bottom: 20px;
- 
-  z-index: 30;
 }
 
+/* Schedule list */
 .biggie-schedule {
   display: flex;
   flex-direction: column;
@@ -34,70 +34,91 @@
   width: 90%;
   max-width: 880px;
   padding-bottom: 60px;
+  z-index: 6; /* above photo */
 }
 
+/* Card */
 .biggie-class {
   background: #121212bd;
   border: 1px solid #fff;
-  border-radius: 8px;
-  padding: 20px 30px;
+  border-radius: 10px;
+  padding: 14px 16px; /* slightly tighter for mobile */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 1.2rem;
-  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.1rem;
   color: #f0f0f0;
   opacity: 0;
   animation: fadeInSlide 0.4s ease forwards;
+  gap: 10px;
 }
 
-@keyframes fadeInSlide {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+/* Left side: name + maple badge inline */
+.biggie-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
 }
-
 .biggie-class-name {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
   color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
+/* Maple badge (gold capsule) */
+.biggie-maple {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+}
+.biggie-pin { transform: translateY(-0.5px); }
 
 .biggie-class-time {
-  font-weight: 600;
-  font-size: 1.1rem;
+  font-weight: 700;
+  font-size: 1rem;
   color: #dcdcdc;
+  white-space: nowrap;
 }
 
+/* Animations */
+@keyframes fadeInSlide {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);   opacity: 1; }
+}
 
+/* Background photo */
 .biggie-photo {
   background-image: url(../Images/Used/biggie.jpg);
   background-repeat: no-repeat;
   background-position: center;
   position: absolute;
-  height:100vh;
-  width: 100vw;
-  opacity:0;
-  transform: translateY(150px) scale(.1);;
-  transition: opacity 5s ease-in,  transform 5s ease-in;
- background-size: contain;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(150px) scale(0.1);
+  transition: opacity 5s ease-in, transform 5s ease-in;
+  background-size: contain;
+  z-index: 1; /* behind content */
 }
+.biggie-show { opacity: 1; }
+.slideDown { transform: translateY(100px) scale(1); }
 
-
-.biggie-show{
-opacity: 1
-}
-
-.slideDown{
-  transform: translateY(100px) scale(4);
-}
-
-.biggie-header{
-  z-index: 5;
+/* Mobile tweaks */
+@media (max-width: 420px) {
+  .biggie-class { padding: 12px 14px; }
+  .biggie-class-time { font-size: 0.95rem; }
+  .biggie-maple { font-size: 11px; padding: 3px 8px; }
 }
