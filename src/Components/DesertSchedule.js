@@ -2,6 +2,8 @@
 import React, { useEffect, useState, useMemo } from "react";
 import "../Stylesheets/DesertSchedule.css";
 import schedule from "../Schedule";
+import sandstorm from "../Images/965.jpg"
+
 
 function Sandstorm({ count = 180 }) {
   const grains = useMemo(() => {
@@ -74,6 +76,7 @@ export default function DesertSchedule({
 
   return (
     <div className="desert-wrap">
+              <img src={sandstorm}/>
       {/* subtle layers */}
       <div className="sand-layer sand-streaks" aria-hidden />
       <div className="sand-layer sand-specks" aria-hidden />

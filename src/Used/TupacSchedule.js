@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./TupacSchedule.css";
 import schedule from "../RhSchedule";
+import sandstorm from "../Images/965.jpg"
 
 const quotes = [
   "Reality is wrong. Dreams are for real.",
@@ -57,6 +58,7 @@ function TupacSchedule({ day, animationDelay = 3000, animationInterval = 300 }) 
 
   return (
     <div className="tupac-container">
+      <img src={sandstorm}/>
       <div className="tupac-header">
         <h1 className="tupac-day">{typedDay}</h1>
       </div>

@@ -263,3 +263,8 @@
   .desert-time{ font-size: .95rem; }
   .desert-badge{ font-size: 11px; padding: 3px 9px; }
 }
+
+
+.desert-wrap img{
+    width: 100vh;
+}

@@ -28,11 +28,12 @@ import FastFuriousSchedule from "./Used/FastFuriousSchedule";
  import AnonymousSchedule from "./Used/AnonymousSchedule"
 import ZenSchedule from "./Components/ZenSchedule";
 import DesertSchedule from "./Components/DesertSchedule";
+import IosSchedule from "./Components/IosSchedule"
 
 function App() {
   return (
     <>
-  <DesertSchedule day={"Wednesday"}/>
+  < IosSchedule day={"Thursday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
