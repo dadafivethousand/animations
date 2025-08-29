@@ -89,6 +89,7 @@
   transition: transform 1.4s ease-in-out;
   max-width: 640px;
   gap: 8px;
+  height:100px;
 }
 
 /* Left side (name + MAPLE badge) */
