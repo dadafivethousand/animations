@@ -1,21 +1,21 @@
+// CowboySchedule.jsx — refactored to show MAPLE classes
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/CowboySchedule.css";
-import schedule from "../Schedule"; // Assuming schedule data exists
+import "./CowboySchedule.css";
+import schedule from "../RhSchedule";
 
 function CowboySchedule({ day, animationDelay = 1000, animationInterval = 400 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
-    setTimeout(() => {
+    const start = setTimeout(() => {
       const classes = schedule[day] || [];
-      if (classes.length === 0) return;
-
       classes.forEach((_, idx) => {
         setTimeout(() => {
           setVisibleArray((prev) => [...prev, idx]);
         }, idx * animationInterval);
       });
     }, animationDelay);
+    return () => clearTimeout(start);
   }, [day, animationDelay, animationInterval]);
 
   const formatTime = (decimalTime) => {
@@ -29,16 +29,25 @@ function CowboySchedule({ day, animationDelay = 1000, animationInterval = 400 })
 
   return (
     <div className="cowboy-container">
-      <div className="cowboy-dust"></div> {/* Floating Dust Particles */}
+      <div className="cowboy-dust"></div>
       <div className="cowboy-header">
         <h1 className="cowboy-day">{day.toUpperCase()}</h1>
       </div>
+
       <div className="cowboy-content">
-        {schedule[day]?.map((cls, idx) => (
+        {(schedule[day] || []).map((cls, idx) => (
           <div key={idx} className="cowboy-class-container">
             {visibleArray.includes(idx) && (
               <div className={`cowboy-class cowboy-drop-${idx % 2 === 0 ? "left" : "right"}`}>
-                <span className="cowboy-class-name">{cls.name}</span>
+                <div className="cowboy-left">
+                  <span className="cowboy-class-name">{cls.name}</span>
+                  {cls.maple && (
+                    <span className="cowboy-badge">
+                      <span className="cowboy-star" aria-hidden>★</span>
+                      MAPLE
+                    </span>
+                  )}
+                </div>
                 <span className="cowboy-class-time">{formatTime(cls.start)}</span>
               </div>
             )}

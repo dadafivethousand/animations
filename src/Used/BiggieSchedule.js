@@ -85,4 +85,4 @@ function BiggieSchedule({ day, animationDelay = 2000, animationInterval = 550 })
   );
 }
 
-export default BiggieSchedule;
+export default BiggieSchedule;  
