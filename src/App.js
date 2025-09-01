@@ -10,11 +10,11 @@ import TTCSchedule from "./Components/TTCSchedule";
 import GOSchedule from "./Components/GOSchedule";
 import CharlieSchedule from "./Used/CharlieSchedule";
 import AmazonSchedule from "./Components/AmazonSchedule";
- 
+import SouthParkSchedule from "./Used/SouthParkSchedule"
 function App() {
   return (
     <>
-  < AmazonSchedule day={"Tuesday"}/>
+  < SouthParkSchedule day={"Tuesday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
