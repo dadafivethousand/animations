@@ -36,7 +36,7 @@ body{ margin:0; background:var(--amz-bg); font-family: Inter, system-ui, -apple-
 .amzM-header{
   position: sticky; top: 0; z-index: 10;
   background: var(--amz-header);
-  padding: 10px 12px;
+  padding: 10px 11px;
     padding-top: 40px;
   display: grid;
   grid-template-columns: auto 1fr;
