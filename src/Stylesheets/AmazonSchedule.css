@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 :root{
-  --amz-header:#131921;
+  --amz-header:#1d3444;
   --amz-bg:#eaeded;
   --amz-card:#fff;
   --amz-border:#d5d9d9;
@@ -26,6 +26,10 @@ body{ margin:0; background:var(--amz-bg); font-family: Inter, system-ui, -apple-
   display:flex;
   flex-direction:column;
  
+}
+
+.amzM-logo{
+  width:70px;
 }
 
 /* Compact sticky header */

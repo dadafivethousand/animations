@@ -14,7 +14,7 @@ import AmazonSchedule from "./Components/AmazonSchedule";
 function App() {
   return (
     <>
-  < AmazonSchedule day={"Monday"}/>
+  < AmazonSchedule day={"Tuesday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

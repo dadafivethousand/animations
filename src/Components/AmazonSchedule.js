@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/AmazonSchedule.css";
 import schedule from "../Schedule";
-
+import amazonLogo from "../Images/Amazon-Symbol.jpg"
 
 export default function AmazonSchedule({
   day,
@@ -38,7 +38,8 @@ export default function AmazonSchedule({
   return (
     <div className="amzM-wrap">
       <header className="amzM-header">
-        <div className="amzM-brand">amazon</div>
+        <img className="amzM-logo" src={amazonLogo} />
+    
         <div className="amzM-search">
           <span className="amzM-all">All ▾</span>
           <input
