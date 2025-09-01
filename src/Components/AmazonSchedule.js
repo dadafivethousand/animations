@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/AmazonSchedule.css";
 import schedule from "../Schedule";
-import wrestling from "../Images/Used/wrestling.webp"
+
 
 export default function AmazonSchedule({
   day,
@@ -64,7 +64,7 @@ export default function AmazonSchedule({
                 style={{ animationDelay: `${i * 60}ms` }}
               >
                 <div className="amzM-row">
-                   <img src={wrestling} />
+                   <img className="amzM-picture" src={cls.pic} />
                   <div className="amzM-info">
                     <h2 className="amzM-name">
                       {cls.replacement ? (
