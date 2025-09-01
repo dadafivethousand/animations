@@ -102,7 +102,7 @@ export default function AmazonSchedule({
                     <div className="amzM-sub">
                       <span className="amzM-free">Free Trial</span>
                       <span className="amzM-dot">•</span>
-                      <span className="amzM-time">Starts {formatTime(cls.start)}</span>
+                      <span className="amzM-time">{formatTime(cls.start)}</span>
                     </div>
                   </div>
                 </div>
