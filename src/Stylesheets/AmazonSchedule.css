@@ -66,7 +66,7 @@ body{ margin:0; background:var(--amz-bg); font-family: Inter, system-ui, -apple-
 }
 
 /* Results list */
-.amzM-list{ display:flex; flex-direction:column; gap:10px; }
+.amzM-list{ display:flex; flex-direction:column; gap:10px ; }
 
 /* Item card */
 .amzM-item{
