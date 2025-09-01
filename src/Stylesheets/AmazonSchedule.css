@@ -138,7 +138,9 @@ body{ margin:0; background:var(--amz-bg); font-family: Inter, system-ui, -apple-
 
 .amzM-picture{
   width:60px;
+  height: auto;
   border-radius: 5px;
+  transform: scale(1.2);
   
 }
 
