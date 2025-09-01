@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/CharlieSchedule.css";
-import schedule from "../Schedule";
+import "./CharlieSchedule.css";
+import schedule from "../RhSchedule";
 
 function CharlieSchedule({ day }) {
   const [visible, setVisible] = useState([]);
