@@ -14,7 +14,7 @@ import SouthParkSchedule from "./Used/SouthParkSchedule"
 function App() {
   return (
     <>
-  < SouthParkSchedule day={"Tuesday"}/>
+  < LegoSchedule day={"Wednesday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
