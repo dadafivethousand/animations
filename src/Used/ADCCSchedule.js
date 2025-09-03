@@ -1,6 +1,7 @@
+// ADCCSchedule.jsx — refactored to indicate MAPLE classes (inline chip)
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/ADCCSchedule.css";
-import schedule from "../Schedule";
+import "./ADCCSchedule.css";
+import schedule from "../RhSchedule";
 
 export default function ADCCSchedule({ day, animationDelay = 800, animationInterval = 150 }) {
   const [visibleArray, setVisibleArray] = useState([]);
@@ -10,7 +11,7 @@ export default function ADCCSchedule({ day, animationDelay = 800, animationInter
     setVisibleArray([]);
     entries.forEach((_, idx) => {
       setTimeout(() => {
-        setVisibleArray(prev => [...prev, idx]);
+        setVisibleArray((prev) => [...prev, idx]);
       }, animationDelay + idx * animationInterval);
     });
   }, [day, animationDelay, animationInterval]);
@@ -27,13 +28,16 @@ export default function ADCCSchedule({ day, animationDelay = 800, animationInter
     <div className="adcc-wrapper">
       <div className="adcc-header">
         <h1 className="adcc-title">{day.toUpperCase()}</h1>
- 
       </div>
+
       <div className="adcc-grid">
         {(schedule[day] || []).map((cls, idx) =>
           visibleArray.includes(idx) ? (
             <div className="adcc-card" key={idx}>
-              <div className="adcc-class">{cls.name}</div>
+              <div className="adcc-left">
+                <div className="adcc-class">{cls.name}</div>
+                {cls.maple && <span className="adcc-chip">📍 MAPLE</span>}
+              </div>
               <div className="adcc-time">{formatTime(cls.start)}</div>
             </div>
           ) : null

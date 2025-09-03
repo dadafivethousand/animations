@@ -11,10 +11,11 @@ import GOSchedule from "./Components/GOSchedule";
 import CharlieSchedule from "./Used/CharlieSchedule";
 import AmazonSchedule from "./Components/AmazonSchedule";
 import SouthParkSchedule from "./Used/SouthParkSchedule"
+import ADCCSchedule from "./Used/ADCCSchedule";
 function App() {
   return (
     <>
-  < LegoSchedule day={"Wednesday"}/>
+  < ADCCSchedule day={"Wednesday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

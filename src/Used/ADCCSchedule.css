@@ -10,23 +10,18 @@
 .adcc-wrapper {
   background: #000 url('../Images/Screenshot from 2025-08-09 17-20-39.png') no-repeat center center;
   background-size: contain;
-  
-  height: 100vh;
   min-height: 100vh;
+  height: 100vh;
   padding: 170px 20px;
-  color: white;
+  color: #fff;
   font-family: 'Anton', sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-position: 0px 70px;;
+  background-position: 0px 70px;
 }
 
-
-.adcc-header {
-  text-align: center;
- 
-}
+.adcc-header { text-align: center; }
 
 .adcc-title {
   font-size: 4rem;
@@ -37,15 +32,7 @@
     -2px  2px 0 #fff,
      2px  2px 0 #fff,
      0    0   20px rgba(225, 6, 0, 0.8),
-     2px  2px 0 black;
-}
-
-
-.adcc-subtitle {
-  font-size: 1.2rem;
-  color: var(--adcc-gold);
-  letter-spacing: 2px;
-  margin-top: 5px;
+     2px  2px 0 #000;
 }
 
 .adcc-grid {
@@ -60,33 +47,62 @@
   background: linear-gradient(145deg, var(--adcc-metal), #1b1b1b);
   border: 2px solid var(--adcc-red);
   border-radius: 8px;
-  padding: 6px 20px;
+  padding: 6px 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: inset 0 0 10px rgba(255,255,255,0.1), 0 0 15px rgba(225, 6, 0, 0.5);
-  transform: scale(0.9);
+  box-shadow:
+    inset 0 0 10px rgba(255,255,255,0.08),
+    0 0 15px rgba(225, 6, 0, 0.45);
+  transform: scale(0.96);
   opacity: 0;
   animation: punchIn 0.4s ease forwards;
 }
 
+.adcc-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
 .adcc-class {
-  font-size: 1.4rem;
-  color: white;
+  font-size: 1.3rem;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Inline MAPLE chip inside the card */
+.adcc-chip {
+  font-size: 0.8rem;
+  letter-spacing: .08em;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1.5px solid var(--adcc-red);
+  color: var(--adcc-gold);
+  background: rgba(0,0,0,0.45);
+  box-shadow: 0 0 10px rgba(225,6,0,0.25), inset 0 0 6px rgba(255,255,255,0.06);
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .adcc-time {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   color: var(--adcc-gold);
+  white-space: nowrap;
 }
 
 @keyframes punchIn {
-  0% {
-    transform: scale(0.9) translateY(15px);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1) translateY(0);
-    opacity: 1;
-  }
+  0% { transform: scale(0.9) translateY(15px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* Mobile fit */
+@media (max-width: 420px) {
+  .adcc-title { font-size: 12vw; }
+  .adcc-class { font-size: 1.1rem; }
+  .adcc-time { font-size: 1rem; }
+  .adcc-chip { font-size: 0.72rem; padding: 2px 6px; }
 }
