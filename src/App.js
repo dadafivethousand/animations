@@ -18,7 +18,7 @@ import PandaSchedule from "./Used/PandaSchedule"
 function App() {
   return (
     <>
-  < PandaSchedule day={"Thursday"}/>
+  < TTCSchedule day={"Thursday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
