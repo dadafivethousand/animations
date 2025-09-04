@@ -28,15 +28,12 @@
 .wutang-day {
   font-size: 52px;
   color: #fcdc00;
- 
   padding: 12px 40px;
- 
   border-radius: 8px;
   margin-bottom: 30px;
   letter-spacing: 4px;
   text-transform: uppercase;
- 
-  min-height:60px
+  min-height: 60px;
 }
 
 /* Schedule Box */
@@ -72,25 +69,43 @@
   transform: scale(1.03);
 }
 
-.wutang-name {
- 
-  font-size: 20px;
-  color: #fff;
+/* Left stack: name + MAPLE chip */
+.wutang-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
 }
 
+.wutang-name {
+  font-size: 20px;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Maple chip */
+.wutang-chip {
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid #fcdc00;
+  color: #ffffff;
+   text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Time */
 .wutang-time {
   font-size: 20px;
   color: #fcdc00;
+  white-space: nowrap;
 }
 
 /* Entry Animation */
 @keyframes punchSlideIn {
-  0% {
-    transform: translateX(-50%) scale(0.9);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0) scale(1);
-    opacity: 1;
-  }
+  0% { transform: translateX(-50%) scale(0.9); opacity: 0; }
+  100% { transform: translateX(0) scale(1); opacity: 1; }
 }

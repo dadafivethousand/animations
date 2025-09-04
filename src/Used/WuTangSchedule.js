@@ -1,6 +1,7 @@
+// WuTangSchedule.jsx — refactored to include MAPLE chip (pure JS)
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/WuTangSchedule.css";
-import schedule from "../Schedule";
+import "./WuTangSchedule.css";
+import schedule from "../RhSchedule";
 
 function WuTangSchedule({ day, delay = 1800 }) {
   const [visibleClasses, setVisibleClasses] = useState([]);
@@ -46,7 +47,10 @@ function WuTangSchedule({ day, delay = 1800 }) {
         {(schedule[day] || []).map((cls, idx) =>
           visibleClasses.includes(idx) ? (
             <div className="wutang-class" key={idx}>
-              <span className="wutang-name">{cls.name}</span>
+              <div className="wutang-left">
+                <span className="wutang-name">{cls.name}</span>
+                {cls.maple && <span className="wutang-chip">📍 MAPLE</span>}
+              </div>
               <span className="wutang-time">{formatTime(cls.start)}</span>
             </div>
           ) : null

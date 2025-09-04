@@ -12,10 +12,11 @@ import CharlieSchedule from "./Used/CharlieSchedule";
 import AmazonSchedule from "./Components/AmazonSchedule";
 import SouthParkSchedule from "./Used/SouthParkSchedule"
 import ADCCSchedule from "./Used/ADCCSchedule";
+import WuTangSchedule from "./Used/WuTangSchedule";
 function App() {
   return (
     <>
-  < ADCCSchedule day={"Wednesday"}/>
+  < WuTangSchedule day={"Thursday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
