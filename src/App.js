@@ -15,10 +15,11 @@ import ADCCSchedule from "./Used/ADCCSchedule";
 import WuTangSchedule from "./Used/WuTangSchedule";
 import Tekashi6ix9ineSchedule from "./Used/Tekashi6ix9ineSchedule";
 import PandaSchedule from "./Used/PandaSchedule"
+import FriendsSchedule from "./Components/FriendsSchedule";
 function App() {
   return (
     <>
-  < TTCSchedule day={"Thursday"}/>
+  < FriendsSchedule day={"Friday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
