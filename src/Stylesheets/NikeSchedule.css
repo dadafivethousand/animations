@@ -1,0 +1,165 @@
+/* NikeSchedule.css — ultra-clean Nike vibe (black/white + Volt), mobile-first */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&family=Oswald:wght@500;700&display=swap');
+
+:root{
+  --nk-bg: #0b0b0b;
+  --nk-bg2:#000000;
+  --nk-text:#f4f4f4;
+  --nk-sub:#cfcfcf;
+  --nk-volt:#c9ff00;        /* Nike volt */
+  --nk-accent:#ffffff;
+  --nk-card:#121212;
+  --nk-border: rgba(255,255,255,.12);
+  --nk-shadow: rgba(0,0,0,.35);
+}
+
+*{ box-sizing: border-box; }
+
+.nike-wrap{
+  min-height: 100vh;
+  width: 100vw;
+  padding: 54px 14px 18px;
+  background: radial-gradient(100% 120% at 50% 0%, var(--nk-bg) 0%, var(--nk-bg2) 70%);
+  color: var(--nk-text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+/* Header */
+.nike-head{
+  width: 100%;
+  max-width: 620px;
+  display: grid;
+  grid-template-rows: auto auto;
+  gap: 10px;
+  opacity: 0;
+  transform: translateY(6px);
+}
+.nike-head--in{ animation: nkHead .32s ease-out forwards; }
+@keyframes nkHead{ to{ opacity:1; transform: translateY(0); } }
+
+.nike-day{
+  margin: 0;
+  font-family: "Oswald", system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: .06em;
+  font-size: 10vw;                 /* mobile large but responsive */
+  line-height: .9;
+  text-transform: uppercase;
+  color: var(--nk-accent);
+  text-shadow: 0 1px 0 #000, 0 8px 24px rgba(0,0,0,.3);
+}
+
+.nike-volt-bar{
+  height: 6px;
+  width: 44%;
+  background: linear-gradient(90deg, var(--nk-volt), #e3ff66 60%, var(--nk-volt));
+  border-radius: 999px;
+  box-shadow: 0 0 24px rgba(201,255,0,.45), 0 0 2px rgba(201,255,0,.8) inset;
+}
+
+/* List */
+.nike-list{
+  width: 100%;
+  max-width: 620px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* Card */
+.nike-card{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.0)),
+    var(--nk-card);
+  border: 1px solid var(--nk-border);
+  border-left: 8px solid var(--nk-volt);
+  border-radius: 14px;
+  padding: 12px 14px;
+  box-shadow: 0 8px 24px var(--nk-shadow), inset 0 0 0 9999px rgba(0,0,0,.06);
+  transform: translateY(10px);
+  opacity: 0;
+  backdrop-filter: blur(3px);
+}
+
+.nike-in{ animation: nkRow .28s ease-out forwards; }
+@keyframes nkRow{ to{ transform: translateY(0); opacity: 1; } }
+
+/* Left cluster */
+.nike-left{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.nike-bullet{
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 40% 40%, #fff 0%, #f7ffe0 25%, var(--nk-volt) 70%);
+  box-shadow: 0 0 0 2px rgba(255,255,255,.06), 0 0 14px rgba(201,255,0,.45);
+  flex: 0 0 auto;
+}
+
+.nike-name{
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 1.02rem;
+  letter-spacing: .01em;
+  color: var(--nk-accent);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Replacement styling */
+.nike-swap{ display:inline-flex; align-items:center; gap:.5rem; }
+.nike-old{
+  text-decoration: line-through;
+  opacity: .7;
+}
+.nike-arrow{ opacity:.75; }
+.nike-new{ color: var(--nk-accent); }
+
+/* MAPLE chip */
+.nike-chip{
+  margin-left: 6px;
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: .68rem;
+  padding: 3px 8px;
+  border-radius: 999px;
+  color: #0b0b0b;
+  background: linear-gradient(180deg, var(--nk-volt), #b7ff00);
+  border: 1px solid rgba(0,0,0,.35);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  box-shadow: 0 0 10px rgba(201,255,0,.35), inset 0 0 6px rgba(255,255,255,.25);
+  white-space: nowrap;
+}
+
+/* Time */
+.nike-time{
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 0.98rem;
+  color: var(--nk-sub);
+  white-space: nowrap;
+}
+
+/* Mobile tightening */
+@media (max-width: 420px){
+  .nike-day{ font-size: 12vw; }
+  .nike-card{ padding: 10px 12px; }
+  .nike-name{ font-size: .98rem; }
+  .nike-time{ font-size: .94rem; }
+  .nike-chip{ font-size: .62rem; padding: 2px 6px; }
+}

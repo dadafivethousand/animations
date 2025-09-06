@@ -16,11 +16,12 @@ import WuTangSchedule from "./Used/WuTangSchedule";
 import Tekashi6ix9ineSchedule from "./Used/Tekashi6ix9ineSchedule";
 import PandaSchedule from "./Used/PandaSchedule"
 import FriendsSchedule from "./Components/FriendsSchedule";
-import { AsyncDecompress } from "three/examples/jsm/libs/fflate.module.js";
+ import NikeSchedule from "./Components/NikeSchedule";
+import LooneyTunesSchedule from "./Components/LooneyTunesSchedule";
 function App() {
   return (
     <>
-  < ADCCSchedule day={"Friday"}/>
+  < LooneyTunesSchedule day={"Saturday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

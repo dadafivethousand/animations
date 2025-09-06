@@ -1,0 +1,189 @@
+/* LooneyTunesSchedule.css — concentric rings, bold cartoon type, squash-pop rows */
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Montserrat:wght@700&display=swap');
+
+:root{
+  --lt-red: #D00000;
+  --lt-darkred: #8B0000;
+  --lt-orange: #FF7A00;
+  --lt-gold: #FFD54A;
+  --lt-cream: #FFF4E0;
+  --lt-ink: #121212;
+  --lt-card: #fff8ea;
+  --lt-outline: #222;
+  --lt-shadow: rgba(0,0,0,.35);
+  --lt-chip: #28a745;
+}
+
+/* Layout */
+.lt-wrap{
+  position: relative;
+  min-height: 100vh;
+  width: 100vw;
+  padding: 196px 14px 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--lt-ink);
+  background: radial-gradient(circle at 50% 50%, #000 0%, #000 100%); /* fallback */
+}
+
+/* Concentric “Looney Tunes” rings */
+.lt-rings{
+  position: absolute;
+  inset: -20vmax;
+  background:
+    radial-gradient(circle at 50% 50%,
+      var(--lt-orange) 0 12%,
+      var(--lt-red) 12% 24%,
+      var(--lt-orange) 24% 36%,
+      var(--lt-red) 36% 48%,
+      var(--lt-orange) 48% 60%,
+      var(--lt-darkred) 60% 72%,
+      #000 72% 100%);
+  filter: saturate(1.1);
+  transform: scale(1.05);
+  animation: ltPulse 6s ease-in-out infinite alternate;
+  z-index: 0;
+}
+@keyframes ltPulse{
+  0% { transform: scale(1.03); filter: saturate(1.05) brightness(1); }
+  100%{ transform: scale(1.12); filter: saturate(1.2) brightness(1.05); }
+}
+
+/* Header */
+.lt-head{
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  transform: translateY(8px) scale(.98);
+  text-align: center;
+}
+.lt-head--in{ animation: ltTitle .35s cubic-bezier(.22,1,.36,1) forwards; }
+@keyframes ltTitle{ to{ opacity:1; transform: translateY(0) scale(1);} }
+
+.lt-day{
+  margin: 0 0 10px;
+  font-family: "Luckiest Guy", system-ui, sans-serif;
+  font-size: 12vw;                 /* bold but mobile-first */
+  line-height: .9;
+  letter-spacing: .02em;
+  color: var(--lt-cream);
+  text-shadow:
+    0 2px 0 #000,
+    0 0 18px rgba(255, 153, 0, .65);
+  -webkit-text-stroke: 2px #000;   /* cartoon stroke */
+}
+
+/* List */
+.lt-list{
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Cards */
+.lt-card{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(180deg, #fffdf6, var(--lt-card));
+  border: 3px solid var(--lt-outline);
+  border-radius: 16px;
+  padding: 12px 14px;
+  box-shadow:
+    0 12px 0 #0003,
+    0 6px 24px var(--lt-shadow);
+  transform: translateY(14px) scale(.96);
+  opacity: 0;
+}
+
+/* Squash & pop entrance */
+.lt-in{ animation: ltRow .32s cubic-bezier(.2, .9, .2, 1.2) forwards; }
+@keyframes ltRow{
+  0%{ opacity:0; transform: translateY(16px) scale(.9) }
+  60%{ opacity:1; transform: translateY(-2px) scale(1.03) }
+  100%{ opacity:1; transform: translateY(0) scale(1) }
+}
+
+/* Left cluster */
+.lt-left{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.lt-name{
+  font-family: "Montserrat", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #111;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Target-style bullet */
+.lt-bullseye{
+  width: 14px; height: 14px; border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 50%, #fff 0 20%, var(--lt-red) 20% 45%, #fff 45% 65%, var(--lt-red) 65% 100%);
+  box-shadow: 0 0 0 2px #000 inset, 0 0 8px rgba(0,0,0,.25);
+  flex: 0 0 auto;
+  transform: scale(1);
+  animation: ltPulseDot 1.6s ease-in-out infinite;
+}
+@keyframes ltPulseDot{
+  0%,100%{ transform: scale(1); }
+  50%{ transform: scale(1.1); }
+}
+
+/* Replacement styling */
+.lt-swap{ display:inline-flex; align-items:center; gap:.45rem; }
+.lt-old{ text-decoration: line-through; opacity:.65; }
+.lt-arrow{ opacity:.8; }
+.lt-new{ color:#111; }
+
+/* MAPLE chip */
+.lt-chip{
+  margin-left: 6px;
+  font-family: "Montserrat", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: .7rem;
+  color: #fff;
+  background: linear-gradient(180deg, #1e7c33, var(--lt-chip));
+  border: 2px solid #0c4a1a;
+  border-radius: 999px;
+  padding: 2px 8px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  box-shadow: 0 3px 0 #0c4a1a, 0 0 10px rgba(30,124,51,.35);
+  white-space: nowrap;
+}
+
+/* Time */
+.lt-time{
+  font-family: "Montserrat", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: .98rem;
+  color: #000;
+  background: var(--lt-gold);
+  border: 2px solid var(--lt-outline);
+  border-radius: 999px;
+  padding: 4px 10px;
+  box-shadow: 0 3px 0 #0003;
+  white-space: nowrap;
+}
+
+/* Tight mobile adjustments */
+@media (max-width: 420px){
+  .lt-day{ font-size: 13vw; -webkit-text-stroke: 1.5px #000; }
+  .lt-card{ padding: 30px 12px; border-radius: 14px; }
+  .lt-name{ font-size: .96rem; }
+  .lt-time{ font-size: .92rem; padding: 3px 9px; }
+  .lt-chip{ font-size: .62rem; padding: 2px 6px; }
+}
