@@ -18,10 +18,11 @@ import PandaSchedule from "./Used/PandaSchedule"
 import FriendsSchedule from "./Components/FriendsSchedule";
  import NikeSchedule from "./Components/NikeSchedule";
 import LooneyTunesSchedule from "./Components/LooneyTunesSchedule";
+import ESPNSchedule from "./Used/EspnSchedule";
 function App() {
   return (
     <>
-  < LooneyTunesSchedule day={"Saturday"}/>
+  < ESPNSchedule day={"Saturday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
