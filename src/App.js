@@ -19,10 +19,11 @@ import FriendsSchedule from "./Components/FriendsSchedule";
  import NikeSchedule from "./Components/NikeSchedule";
 import LooneyTunesSchedule from "./Components/LooneyTunesSchedule";
 import ESPNSchedule from "./Used/EspnSchedule";
+import ChiefKeefSchedule from "./Components/ChiefKeefSchedule";
 function App() {
   return (
     <>
-  < ESPNSchedule day={"Saturday"}/>
+  < ChiefKeefSchedule day={"Sunday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
