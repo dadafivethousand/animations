@@ -1,124 +1,155 @@
-/* ZenSchedule.css — muted, minimalist, legible */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;700&family=Noto+Serif:ital,wght@0,600;1,600&display=swap');
+/* ZenSchedule.css — BRIGHTER, no big dark circles, glassy cards */
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@700&family=Nunito:wght@800&display=swap');
 
 :root{
-  --zen-bg: #f6f4ef;        /* warm light background */
-  --zen-ink: #1f2321;       /* high-contrast text */
-  --zen-sub: #4a544f;       /* secondary text */
-  --zen-card: #ffffff;      /* card surface */
-  --zen-line: #e7e2d8;      /* subtle borders */
-  --zen-accent: #6f8f7a;    /* calm sage */
-  --zen-chip: #eef5f0;      /* time chip bg */
-  --shadow: 0 10px 26px rgba(0,0,0,.06);
+  --bg1:#08142b;           /* deep but not black */
+  --bg2:#0a1b3f;
+  --nebula-cyan:#9fe3ff;
+  --nebula-mint:#9ff6d8;
+  --nebula-violet:#c8b6ff;
+
+  --panel: rgba(23,39,76,.55);   /* translucent panels */
+  --panel-border: rgba(255,255,255,.28);
+
+  --text-strong:#f3f8ff;
+  --text-soft:#cfe3ff;
+
+  --pill:#103055;
+  --accent:#93ffd7;
+  --glow:#cbe9ff;
 }
 
-* { box-sizing: border-box; }
+/* container */
+.zen2-wrap{
+  position:relative; min-height:100vh; width:100vw; overflow:hidden;
+  padding:56px 14px 18px; isolation:isolate;
+  display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
+  background: radial-gradient(120% 70% at 50% 0%, #122861 0%, #07112a 65%);
+}
 
-.zen-wrap{
-  min-height: 100vh;
-  width: 100%;
-  padding: 56px 18px 44px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: var(--zen-ink);
+/* brighter variant */
+.zen2-bright{ background:
+  radial-gradient(140% 80% at 50% -10%, #1a3f8f 0%, #0a1c3f 45%, #061023 85%)
+}
+
+/* starry colourful sky */
+.zen2-sky{
+  position:absolute; inset:0; z-index:0;
   background:
-    radial-gradient(800px 520px at 15% -5%, rgba(111,143,122,.12), transparent 60%),
-    radial-gradient(900px 600px at 110% 120%, rgba(120,98,76,.10), transparent 60%),
-    var(--zen-bg);
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    radial-gradient(900px 420px at 15% 15%, rgba(159,227,255,.35), transparent 60%),
+    radial-gradient(700px 380px at 82% 10%, rgba(200,182,255,.30), transparent 60%),
+    radial-gradient(800px 520px at 60% 70%, rgba(159,246,216,.25), transparent 65%),
+    linear-gradient(180deg, var(--bg1), var(--bg2));
+  filter: saturate(1.15);
+}
+.zen2-sky::before,
+.zen2-sky::after{
+  content:""; position:absolute; inset:0; opacity:.9;
+  background-image:
+    radial-gradient(1px 1px at 12% 14%, #fff, transparent),
+    radial-gradient(1px 1px at 22% 32%, #fff, transparent),
+    radial-gradient(1px 1px at 36% 22%, #fff, transparent),
+    radial-gradient(1px 1px at 48% 16%, #fff, transparent),
+    radial-gradient(1px 1px at 66% 20%, #fff, transparent),
+    radial-gradient(1px 1px at 78% 32%, #fff, transparent),
+    radial-gradient(1px 1px at 86% 14%, #fff, transparent),
+    radial-gradient(1px 1px at 28% 74%, #fff, transparent),
+    radial-gradient(1px 1px at 54% 88%, #fff, transparent),
+    radial-gradient(1px 1px at 84% 72%, #fff, transparent);
+}
+.zen2-sky::after{ filter:blur(.6px) brightness(1.2) }
+
+/* gentle ground grid */
+.zen2-grid{
+  position:absolute; inset:auto 0 0 0; height:42%; z-index:0;
+  background:
+    linear-gradient(180deg, rgba(159,227,255,.18), transparent 70%),
+    repeating-linear-gradient(#204c8a66, #204c8a66 2px, transparent 3px, transparent 22px),
+    repeating-linear-gradient(90deg, #204c8a66, #204c8a66 2px, transparent 3px, transparent 22px);
+  opacity:.45;
 }
 
-.zen-day{
-  font-family: "Noto Serif", serif;
-  font-size: clamp(28px, 7vw, 56px);
-  font-weight: 600;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  margin: 6px 0 24px;
-  color: var(--zen-ink);
+/* luminous aura rings (replaces dark silhouette) */
+.zen2-aura{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; z-index:0; pointer-events:none }
+.ring{
+  position:absolute; border-radius:50%;
+  box-shadow: 0 0 60px 20px rgba(203,233,255,.35) inset, 0 0 80px rgba(147,255,215,.28);
+  border: 1px solid rgba(203,233,255,.55);
+  animation: breathe 8s ease-in-out infinite;
+}
+.r1{ width:62vmin; height:62vmin; }
+.r2{ width:78vmin; height:78vmin; animation-delay: -2s; }
+.r3{ width:94vmin; height:94vmin; animation-delay: -4s; opacity:.6 }
+@keyframes breathe{ 0%,100%{ transform:scale(1)} 50%{ transform:scale(1.06)} }
+
+/* header */
+.zen2-head{ width:100%; max-width:560px; text-align:center; z-index:2; }
+.zen2-day{
+  margin:0;
+  font-family:"Kalam", system-ui, sans-serif;
+  font-weight:700;
+  font-size: 12vw; letter-spacing:.06em;
+  color: var(--text-strong);
+  text-shadow:
+    0 2px 0 #051327,
+    0 0 22px var(--glow),
+    0 0 44px rgba(147,255,215,.5);
 }
 
-.zen-list{
-  width: min(820px, 100%);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+/* list */
+.zen2-list{ width:100%; max-width:560px; z-index:2; display:flex; flex-direction:column; gap:10px; margin-top:14px }
+
+/* cards — brighter glass */
+.zen2-card{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:12px 14px; border-radius:14px;
+  background: var(--panel);
+  backdrop-filter: blur(6px);
+  border:1px solid var(--panel-border);
+  box-shadow: 0 10px 28px rgba(10,20,40,.55), inset 0 1px 0 rgba(255,255,255,.18);
+  transform: translateY(14px); opacity:0;
+}
+.zen2-in{ animation: rowIn .28s ease-out forwards }
+@keyframes rowIn{ to{ transform:translateY(0); opacity:1 } }
+
+.zen2-left{ display:flex; align-items:center; gap:10px; min-width:0 }
+.zen2-dot{
+  width:12px; height:12px; border-radius:50%;
+  background: radial-gradient(circle at 32% 32%, #afffe5, #67ffd0 60%, #39f0ff 100%);
+  box-shadow: 0 0 18px rgba(147,255,215,.95), 0 0 28px rgba(203,233,255,.7);
+}
+.zen2-name{
+  font-family:"Nunito", system-ui, sans-serif; font-weight:800;
+  color:var(--text-strong); font-size:1rem;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.zen2-swap{ display:inline-flex; align-items:center; gap:.5rem }
+.zen2-old{ opacity:.55; text-decoration:line-through }
+.zen2-arrow{ color:#bfe8ff }
+.zen2-new{ color:#ffffff }
+
+.zen2-chip{
+  margin-left:8px; font-family:"Nunito", system-ui, sans-serif; font-weight:800;
+  font-size:.74rem; letter-spacing:.05em; color:#053;
+  background: linear-gradient(90deg, #b0ffe7, #e3fff6);
+  border-radius:999px; padding:4px 8px;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.35), 0 10px 20px rgba(0,0,0,.35);
+  white-space:nowrap;
 }
 
-.zen-card{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 16px;
-  border-radius: 14px;
-  background: var(--zen-card);
-  border: 1px solid var(--zen-line);
-  box-shadow: var(--shadow);
-  opacity: 0;
-  transform: translateY(10px);
+.zen2-time{
+  font-family:"Nunito", system-ui, sans-serif; font-weight:800;
+  font-size:.92rem; color:var(--text-soft);
+  background: linear-gradient(180deg, #0f3562, #12406f);
+  border:1px solid rgba(255,255,255,.28);
+  border-radius:999px; padding:6px 10px;
+  box-shadow: inset 0 -1px 0 rgba(255,255,255,.25), 0 0 18px rgba(191,232,255,.25);
+  white-space:nowrap;
 }
 
-.zen-in{ animation: zen-rise .35s ease-out forwards; }
-@keyframes zen-rise{ to { opacity: 1; transform: translateY(0); } }
-
-.zen-left{
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 0;
-  flex-wrap: wrap;
-}
-
-.zen-class{
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--zen-ink);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.zen-nameblock{ display: inline-flex; align-items: center; gap: 8px; }
-.zen-old{
-  color: #88837b;
-  text-decoration: line-through;
-  text-decoration-thickness: 2px;
-}
-.zen-new{ color: var(--zen-ink); }
-.zen-arrow{ color: var(--zen-sub); }
-
-/* Maple badge (kept inside the card, understated) */
-.zen-badge{
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 2px 10px;
-  font-size: 12px;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--zen-ink);
-  background: #f2f5f3;
-  border: 1px solid var(--zen-line);
-  border-radius: 999px;
-}
-.zen-pin{ color: var(--zen-accent); }
-
-.zen-time{
-  font-variant-numeric: tabular-nums;
-  font-weight: 700;
-  color: var(--zen-sub);
-  background: var(--zen-chip);
-  border: 1px solid var(--zen-line);
-  border-radius: 10px;
-  padding: 6px 10px;
-}
-
-/* Small screens */
-@media (max-width: 520px){
-  .zen-card{ padding: 12px 12px; }
-  .zen-class{ font-size: 1rem; }
-  .zen-time{ font-size: .95rem; }
-  .zen-badge{ font-size: 11px; padding: 2px 8px; }
+/* phones */
+@media (max-width:420px){
+  .zen2-day{ font-size: 14vw }
+  .zen2-card{ padding:10px 12px }
+  .zen2-time{ font-size:.85rem; padding:5px 9px }
 }
