@@ -21,7 +21,7 @@ import ZenSchedule from "./Components/ZenSchedule";
 function App() {
   return (
     <>
-  < ZenSchedule day={"Monday"}/>
+  < ZenSchedule day={"Tuesday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

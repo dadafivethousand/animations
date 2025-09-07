@@ -5,7 +5,7 @@ import schedule from "../Schedule";
 
 export default function ZenSchedule({
   day,
-  animationDelay = 900,
+  animationDelay = 1900,
   animationInterval = 180,
   typeSpeed = 80,
 }) {
