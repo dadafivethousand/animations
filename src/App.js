@@ -1,10 +1,5 @@
 import React from "react";
 import "./Stylesheets/App.css"
- 
- 
-
- 
- 
 import LegoSchedule from "./Components/LegoSchedule";
 import TTCSchedule from "./Components/TTCSchedule";
 import GOSchedule from "./Components/GOSchedule";
@@ -20,10 +15,12 @@ import FriendsSchedule from "./Components/FriendsSchedule";
 import LooneyTunesSchedule from "./Components/LooneyTunesSchedule";
 import ESPNSchedule from "./Used/EspnSchedule";
 import ChiefKeefSchedule from "./Components/ChiefKeefSchedule";
+import BugattiSchedule from "./Components/BugattiSchedule";
+import JohnCenaSchedule from "./Components/JohnCenaSchedule";
 function App() {
   return (
     <>
-  < ChiefKeefSchedule day={"Sunday"}/>
+  < BugattiSchedule day={"Monday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

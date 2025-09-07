@@ -1,0 +1,90 @@
+/* JohnCenaSchedule.css — TWO COLORS ONLY:
+   --bg  : #0b0f14 (deep navy/black)
+   --ac  : #00E5FF (electric cyan)
+   All other tints use opacity of --ac. */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@700;800&display=swap');
+
+:root{
+  --bg:#0b0f14;
+  --ac:#00E5FF;
+}
+
+*{ box-sizing:border-box; }
+html,body{ background:var(--bg); }
+
+.jc2t-wrap{
+  min-height:100vh; width:100vw;
+  padding:54px 14px 22px;
+  background:
+    radial-gradient(70% 30% at 50% -10%, color-mix(in srgb, var(--ac) 18%, transparent), transparent 60%),
+    var(--bg);
+  color:var(--ac);
+  display:flex; flex-direction:column; align-items:center;
+  overflow-x:hidden;
+}
+
+/* Header */
+.jc2t-head{ width:100%; max-width:640px; padding-bottom:8px; border-bottom:2px solid color-mix(in srgb, var(--ac) 40%, transparent); }
+.jc2t-stripe{ height:10px; border-radius:999px; background:var(--ac); filter: drop-shadow(0 0 10px color-mix(in srgb, var(--ac) 50%, transparent)); margin-bottom:8px; }
+.jc2t-day{
+  margin:0; font-family:"Bebas Neue", system-ui, sans-serif;
+  font-size:12vw; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--ac);
+}
+
+/* List */
+.jc2t-list{ width:100%; max-width:640px; display:flex; flex-direction:column; gap:10px; margin-top:12px; }
+
+/* Card */
+.jc2t-card{
+  position:relative;
+  display:flex; justify-content:space-between; align-items:center;
+  background: color-mix(in srgb, var(--bg) 80%, var(--ac) 0%);
+  border:1px solid color-mix(in srgb, var(--ac) 18%, transparent);
+  border-left:6px solid var(--ac);
+  border-radius:14px;
+  padding:12px 14px;
+  transform:translateY(14px); opacity:0;
+  box-shadow:0 0 0 0 color-mix(in srgb, var(--ac) 0%, transparent);
+}
+.jc2t-in{ animation: rowIn .26s cubic-bezier(.2,.65,.25,1) forwards; }
+@keyframes rowIn{ to{ transform:translateY(0); opacity:1; } }
+
+.jc2t-left{ display:flex; align-items:center; gap:10px; min-width:0; }
+.jc2t-dot{ width:16px; height:16px; border-radius:50%; background:var(--ac); box-shadow:0 0 8px color-mix(in srgb, var(--ac) 50%, transparent); }
+
+.jc2t-name{
+  font-family:"Inter", system-ui, sans-serif;
+  font-weight:800; letter-spacing:.01em; color:var(--ac);
+  font-size:1rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+
+/* Replacement (same two colors via opacity) */
+.jc2t-swap{ display:inline-flex; align-items:center; gap:.5rem; }
+.jc2t-old{ text-decoration:line-through; opacity:.55; }
+.jc2t-arrow{ opacity:.9; }
+.jc2t-new{}
+
+/* Maple chip */
+.jc2t-chip{
+  margin-left:8px; font-family:"Inter", system-ui, sans-serif; font-weight:800;
+  font-size:.66rem; letter-spacing:.08em; padding:3px 8px; border-radius:999px;
+  color:var(--ac); border:1px solid var(--ac); background: color-mix(in srgb, var(--ac) 12%, transparent);
+  white-space:nowrap;
+}
+
+/* Time */
+.jc2t-time{
+  font-family:"Inter", system-ui, sans-serif; font-weight:800; font-size:.94rem;
+  color:var(--ac); border:1px solid var(--ac); border-radius:999px; padding:5px 10px;
+  background: transparent;
+}
+
+/* Small phones */
+@media (max-width:420px){
+  .jc2t-day{ font-size:14vw; }
+  .jc2t-card{ padding:10px 12px; border-radius:12px; }
+  .jc2t-name{ font-size:.95rem; }
+  .jc2t-time{ font-size:.9rem; padding:4px 9px; }
+  .jc2t-chip{ font-size:.6rem; padding:2px 6px; }
+}
