@@ -1,6 +1,7 @@
+// BingoSchedule.jsx — now shows a MAPLE badge when cls.maple === true
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/BingoSchedule.css";
-import schedule from "../Schedule";
+import "./BingoSchedule.css";
+import schedule from "../RhSchedule";
 
 function BingoSchedule({ day, delay = 1600 }) {
   const [visibleClasses, setVisibleClasses] = useState([]);
@@ -46,7 +47,10 @@ function BingoSchedule({ day, delay = 1600 }) {
         {(schedule[day] || []).map((cls, idx) =>
           visibleClasses.includes(idx) ? (
             <div className="bingo-class" key={idx}>
-              <span className="bingo-name">{cls.name}</span>
+              <div className="bingo-left">
+                <span className="bingo-name">{cls.name}</span>
+                {cls.maple && <span className="bingo-chip">📍 Maple</span>}
+              </div>
               <span className="bingo-time">{formatTime(cls.start)}</span>
             </div>
           ) : null

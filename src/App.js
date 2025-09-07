@@ -18,10 +18,11 @@ import ChiefKeefSchedule from "./Components/ChiefKeefSchedule";
 import BugattiSchedule from "./Components/BugattiSchedule";
 import JohnCenaSchedule from "./Components/JohnCenaSchedule";
 import ZenSchedule from "./Components/ZenSchedule";
+import BingoSchedule from "./Used/BingoSchedule";
 function App() {
   return (
     <>
-  < ZenSchedule day={"Tuesday"}/>
+  < BingoSchedule day={"Monday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
