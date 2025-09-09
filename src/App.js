@@ -11,7 +11,7 @@ import WuTangSchedule from "./Used/WuTangSchedule";
 import Tekashi6ix9ineSchedule from "./Used/Tekashi6ix9ineSchedule";
 import PandaSchedule from "./Used/PandaSchedule"
 import FriendsSchedule from "./Components/FriendsSchedule";
- import NikeSchedule from "./Components/NikeSchedule";
+import NikeSchedule from "./Components/NikeSchedule";
 import LooneyTunesSchedule from "./Components/LooneyTunesSchedule";
 import ESPNSchedule from "./Used/EspnSchedule";
 import ChiefKeefSchedule from "./Components/ChiefKeefSchedule";
@@ -22,7 +22,7 @@ import BingoSchedule from "./Used/BingoSchedule";
 function App() {
   return (
     <>
-  < BingoSchedule day={"Monday"}/>
+  < ZenSchedule day={"Tuesday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
