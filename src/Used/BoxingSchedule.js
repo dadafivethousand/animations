@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/BoxingSchedule.css";
+import "./BoxingSchedule.css";
 import schedule from "../Schedule";
 
 function BoxingSchedule({ day }) {

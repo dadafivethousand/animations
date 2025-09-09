@@ -15,17 +15,16 @@
   flex-direction: column;
   align-items: center;
   background: #1a1b1e;
-   background-size: cover;
+  background-size: cover;
   background-position: center;
   color: #f0f0f0;
   overflow-y: auto;
   background-image: url(https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExMWJpdjJmdm05Y2tsNTlnbnphOGs3M3V2bDR3eG5yMzlzOGl3Ynd1OCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/cL06FZoWxGCZsIW23v/giphy.gif);
-background-size: contain;
-background-repeat: no-repeat;
-background-position: bottom;
- }
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom;
+}
 
-/* Title */
 .danaher-day {
   font-size: 40px;
   color: white;
@@ -36,7 +35,6 @@ background-position: bottom;
   margin-bottom: 15px;
 }
 
-/* Schedule Box */
 .danaher-schedule {
   width: 92%;
   max-width: 440px;
@@ -45,11 +43,10 @@ background-position: bottom;
   gap: 1px;
 }
 
-/* Class Item */
 .danaher-class {
   background: rgba(0, 0, 0, 0.65);
   border-left: 6px solid #e10600;
-  padding: 7px 22px;
+  padding: 17px 22px;
   border-radius: 6px;
   display: flex;
   justify-content: space-between;
@@ -64,25 +61,42 @@ background-position: bottom;
   transform: scale(1.02);
 }
 
+.danaher-left{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width: 0;
+}
+
 .danaher-name {
   font-size: 20px;
   font-weight: bold;
   color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* MAPLE badge */
+.danaher-chip{
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid #e10600;
+  color: #e10600;
+  background: rgba(225, 6, 0, 0.1);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .danaher-time {
   font-size: 20px;
   color: #e10600;
+  font-variant-numeric: tabular-nums;
 }
 
-/* Animation */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(15px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

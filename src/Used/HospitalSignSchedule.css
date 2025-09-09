@@ -1,47 +1,93 @@
-.hospital-signs-container {
-  background-color: black;
-  padding: 24px;
-  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
-  width: 130px;
-  border: 2px solid #444;
-  
-}
+/* HospitalSignSchedule.css — hospital wayfinding vibe, mobile-first */
 
 .hospital-signs-outer-container {
-  background-image: url(../Images/Doctor.jpg);
-  background-position: center;
-  background-repeat: no-repeat;
   height: 100vh;
-  background-size: contain;
+  width: 100vw;
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.65), rgba(0,0,0,.25)),
+    url(../Images/Used/Doctor.jpg) center/cover no-repeat;
+  padding-left: 16px;
+  box-sizing: border-box;
 }
 
-/* Hospital Sign Item */
+.hospital-signs-container {
+  width: 290px;                 /* fits phone screens */
+  background-color: #000;       /* hospital sign panel */
+  border: 2px solid #3e3e3e;
+  box-shadow: 0 8px 24px rgba(0,0,0,.5);
+  padding: 14px 16px;
+  border-radius: 8px;
+}
+
+/* Each row/sign */
 .hospital-sign {
   width: 100%;
   display: flex;
   align-items: center;
-  border-bottom: 2px solid #444;
-  padding: 8px 0;
-  font-size: 0.7rem;
-  color: white;
-  font-weight: bold;
+  justify-content: space-between;
+  gap: 8px;
+  border-bottom: 2px solid #2b2b2b;
+  padding: 10px 0;
+  color: #fff;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: .06em;
+  font-size: .9rem;
   opacity: 0;
-  transform: translateY(-20px);
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  transform: translateY(-10px);
+  transition: opacity .45s ease-out, transform .45s ease-out;
 }
 
-/* When Item Becomes Visible */
 .hospital-sign.slide-in {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* Bigger Font for Headers */
 .big {
-  font-size: 1.3rem;
+  font-size: 1.25rem;
+  border-bottom-color: #3f8cff;
+}
+
+/* left cluster: arrow + name + badge */
+.hs-left{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width: 0;
+}
+
+.hs-arrow{
+  color:#3f8cff;                /* hospital blue */
+  font-size: 1rem;
+}
+
+.hs-name{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Maple badge (small, readable) */
+.hs-badge{
+  font-size: .62rem;
+  padding: 2px 6px;
+  border-radius: 999px;
+  border:1px solid #fff;
+  color:#fff;
+  background:#0b6efd;           /* blue badge */
+  letter-spacing: .08em;
+}
+
+/* time on the right */
+.hs-time{
+  color:#80ffb4;                 /* minty hospital green */
+  font-variant-numeric: tabular-nums;
+}
+
+/* Day label refinement */
+.hs-day{
+  letter-spacing: .12em;
 }

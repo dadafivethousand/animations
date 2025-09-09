@@ -1,17 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/HospitalSignSchedule.css";
+import "./HospitalSignSchedule.css";
+import schedule from "../RhSchedule";
 
-const schedule = [
-  { text: "MONDAY", header: true },
-  { text: "7:30 - BJJ NoGi" },
-  { text: "" },
-  { text: "12:30 - BJJ NoGi" },
-  { text: " " },
-  { text: "5:15 - MMA" },
-  { text: "6:15 - Wrestling" },
-  { text: "7:15 - BJJ NoGi" },
-];
-
+ 
 const HospitalSignsSchedule = () => {
   const [visibleItems, setVisibleItems] = useState([]);
 

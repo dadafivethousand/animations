@@ -1,6 +1,7 @@
+// DanaherSchedule.jsx — refactored to show MAPLE badge inside each class row
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/DanaherSchedule.css";
-import schedule from "../Schedule";
+import "./DanaherSchedule.css";
+import schedule from "../RhSchedule";
 
 function DanaherSchedule({ day, delay = 1400 }) {
   const [visibleClasses, setVisibleClasses] = useState([]);
@@ -41,12 +42,15 @@ function DanaherSchedule({ day, delay = 1400 }) {
 
   return (
     <div className="danaher-container">
-      <div className="danaher-day">{day}</div>
+      <div className="danaher-day">{displayDay}</div>
       <div className="danaher-schedule">
         {(schedule[day] || []).map((cls, idx) =>
           visibleClasses.includes(idx) ? (
             <div className="danaher-class" key={idx}>
-              <span className="danaher-name">{cls.name}</span>
+              <div className="danaher-left">
+                <span className="danaher-name">{cls.name}</span>
+                {cls.maple && <span className="danaher-chip">📍 MAPLE</span>}
+              </div>
               <span className="danaher-time">{formatTime(cls.start)}</span>
             </div>
           ) : null
