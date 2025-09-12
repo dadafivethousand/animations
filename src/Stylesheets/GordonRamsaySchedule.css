@@ -1,0 +1,153 @@
+/* GordonRamsaySchedule.css — Hell's Kitchen / pro kitchen aesthetic (mobile-first) */
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Inter:wght@600;700&display=swap');
+
+.gr-wrap, .gr-wrap * { box-sizing: border-box; }
+
+/* Canvas */
+.gr-wrap{
+  position: relative;
+  min-height: 100vh; width: 100vw; overflow-x: hidden;
+  padding: 84px 14px 24px;                /* mobile-first spacing */
+  background: #0f1113;                    /* back-of-house dark */
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+  color: #f2f4f6;
+  isolation: isolate;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+
+/* Stainless wall + light banding (no data-URIs to avoid parsing issues) */
+.gr-wall{
+  position:absolute; inset:0; z-index:0; pointer-events:none;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.04) 0 2px, transparent 2px 12px),
+    linear-gradient(180deg, #1a1d20, #0f1113 60%);
+  filter: saturate(1) contrast(1.02);
+}
+/* Heat vignette */
+.gr-heat{
+  position:absolute; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(60% 35% at 50% 0%, rgba(255,94,0,.14), transparent 60%),
+    radial-gradient(60% 35% at 50% 100%, rgba(255,30,0,.10), transparent 60%);
+}
+
+/* Header */
+.gr-head{ width:100%; max-width:720px; text-align:center; z-index:1; }
+.gr-day{
+  margin:0 0 6px;
+  font-family: "Oswald", system-ui, sans-serif;
+  font-weight:700;
+  font-size: clamp(28px, 10.5vw, 56px);
+  letter-spacing:.04em; line-height:.98;
+  color:#ffffff;
+  text-shadow: 0 1px 0 rgba(0,0,0,.4), 0 0 20px rgba(255,80,40,.18);
+  border-bottom: 4px solid #ff3b2f;
+  display:inline-block; padding-bottom:6px;
+
+}
+.gr-sub{
+  margin: 0 10px 12px;
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 600;
+  font-size: clamp(.9rem, 3.4vw, 1rem);
+  color:#cfd6db;
+  opacity:.9;
+}
+
+/* List */
+.gr-list{
+  width:100%; max-width:720px; z-index:1;
+  display:flex; flex-direction:column; gap:10px;
+  margin-top: 70px;
+}
+
+/* Cards — dark steel with red service rail */
+.gr-card{
+  position:relative; overflow:hidden;
+  display:flex; justify-content:space-between; align-items:center;
+  background: linear-gradient(180deg, #191c1f, #14171a);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 14px;
+  padding: 12px 14px;
+  color:#f2f4f6;
+  box-shadow: 0 10px 24px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06);
+}
+.gr-card::before{
+  content:""; position:absolute; left:0; top:0; bottom:0; width:8px;
+  background: linear-gradient(180deg, #ff5a3d, #e62b17 60%, #7c160c 100%);
+  box-shadow: 0 0 12px rgba(255,58,36,.35);
+}
+
+/* Left cluster */
+.gr-left{ display:flex; align-items:center; gap:10px; min-width:0; }
+
+/* Chef's knife bullet (CSS only) */
+.gr-knife{
+  position:relative; flex:0 0 auto;
+  width: 18px; height: 4px; border-radius: 2px;
+  background: linear-gradient(90deg, #cfd6db 0%, #9aa4ac 65%, #6c757d 100%); /* blade */
+  box-shadow: 0 0 0 1px rgba(0,0,0,.35) inset;
+}
+.gr-knife::after{
+  content:""; position:absolute; right:-4px; top:-1px;
+  width: 6px; height: 6px; border-radius: 2px;
+  background: linear-gradient(180deg, #2b2f33, #15181b); /* handle */
+  box-shadow: 0 0 0 1px rgba(0,0,0,.45) inset;
+}
+
+/* Text */
+.gr-name{
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(1rem, 4.2vw, 1.08rem);
+  letter-spacing:.01em;
+  color:#ffffff;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+
+/* Replacement styling */
+.gr-swap{ display:inline-flex; align-items:center; gap:.45rem }
+.gr-old{ opacity:.7; text-decoration: line-through; }
+.gr-arrow{ opacity:.85; }
+.gr-new{ color:#fff; }
+
+/* MAPLE chip — green ticket label */
+.gr-chip{
+  margin-left:8px; white-space:nowrap;
+  font-family:"Inter", system-ui, sans-serif; font-weight:700;
+  font-size: clamp(.7rem, 2.8vw, .76rem);
+  letter-spacing:.08em; text-transform:uppercase; color:#062b14;
+  background: linear-gradient(180deg, #51f1a2, #1fd67b);
+  border:1px solid #0f7d45; border-radius:999px; padding:3px 8px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.4), 0 2px 0 rgba(0,0,0,.25);
+}
+
+/* Time — equal widths; bold ticket stamp */
+.gr-time{
+  --gr-time-w: 104px;                         /* fits small phones; bump to 112 on wider */
+  display:inline-block; width: var(--gr-time-w); text-align:center;
+  font-family:"Oswald", system-ui, sans-serif; font-weight:700;
+  font-variant-numeric: tabular-nums; font-feature-settings:"tnum" 1;
+  font-size: clamp(.92rem, 3.8vw, 1rem); line-height:1;
+  color:#0f1113; background:#f5f7f8;
+  border: 2px solid #ff3b2f; border-radius:999px;
+  padding:6px 8px; white-space:nowrap;
+  box-shadow: 0 0 0 3px rgba(255,59,47,.22);
+}
+
+/* Footer note */
+.gr-note{
+  margin-top:10px; max-width:720px; width:100%;
+  font-family:"Inter", system-ui, sans-serif; font-weight:600;
+  font-size: clamp(.82rem, 3.4vw, .9rem);
+  color:#cfd6db; text-align:right;
+  opacity:.85;
+}
+
+/* Phone refinements */
+@media (max-width:420px){
+  .gr-wrap{ padding: 74px 12px 18px; }
+  .gr-card{ padding: 11px 12px; border-radius:12px; }
+  .gr-left{ gap: 9px; }
+  .gr-knife{ width:16px; height:4px; }
+}
