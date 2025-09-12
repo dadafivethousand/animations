@@ -1,0 +1,161 @@
+/* PaintItBlack.css — advanced "pouring paint" blackout with gooey drips + glossy sheen */
+/* No :root. Mobile-first. */
+
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@800;900&family=Inter:wght@700;800&display=swap');
+
+/* Scope reset */
+.pib-wrap, .pib-wrap * { box-sizing: border-box; }
+
+/* Canvas */
+.pib-wrap{
+  position: relative;
+  min-height: 100vh; width: 100vw; overflow: hidden;
+  padding: 92px 14px 26px; /* mobile-first */
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+  color: #0a0a0a; /* pre-paint: dark-on-light */
+  background: #f6f7f9;
+  isolation: isolate;
+}
+
+/* Pre-paint background (subtle paper + grain) */
+.pib-bg{ position:absolute; inset:0; z-index:0;
+  background:
+    radial-gradient(120% 70% at 50% -10%, #ffffff 0%, #f3f5f6 50%, #eceff1 100%);
+  filter: saturate(1.02);
+}
+.pib-bg::after{
+  content:""; position:absolute; inset:0; opacity:.35; mix-blend-mode:multiply;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160"><filter id="n"><feTurbulence baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/></filter><rect width="160" height="160" filter="url(%23n)" opacity="0.12"/></svg>');
+}
+
+/* Header */
+.pib-head{ width:100%; max-width:620px; text-align:center; opacity:0; transform: translateY(8px); z-index:2; }
+.pib-head--in{ animation: pibTitle .36s cubic-bezier(.22,1,.36,1) forwards; }
+@keyframes pibTitle{ to{ opacity:1; transform: translateY(0);} }
+
+.pib-day{
+  margin: 0 0 10px;
+  font-family: "Archivo", system-ui, sans-serif; font-weight: 900;
+  font-size: clamp(28px, 11.5vw, 56px); letter-spacing: .01em; line-height:.92;
+  color: #111;
+}
+
+/* List */
+.pib-list{ width:100%; max-width:620px; display:flex; flex-direction:column; gap:10px; z-index:2; }
+
+/* Cards (light mode before paint) */
+.pib-card{
+  display:flex; justify-content:space-between; align-items:center;
+  background: #ffffff; border: 1px solid #e3e7ec; border-radius: 16px;
+  padding: 12px 14px; box-shadow: 0 10px 24px rgba(0,0,0,.08);
+  transform: translateY(14px); opacity:0; position: relative; overflow: hidden;
+}
+.pib-in{ animation: pibRow .3s cubic-bezier(.2,.9,.2,1.2) forwards; }
+@keyframes pibRow{ to{ transform: translateY(0); opacity:1; } }
+
+.pib-left{ display:flex; align-items:center; gap:12px; min-width:0; }
+.pib-name{
+  font-family:"Inter", system-ui, sans-serif; font-weight:800;
+  font-size:1.02rem; color:#0b0b0b; letter-spacing:.005em;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.pib-dot{ width:12px; height:12px; border-radius:50%; background:#111; box-shadow:0 0 0 2px rgba(0,0,0,.12); }
+
+.pib-swap{ display:inline-flex; align-items:center; gap:.45rem }
+.pib-old{ color:#6b7280; text-decoration:line-through }
+.pib-arrow{ opacity:.7 }
+.pib-new{ color:#111 }
+
+.pib-chip{
+  margin-left:8px; white-space:nowrap;
+  font-family:"Inter", system-ui, sans-serif; font-weight:800; font-size:.7rem; letter-spacing:.06em;
+  color:#111; background:#f3f4f6; border:1px solid #d1d5db; border-radius:999px; padding:3px 10px; text-transform:uppercase;
+}
+
+/* Time (equal widths via var + tabular numbers) */
+.pib-time{
+  --time-w: 104px; display:inline-block; width:var(--time-w); text-align:center;
+  font-family:"Inter", system-ui, sans-serif; font-weight:800; font-variant-numeric: tabular-nums; font-feature-settings:"tnum" 1;
+  font-size:.98rem; color:#111; background:#f5f7f9; border:1px solid #dce3ea; border-radius:999px; padding:7px 10px; white-space:nowrap;
+}
+
+/* ===================== PAINT OVERLAY ===================== */
+/* Pour container — we animate this down to cover everything */
+.pib-pour{
+  position:absolute; left:0; right:0; top:-110%; height:210%; z-index:1;
+  transform: translateY(0);
+  /* create a glossy paint surface (under the drip edge) */
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,0) 24%),
+    #000;
+}
+
+/* Soft glossy highlight that tracks with the flow */
+.pib-sheen{
+  position:absolute; inset:0 0 70% 0;
+  background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,0) 60%);
+  mix-blend-mode: screen; opacity:.25;
+  filter: blur(2px);
+}
+
+/* Gooey drips edge made of layered radial-gradients + wiggle */
+.pib-drips{
+  position:absolute; left:0; right:0; top:0; height:22vh;
+  background:
+    radial-gradient(22px 22px at 6% 40%, #000 99%, transparent 100%),
+    radial-gradient(28px 28px at 16% 55%, #000 99%, transparent 100%),
+    radial-gradient(24px 24px at 28% 42%, #000 99%, transparent 100%),
+    radial-gradient(34px 34px at 40% 60%, #000 99%, transparent 100%),
+    radial-gradient(22px 22px at 52% 48%, #000 99%, transparent 100%),
+    radial-gradient(28px 28px at 64% 62%, #000 99%, transparent 100%),
+    radial-gradient(24px 24px at 76% 46%, #000 99%, transparent 100%),
+    radial-gradient(30px 30px at 88% 58%, #000 99%, transparent 100%),
+    linear-gradient(#000, #000);
+  filter: drop-shadow(0 10px 10px rgba(0,0,0,.5));
+  animation: dripWiggle 5s ease-in-out infinite;
+}
+@keyframes dripWiggle{
+  0%,100%{ transform: translateY(0) }
+  50%{ transform: translateY(3px) }
+}
+
+/* Turn on the pour */
+.pib-pour--on{ animation: pourDown 1.6s ease-in forwards; }
+@keyframes pourDown{
+  0%{ transform: translateY(0); }
+  100%{ transform: translateY(110%); } /* moves whole paint block down to cover */
+}
+
+/* ===================== AFTER PAINT (black theme) ===================== */
+.pib--painted{ color:#f5f5f5; background:#0a0a0a; }
+.pib--painted .pib-bg{ display:none; }
+.pib--painted .pib-day{ color:#ffffff; text-shadow: 0 0 18px rgba(255,255,255,.06); }
+
+.pib--painted .pib-card{
+  background: linear-gradient(180deg, #0f0f0f, #0b0b0b);
+  border: 1px solid #1c1c1c;
+  box-shadow: 0 10px 28px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.04);
+}
+.pib--painted .pib-name{ color:#f7f7f7; }
+.pib--painted .pib-dot{ background:#fff; box-shadow:0 0 0 2px rgba(255,255,255,.09); }
+.pib--painted .pib-old{ color:#bfc3c7; }
+.pib--painted .pib-new{ color:#ffffff; }
+
+.pib--painted .pib-chip{
+  color:#0a0a0a; background:#fff; border-color:#e5e7eb;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.06) inset, 0 8px 16px rgba(0,0,0,.45);
+}
+
+.pib--painted .pib-time{
+  color:#0a0a0a; background:#ffffff; border-color:#e5e7eb;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset, 0 8px 16px rgba(0,0,0,.45);
+}
+
+/* Phones */
+@media (max-width:420px){
+  .pib-day{ font-size: clamp(26px, 13vw, 46px); }
+  .pib-card{ padding:12px 12px; border-radius:14px }
+  .pib-name{ font-size:.98rem }
+  .pib-time{ --time-w: 100px; font-size:.92rem; padding:6px 10px }
+}

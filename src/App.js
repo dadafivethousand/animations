@@ -22,10 +22,12 @@ import BingoSchedule from "./Used/BingoSchedule";
 import HospitalSignsSchedule from "./Used/HospitalSignSchedule";
 import BoxingSchedule from "./Used/BoxingSchedule";
 import DanaherSchedule from "./Used/DanaherSchedule"
+import PaintItBlack from "./Components/PaintItBlack";
+import SpaceSchedule from "./Used/SpaceSchedule"
 function App() {
   return (
     <>
-  <DanaherSchedule day={"Tuesday"}/>
+  <SpaceSchedule day={"Friday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
