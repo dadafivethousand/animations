@@ -211,7 +211,7 @@
 
 /* Phones */
 @media (max-width:420px){
-  .jc-wrap{ padding: 175px 12px 18px; }
+  .jc-wrap{ padding: 195px 12px 18px; }
   .jc-card{ padding: 31px 12px; border-radius:14px; }
   .jc-left{ gap: 10px; }
   .jc-time{ --jc-time-w: 104px; }
