@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/CadillacSchedule.css";
+import "./CadillacSchedule.css";
 import schedule from "../Schedule";
 
 export default function CadillacSchedule({ day, animationDelay = 1200, animationInterval = 300 }) {

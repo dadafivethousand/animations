@@ -9,7 +9,7 @@
 .cadillac-container {
   background: var(--cadillac-cream);
   min-height: 100vh;
-  padding: 48px 20px;
+  padding: 98px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,7 +21,7 @@
   color: var(--cadillac-red);
   letter-spacing: 3px;
   text-shadow: 2px 2px 6px var(--shadow-dark);
-  margin-bottom: 40px;
+  margin-bottom: 140px;
 }
 
 .cadillac-track {
