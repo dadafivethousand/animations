@@ -1,28 +1,11 @@
-// JohnCenaSchedule.jsx — two-tone (BG + Accent), mobile-first
-import React, { useEffect, useState } from "react";
+// JohnCenaSchedule.js — WWE / John Cena arena vibe (plain JS + CSS)
+// Mobile-first. Shows: Day + classes only. Equal-width time badges. MAPLE + replacement.
+import React from "react";
 import "../Stylesheets/JohnCenaSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../Schedule"; // adjust path if needed
 
-export default function JohnCenaSchedule({
-  day,
-  animationDelay = 800,
-  animationInterval = 140,
-}) {
-  const [visible, setVisible] = useState([]);
-
-  useEffect(() => {
-    const items = schedule[day] || [];
-    setVisible([]);
-    const timers = [];
-    items.forEach((_, i) => {
-      const t = setTimeout(
-        () => setVisible((v) => [...v, i]),
-        animationDelay + i * animationInterval
-      );
-      timers.push(t);
-    });
-    return () => timers.forEach(clearTimeout);
-  }, [day, animationDelay, animationInterval]);
+export default function JohnCenaSchedule({ day }) {
+  const items = schedule[day] || [];
 
   const formatTime = (t) => {
     const h = Math.floor(t);
@@ -33,39 +16,38 @@ export default function JohnCenaSchedule({
   };
 
   return (
-    <div className="jc2t-wrap">
-      <header className="jc2t-head">
-        <div className="jc2t-stripe" aria-hidden />
-        <h1 className="jc2t-day">{(day || "").toUpperCase()}</h1>
+    <div className="jc-wrap">
+      {/* background layers */}
+      <div className="jc-bg" aria-hidden />
+      <div className="jc-stars" aria-hidden />
+      <div className="jc-vignette" aria-hidden />
+
+      {/* ring ropes header */}
+      <header className="jc-head">
+ 
+        <h1 className="jc-day">{(day || "").toUpperCase()}</h1>
       </header>
 
-      <main className="jc2t-list">
-        {(schedule[day] || []).map((cls, i) =>
-          visible.includes(i) ? (
-            <div
-              className="jc2t-card jc2t-in"
-              key={i}
-              style={{ animationDelay: `${i * 60}ms` }}
-            >
-              <div className="jc2t-left">
-                <span className="jc2t-dot" aria-hidden />
-                <span className="jc2t-name">
-                  {cls.replacement ? (
-                    <span className="jc2t-swap">
-                      <span className="jc2t-old">{cls.name}</span>
-                      <span className="jc2t-arrow" aria-hidden>→</span>
-                      <span className="jc2t-new">{String(cls.replacement)}</span>
-                    </span>
-                  ) : (
-                    cls.name
-                  )}
-                </span>
-                {cls.maple && <span className="jc2t-chip">📍 MAPLE</span>}
-              </div>
-              <time className="jc2t-time">{formatTime(cls.start)}</time>
+      <main className="jc-list">
+        {items.map((cls, i) => (
+          <div className="jc-card" key={i}>
+            <div className="jc-left">
+               <span className="jc-name">
+                {cls.replacement ? (
+                  <span className="jc-swap">
+                    <span className="jc-old">{cls.name}</span>
+                    <span className="jc-arrow" aria-hidden>→</span>
+                    <span className="jc-new">{String(cls.replacement)}</span>
+                  </span>
+                ) : (
+                  cls.name
+                )}
+              </span>
+              {cls.maple && <span className="jc-chip">MAPLE</span>}
             </div>
-          ) : null
-        )}
+            <time className="jc-time">{formatTime(cls.start)}</time>
+          </div>
+        ))}
       </main>
     </div>
   );

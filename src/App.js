@@ -25,10 +25,11 @@ import DanaherSchedule from "./Used/DanaherSchedule"
 import PaintItBlack from "./Components/PaintItBlack";
 import SpaceSchedule from "./Used/SpaceSchedule"
 import GordonRamsaySchedule from "./Components/GordonRamsaySchedule";
+import HeavyMetalSchedule from "./Components/HeavyMetalSchedule";
 function App() {
   return (
     <>
-  <GordonRamsaySchedule day={"Friday"}/>
+  <JohnCenaSchedule day={"Saturday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

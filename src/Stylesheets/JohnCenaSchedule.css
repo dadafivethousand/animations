@@ -1,90 +1,218 @@
-/* JohnCenaSchedule.css — TWO COLORS ONLY:
-   --bg  : #0b0f14 (deep navy/black)
-   --ac  : #00E5FF (electric cyan)
-   All other tints use opacity of --ac. */
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@700;800&display=swap');
+/* JohnCenaSchedule.css — WWE / John Cena arena theme (MOBILE-FIRST) */
+/* Fonts: poster-bold + clean UI */
+@import url('https://fonts.googleapis.com/css2?family=Anton:wght@400&family=Inter:wght@700&display=swap');
 
+.jc-wrap, .jc-wrap * { box-sizing: border-box; }
+
+/* ================= Base Tokens ================= */
 :root{
-  --bg:#0b0f14;
-  --ac:#00E5FF;
+  /* Use your screenshot blue as base (adjust if you sampled a different hex) */
+  --cena-blue: #1398ff;            /* bright Cena blue (from your image) */
+  --cena-blue-deep: #0e79d9;
+  --cena-blue-light: #24a6ff;
+
+  --cena-gold: #f6c94d;
+  --cena-gold-deep: #c18c24;
+  --cena-gold-edge: #8a5a10;
+
+  --cena-orange: #ff7a00;          /* “Never Give Up” accent */
+  --cena-green: #18c36b;           /* lime/army accent */
+
+  --ink: #071018;
+  --paper: #f7fbff;
 }
 
-*{ box-sizing:border-box; }
-html,body{ background:var(--bg); }
+/* Safe, percent-encoded 5-point star mask for stripes and badges */
+/* Safe, percent-encoded 5-point star mask for stripes and badges */
+:root{
+  --jc-star-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='50,5 61,38 95,38 67,58 78,90 50,70 22,90 33,58 5,38 39,38' fill='%23000'/%3E%3C/svg%3E");
+  /* irregular tear for gold spine (keeps CSS parser happy) */
+  --jc-torn-mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 400%27 preserveAspectRatio=%27none%27%3E%3Cpath d=%27M0,0 C6,26 10,58 6,90 C2,126 12,162 6,198 C2,236 10,272 6,308 C2,346 12,380 10,400 L0,400 Z%27 fill=%27%23000%27/%3E%3C/svg%3E");
+}
 
-.jc2t-wrap{
-  min-height:100vh; width:100vw;
-  padding:54px 14px 22px;
+
+/* ================= Screen Canvas ================= */
+.jc-wrap{
+  position: relative;
+  min-height: 100vh; width: 100vw; overflow-x: hidden;
+  padding: 84px 14px 22px;                   /* mobile-first spacing */
+  background: var(--cena-blue);
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+  color: #ffffff;
+  isolation: isolate;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+
+/* Subtle angular light to give depth (no fragile data URIs) */
+.jc-bg{
+  position:absolute; inset:0; z-index:0; pointer-events:none;
   background:
-    radial-gradient(70% 30% at 50% -10%, color-mix(in srgb, var(--ac) 18%, transparent), transparent 60%),
-    var(--bg);
-  color:var(--ac);
-  display:flex; flex-direction:column; align-items:center;
-  overflow-x:hidden;
+    radial-gradient(80% 55% at 50% -10%, rgba(255,255,255,.22), transparent 60%),
+    linear-gradient(135deg, rgba(255,255,255,.18), transparent 40%),
+    linear-gradient(225deg, rgba(255,255,255,.12), transparent 45%),
+    linear-gradient(180deg, var(--cena-blue-light), var(--cena-blue) 45%, var(--cena-blue-deep));
+  filter: saturate(1.05) contrast(1.02);
+    background-image: url('https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExM2E5Zm9lYzV0dnRyZ2ZsYWtna29rdTk2aGh0ODR0ZmdwaDE3Njl3bCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/wSlEV7ztEQ0zZ3b9Cm/giphy.gif') ;
+  background-position: bottom;
+  background-repeat: no-repeat;
 }
 
-/* Header */
-.jc2t-head{ width:100%; max-width:640px; padding-bottom:8px; border-bottom:2px solid color-mix(in srgb, var(--ac) 40%, transparent); }
-.jc2t-stripe{ height:10px; border-radius:999px; background:var(--ac); filter: drop-shadow(0 0 10px color-mix(in srgb, var(--ac) 50%, transparent)); margin-bottom:8px; }
-.jc2t-day{
-  margin:0; font-family:"Bebas Neue", system-ui, sans-serif;
-  font-size:12vw; letter-spacing:.06em; text-transform:uppercase;
-  color:var(--ac);
+/* Star stripes faintly across the background */
+ 
+
+/* Corner/edge vignette for arena feel */
+.jc-vignette{
+  position:absolute; inset:0; z-index:0; pointer-events:none;
+  box-shadow: inset 0 0 140px 40px rgba(0,0,0,.35);
 }
 
-/* List */
-.jc2t-list{ width:100%; max-width:640px; display:flex; flex-direction:column; gap:10px; margin-top:12px; }
+/* ================= Header (Ring Ropes + Poster Title) ================= */
+.jc-head{ width:100%; max-width:780px; z-index:1; text-align:center; position:relative; }
 
-/* Card */
-.jc2t-card{
-  position:relative;
+.jc-ropes{
+  position:absolute; left:50%; transform:translateX(-50%);
+  top: -22px; width: 92%; max-width: 820px; height: 34px;
+  display:flex; flex-direction:column; gap:5px; align-items:stretch; justify-content:center;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,.25));
+}
+.rope{
+  display:block; height:8px; border-radius:8px;
+  background: linear-gradient(180deg, #ffffff, #e3e7ea 45%, #c0c9d1 100%);
+  border:1px solid rgba(0,0,0,.25);
+}
+.rope-red{ background: linear-gradient(180deg, #ff4d4d, #d91515); }
+.rope-white{ background: linear-gradient(180deg, #ffffff, #dfe5eb); }
+.rope-blue{ background: linear-gradient(180deg, #2b6aff, #1543b3); }
+
+.jc-day{
+  margin: 12px 0 10px;
+  font-family: "Anton", system-ui, sans-serif;
+  font-size: clamp(28px, 10.5vw, 64px);
+  letter-spacing: .04em;
+  color: #ffffff;
+  text-shadow:
+    0 2px 0 rgba(0,0,0,.35),
+    0 0 22px rgba(255,255,255,.25);
+  display:inline-block;
+  padding: 0 8px 4px;
+  border-bottom: 6px solid var(--cena-orange);
+}
+
+/* ================= List ================= */
+.jc-list{
+  width:100%; max-width:780px; z-index:1;
+  display:flex; flex-direction:column; gap:10px;
+  margin-top:50px;
+}
+
+/* ================= Cards (Champion plate spine + gloss) ================= */
+.jc-card{
+  position:relative; overflow:hidden;
   display:flex; justify-content:space-between; align-items:center;
-  background: color-mix(in srgb, var(--bg) 80%, var(--ac) 0%);
-  border:1px solid color-mix(in srgb, var(--ac) 18%, transparent);
-  border-left:6px solid var(--ac);
-  border-radius:14px;
-  padding:12px 14px;
-  transform:translateY(14px); opacity:0;
-  box-shadow:0 0 0 0 color-mix(in srgb, var(--ac) 0%, transparent);
-}
-.jc2t-in{ animation: rowIn .26s cubic-bezier(.2,.65,.25,1) forwards; }
-@keyframes rowIn{ to{ transform:translateY(0); opacity:1; } }
-
-.jc2t-left{ display:flex; align-items:center; gap:10px; min-width:0; }
-.jc2t-dot{ width:16px; height:16px; border-radius:50%; background:var(--ac); box-shadow:0 0 8px color-mix(in srgb, var(--ac) 50%, transparent); }
-
-.jc2t-name{
-  font-family:"Inter", system-ui, sans-serif;
-  font-weight:800; letter-spacing:.01em; color:var(--ac);
-  font-size:1rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  background:
+    radial-gradient(140% 100% at 12% 0%, rgba(255,255,255,.10), transparent 40%),
+    linear-gradient(180deg, rgba(255,255,255,.18), transparent 22%),
+    linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.18)),
+    linear-gradient(180deg, #094c85, #083e6c);     /* deepened blue plate */
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 16px;
+  padding: 12px 14px;
+  color:#ffffff;
+  box-shadow: 0 12px 26px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.22);
 }
 
-/* Replacement (same two colors via opacity) */
-.jc2t-swap{ display:inline-flex; align-items:center; gap:.5rem; }
-.jc2t-old{ text-decoration:line-through; opacity:.55; }
-.jc2t-arrow{ opacity:.9; }
-.jc2t-new{}
-
-/* Maple chip */
-.jc2t-chip{
-  margin-left:8px; font-family:"Inter", system-ui, sans-serif; font-weight:800;
-  font-size:.66rem; letter-spacing:.08em; padding:3px 8px; border-radius:999px;
-  color:var(--ac); border:1px solid var(--ac); background: color-mix(in srgb, var(--ac) 12%, transparent);
-  white-space:nowrap;
+/* gold “champion plate” spine with torn edge */
+.jc-card::before{
+  content:""; position:absolute; left:0; top:0; bottom:0; width:12px;
+  background: linear-gradient(180deg, var(--cena-gold), var(--cena-gold-deep));
+  box-shadow: 0 0 0 1px var(--cena-gold-edge) inset, 0 0 14px rgba(246,201,77,.35);
+  -webkit-mask-image: var(--jc-torn-mask);
+          mask-image: var(--jc-torn-mask);
+  -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
 }
 
-/* Time */
-.jc2t-time{
-  font-family:"Inter", system-ui, sans-serif; font-weight:800; font-size:.94rem;
-  color:var(--ac); border:1px solid var(--ac); border-radius:999px; padding:5px 10px;
-  background: transparent;
+/* Left cluster */
+.jc-left{ display:flex; align-items:center; gap:12px; min-width:0; }
+
+/* Dog tag bullet (pure CSS: plate + hole + chain nub) */
+.jc-tag{
+  position:relative; flex:0 0 auto;
+  width: 24px; height: 32px; border-radius: 6px;
+  background: linear-gradient(180deg, #e9eef2, #c7d1d9);
+  box-shadow: 0 1px 0 #fff inset, 0 0 0 1px rgba(0,0,0,.35) inset, 0 2px 4px rgba(0,0,0,.35);
+}
+.jc-tag::before{
+  content:""; position:absolute; top:5px; left:50%; transform:translateX(-50%);
+  width: 7px; height: 7px; border-radius:50%;
+  background:#a0aab3; box-shadow: 0 0 0 2px #ffffff inset;
+}
+.jc-tag::after{
+  content:""; position:absolute; top:-8px; left:50%; transform:translateX(-50%);
+  width: 10px; height: 10px; border-radius:50%;
+  background: radial-gradient(circle at 30% 30%, #fff, #aab3bb);
+  box-shadow: 0 1px 0 #fff inset, 0 0 0 1px rgba(0,0,0,.35) inset;
 }
 
-/* Small phones */
+/* Name text */
+.jc-name{
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(1rem, 4.4vw, 1.12rem);
+  letter-spacing:.01em; color:#ffffff;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    font-size: 30px;
+}
+
+/* Replacement styling */
+.jc-swap{ display:inline-flex; align-items:center; gap:.45rem }
+.jc-old{ opacity:.7; text-decoration: line-through; }
+.jc-arrow{ opacity:.85; }
+.jc-new{ color:#fff; }
+
+/* MAPLE chip — lime/army badge */
+.jc-chip{
+  margin-left:8px; white-space:nowrap;
+  font-family:"Inter", system-ui, sans-serif; font-weight:700;
+  font-size: clamp(.7rem, 2.8vw, .78rem);
+  letter-spacing:.1em; text-transform:uppercase; color:#061f12;
+  background: linear-gradient(180deg, #5dffac, #18c36b);
+  border:1px solid #127b45; border-radius:999px; padding:3px 8px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 2px 0 rgba(0,0,0,.25);
+}
+
+/* Time — equal width ticket */
+.jc-time{
+  --jc-time-w: 110px;                     /* set once for alignment */
+  display:inline-block; width: var(--jc-time-w); text-align:center;
+  font-family:"Anton", system-ui, sans-serif; font-weight:400;
+  font-variant-numeric: tabular-nums; font-feature-settings:"tnum" 1;
+   color: var(--ink); background: var(--paper);
+  border: 2px solid var(--cena-orange); border-radius:10px;
+  padding:6px 8px; white-space:nowrap;
+  box-shadow: 0 0 0 3px rgba(255,122,0,.22), inset 0 1px 0 rgba(255,255,255,.7);
+  position:relative;
+  font-size: 30px;
+  width:150px;
+}
+/* small “star lugs” on ticket */
+.jc-time::before,
+.jc-time::after{
+  content:""; position:absolute; top:50%; transform:translateY(-50%);
+  width: 10px; height: 10px;
+  background:#fff;
+  -webkit-mask-image: var(--jc-star-mask);
+          mask-image: var(--jc-star-mask);
+  -webkit-mask-size:100% 100%; mask-size:100% 100%;
+  border: 2px solid var(--cena-orange);
+  box-shadow: 0 0 0 2px rgba(255,122,0,.18);
+}
+.jc-time::before{ left:-10px; }
+.jc-time::after{ right:-10px; }
+
+/* Phones */
 @media (max-width:420px){
-  .jc2t-day{ font-size:14vw; }
-  .jc2t-card{ padding:10px 12px; border-radius:12px; }
-  .jc2t-name{ font-size:.95rem; }
-  .jc2t-time{ font-size:.9rem; padding:4px 9px; }
-  .jc2t-chip{ font-size:.6rem; padding:2px 6px; }
+  .jc-wrap{ padding: 120px 12px 18px; }
+  .jc-card{ padding: 31px 12px; border-radius:14px; }
+  .jc-left{ gap: 10px; }
+  .jc-time{ --jc-time-w: 104px; }
 }
