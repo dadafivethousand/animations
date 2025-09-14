@@ -27,10 +27,11 @@ import SpaceSchedule from "./Used/SpaceSchedule"
 import GordonRamsaySchedule from "./Components/GordonRamsaySchedule";
 import HeavyMetalSchedule from "./Components/HeavyMetalSchedule";
 import CadillacSchedule from "./Used/CadillacSchedule";
+import EASportsSchedule from "./Components/EASportsSchedule";
 function App() {
   return (
     <>
-  <CadillacSchedule day={"Saturday"}/>
+  <EASportsSchedule day={"Sunday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
