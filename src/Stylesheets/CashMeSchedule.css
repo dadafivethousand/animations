@@ -90,6 +90,8 @@
   position:relative; opacity:0; transform: translateY(12px);
   box-shadow: var(--soft-shadow);
   isolation:isolate;
+  width:80% ;
+  margin: 0 auto;
 }
 
  
