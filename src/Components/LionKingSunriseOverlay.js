@@ -5,7 +5,7 @@ import "../Stylesheets/LionKingSunriseOverlay.css";
 export default function LionKingSunrise({
   play = true,
   duration = 5000,
-  delay = 0,
+  delay = 2000,
   zIndex = 999,
 }) {
   const ref = useRef(null);
