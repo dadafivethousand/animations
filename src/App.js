@@ -32,7 +32,7 @@ import PopeyeSchedule from "./Components/PopeyeSchedule";
 function App() {
   return (
     <>
-  <PopeyeSchedule day={"Monday"}/>
+  <TTCSchedule day={"Monday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

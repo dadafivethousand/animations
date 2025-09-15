@@ -1,7 +1,7 @@
 // TTCSchedule.jsx — improved TTC-styled schedule (pure JS, mobile-first)
 import React, { useEffect, useRef, useState } from "react";
 import "../Stylesheets/TTCSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function TTCSchedule({
   day,
