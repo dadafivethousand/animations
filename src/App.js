@@ -31,10 +31,13 @@ import EASportsSchedule from "./Components/EASportsSchedule";
 import PopeyeSchedule from "./Components/PopeyeSchedule";
 import GogginsSchedule from "./Components/GogginsSchedule";
  import CashMeSchedule from "./Components/CashMeSchedule";
+import LionKingSchedule from "./Components/LionKingSchedule";
+import LionKingSunriseOverlay from "./Components/LionKingSunriseOverlay";
 function App() {
   return (
     <>
-  <CashMeSchedule day={"Tuesday"}/>
+  <LionKingSchedule day={"Tuesday"}/>
+  <LionKingSunriseOverlay />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

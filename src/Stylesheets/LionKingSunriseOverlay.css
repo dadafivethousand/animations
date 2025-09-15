@@ -1,0 +1,104 @@
+/* LionKingSunrise.css */
+:root {
+  --lk-z: 999;
+  --lk-duration: 5000ms;
+  --lk-delay: 0ms;
+
+  /* palette */
+  --lk-core: #ffd86b;
+  --lk-ring: #ffb24a;
+  --lk-amber: #ff8a3a;
+  --lk-sky-bottom: #000000;
+  --lk-sky-top: #1b0f0a;
+
+  /* motion vars */
+  --lk-night: 1;
+  --lk-rise: 100%; /* translateY: starts fully below */
+}
+
+.lk,
+.lk * { box-sizing: border-box; }
+
+.lk {
+  position: absolute;
+  inset: 0;
+  z-index: var(--lk-z);
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.lk-night {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: var(--lk-night);
+}
+
+.lk-sky {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--lk-sky-bottom) 0%, var(--lk-sky-top) 100%);
+  opacity: 0;
+  mix-blend-mode: lighten;
+}
+
+.lk-sun {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 56vmin;
+  height: 56vmin;
+  transform: translate(-50%, var(--lk-rise));
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.lk-sun-core {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%,
+    var(--lk-core) 0%,
+    var(--lk-ring) 45%,
+    var(--lk-amber) 75%,
+    rgba(255,138,58,0) 100%);
+  filter: blur(2px);
+  mix-blend-mode: screen;
+}
+
+.lk-sun-glow {
+  position: absolute; inset: -22%; border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%,
+    rgba(255, 220, 120, 0.55) 0%,
+    rgba(255, 170, 60, 0.35) 40%,
+    rgba(255, 120, 40, 0.18) 65%,
+    rgba(255, 120, 40, 0) 100%);
+  filter: blur(26px);
+  mix-blend-mode: screen;
+}
+
+/* Animations */
+.lk.lk--playing .lk-night {
+  animation: lk-night var(--lk-duration) var(--lk-delay) linear forwards;
+}
+.lk.lk--playing .lk-sky {
+  animation: lk-sky var(--lk-duration) var(--lk-delay) linear forwards;
+}
+.lk.lk--playing .lk-sun {
+  animation: lk-rise var(--lk-duration) var(--lk-delay) ease-out forwards;
+}
+
+@keyframes lk-night {
+  0%   { opacity: 1; }
+  100% { opacity: 0.15; } /* keep a little vignette */
+}
+
+@keyframes lk-sky {
+  0%   { opacity: 0; }
+  100% { opacity: 0.35; }
+}
+
+/* Sun rises from below and stops with 70% visible */
+@keyframes lk-rise {
+  0%   { transform: translate(-50%, 100%); opacity: 0; }
+  20%  { opacity: 0.6; }
+  100% { transform: translate(-50%, 30%); opacity: 1; }
+}
