@@ -29,10 +29,12 @@ import HeavyMetalSchedule from "./Components/HeavyMetalSchedule";
 import CadillacSchedule from "./Used/CadillacSchedule";
 import EASportsSchedule from "./Components/EASportsSchedule";
 import PopeyeSchedule from "./Components/PopeyeSchedule";
+import GogginsSchedule from "./Components/GogginsSchedule";
+ import CashMeSchedule from "./Components/CashMeSchedule";
 function App() {
   return (
     <>
-  <TTCSchedule day={"Monday"}/>
+  <CashMeSchedule day={"Tuesday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
