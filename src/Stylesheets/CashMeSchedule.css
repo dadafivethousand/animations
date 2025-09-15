@@ -76,7 +76,7 @@
 /* ===== List ===== */
 .theme-list{
   width:100%; max-width:720px;
-  display:flex; flex-direction:column; gap:12px; margin-top:22px;
+  display:flex; flex-direction:column; gap:7px; margin-top:22px;
 }
 
 /* ===== Card — glossy neon edge + tape corners ===== */
