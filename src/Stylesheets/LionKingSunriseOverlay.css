@@ -93,7 +93,7 @@
 
 @keyframes lk-sky {
   0%   { opacity: 0; }
-  100% { opacity: 0.35; }
+  100% { opacity: 0S; }
 }
 
 /* Sun rises from below and stops with 70% visible */

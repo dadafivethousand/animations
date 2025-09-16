@@ -5,7 +5,7 @@ import schedule from "../Schedule"; // or "../RhSchedule" if your data lives the
 export default function LionKingSchedule({
   day,
   // 2s initial pause before animating cards
-  animationDelay = 2000,
+  animationDelay = 1,
   animationInterval = 160
 }) {
   const [visible, setVisible] = useState([]);
@@ -36,7 +36,7 @@ export default function LionKingSchedule({
     const h = Math.floor(t);
     let m = Math.round((t - h) * 60);
     let hh = h;
-    if (m === 60) { m = 0; hh = (h + 1) % 24; }
+    if (m === 60) { m = 0; hh = (h + 1) % 24; } // rounding edge
     const hr = hh % 12 || 12;
     const ap = hh < 12 ? "AM" : "PM";
     return `${hr}:${m < 10 ? "0" + m : m} ${ap}`;
@@ -49,7 +49,7 @@ export default function LionKingSchedule({
   };
 
   return (
-    <div className="lk-wrap">
+    <div className="lk-wrap lk-priderock">
       <header className="lk-header lk-header--center">
         <h1 className="lk-day">
           <span className="lk-day-inner">{safeDay.toUpperCase()}</span>
