@@ -1,7 +1,7 @@
 // ZenSchedule.jsx — brighter cosmic/hippie zen (no big dark circles)
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/ZenSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function ZenSchedule({
   day,
