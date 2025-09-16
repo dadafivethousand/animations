@@ -36,8 +36,8 @@ import LionKingSunriseOverlay from "./Components/LionKingSunriseOverlay";
 function App() {
   return (
     <>
-  <ZenSchedule day={"Tuesday"}/>
- 
+  <LionKingSchedule day={"Wednesday"}/>
+  <LionKingSunriseOverlay />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
