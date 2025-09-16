@@ -36,8 +36,8 @@ import LionKingSunriseOverlay from "./Components/LionKingSunriseOverlay";
 function App() {
   return (
     <>
-  <LionKingSchedule day={"Wednesday"}/>
-  <LionKingSunriseOverlay />
+  <BugattiSchedule day={"Friday"}/>
+ 
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

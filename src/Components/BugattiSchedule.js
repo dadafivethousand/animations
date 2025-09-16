@@ -2,7 +2,7 @@
 // Supports animationDelay/animationInterval, MAPLE indicator, and replacement display.
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/BugattiSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function BugattiSchedule({
   day,
