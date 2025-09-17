@@ -33,12 +33,11 @@ import GogginsSchedule from "./Components/GogginsSchedule";
  import CashMeSchedule from "./Components/CashMeSchedule";
 import LionKingSchedule from "./Components/LionKingSchedule";
 import LionKingSunriseOverlay from "./Components/LionKingSunriseOverlay";
+import BassProSchedule from "./Components/BassProSchedule"
 function App() {
   return (
     <>
-  <LionKingSchedule day={"Wednesday"}/>
-  <LionKingSunriseOverlay />
- 
+  <BassProSchedule day={"Thursday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
