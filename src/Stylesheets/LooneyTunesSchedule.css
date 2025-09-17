@@ -100,6 +100,8 @@
     0 6px 24px var(--lt-shadow);
   transform: translateY(14px) scale(.96);
   opacity: 0;
+    width:80%;
+    margin: 0 auto;
 }
 
 /* Squash & pop entrance */
@@ -163,6 +165,7 @@
   text-transform: uppercase;
   box-shadow: 0 3px 0 #0c4a1a, 0 0 10px rgba(30,124,51,.35);
   white-space: nowrap;
+
 }
 
 /* Time */
