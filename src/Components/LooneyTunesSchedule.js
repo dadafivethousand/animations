@@ -1,7 +1,7 @@
  // LooneyTunesSchedule.jsx — mobile-first, “Looney Tunes” vibe with MAPLE + replacement support
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/LooneyTunesSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function LooneyTunesSchedule({
   day,

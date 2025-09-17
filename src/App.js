@@ -37,7 +37,7 @@ import BassProSchedule from "./Components/BassProSchedule"
 function App() {
   return (
     <>
-  <BassProSchedule day={"Thursday"}/>
+  <LooneyTunesSchedule day={"Thursday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
