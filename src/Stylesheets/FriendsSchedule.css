@@ -84,6 +84,8 @@
   transform: translateY(12px);
   opacity: 0;
   backdrop-filter: blur(4px);
+  width:80%;
+  margin: 0 auto;
 
   /* default bullet color (overridden below by nth-child rules) */
   --bullet-color: var(--fr-orange);

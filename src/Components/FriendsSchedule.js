@@ -1,7 +1,7 @@
 // FriendsSchedule.jsx — black background, smaller weekday, configurable animationDelay
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/FriendsSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function FriendsSchedule({
   day,

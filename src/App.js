@@ -38,7 +38,7 @@ import MoneySchedule from "./Components/MoneySchedule";
 function App() {
   return (
     <>
-  <MoneySchedule day={"Friday"}/>
+  <FriendsSchedule day={"Friday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
