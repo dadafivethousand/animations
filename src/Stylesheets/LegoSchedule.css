@@ -19,7 +19,7 @@ body{ margin:0; background:#f5f6fb; color:var(--ink); }
 
 .lego2-wrap{
   min-height:100dvh;
-  padding: 50px 14px 20px;
+  padding: 90px 14px 20px;
   position:relative;
   overflow:hidden;
   background: var(--lego-yellow);
