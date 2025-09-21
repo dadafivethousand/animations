@@ -39,10 +39,11 @@ import BobBuilderSchedule from "./Components/BobBuilderSchedule";
 import CasinoSchedule from "./Used/CasinoSchedule";
 import BondSchedule from "./Components/BondSchedule";
 import PowerRangersSchedule from "./Components/PowerRangersSchedule";
+import ThanosSchedule from "./Components/ThanosSchedule";
 function App() {
   return (
     <>
-  <PowerRangersSchedule day={"Sunday"}/>
+  <ThanosSchedule day={"Monday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
