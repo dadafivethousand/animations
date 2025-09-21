@@ -89,6 +89,8 @@
   box-shadow:0 10px 24px rgba(0,0,0,.06);
   position:relative; overflow:hidden;
   transform:translateY(8px); opacity:0;
+  width:80%;
+  margin: 0 auto;
 }
 
 /* Red accent bar & subtle blue line like a rink */
