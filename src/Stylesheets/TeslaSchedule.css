@@ -1,0 +1,184 @@
+/* Tesla — slimmer column, no left spine
+   Namespace: tesla-*
+   Fonts: Michroma (badge), Inter (titles), DM Mono (time)
+*/
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700;800&family=Michroma&family=DM+Mono:wght@500;700&display=swap');
+
+:root{
+  --noir:#0b0d10;
+  --cab:#111418;
+  --ink:#f3f6fb;
+  --muted:#c6ccd8;
+  --edge:#1c222b;
+  --accent:#e82127;
+  --accent-glow: rgba(232,33,39,.45);
+
+  --time-bg:#0f141c;
+  --time-br:#253041;
+  --time-ink:#eaf2ff;
+
+  --maple-bg:#152a1f;
+  --maple-br:#61d9a5;
+  --maple-ink:#eafff5;
+
+  --day: clamp(24px, 7.8vw, 44px);
+  --title: clamp(15px, 3.6vw, 19px);
+
+  /* NEW: narrow column width */
+  --col: 420px; /* feel free to set 360–460 */
+}
+
+*{ box-sizing:border-box }
+html,body{ height:100% }
+
+.tesla-wrap{
+  min-height:100vh; width:100vw; color:var(--ink);
+  display:flex; flex-direction:column; align-items:center; padding:14px;
+  position:relative; overflow:hidden; isolation:isolate;
+  background: radial-gradient(120% 140% at 50% -40%, #171b22 0%, var(--cab) 55%, var(--noir) 100%);
+}
+
+/* HUD lines */
+.tesla-hud{
+  position:fixed; inset:-12vmax; z-index:-1; pointer-events:none;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.04) 0 1px, transparent 1px 20px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 1px, transparent 1px 24px);
+  mask: radial-gradient(120% 120% at 50% 0%, #000 40%, transparent 80%);
+  animation: tesla-pan 18s linear infinite;
+}
+@keyframes tesla-pan{ to{ transform: translateY(20px) } }
+.tesla-hud::after{
+  content:""; position:absolute; left:-20%; right:-20%; top:22%; height:2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  filter: drop-shadow(0 0 10px var(--accent)) drop-shadow(0 0 26px var(--accent));
+  opacity:.35; animation: sweep 6s ease-in-out infinite;
+}
+@keyframes sweep{
+  0%,100%{ transform: translateX(-12%); opacity:.22 }
+  50%{ transform: translateX(12%); opacity:.5 }
+}
+
+/* ===== Centered, NARROW column ===== */
+.tesla-header,
+.tesla-list{
+  width:100%;
+  max-width: var(--col);
+}
+
+.tesla-header{ padding:12px 6px 6px }
+.tesla-header--center{ display:grid; place-items:center }
+.tesla-day{ margin:0; text-align:center }
+
+.tesla-day-inner{
+  display:inline-block; position:relative; padding:.28em 1em .38em;
+  font: 400 var(--day)/1 "Michroma", system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+  letter-spacing:.22em; text-transform:uppercase; color:#f5f7fd;
+
+  background:
+    radial-gradient(120% 220% at 50% -120%, rgba(255,255,255,.12), rgba(255,255,255,0) 60%),
+    linear-gradient(180deg, #151a21, #0d1015);
+  border:2px solid #222834;
+  border-radius:14px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.18),
+    0 8px 24px rgba(0,0,0,.35),
+    0 0 0 2px rgba(255,255,255,.05);
+}
+.tesla-day-inner::after{
+  content:""; position:absolute; left:16%; right:16%; bottom:-10px; height:3px; border-radius:999px;
+  background: linear-gradient(90deg, #7a0c0f, var(--accent), #7a0c0f);
+  box-shadow: 0 10px 26px var(--accent-glow);
+}
+
+/* ===== List ===== */
+.tesla-list{
+  display:flex; flex-direction:column; gap:10px; margin-top:18px;
+}
+
+/* ===== Card — slimmer, no left spine ===== */
+.tesla-card{
+  position:relative;
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:10px 12px; /* slimmer */
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)),
+    radial-gradient(120% 220% at 50% -120%, rgba(255,255,255,.10), rgba(255,255,255,0) 60%);
+  border:1px solid var(--edge);
+  border-radius:12px;
+  color:var(--ink);
+  opacity:0; transform: translateY(10px);
+  box-shadow: 0 12px 24px rgba(0,0,0,.30), inset 0 1px 0 rgba(255,255,255,.08);
+  backdrop-filter: blur(6px) saturate(118%);
+  -webkit-backdrop-filter: blur(6px) saturate(118%);
+}
+
+/* rise-in */
+.tesla-in{ animation: tesla-rise .26s cubic-bezier(.2,.9,.2,1) forwards }
+@keyframes tesla-rise{ to{ opacity:1; transform: translateY(0) } }
+
+/* interactions */
+.tesla-card:hover{ transform: translateY(6px); transition: transform .16s ease-out }
+.tesla-card:active{ transform: translateY(4px) scale(.995) }
+.tesla-card:focus-within{
+  outline:none;
+  box-shadow:
+    0 12px 24px rgba(0,0,0,.30),
+    0 0 0 2px rgba(232,33,39,.32),
+    0 0 0 6px rgba(232,33,39,.12);
+}
+
+/* ===== Content ===== */
+.tesla-left{ min-width:0; display:flex; flex-direction:column; gap:6px }
+
+.tesla-title{
+  font: 800 var(--title)/1.06 "Inter", system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+  letter-spacing:.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  color:#f5f7fd;
+  text-shadow: 0 1px 0 rgba(255,255,255,.10), 0 10px 18px rgba(0,0,0,.35);
+}
+
+/* Replacement styling */
+.tesla-swap .tesla-old{ position:relative; color:var(--muted) }
+.tesla-swap .tesla-old::after{
+  content:""; position:absolute; left:0; right:0; top:55%; height:2px;
+  background: linear-gradient(90deg, rgba(198,204,216,.15), rgba(198,204,216,.70), rgba(198,204,216,.15));
+  transform: translateY(-50%);
+}
+.tesla-swap .tesla-arrow{ opacity:.65; margin:0 6px }
+.tesla-swap .tesla-new{ font-weight:900; color:#fff }
+
+/* Tags (chips) */
+.tesla-tags{ display:flex; gap:8px; margin-top:2px; flex-wrap:wrap }
+.tesla-chip{
+  font-size:12px; line-height:1; font-weight:800;
+  padding:4px 9px; border-radius:999px; white-space:nowrap;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.08); color:#fff;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.18);
+}
+.tesla-chip--maple{
+  background: linear-gradient(180deg, var(--maple-bg), rgba(21,42,31,.55));
+  border-color: var(--maple-br);
+  color: var(--maple-ink);
+  box-shadow: 0 0 0 1px rgba(97,217,165,.18);
+}
+
+/* Time pill */
+.tesla-time{
+  font: 800 12px/1 "DM Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  color: var(--time-ink);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02)),
+    var(--time-bg);
+  border:1px solid var(--time-br);
+  border-radius:11px; padding:6px 9px; white-space:nowrap;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 1px 2px rgba(0,0,0,.25);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .tesla-in{ animation:none; opacity:1; transform:none }
+  .tesla-card:hover, .tesla-card:active{ transform:none }
+  .tesla-hud{ animation:none }
+}

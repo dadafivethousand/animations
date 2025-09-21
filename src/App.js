@@ -40,10 +40,11 @@ import CasinoSchedule from "./Used/CasinoSchedule";
 import BondSchedule from "./Components/BondSchedule";
 import PowerRangersSchedule from "./Components/PowerRangersSchedule";
 import ThanosSchedule from "./Components/ThanosSchedule";
+import TeslaSchedule from "./Components/TeslaSchedule";
 function App() {
   return (
     <>
-  <ThanosSchedule day={"Monday"}/>
+  <EASportsSchedule day={"Monday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

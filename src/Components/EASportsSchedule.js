@@ -1,7 +1,7 @@
 // EAHockeySchedule.jsx — EA SPORTS (NHL/ice) themed, mobile-first
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/EASportsSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function EASportsSchedule({
   day,
