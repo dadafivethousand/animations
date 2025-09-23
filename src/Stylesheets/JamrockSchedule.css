@@ -222,7 +222,7 @@ html,body{ height:100% }
 .jam-bg{
   position:fixed;          /* stays put while scrolling */
   left:0; right:0; bottom:0;
-  height:42vh;             /* visible band from the bottom */
+  height:40vh;             /* visible band from the bottom */
   pointer-events:none;
   z-index:-1;              /* behind content, above grain/vignette */
 
