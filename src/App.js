@@ -42,10 +42,11 @@ import PowerRangersSchedule from "./Components/PowerRangersSchedule";
 import ThanosSchedule from "./Components/ThanosSchedule";
 import TeslaSchedule from "./Components/TeslaSchedule";
 import UndertakerSchedule from "./Used/UndertakerSchedule";
+import NabihaTypewriter from "./Components/Nabiha";
 function App() {
   return (
     <>
-  <UndertakerSchedule day={"Tuesday"}/>
+  <NabihaTypewriter />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
