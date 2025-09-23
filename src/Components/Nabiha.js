@@ -42,7 +42,7 @@ export default function Nabiha() {
         <p className="nb-big"><b>Date:</b> October 24, 7:30 PM</p>
         <p className="nb-big"><b>Location:</b> Maple BJJ</p>
         <p className="nb-small">20 Cranston Park, Maple, Ontario</p>
-        <p className="nb-cta">NO EXPERIENCE REQUIRED</p>
+        <p className="nb-cta">NO EXPERIENCE REQUIRED!</p>
       </div>
     </div>
   );
