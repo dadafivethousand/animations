@@ -2,7 +2,7 @@
 // Mobile-first: tight typography, equal-width time, thumb-friendly spacing.
 import React from "react";
 import "../Stylesheets/GordonRamsaySchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function GordonRamsaySchedule({ day }) {
   const formatTime = (t) => {

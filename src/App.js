@@ -47,7 +47,7 @@ import JamrockSchedule from "./Components/JamrockSchedule";
 function App() {
   return (
     <>
-  <JamrockSchedule day="Wednesday" />
+  <GordonRamsaySchedule day="Wednesday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
