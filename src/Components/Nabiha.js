@@ -37,7 +37,7 @@ export default function Nabiha() {
 
       {/* Writing */}
       <div className="nb-writing">
-        <h1 className="nb-title">Women’s BJJ Seminar</h1>
+        <h1 className="nb-title">Women’s BJJ Class</h1>
         <p className="nb-big"><b>Instructor:</b> Nabiha Shaikh</p>
         <p className="nb-big"><b>Date:</b> October 24, 7:30 PM</p>
         <p className="nb-big"><b>Location:</b> Maple BJJ</p>
