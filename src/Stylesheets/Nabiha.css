@@ -1,179 +1,95 @@
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap');
 
-:root {
-  --ink: #222;
-  --graphite: #555;
-  --shadow: rgba(0,0,0,0.25);
-}
+:root { --ink:#222; --graphite:#555; --shadow:rgba(0,0,0,.25); }
 
 /* Notebook page */
-.nb-page {
-  position: relative;
-  width: 100%;
-  min-height: 100vh;
-  padding: 68px 24px 28px 80px;
-  background:
-    repeating-linear-gradient(
-      to bottom,
-      #fcfcf8 0px,
-      #fcfcf8 22px,
-      #c7d7f5 22px,
-      #c7d7f5 23px
-    );
-  font-family: 'Caveat', cursive;
-  overflow: hidden;
+.nb-page{
+  position:relative; width:100%; min-height:100vh;
+  padding:68px 24px 28px 80px;
+  background: repeating-linear-gradient(to bottom,#fcfcf8 0px,#fcfcf8 22px,#c7d7f5 22px,#c7d7f5 23px);
+  font-family:'Caveat',cursive; overflow:hidden;
 }
-.nb-page::before {
-  /* red margin line */
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 65px;
-  width: 2px;
-  background: #e74c3c;
-  z-index: 1;
-}
+.nb-page::before{ content:""; position:absolute; top:0; bottom:0; left:65px; width:2px; background:#e74c3c; z-index:1; }
 
 /* Photos */
-.nb-photo-stack {
-  position: relative;
-  width: min(60vw, 180px);
-  height: calc(min(60vw, 180px) * 1.25);
-  margin: 0 auto 24px;
-  z-index: 2;
+.nb-photo-stack{
+  position:relative; width:min(60vw,180px); height:calc(min(60vw,180px)*1.25);
+  margin:0 auto 24px; z-index:2;
 }
-.nb-polaroid {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: #fff;
-  padding: 6px 6px 14px;
-  border-radius: 6px;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+.nb-polaroid{
+  position:absolute; width:100%; height:100%; background:#fff;
+  padding:6px 6px 14px; border-radius:6px; box-shadow:0 6px 12px rgba(0,0,0,.3);
+  opacity:1; transition:transform 800ms cubic-bezier(.2,.9,.2,1);
 }
-.nb-polaroid img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 4px;
-}
-.nb-polaroid.back {
-  transform: rotate(-6deg) translate(-30%, -6%);
-  z-index: 0;
-}
-.nb-polaroid.front {
-  transform: rotate(10deg);
-  z-index: 1;
-  position: relative;
-}
+.nb-polaroid img{ width:100%; height:100%; object-fit:cover; border-radius:4px; }
 
-/* Ultra-realistic sticky note */
-.nb-sticky-real {
-  --paper:#fff279;
-  --edge:#e6d663;
-  --shadow:rgba(0,0,0,.35);
+/* off-screen starts */
+.nb-polaroid.back{ transform:rotate(-6deg) translate(-30%, -6%) translateX(-120vw); z-index:0; }
+.nb-polaroid.front{ transform:rotate(10deg) translateX(120vw); z-index:1; }
 
-  position:absolute;
-  bottom:-14px;
-  right:-18px;
-  width:140px;
-  padding:12px;
-  background: var(--paper);
-  border: 1px solid var(--edge);
-  border-radius: 4px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+/* onscreen ends */
+.nb-polaroid.back.is-in{ transform:rotate(-6deg) translate(-30%, -6%) translateX(0); }
+.nb-polaroid.front.is-in{ transform:rotate(10deg) translateX(0); }
 
+/* Ultra-realistic sticky note – now sibling of polaroids */
+.nb-sticky-real{
+  --paper:#fff279; --edge:#e6d663; --shadow:rgba(0,0,0,.35);
+  position:absolute; bottom:-14px; right:-25px; width:140px; padding:12px;
+  background:var(--paper); border:1px solid var(--edge); border-radius:4px;
+  display:flex; align-items:center; justify-content:center;
   background-image:
     linear-gradient(135deg, rgba(255,255,255,.28), transparent 60%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='1' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0 0 0.05 0.12'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-blend-mode: multiply;
-  background-size: cover, 140px 140px;
-
-  box-shadow:
-    0 16px 22px var(--shadow),
-    0 4px 10px rgba(0,0,0,.18),
-    inset 0 -10px 16px rgba(0,0,0,.06);
-
-  transform: rotate(-4deg);
-  transform-origin: 20% 10%;
+  background-blend-mode:multiply; background-size:cover,140px 140px;
+  box-shadow:0 16px 22px var(--shadow), 0 4px 10px rgba(0,0,0,.18), inset 0 -10px 16px rgba(0,0,0,.06);
+  transform: translate(190px, 0) rotate(-8deg) scale(.94); /* start off to the right */
+  transform-origin:20% 10%; opacity:1; /* fully opaque */
+  z-index: 7;
 }
+/* adhesive strip + fold */
+.nb-sticky-real::before{
+  content:""; position:absolute; left:10%; right:10%; top:-1px; height:10px;
+  background:linear-gradient(#fffbcc,#f5ec9e); border-radius:2px 2px 0 0; box-shadow:0 2px 4px rgba(0,0,0,.12); opacity:.9;
+}
+.nb-sticky-real::after{
+  content:""; position:absolute; right:0; bottom:0; width:20px; height:20px;
+  background:linear-gradient(135deg,var(--edge) 0%, var(--paper) 100%);
+  clip-path:polygon(100% 0, 0 100%, 100% 100%); box-shadow:inset -2px -2px 4px rgba(0,0,0,.25);
+}
+/* sticky slide-in + paste bounce (triggered by .is-in) */
+.nb-sticky-real.is-in{ animation: nbStickySlide .45s ease-out forwards, nbStickyPaste .5s cubic-bezier(.2,.9,.25,1.4) .45s forwards; }
 
-/* Adhesive strip */
-.nb-sticky-real::before {
-  content:"";
-  position:absolute;
-  left:10%;
-  right:10%;
-  top:-1px;
-  height:10px;
-  background: linear-gradient(#fffbcc, #f5ec9e);
-  border-radius: 2px 2px 0 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,.12);
-  opacity:.9;
+.nb-sticky-text{
+  font-family:"Caveat", system-ui, sans-serif; font-weight:600; font-size:1.1rem;
+  color:#141414; text-align:center; line-height:1.2; filter:drop-shadow(0 .2px .2px rgba(0,0,0,.08));
 }
 
-/* Folded corner */
-.nb-sticky-real::after {
-  content:"";
-  position:absolute;
-  right:0;
-  bottom:0;
-  width:20px;
-  height:20px;
-  background: linear-gradient(135deg, var(--edge) 0%, var(--paper) 100%);
-  clip-path: polygon(100% 0, 0 100%, 100% 100%);
-  box-shadow: inset -2px -2px 4px rgba(0,0,0,.25);
+/* Writing with write-on effect (restored) */
+.nb-writing{
+  max-width:600px; margin:0 auto; color:var(--ink); line-height:1.6; position:relative; z-index:2;
 }
+.nb-title{ font-size:2rem; margin-bottom:12px; }
+.nb-big{ font-size:1.4rem; margin:4px 0; }
+.nb-small{ font-size:1.2rem; margin:3px 0; }
+.nb-cta{ margin-top:10px; font-size:1.3rem; color:#d00; font-weight:bold; }
 
-/* Sticky text */
-.nb-sticky-text {
-  font-family: "Caveat", system-ui, sans-serif;
-  font-weight: 600;
-  font-size: 1.1rem;
-  color: #141414;
-  text-align:center;
-  line-height: 1.2;
-  filter: drop-shadow(0 .2px .2px rgba(0,0,0,.08));
-}
+/* reveal each line in sequence */
+.nb-writing > *{ display:block; position:relative; overflow:hidden; opacity:0; animation: nbWrite .9s ease forwards; }
+.nb-writing > *:nth-child(1){ animation-delay:.55s; }
+.nb-writing > *:nth-child(2){ animation-delay:.85s; }
+.nb-writing > *:nth-child(3){ animation-delay:1.15s; }
+.nb-writing > *:nth-child(4){ animation-delay:1.45s; }
+.nb-writing > *:nth-child(5){ animation-delay:1.75s; }
+.nb-writing > *:nth-child(6){ animation-delay:2.05s; }
 
-/* Writing */
-.nb-writing {
-  max-width: 600px;
-  margin: 0 auto;
-  color: var(--ink);
-  line-height: 1.6;
-  position: relative;
-  z-index: 2;
-}
-.nb-title {
-  font-size: 2rem;
-  margin-bottom: 12px;
-}
-.nb-big {
-  font-size: 1.4rem;
-  margin: 4px 0;
-}
-.nb-small {
-  font-size: 1.2rem;
-  margin: 3px 0;
-}
-.nb-cta {
-  margin-top: 10px;
-  font-size: 1.3rem;
-  color: #d00;
-  font-weight: bold;
-}
+/* Keyframes */
+@keyframes nbStickySlide { from{ transform: translate(140px,0) rotate(-8deg) scale(.94); } to{ transform: translate(-20px,0) rotate(-8deg) scale(.94); } }
+@keyframes nbStickyPaste { from{ transform: rotate(-8deg) scale(.94); } 55%{ transform: rotate(-5.5deg) scale(1.03); } to{ transform: rotate(-4deg) scale(1); } }
+@keyframes nbWrite { 0%{ opacity:0; clip-path: inset(0 100% 0 0); } 100%{ opacity:1; clip-path: inset(0 0 0 0); } }
 
-/* Doodles */
-.nb-doodle {
-  position: absolute;
-  font-size: 1.8rem;
-  color: var(--graphite);
-  opacity: 0.4;
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .nb-polaroid, .nb-sticky-real, .nb-writing > *{
+    animation:none !important; transition:none !important; transform:none !important; opacity:1 !important;
+  }
 }
-.nb-doodle.star { top: 14%; left: 12%; }
-.nb-doodle.heart { top: 30%; right: 5%; color: #c33; transform: scale(1.5); }
- 
