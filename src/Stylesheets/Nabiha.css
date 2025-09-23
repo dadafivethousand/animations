@@ -9,7 +9,7 @@
   background: repeating-linear-gradient(to bottom,#fcfcf8 0px,#fcfcf8 22px,#c7d7f5 22px,#c7d7f5 23px);
   font-family:'Caveat',cursive; overflow:hidden;
 }
-.nb-page::before{ content:""; position:absolute; top:0; bottom:0; left:65px; width:2px; background:#e74c3c; z-index:1; }
+.nb-page::before{ content:""; position:absolute; top:0; bottom:0; left:65px; width:2px; background:#e74d3c7e; z-index:1; }
 
 /* Photos */
 .nb-photo-stack{
@@ -71,7 +71,7 @@
 .nb-title{ font-size:2rem; margin-bottom:12px; }
 .nb-big{ font-size:1.4rem; margin:4px 0; }
 .nb-small{ font-size:1.2rem; margin:3px 0; }
-.nb-cta{ margin-top:10px; font-size:1.3rem; color:rgba(221, 0, 0, 0.5); font-weight:bold; }
+.nb-cta{ margin-top:10px; font-size:1.3rem; color:rgb(221, 0, 0); font-weight:bold; }
 
 /* reveal each line in sequence */
 .nb-writing > *{ display:block; position:relative; overflow:hidden; opacity:0; animation: nbWrite .9s ease forwards; }
