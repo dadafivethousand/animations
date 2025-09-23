@@ -36,6 +36,7 @@ html,body{ height:100% }
   display:flex; flex-direction:column; align-items:center; padding:14px;
   position:relative; overflow:hidden; isolation:isolate;
   background: radial-gradient(120% 140% at 50% -40%, #171b22 0%, var(--cab) 55%, var(--noir) 100%);
+  padding-top:60px;
 }
 
 /* HUD lines */
