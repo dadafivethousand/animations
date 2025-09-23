@@ -95,7 +95,7 @@
 .undertaker-chip{
   font-size: 12px;
   line-height: 1;
-  padding: 3px 8px;
+  padding: 7px 8px;
   border-radius: 999px;
   border: 1px solid rgba(255,255,255,.25);
   background: rgba(255,255,255,.10);
@@ -103,10 +103,11 @@
   white-space: nowrap;
 }
 .undertaker-chip--maple{
-  background: linear-gradient(180deg, var(--maple-bg), rgba(16,59,40,.65));
-  border-color: var(--maple-br);
-  color: var(--maple-ink);
+   color: var(--maple-ink);
   box-shadow: 0 0 0 1px rgba(71,208,143,.18);
+
+  position:relative;
+ 
 }
 
 /* Time */

@@ -48,7 +48,7 @@ export default function UndertakerSchedule({
               {visibleArray.includes(idx) && (
                 <article className="undertaker-class">
                   <div className="undertaker-left">
-                    <div className="undertaker-class-name">{cls.name}</div>
+                    <div className="undertaker-class-name">{cls.name}      </div>
 
                     {/* Maple indicator (inside the card) */}
                     {cls.maple && (
