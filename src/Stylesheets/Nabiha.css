@@ -71,7 +71,7 @@
 .nb-title{ font-size:2rem; margin-bottom:12px; }
 .nb-big{ font-size:1.4rem; margin:4px 0; }
 .nb-small{ font-size:1.2rem; margin:3px 0; }
-.nb-cta{ margin-top:10px; font-size:1.3rem; color:#d00; font-weight:bold; }
+.nb-cta{ margin-top:10px; font-size:1.3rem; color:rgba(221, 0, 0, 0.5); font-weight:bold; }
 
 /* reveal each line in sequence */
 .nb-writing > *{ display:block; position:relative; overflow:hidden; opacity:0; animation: nbWrite .9s ease forwards; }
