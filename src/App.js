@@ -44,7 +44,7 @@ import TeslaSchedule from "./Components/TeslaSchedule";
 function App() {
   return (
     <>
-  <EASportsSchedule day={"Monday"}/>
+  <TeslaSchedule day={"Tuesday"}/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
