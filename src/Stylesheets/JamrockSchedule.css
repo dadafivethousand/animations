@@ -123,7 +123,7 @@ html,body{ height:100% }
   box-shadow: 0 12px 24px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.35);
   backdrop-filter: blur(4px) saturate(112%);
   -webkit-backdrop-filter: blur(4px) saturate(112%);
-  width:80%;
+  width:90%;
   margin: 0 auto;
 }
 
@@ -222,7 +222,7 @@ html,body{ height:100% }
 .jam-bg{
   position:fixed;          /* stays put while scrolling */
   left:0; right:0; bottom:0;
-  height:48vh;             /* visible band from the bottom */
+  height:42vh;             /* visible band from the bottom */
   pointer-events:none;
   z-index:-1;              /* behind content, above grain/vignette */
 
