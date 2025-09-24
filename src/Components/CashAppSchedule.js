@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/CashAppSchedule.css";
 import schedule from "../Schedule"; // or "../RhSchedule" if you prefer
+import cashAppLogo from "../Images/cashapplogo.png"
 
 export default function CashAppSchedule({ day, animationDelay = 900, animationInterval = 160 }) {
   const [visible, setVisible] = useState([]);
@@ -32,7 +33,7 @@ export default function CashAppSchedule({ day, animationDelay = 900, animationIn
     <div className="cashapp-wrap">
       <header className="cashapp-header">
         <span className="cashapp-day">Thur</span>
-        <span className="cashapp-icon" aria-hidden>﹩</span>
+        <img src={cashAppLogo} className="cashapp-icon" />
               <span className="cashapp-day">day</span>
     
       </header>
