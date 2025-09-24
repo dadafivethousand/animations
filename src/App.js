@@ -50,7 +50,7 @@ import CashAppSchedule from "./Components/CashAppSchedule";
 function App() {
   return (
     <>
-  <CashAppSchedule day="Thursday" />
+  <ThanosSchedule day="Thursday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

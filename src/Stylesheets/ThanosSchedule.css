@@ -175,7 +175,7 @@ html,body{ height:100% }
 }
 
 /* ===== Content ===== */
-.thanos-left{ min-width:0; display:flex; flex-direction:column; gap:6px; position:relative }
+.thanos-left{ min-width:0; display:flex;  gap:6px; position:relative }
 .thanos-title{
   font: 800 var(--title)/1.06 "Exo 2", system-ui, -apple-system, Segoe UI, Arial, sans-serif;
   letter-spacing:.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;

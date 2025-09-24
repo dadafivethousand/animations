@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "../Stylesheets/MoneySchedule.css";
-import schedule from "../Schedule"; // or "../RhSchedule"
+import schedule from "../RhSchedule"; // or "../RhSchedule"
 
 export default function MoneySchedule({
   day,
