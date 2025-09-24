@@ -44,10 +44,13 @@ import TeslaSchedule from "./Components/TeslaSchedule";
 import UndertakerSchedule from "./Used/UndertakerSchedule";
 import NabihaTypewriter from "./Components/Nabiha";
 import JamrockSchedule from "./Components/JamrockSchedule";
+import WhatsAppSchedule from "./Components/WhatsAppSchedule";
+import LyftSchedule from "./Components/LyftSchedule";
+import CashAppSchedule from "./Components/CashAppSchedule";
 function App() {
   return (
     <>
-  <GordonRamsaySchedule day="Wednesday" />
+  <CashAppSchedule day="Thursday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

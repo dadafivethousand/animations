@@ -1,0 +1,177 @@
+/* Ultra-realistic WhatsApp chats list
+   Namespace: wa2-*
+   Mobile-first, flat rows + separators, brand appbar, tabs, FAB
+*/
+
+:root{
+  --wa-green-dark:#075E54;
+  --wa-green:#128C7E;
+  --wa-teal:#25D366;
+  --wa-bg:#ffffff;            /* chats list is white in-app */
+  --wa-ink:#111a1e;
+  --wa-muted:#667781;
+  --wa-sep:#e9edef;
+  --wa-ink-strong:#0b141a;
+
+  /* chips */
+  --maple-bg:#17392a;
+  --maple-br:#60d9a5;
+  --maple-ink:#e8fff6;
+
+  /* animations */
+  --rise: .22s cubic-bezier(.2,.9,.2,1);
+}
+
+*{ box-sizing:border-box }
+html,body{ height:100% }
+
+.wa2-wrap{
+  min-height:100vh; width:100vw; background:var(--wa-bg); color:var(--wa-ink);
+  display:flex; flex-direction:column; align-items:stretch;
+}
+
+/* ===== App bar ===== */
+.wa2-appbar{
+  position:sticky; top:0; z-index:4;
+  display:flex; align-items:flex-end; justify-content:space-between;
+  padding:10px 12px 8px;
+  background: linear-gradient(180deg, var(--wa-green), var(--wa-green-dark));
+  color:#fff;
+  box-shadow: 0 1px 0 rgba(0,0,0,.12);
+}
+.wa2-brand{
+  font: 700 20px/1.1 system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", sans-serif;
+  letter-spacing:.2px;
+}
+.wa2-actions{ display:flex; gap:16px }
+.wa2-ico{
+  width:22px; height:22px; display:inline-block; opacity:.92; filter: drop-shadow(0 0 0 transparent);
+}
+.wa2-ico-cam{
+  background:
+    radial-gradient(circle at 70% 28%, #fff 0 8%, transparent 9%) no-repeat,
+    linear-gradient(#fff,#fff) 15% 35%/70% 60% no-repeat,
+    linear-gradient(#fff,#fff) 35% 20%/40% 16% no-repeat;
+  border-radius:4px;
+}
+.wa2-ico-search{
+  background:
+    radial-gradient(circle, #fff 0 42%, transparent 43%) 0 0/100% 100% no-repeat;
+  clip-path: path("M18 18 L22 22"); /* decorative */
+}
+.wa2-ico-menu{
+  background:
+    linear-gradient(#fff,#fff) 0 30%/100% 2px no-repeat,
+    linear-gradient(#fff,#fff) 0 50%/100% 2px no-repeat,
+    linear-gradient(#fff,#fff) 0 70%/100% 2px no-repeat;
+  border-radius:2px;
+}
+
+/* ===== Tabs + Day ===== */
+.wa2-tabs{
+  position:sticky; top:48px; z-index:3;
+  display:flex; align-items:center; gap:12px;
+  padding:10px 12px 0;
+  background: var(--wa-bg);
+  border-bottom:1px solid var(--wa-sep);
+}
+.wa2-tab{
+  appearance:none; border:0; background:transparent; color:var(--wa-muted);
+  font: 700 13px/1.2 system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", sans-serif;
+  letter-spacing:.12em; padding:12px 8px 10px; border-bottom:2px solid transparent;
+}
+.wa2-active{ color:var(--wa-green); border-bottom-color:var(--wa-green) }
+.wa2-day{
+  margin-left:auto; margin-bottom:6px;
+  font: 800 12px/1.2 system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", sans-serif;
+  color: var(--wa-muted); letter-spacing:.14em;
+}
+
+/* ===== List ===== */
+.wa2-list{
+  display:flex; flex-direction:column;
+  /* WhatsApp has edge-to-edge rows */
+}
+
+/* ===== Row ===== */
+.wa2-row{
+  display:flex; align-items:center; gap:12px;
+  padding:10px 12px;
+  background: var(--wa-bg);
+  border-bottom:1px solid var(--wa-sep);
+  opacity:0; transform: translateY(8px);
+  position:relative;
+}
+.wa2-row:active{ background:#f5f6f6 } /* touch feedback */
+.wa2-row:last-child{ border-bottom-color:transparent }
+
+.wa2-in{ animation: rise var(--rise) forwards }
+@keyframes rise { to { opacity:1; transform: translateY(0) } }
+
+/* Avatar */
+.wa2-avatar{
+  flex:0 0 52px; height:52px; width:52px; border-radius:50%;
+  display:grid; place-items:center; font-weight:800; color:#fff;
+  background:
+    radial-gradient(circle at 30% 30%, #7cf3c3, #25d366 60%, #138b71 100%);
+  box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.75);
+}
+
+/* Center column */
+.wa2-center{ min-width:0; display:flex; flex-direction:column; gap:2px }
+
+/* Title (chat name) */
+.wa2-title{
+  font: 800 16px/1.2 system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", sans-serif;
+  color: var(--wa-ink-strong);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+
+/* Replacement styling */
+.wa2-swap .wa2-old{ text-decoration: line-through; opacity:.65 }
+.wa2-swap .wa2-arrow{ opacity:.6; margin:0 6px }
+.wa2-swap .wa2-new{ font-weight:900 }
+
+/* Meta line (Maple chip like a snippet) */
+.wa2-meta{ display:flex; gap:6px; align-items:center }
+.wa2-chip{
+  font: 700 11px/1 system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", sans-serif;
+  padding:3px 8px; border-radius:999px; white-space:nowrap;
+  border:1px solid rgba(0,0,0,.08);
+  background:#e8fff4; color:#0b3b28;
+}
+.wa2-chip--maple{
+  background: linear-gradient(180deg, var(--maple-bg), rgba(23,57,42,.65));
+  border-color: var(--maple-br);
+  color: var(--maple-ink);
+  box-shadow: 0 0 0 1px rgba(96,217,165,.14);
+}
+
+/* Time (right column) */
+.wa2-time{
+  margin-left:auto;
+  font: 700 12px/1 "DM Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color:#8696A0; white-space:nowrap;
+}
+
+/* ===== Floating Action Button (bottom-right) ===== */
+.wa2-fab{
+  position:fixed; right:16px; bottom:16px; z-index:2;
+  width:56px; height:56px; border-radius:50%;
+  border:0; background: var(--wa-teal); color:#fff;
+  box-shadow: 0 6px 14px rgba(0,0,0,.22);
+}
+.wa2-fab-ico{
+  display:block; width:24px; height:24px; margin:16px auto 0;
+  background:
+    radial-gradient(circle at 50% 25%, #fff 0 10%, transparent 11%) 0 0/100% 100% no-repeat,
+    linear-gradient(#fff,#fff) 20% 60%/60% 10% no-repeat,
+    linear-gradient(#fff,#fff) 20% 75%/40% 10% no-repeat;
+  border-radius:3px;
+}
+
+/* Safe areas */
+@supports (padding: max(0px)) {
+  .wa2-appbar{ padding-top: max(10px, env(safe-area-inset-top)) }
+  .wa2-fab{ right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)) }
+}
