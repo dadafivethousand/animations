@@ -47,10 +47,11 @@ import JamrockSchedule from "./Components/JamrockSchedule";
 import WhatsAppSchedule from "./Components/WhatsAppSchedule";
 import LyftSchedule from "./Components/LyftSchedule";
 import CashAppSchedule from "./Components/CashAppSchedule";
+import AvengersSchedule from "./Components/AvengersSchedule";
 function App() {
   return (
     <>
-  <ThanosSchedule day="Thursday" />
+  <AvengersSchedule day="Friday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

@@ -1,0 +1,362 @@
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;700;800&display=swap');
+
+:root{
+  --avengers-bg:#070b18;
+  --avengers-navy:#0f1a38;
+  --avengers-blue:#1e3b8f;
+  --avengers-red:#d2122e;
+  --avengers-ink:#eef3ff;
+  --avengers-border:#223062;
+  --avengers-card-grad:linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,0));
+  --avengers-shadow:0 6px 18px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.04) inset;
+}
+
+/* Base reset */
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+.avengers-wrap{
+  min-height:100vh;
+  width:100vw;
+  background:
+    radial-gradient(900px 500px at 50% -10%, rgba(30,59,143,.16), transparent 60%),
+    radial-gradient(600px 400px at 110% 0%, rgba(210,18,46,.12), transparent 70%),
+    var(--avengers-bg);
+  color:var(--avengers-ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:0px 14px 24px;
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background-image: url("../Images/avengers.gif");
+  background-size: contain;
+
+ 
+}
+
+.avengers-wrap::after{
+    content:"";
+    background-color: #00000086;
+    width:100vw;
+    height:100vh;
+    position: absolute;
+    z-index: 4;
+}
+
+/* Header */
+.avengers-header{
+  width:100%;
+  max-width:560px;
+
+  gap:10px;
+  padding:6px 2px 10px;
+  margin-top: 60px;
+  z-index: 5;
+}
+
+.avengers-logo{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), transparent 40%),
+    linear-gradient(145deg, #c0c8da, #8b95aa);
+  border:1px solid rgba(255,255,255,.4);
+  box-shadow: 0 8px 16px rgba(0,0,0,.35), 0 0 24px rgba(210,18,46,.25);
+}
+
+.avengers-a{
+  font-family:"Bebas Neue", system-ui, sans-serif;
+  font-size:20px;
+  font-weight:800;
+  color:#0f1834;
+  text-shadow:0 1px 0 #fff;
+  letter-spacing:.02em;
+}
+
+.avengers-day{
+  font-family:"Bebas Neue", system-ui, sans-serif;
+  font-size:35px;
+  letter-spacing:.12em;
+  color:#ffffff;
+  text-align: center;
+  margin-bottom:5px;
+}
+
+/* List */
+.avengers-list{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+    z-index: 5;
+}
+
+/* Cards */
+.avengers-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:3px 12px;
+  border-radius:14px;
+  background: var(--avengers-card-grad), var(--avengers-navy);
+  border:1px solid var(--avengers-border);
+  box-shadow: var(--avengers-shadow), 0 0 18px rgba(210,18,46,.22);
+  opacity:0;
+  transform:translateY(8px);
+  backdrop-filter:saturate(120%) blur(2px);
+  width:80%;
+  margin: 0 auto;
+}
+
+.avengers-in{ animation:avengers-rise .22s ease-out forwards; }
+@keyframes avengers-rise{ to{ opacity:1; transform:translateY(0); } }
+
+.avengers-left{ min-width:0; display:flex; flex-direction:column; gap:4px; }
+
+.avengers-title{
+  font-weight:800;
+  font-size:16px;
+  color:#f7fbff;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  letter-spacing:.01em;/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;700;800&display=swap');
+
+:root{
+  --avp-bg:#070b18;
+  --avp-navy:#0f1a38;
+  --avp-navy-2:#0b1530;
+  --avp-blue:#1e3b8f;
+  --avp-red:#d2122e;
+  --avp-ink:#eef3ff;
+  --avp-border:#223062;
+  --avp-card-grad:linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,0));
+  --avp-shadow:0 6px 18px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.04) inset;
+}
+
+/* Base reset */
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+.avp-wrap{
+  min-height:100vh;
+  width:100vw;
+  background:
+    radial-gradient(900px 500px at 50% -10%, rgba(30,59,143,.16), transparent 60%),
+    radial-gradient(600px 400px at 110% 0%, rgba(210,18,46,.12), transparent 70%),
+    var(--avp-bg);
+  color:var(--avp-ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:14px 14px 24px;
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* Header */
+.avp-header{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:6px 2px 10px;
+}
+
+.avp-logo{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), transparent 40%),
+    linear-gradient(145deg, #c0c8da, #8b95aa);
+  border:1px solid rgba(255,255,255,.4);
+  box-shadow: 0 8px 16px rgba(0,0,0,.35), 0 0 24px rgba(210,18,46,.25);
+}
+
+.avp-a{
+  font-family:"Bebas Neue", system-ui, sans-serif;
+  font-size:20px;
+  font-weight:800;
+  color:#0f1834;
+  text-shadow:0 1px 0 #fff;
+  letter-spacing:.02em;
+}
+
+.avp-day{
+  font-family:"Bebas Neue", system-ui, sans-serif;
+  font-size:22px;
+  letter-spacing:.12em;
+  color:#ffffff;
+}
+
+/* List */
+.avp-list{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+/* Cards */
+.avp-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 12px;
+  border-radius:14px;
+  background: var(--avp-card-grad), var(--avp-navy);
+  border:1px solid var(--avp-border);
+  box-shadow: var(--avp-shadow), 0 0 18px rgba(210,18,46,.22);
+  opacity:0;
+  transform:translateY(8px);
+  backdrop-filter:saturate(120%) blur(2px);
+}
+
+.avp-in{ animation:avp-rise .22s ease-out forwards; }
+@keyframes avp-rise{ to{ opacity:1; transform:translateY(0); } }
+
+.avp-left{ min-width:0; display:flex; flex-direction:column; gap:4px; }
+
+.avp-title{
+  font-weight:800;
+  font-size:16px;
+  color:#f7fbff;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  letter-spacing:.01em;
+}
+
+/* Replacement + tags (contract) */
+.swap .old{ text-decoration:line-through; opacity:.65; }
+.swap .arrow{ opacity:.6; margin:0 6px; }
+.swap .new{ font-weight:700; }
+
+.tags{ display:flex; gap:6px; margin-top:2px; }
+.chip{
+  font-size:12px;
+  line-height:1;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.07);
+  color:#ffffff;
+  white-space:nowrap;
+}
+
+.chip--maple{
+  background:#2a0d13;
+  border-color: rgba(210,18,46,.55);
+  color:#ffe6ea;
+  box-shadow:0 0 10px rgba(210,18,46,.28);
+}
+
+/* Time pill shows start—end when available */
+.avp-time{
+  font:800 13px/1 "Inter", system-ui, sans-serif;
+  padding:8px 10px;
+  border-radius:10px;
+  background:linear-gradient(180deg, #0c1738, #0a122a);
+  border:1px solid #24356f;
+  color:#eaf2ff;
+  letter-spacing:.02em;
+  white-space:nowrap;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.06), 0 4px 10px rgba(0,0,0,.35);
+}
+
+/* Optional alternate Maple-under-card layout (enable if requested)
+.maple-row{
+  margin-top:8px;
+  padding:6px 10px;
+  border-radius:0 0 12px 12px;
+  background:#1d0b10;
+  border-top:1px solid rgba(210,18,46,.45);
+  color:#ffe6ea;
+  font-weight:800;
+}
+*/
+
+/* Active tap feedback */
+.avp-card:active{
+  transform:translateY(10px) scale(.995);
+  transition:transform .06s ease;
+  box-shadow:0 2px 10px rgba(0,0,0,.35);
+}
+
+/* Slight bumps on wider screens */
+@media (min-width:431px){
+  .avp-title{ font-size:17px; }
+  .avp-time{ font-size:14px; }
+}
+
+}
+
+/* Replacement + tags (contract) */
+.swap .old{ text-decoration:line-through; opacity:.65; }
+.swap .arrow{ opacity:.6; margin:0 6px; }
+.swap .new{ font-weight:700; }
+
+.tags{ display:flex; gap:6px; margin-top:2px; }
+.chip{
+  font-size:12px;
+  line-height:1;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.07);
+  color:#ffffff;
+  white-space:nowrap;
+}
+
+.chip--maple{
+  background:#2a0d13;
+  border-color: rgba(210,18,46,.55);
+  color:#ffe6ea;
+  box-shadow:0 0 10px rgba(210,18,46,.28);
+}
+
+/* Time pill shows start—end when available */
+.avengers-time{
+  font:800 13px/1 "Inter", system-ui, sans-serif;
+  padding:8px 10px;
+  border-radius:10px;
+  background:linear-gradient(180deg, #0c1738, #0a122a);
+  border:1px solid #24356f;
+  color:#eaf2ff;
+  letter-spacing:.02em;
+  white-space:nowrap;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.06), 0 4px 10px rgba(0,0,0,.35);
+}
+
+/* Optional alternate Maple-under-card layout (enable if requested)
+.maple-row{
+  margin-top:8px;
+  padding:6px 10px;
+  border-radius:0 0 12px 12px;
+  background:#1d0b10;
+  border-top:1px solid rgba(210,18,46,.45);
+  color:#ffe6ea;
+  font-weight:800;
+}
+*/
+
+/* Active tap feedback */
+.avengers-card:active{
+  transform:translateY(10px) scale(.995);
+  transition:transform .06s ease;
+  box-shadow:0 2px 10px rgba(0,0,0,.35);
+}
+
+/* Slight bumps on wider screens */
+@media (min-width:431px){
+  .avengers-title{ font-size:17px; }
+  .avengers-time{ font-size:14px; }
+}
