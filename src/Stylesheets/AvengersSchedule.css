@@ -359,6 +359,6 @@
 
 /* Slight bumps on wider screens */
 @media (min-width:431px){
-  .avengers-title{ font-size:25px; }
+  .avengers-title{ font-size:15px; }
   .avengers-time{ font-size:14px; }
 }
