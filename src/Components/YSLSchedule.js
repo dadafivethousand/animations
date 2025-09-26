@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "./FortniteSchedule.css";
+import "../Stylesheets/YSLSchedule.css";
 import schedule from "../Schedule"; // or "../RhSchedule" if you prefer
 
-export default function FortniteSchedule({ day, animationDelay = 900, animationInterval = 160 }) {
+export default function YSLSchedule({ day, animationDelay = 900, animationInterval = 160 }) {
   const [visible, setVisible] = useState([]);
   const safeDay = day || "";
   const items = schedule[safeDay] || [];
@@ -28,28 +28,29 @@ export default function FortniteSchedule({ day, animationDelay = 900, animationI
     return `${hr}:${m < 10 ? "0" + m : m} ${ap}`;
   };
 
-  const formatRange = (s, e) =>
-    typeof e === "number" ? `${formatTime(s)} — ${formatTime(e)}` : formatTime(s);
+  const formatRange = (s, e) => (typeof e === "number" ? `${formatTime(s)} — ${formatTime(e)}` : formatTime(s));
 
   return (
-    <div className="fortnite-wrap">
-      <header className="fortnite-header">
-        <div className="fortnite-logo" aria-hidden>
-          ⚡
+    <div className="ysl-wrap">
+      <header className="ysl-header">
+        <div className="ysl-mono" aria-hidden>
+          <span className="ysl-y">Y</span>
+          <span className="ysl-s">S</span>
+          <span className="ysl-l">L</span>
         </div>
-        <h1 className="fortnite-day">{safeDay.toUpperCase()}</h1>
+        <h1 className="ysl-day">{safeDay.toUpperCase()}</h1>
       </header>
 
-      <main className="fortnite-list">
+      <main className="ysl-list">
         {items.map((cls, i) =>
           visible.includes(i) ? (
             <article
-              className="fortnite-card fortnite-in"
+              className="ysl-card ysl-in"
               key={i}
               style={{ animationDelay: `${i * 40}ms` }}
             >
-              <div className="fortnite-left">
-                <div className="fortnite-title">
+              <div className="ysl-left">
+                <div className="ysl-title">
                   {cls.replacement ? (
                     <span className="swap">
                       <span className="old">{cls.name}</span>
@@ -68,8 +69,8 @@ export default function FortniteSchedule({ day, animationDelay = 900, animationI
                 )}
               </div>
 
-              <time className="fortnite-time" aria-label="Class time">
-                {formatRange(cls.start)}
+              <time className="ysl-time" aria-label="Class time">
+                {formatRange(cls.start, cls.end)}
               </time>
             </article>
           ) : null
