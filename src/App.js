@@ -51,7 +51,7 @@ import AvengersSchedule from "./Components/AvengersSchedule";
 function App() {
   return (
     <>
-  <AvengersSchedule day="Friday" />
+  <TeslaSchedule day="Friday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

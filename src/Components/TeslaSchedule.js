@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/TeslaSchedule.css";
-import schedule from "../Schedule"; // or "../RhSchedule"
+import schedule from "../RhSchedule"; // or "../RhSchedule"
 
 export default function TeslaSchedule({
   day,
