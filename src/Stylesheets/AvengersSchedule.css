@@ -102,7 +102,7 @@
   justify-content:space-between;
   padding:3px 12px;
   border-radius:14px;
-  background: var(--avengers-card-grad), var(--avengers-navy);
+ background-color: #1e3a8f60;
   border:1px solid var(--avengers-border);
   box-shadow: var(--avengers-shadow), 0 0 18px rgba(210,18,46,.22);
   opacity:0;
@@ -212,7 +212,7 @@
   justify-content:space-between;
   padding:12px 12px;
   border-radius:14px;
-  background: var(--avp-card-grad), var(--avp-navy);
+  background-color: #1e3b8f;
   border:1px solid var(--avp-border);
   box-shadow: var(--avp-shadow), 0 0 18px rgba(210,18,46,.22);
   opacity:0;
