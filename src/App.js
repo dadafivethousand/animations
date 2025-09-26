@@ -53,7 +53,7 @@ import FortniteSchedule from "./Used/FortniteSchedule";
 function App() {
   return (
     <>
-  <FortniteSchedule day="Saturday" />
+  <PowerRangersSchedule day="Saturday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

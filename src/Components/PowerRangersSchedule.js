@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/PowerRangersSchedule.css";
-import schedule from "../Schedule"; // or "../RhSchedule"
+import schedule from "../RhSchedule"; // or "../RhSchedule"
 
 export default function PowerRangersSchedule({
   day,
