@@ -142,15 +142,10 @@
 .dance-in {
   opacity: 1;
   transform: translateY(0) scaleY(1);
-  animation: duraSlam 0.4s ease-out;
+ 
 }
 
-/* Strong Slam Effect */
-@keyframes duraSlam {
-  0% { transform: translateY(-20px) scale(1.1); }
-  50% { transform: translateY(5px) scale(0.95); }
-  100% { transform: translateY(0) scale(1); }
-}
+ 
 
 /* Cancelled Class */
 .cancelled {
