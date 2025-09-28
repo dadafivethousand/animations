@@ -51,10 +51,12 @@ import AvengersSchedule from "./Components/AvengersSchedule";
 import YSLSchedule from "./Components/YSLSchedule";
 import FortniteSchedule from "./Used/FortniteSchedule";
 import GameOfThronesSchedule from "./Used/GameOfThronesSchedule";
+import RockSchedule from "./Used/RockSchedule";
+import ReggaetonSchedule from "./Used/ReggaetonSchedule";
 function App() {
   return (
     <>
-  <GameOfThronesSchedule day="Monday" />
+  <ReggaetonSchedule day="Monday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

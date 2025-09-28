@@ -1,115 +1,169 @@
 /* Dura Theme: Black & Yellow with Neon Highlights */
 :root {
-    --dura-yellow: #FFD700;
-    --dura-black: #000;
-    --dura-glow-yellow: rgba(255, 215, 0, 0.8);
-    --dura-orange: #FF7043;
-    --dura-white: #FFF;
-    --dura-red: #FF0000;
+  --dura-yellow: #ffd700;
+  --dura-black: #000;
+  --dura-glow-yellow: rgba(255, 215, 0, 0.8);
+  --dura-orange: #ff7043;
+  --dura-white: #fff;
+  --dura-red: #ff0000;
 }
 
 /* Full-Screen Black Background */
 .reggaeton-container {
-     height: 100vh;
-    width: 100vw;
-    overflow: hidden;
-    position: relative;
-    text-align: center;
-    font-family: "Poppins", sans-serif;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    background-image: url(../Images/Daddy_Yankee_-_Dura_\(Official_Single_Cover\).jpg);
-    
-}   
-.reggaeton-container::before{
-    position: absolute;
-    height: 100vh;
-    width: 100vw;
-    background-color: #0303039f;
-    content: '';
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  background-image: url("../Images/Used/Daddy_Yankee_-_Dura_\(Official_Single_Cover\).jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.reggaeton-container::before {
+  position: absolute;
+  inset: 0;
+  background-color: #0303039f;
+  content: "";
 }
 
 /* Title: Dura Yellow with Intense Glow */
 .reggaeton-title {
-    margin-top: 100px;
-    font-size: 3rem;
-    font-weight: 900;
-    color: rgb(0, 0, 0);
-    text-shadow: 0 0 15px var(--dura-glow-yellow), 0 0 25px var(--dura-yellow);
-    text-transform: uppercase;
-    opacity: 0;
-    transform: translateY(-20px);
-    transition: opacity 1.2s ease-in-out, transform 1.2s ease-in-out;
-    
+  margin-top: 100px;
+  font-size: 3rem;
+  font-weight: 900;
+  color: #000;
+  text-shadow: 0 0 15px var(--dura-glow-yellow), 0 0 25px var(--dura-yellow);
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 1.2s ease-in-out, transform 1.2s ease-in-out;
+  position: relative;
+  z-index: 1;
 }
 
 .reggaeton-title.visible {
-    opacity: 1;
-    transform: translateY(0);
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Schedule Wrapper */
 .reggaeton-schedule-wrapper {
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
 }
 
 /* Class Containers */
 .reggaeton-class {
-    background: rgb(46, 39, 1);
-    padding: 15px;
-    margin: 1px auto;
-    width: 90%;
-    max-width: 400px;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    text-align: center;
-    box-shadow: 0px 0px 20px var(--dura-glow-yellow);
-    color: var(--dura-yellow);
-    border: 3px solid var(--dura-yellow);
-    backdrop-filter: blur(4px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-weight: 700;
-    text-transform: uppercase;
-    opacity: 0;
-    transform: translateY(120px) scaleY(0.9);
-    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+  background: rgb(46, 39, 1);
+  padding: 15px;
+  margin: 6px auto;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 10px;
+  font-size: .8rem;
+  text-align: left;
+
+  box-shadow: 0 0 20px var(--dura-glow-yellow);
+  color: var(--dura-yellow);
+  border: 3px solid var(--dura-yellow);
+  backdrop-filter: blur(4px);
+
+  display: flex;                  /* row layout: LEFT (name+chip) | RIGHT (time) */
+  align-items: center;
+  justify-content: space-between;
+
+  font-weight: 700;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(120px) scaleY(0.9);
+  transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+}
+
+/* Keep class name & MAPLE chip on ONE line */
+.reggaeton-class-row {
+  min-width: 0;                   /* allow ellipsis to work */
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;            /* prevent wrapping to next line */
+  overflow: hidden;
+}
+
+.reggaeton-class-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Inline chip styles (matches your “tags/chips” contract) */
+.chip {
+  font-size: 0.75rem;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--dura-white);
+  white-space: nowrap;
+  flex: none;                     /* never shrink; keeps it inline */
+}
+
+.chip--maple {
+  background: #2a1f00;
+  border-color: rgba(255, 215, 0, 0.5);
+  color: #fff7bf;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.35);
+}
+
+/* Start time pill (right side) */
+.reggaeton-time {
+  font-weight: 900;
+  text-align: center;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: #1a1600;
+  border: 2px solid #8d7700;
+  min-width: 90px;                /* consistent width if you want even pills */
 }
 
 /* Classes Slam in with Impact */
 .dance-in {
-    opacity: 1;
-    transform: translateY(0) scaleY(1);
-    animation: duraSlam 0.4s ease-out;
+  opacity: 1;
+  transform: translateY(0) scaleY(1);
+  animation: duraSlam 0.4s ease-out;
 }
 
 /* Strong Slam Effect */
 @keyframes duraSlam {
-    0% { transform: translateY(-20px) scale(1.1); }
-    50% { transform: translateY(5px) scale(0.95); }
-    100% { transform: translateY(0) scale(1); }
+  0% { transform: translateY(-20px) scale(1.1); }
+  50% { transform: translateY(5px) scale(0.95); }
+  100% { transform: translateY(0) scale(1); }
 }
 
 /* Cancelled Class */
 .cancelled {
-    background: rgba(255, 0, 0, 0.8);
-    color: var(--dura-white);
-    text-decoration: line-through;
-    border: 3px solid var(--dura-red);
-    box-shadow: 0px 0px 15px var(--dura-red);
-    animation: flicker 1s infinite alternate;
+  background: rgba(255, 0, 0, 0.8);
+  color: var(--dura-white);
+  text-decoration: line-through;
+  border: 3px solid var(--dura-red);
+  box-shadow: 0 0 15px var(--dura-red);
+  animation: flicker 1s infinite alternate;
 }
 
 /* Flicker Animation for Cancelled Classes */
 @keyframes flicker {
-    0% { opacity: 0.8; }
-    100% { opacity: 1; }
+  0% { opacity: 0.8; }
+  100% { opacity: 1; }
 }
