@@ -57,7 +57,7 @@ export default function BondSchedule({
         <h1 className="bond-day">
           <span className="bond-day-inner">
             {safeDay.toUpperCase()}
-            <span className="bond-007" aria-hidden>007</span>
+          
           </span>
         </h1>
       </header>

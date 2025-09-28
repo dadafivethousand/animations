@@ -50,10 +50,11 @@ import CashAppSchedule from "./Components/CashAppSchedule";
 import AvengersSchedule from "./Components/AvengersSchedule";
 import YSLSchedule from "./Components/YSLSchedule";
 import FortniteSchedule from "./Used/FortniteSchedule";
+import GameOfThronesSchedule from "./Used/GameOfThronesSchedule";
 function App() {
   return (
     <>
-  <PowerRangersSchedule day="Saturday" />
+  <GameOfThronesSchedule day="Monday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
