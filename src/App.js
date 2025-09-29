@@ -58,7 +58,7 @@ import GriseldaBlancoSchedule from "./Components/GriseldaBlancoSchedule";
 function App() {
   return (
     <>
-  <GriseldaBlancoSchedule day="Tuesday" />
+  <GriseldaBlancoSchedule day="Wednesday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
