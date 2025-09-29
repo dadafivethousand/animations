@@ -199,7 +199,7 @@
 .dam-video-bg{
     opacity:0;
     position: absolute;
-    bottom:70px;
+    bottom:80px;
    transition: opacity 3s ease-in;
 
 }
