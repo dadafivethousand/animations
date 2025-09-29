@@ -10,7 +10,7 @@
 
 .mx-wrap{
   position: relative;
-  min-height: 100dvh;
+  min-height: 130vh;
   width: 100vw;
   overflow: hidden;
   background: var(--mx-bg);
@@ -26,6 +26,7 @@
   opacity: 0;
   transition: opacity 600ms ease;
   pointer-events: none;
+  height:130vh
 }
 .mx-canvas-on{ opacity: 0.35; }
 
@@ -170,6 +171,7 @@
 .mx-foot-label{
   color: var(--mx-green);
   font-weight: 700;
+  width:80px;
 }
 
 /* Value = white-ish, caret sits inside here on active line */

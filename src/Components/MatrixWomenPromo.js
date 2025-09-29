@@ -6,7 +6,7 @@ import Jess from "../Images/Jess.jpg";
 
 export default function MatrixWomenPromo() {
   const headline =
-    "Due to extremely high demand for our womens' only class we will now have 2 instructors:";
+    "Meet your instructors:";
 
   const [typed, setTyped] = useState("");
   const [showImages, setShowImages] = useState(false);
@@ -20,7 +20,7 @@ export default function MatrixWomenPromo() {
   const footerText =
     "Date: Friday, October 24, 7:30 pm\n" +
     "Location: Maple Jiu-Jitsu Academy \n" +
-    "Price: Complimentary for women and those who identify as women";
+    "Price: Free for Women";
 
   // Headline typewriter
   useEffect(() => {
