@@ -55,10 +55,11 @@ import RockSchedule from "./Used/RockSchedule";
 import ReggaetonSchedule from "./Used/ReggaetonSchedule";
 import DontApproachSchedule from "./Components/DontApproachSchedule";
 import GriseldaBlancoSchedule from "./Components/GriseldaBlancoSchedule";
+import MGKWildBoySchedule from "./Components/MGKWildBoySchedule";
 function App() {
   return (
     <>
-  <GriseldaBlancoSchedule day="Wednesday" />
+  <MGKWildBoySchedule day="Thursday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
