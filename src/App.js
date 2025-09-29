@@ -54,10 +54,11 @@ import GameOfThronesSchedule from "./Used/GameOfThronesSchedule";
 import RockSchedule from "./Used/RockSchedule";
 import ReggaetonSchedule from "./Used/ReggaetonSchedule";
 import DontApproachSchedule from "./Components/DontApproachSchedule";
+import GriseldaBlancoSchedule from "./Components/GriseldaBlancoSchedule";
 function App() {
   return (
     <>
-  <DontApproachSchedule day="Tuesday" />
+  <GriseldaBlancoSchedule day="Tuesday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
