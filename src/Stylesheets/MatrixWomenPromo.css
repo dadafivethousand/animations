@@ -1,0 +1,163 @@
+/* File: src/Stylesheets/MatrixWomenPromo.css */
+/* Mobile-only, 100dvh, holographic (faded) square photos with precise crops. */
+
+:root{
+  --mx-bg: #000;
+  --mx-ink: #b8ffb8;
+  --mx-green: #0f0;
+  --mx-grid: rgba(0,255,102,0.14);
+}
+
+.mx-wrap, .mx-wrap * { box-sizing: border-box; }
+
+.mx-wrap{
+  position: relative;
+  height: 100dvh;          /* exact viewport height; no scroll */
+  width: 100vw;
+  overflow: hidden;
+  background: var(--mx-bg);
+  color: var(--mx-ink);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "IBM Plex Mono", monospace;
+}
+
+/* Background rain */
+.mx-canvas{
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 600ms ease;
+  pointer-events: none;
+}
+.mx-canvas-on{ opacity: 0.35; }
+
+/* Foreground grid: headline, profiles, footer */
+.mx-content{
+  position: relative;
+  z-index: 2;
+  padding: 18px 12px 10px;    /* extra top spacing as requested */
+ 
+  max-width: 420px;
+  margin: 0 auto;
+  height: 100%;
+  overflow: hidden;
+  height:95vh;margin-top:30px;
+}
+
+/* Typewriter */
+.mx-type{
+  line-height: 1.25;
+  letter-spacing: 0.1px;
+  border-left: 2px solid var(--mx-green);
+  padding-left: 8px;
+  font-size: 12px;
+  min-height: 2.6em;
+}
+.mx-type-text{ display:inline; }
+.mx-caret{ display:inline-block; margin-left: 4px; color: var(--mx-green); animation: mxCaret 1s steps(1,end) infinite; }
+@keyframes mxCaret { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+
+/* Profiles container */
+.mx-profiles{
+  display: grid;
+  gap: 10px;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity .35s ease, transform .35s ease;
+  overflow: hidden;
+}
+.mx-profiles.mx-in{ opacity: 1; transform: translateY(0); }
+
+.mx-card{
+  background: linear-gradient(180deg, rgba(0,255,120,0.05), rgba(0,255,90,0.02));
+  border: 1px solid var(--mx-grid);
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(0,0,0,.5), inset 0 0 14px rgba(0,255,110,.08);
+  padding: 10px;
+}
+
+/* Side-by-side layout to save space */
+.mx-row{
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ----- Square photo box (same size for both) ----- */
+.mx-photo{
+  position: relative;
+  width: 44vw;        /* same for both */
+  max-width: 220px;
+  aspect-ratio: 1 / 1;  /* square */
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(0,255,120,.22);
+  box-shadow: 0 4px 12px rgba(0,0,0,.55);
+}
+
+/* Holographic = FADED + scanlines (subtle) */
+.holo img.mx-img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Image-specific crop: set via object-position on different classes */
+  opacity: 0.78;                      /* faded/translucent */
+  filter: contrast(1.02) saturate(0.96);
+}
+.holo.holo--soft::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0,255,160,0.06) 0px,
+      rgba(0,255,160,0.06) 1px,
+      transparent 2px,
+      transparent 4px
+    );
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+/* Square crop rules (different focus for each) */
+.mx-photo--square img.mx-img{ object-position: center; }
+.mx-photo--square img.mx-img:not(.mx-img--jess){ object-position: center top; } /* Nabiha top-most */
+.mx-photo--square img.mx-img.mx-img--jess{ object-position: right center; }    /* Jessica right-most */
+
+/* Bio */
+.mx-bio{
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity .4s ease .04s, transform .4s ease .04s;
+}
+.mx-bio-in .mx-bio{ opacity: 1; transform: translateY(0); }
+
+.mx-bio h2{ margin: 0 0 4px; font-size: 13px; color: var(--mx-green); }
+.mx-bio ul{ margin: 0 0 4px 0; padding: 0 0 0 12px; font-size: 11px; }
+.mx-bio li{ margin: 1px 0; }
+.mx-bio b{ color: #d8ffd8; }
+.mx-bio-line{ margin: 2px 0 0; font-size: 11px; color: #c8f5c8; }
+
+/* Footer */
+/* Footer */
+.mx-footer{
+  display: grid;
+  gap: 2px;
+  padding: 4px 6px 8px;
+  /* was text-align:center; now left to match paragraph */
+  text-align: left;
+  font-size: 12px;
+  color: #d8ffd8;
+  border-top: 1px solid rgba(0,255,120,0.12);
+  background: linear-gradient(180deg, rgba(0,255,120,0.04), transparent);
+}
+
+.mx-footer-line{ opacity: 0.95; }
+
+/* Smallest phones */
+@media (max-width: 360px){
+  .mx-type{ font-size: 11px; }
+  .mx-photo{ width: 46vw; max-width: 208px; }
+}

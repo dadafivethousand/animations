@@ -56,10 +56,11 @@ import ReggaetonSchedule from "./Used/ReggaetonSchedule";
 import DontApproachSchedule from "./Components/DontApproachSchedule";
 import GriseldaBlancoSchedule from "./Components/GriseldaBlancoSchedule";
 import MGKWildBoySchedule from "./Components/MGKWildBoySchedule";
+import MatrixWomenPromo from "./Components/MatrixWomenPromo";
 function App() {
   return (
     <>
-  <MGKWildBoySchedule day="Thursday" />
+  <MatrixWomenPromo day="Thursday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
