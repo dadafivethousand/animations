@@ -12,7 +12,7 @@ export default function DontApproachSchedule({ day, animationDelay = 900, animat
 useEffect(() => {
   const timer = setTimeout(() => {
     setVisibleVideo(true);
-  }, 3000);
+  }, 1000);
 
   // cleanup (in case the component unmounts before timeout finishes)
   return () => clearTimeout(timer);
