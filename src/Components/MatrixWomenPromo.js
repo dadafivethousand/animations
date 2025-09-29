@@ -1,3 +1,4 @@
+// File: src/Components/MatrixWomenPromo.js
 import React, { useEffect, useRef, useState } from "react";
 import "../Stylesheets/MatrixWomenPromo.css";
 import Nabi from "../Images/Nabi.jpg";
@@ -14,14 +15,14 @@ export default function MatrixWomenPromo() {
 
   // Footer typewriter
   const [typedFooter, setTypedFooter] = useState("");
-  const [footerTypingStarted, setFooterTypingStarted] = useState(false); // controls caret visibility
+  const [footerTypingStarted, setFooterTypingStarted] = useState(false);
 
   const footerText =
     "Date: Friday, October 24, 7:30 pm\n" +
     "Location: Maple Jiu-Jitsu Academy \n" +
     "Price: Complimentary for women and those who identify as women";
 
-  // Headline typewriter (unchanged speed)
+  // Headline typewriter
   useEffect(() => {
     let i = 0;
     const speed = 18;
@@ -36,31 +37,67 @@ export default function MatrixWomenPromo() {
       }
     }, speed);
     return () => clearInterval(id);
-  }, []);
+  }, [headline]);
 
-  // Footer typewriter — starts AFTER profiles are in
+  // Footer typewriter — starts after bios
   useEffect(() => {
     if (!showBios) return;
-    const startDelay = 350; // small pause after bios animate in
+    const startDelay = 350;
     let i = 0;
-    const speed = 32; // slower typing for footer
-    let tId;
+    const speed = 32;
+    let intervalId;
     const kick = setTimeout(() => {
-      setFooterTypingStarted(true); // show caret only when typing actually starts
-      tId = setInterval(() => {
+      setFooterTypingStarted(true);
+      intervalId = setInterval(() => {
         i += 1;
         setTypedFooter(footerText.slice(0, i));
         if (i >= footerText.length) {
-          clearInterval(tId);
+          clearInterval(intervalId);
         }
       }, speed);
     }, startDelay);
 
     return () => {
       clearTimeout(kick);
-      if (tId) clearInterval(tId);
+      if (intervalId) clearInterval(intervalId);
     };
-  }, [showBios]);
+  }, [showBios, footerText]);
+
+  // Render typed footer text as label/value rows
+  // The caret is inserted INSIDE the last row so it follows the text.
+  const renderFooter = (text) => {
+    if (!text) return null;
+    const lines = text.split("\n");
+    const lastIdx = lines.length - 1;
+
+    return lines.map((line, idx) => {
+      const colon = line.indexOf(":");
+      const isActiveRow = idx === lastIdx && footerTypingStarted;
+
+      if (colon !== -1) {
+        const label = line.slice(0, colon + 1);
+        const value = line.slice(colon + 1);
+        return (
+          <div className="mx-foot-row" key={idx}>
+            <span className="mx-foot-label">{label}</span>
+            <span className="mx-foot-value">
+              {value}
+              {isActiveRow && <span className="mx-caret mx-caret--inline" aria-hidden>█</span>}
+            </span>
+          </div>
+        );
+      }
+      // If we haven't typed the ":" yet, render the whole line as value
+      return (
+        <div className="mx-foot-row" key={idx}>
+          <span className="mx-foot-value">
+            {line}
+            {isActiveRow && <span className="mx-caret mx-caret--inline" aria-hidden>█</span>}
+          </span>
+        </div>
+      );
+    });
+  };
 
   return (
     <div className="mx-wrap">
@@ -110,17 +147,10 @@ export default function MatrixWomenPromo() {
           </article>
         </section>
 
-        {/* Footer — left-aligned, same style as first paragraph */}
-        <div className="mx-footer">
-          <div className="mx-type" style={{ textAlign: "left" }}>
-            <span
-              className="mx-type-text"
-              style={{ whiteSpace: "pre-line" }}
-            >
-              {typedFooter}
-            </span>
-            {/* Caret only shows once typing has started */}
-            {footerTypingStarted && <span className="mx-caret" aria-hidden>█</span>}
+        {/* Footer — card styled like bios; labels green/bold, values white; caret follows text */}
+        <div className="mx-card mx-footer">
+          <div className="mx-foot">
+            {renderFooter(typedFooter)}
           </div>
         </div>
       </div>
@@ -128,21 +158,22 @@ export default function MatrixWomenPromo() {
   );
 }
 
-/* ===== Improved Matrix Rain: denser columns, longer trails, bright heads ===== */
+/* ===== Matrix Rain canvas ===== */
 function MatrixRain({ active }) {
   const canvasRef = useRef(null);
   const rafRef = useRef(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
+    if (!canvas) return;
     const ctx = canvas.getContext("2d");
 
     let width = 0, height = 0, DPR = 1;
-    let fontSize = 9;              // smaller glyphs => more columns (denser)
+    let fontSize = 9;
     let columns = 0;
     let drops = [];
     let speeds = [];
-    let headPhase = [];            // phase offset for head glow flicker
+    let headPhase = [];
 
     const chars =
       "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%^&*()+=-アカサタナハマヤラワガザダバパイキシチニヒミリウクスツヌフムユルエケセテネヘメレオコソトノホモヨロヲ";
@@ -156,7 +187,6 @@ function MatrixRain({ active }) {
       canvas.height = Math.floor(height * DPR);
       ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
 
-      // Pick font slightly tighter for realism
       ctx.font = `${fontSize}px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace`;
       ctx.textBaseline = "top";
 
@@ -167,44 +197,38 @@ function MatrixRain({ active }) {
     };
 
     const draw = () => {
-      // Slightly darker fade for thicker trails (lower alpha => slower fade)
       ctx.fillStyle = "rgba(0, 0, 0, 0.04)";
       ctx.fillRect(0, 0, width, height);
 
-      const tailLen = 8; // draw a short tail behind the head for each column
+      const tailLen = 8;
 
       for (let i = 0; i < columns; i++) {
         const x = i * fontSize;
         const y = drops[i] * fontSize;
 
-        // Head glow flicker
-        const flicker = (Math.sin(headPhase[i]) + 1) * 0.5; // 0..1
+        const flicker = (Math.sin(headPhase[i]) + 1) * 0.5;
         headPhase[i] += 0.12 + Math.random() * 0.06;
 
-        // Draw head character (bright)
         const headChar = chars[(Math.random() * chars.length) | 0];
         ctx.shadowBlur = 6 + flicker * 6;
         ctx.shadowColor = "#00ff88";
-        ctx.fillStyle = "#aaffcc"; // bright minty head
+        ctx.fillStyle = "#aaffcc";
         ctx.fillText(headChar, x, y);
 
-        // Draw tail characters (dimmer, quickly trailing upward)
         ctx.shadowBlur = 0;
         for (let t = 1; t <= tailLen; t++) {
           const ty = y - t * fontSize;
           if (ty < -fontSize) break;
           const tailChar = chars[(Math.random() * chars.length) | 0];
-          const alpha = Math.max(0, 0.12 - t * 0.012); // tail fades out
+          const alpha = Math.max(0, 0.12 - t * 0.012);
           ctx.fillStyle = `rgba(0,255,128,${alpha})`;
           ctx.fillText(tailChar, x, ty);
         }
 
-        // Advance drop
         drops[i] += speeds[i];
 
-        // Reset with probability and vary speed a bit
         if (y > height + tailLen * fontSize && Math.random() > 0.9) {
-          drops[i] = -Math.random() * 20; // restart slightly above top for continuity
+          drops[i] = -Math.random() * 20;
           speeds[i] = 0.9 + Math.random() * 1.1;
         }
       }
@@ -224,5 +248,11 @@ function MatrixRain({ active }) {
     };
   }, [active]);
 
-  return <canvas className={`mx-canvas ${active ? "mx-canvas-on" : ""}`} ref={canvasRef} aria-hidden />;
+  return (
+    <canvas
+      className={`mx-canvas ${active ? "mx-canvas-on" : ""}`}
+      ref={canvasRef}
+      aria-hidden
+    />
+  );
 }

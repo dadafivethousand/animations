@@ -1,6 +1,4 @@
 /* File: src/Stylesheets/MatrixWomenPromo.css */
-/* Mobile-only, 100dvh, holographic (faded) square photos with precise crops. */
-
 :root{
   --mx-bg: #000;
   --mx-ink: #b8ffb8;
@@ -12,7 +10,7 @@
 
 .mx-wrap{
   position: relative;
-  height: 100dvh;          /* exact viewport height; no scroll */
+  min-height: 100dvh;
   width: 100vw;
   overflow: hidden;
   background: var(--mx-bg);
@@ -35,26 +33,28 @@
 .mx-content{
   position: relative;
   z-index: 2;
-  padding: 18px 12px 10px;    /* extra top spacing as requested */
- 
+  padding: 45px 12px 10px;
   max-width: 420px;
   margin: 0 auto;
-  height: 100%;
-  overflow: hidden;
-  height:95vh;margin-top:30px;
 }
 
-/* Typewriter */
+/* Typewriter (headline) */
 .mx-type{
   line-height: 1.25;
   letter-spacing: 0.1px;
-  border-left: 2px solid var(--mx-green);
   padding-left: 8px;
-  font-size: 12px;
+  font-size: 13px;
   min-height: 2.6em;
 }
 .mx-type-text{ display:inline; }
-.mx-caret{ display:inline-block; margin-left: 4px; color: var(--mx-green); animation: mxCaret 1s steps(1,end) infinite; }
+.mx-caret{
+  display:inline-block;
+  margin-left: 4px;
+  color: var(--mx-green);
+  animation: mxCaret 1s steps(1,end) infinite;
+  /* inline caret should align with text baseline */
+  vertical-align: baseline;
+}
 @keyframes mxCaret { 0%,49%{opacity:1} 50%,100%{opacity:0} }
 
 /* Profiles container */
@@ -65,6 +65,7 @@
   transform: translateY(4px);
   transition: opacity .35s ease, transform .35s ease;
   overflow: hidden;
+  margin: 20px 0px;
 }
 .mx-profiles.mx-in{ opacity: 1; transform: translateY(0); }
 
@@ -76,7 +77,7 @@
   padding: 10px;
 }
 
-/* Side-by-side layout to save space */
+/* Side-by-side layout */
 .mx-row{
   display: grid;
   grid-template-columns: auto 1fr;
@@ -84,25 +85,24 @@
   gap: 10px;
 }
 
-/* ----- Square photo box (same size for both) ----- */
+/* Square photo box */
 .mx-photo{
   position: relative;
-  width: 44vw;        /* same for both */
+  width: 44vw;
   max-width: 220px;
-  aspect-ratio: 1 / 1;  /* square */
+  aspect-ratio: 1 / 1;
   border-radius: 10px;
   overflow: hidden;
   border: 1px solid rgba(0,255,120,.22);
   box-shadow: 0 4px 12px rgba(0,0,0,.55);
 }
 
-/* Holographic = FADED + scanlines (subtle) */
+/* Holographic effect */
 .holo img.mx-img{
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Image-specific crop: set via object-position on different classes */
-  opacity: 0.78;                      /* faded/translucent */
+  opacity: 0.78;
   filter: contrast(1.02) saturate(0.96);
 }
 .holo.holo--soft::before{
@@ -121,10 +121,10 @@
   mix-blend-mode: screen;
 }
 
-/* Square crop rules (different focus for each) */
+/* Square crop rules */
 .mx-photo--square img.mx-img{ object-position: center; }
-.mx-photo--square img.mx-img:not(.mx-img--jess){ object-position: center top; } /* Nabiha top-most */
-.mx-photo--square img.mx-img.mx-img--jess{ object-position: right center; }    /* Jessica right-most */
+.mx-photo--square img.mx-img:not(.mx-img--jess){ object-position: center top; }
+.mx-photo--square img.mx-img.mx-img--jess{ object-position: right center; }
 
 /* Bio */
 .mx-bio{
@@ -134,30 +134,61 @@
 }
 .mx-bio-in .mx-bio{ opacity: 1; transform: translateY(0); }
 
-.mx-bio h2{ margin: 0 0 4px; font-size: 13px; color: var(--mx-green); }
-.mx-bio ul{ margin: 0 0 4px 0; padding: 0 0 0 12px; font-size: 11px; }
+.mx-bio h2{
+  margin: 0 0 4px;
+  font-size: 13px;
+  color: var(--mx-green);
+}
+.mx-bio ul{
+  margin: 0 0 4px 0;
+  padding: 0 0 0 12px;
+  font-size: 11px;
+}
 .mx-bio li{ margin: 1px 0; }
 .mx-bio b{ color: #d8ffd8; }
 .mx-bio-line{ margin: 2px 0 0; font-size: 11px; color: #c8f5c8; }
 
-/* Footer */
-/* Footer */
+/* Footer — styled like bios with green labels + white values */
 .mx-footer{
-  display: grid;
-  gap: 2px;
-  padding: 4px 6px 8px;
-  /* was text-align:center; now left to match paragraph */
-  text-align: left;
+  margin-top: 10px;
+}
+.mx-foot{
   font-size: 12px;
+  line-height: 1.35;
   color: #d8ffd8;
-  border-top: 1px solid rgba(0,255,120,0.12);
-  background: linear-gradient(180deg, rgba(0,255,120,0.04), transparent);
+  text-align: left;
+  position: relative;
+}
+.mx-foot-row{
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+  white-space: pre-wrap; /* keep spaces in values */
 }
 
-.mx-footer-line{ opacity: 0.95; }
+/* Label = greener & bolder */
+.mx-foot-label{
+  color: var(--mx-green);
+  font-weight: 700;
+}
+
+/* Value = white-ish, caret sits inside here on active line */
+.mx-foot-value{
+  color: #d8ffd8;
+}
+
+/* Inline caret that follows the text (footer) */
+.mx-caret--inline{
+  display: inline-block;
+  margin-left: 4px;
+  vertical-align: baseline; /* keep it on the same line */
+  animation: mxCaret 1s steps(1,end) infinite;
+  color: var(--mx-green);
+}
 
 /* Smallest phones */
 @media (max-width: 360px){
   .mx-type{ font-size: 11px; }
   .mx-photo{ width: 46vw; max-width: 208px; }
+  .mx-foot{ font-size: 11px; }
 }
