@@ -1,0 +1,210 @@
+/* Don't Approach Me — dark, gritty, high-contrast; fully black background */
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;700;800&display=swap');
+
+:root{
+  --ink:#f5f7ff;
+  --muted:#a7b0c6;
+  --black:#000000;            /* fully black background */
+  --card:#0a0a0a;             /* near-black card */
+  --border:#1b1b1b;
+  --accent:#ff2d2d;           /* hostile red accent */
+  --accent-dim:#a31919;
+
+  --card-width:80%;
+  --time-width:90px;
+}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+
+/* Wrap — fully black background */
+.dam-wrap{
+  min-height:100vh;
+  width:100vw;
+  background: var(--black);
+  color:var(--ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:14px 14px 24px;
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+ }
+
+/* Header — centered day */
+.dam-header{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:10px 2px 14px;
+  text-align:center;
+  border-bottom:1px solid #111;
+  position:relative;
+  margin-bottom:0px;
+}
+
+.dam-header:after{
+  content:"";
+  position:absolute;
+  bottom:-1px;
+  left:50%;
+  transform:translateX(-50%);
+  width:140px;
+  height:4px;
+  background:linear-gradient(90deg, transparent, var(--accent), transparent);
+  filter:drop-shadow(0 0 8px rgba(255,45,45,.35));
+
+}
+
+.dam-day{
+  font-family:"Anton", system-ui, sans-serif;
+  font-size:27px;
+  letter-spacing:.14em;
+  color:#fff;
+  text-shadow:0 0 12px rgba(255,45,45,.25);
+  padding-top: 70px;
+}
+
+/* List */
+.dam-list{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  align-items:center; /* center cards */
+  z-index: 5;
+}
+
+/* Card — 80% width, centered, compact */
+.dam-card{
+  width:var(--card-width);
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:5px 12px;
+  border-radius:12px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0)),
+    var(--card);
+  border:1px solid var(--border);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.03),
+    0 10px 22px rgba(0,0,0,.45),
+    0 0 22px rgba(255,45,45,.12);
+  opacity:0;
+  transform:translateY(10px);
+  position:relative;
+  overflow:hidden;
+  border:1px solid  var(--accent);
+}
+
+/* Red bar accent at left */
+.dam-card:before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  width:4px;
+  height:100%;
+  background:linear-gradient(180deg, var(--accent), var(--accent-dim));
+  box-shadow:0 0 12px rgba(255,45,45,.35);
+}
+
+.dam-in{ animation:dam-rise .22s ease-out forwards }
+@keyframes dam-rise{ to{ opacity:1; transform:translateY(0)} }
+
+/* Left column */
+.dam-left{min-width:0;display:flex;flex-direction:column;gap:4px}
+
+/* Keep title + maple on ONE line */
+.dam-title-row{
+  min-width:0;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  white-space:nowrap;
+  overflow:hidden;
+}
+
+.dam-title{
+  font-weight:800;
+  font-size:16px;
+  color:#fff;
+  letter-spacing:.02em;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* Tags/chips */
+.chip{
+  font-size:12px;
+  line-height:1;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.08);
+  color:#fff;
+  white-space:nowrap;
+  flex:none; /* never shrink so it stays inline */
+}
+.chip--maple{
+  background:#1a0a0a;
+  border-color: rgba(255,45,45,.55);
+  color:#ffdad6;
+  box-shadow:0 0 10px rgba(255,45,45,.28);
+}
+
+/* Replacement styling (contract) */
+.swap .old{text-decoration:line-through;opacity:.65}
+.swap .arrow{opacity:.6;margin:0 6px}
+.swap .new{font-weight:700}
+
+/* Time pill — start time ONLY, fixed width & centered */
+.dam-time{
+  font:800 13px/1 "Inter", system-ui, sans-serif;
+  padding:8px 0;
+  border-radius:9px;
+  background:#0f0f0f;
+  border:1px solid #232323;
+  color:#f1f4ff;
+  letter-spacing:.02em;
+
+  width:var(--time-width);
+  flex:0 0 var(--time-width);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.05),
+    0 6px 14px rgba(0,0,0,.5);
+}
+
+/* Active tap feedback */
+.dam-card:active{
+  transform:translateY(12px);
+  transition:transform .06s ease;
+  box-shadow:0 4px 14px rgba(0,0,0,.45);
+}
+
+/* Slight bumps on wider screens */
+@media (min-width:431px){
+  .dam-title{font-size:17px}
+  .dam-time{font-size:14px}
+}
+
+.dam-video-bg{
+    opacity:0;
+    position: absolute;
+    bottom:10px;
+   transition: opacity 3s ease-in;
+
+}
+.dam-video-visible{
+    opacity: 1
+  
+}
+
