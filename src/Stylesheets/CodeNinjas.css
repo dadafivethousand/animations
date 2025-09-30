@@ -70,7 +70,9 @@
   animation: cn-blink 1s step-start infinite;
   font-weight: 900;
   color: #000;
-  font-size: 21px;
+  font-size: 22px;
+    position: relative;
+    top: -3px
 }
 
 @keyframes cn-blink {
@@ -107,7 +109,7 @@
     opacity: 0;
     transition: opacity 2s ease-in-out;
     position:absolute;
-    bottom:50px;
+    bottom:200px;
     z-index: 5;
     left:50%;
     transform: translateX(-50%)
