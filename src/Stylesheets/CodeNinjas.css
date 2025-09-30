@@ -60,6 +60,8 @@
   display: inline-flex;
   align-items: center;
   font-variant-ligatures: none;
+  min-height:20px;
+   max-height:20px;
 }
 
 .CN-Caret {
@@ -68,7 +70,7 @@
   animation: cn-blink 1s step-start infinite;
   font-weight: 900;
   color: #000;
-  font-size: 15px;
+  font-size: 21px;
 }
 
 @keyframes cn-blink {
@@ -104,6 +106,11 @@
     margin-top:40px;
     opacity: 0;
     transition: opacity 2s ease-in-out;
+    position:absolute;
+    bottom:50px;
+    z-index: 5;
+    left:50%;
+    transform: translateX(-50%)
 }
 
 
