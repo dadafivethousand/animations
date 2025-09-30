@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/BassProSchedule.css";
-import schedule from "../Schedule"; // or "../RhSchedule" if you store data there
+import schedule from "../RhSchedule"; // or "../RhSchedule" if you store data there
 
 export default function BassProSchedule({
   day,

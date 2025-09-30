@@ -59,7 +59,7 @@ import MGKWildBoySchedule from "./Components/MGKWildBoySchedule";
   function App() {
   return (
     <>
-  <CashAppSchedule day={"Tuesday"} />
+  <BassProSchedule day={"Wednesday"} />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
