@@ -90,7 +90,7 @@ font-size: 20px;
 .cashapp-in{ animation:cashapp-rise .22s ease-out forwards; }
 @keyframes cashapp-rise{ to{ opacity:1; transform:translateY(0); } }
 
-.cashapp-left{ min-width:0; display:flex; flex-direction:column; gap:4px; }
+.cashapp-left{ min-width:0; display:flex; align-items: center; justify-content:center ; gap: 5px; }
 
 .cashapp-title{
   font-weight:800;
@@ -120,7 +120,7 @@ font-size: 20px;
 }
 .chip--maple{
   background:#0e2a12;
-  border-color:rgba(0,214,50,.55);
+  border-color:rgba(0, 171, 40, 0.55);
   color:#cfffdc;
   box-shadow:0 0 10px rgba(0,214,50,.22);
 }

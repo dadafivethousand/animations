@@ -1,16 +1,22 @@
-/* File: src/Stylesheets/MatrixWomenPromo.css */
+/* Mobile-only, 100dvh. No CSS grid anywhere.
+   Sequential slow typewriting. Flex rows with explicit height. */
+
 :root{
   --mx-bg: #000;
   --mx-ink: #b8ffb8;
   --mx-green: #0f0;
   --mx-grid: rgba(0,255,102,0.14);
+
+  /* sizing */
+  --row-h: 170px;   /* explicit row height for each coach */
+  --photo: 170px;   /* square side (matches row height) */
 }
 
-.mx-wrap, .mx-wrap * { box-sizing: border-box; }
+* { box-sizing: border-box; }
 
 .mx-wrap{
   position: relative;
-  min-height: 130vh;
+  height: 100dvh;
   width: 100vw;
   overflow: hidden;
   background: var(--mx-bg);
@@ -18,7 +24,7 @@
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "IBM Plex Mono", monospace;
 }
 
-/* Background rain */
+/* Rain behind content */
 .mx-canvas{
   position: absolute;
   inset: 0;
@@ -26,171 +32,125 @@
   opacity: 0;
   transition: opacity 600ms ease;
   pointer-events: none;
-  height:130vh
 }
 .mx-canvas-on{ opacity: 0.35; }
 
-/* Foreground grid: headline, profiles, footer */
+/* Main column (flex) */
 .mx-content{
   position: relative;
   z-index: 2;
-  padding: 45px 12px 10px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   max-width: 420px;
   margin: 0 auto;
+  padding: 12px 10px 8px;
+  gap: 10px;
 }
 
-/* Typewriter (headline) */
+/* Typewriter paragraph at top */
 .mx-type{
   line-height: 1.25;
   letter-spacing: 0.1px;
+  border-left: 2px solid var(--mx-green);
   padding-left: 8px;
-  font-size: 13px;
-  min-height: 2.6em;
+  font-size: 12px;
+  min-height: 2.6em; /* reserve while typing */
 }
 .mx-type-text{ display:inline; }
-.mx-caret{
-  display:inline-block;
-  margin-left: 4px;
-  color: var(--mx-green);
-  animation: mxCaret 1s steps(1,end) infinite;
-  /* inline caret should align with text baseline */
-  vertical-align: baseline;
-}
+.mx-caret{ display:inline-block; margin-left:4px; color:var(--mx-green); animation: mxCaret 1s steps(1,end) infinite; }
 @keyframes mxCaret { 0%,49%{opacity:1} 50%,100%{opacity:0} }
 
-/* Profiles container */
+/* Profiles container (block layout) */
 .mx-profiles{
-  display: grid;
-  gap: 10px;
-  opacity: 0;
-  transform: translateY(4px);
-  transition: opacity .35s ease, transform .35s ease;
+  flex: 1 1 auto;
   overflow: hidden;
-  margin: 20px 0px;
 }
-.mx-profiles.mx-in{ opacity: 1; transform: translateY(0); }
 
+/* Card: compact, no wasted space */
 .mx-card{
-  background: linear-gradient(180deg, rgba(0,255,120,0.05), rgba(0,255,90,0.02));
+  background: linear-gradient(180deg, rgba(0,255,120,0.04), rgba(0,255,90,0.02));
   border: 1px solid var(--mx-grid);
-  border-radius: 12px;
-  box-shadow: 0 4px 18px rgba(0,0,0,.5), inset 0 0 14px rgba(0,255,110,.08);
-  padding: 10px;
+  border-radius: 10px;
+  padding: 6px;
+  margin-bottom: 10px;
 }
 
-/* Side-by-side layout */
+/* Row = flex with fixed height */
 .mx-row{
-  display: grid;
-  grid-template-columns: auto 1fr;
+  display: flex;
   align-items: center;
   gap: 10px;
+  height: var(--row-h);   /* explicit control */
+  overflow: hidden;
 }
 
-/* Square photo box */
+/* Square photo + improved holo */
 .mx-photo{
   position: relative;
-  width: 44vw;
-  max-width: 220px;
-  aspect-ratio: 1 / 1;
-  border-radius: 10px;
+  width: var(--photo);
+  height: var(--photo);
+  flex: 0 0 var(--photo);
+  border-radius: 8px;
   overflow: hidden;
-  border: 1px solid rgba(0,255,120,.22);
-  box-shadow: 0 4px 12px rgba(0,0,0,.55);
+  border: 1px solid rgba(0,255,120,.2);
+  box-shadow: 0 6px 14px rgba(0,0,0,.55);
 }
+.mx-photo img.mx-img{
+  width: 100%; height: 100%; object-fit: cover; display:block;
+  opacity: .84; filter: contrast(1.05) saturate(0.96);
+}
+/* Crop rules */
+.mx-img--nabi{ object-position: center top; }
+.mx-img--jess{ object-position: right center; }
 
-/* Holographic effect */
-.holo img.mx-img{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.78;
-  filter: contrast(1.02) saturate(0.96);
+/* Holographic effect: scanlines + shimmer + slight chroma split */
+.mx-holo::before,
+.mx-holo::after{
+  content:""; position:absolute; inset:0; pointer-events:none;
 }
-.holo.holo--soft::before{
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    repeating-linear-gradient(
-      to bottom,
-      rgba(0,255,160,0.06) 0px,
-      rgba(0,255,160,0.06) 1px,
-      transparent 2px,
-      transparent 4px
-    );
-  pointer-events: none;
+.mx-holo::before{
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0,255,150,.06) 0px, rgba(0,255,150,.06) 1px,
+    transparent 2px, transparent 4px
+  );
   mix-blend-mode: screen;
 }
-
-/* Square crop rules */
-.mx-photo--square img.mx-img{ object-position: center; }
-.mx-photo--square img.mx-img:not(.mx-img--jess){ object-position: center top; }
-.mx-photo--square img.mx-img.mx-img--jess{ object-position: right center; }
-
-/* Bio */
-.mx-bio{
-  opacity: 0;
-  transform: translateY(4px);
-  transition: opacity .4s ease .04s, transform .4s ease .04s;
+.mx-holo::after{
+  background:
+    linear-gradient(120deg, transparent 35%, rgba(0,255,160,.18) 50%, transparent 65%);
+  animation: mxShimmer 2.6s linear infinite;
+  filter:
+    drop-shadow(0 0 3px rgba(0,255,120,.25))
+    drop-shadow(0 0 6px rgba(0,255,120,.10));
 }
-.mx-bio-in .mx-bio{ opacity: 1; transform: translateY(0); }
+@keyframes mxShimmer {
+  0%   { transform: translateX(-80%); }
+  100% { transform: translateX(120%); }
+}
 
-.mx-bio h2{
-  margin: 0 0 4px;
-  font-size: 13px;
-  color: var(--mx-green);
-}
-.mx-bio ul{
-  margin: 0 0 4px 0;
-  padding: 0 0 0 12px;
-  font-size: 11px;
-}
-.mx-bio li{ margin: 1px 0; }
-.mx-bio b{ color: #d8ffd8; }
-.mx-bio-line{ margin: 2px 0 0; font-size: 11px; color: #c8f5c8; }
-
-/* Footer — styled like bios with green labels + white values */
-.mx-footer{
-  margin-top: 10px;
-}
-.mx-foot{
+/* Bio text (typed), respect \n line breaks */
+.mx-bio{ min-width: 0; }
+.mx-bio-typed{
+  white-space: pre-line;
   font-size: 12px;
-  line-height: 1.35;
-  color: #d8ffd8;
-  text-align: left;
-  position: relative;
-}
-.mx-foot-row{
-  display: flex;
-  gap: 6px;
-  align-items: baseline;
-  white-space: pre-wrap; /* keep spaces in values */
-}
-
-/* Label = greener & bolder */
-.mx-foot-label{
-  color: var(--mx-green);
-  font-weight: 700;
-  width:80px;
-}
-
-/* Value = white-ish, caret sits inside here on active line */
-.mx-foot-value{
+  line-height: 1.25;
   color: #d8ffd8;
 }
 
-/* Inline caret that follows the text (footer) */
-.mx-caret--inline{
-  display: inline-block;
-  margin-left: 4px;
-  vertical-align: baseline; /* keep it on the same line */
-  animation: mxCaret 1s steps(1,end) infinite;
-  color: var(--mx-green);
+/* Footer — two separate typed lines */
+.mx-footer-typed{
+  text-align: center;
+  font-size: 12px;
+  color: #d8ffd8;
+  border-top: 1px solid rgba(0,255,120,.15);
+  padding-top: 6px;
 }
+.mx-footer-line{ min-height: 1.6em; }
 
 /* Smallest phones */
 @media (max-width: 360px){
+  :root{ --row-h: 160px; --photo: 160px; }
   .mx-type{ font-size: 11px; }
-  .mx-photo{ width: 46vw; max-width: 208px; }
-  .mx-foot{ font-size: 11px; }
 }

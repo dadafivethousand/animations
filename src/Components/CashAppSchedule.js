@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/CashAppSchedule.css";
-import schedule from "../Schedule"; // or "../RhSchedule" if you prefer
+import schedule from "../RhSchedule"; // or "../RhSchedule" if you prefer
 import cashAppLogo from "../Images/cashapplogo.png"
 
 export default function CashAppSchedule({ day, animationDelay = 900, animationInterval = 160 }) {

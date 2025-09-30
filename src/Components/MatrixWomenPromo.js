@@ -1,156 +1,294 @@
-// File: src/Components/MatrixWomenPromo.js
 import React, { useEffect, useRef, useState } from "react";
 import "../Stylesheets/MatrixWomenPromo.css";
 import Nabi from "../Images/Nabi.jpg";
 import Jess from "../Images/Jess.jpg";
 
-export default function MatrixWomenPromo() {
-  const headline =
-    "Meet your instructors:";
+/* ========================= Typewriter ========================= */
+function Typewriter({ text, start, speed = 100, className }) {
+  const [out, setOut] = useState("");
+  const [done, setDone] = useState(false);
+  const startedRef = useRef(false);
+  const timerRef = useRef(null);
 
-  const [typed, setTyped] = useState("");
-  const [showImages, setShowImages] = useState(false);
-  const [showBios, setShowBios] = useState(false);
-  const [rainOn, setRainOn] = useState(false);
-
-  // Footer typewriter
-  const [typedFooter, setTypedFooter] = useState("");
-  const [footerTypingStarted, setFooterTypingStarted] = useState(false);
-
-  const footerText =
-    "Date: Friday, October 24, 7:30 pm\n" +
-    "Location: Maple Jiu-Jitsu Academy \n" +
-    "Price: Free for Women";
-
-  // Headline typewriter
   useEffect(() => {
+    if (!start || startedRef.current) return;
+    startedRef.current = true;
+
     let i = 0;
-    const speed = 18;
-    const id = setInterval(() => {
+    const tick = () => {
       i += 1;
-      setTyped(headline.slice(0, i));
-      if (i >= headline.length) {
-        clearInterval(id);
-        setTimeout(() => setShowImages(true), 250);
-        setTimeout(() => setShowBios(true), 800);
-        setTimeout(() => setRainOn(true), 1400);
+      setOut(text.slice(0, i));
+      if (i >= text.length) {
+        setDone(true);
+        timerRef.current = null;
+        return;
       }
-    }, speed);
-    return () => clearInterval(id);
-  }, [headline]);
-
-  // Footer typewriter — starts after bios
-  useEffect(() => {
-    if (!showBios) return;
-    const startDelay = 350;
-    let i = 0;
-    const speed = 32;
-    let intervalId;
-    const kick = setTimeout(() => {
-      setFooterTypingStarted(true);
-      intervalId = setInterval(() => {
-        i += 1;
-        setTypedFooter(footerText.slice(0, i));
-        if (i >= footerText.length) {
-          clearInterval(intervalId);
-        }
-      }, speed);
-    }, startDelay);
+      timerRef.current = setTimeout(tick, speed);
+    };
+    timerRef.current = setTimeout(tick, speed);
 
     return () => {
-      clearTimeout(kick);
-      if (intervalId) clearInterval(intervalId);
+      if (timerRef.current) clearTimeout(timerRef.current);
     };
-  }, [showBios, footerText]);
+  }, [start, text, speed]);
 
-  // Render typed footer text as label/value rows
-  // The caret is inserted INSIDE the last row so it follows the text.
-  const renderFooter = (text) => {
-    if (!text) return null;
-    const lines = text.split("\n");
-    const lastIdx = lines.length - 1;
+  if (!start && out.length === 0) return null;
 
-    return lines.map((line, idx) => {
-      const colon = line.indexOf(":");
-      const isActiveRow = idx === lastIdx && footerTypingStarted;
+  return (
+    <span className={className}>
+      {out}
+      {!done ? <span className="mx-caret" aria-hidden>█</span> : null}
+    </span>
+  );
+}
 
-      if (colon !== -1) {
-        const label = line.slice(0, colon + 1);
-        const value = line.slice(colon + 1);
-        return (
-          <div className="mx-foot-row" key={idx}>
-            <span className="mx-foot-label">{label}</span>
-            <span className="mx-foot-value">
-              {value}
-              {isActiveRow && <span className="mx-caret mx-caret--inline" aria-hidden>█</span>}
-            </span>
-          </div>
-        );
+/* ========================= UltraMatrixRain =========================
+   Layered, realistic Matrix rain with parallax, bright heads, long trails,
+   wind drift, DPR scaling, and autoresume/pause. No inline styles.
+==================================================================== */
+function UltraMatrixRain({ active }) {
+  const canvasRef = useRef(null);
+  const rafRef = useRef(null);
+  const observerRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d", { alpha: true });
+
+    let width = 0, height = 0, DPR = 1;
+    let running = false;
+
+    // Glyph set: numbers + uppercase + symbols + katakana
+    const CHARS =
+      "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%&*+=-アカサタナハマヤラワイキシチニヒミリウクスツヌフムユルエケセテネヘメレオコソトノホモヨロヲ";
+
+    // Three parallax layers
+    const LAYERS = [
+      // tiny/far (dense, slow)
+      { font: 10, drift: 0.05, speedMin: 0.7, speedMax: 1.0, alpha: 0.75, resetChance: 0.93 },
+      // mid layer
+      { font: 12, drift: 0.07, speedMin: 0.9, speedMax: 1.25, alpha: 0.85, resetChance: 0.94 },
+      // large/near (sparser, faster)
+      { font: 14, drift: 0.09, speedMin: 1.1, speedMax: 1.5, alpha: 0.9, resetChance: 0.96 },
+    ];
+
+    // Each layer has columns/drops
+    let state = [];
+
+    const rand = (a, b) => a + Math.random() * (b - a);
+
+    const setup = () => {
+      // Device pixel ratio
+      DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+      width = canvas.offsetWidth | 0;
+      height = canvas.offsetHeight | 0;
+      canvas.width = Math.floor(width * DPR);
+      canvas.height = Math.floor(height * DPR);
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      ctx.textBaseline = "top";
+
+      // Initialize layers
+      state = LAYERS.map(layer => {
+        const cols = Math.floor(width / layer.font);
+        const drops = new Array(cols).fill(0).map(() => rand(0, height / layer.font));
+        const speeds = new Array(cols).fill(0).map(() => rand(layer.speedMin, layer.speedMax));
+        const headGlow = new Array(cols).fill(0).map(() => rand(0.9, 1.2)); // slight per-col head intensity
+        const jitter = new Array(cols).fill(0).map(() => rand(-0.2, 0.2)); // per-col vertical jitter
+        return { ...layer, cols, drops, speeds, headGlow, jitter, wind: rand(-0.15, 0.15) };
+      });
+    };
+
+    // Debounced resize
+    let resizeTimer = null;
+    const onResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        setup();
+      }, 120);
+    };
+
+    const drawLayer = (layer) => {
+      const { font, cols, drops, speeds, headGlow, alpha, drift, jitter, resetChance } = layer;
+
+      ctx.font = `${font}px monospace`;
+      ctx.fillStyle = `rgba(0,255,0,${alpha})`;
+
+      for (let i = 0; i < cols; i++) {
+        const x = i * font;
+        const y = drops[i] * font;
+
+        // Head (brighter glyph)
+        // Draw head with stronger glow
+        ctx.shadowColor = "rgba(0,255,120,0.45)";
+        ctx.shadowBlur = 8;
+        const head = CHARS[(Math.random() * CHARS.length) | 0];
+        ctx.fillText(head, x, y);
+
+        // Trail: a couple faded glyphs behind the head
+        ctx.shadowBlur = 0;
+        ctx.globalAlpha = 0.55 * alpha;
+        const trail1 = CHARS[(Math.random() * CHARS.length) | 0];
+        ctx.fillText(trail1, x + drift * 3, y - font);
+        ctx.globalAlpha = 0.3 * alpha;
+        const trail2 = CHARS[(Math.random() * CHARS.length) | 0];
+        ctx.fillText(trail2, x + drift * 5, y - font * 2);
+
+        // Reset alpha for next column
+        ctx.globalAlpha = 1;
+
+        // Advance this drop with slight jitter
+        drops[i] += speeds[i] + jitter[i] * 0.2;
+
+        // Occasionally drift sideways by nudging x via wind on next frames
+        // (implemented visually by drawing the trail shifted; head x stays on column)
+
+        // Reset to top with probability, making density high
+        if (y > height && Math.random() > resetChance) {
+          drops[i] = -Math.random() * 10; // respawn above top for smoother entry
+          speeds[i] = rand(layer.speedMin, layer.speedMax);
+          jitter[i] = rand(-0.2, 0.2);
+        }
       }
-      // If we haven't typed the ":" yet, render the whole line as value
-      return (
-        <div className="mx-foot-row" key={idx}>
-          <span className="mx-foot-value">
-            {line}
-            {isActiveRow && <span className="mx-caret mx-caret--inline" aria-hidden>█</span>}
-          </span>
-        </div>
-      );
-    });
-  };
+      // light layer blending is handled by per-frame fade
+    };
+
+    const frame = () => {
+      // Fade previous frame for long trails
+      ctx.fillStyle = "rgba(0,0,0,0.07)";
+      ctx.fillRect(0, 0, width, height);
+
+      // Draw each layer
+      for (let l = 0; l < state.length; l++) {
+        drawLayer(state[l]);
+      }
+      rafRef.current = requestAnimationFrame(frame);
+    };
+
+    const start = () => {
+      if (running) return;
+      running = true;
+      rafRef.current = requestAnimationFrame(frame);
+    };
+    const stop = () => {
+      running = false;
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    };
+
+    // Visibility pause: save battery when tab is hidden
+    const vis = () => {
+      if (document.hidden || !active) {
+        stop();
+      } else {
+        start();
+      }
+    };
+
+    setup();
+    if (active) start();
+
+    window.addEventListener("resize", onResize);
+    document.addEventListener("visibilitychange", vis);
+    // Observe canvas size changes (e.g., CSS changes without window resize)
+    observerRef.current = new ResizeObserver(setup);
+    observerRef.current.observe(canvas);
+
+    return () => {
+      stop();
+      window.removeEventListener("resize", onResize);
+      document.removeEventListener("visibilitychange", vis);
+      if (observerRef.current) observerRef.current.disconnect();
+    };
+  }, [active]);
+
+  return <canvas ref={canvasRef} className={`mx-canvas ${active ? "mx-canvas-on" : ""}`} aria-hidden />;
+}
+
+/* ========================= Main Component ========================= */
+export default function MatrixWomenPromo() {
+  const HEADLINE =
+    "Due to extremely high demand for our womens' class we will have 2 instructors.";
+  const NABI_BIO =
+    "Coach N°1 — Nabiha\nRank: Blue Belt\nExperience: 5 years\nFavourite technique: Armbar";
+  const JESS_BIO =
+    "Coach N°2 — Jessica\nRank: Blue Belt\nExperience: 4 years\nFavourite technique: Triangle";
+  const FOOT_1 = "October 24, 7:30 PM";
+  const FOOT_2 = "Maple BJJ — 20 Cranston Park";
+
+  // Steps:
+  // 0 headline → 1 show Nabi photo → 2 Nabi bio → 3 show Jess photo → 4 Jess bio → 5 footer1 → 6 footer2
+  const [step, setStep] = useState(0);
+  const [rainOn, setRainOn] = useState(false);
+
+  useEffect(() => {
+    if (step === 1) {
+      const t = setTimeout(() => setStep(2), 400);
+      return () => clearTimeout(t);
+    }
+    if (step === 3) {
+      const t = setTimeout(() => setStep(4), 400);
+      return () => clearTimeout(t);
+    }
+  }, [step]);
+
+  useEffect(() => {
+    const t = setTimeout(() => setRainOn(true), 600);
+    return () => clearTimeout(t);
+  }, []);
 
   return (
     <div className="mx-wrap">
-      <MatrixRain active={rainOn} />
+      <UltraMatrixRain active={rainOn} />
 
       <div className="mx-content">
-        {/* Headline typewriter */}
+        {/* HEADLINE */}
         <div className="mx-type">
-          <span className="mx-type-text">{typed}</span>
-          <span className="mx-caret" aria-hidden>█</span>
+          <Typewriter text={HEADLINE} start={true} speed={105} className="mx-type-text" />
+          {/* When headline is done, advance to step 1 */}
+          <StepWhenPrinted fullText={HEADLINE} onDone={() => setStep(1)} />
         </div>
 
-        {/* Profiles */}
-        <section className={`mx-profiles ${showImages ? "mx-in" : ""}`}>
-          {/* Nabiha */}
-          <article className={`mx-card ${showBios ? "mx-bio-in" : ""}`}>
+        {/* COACHES */}
+        <div className="mx-profiles">
+          {/* NABIHA */}
+          <div className="mx-card" aria-label="Coach Nabiha">
             <div className="mx-row">
-              <div className="mx-photo mx-photo--square holo holo--soft">
-                <img src={Nabi} alt="Coach Nabiha" className="mx-img" />
-              </div>
+              {step >= 1 && (
+                <div className="mx-photo mx-holo">
+                  <img src={Nabi} alt="Coach Nabiha" className="mx-img mx-img--nabi" />
+                </div>
+              )}
               <div className="mx-bio">
-                <h2>Coach N°1 Nabiha</h2>
-                <ul>
-                  <li>Rank: <b>Blue Belt</b></li>
-                  <li>Experience: <b>5 years</b></li>
-                  <li>Specialty: <b>Armbar</b></li>
-                </ul>
+                <Typewriter text={NABI_BIO} start={step >= 2} speed={105} className="mx-bio-typed" />
+                <StepWhenPrinted fullText={step >= 2 ? NABI_BIO : ""} onDone={() => step < 3 && setStep(3)} />
               </div>
             </div>
-          </article>
+          </div>
 
-          {/* Jessica */}
-          <article className={`mx-card ${showBios ? "mx-bio-in" : ""}`}>
+          {/* JESSICA */}
+          <div className="mx-card" aria-label="Coach Jessica">
             <div className="mx-row">
-              <div className="mx-photo mx-photo--square holo holo--soft">
-                <img src={Jess} alt="Coach Jessica" className="mx-img mx-img--jess" />
-              </div>
+              {step >= 3 && (
+                <div className="mx-photo mx-holo">
+                  <img src={Jess} alt="Coach Jessica" className="mx-img mx-img--jess" />
+                </div>
+              )}
               <div className="mx-bio">
-                <h2>Coach N°2 Jessica</h2>
-                <ul>
-                  <li>Rank: <b>Blue Belt</b></li>
-                  <li>Experience: <b>4 years</b></li>
-                  <li>Specialty: <b>Triangle</b></li>
-                </ul>
+                <Typewriter text={JESS_BIO} start={step >= 4} speed={105} className="mx-bio-typed" />
+                <StepWhenPrinted fullText={step >= 4 ? JESS_BIO : ""} onDone={() => step < 5 && setStep(5)} />
               </div>
             </div>
-          </article>
-        </section>
+          </div>
+        </div>
 
-        {/* Footer — card styled like bios; labels green/bold, values white; caret follows text */}
-        <div className="mx-card mx-footer">
-          <div className="mx-foot">
-            {renderFooter(typedFooter)}
+        {/* FOOTER */}
+        <div className="mx-footer-typed">
+          <div className="mx-footer-line">
+            <Typewriter text={FOOT_1} start={step >= 5} speed={105} className="mx-footer-text" />
+            <StepWhenPrinted fullText={step >= 5 ? FOOT_1 : ""} onDone={() => step < 6 && setStep(6)} />
+          </div>
+          <div className="mx-footer-line">
+            <Typewriter text={FOOT_2} start={step >= 6} speed={105} className="mx-footer-text" />
           </div>
         </div>
       </div>
@@ -158,101 +296,17 @@ export default function MatrixWomenPromo() {
   );
 }
 
-/* ===== Matrix Rain canvas ===== */
-function MatrixRain({ active }) {
-  const canvasRef = useRef(null);
-  const rafRef = useRef(null);
-
+/* Call onDone once when `fullText` becomes non-empty (i.e., its Typewriter has started and completed) */
+function StepWhenPrinted({ fullText, onDone }) {
+  const fired = useRef(false);
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-
-    let width = 0, height = 0, DPR = 1;
-    let fontSize = 9;
-    let columns = 0;
-    let drops = [];
-    let speeds = [];
-    let headPhase = [];
-
-    const chars =
-      "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%^&*()+=-アカサタナハマヤラワガザダバパイキシチニヒミリウクスツヌフムユルエケセテネヘメレオコソトノホモヨロヲ";
-
-    const setup = () => {
-      const { offsetWidth, offsetHeight } = canvas;
-      DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-      width = offsetWidth;
-      height = offsetHeight;
-      canvas.width = Math.floor(width * DPR);
-      canvas.height = Math.floor(height * DPR);
-      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-
-      ctx.font = `${fontSize}px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace`;
-      ctx.textBaseline = "top";
-
-      columns = Math.floor(width / fontSize);
-      drops = new Array(columns).fill(0).map(() => Math.floor(Math.random() * (height / fontSize)));
-      speeds = new Array(columns).fill(0).map(() => 0.9 + Math.random() * 1.1);
-      headPhase = new Array(columns).fill(0).map(() => Math.random() * Math.PI * 2);
-    };
-
-    const draw = () => {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.04)";
-      ctx.fillRect(0, 0, width, height);
-
-      const tailLen = 8;
-
-      for (let i = 0; i < columns; i++) {
-        const x = i * fontSize;
-        const y = drops[i] * fontSize;
-
-        const flicker = (Math.sin(headPhase[i]) + 1) * 0.5;
-        headPhase[i] += 0.12 + Math.random() * 0.06;
-
-        const headChar = chars[(Math.random() * chars.length) | 0];
-        ctx.shadowBlur = 6 + flicker * 6;
-        ctx.shadowColor = "#00ff88";
-        ctx.fillStyle = "#aaffcc";
-        ctx.fillText(headChar, x, y);
-
-        ctx.shadowBlur = 0;
-        for (let t = 1; t <= tailLen; t++) {
-          const ty = y - t * fontSize;
-          if (ty < -fontSize) break;
-          const tailChar = chars[(Math.random() * chars.length) | 0];
-          const alpha = Math.max(0, 0.12 - t * 0.012);
-          ctx.fillStyle = `rgba(0,255,128,${alpha})`;
-          ctx.fillText(tailChar, x, ty);
-        }
-
-        drops[i] += speeds[i];
-
-        if (y > height + tailLen * fontSize && Math.random() > 0.9) {
-          drops[i] = -Math.random() * 20;
-          speeds[i] = 0.9 + Math.random() * 1.1;
-        }
-      }
-
-      rafRef.current = requestAnimationFrame(draw);
-    };
-
-    const onResize = () => setup();
-
-    setup();
-    if (active) rafRef.current = requestAnimationFrame(draw);
-    window.addEventListener("resize", onResize);
-
-    return () => {
-      window.removeEventListener("resize", onResize);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, [active]);
-
-  return (
-    <canvas
-      className={`mx-canvas ${active ? "mx-canvas-on" : ""}`}
-      ref={canvasRef}
-      aria-hidden
-    />
-  );
+    if (!fullText || fired.current) return;
+    // Defer a tick so Typewriter finishes the last char
+    const t = setTimeout(() => {
+      fired.current = true;
+      onDone && onDone();
+    }, 0);
+    return () => clearTimeout(t);
+  }, [fullText, onDone]);
+  return null;
 }
