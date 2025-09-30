@@ -38,7 +38,7 @@ export default function CodeNinjas({
   }, []);
 
   useEffect(() => {
-    const h = setTimeout(() => setSendRocket(true), 12000);
+    const h = setTimeout(() => setSendRocket(true), 13000);
     return () => clearTimeout(h);
   }, []);
 
