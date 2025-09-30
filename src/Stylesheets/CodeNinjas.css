@@ -40,13 +40,14 @@
   list-style: none;
   padding: 0;
   margin: 0;
+ height:500px;
 }
 
 .CN-ListItem {
   font-family: "Roboto", sans-serif;
   font-weight: 700; /* bold lines */
   font-size: clamp(16px, 2.6vw, 22px);
-  margin: 2px 0;
+ 
   line-height: 1.6;
   display: flex;
   align-items: center;
@@ -67,7 +68,7 @@
   animation: cn-blink 1s step-start infinite;
   font-weight: 900;
   color: #000;
-  font-size: 20px;
+  font-size: 15px;
 }
 
 @keyframes cn-blink {
@@ -91,8 +92,22 @@
  
   }
   100% {
-    top: -10%;   /* fly upward off screen */
+    top: -20%;   /* fly upward off screen */
     left: 110%;  /* fly across to the right */
     transform: rotate(-0deg);
   }
+}
+
+
+.cn-footer{
+    text-align: center;
+    margin-top:40px;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+}
+
+
+.cn-show-footer{
+ 
+    opacity: 1
 }

@@ -32,6 +32,15 @@ export default function CodeNinjas({
   );
   const [lineIndex, setLineIndex] = useState(0);
   const [started, setStarted] = useState(startDelay === 0);
+  const [showFooter, setShowFooter] = useState(false)
+
+
+   useEffect(() => {
+   
+    const g = setTimeout(() => setShowFooter(true), 11000);
+    return () => clearTimeout(g);
+  }, []);
+
 
   // Handle initial delay before typing starts
   useEffect(() => {
@@ -99,6 +108,10 @@ export default function CodeNinjas({
           })}
         </ul>
       </div>
+
+      <div className={`${showFooter ? "cn-show-footer": ""} cn-footer`}>Coming December 2025
+      </div>
+
     </div>
   );
 }
