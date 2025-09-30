@@ -33,6 +33,7 @@ export default function CodeNinjas({
   const [lineIndex, setLineIndex] = useState(0);
   const [started, setStarted] = useState(startDelay === 0);
   const [showFooter, setShowFooter] = useState(false)
+    const [sendRocket, setSendRocket] = useState(false)
 
 
    useEffect(() => {
@@ -40,6 +41,13 @@ export default function CodeNinjas({
     const g = setTimeout(() => setShowFooter(true), 11000);
     return () => clearTimeout(g);
   }, []);
+
+     useEffect(() => {
+   
+    const h = setTimeout(() => setSendRocket(true), 12000);
+    return () => clearTimeout(h);
+  }, []);
+
 
 
   // Handle initial delay before typing starts
@@ -80,7 +88,7 @@ export default function CodeNinjas({
 
   return (
     <div className="CN-Container">
-        <span className="Rocket">🚀</span>
+        <span className={`${showFooter ? "Rocket": ""} Rocket-invisible`}>🚀</span>
       {/* Video Background */}
       <video
         autoPlay

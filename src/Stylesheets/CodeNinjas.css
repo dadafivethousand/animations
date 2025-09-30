@@ -80,6 +80,11 @@
 }
 
 
+
+.Rocket-invisible{
+    opacity: 0;
+}
+
 .Rocket {
   position: absolute;
   top: 80%;   /* starting near the bottom */
@@ -87,7 +92,9 @@
   font-size: 70px;
   animation: rocket-fly 6s linear  ;
   z-index: 56;
+  opacity: 1;
 }
+
 
 @keyframes rocket-fly {
   0% {
