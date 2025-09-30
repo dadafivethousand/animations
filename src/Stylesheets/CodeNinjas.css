@@ -21,7 +21,8 @@
   width: min(900px, 92vw);
   margin: 0 auto;
   top: 50%;
-  padding: 0 35px;
+  padding: 0;
+    padding-left: 45px;
   text-align: left;
  
 }
@@ -45,7 +46,7 @@
   font-family: "Roboto", sans-serif;
   font-weight: 700; /* bold lines */
   font-size: clamp(16px, 2.6vw, 22px);
-  margin: 10px 0;
+  margin: 2px 0;
   line-height: 1.6;
   display: flex;
   align-items: center;
@@ -66,8 +67,32 @@
   animation: cn-blink 1s step-start infinite;
   font-weight: 900;
   color: #000;
+  font-size: 20px;
 }
 
 @keyframes cn-blink {
   50% { opacity: 0; }
+}
+
+
+.Rocket {
+  position: absolute;
+  top: 80%;   /* starting near the bottom */
+  left: -100px;
+  font-size: 70px;
+  animation: rocket-fly 6s linear  ;
+  z-index: 56;
+}
+
+@keyframes rocket-fly {
+  0% {
+    top: 80%;
+    left: -300px;
+ 
+  }
+  100% {
+    top: -10%;   /* fly upward off screen */
+    left: 110%;  /* fly across to the right */
+    transform: rotate(-0deg);
+  }
 }

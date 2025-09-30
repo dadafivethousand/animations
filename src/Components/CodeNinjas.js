@@ -71,6 +71,7 @@ export default function CodeNinjas({
 
   return (
     <div className="CN-Container">
+        <span className="Rocket">🚀</span>
       {/* Video Background */}
       <video
         autoPlay
