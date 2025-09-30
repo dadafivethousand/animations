@@ -1,14 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "../Stylesheets/CodeNinjas.css";
-
 import cnwoodbridge from "../Images/Woodbridge.mp4";
 
 export default function CodeNinjas({
-  typingSpeed = 45,   // ms per character
-  linePause = 700,    // pause (ms) after a line finishes before the next begins
-  startDelay = 500,   // delay (ms) before the first character types
+  typingSpeed = 45,
+  linePause = 700,
+  startDelay = 500,
 }) {
-  // You can tweak items or emojis here
   const offerings = useMemo(
     () => [
       { emoji: "💻", text: "Coding & Game Development" },
@@ -21,7 +19,6 @@ export default function CodeNinjas({
     []
   );
 
-  // Precompute the full strings once so we aren’t rebuilding them on every keystroke
   const fullLines = useMemo(
     () => offerings.map((o) => `${o.emoji} ${o.text}`),
     [offerings]
@@ -32,43 +29,34 @@ export default function CodeNinjas({
   );
   const [lineIndex, setLineIndex] = useState(0);
   const [started, setStarted] = useState(startDelay === 0);
-  const [showFooter, setShowFooter] = useState(false)
-    const [sendRocket, setSendRocket] = useState(false)
+  const [showFooter, setShowFooter] = useState(false);
+  const [sendRocket, setSendRocket] = useState(false);
 
-
-   useEffect(() => {
-   
+  useEffect(() => {
     const g = setTimeout(() => setShowFooter(true), 11000);
     return () => clearTimeout(g);
   }, []);
 
-     useEffect(() => {
-   
+  useEffect(() => {
     const h = setTimeout(() => setSendRocket(true), 12000);
     return () => clearTimeout(h);
   }, []);
 
-
-
-  // Handle initial delay before typing starts
   useEffect(() => {
     if (startDelay <= 0) return;
     const t = setTimeout(() => setStarted(true), startDelay);
     return () => clearTimeout(t);
   }, [startDelay]);
 
-  // Typewriter logic: type current line char-by-char, then advance to next line after a pause
   useEffect(() => {
     if (!started) return;
-    if (lineIndex >= fullLines.length) return; // all done
+    if (lineIndex >= fullLines.length) return;
 
     const currentFull = fullLines[lineIndex];
     const currentTyped = typedLines[lineIndex];
 
     let timer;
-
     if (currentTyped.length < currentFull.length) {
-      // Keep typing current line
       timer = setTimeout(() => {
         setTypedLines((prev) => {
           const copy = [...prev];
@@ -77,7 +65,6 @@ export default function CodeNinjas({
         });
       }, typingSpeed);
     } else {
-      // Line finished: wait a bit, then move to the next line
       timer = setTimeout(() => {
         setLineIndex((i) => i + 1);
       }, linePause);
@@ -88,20 +75,23 @@ export default function CodeNinjas({
 
   return (
     <div className="CN-Container">
-        <span className={`${showFooter ? "Rocket": ""} Rocket-invisible`}>🚀</span>
-      {/* Video Background */}
+      {/* 🚀 Rocket is absolute from start, never pushes layout */}
+      <span
+        className={`${sendRocket ? "Rocket" : ""} Rocket-invisible`}
+        aria-hidden
+      >
+        🚀
+      </span>
+
       <video
         autoPlay
-         
         muted
         playsInline
         src={cnwoodbridge}
         className="CN-Video"
       />
 
-      {/* Overlay Content */}
       <div className="CN-Content">
- 
         <ul className="CN-List">
           {fullLines.map((_, idx) => {
             const isActive = idx === lineIndex && lineIndex < fullLines.length;
@@ -117,9 +107,9 @@ export default function CodeNinjas({
         </ul>
       </div>
 
-      <div className={`${showFooter ? "cn-show-footer": ""} cn-footer`}>Coming December 2025
+      <div className={`${showFooter ? "cn-show-footer" : ""} cn-footer`}>
+        Coming December 2025
       </div>
-
     </div>
   );
 }
