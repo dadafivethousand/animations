@@ -56,10 +56,11 @@ import ReggaetonSchedule from "./Used/ReggaetonSchedule";
 import DontApproachSchedule from "./Components/DontApproachSchedule";
 import GriseldaBlancoSchedule from "./Components/GriseldaBlancoSchedule";
 import MGKWildBoySchedule from "./Components/MGKWildBoySchedule";
+import CodeNinjas from "./Components/CodeNinjas";
   function App() {
   return (
     <>
-  <BassProSchedule day={"Wednesday"} />
+  <CodeNinjas />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

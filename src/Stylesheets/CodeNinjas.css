@@ -1,0 +1,73 @@
+.CN-Container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  font-family: "Roboto", system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+  color: #000; /* pure black */
+  background-color: #fff; /* keep clean white */
+}
+
+.CN-Video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  object-fit: cover;
+}
+
+.CN-Content {
+  position: relative;
+  z-index: 1;
+  width: min(900px, 92vw);
+  margin: 0 auto;
+  top: 50%;
+  padding: 0 35px;
+  text-align: left;
+ 
+}
+
+.CN-Title {
+  font-family: "Roboto", sans-serif;
+  font-weight: 900; /* extra bold */
+  letter-spacing: 0.3px;
+  font-size: clamp(28px, 5vw, 44px);
+  margin: 0 0 16px;
+  color: #000; /* solid black */
+}
+
+.CN-List {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.CN-ListItem {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700; /* bold lines */
+  font-size: clamp(16px, 2.6vw, 22px);
+  margin: 10px 0;
+  line-height: 1.6;
+  display: flex;
+  align-items: center;
+  min-height: 1.6em; /* avoids layout jump while typing */
+  white-space: pre-wrap;
+  color: #000;
+}
+
+.CN-Line {
+  display: inline-flex;
+  align-items: center;
+  font-variant-ligatures: none;
+}
+
+.CN-Caret {
+  display: inline-block;
+  margin-left: 4px;
+  animation: cn-blink 1s step-start infinite;
+  font-weight: 900;
+  color: #000;
+}
+
+@keyframes cn-blink {
+  50% { opacity: 0; }
+}

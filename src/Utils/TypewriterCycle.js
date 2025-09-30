@@ -1,15 +1,31 @@
 import React, { useState, useEffect } from "react";
 
-export default function TypewriterCycle({ texts, typingSpeed = 100, deletingSpeed = 50, pauseTime = 1000 }) {
+export default function TypewriterCycle({
+  texts,
+  typingSpeed = 100,
+  deletingSpeed = 50,
+  pauseTime = 1000,
+  startDelay = 0, // ⬅️ new prop
+}) {
   const [currentText, setCurrentText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [started, setStarted] = useState(startDelay === 0); // ⬅️ control start
+
+  // Handle initial delay
+  useEffect(() => {
+    if (startDelay > 0) {
+      const delayTimer = setTimeout(() => setStarted(true), startDelay);
+      return () => clearTimeout(delayTimer);
+    }
+  }, [startDelay]);
 
   useEffect(() => {
-    let timeout;
+    if (!started) return; // wait until delay is done
 
+    let timeout;
     const fullText = texts[currentIndex];
-    
+
     if (isDeleting) {
       timeout = setTimeout(() => {
         setCurrentText(fullText.substring(0, currentText.length - 1));
@@ -31,9 +47,7 @@ export default function TypewriterCycle({ texts, typingSpeed = 100, deletingSpee
     }
 
     return () => clearTimeout(timeout);
-  }, [currentText, isDeleting, texts, currentIndex, typingSpeed, deletingSpeed, pauseTime]);
+  }, [currentText, isDeleting, texts, currentIndex, typingSpeed, deletingSpeed, pauseTime, started]);
 
-  return (
-    <span>{currentText}</span>
-  );
+  return <span>{currentText}</span>;
 }
