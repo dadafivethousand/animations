@@ -33,7 +33,7 @@ export default function CodeNinjas({
   const [sendRocket, setSendRocket] = useState(false);
 
   useEffect(() => {
-    const g = setTimeout(() => setShowFooter(true), 11000);
+    const g = setTimeout(() => setShowFooter(true), 12000);
     return () => clearTimeout(g);
   }, []);
 
