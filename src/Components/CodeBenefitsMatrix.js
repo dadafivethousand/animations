@@ -8,7 +8,7 @@ export default function CodeBenefitsMatrix({
   // ⏱ Only rain at start (no text)
   startDelay = 2200,     // when the text starts typing (no text before this)
   rainDimDelay = 2250,   // when rain fades slightly (just after text appears)
-  rainDimOpacity = 0.6, // keep background rain clearly visible
+  rainDimOpacity = 0.55, // keep background rain clearly visible
 
   mobileBreakpoint = 600 // px
 }) {
