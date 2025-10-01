@@ -57,10 +57,11 @@ import DontApproachSchedule from "./Components/DontApproachSchedule";
 import GriseldaBlancoSchedule from "./Components/GriseldaBlancoSchedule";
 import MGKWildBoySchedule from "./Components/MGKWildBoySchedule";
 import CodeNinjas from "./Components/CodeNinjas";
+import CodeBenefitsMatrix from "./Components/CodeBenefitsMatrix";
   function App() {
   return (
     <>
-  <JamrockSchedule day="Thursday" />
+  <CodeBenefitsMatrix day="Thursday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
