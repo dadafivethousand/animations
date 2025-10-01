@@ -61,7 +61,7 @@ import CodeBenefitsMatrix from "./Components/CodeBenefitsMatrix";
   function App() {
   return (
     <>
-  <CodeBenefitsMatrix day="Thursday" />
+  <JamrockSchedule day="Thursday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
