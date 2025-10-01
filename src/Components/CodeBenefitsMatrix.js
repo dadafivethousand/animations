@@ -45,11 +45,13 @@ export default function CodeBenefitsMatrix({
 const benefitsShort = useMemo(
   () => [
     { emoji: "💸", text: "Higher earning potential" },
-    { emoji: "🎓", text: "Scholarship opportunities" },
-    { emoji: "🧠", text: "Cognitive boost" },
-    { emoji: "📈", text: "Build real confidence" },
+
+    { emoji: "🧠", text: "Brain development" },
+
     { emoji: "🤝", text: "Grow your network" },
-    { emoji: "🚪", text: "Open more doors for yourself" }
+    { emoji: "🚪", text: "Opens more doors" },
+    { emoji: "🧑‍🎓", text: "Scholarship opportunities" },
+        { emoji: "📈", text: "Build  confidence" },
 
   ],
   []
