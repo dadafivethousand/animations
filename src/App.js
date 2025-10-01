@@ -60,7 +60,7 @@ import CodeNinjas from "./Components/CodeNinjas";
   function App() {
   return (
     <>
-  <CodeNinjas />
+  <GriseldaBlancoSchedule day="Wednesday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
