@@ -26,7 +26,7 @@ const schedule = {
 
     { name: "6175 Hwy 7, Woodbridge, On", start: 7.5, end: 8.5, maple: true },
        { name: "Coming December 2025", start: 18.00, end: 19.00, smallfont:false },
-           { name: "DM for early bird pricing", start: 18.00, end: 19.00, smallerfont:true },
+           { name: "DM for early bird pricing!", start: 18.00, end: 19.00, smallerfont:true },
  
      ],
 
