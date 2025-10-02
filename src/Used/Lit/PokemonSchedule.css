@@ -37,8 +37,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  top:150px;
+  top:110px;
   transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+  
 }
 
 /* Pokéball Top Half */
@@ -161,8 +162,13 @@
 }
 
 .smallfont{
-  font-size: 12px;
+  font-size: 11px;
 }
+
+.smallerfont{
+  font-size: 9px;
+}
+
 
 /* MOBILE OPTIMIZATION */
 @media (max-width: 768px) {

@@ -24,9 +24,9 @@ const schedule = {
     Thursday: [
 
 
-    { name: "6175 Highway 7", start: 7.5, end: 8.5, maple: true },
-            { name: "416-992-1169", start: 12.5, end: 13.5, maple: true },
-      { name: "Coming December 2025", start: 18.00, end: 19.00, smallfont:true },
+    { name: "6175 Hwy 7, Woodbridge, On", start: 7.5, end: 8.5, maple: true,smallfont:true  },
+       { name: "Coming December 2025", start: 18.00, end: 19.00, smallfont:true },
+ 
      ],
 
     Friday: [
