@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/SimpsonsSchedule.css";
-import schedule from "../Schedule";
+import "./SimpsonsSchedule.css";
+import schedule from "../../Schedule";
 
 function SimpsonsSchedule({ day }) {
   const [showTitle, setShowTitle] = useState(false);
@@ -74,8 +74,8 @@ function SimpsonsSchedule({ day }) {
       </div>
 
       <h1 className={`simpsons-title ${showTitle? 'simpsons-animate-title' : ''}`}>
-        Maple <br></br>Jiu-Jitsu
-      </h1>
+        Code <br></br> Ninjas
+              </h1>
 
 <div className={`simpsons-schedule ${showSchedule? 'simpsons-visible':''}`}>
       <h1 className={`simpsons-day ${showSchedule ? "shake" : ""}`}>{day}</h1>
