@@ -60,10 +60,11 @@ import CodeNinjas from "./Components/CodeNinjas";
 import CodeBenefitsMatrix from "./Components/CodeBenefitsMatrix";
 import MonsterSchedule from "./Used/Lit/MonsterSchedule";
 import SimpsonsSchedule from "./Used/Lit/SimpsonsSchedule";
+import PokemonSchedule from "./Used/Lit/PokemonSchedule";
   function App() {
   return (
     <>
-  <MGKWildBoySchedule day="Thursday" />
+  <PokemonSchedule day="Thursday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

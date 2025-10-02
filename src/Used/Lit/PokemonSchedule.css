@@ -156,6 +156,14 @@
     display:none
 }
 
+.pokemon-class{
+  margin-bottom:10px
+}
+
+.smallfont{
+  font-size: 12px;
+}
+
 /* MOBILE OPTIMIZATION */
 @media (max-width: 768px) {
   .pokeball-container {
