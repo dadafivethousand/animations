@@ -43,7 +43,7 @@ export default function PokemonSchedule({ day }) {
 
       {/* Schedule List */}
       <div className={`pokemon-schedule ${showSchedule ? "show" : ""}`}>
-        <h2 className="pokemon-subtitle">Code Ninjas 🥷</h2>
+        <h2 className="pokemon-subtitle">💻 Code Ninjas 🥷</h2>
         {todaysSchedule.map((event, index) => (
           <div key={index} className={`pokemon-class ${event.smallfont&& "smallfont"} ${event.smallerfont&& "smallerfont"}`}>
             {event.name}  
