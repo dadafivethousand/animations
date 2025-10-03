@@ -11,7 +11,7 @@
   --border:#262626;
 
   --accent:#ffb071;            /* soft mortar accent for chips */
-  --card-width:80%;
+  --card-width:70%;
   --time-width:100px;           /* equal-width time pills */
 }
 
@@ -61,7 +61,7 @@
   font-weight:800;
   font-size:42px;
   letter-spacing:.12em;
-  margin-bottom: 160px;
+  margin-bottom: 180px;
 }
 
 /* List */
@@ -96,7 +96,7 @@
 .brick-left{ min-width:0; }
 .brick-title{
   font-weight:800;
-  font-size:30px;
+  font-size:25px;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
@@ -141,13 +141,8 @@
   align-items:center;
   justify-content:center;
   text-align:center;
-  font-size: 30px;
+  font-size: 20px;
 
  
 }
-
-/* Slight bumps on wider screens */
-@media (min-width:431px){
-  .brick-title{ font-size:17px; }
-  .brick-time{ font-size:14px; }
-}
+ 
