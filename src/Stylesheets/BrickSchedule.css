@@ -1,0 +1,161 @@
+/* BrickSchedule — bold red/orange wall background with compact centered cards */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&display=swap');
+
+:root{
+  /* Approx from your swatch */
+  --brick-bg:#e13b17;
+  --brick-deep:#c42f12;
+
+  --ink:#ffffff;
+  --card:#141414;
+  --border:#262626;
+
+  --accent:#ffb071;            /* soft mortar accent for chips */
+  --card-width:80%;
+  --time-width:90px;           /* equal-width time pills */
+}
+
+/* Reset */
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+.brick-wrap{
+  min-height:100vh;
+  width:100vw;
+
+  /* textured herringbone tint over solid brick color */
+  background:
+    repeating-linear-gradient(135deg, rgba(0,0,0,.04) 0 6px, rgba(255,255,255,.04) 6px 12px),
+    linear-gradient(180deg, var(--brick-bg), var(--brick-deep));
+  color:var(--ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:40px 14px 24px;
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background-image: url('https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWhtbGgzb3Q3eDdoNW12N2xocGw0bTkweTJwYms5anMxZTBvejFveCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/voIOjdHmnuMhy/giphy.gif');
+  background-position: bottom;
+  background-size: cover;
+}
+
+/* Centered weekday */
+.brick-header{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:100px 2px 14px;
+  text-align:center;
+  position:relative;
+}
+.brick-header:after{
+  content:"";
+  position:absolute;
+  bottom:-2px;
+  left:50%;
+  transform:translateX(-50%);
+  width:140px;
+  height:2px;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.6), transparent);
+}
+.brick-day{
+  font-weight:800;
+  font-size:42px;
+  letter-spacing:.12em;
+  margin-bottom: 200px;
+}
+
+/* List */
+.brick-list{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  align-items:center; /* center cards */
+}
+
+/* Cards — compact, 80% width, centered */
+.brick-card{
+  width:var(--card-width);
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 12px;
+  border-radius:12px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0)),
+    var(--card);
+  border:1px solid var(--border);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.05),
+    0 10px 22px rgba(0,0,0,.35);
+  opacity:0;
+  transform:translateY(10px);
+}
+
+/* Stagger animation */
+.brick-in{ animation:rise .22s ease-out forwards; }
+@keyframes rise{ to{ opacity:1; transform:translateY(0); } }
+
+.brick-left{ min-width:0; }
+.brick-title{
+  font-weight:800;
+  font-size:16px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* Replacement styling */
+.swap .old{ text-decoration:line-through; opacity:.65; }
+.swap .arrow{ opacity:.6; margin:0 6px; }
+.swap .new{ font-weight:800; }
+
+/* Tags row + Maple chip (contract) */
+.tags{ display:flex; gap:6px; margin-top:4px; }
+.chip{
+  font-size:12px;
+  line-height:1;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.25);
+  background:rgba(255,255,255,.12);
+  color:#fff;
+  white-space:nowrap;
+}
+.chip--maple{
+  background:#2d0f09;
+  border-color: rgba(255,176,113,.55);
+  color:#ffe6d8;
+  box-shadow:0 0 8px rgba(255,176,113,.25);
+}
+
+/* Time pill — start time ONLY, equal width & centered */
+.brick-time{
+  font:800 13px/1 "Inter", system-ui, sans-serif;
+  padding:15px 0;
+  border-radius:10px;
+  background:#1b1b1b;
+  border:1px solid #333;
+  color:#f3f6ff;
+  letter-spacing:.02em;
+
+  width:var(--time-width);
+  flex:0 0 var(--time-width);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.05),
+    0 6px 14px rgba(0,0,0,.45);
+}
+
+/* Slight bumps on wider screens */
+@media (min-width:431px){
+  .brick-title{ font-size:17px; }
+  .brick-time{ font-size:14px; }
+}

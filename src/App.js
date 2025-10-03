@@ -63,10 +63,11 @@ import SimpsonsSchedule from "./Used/Lit/SimpsonsSchedule";
 import PokemonSchedule from "./Used/Lit/PokemonSchedule";
 import PulpFictionSchedule from "./Components/PulpFictionSchedule";
 import NirvanaSchedule from "./Used/NirvanaSchedule";
+import BrickSchedule from "./Components/BrickSchedule";
   function App() {
   return (
     <>
-  <NirvanaSchedule day="Friday" />
+  <BrickSchedule day="Saturday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
