@@ -65,7 +65,7 @@ import PulpFictionSchedule from "./Components/PulpFictionSchedule";
   function App() {
   return (
     <>
-  <PulpFictionSchedule day="Thursday" />
+  <PulpFictionSchedule day="Friday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
