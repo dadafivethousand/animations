@@ -70,7 +70,7 @@
   max-width:560px;
   display:flex;
   flex-direction:column;
-  gap:10px;
+  gap:1px;
   align-items:center; /* center cards */
 }
 
