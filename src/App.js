@@ -67,7 +67,7 @@ import BrickSchedule from "./Components/BrickSchedule";
   function App() {
   return (
     <>
-  <BrickSchedule day="Saturday" />
+  <GameOfThronesSchedule day="Saturday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
