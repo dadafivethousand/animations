@@ -33,7 +33,7 @@
       no-repeat bottom center,
     #0e3d82;  /* replace with the exact hex from your swatch */
 
-  background-size: cover, cover; /* gif stretches full width at bottom */
+  background-size: contain, contain; /* gif stretches full width at bottom */
   background-attachment: fixed;  /* keeps bg stable while scrolling */
 
   color: var(--ink);
