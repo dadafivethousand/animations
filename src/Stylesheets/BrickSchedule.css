@@ -24,7 +24,7 @@
 *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 
 .brick-wrap {
-  min-height: 100vh;
+  height: 100vh;
   width: 100vw;
 
   /* Solid blue background + gif at bottom */
@@ -33,7 +33,7 @@
       no-repeat bottom center,
     #0e3d82;  /* replace with the exact hex from your swatch */
 
-  background-size: contain, cover; /* gif stretches full width at bottom */
+  background-size: cover, cover; /* gif stretches full width at bottom */
   background-attachment: fixed;  /* keeps bg stable while scrolling */
 
   color: var(--ink);
