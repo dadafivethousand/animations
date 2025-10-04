@@ -7,6 +7,7 @@ export default function BrickSchedule({ day, animationDelay = 900, animationInte
   const safeDay = day || "";
   const items = schedule[safeDay] || [];
 
+  // staggered reveal with cleanup
   useEffect(() => {
     const timers = [];
     setVisible([]);
@@ -30,6 +31,7 @@ export default function BrickSchedule({ day, animationDelay = 900, animationInte
 
   return (
     <div className="brick-wrap">
+      {/* Centered weekday */}
       <header className="brick-header">
         <h1 className="brick-day">{safeDay.toUpperCase()}</h1>
       </header>
@@ -40,25 +42,26 @@ export default function BrickSchedule({ day, animationDelay = 900, animationInte
             <article
               className="brick-card brick-in"
               key={i}
-              style={{ animationDelay: `${i * 40}ms` }}
+              style={{ animationDelay: `${i * 50}ms` }}
             >
               <div className="brick-left">
-                <div className="brick-title">
-                  {cls.replacement ? (
-                    <span className="swap">
-                      <span className="old">{cls.name}</span>
-                      <span className="arrow" aria-hidden>→</span>
-                      <span className="new">{String(cls.replacement)}</span>
-                    </span>
-                  ) : (
-                    cls.name
+                {/* Name + inline Maple chip kept on ONE line */}
+                <div className="brick-row">
+                  <span className="brick-title">
+                    {cls.replacement ? (
+                      <span className="swap">
+                        <span className="old">{cls.name}</span>
+                        <span className="arrow" aria-hidden>→</span>
+                        <span className="new">{String(cls.replacement)}</span>
+                      </span>
+                    ) : (
+                      cls.name
+                    )}
+                  </span>
+                  {cls.maple && (
+                    <span className="chip chip--maple" title="Maple">📍 Maple</span>
                   )}
                 </div>
-                {cls.maple && (
-                  <div className="tags">
-                    <span className="chip chip--maple">📍 Maple</span>
-                  </div>
-                )}
               </div>
 
               {/* Start time ONLY */}
