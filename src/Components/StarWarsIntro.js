@@ -7,7 +7,7 @@ export default function StarWarsIntro({
   subtitle = "GRAND OPENING",
   lines = [
     "New Location coming December 2025.",
-    "Teacing Kids Coding, Robotics & AI",
+    "Teaching Kids Coding, Robotics & AI",
     "Reserve your discounted price.",
     "Follow the link in the bio.",
   ],
