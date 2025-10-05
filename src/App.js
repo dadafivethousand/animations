@@ -65,10 +65,11 @@ import PulpFictionSchedule from "./Components/PulpFictionSchedule";
 import NirvanaSchedule from "./Used/NirvanaSchedule";
 import BrickSchedule from "./Components/BrickSchedule";
 import StarWarsIntro from "./Components/StarWarsIntro";
+ import MicrosoftSchedule from "./Components/MicrosoftSchedule";
   function App() {
   return (
     <>
-  <StarWarsIntro day="Saturday" />
+  <MicrosoftSchedule day="Sunday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
