@@ -66,10 +66,17 @@ import NirvanaSchedule from "./Used/NirvanaSchedule";
 import BrickSchedule from "./Components/BrickSchedule";
 import StarWarsIntro from "./Components/StarWarsIntro";
  import MicrosoftSchedule from "./Components/MicrosoftSchedule";
+import TikTokSchedule from "./Components/TikTokSchedule";
+import BlacksmithSchedule from "./Components/BlacksmithSchedule";
+import HeyArnoldSchedule from "./Components/HeyArnoldSchedule";
+import DiscordSchedule from "./Components/DiscordSchedule";
+import NinjaSchedule from "./Components/NinjaSchedule";
+import RoosterSchedule from "./Components/RoosterSchedule";
+import WildNOutSchedule from "./Components/WildNOutSchedule";
   function App() {
   return (
     <>
-  <MicrosoftSchedule day="Sunday" />
+  <DiscordSchedule day="Monday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

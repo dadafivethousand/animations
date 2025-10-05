@@ -1,0 +1,244 @@
+/* Blacksmith — ultra-realistic forged metal, riveted plates, brass MAPLE tag */
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Inter:wght@600;700;800&display=swap');
+
+:root{
+  /* Workshop ambience */
+  --forge-bg-1:#0a0d12;
+  --forge-bg-2:#131821;
+
+  /* Steel plate */
+  --steel-top:#6a727a;     /* upper highlight */
+  --steel-mid:#444b54;     /* mid body */
+  --steel-deep:#2a2f36;    /* lower shade */
+  --steel-edge:#0e1116;    /* edge/outline */
+
+  --ink:#eef3ff;
+
+  /* Brass tag for MAPLE */
+  --brass-1:#b38a3c;
+  --brass-2:#8d6a2c;
+  --brass-3:#e7c57a;
+
+  /* Time pill (blued steel) */
+  --time-bg:#161c24;
+  --time-brd:#313a46;
+
+  /* Layout */
+  --card-width:80%;
+  --time-width:90px;
+}
+
+/* Reset */
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+.blacksmith-wrap{
+  min-height:100vh;
+  width:100vw;
+  /* Coal-dark room with subtle ember ambience only (no bright lines) */
+  background:
+    radial-gradient(900px 540px at 50% 110%, rgba(255,138,64,.10), transparent 60%),
+    linear-gradient(180deg, var(--forge-bg-1), var(--forge-bg-2));
+  color:var(--ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:54px 14px 24px;
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* Header — stamped plaque, no colorful divider */
+.blacksmith-header{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:12px 0 16px;
+  text-align:center;
+}
+.blacksmith-day{
+  font-family:"UnifrakturCook", system-ui, serif;
+  font-size:34px;
+  letter-spacing:.14em;
+  color:#fff;
+  text-shadow:0 1px 0 rgba(255,255,255,.15), 0 0 14px rgba(0,0,0,.6);
+}
+
+/* List */
+.blacksmith-list{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  align-items:center;
+}
+
+/* === ULTRA-REALISTIC METAL CARD === */
+.blacksmith-card{
+  width:var(--card-width);
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px;
+  border-radius:12px;
+  position:relative;
+  overflow:hidden;
+  opacity:0;
+  transform:translateY(10px) scale(.995);
+
+  /* Layered steel gradients for depth */
+  background:
+    /* glints */
+    radial-gradient(140px 80px at 20% 28%, rgba(255,255,255,.10), transparent 60%),
+    radial-gradient(180px 100px at 78% 68%, rgba(255,255,255,.06), transparent 60%),
+    /* main plate */
+    linear-gradient(180deg, var(--steel-top) 0%, var(--steel-mid) 58%, var(--steel-deep) 100%);
+  border:1px solid var(--steel-edge);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.22),     /* top rim highlight */
+    inset 0 -2px 0 rgba(0,0,0,.45),          /* bottom rim shade */
+    inset 0 0 22px rgba(0,0,0,.35),          /* cavity */
+    0 10px 26px rgba(0,0,0,.5);              /* drop */
+}
+
+/* Brushed texture + faint scratches */
+.blacksmith-card:before{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    repeating-linear-gradient(90deg,
+      rgba(255,255,255,.05) 0 1px,
+      rgba(0,0,0,.05) 1px 2px),
+    linear-gradient(120deg, transparent 45%, rgba(255,255,255,.06) 50%, transparent 55%);
+  opacity:.16; pointer-events:none; mix-blend-mode:overlay;
+}
+
+/* Chamfered edge glow */
+.blacksmith-card:after{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.09) 0 2%, transparent 2% 98%, rgba(0,0,0,.45) 98% 100%);
+  pointer-events:none;
+}
+
+/* Rivets (steel cap) */
+.rivet{
+  position:absolute; width:10px; height:10px; border-radius:50%;
+  background:
+    radial-gradient(circle at 28% 28%, #d6dde7 0 38%, #8e959d 39% 70%, #2a2e35 71%);
+  box-shadow: inset 0 -1px 1px rgba(0,0,0,.35), 0 1px 0 rgba(255,255,255,.2);
+}
+.rivet--tl{ top:6px; left:6px; }
+.rivet--tr{ top:6px; right:6px; }
+.rivet--bl{ bottom:6px; left:6px; }
+.rivet--br{ bottom:6px; right:6px; }
+
+/* Stagger animation */
+.blacksmith-in{ animation:plate-rise .24s cubic-bezier(.2,.8,.2,1) forwards; }
+@keyframes plate-rise{ to{ opacity:1; transform:translateY(0) scale(1); } }
+
+/* Left column */
+.blacksmith-left{ min-width:0; }
+
+/* Keep name + MAPLE on one line */
+.blacksmith-row{
+  min-width:0;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  white-space:nowrap;
+  overflow:hidden;
+}
+
+.blacksmith-title{
+  font-weight:800;
+  font-size:16px;
+  color:#f6f9ff;
+  letter-spacing:.01em;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  text-shadow:0 1px 0 rgba(0,0,0,.55);
+}
+
+/* Replacement styling */
+.swap .old{ text-decoration:line-through; opacity:.7; }
+.swap .arrow{ opacity:.7; margin:0 6px; }
+.swap .new{ font-weight:900; color:#f0f3ff; }
+
+/* === MAPLE CHIP: Forged brass tag with screws & engraved text === */
+.chip{
+  display:inline-flex; align-items:center; gap:6px;
+  font-size:12px; line-height:1;
+  padding:4px 10px 4px 8px;
+  border-radius:6px;
+  white-space:nowrap; flex:none;
+  position:relative;
+}
+
+/* brass plate */
+.chip--maple{
+  color:#2a2113;
+  background:
+    linear-gradient(180deg, var(--brass-3) 0%, var(--brass-1) 45%, var(--brass-2) 100%);
+  border:1px solid #6d5327;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.35),
+    inset 0 -2px 0 rgba(0,0,0,.35),
+    0 2px 6px rgba(0,0,0,.35);
+  text-shadow:
+    0 1px 0 rgba(255,255,255,.35),    /* engraved gleam */
+    0 -1px 0 rgba(0,0,0,.3);
+  padding-left:18px; /* room for screw */
+}
+
+/* tiny brass screws on the tag */
+.chip--maple::before,
+.chip--maple::after{
+  content:"";
+  position:absolute; top:50%; width:8px; height:8px; border-radius:50%;
+  transform:translateY(-50%);
+  background:
+    radial-gradient(circle at 30% 30%, #e7d09a 0 40%, #9d7c36 41% 70%, #3b2d14 71%);
+  box-shadow: inset 0 -1px 1px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.25);
+}
+.chip--maple::before{ left:6px; }
+.chip--maple::after{ right:6px; }
+
+/* Time pill — blued steel badge (fixed width, centered) */
+.blacksmith-time{
+  font:800 13px/1 "Inter", system-ui, sans-serif;
+  padding:8px 0;
+  border-radius:10px;
+  background: linear-gradient(180deg, #1c2430, var(--time-bg));
+  border:1px solid var(--time-brd);
+  color:#eaf2ff;
+  letter-spacing:.02em;
+
+  width:var(--time-width);
+  flex:0 0 var(--time-width);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.08),
+    inset 0 -2px 0 rgba(0,0,0,.45),
+    0 6px 14px rgba(0,0,0,.5);
+}
+
+/* Tap feedback like a heavy plate thunk */
+.blacksmith-card:active{
+  transform: translateY(12px) scale(.992);
+  transition: transform .06s ease;
+  box-shadow: 0 6px 16px rgba(0,0,0,.55);
+}
+
+/* Slight bumps on wider screens */
+@media (min-width:431px){
+  .blacksmith-title{ font-size:17px; }
+  .blacksmith-time{ font-size:14px; }
+}

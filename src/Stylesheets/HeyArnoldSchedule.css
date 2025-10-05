@@ -1,0 +1,208 @@
+/* Hey Arnold! — brighter, hand-drawn vibe: teal wall, bus-yellow badge, sticky-note cards */
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Inter:wght@600;700;800&display=swap');
+
+:root{
+  --teal:#1ea0b7;         /* cap shirt teal */
+  --teal-deep:#126c7d;
+  --bus:#ffd642;          /* school-bus yellow */
+  --bus-deep:#ffb80a;
+  --brick:#c84a41;        /* stoop/brick accent */
+  --ink:#fffef6;
+
+  --card:#14222a;         /* sticky note base (dark) */
+  --card-paper:#1b2d36;   /* paper overlay */
+  --card-brd:#274454;
+
+  --chip-bg:#294a2a;      /* maple tag */
+  --chip-brd:#b8ff83;
+
+  --time-bg:#0f1720;      /* time pill */
+  --time-brd:#2b3c55;
+
+  --card-width:80%;       /* centered cards */
+  --time-width:90px;      /* equal width times */
+}
+
+/* Reset */
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+.arnold-wrap{
+  min-height:100vh;
+  width:100vw;
+  background:
+    /* chalk dots & x's */
+    radial-gradient(10px 6px at 16% 22%, rgba(255,255,255,.08) 0 40%, transparent 41%),
+    radial-gradient(8px 5px at 78% 30%, rgba(255,255,255,.06) 0 40%, transparent 41%),
+    radial-gradient(10px 6px at 32% 74%, rgba(255,255,255,.05) 0 40%, transparent 41%),
+    /* diagonal stoop shadow */
+    linear-gradient(168deg, transparent 0 72%, rgba(0,0,0,.18) 73% 74%, transparent 75% 100%),
+    linear-gradient(180deg, var(--teal), var(--teal-deep));
+  color:var(--ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:14px 14px 24px;
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  position:relative;
+  overflow:hidden;
+}
+
+/* Skyline stencil at bottom */
+.arnold-skyline{
+  position:absolute; left:0; right:0; bottom:-6px; height:68px;
+  background:
+    linear-gradient(0deg, rgba(0,0,0,.55), transparent),
+    repeating-linear-gradient(90deg, transparent 0 18px, rgba(0,0,0,.15) 18px 19px),
+    linear-gradient(180deg, #0b1216, #0b1216);
+  clip-path: polygon(0 100%,0 40%,6% 48%,10% 42%,14% 55%,18% 44%,22% 58%,26% 46%,30% 62%,34% 48%,38% 66%,42% 52%,46% 72%,50% 56%,54% 74%,58% 52%,62% 66%,66% 48%,70% 60%,74% 46%,78% 58%,82% 44%,86% 52%,90% 45%,94% 50%,100% 40%,100% 100%);
+  pointer-events:none;
+}
+
+/* Header — skewed bus-yellow badge with comic burst */
+.arnold-header{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:16px 2px 18px;
+  position:relative;
+  text-align:center;
+}
+.arnold-burst{
+  position:absolute; width:180px; height:180px; top:-40px;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,.25), transparent 55%);
+  filter:blur(10px); opacity:.35; pointer-events:none;
+}
+.arnold-day{
+  font-family:"Luckiest Guy", system-ui, sans-serif;
+  font-size:26px;
+  letter-spacing:.08em;
+  color:#000;
+  background:linear-gradient(180deg, var(--bus), var(--bus-deep));
+  border:2px solid #000;
+  border-radius:14px;
+  padding:10px 16px;
+  box-shadow:0 5px 0 #000, 0 14px 24px rgba(0,0,0,.28);
+  transform:skew(-4deg);
+}
+.arnold-scribble{
+  position:absolute; bottom:4px; width:160px; height:10px;
+  background:
+    radial-gradient(50% 120% at 50% 50%, rgba(0,0,0,.3), transparent 70%);
+  filter:blur(2px);
+}
+
+/* List */
+.arnold-list{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  align-items:center;
+}
+
+/* Cards — sticky note feel with corner fold & pushpin */
+.arnold-card{
+  width:var(--card-width);
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 12px;
+  border-radius:12px;
+  position:relative;
+  overflow:hidden;
+  opacity:0;
+  transform:translateY(10px) rotate(-.25deg);
+
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0)),
+    linear-gradient(180deg, var(--card-paper), var(--card));
+  border:1px solid var(--card-brd);
+  box-shadow:
+    0 10px 20px rgba(0,0,0,.36),
+    inset 0 0 0 1px rgba(255,255,255,.05);
+}
+.arnold-card::before{
+  /* plaid shirt strip */
+  content:"";
+  position:absolute; left:0; top:0; width:8px; height:100%;
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,.08) 0 2px, rgba(0,0,0,.08) 2px 4px),
+    linear-gradient(180deg, var(--brick), #1c864e);
+  box-shadow:0 0 10px rgba(0,0,0,.25);
+}
+.arnold-pin{
+  /* tiny red pin on the top-right */
+  position:absolute; right:10px; top:6px; width:10px; height:10px; border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, #ffd1d1 0 35%, #e84040 36% 70%, #7a1515 71%);
+  box-shadow: 0 2px 0 #500b0b, 0 8px 12px rgba(0,0,0,.4);
+}
+
+/* Stagger animation */
+.arnold-in{ animation:note-rise .24s cubic-bezier(.2,.8,.2,1) forwards; }
+@keyframes note-rise{ to{ opacity:1; transform:translateY(0) rotate(0); } }
+
+/* Left column */
+.arnold-left{ min-width:0; }
+
+/* Name + Maple one line */
+.arnold-row{
+  min-width:0;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  white-space:nowrap;
+  overflow:hidden;
+}
+.arnold-title{
+  font-weight:800;
+  font-size:16px;
+  color:#eaf6ff;
+  text-shadow:0 1px 0 rgba(0,0,0,.5);
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* Replacement styling */
+.swap .old{ text-decoration:line-through; opacity:.65; }
+.swap .arrow{ opacity:.7; margin:0 6px; }
+.swap .new{ font-weight:900; color:#ffe39c; }
+
+/* Maple sticker chip */
+.chip{
+  font-size:12px; line-height:1; padding:4px 10px; border-radius:999px;
+  border:1px dashed var(--chip-brd);
+  background:linear-gradient(180deg, #204126, var(--chip-bg));
+  color:#eaffd6; white-space:nowrap; flex:none;
+  box-shadow:0 0 10px rgba(184,255,131,.22), inset 0 0 0 1px rgba(255,255,255,.06);
+}
+
+/* Time pill — equal width, centered */
+.arnold-time{
+  font:800 13px/1 "Inter", system-ui, sans-serif;
+  padding:8px 0;
+  border-radius:10px;
+  background:linear-gradient(180deg, #101a24, var(--time-bg));
+  border:1px solid var(--time-brd);
+  color:#fffbea;
+  letter-spacing:.02em;
+
+  width:var(--time-width);
+  flex:0 0 var(--time-width);
+  display:flex; align-items:center; justify-content:center; text-align:center;
+
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.08), 0 6px 14px rgba(0,0,0,.5);
+}
+
+/* Active pop */
+.arnold-card:active{ transform:translateY(12px) scale(.992); transition:transform .06s ease; }
+
+/* Slight bumps on wider screens */
+@media (min-width:431px){
+  .arnold-title{ font-size:17px; }
+  .arnold-time{ font-size:14px; }
+}

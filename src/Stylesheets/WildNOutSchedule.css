@@ -1,0 +1,182 @@
+/* Wild 'N Out — Ultra-realistic stage plate: matte charcoal, neon red underglow, soft grain */
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@600;700;800&display=swap');
+
+:root{
+  --wild-red:#e60f24;
+  --wild-red-deep:#9b0b18;
+  --wild-bg:#0b0c0f;        /* venue darkness */
+  --wild-ink:#ffffff;
+  --wild-ink-sub:#f1f1f1;
+
+  --plate:#14161b;          /* card metal */
+  --plate-edge:#232731;
+
+  --chip-bg:#18261d;        /* maple chip */
+  --chip-brd:#37e07d;
+
+  --time-bg:#1a1f2a;
+  --time-brd:#2b3c55;
+
+  --card-width:80%;
+  --time-width:90px;
+}
+
+/* Reset */
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+/* Matte wall with micro-noise + red wash like stage lights */
+.wild-wrap{
+  min-height:100vh;
+  width:100vw;
+  background:
+    radial-gradient(1100px 380px at 50% -8%, rgba(230,15,36,.22), transparent 60%),
+    radial-gradient(1000px 520px at 50% 120%, rgba(230,15,36,.16), transparent 60%),
+    /* fine film grain */
+    radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,.02) 0 50%, transparent 51%) repeat,
+    var(--wild-bg);
+  background-size:auto,auto,4px 4px,auto;
+  color:var(--wild-ink);
+  display:flex; flex-direction:column; align-items:center;
+  padding:54px 14px 24px;
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  position:relative; overflow:hidden;
+}
+
+/* Header — chrome/gel badge */
+.wild-header{
+  width:100%; max-width:560px;
+  display:flex; align-items:center; justify-content:center;
+  padding:12px 2px 18px; text-align:center;
+}
+.wild-day{
+  font-family:"Bangers", system-ui, sans-serif;
+  font-size:26px; letter-spacing:.06em;
+  color:#000;
+  padding:10px 18px;
+  border-radius:18px;
+  background:
+    linear-gradient(180deg, #fff 0%, #e8e8e8 45%, #d0d0d0 46%, #bdbdbd 100%);
+  border:3px solid #000;
+  box-shadow:
+    0 7px 0 #000,
+    0 16px 28px rgba(0,0,0,.38),
+    inset 0 0 0 6px var(--wild-ink),
+    0 0 0 10px var(--wild-red) inset;
+  transform:rotate(-1deg);
+}
+
+/* List */
+.wild-list{
+  width:100%; max-width:560px;
+  display:flex; flex-direction:column; gap:10px; align-items:center;
+}
+
+/* Card — forged plate with neon red underglow. NO corner tape. */
+.wild-card{
+  width:var(--card-width); margin:0 auto;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px 14px;
+  border-radius:14px; position:relative; overflow:hidden;
+  opacity:0; transform:translateY(10px) scale(.995);
+
+  background:
+    /* brushed micro texture */
+    repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 1px, transparent 1px 3px),
+    linear-gradient(180deg, #171a21 0%, var(--plate) 60%, #111318 100%);
+  border:1px solid var(--plate-edge);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.06),
+    inset 0 -2px 0 rgba(0,0,0,.55),
+    0 10px 30px rgba(0,0,0,.55),
+    0 0 22px rgba(230,15,36,.12);
+}
+
+/* realistic beveled ridge & neon trim on the left */
+.wild-card::before{
+  content:"";
+  position:absolute; left:0; top:0; height:100%; width:7px;
+  background:
+    linear-gradient(180deg, #ff4454, #a50f1d);
+  box-shadow:
+    0 0 22px rgba(230,15,36,.55),
+    inset -1px 0 0 rgba(255,255,255,.18);
+  border-top-left-radius:14px; border-bottom-left-radius:14px;
+}
+
+/* gentle specular wipe across plate */
+.wild-flare{
+  position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(115deg, transparent 45%, rgba(255,255,255,.06) 52%, transparent 60%);
+  mix-blend-mode:screen; opacity:.6;
+}
+
+/* Stagger animation */
+.wild-in{ animation:wild-rise .26s cubic-bezier(.2,.8,.2,1) forwards; }
+@keyframes wild-rise{ to{ opacity:1; transform:translateY(0) scale(1); } }
+
+/* Left column */
+.wild-left{ min-width:0; }
+
+/* Keep name + MAPLE on one line */
+.wild-row{
+  min-width:0; display:inline-flex; align-items:center; gap:8px;
+  white-space:nowrap; overflow:hidden;
+}
+
+.wild-title{
+  font-weight:900; font-size:16px; color:var(--wild-ink-sub);
+  overflow:hidden; text-overflow:ellipsis; letter-spacing:.01em;
+  text-shadow:0 1px 0 rgba(0,0,0,.6);
+}
+
+/* Replacement styling */
+.swap .old{ text-decoration:line-through; opacity:.65; }
+.swap .arrow{ opacity:.7; margin:0 6px; }
+.swap .new{ font-weight:900; color:#ffffff; }
+
+/* Maple chip — frosted glass badge with subtle glow */
+.chip{
+  font-size:12px; line-height:1; padding:4px 10px; border-radius:999px;
+  border:1px solid rgba(255,255,255,.22);
+  background:linear-gradient(180deg, rgba(255,255,255,.15), rgba(255,255,255,.06));
+  color:#ffffff;
+  backdrop-filter: blur(4px);
+  white-space:nowrap; flex:none;
+  box-shadow:0 0 12px rgba(230,15,36,.25);
+}
+.chip--maple{
+  border-color:var(--chip-brd);
+  background:linear-gradient(180deg, rgba(55,224,125,.22), rgba(55,224,125,.10));
+  color:#e8fff2;
+}
+
+/* Start time ONLY — fixed equal width, centered */
+.wild-time{
+  font:800 13px/1 "Inter", system-ui, sans-serif;
+  width:var(--time-width); flex:0 0 var(--time-width);
+  text-align:center; padding:8px 0; border-radius:10px;
+  background:
+    linear-gradient(180deg, #202633, var(--time-bg));
+  border:1px solid var(--time-brd);
+  color:#fff;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.06),
+    0 6px 16px rgba(0,0,0,.55);
+}
+
+/* Hover realism: slight press + brighter neon rim */
+.wild-card:active{
+  transform:translateY(12px) scale(.992);
+  transition:transform .06s ease;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.06),
+    inset 0 -2px 0 rgba(0,0,0,.55),
+    0 6px 18px rgba(0,0,0,.55),
+    0 0 30px rgba(230,15,36,.35);
+}
+
+/* Accessibility bumps */
+@media (min-width:431px){
+  .wild-title{ font-size:17px; }
+  .wild-time{ font-size:14px; }
+}
