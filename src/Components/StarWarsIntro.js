@@ -39,7 +39,7 @@ export default function StarWarsIntro({
       const panelH = panel.scrollHeight;
 
       // how far to travel (start below + exit above)
-      const startBelow = Math.round(wrapH * .98);
+      const startBelow = Math.round(wrapH * .70);
       const endAbove = Math.round(panelH + wrapH * 0.95);
       const total = startBelow + endAbove;
 
