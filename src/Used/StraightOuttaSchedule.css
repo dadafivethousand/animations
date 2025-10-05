@@ -1,13 +1,10 @@
-/* StraightOuttaSchedule.css */
 @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 
 :root{
-  --so-black:#000;
   --so-white:#fff;
-  --so-ink:#111;
-  --so-border:#fff;
   --so-card:#0b0b0b;
   --so-edge:#2b2b2b;
+  --time-width:90px;
 }
 
 *{ box-sizing:border-box; }
@@ -15,156 +12,135 @@
 .so-wrap{
   width:100vw;
   min-height:100vh;
-  padding-top:50px;                 /* requested padding */
+  padding-top:50px;
   background:#000;
   color:#fff;
   display:flex;
   flex-direction:column;
   align-items:center;
-  justify-content: flex-start;
-  gap:22px;
+  justify-content:flex-start;
+  gap:18px;
   font-family:'Anton', Impact, system-ui, sans-serif;
 }
 
-.so-day{margin: 0;
-font-size: 30px;
-opacity: 0;
-animation: appear 6s forwards;
+.so-day{
+  margin:0;
+  font-size:25px;
+  opacity:0;
+  animation: appear 6s forwards;
 }
+@keyframes appear{ 50%{opacity:0} 100%{opacity:1} }
 
-
-@keyframes appear { 50%{ opacity:0 } 
-
-100%{ opacity:1} 
-
-}
-
-
-/* === Poster === */
+/* Poster */
 .so-poster{
-  width:80vw;                      /* 100vw width */
-  height:80vw;                     /* 100vw height (square like the ref) */
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
+  width:80vw; height:80vw;
+  display:flex; align-items:center; justify-content:center; position:relative;
 }
-
 .so-frame{
   width:min(92vw, 100vh);
   aspect-ratio:1/1;
-  border:12px solid var(--so-border);
-  position:relative;
+  border:12px solid var(--so-white);
   background:#000;
-  display:grid;
-  grid-template-rows: 1fr 1fr 1fr;
-  overflow:hidden;
+  display:grid; grid-template-rows:1fr 1fr 1fr;
+  position:relative; overflow:hidden;
 }
-
-/* rows */
 .so-row{
-  display:grid;
-  place-items:center;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  line-height:1;
-  text-align:center;
-  padding:6px 10px;
-  position:relative;
-  user-select:none;
+  display:grid; place-items:center;
+  letter-spacing:.08em; text-transform:uppercase; line-height:1;
+  padding:6px 10px; user-select:none;
 }
-
-/* Top & Bottom: white text on black */
-.so-top,
-.so-bot{
-  color:var(--so-white);
-  background:#000;
-  border-bottom:12px solid var(--so-border);
-}
-.so-bot{ border-bottom:0; border-top:12px solid var(--so-border); }
-
-/* Mid: black text on white */
-.so-mid{
-  color:#000;
-  background:#fff;
-  border-top:12px solid var(--so-border);
-  border-bottom:12px solid var(--so-border);
-}
-
-/* Typographic scaling */
-.so-top{  font-size: clamp(42px, 12.5vw, 140px); }
-.so-mid{  font-size: clamp(66px, 20vw, 220px);   letter-spacing:.04em; }
-.so-bot{  font-size: clamp(42px, 12.5vw, 140px); }
-
-/* Typewriter caret */
+.so-top, .so-bot{ color:#fff; background:#000; border-bottom:12px solid #fff; }
+.so-bot{ border-bottom:0; border-top:12px solid #fff; }
+.so-mid{ color:#000; background:#fff; border-top:12px solid #fff; border-bottom:12px solid #fff; }
+.so-top{ font-size: clamp(42px, 12.5vw, 140px); }
+.so-mid{ font-size: clamp(66px, 20vw, 220px); letter-spacing:.04em; }
+.so-bot{ font-size: clamp(42px, 12.5vw, 140px); }
 .so-type{ display:inline-block; }
-.so-caret{
-  width: .08em;
-  height: .9em;
-  background:#fff;
-  display:inline-block;
-  margin-left:.12em;
-  transform: translateY(.08em);
-  animation: blink 0.9s steps(1, end) infinite;
-}
-@keyframes blink { 50%{ opacity:0 } }
-
-/* Grunge overlay for realism */
 .so-grunge{
-  position:absolute; inset:0;
-  pointer-events:none;
+  position:absolute; inset:0; pointer-events:none;
   background-image:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0 .12 0'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect filter='url(%23n)' width='100%25' height='100%25' fill='white'/%3E%3C/svg%3E");
-  mix-blend-mode:multiply;
-  opacity:.65;
+  mix-blend-mode:multiply; opacity:.65;
 }
 
-/* === Schedule below poster === */
-.so-list{
-  width:min(960px, 92vw);
-  display:flex;
-  flex-direction:column;
-  gap:1px;
-  margin-bottom:40px;
+/* Horizontal rail */
+.so-rail{
+  width:min(960px, 94vw);
+ margin: 0 auto;
+  overflow-x:auto; overflow-y:hidden;
+  padding:6px 2px 16px;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
 }
+.so-rail::-webkit-scrollbar{ height:8px; }
+.so-rail::-webkit-scrollbar-thumb{ background:#222; border-radius:999px; }
 
+/* Card tiles */
 .so-card{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:2px;
-  padding:1px 16px;
+  min-width:260px; max-width:320px; height:44px;
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:2px 12px;
   background: linear-gradient(180deg, var(--so-card), #0a0a0a);
-  border: 1px solid var(--so-edge);
-  border-radius:10px;
-  box-shadow: 0 18px 40px rgba(0,0,0,.5), inset 0 0 12px rgba(255,255,255,.03);
-  transform: translateY(12px);
-  opacity:0;
-  animation: so-in .3s ease-out forwards;
+  border:1px solid var(--so-edge);
+  border-radius:12px;
+  box-shadow:0 18px 40px rgba(0,0,0,.5), inset 0 0 12px rgba(255,255,255,.03);
+  transform:translateY(12px); opacity:0; scroll-snap-align:start;
+  margin: 0 auto;
+  border: 1px solid white;
 }
-@keyframes so-in{ to{ transform: translateY(0); opacity:1; } }
+.so-in{ animation: so-in .3s ease-out forwards; }
+@keyframes so-in{ to{ transform:translateY(0); opacity:1; } }
 
-.so-left{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-.so-name{ font-size: clamp(16px, 4.6vw, 22px); }
-
+/* ===========================
+   FLEX INSIDE THE CLASS ROW
+   Name grows; MAPLE stays tight; never wraps
+   =========================== */
+.so-line{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;        /* allow flex children to shrink */
+  flex:1 1 auto;      /* take available space between left and time pill */
+  white-space:nowrap; overflow:hidden;
+  margin: 0 auto;
+}
+.so-name{
+     /* grow/shrink to make room for the badge */
+  min-width:0;        /* enables ellipsis */
+  overflow:hidden; text-overflow:ellipsis;
+  font-size:16px;
+}
 .so-badge{
-  font-size:10px;
+  flex:0 0 auto;      /* keeps width of the pill; never shrinks to new line */
+  font-size:11px;
   letter-spacing:.12em;
-  padding:2px 8px;
+  padding:3px 10px;
   border-radius:999px;
   background:#fff;
   color:#000;
   border:1px solid #ddd;
+  white-space:nowrap;
 }
 
+/* Time pill (fixed width) */
 .so-time{
-  font-size: 14px;
-  background:#fff;
-  color:#000;
-  border-radius:6px;
-  padding:6px 10px;
-  border:1px solid #ddd;
-  box-shadow: inset 0 0 10px rgba(0,0,0,.06);
-  width:80px;
-  text-align: center;
+  font-size:13px;
+  color:#ffffff;
+  border-radius:8px; padding:8px 0;
+ box-shadow:inset 0 0 10px rgba(0,0,0,.06);
+  width:var(--time-width); text-align:center; flex:0 0 var(--time-width);
+}
+
+/* Replacement styling */
+.swap .old{ text-decoration:line-through; opacity:.65; }
+.swap .arrow{ opacity:.65; margin:0 6px; }
+.swap .new{ font-weight:900; }
+
+/* Poster word tweak */
+.so-word{ font-size:35px; }
+
+/* Slight bumps on wider screens */
+@media (min-width:431px){
+  .so-name{ font-size:17px; }
+  .so-time{ font-size:14px; }
 }

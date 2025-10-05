@@ -73,10 +73,11 @@ import DiscordSchedule from "./Components/DiscordSchedule";
 import NinjaSchedule from "./Components/NinjaSchedule";
 import RoosterSchedule from "./Components/RoosterSchedule";
 import WildNOutSchedule from "./Components/WildNOutSchedule";
+import StraightOuttaSchedule from "./Used/StraightOuttaSchedule";
   function App() {
   return (
     <>
-  <DiscordSchedule day="Monday" />
+  <StraightOuttaSchedule day="Monday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
