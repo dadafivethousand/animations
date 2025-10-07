@@ -77,7 +77,7 @@ import SamuraiSchedule from "./Used/Lit/SamuraiSchedule"
   function App() {
   return (
     <>
-  <PulpFictionSchedule day="Tuesday" />
+  <TikTokSchedule day="Tuesday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
