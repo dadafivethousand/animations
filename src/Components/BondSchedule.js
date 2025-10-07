@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/BondSchedule.css";
-import schedule from "../Schedule"; // or "../RhSchedule"
+import schedule from "../RhSchedule"; // or "../RhSchedule"
 
 export default function BondSchedule({
   day,

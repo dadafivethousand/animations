@@ -111,7 +111,7 @@ html,body{ height:100% }
 .bond-card{
   position:relative;
   display:flex; align-items:center; justify-content:space-between; gap:12px;
-  padding:12px 14px 12px 46px; /* room for sight-line */
+  padding:3px 14px 12px 46px; /* room for sight-line */
   background:
     linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)),
     radial-gradient(120% 220% at 50% -120%, rgba(255,255,255,.12), rgba(255,255,255,0) 60%);
@@ -149,7 +149,7 @@ html,body{ height:100% }
 }
 
 /* ===== Content ===== */
-.bond-left{ min-width:0; display:flex; flex-direction:column; gap:6px; position:relative }
+.bond-left{ min-width:0; display:flex;  justify-content: center; align-items: center; gap:6px; position:relative }
 
 .bond-title{
   font: 700 var(--title)/1.06 "Cormorant Garamond", Georgia, "Times New Roman", serif;
