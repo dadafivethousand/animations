@@ -74,10 +74,11 @@ import NinjaSchedule from "./Components/NinjaSchedule";
 import RoosterSchedule from "./Components/RoosterSchedule";
 import WildNOutSchedule from "./Components/WildNOutSchedule";
 import StraightOuttaSchedule from "./Used/StraightOuttaSchedule";
+import SamuraiSchedule from "./Used/Lit/SamuraiSchedule"
   function App() {
   return (
     <>
-  <StraightOuttaSchedule day="Monday" />
+  <SamuraiSchedule day="Monday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/SamuraiSchedule.css";
-import schedule from "../Schedule"; // Assuming schedule data exists
+import "./SamuraiSchedule.css";
+import schedule from "../../Schedule"; // Assuming schedule data exists
 import Katana from "./Katana";
 
 function SamuraiSchedule({ day, animationDelay = 2500, animationInterval = 500 }) {

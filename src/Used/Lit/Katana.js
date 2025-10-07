@@ -1,5 +1,5 @@
 import React from 'react';
-import '../Stylesheets/Katana.css';
+import './Katana.css';
 
 const Katana = () => {
   return (
