@@ -25,8 +25,7 @@ import DanaherSchedule from "./Used/DanaherSchedule"
 import PaintItBlack from "./Components/PaintItBlack";
 import SpaceSchedule from "./Used/SpaceSchedule"
 import GordonRamsaySchedule from "./Components/GordonRamsaySchedule";
-import HeavyMetalSchedule from "./Components/HeavyMetalSchedule";
-import CadillacSchedule from "./Used/CadillacSchedule";
+ import CadillacSchedule from "./Used/CadillacSchedule";
 import EASportsSchedule from "./Components/EASportsSchedule";
 import PopeyeSchedule from "./Components/PopeyeSchedule";
 import GogginsSchedule from "./Components/GogginsSchedule";
