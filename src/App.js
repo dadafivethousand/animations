@@ -78,7 +78,7 @@ import SamuraiSchedule from "./Used/Lit/SamuraiSchedule"
   function App() {
   return (
     <>
-  <SamuraiSchedule day="Monday" />
+  <BlacksmithSchedule day="Tuesday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
