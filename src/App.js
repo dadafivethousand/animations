@@ -77,7 +77,7 @@ import SamuraiSchedule from "./Used/Lit/SamuraiSchedule"
   function App() {
   return (
     <>
-  <RoosterSchedule day="Thursday" />
+  <FortniteSchedule day="Thursday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

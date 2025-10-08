@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/LionKingSchedule.css";
-import schedule from "../Schedule"; // or "../RhSchedule" if your data lives there
+import schedule from "../RhSchedule"; // or "../RhSchedule" if your data lives there
 
 export default function LionKingSchedule({
   day,
