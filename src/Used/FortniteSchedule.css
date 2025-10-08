@@ -33,7 +33,7 @@
   align-items:center;
   padding:14px 14px 24px;
   font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  padding-top: 160px;
+  padding-top: 60px;
 }
 
 /* Header — center the weekday */
@@ -125,7 +125,8 @@
 .fortnite-left{
   min-width:0;
   display:flex;
-  flex-direction:column;
+  justify-content: center;
+  align-items: center;
   gap:4px;
 }
 
@@ -163,6 +164,16 @@
   color:#efe8ff;
   box-shadow: 0 0 10px rgba(106,92,255,.35);
 }
+
+.chip--maple::before{
+opacity: 0;
+}
+
+.chip--maple::after{
+opacity: 0;
+}
+
+
 
 /* Time pill — fixed equal width, centered text, start time only */
 .fortnite-time{
