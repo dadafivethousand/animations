@@ -77,7 +77,7 @@ import SamuraiSchedule from "./Used/Lit/SamuraiSchedule"
   function App() {
   return (
     <>
-  <GogginsSchedule day="Friday" />
+  <MicrosoftSchedule day="Friday" />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
