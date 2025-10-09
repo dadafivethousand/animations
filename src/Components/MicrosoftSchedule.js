@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/MicrosoftSchedule.css";
-import schedule from "../Schedule"; // or "../RhSchedule" if you prefer
+import schedule from "../RhSchedule"; // or "../RhSchedule" if you prefer
 
 export default function MicrosoftSchedule({ day, animationDelay = 900, animationInterval = 160 }) {
   const [visible, setVisible] = useState([]);
@@ -66,7 +66,7 @@ export default function MicrosoftSchedule({ day, animationDelay = 900, animation
                     )}
                   </span>
                   {cls.maple && (
-                    <span className="chip chip--maple" title="Maple">📍 Maple</span>
+                    <span className="mschip--maple" title="Maple">📍 Maple</span>
                   )}
                 </div>
               </div>
