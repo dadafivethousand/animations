@@ -137,7 +137,7 @@ background-size: 600px;
 }
 
 /* ===== Content ===== */
-.lk-left{ min-width:0; display:flex; flex-direction:column; gap:6px }
+.lk-left{ min-width:0; display:flex; align-items: center; justify-content: center; gap:6px }
 
 /* dramatic serif for class names */
 .lk-title{

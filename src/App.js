@@ -74,10 +74,12 @@ import RoosterSchedule from "./Components/RoosterSchedule";
 import WildNOutSchedule from "./Components/WildNOutSchedule";
 import StraightOuttaSchedule from "./Used/StraightOuttaSchedule";
 import SamuraiSchedule from "./Used/Lit/SamuraiSchedule"
+import LionKingSunrise from "./Components/LionKingSunriseOverlay";
   function App() {
   return (
     <>
-  <MicrosoftSchedule day="Friday" />
+  <LionKingSchedule day="Friday" />
+  <LionKingSunrise />
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
