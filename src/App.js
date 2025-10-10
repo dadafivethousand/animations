@@ -78,9 +78,8 @@ import LionKingSunrise from "./Components/LionKingSunriseOverlay";
   function App() {
   return (
     <>
-  <LionKingSchedule day="Saturday" />
-  <LionKingSunrise />
-      {/* You can toggle others like this */}
+  <NinjaSchedule day="Saturday" />
+       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
   );

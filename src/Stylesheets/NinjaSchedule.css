@@ -35,7 +35,7 @@
   display:flex;
   flex-direction:column;
   align-items:center;
-  padding:14px 14px 24px;
+  padding:114px 14px 24px;
   font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
 
@@ -84,7 +84,7 @@
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:10px 12px;
+  padding:30px 12px;
   border-radius:14px;
   position:relative;
   overflow:hidden;
@@ -146,7 +146,7 @@
 }
 .ninja-title{
   font-weight:800;
-  font-size:16px;
+  font-size:19px;
   letter-spacing:.02em;
   color:#eef4ff;
   overflow:hidden;
@@ -194,7 +194,7 @@
   align-items:center;
   justify-content:center;
   text-align:center;
-
+font-size: 18px;
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.08),
     inset 0 -2px 0 rgba(0,0,0,.45),
