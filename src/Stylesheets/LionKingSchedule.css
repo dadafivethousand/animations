@@ -144,7 +144,8 @@ background-size: 600px;
   font: 700 var(--title)/1.04 "Gloock", Georgia, "Times New Roman", serif;
   letter-spacing:.02em;
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-  color:var(--ink);
+  color:black;
+  font-size:18px;
  
 }
 
