@@ -1,0 +1,185 @@
+/* Fox20thSchedule.css */
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@600;700&display=swap");
+
+:root{
+  /* Twilight sky + studio golds */
+  --fx-sky-1:#0a1130;
+  --fx-sky-2:#0b0f26;
+  --fx-sky-3:#0f0249;
+  --fx-gold-1:#f2d18a;
+  --fx-gold-2:#d9b45b;
+  --fx-gold-3:#b98f35;
+
+  --fx-card:#0e1226;
+  --fx-card-2:#0b0f20;
+  --fx-ink:#eef3ff;
+  --fx-muted:#aeb6ce;
+
+  --fx-border:rgba(242,209,138,.26);
+  --fx-shadow:0 12px 30px rgba(0,0,0,.45);
+}
+
+*{ box-sizing:border-box; }
+
+.fox20th-wrap{
+  min-height:100vh;
+  width:100vw;
+  background-color:var(--fx-sky-3);
+
+  color:var(--fx-ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:14px;
+  padding-top:50px; /* minimum 50px top padding */
+  background-image: url('https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExYTZiOTV6ZmVzMTZhNmVmOTcxNWNwbXlkdngwNHJlcDFxYWxwY3c3OCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xT5LMvZrmRkO5zt6rS/giphy.gif');
+  background-size: contain;
+   background-position: bottom;
+  
+}
+
+/* Header with sweeping spotlights; day centered and 30px */
+.fox20th-header{
+  width:100%;
+  max-width:560px;
+  padding:52px 14px;
+  position:sticky;
+  top:0;
+  text-align:center;
+  background-color:black;
+  border-bottom:1px solid var(--fx-border);
+  backdrop-filter: blur(4px);
+  z-index:2;
+  overflow:hidden;
+}
+.fox20th-beams{
+  position:absolute;
+  inset:-40% -10% auto -10%;
+  height:140%;
+  pointer-events:none;
+  background:
+    conic-gradient(from 240deg at 30% 120%, rgba(242,209,138,.26), transparent 35%),
+    conic-gradient(from 300deg at 70% 120%, rgba(242,209,138,.22), transparent 35%);
+  filter: blur(6px);
+  animation: fox20th-sweep 6s ease-in-out infinite alternate;
+}
+@keyframes fox20th-sweep{
+  0%{ transform: rotate(-2deg) translateY(-2%); opacity:.7; }
+  100%{ transform: rotate(4deg) translateY(0%); opacity:.9; }
+}
+.fox20th-day{
+  margin:0;
+  position:relative;
+  display:inline-block;
+  font-family:"Cinzel", ui-serif, Georgia, serif;
+  font-weight:700;
+  font-size:30px; /* bigger day label per guideline */
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  background:linear-gradient(90deg, var(--fx-gold-1), var(--fx-gold-2), var(--fx-gold-3));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  text-shadow:0 1px 0 rgba(0,0,0,.35);
+}
+
+/* List at 80% width */
+.fox20th-list{
+  width:80%;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  gap:1px;
+  margin-top:10px;
+}
+
+/* Card */
+.fox20th-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px 12px;
+  background-color: rgb(0, 0, 0);
+   
+  border:1px solid var(--fx-border);
+  border-radius:14px;
+  box-shadow: var(--fx-shadow), inset 0 0 0 1px rgba(255,255,255,.02);
+  opacity:0;
+  transform: translateY(8px);
+  min-height:56px; /* compact */
+}
+
+/* Enter animation */
+.fox20th-in{ animation: fox20th-rise .24s ease-out forwards; }
+@keyframes fox20th-rise{ to{ opacity:1; transform:translateY(0);} }
+
+/* Left row: class title + maple inline (start-justified) */
+.fox20th-left{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start; /* guideline */
+  gap:8px;
+  flex:1 1 auto;
+  flex-wrap:nowrap;
+}
+
+/* Compact title */
+.fox20th-title{
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight:700;
+  font-size:15px;   /* compact */
+  line-height:1.2;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  min-width:0;
+}
+
+/* Replacement styling */
+.fox20th-swap .fox20th-old{ text-decoration:line-through; opacity:.65; }
+.fox20th-swap .fox20th-arrow{ opacity:.65; margin:0 6px; }
+.fox20th-swap .fox20th-new{ font-weight:800; }
+
+/* Maple chip inline — gold rim for studio vibe */
+.fox20th-chip{
+  font-size:11px;
+  line-height:1;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(242,209,138,.55);
+  background: rgba(242,209,138,.12);
+  color:#fff7dd;
+  white-space:nowrap;
+  flex:0 0 auto;
+  box-shadow: inset 0 0 10px rgba(242,209,138,.12);
+}
+.fox20th-chip--maple{}
+
+/* Time block: fixed 90px, centered */
+.fox20th-time{
+  font:800 13px/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color:#0f1328;
+  background:linear-gradient(180deg, #ffeab3, #f2d27f);
+  border:1px solid rgba(242,209,138,.6);
+  border-radius:10px;
+  padding:6px 8px;
+  white-space:nowrap;
+  width:90px;        /* fixed width */
+  flex:0 0 90px;     /* prevent grow/shrink */
+  text-align:center; /* centered text */
+  text-shadow:0 1px 0 rgba(255,255,255,.65);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .fox20th-in{ animation:none; opacity:1; transform:none; }
+  .fox20th-beams{ animation:none; }
+}
+
+/* Slightly larger screens */
+@media (min-width:481px){
+  .fox20th-card{ padding:12px 14px; }
+  .fox20th-time{ font-size:13px; }
+}

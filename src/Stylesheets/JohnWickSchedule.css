@@ -1,0 +1,162 @@
+/* JonWickSchedule.css */
+@import url("https://fonts.googleapis.com/css2?family=Teko:wght@500;600;700&family=Inter:wght@500;700&display=swap");
+
+:root {
+  --jw-bg: #0a0b10;
+  --jw-bg-2: #0e1220;
+  --jw-ink: #e9f0ff;
+  --jw-card: #0f1424;
+  --jw-border: rgba(96, 130, 255, 0.16);
+  --jw-accent: #6ea8ff;
+  --jw-accent-2: #b36bff;
+  --jw-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+}
+
+* { box-sizing: border-box; }
+
+.jonwick-wrap {
+  min-height: 100vh;
+  width: 100vw;
+  background:
+    radial-gradient(1200px 500px at 50% -10%, rgba(110,168,255,0.08), transparent 70%),
+    radial-gradient(1000px 420px at 50% 120%, rgba(179,107,255,0.06), transparent 70%),
+    linear-gradient(180deg, var(--jw-bg), var(--jw-bg-2));
+  color: var(--jw-ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px;
+  padding-top: 50px; /* minimum 50px top padding */
+}
+
+/* Header — day centered and bigger */
+.jonwick-header {
+  width: 100%;
+  max-width: 560px;
+  padding: 8px 4px 10px;
+  position: sticky;
+  top: 0;
+  background: linear-gradient(180deg, rgba(10,11,16,0.9), rgba(14,18,32,0.75));
+  backdrop-filter: blur(4px);
+  z-index: 2;
+  border-bottom: 1px solid rgba(110,168,255,0.12);
+  text-align: center;
+}
+.jonwick-day {
+  margin: 0;
+  display: inline-block;
+  font-family: "Teko", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 30px; /* bigger day of week */
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, var(--jw-accent), var(--jw-accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* List (80% width) */
+.jonwick-list {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+  max-width: 560px;
+}
+
+/* Card */
+.jonwick-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  background:
+    radial-gradient(180px 60px at 0% 0%, rgba(110,168,255,0.10), transparent 60%),
+    linear-gradient(180deg, #0e1426, #0b1020);
+  border: 1px solid var(--jw-border);
+  border-radius: 12px;
+  box-shadow: var(--jw-shadow), inset 0 0 0 1px rgba(255,255,255,0.02);
+  opacity: 0;
+  transform: translateY(8px);
+  min-height: 56px;
+}
+
+/* In animation */
+.jonwick-in { animation: jw-rise .24s ease-out forwards; }
+@keyframes jw-rise { to { opacity: 1; transform: translateY(0); } }
+
+/* Left row: title + maple inline, start-justified */
+.jonwick-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+}
+
+/* Restore title size to original compact value */
+.jonwick-title {
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 15px;  /* compact title size restored */
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+/* Replacement styling */
+.jonwick-swap .jonwick-old { text-decoration: line-through; opacity: .65; }
+.jonwick-swap .jonwick-arrow { opacity: .65; margin: 0 6px; }
+.jonwick-swap .jonwick-new { font-weight: 800; }
+
+/* Maple chip inline */
+.jonwick-chip {
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(110,168,255,.28);
+  background: rgba(110,168,255,.10);
+  color: var(--jw-ink);
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+.jonwick-chip--maple {
+  border-color: rgba(255, 88, 88, .45);
+  background: rgba(255, 60, 60, .12);
+  color: #ffdede;
+  box-shadow: 0 0 12px rgba(255, 60, 60, .18), inset 0 0 0 1px rgba(255,255,255,0.03);
+}
+
+/* Time block: fixed width 90px and centered text */
+.jonwick-time {
+  font: 800 13px/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: #dfe7ff;
+  background: linear-gradient(180deg, #0d1630, #0a1226);
+  border: 1px solid rgba(110,168,255,.28);
+  border-radius: 10px;
+  padding: 6px 8px;
+  white-space: nowrap;
+  text-shadow: 0 0 8px rgba(110,168,255,.35);
+  width: 90px;
+  flex: 0 0 90px;
+  text-align: center;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .jonwick-in { animation: none; opacity: 1; transform: none; }
+}
+
+/* Slightly larger screens */
+@media (min-width: 481px) {
+  .jonwick-card { padding: 12px 14px; }
+  .jonwick-time { font-size: 13px; }
+}

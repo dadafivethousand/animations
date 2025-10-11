@@ -1,0 +1,167 @@
+/* OldSpiceSchedule.css — brand red, slightly toned for sticker visibility */
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@600;700&display=swap");
+
+:root{
+  /* Old Spice reds, softened a bit */
+  --os-red-dark:#8a0f1f;    /* base burgundy */
+  --os-red:#ba2338;         /* primary red */
+  --os-red-light:#d74a5d;   /* highlight red */
+  --os-cream:#fff5e6;       /* off-white cream */
+  --os-card:#fffdf8;
+  --os-gold:#e8c86e;
+
+  --os-ink:#281617;
+  --os-border: rgba(186,35,56,.18);
+  --os-shadow: 0 10px 24px rgba(0,0,0,.22);
+}
+
+*{ box-sizing:border-box; }
+
+.oldspice-wrap{
+  min-height:100vh;
+  width:100vw;
+  /* Cream base with translucent red washes so stickers pop */
+  background:
+    radial-gradient(900px 520px at 50% -12%, rgba(186,35,56,.16), transparent 60%),
+    radial-gradient(1100px 620px at 50% 118%, rgba(138,15,31,.12), transparent 65%),
+    linear-gradient(180deg, var(--os-cream) 0%, #ffeede 40%, #ffe6cf 100%);
+  color:var(--os-ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:14px;
+  padding-top:50px; /* minimum 50px top padding */
+}
+
+/* Header: centered day, red but not overpowering */
+.oldspice-header{
+  width:100%;
+  max-width:560px;
+  padding:10px 4px 12px;
+  position:sticky;
+  top:0;
+  text-align:center;
+  background:
+    linear-gradient(180deg, rgba(186,35,56,.82), rgba(138,15,31,.70));
+  backdrop-filter: blur(4px);
+  border-bottom:1px solid rgba(186,35,56,.25);
+  z-index:2;
+}
+.oldspice-day{
+  margin:0;
+  display:inline-block;
+  font-family:"Cinzel", ui-serif, Georgia, serif;
+  font-weight:700;
+  font-size:30px; /* bigger day label per guideline */
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  /* Gold accent to separate from red header for readability */
+  background:linear-gradient(90deg, #e9d9af, var(--os-gold));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  text-shadow:0 1px 0 rgba(0,0,0,.25);
+}
+
+/* List (80% width) */
+.oldspice-list{
+  width:80%;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-top:10px;
+}
+
+/* Card — light surfaces with gentle red accents */
+.oldspice-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px 12px;
+  background:
+    linear-gradient(180deg, var(--os-card), #fff7ee);
+  border:1px solid var(--os-border);
+  border-radius:14px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.7),
+    var(--os-shadow);
+  color:var(--os-ink);
+  opacity:0;
+  transform: translateY(8px);
+  min-height:56px; /* compact */
+}
+
+/* In animation */
+.oldspice-in{ animation: os-rise .24s ease-out forwards; }
+@keyframes os-rise{ to{ opacity:1; transform:translateY(0);} }
+
+/* Left row: title + maple inline, start-justified */
+.oldspice-left{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start; /* per guideline */
+  gap:8px;
+  flex:1 1 auto;
+  flex-wrap:nowrap;
+}
+
+/* Compact title (keep small to fit with chip) */
+.oldspice-title{
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight:700;
+  font-size:15px;
+  line-height:1.2;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  min-width:0;
+}
+
+/* Replacement styling */
+.oldspice-swap .oldspice-old{ text-decoration:line-through; opacity:.65; }
+.oldspice-swap .oldspice-arrow{ opacity:.65; margin:0 6px; }
+.oldspice-swap .oldspice-new{ font-weight:800; }
+
+/* Maple chip inline — red accent, softened */
+.oldspice-chip{
+  font-size:11px;
+  line-height:1;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(186,35,56,.45);
+  background:linear-gradient(180deg, rgba(215,74,93,.18), rgba(186,35,56,.12));
+  color:#5b1f25;
+  white-space:nowrap;
+  flex:0 0 auto;
+  box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.05);
+}
+.oldspice-chip--maple{}
+
+/* Time block: fixed width 90px, centered text with subtle red ring */
+.oldspice-time{
+  font:800 13px/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color:#3a2a1f;
+  background:linear-gradient(180deg, #fff7eb, #fff0dc);
+  border:1px solid rgba(186,35,56,.35);
+  border-radius:10px;
+  padding:6px 8px;
+  white-space:nowrap;
+  width:90px;       /* fixed width */
+  flex:0 0 90px;    /* prevent grow/shrink */
+  text-align:center;/* centered text */
+  text-shadow:0 1px 0 rgba(255,255,255,.85);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .oldspice-in{ animation:none; opacity:1; transform:none; }
+}
+
+/* Slightly larger screens */
+@media (min-width: 481px){
+  .oldspice-card{ padding:12px 14px; }
+  .oldspice-time{ font-size:13px; }
+}
