@@ -1,3 +1,4 @@
+// PeakyBlindersSchedule.jsx
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/PeakyBlindersSchedule.css";
 import schedule from "../Schedule";
@@ -45,9 +46,11 @@ export default function PeakyBlindersSchedule({
         {items.map((cls, i) =>
           visible.includes(i) ? (
             <article
-              className="peaky-card peaky-in"
+              className={`peaky-card peaky-in ${cls.cancelled ? "is-cancelled" : ""}`}
               key={i}
               style={{ animationDelay: `${i * 50}ms` }}
+              aria-live={cls.cancelled ? "polite" : undefined}
+              aria-label={cls.cancelled ? "Cancelled class" : undefined}
             >
               <div className="peaky-left">
                 {/* One-line title with Replacement + Maple chip inline */}
@@ -63,8 +66,15 @@ export default function PeakyBlindersSchedule({
                       cls.name
                     )}
                   </span>
+
                   {cls.maple && (
                     <span className="chip chip--maple" title="Maple">📍 Maple</span>
+                  )}
+
+                  {cls.cancelled && (
+                    <span className="chip chip--cancelled" role="status" aria-label="Cancelled">
+                      ✖ Cancelled
+                    </span>
                   )}
                 </div>
               </div>

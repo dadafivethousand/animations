@@ -1,9 +1,9 @@
-// Fox20thSchedule.jsx
+// ElmoSchedule.jsx (unchanged)
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/Fox20thSchedule.css";
+import "../Stylesheets/ElmoSchedule.css";
 import schedule from "../Schedule";
 
-export default function Fox20thSchedule({
+export default function ElmoSchedule({
   day,
   animationDelay = 900,
   animationInterval = 160,
@@ -34,29 +34,28 @@ export default function Fox20thSchedule({
   };
 
   return (
-    <div className="fox20th-wrap">
-      <header className="fox20th-header">
-        <div className="fox20th-beams" aria-hidden />
-        <h1 className="fox20th-day">{safeDay.toUpperCase()}</h1>
+    <div className="elmo-wrap">
+      <header className="elmo-header">
+        <h1 className="elmo-day">{safeDay.toUpperCase()}</h1>
       </header>
 
-      <main className="fox20th-list">
+      <main className="elmo-list">
         {items.map((cls, i) =>
           visible.includes(i) ? (
             <article
-              className="fox20th-card fox20th-in"
+              className="elmo-card elmo-in"
               key={i}
               style={{ animationDelay: `${i * 40}ms` }}
             >
-              <div className="fox20th-left">
-                <div className="fox20th-title">
+              <div className="elmo-left">
+                <div className="elmo-title">
                   {cls.replacement ? (
-                    <span className="fox20th-swap">
-                      <span className="fox20th-old">{cls.name}</span>
-                      <span className="fox20th-arrow" aria-hidden>
+                    <span className="elmo-swap">
+                      <span className="elmo-old">{cls.name}</span>
+                      <span className="elmo-arrow" aria-hidden>
                         →
                       </span>
-                      <span className="fox20th-new">
+                      <span className="elmo-new">
                         {typeof cls.replacement === "string"
                           ? cls.replacement
                           : "Replacement"}
@@ -68,13 +67,11 @@ export default function Fox20thSchedule({
                 </div>
 
                 {cls.maple && (
-                  <span className="fox20th-chip fox20th-chip--maple">
-                    📍 MAPLE
-                  </span>
+                  <span className="elmo-chip elmo-chip--maple">📍 MAPLE</span>
                 )}
               </div>
 
-              <time className="fox20th-time">{formatTime(cls.start)}</time>
+              <time className="elmo-time">{formatTime(cls.start)}</time>
             </article>
           ) : null
         )}

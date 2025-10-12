@@ -1,3 +1,4 @@
+/* PeakyBlindersSchedule.css */
 /* Peaky Blinders — sepia grit, brass plaque, razor accent, tweed/coal mill vibe */
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Inter:wght@600;700;800&display=swap');
 
@@ -42,7 +43,7 @@
   display:flex;
   flex-direction:column;
   align-items:center;
-  padding:64px 14px 24px;
+  padding:64px 14px 24px; /* >= 50px top padding */
   font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
 
@@ -135,7 +136,7 @@
 /* Left column */
 .peaky-left{ min-width:0; }
 
-/* Keep name + MAPLE inline on one row */
+/* Keep name + MAPLE/CANCELLED inline on one row */
 .peaky-row{
   min-width:0;
   display:flex;
@@ -159,7 +160,7 @@
 .swap .arrow{ opacity:.65; margin:0 6px; }
 .swap .new{ font-weight:900; color:#f3ead5; }
 
-/* Maple chip — brass tag */
+/* Chips */
 .chip{
   font-size:12px;
   line-height:1;
@@ -176,6 +177,13 @@
   border-color:var(--chip-brd);
   color:#fff4dc;
   box-shadow:0 0 10px rgba(202,167,109,.28);
+}
+/* NEW: Cancelled chip */
+.chip--cancelled{
+  background:linear-gradient(180deg, #3a1b1b, #2a1212);
+  border-color:#7a3a3a;
+  color:#ffdddd;
+  box-shadow:0 0 10px rgba(122,58,58,.28);
 }
 
 /* Start time ONLY — fixed equal width pill, centered text */
@@ -199,6 +207,27 @@
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.08),
     0 6px 14px rgba(0,0,0,.55);
+}
+
+/* CANCELLED STATE */
+/* Dim card, strike title (and swap parts), soften time, mute sheen */
+.is-cancelled{
+  filter:saturate(.8);
+  opacity:.85;
+}
+.is-cancelled .peaky-title,
+.is-cancelled .swap .old,
+.is-cancelled .swap .new{
+  text-decoration:line-through;
+  text-decoration-thickness: 2px;
+  text-decoration-color: rgba(200,80,80,.8);
+}
+.is-cancelled .peaky-time{
+  opacity:.7;
+  border-color:#3a3f49;
+}
+.is-cancelled .peaky-razor{
+  opacity:.25;
 }
 
 /* Slight bumps on wider screens */

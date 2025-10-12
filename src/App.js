@@ -6,11 +6,14 @@ import JohnWickSchedule from "./Components/JohnWickSchedule";
 import TomJerrySchedule from "./Components/TomJerrySchedule";
 import OldSpiceSchedule from "./Components/OldSpiceSchedule";
 import KeyPeeleSchedule from "./Components/KeyPeeleSchedule";
-import Fox20thSchedule from "./Components/Fox20thSchedule";
+import MGMGrandSchedule from "./Components/MGMGrandSchedule";
+import CasperSchedule from "./Components/CasperSchedule";
+import SmurfSchedule from "./Components/SmurfSchedule";
+import ElmoSchedule from "./Components/ElmoSchedule";
   function App() {
   return (
     <>
-  <Fox20thSchedule day="Tuesday" />
+  <PeakyBlindersSchedule day="Monday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

@@ -1,0 +1,165 @@
+/* MGMGrandSchedule.css */
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@600;700&display=swap");
+
+:root{
+  /* MGM Grand–inspired emeralds & golds */
+  --mgm-emerald-1:#022a21;
+  --mgm-emerald-2:#063c30;
+  --mgm-emerald-3:#0a4e3f;
+  --mgm-gold-1:#f4d27a;
+  --mgm-gold-2:#e4bc55;
+  --mgm-gold-3:#c79a2e;
+
+  --mgm-card:#0c1e1a;
+  --mgm-card-2:#0a1915;
+  --mgm-ink:#e9f6f1;
+  --mgm-muted:#b7d6cc;
+
+  --mgm-border:rgba(244,210,122,.28);
+  --mgm-shadow:0 12px 30px rgba(0,0,0,.45);
+}
+
+*{ box-sizing:border-box; }
+
+.mgmgrand-wrap{
+  min-height:100vh;
+  width:100vw;
+  background:
+    radial-gradient(1200px 520px at 50% -12%, rgba(4,120,87,.18), transparent 60%),
+    radial-gradient(900px 460px at 50% 120%, rgba(231,185,79,.10), transparent 70%),
+    linear-gradient(180deg, var(--mgm-emerald-1), var(--mgm-emerald-2) 45%, var(--mgm-emerald-3) 100%);
+  color:var(--mgm-ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:14px;
+  padding-top:50px; /* minimum 50px top padding */
+}
+
+/* Header — day centered and 30px */
+.mgmgrand-header{
+  width:100%;
+  max-width:560px;
+  padding:12px 4px 14px;
+  position:sticky;
+  top:0;
+  text-align:center;
+  background:linear-gradient(180deg, rgba(2,42,33,.9), rgba(6,60,48,.7));
+  border-bottom:1px solid var(--mgm-border);
+  backdrop-filter: blur(4px);
+  z-index:2;
+}
+.mgmgrand-day{
+  margin:0;
+  display:inline-block;
+  font-family:"Cinzel", ui-serif, Georgia, serif;
+  font-weight:700;
+  font-size:30px; /* bigger day label per guideline */
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  background:linear-gradient(90deg, var(--mgm-gold-1), var(--mgm-gold-2), var(--mgm-gold-3));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  text-shadow:0 1px 0 rgba(0,0,0,.35);
+}
+
+/* List at 80% width */
+.mgmgrand-list{
+  width:80%;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-top:10px;
+}
+
+/* Card */
+.mgmgrand-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px 12px;
+  background:
+    linear-gradient(180deg, var(--mgm-card), var(--mgm-card-2));
+  border:1px solid var(--mgm-border);
+  border-radius:14px;
+  box-shadow: var(--mgm-shadow), inset 0 0 0 1px rgba(255,255,255,.02);
+  opacity:0;
+  transform: translateY(8px);
+  min-height:56px; /* compact */
+}
+
+/* Enter animation */
+.mgmgrand-in{ animation: mgmgrand-rise .24s ease-out forwards; }
+@keyframes mgmgrand-rise{ to{ opacity:1; transform:translateY(0);} }
+
+/* Left row: title + maple inline, start-justified */
+.mgmgrand-left{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start; /* guideline */
+  gap:8px;
+  flex:1 1 auto;
+  flex-wrap:nowrap;
+}
+
+/* Compact title */
+.mgmgrand-title{
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight:700;
+  font-size:15px;   /* compact */
+  line-height:1.2;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  min-width:0;
+}
+
+/* Replacement styling */
+.mgmgrand-swap .mgmgrand-old{ text-decoration:line-through; opacity:.65; }
+.mgmgrand-swap .mgmgrand-arrow{ opacity:.65; margin:0 6px; }
+.mgmgrand-swap .mgmgrand-new{ font-weight:800; }
+
+/* Maple chip inline — gold rim to match resort gold */
+.mgmgrand-chip{
+  font-size:11px;
+  line-height:1;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(244,210,122,.55);
+  background: rgba(244,210,122,.12);
+  color:#fff8dc;
+  white-space:nowrap;
+  flex:0 0 auto;
+  box-shadow: inset 0 0 10px rgba(244,210,122,.12);
+}
+.mgmgrand-chip--maple{}
+
+/* Time block: fixed 90px, centered */
+.mgmgrand-time{
+  font:800 13px/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color:#0f1328;
+  background:linear-gradient(180deg, #ffefbd, #f2d889);
+  border:1px solid rgba(244,210,122,.6);
+  border-radius:10px;
+  padding:6px 8px;
+  white-space:nowrap;
+  width:90px;        /* fixed width */
+  flex:0 0 90px;     /* prevent grow/shrink */
+  text-align:center; /* centered text */
+  text-shadow:0 1px 0 rgba(255,255,255,.65);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .mgmgrand-in{ animation:none; opacity:1; transform:none; }
+}
+
+/* Slightly larger screens */
+@media (min-width:481px){
+  .mgmgrand-card{ padding:12px 14px; }
+  .mgmgrand-time{ font-size:13px; }
+}
