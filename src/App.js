@@ -14,7 +14,7 @@ import BrickSchedule from "./Components/BrickSchedule"
   function App() {
   return (
     <>
-  <BrickSchedule day="Tuesday" />
+  <OldSpiceSchedule day="Wednesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
