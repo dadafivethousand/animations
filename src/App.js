@@ -13,7 +13,7 @@ import ElmoSchedule from "./Components/ElmoSchedule";
   function App() {
   return (
     <>
-  <PeakyBlindersSchedule day="Monday" />
+  <JohnWickSchedule day="Tuesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

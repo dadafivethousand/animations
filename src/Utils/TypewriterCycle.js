@@ -39,11 +39,7 @@ export default function TypewriterCycle({
         timeout = setTimeout(() => {
           setCurrentText(fullText.substring(0, currentText.length + 1));
         }, typingSpeed);
-      } else {
-        timeout = setTimeout(() => {
-          setIsDeleting(true);
-        }, pauseTime);
-      }
+      }  
     }
 
     return () => clearTimeout(timeout);
