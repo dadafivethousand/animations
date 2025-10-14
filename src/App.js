@@ -10,10 +10,11 @@ import MGMGrandSchedule from "./Components/MGMGrandSchedule";
 import CasperSchedule from "./Components/CasperSchedule";
 import SmurfSchedule from "./Components/SmurfSchedule";
 import ElmoSchedule from "./Components/ElmoSchedule";
+import BrickSchedule from "./Components/BrickSchedule"
   function App() {
   return (
     <>
-  <JohnWickSchedule day="Tuesday" />
+  <BrickSchedule day="Tuesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
