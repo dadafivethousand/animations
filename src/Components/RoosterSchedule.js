@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/RoosterSchedule.css";
-import schedule from "../Schedule"; // or "../RhSchedule"
+import schedule from "../RhSchedule"; // or "../RhSchedule"
 
 export default function RoosterSchedule({ day, animationDelay = 900, animationInterval = 160 }) {
   const [visible, setVisible] = useState([]);
