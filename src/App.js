@@ -15,7 +15,7 @@ import RoosterSchedule from "./Components/RoosterSchedule";
   function App() {
   return (
     <>
-  <RoosterSchedule day="Wednesday" />
+  <OldSpiceSchedule day="Wednesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
