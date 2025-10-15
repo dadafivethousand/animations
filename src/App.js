@@ -12,10 +12,10 @@ import SmurfSchedule from "./Components/SmurfSchedule";
 import ElmoSchedule from "./Components/ElmoSchedule";
 import BrickSchedule from "./Components/BrickSchedule"
 import RoosterSchedule from "./Components/RoosterSchedule";
-  function App() {
+   function App() {
   return (
     <>
-  <OldSpiceSchedule day="Wednesday" />
+  <TomJerrySchedule day="Thursday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
