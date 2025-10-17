@@ -16,7 +16,7 @@ import BlacksmithSchedule from "./Components/BlacksmithSchedule";
    function App() {
   return (
     <>
-  <MGMGrandSchedule day="friday" />
+  <MGMGrandSchedule day="Friday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
