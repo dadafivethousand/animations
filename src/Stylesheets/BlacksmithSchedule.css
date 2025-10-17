@@ -191,7 +191,7 @@
   text-shadow:
     0 1px 0 rgba(255,255,255,.35),    /* engraved gleam */
     0 -1px 0 rgba(0,0,0,.3);
-  padding-left:18px; /* room for screw */
+  padding-left:1px; /* room for screw */
 }
 
 /* tiny brass screws on the tag */

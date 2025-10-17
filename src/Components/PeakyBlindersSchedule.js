@@ -1,7 +1,7 @@
 // PeakyBlindersSchedule.jsx
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/PeakyBlindersSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function PeakyBlindersSchedule({
   day,

@@ -16,7 +16,7 @@ import BlacksmithSchedule from "./Components/BlacksmithSchedule";
    function App() {
   return (
     <>
-  <ElmoSchedule day="Friday" />
+  <PeakyBlindersSchedule day="Friday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
