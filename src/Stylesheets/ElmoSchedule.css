@@ -35,7 +35,7 @@
   flex-direction:column;
   align-items:center;
   padding:14px;
-  padding-top:50px; /* minimum 50px top padding */
+  padding-top:80px; /* minimum 50px top padding */
 }
 
 /* Header — add stronger separation from background */
@@ -60,7 +60,7 @@
   margin:0;
   display:inline-block;
   font-family:"Luckiest Guy", system-ui, sans-serif;
-  font-size:30px;         /* bigger day label */
+  font-size:40px;         /* bigger day label */
   letter-spacing:.08em;
   text-transform:uppercase;
   padding:6px 16px;       /* space for the pill */
