@@ -1,7 +1,7 @@
 // JonWickSchedule.jsx
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/JohnWickSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function JonWickSchedule({
   day,
