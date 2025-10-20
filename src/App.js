@@ -18,7 +18,7 @@ import TikTokSchedule from "./Components/TikTokSchedule";
    function App() {
   return (
     <>
-  <TikTokSchedule day="Monday" />
+  <SmurfSchedule day="Tuesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

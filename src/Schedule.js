@@ -8,11 +8,11 @@ import mt from "./Images/mt.jpg"
 
 const schedule = {
   Monday: [
-    { name: "BJJ - NoGi", start: 7.5, end: 8.5, cancelled:true},
-    { name: "Open Mat", start: 12.5, end: 13.5, },
+    { name: "BJJ - NoGi", start: 7.5, end: 8.5, },
+    { name: "BJJ - NoGi", start: 12.5, end: 13.5, },
         { name: "MMA", start: 17.5, end: 18.5,  },
     { name: "Wrestling", start: 18.5, end: 19.5, },
-    { name: "Open Mat", start: 19.5, end: 20.5, }
+    { name: "BJJ - NoGi", start: 19.5, end: 20.5, }
   ],
   Tuesday: [
     { name: "BJJ - Gi", start: 7.5, end: 8.5, pic:gi  },
