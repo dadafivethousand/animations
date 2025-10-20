@@ -15,10 +15,12 @@ import RoosterSchedule from "./Components/RoosterSchedule";
 import BlacksmithSchedule from "./Components/BlacksmithSchedule";
 import StarcraftSchedule from "./Components/StarcraftSchedule";
 import TikTokSchedule from "./Components/TikTokSchedule";
+import NarutoSchedule from "./Components/NarutoSchedule";
+import OnePieceSchedule from "./Components/OnePieceSchedule";
    function App() {
   return (
     <>
-  <SmurfSchedule day="Tuesday" />
+  <MGMGrandSchedule day="Tuesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

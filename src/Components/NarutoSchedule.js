@@ -1,9 +1,9 @@
-// MGMGrandSchedule.jsx
+// NarutoSchedule.jsx
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/MGMGrandSchedule.css";
-import schedule from "../RhSchedule";
+import "../Stylesheets/NarutoSchedule.css";
+import schedule from "../Schedule";
 
-export default function MGMGrandSchedule({
+export default function NarutoSchedule({
   day,
   animationDelay = 900,
   animationInterval = 160,
@@ -34,28 +34,28 @@ export default function MGMGrandSchedule({
   };
 
   return (
-    <div className="mgmgrand-wrap">
-      <header className="mgmgrand-header">
-        <h1 className="mgmgrand-day">{safeDay.toUpperCase()}</h1>
+    <div className="naruto-wrap">
+      <header className="naruto-header">
+        <h1 className="naruto-day">{safeDay.toUpperCase()}</h1>
       </header>
 
-      <main className="mgmgrand-list">
+      <main className="naruto-list">
         {items.map((cls, i) =>
           visible.includes(i) ? (
             <article
-              className="mgmgrand-card mgmgrand-in"
+              className="naruto-card naruto-in"
               key={i}
               style={{ animationDelay: `${i * 40}ms` }}
             >
-              <div className="mgmgrand-left">
-                <div className="mgmgrand-title">
+              <div className="naruto-left">
+                <div className="naruto-title">
                   {cls.replacement ? (
-                    <span className="mgmgrand-swap">
-                      <span className="mgmgrand-old">{cls.name}</span>
-                      <span className="mgmgrand-arrow" aria-hidden>
+                    <span className="naruto-swap">
+                      <span className="naruto-old">{cls.name}</span>
+                      <span className="naruto-arrow" aria-hidden>
                         →
                       </span>
-                      <span className="mgmgrand-new">
+                      <span className="naruto-new">
                         {typeof cls.replacement === "string"
                           ? cls.replacement
                           : "Replacement"}
@@ -67,13 +67,11 @@ export default function MGMGrandSchedule({
                 </div>
 
                 {cls.maple && (
-                  <span className="mgmgrand-chip mgmgrand-chip--maple">
-                    📍 MAPLE
-                  </span>
+                  <span className="naruto-chip naruto-chip--maple">📍 MAPLE</span>
                 )}
               </div>
 
-              <time className="mgmgrand-time">{formatTime(cls.start)}</time>
+              <time className="naruto-time">{formatTime(cls.start)}</time>
             </article>
           ) : null
         )}
