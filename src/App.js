@@ -13,10 +13,11 @@ import ElmoSchedule from "./Components/ElmoSchedule";
 import BrickSchedule from "./Components/BrickSchedule"
 import RoosterSchedule from "./Components/RoosterSchedule";
 import BlacksmithSchedule from "./Components/BlacksmithSchedule";
+import StarcraftSchedule from "./Components/StarcraftSchedule";
    function App() {
   return (
     <>
-  <PeakyBlindersSchedule day="Saturday" />
+  <StarcraftSchedule day="Monday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
