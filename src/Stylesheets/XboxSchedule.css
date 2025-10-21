@@ -1,0 +1,204 @@
+/* XboxSchedule.css — sleek Series aesthetic: graphite, luminous green, soft grid */
+@import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@700&family=Inter:wght@600;700;800&display=swap");
+
+:root{
+  --xb-ink:#e8f5e9;
+  --xb-muted:#cfe9d1;
+
+  --xb-black:#070a0b;
+  --xb-graphite-1:#0c1214;
+  --xb-graphite-2:#11191c;
+
+  --xb-green:#107c10;   /* Xbox green */
+  --xb-green-2:#2ad46f; /* accent mix */
+
+  --xb-card:#0e1618;
+  --xb-card-2:#0b1214;
+
+  --xb-border:rgba(42,212,111,.30);
+  --xb-ring:rgba(16,124,16,.45);
+  --xb-shadow:0 18px 40px rgba(0,0,0,.6);
+
+  --xb-time-width:90px; /* fixed time width */
+}
+
+/* reset */
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+.xbox-wrap{
+  min-height:100vh;
+  width:100vw;
+  background:
+    radial-gradient(900px 520px at 18% -10%, rgba(42,212,111,.10), transparent 60%),
+    radial-gradient(900px 520px at 82% 120%, rgba(16,124,16,.10), transparent 60%),
+    /* soft tech grid */
+    linear-gradient(0deg, rgba(255,255,255,.03) 1px, transparent 1px) 0 0/24px 24px,
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px) 0 0/24px 24px,
+    linear-gradient(180deg, var(--xb-graphite-1), var(--xb-graphite-2) 60%, var(--xb-black));
+  color:var(--xb-ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:14px;
+  padding-top:50px; /* ≥ 50px */
+  position:relative;
+  overflow:hidden;
+}
+
+/* faint energy ring */
+.xbox-wrap::after{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    radial-gradient(420px 420px at 50% 20%, rgba(42,212,111,.10), transparent 60%),
+    radial-gradient(380px 380px at 10% 80%, rgba(16,124,16,.12), transparent 60%);
+  mix-blend-mode:screen;
+  pointer-events:none;
+}
+
+/* header — centered 30px, crisp condensed */
+.xbox-header{
+  width:100%;
+  max-width:560px;
+  padding:12px 6px 14px;
+  position:sticky; top:0;
+  text-align:center;
+  z-index:2;
+  background:linear-gradient(180deg, rgba(12,18,20,.88), rgba(12,18,20,.58));
+  border-bottom:1px solid rgba(42,212,111,.18);
+  backdrop-filter: blur(8px);
+}
+.xbox-day{
+  margin:0;
+  display:inline-block;
+  font-family:"Rajdhani", system-ui, sans-serif;
+  font-weight:700;
+  font-size:30px;          /* bigger weekday */
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:#eafff4;
+  text-shadow:
+    0 0 8px rgba(42,212,111,.30),
+    0 2px 0 rgba(0,0,0,.85);
+}
+
+/* list — 80% width per spec */
+.xbox-list{
+  width:80%;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:12px;
+}
+
+/* card — matte graphite with green rim; subtle scanline */
+.xbox-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:12px;
+  background:
+    linear-gradient(180deg, var(--xb-card), var(--xb-card-2));
+  border:1px solid var(--xb-border);
+  border-radius:16px;
+  box-shadow:
+    var(--xb-shadow),
+    inset 0 0 0 1px rgba(255,255,255,.02);
+  position:relative;
+  overflow:hidden;
+  opacity:0;
+  transform: translateY(8px);
+  min-height:56px; /* compact */
+}
+/* left luminous edge */
+.xbox-card::before{
+  content:"";
+  position:absolute; left:0; top:0; width:6px; height:100%;
+  border-top-left-radius:16px; border-bottom-left-radius:16px;
+  background:linear-gradient(180deg, var(--xb-green-2), var(--xb-green));
+  box-shadow:0 0 14px rgba(42,212,111,.28);
+}
+/* sheen */
+.xbox-card::after{
+  content:"";
+  position:absolute; inset:0;
+  background:repeating-linear-gradient(0deg, rgba(255,255,255,.05) 0 1px, transparent 1px 3px);
+  mix-blend-mode:overlay; opacity:.14; pointer-events:none;
+}
+
+/* anim */
+.xbox-in{ animation: xb-rise .22s ease-out forwards; }
+@keyframes xb-rise{ to{ opacity:1; transform:translateY(0);} }
+
+/* left row — title + MAPLE inline (start-justified) */
+.xbox-left{
+  min-width:0;
+  display:flex;               /* as requested */
+  align-items:center;         /* aligned center */
+  justify-content:flex-start; /* start-justified */
+  gap:8px;
+  flex:1 1 auto;
+  flex-wrap:nowrap;
+}
+
+/* title */
+.xbox-title{
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight:800;
+  font-size:15px;          /* compact */
+  line-height:1.2;
+  color:var(--xb-muted);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  min-width:0;
+  text-shadow:0 1px 0 rgba(0,0,0,.45);
+}
+
+/* replacement styling */
+.xbox-swap .xbox-old{ text-decoration:line-through; opacity:.65; }
+.xbox-swap .xbox-arrow{ opacity:.65; margin:0 6px; }
+.xbox-swap .xbox-new{ font-weight:900; color:#ffffff; }
+
+/* maple chip — subtle green capsule */
+.xbox-chip{
+  font-size:11px;
+  line-height:1;
+  padding:3px 9px;
+  border-radius:999px;
+  border:1px solid rgba(42,212,111,.45);
+  background:linear-gradient(180deg, rgba(42,212,111,.16), rgba(42,212,111,.10));
+  color:#e6ffef;
+  white-space:nowrap;
+  flex:0 0 auto;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.10);
+}
+.xbox-chip--maple{}
+
+/* time — fixed 90px, centered */
+.xbox-time{
+  font:800 13px/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color:#06110a;
+  background:linear-gradient(180deg, var(--xb-green-2), var(--xb-green));
+  border:1px solid rgba(42,212,111,.55);
+  border-radius:10px;
+  padding:6px 8px;
+  white-space:nowrap;
+  width:var(--xb-time-width);     /* fixed width */
+  flex:0 0 var(--xb-time-width);  /* prevent grow/shrink */
+  text-align:center;              /* centered */
+  text-shadow:0 1px 0 rgba(255,255,255,.85);
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .xbox-in{ animation:none; opacity:1; transform:none; }
+}
+
+/* > mobile */
+@media (min-width:481px){
+  .xbox-card{ padding:12px 14px; }
+  .xbox-time{ font-size:13px; }
+}

@@ -1,0 +1,203 @@
+/* PlayStationSchedule.css — PS5 clean: deep navy, soft waves, frosted glass */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@600;700;800&display=swap");
+
+:root{
+  --ps-ink:#eaf1ff;
+  --ps-muted:#c6d3f0;
+
+  --ps-navy-0:#070c18;
+  --ps-navy-1:#0a1224;
+  --ps-navy-2:#0f1d3b;
+
+  --ps-blue:#2a78ff;
+  --ps-blue-2:#8bb7ff;
+
+  --ps-card: rgba(255,255,255,.06);
+  --ps-border: rgba(255,255,255,.14);
+  --ps-ring: rgba(42,120,255,.35);
+  --ps-shadow: 0 18px 40px rgba(0,0,0,.55);
+
+  --ps-time-width:90px; /* fixed */
+}
+
+/* reset */
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+.playstation-wrap{
+  min-height:100vh;
+  width:100vw;
+  background:
+    /* soft PS5 waves */
+    radial-gradient(900px 520px at 20% -15%, rgba(139,183,255,.10), transparent 60%),
+    radial-gradient(900px 520px at 80% 115%, rgba(42,120,255,.10), transparent 60%),
+    conic-gradient(from 210deg at 60% 0%, rgba(255,255,255,.06), transparent 40%),
+    linear-gradient(180deg, var(--ps-navy-1), var(--ps-navy-2) 65%, var(--ps-navy-0));
+  color: var(--ps-ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:14px;
+  padding-top:50px; /* ≥ 50px */
+  position:relative;
+  overflow:hidden;
+}
+
+/* ultra subtle shapes field (◯ ✕ ▢ △ suggestion, not literal) */
+.playstation-wrap::after{
+  content:"";
+  position:absolute; inset:-20% -10%;
+  background:
+    radial-gradient(16px 16px at 18% 28%, rgba(139,183,255,.08), transparent 60%),
+    radial-gradient(18px 18px at 68% 22%, rgba(42,120,255,.10), transparent 65%),
+    radial-gradient(12px 12px at 34% 72%, rgba(139,183,255,.08), transparent 60%),
+    radial-gradient(14px 14px at 82% 68%, rgba(42,120,255,.10), transparent 65%);
+  filter: blur(2px);
+  pointer-events:none;
+}
+
+/* header — centered 30px, crisp sans */
+.playstation-header{
+  width:100%;
+  max-width:560px;
+  padding:12px 6px 14px;
+  position:sticky; top:0;
+  text-align:center;
+  z-index:2;
+  background: linear-gradient(180deg, rgba(10,18,36,.85), rgba(10,18,36,.55));
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  backdrop-filter: blur(8px);
+}
+.playstation-day{
+  margin:0;
+  display:inline-block;
+  font-family:"Poppins", system-ui, sans-serif;
+  font-weight:700;
+  font-size:30px;            /* bigger weekday */
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:#ffffff;
+  text-shadow:
+    0 0 10px rgba(139,183,255,.28),
+    0 2px 0 rgba(0,0,0,.85);
+}
+
+/* list — 80% width */
+.playstation-list{
+  width:80%;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:12px;
+}
+
+/* card — frosted glass panel, minimal rim */
+.playstation-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:12px;
+  background: var(--ps-card);
+  border: 1px solid var(--ps-border);
+  border-radius:16px;
+  box-shadow: var(--ps-shadow);
+  position:relative;
+  overflow:hidden;
+  opacity:0;
+  transform: translateY(8px);
+  backdrop-filter: blur(10px);
+  min-height:56px; /* compact */
+}
+/* gentle edge light */
+.playstation-card::before{
+  content:"";
+  position:absolute; inset:0;
+  border-radius:16px;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.04), 0 0 22px rgba(139,183,255,.12);
+  pointer-events:none;
+}
+/* soft highlight sweep */
+.playstation-card::after{
+  content:"";
+  position:absolute; inset:0;
+  background: linear-gradient(120deg, rgba(255,255,255,.06) 0 20%, transparent 40% 100%);
+  mix-blend-mode: screen;
+  opacity:.35;
+  pointer-events:none;
+}
+
+/* anim */
+.playstation-in{ animation: ps-rise .22s ease-out forwards; }
+@keyframes ps-rise{ to{ opacity:1; transform:translateY(0);} }
+
+/* left row — title + MAPLE inline, start-justified */
+.playstation-left{
+  min-width:0;
+  display:flex;               /* spec */
+  align-items:center;         /* center align */
+  justify-content:flex-start; /* start-justified */
+  gap:8px;
+  flex:1 1 auto;
+  flex-wrap:nowrap;
+}
+
+/* title */
+.playstation-title{
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight:800;
+  font-size:15px;          /* compact */
+  line-height:1.2;
+  color: var(--ps-muted);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  min-width:0;
+  text-shadow: 0 1px 0 rgba(0,0,0,.45);
+}
+
+/* replacement styling */
+.playstation-swap .playstation-old{ text-decoration:line-through; opacity:.65; }
+.playstation-swap .playstation-arrow{ opacity:.65; margin:0 6px; }
+.playstation-swap .playstation-new{ font-weight:900; color:#fff; }
+
+/* maple chip — understated cyan */
+.playstation-chip{
+  font-size:11px;
+  line-height:1;
+  padding:3px 9px;
+  border-radius:999px;
+  border:1px solid rgba(42,120,255,.45);
+  background: linear-gradient(180deg, rgba(42,120,255,.16), rgba(42,120,255,.10));
+  color:#e7f1ff;
+  white-space:nowrap;
+  flex:0 0 auto;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.10);
+}
+.playstation-chip--maple{}
+
+/* time — fixed 90px, centered, crisp */
+.playstation-time{
+  font:800 13px/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color:#061129;
+  background: linear-gradient(180deg, var(--ps-blue-2), var(--ps-blue));
+  border:1px solid rgba(42,120,255,.55);
+  border-radius:10px;
+  padding:6px 8px;
+  white-space:nowrap;
+  width:var(--ps-time-width);     /* fixed width */
+  flex:0 0 var(--ps-time-width);  /* prevent grow/shrink */
+  text-align:center;              /* centered */
+  text-shadow:0 1px 0 rgba(255,255,255,.85);
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .playstation-in{ animation:none; opacity:1; transform:none; }
+}
+
+/* > mobile */
+@media (min-width:481px){
+  .playstation-card{ padding:12px 14px; }
+  .playstation-time{ font-size:13px; }
+}

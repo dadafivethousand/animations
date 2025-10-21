@@ -17,10 +17,15 @@ import StarcraftSchedule from "./Components/StarcraftSchedule";
 import TikTokSchedule from "./Components/TikTokSchedule";
 import NarutoSchedule from "./Components/NarutoSchedule";
 import OnePieceSchedule from "./Components/OnePieceSchedule";
+import StrangerThingsSchedule from "./Components/StrangerThingsSchedule";
+import PlayStationSchedule from "./Components/PlayStationSchedule";
+import XboxSchedule from "./Components/XboxSchedule";
+import NintendoSchedule from "./Components/NintendoSchedule";
+import MetaSchedule from "./Components/MetaSchedule";
    function App() {
   return (
     <>
-  <MGMGrandSchedule day="Tuesday" />
+  <OnePieceSchedule day="Wednesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
