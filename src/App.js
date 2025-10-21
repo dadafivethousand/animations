@@ -25,7 +25,7 @@ import MetaSchedule from "./Components/MetaSchedule";
    function App() {
   return (
     <>
-  <OnePieceSchedule day="Wednesday" />
+  <OldSpiceSchedule day="Wednesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
