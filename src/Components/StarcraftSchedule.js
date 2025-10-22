@@ -1,7 +1,7 @@
 // StarcraftSchedule.jsx
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/StarcraftSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function StarcraftSchedule({
   day,
