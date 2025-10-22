@@ -1,7 +1,7 @@
 // OldSpiceSchedule.jsx
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/OldSpiceSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function OldSpiceSchedule({
   day,
