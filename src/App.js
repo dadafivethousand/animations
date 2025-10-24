@@ -26,7 +26,7 @@ import WomensSchedule from "./Components/WomensSchedule";
    function App() {
   return (
     <>
-  <WomensSchedule day="Friday" />
+  <XboxSchedule day="Friday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
