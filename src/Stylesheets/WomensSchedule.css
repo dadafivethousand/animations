@@ -1,0 +1,199 @@
+/* WomensSchedule.css
+   Elegant, accessible "Women's" themed schedule:
+   - mobile-first, day centered and larger (30px)
+   - list width 80%, compact cards, maple & replacement logic
+   - .womens-left follows the requested flex layout
+*/
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@600;700&display=swap");
+
+:root{
+  --w-bg-1: #fffaf9;        /* warm ivory */
+  --w-bg-2: #fff6f2;
+  --w-card: #ffffff;
+  --w-card-2: #fff9f7;
+  --w-ink: #14232b;         /* deep teal-ish for strong contrast */
+  --w-muted: #5b6b73;
+  --w-rose: #d7698a;        /* soft rose accent */
+  --w-rose-2: #b04364;
+  --w-gold: #d9b37a;        /* subtle accent */
+  --w-border: rgba(20,35,43,.06);
+  --w-shadow: 0 10px 28px rgba(20,35,43,.08);
+
+  --w-card-width: 80%;
+  --w-time-width: 90px;
+}
+
+/* Reset */
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+.womens-wrap{
+  min-height:100vh;
+  width:100vw;
+  background:
+    radial-gradient(600px 200px at 10% -10%, rgba(215,105,138,0.06), transparent 40%),
+    radial-gradient(600px 200px at 90% 120%, rgba(217,179,122,0.04), transparent 40%),
+    linear-gradient(180deg, var(--w-bg-1), var(--w-bg-2));
+  color:var(--w-ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:14px;
+  padding-top:50px; /* minimum 50px top padding */
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* Header — day centered and prominent */
+.womens-header{
+  width:100%;
+  max-width:560px;
+  padding:10px 4px 12px;
+  text-align:center;
+  position:sticky;
+  top:0;
+  z-index:2;
+  background: linear-gradient(180deg, rgba(255,250,249,.94), rgba(255,246,244,.86));
+  border-bottom: 1px solid var(--w-border);
+  backdrop-filter: blur(4px);
+}
+.womens-day{
+  margin:0;
+  display:inline-block;
+  font-family: "Playfair Display", serif;
+  font-weight:600;
+  font-size:30px; /* bigger weekday per guideline */
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--w-rose-2);
+  padding:6px 14px;
+  border-radius:999px;
+  background: linear-gradient(90deg, rgba(217,67,100,.06), rgba(217,179,122,.04));
+  box-shadow: 0 6px 14px rgba(180,120,140,.06), inset 0 1px 0 rgba(255,255,255,.6);
+}
+
+/* List (80% width) */
+.womens-list{
+  width: var(--w-card-width);
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:12px;
+  align-items:center;
+}
+
+/* Card */
+.womens-card{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:12px;
+  background: linear-gradient(180deg, var(--w-card-2), var(--w-card));
+  border:1px solid var(--w-border);
+  border-radius:14px;
+  box-shadow: var(--w-shadow);
+  position:relative;
+  opacity:0;
+  transform: translateY(8px);
+  min-height:56px; /* compact */
+}
+
+/* in animation */
+.womens-in{ animation: womens-rise .22s ease-out forwards; }
+@keyframes womens-rise{ to{ opacity:1; transform:translateY(0);} }
+
+/* Left row layout as requested */
+.womens-left{
+  min-width:0;
+  display:flex;              /* as requested */
+  align-items:center;        /* aligned center */
+  justify-content:flex-start;/* start-justified */
+  gap:8px;
+  flex:1 1 auto;
+  flex-wrap:nowrap;
+}
+
+/* Title */
+.womens-title{
+  font-family:"Inter", system-ui, sans-serif;
+  font-weight:700;
+  font-size:15px; /* compact readable */
+  line-height:1.15;
+  color:var(--w-ink);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  min-width:0;
+}
+
+/* Replacement styling */
+.womens-swap .womens-old{ text-decoration:line-through; opacity:.65; }
+.womens-swap .womens-arrow{ opacity:.6; margin:0 6px; }
+.womens-swap .womens-new{ font-weight:800; color:var(--w-rose); }
+
+/* Chips (maple + cancelled) */
+.womens-chip{
+  font-size:11px;
+  line-height:1;
+  padding:4px 10px;
+  border-radius:999px;
+  border:1px solid rgba(20,35,43,.08);
+  background: linear-gradient(180deg, #fff, #fff9f7);
+  color:var(--w-muted);
+  white-space:nowrap;
+  flex:0 0 auto;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.85);
+}
+.womens-chip--maple{
+  border-color: rgba(215,105,138,.25);
+  background: linear-gradient(180deg, rgba(217,105,138,.06), rgba(217,179,122,.03));
+  color: var(--w-rose-2);
+  box-shadow: 0 0 8px rgba(217,67,100,.06);
+}
+.womens-chip--cancelled{
+  border-color: rgba(120,110,115,.12);
+  background: linear-gradient(180deg, rgba(240,240,240,.9), rgba(250,250,250,.9));
+  color: #8b6b6b;
+  font-weight:700;
+  text-transform:uppercase;
+}
+
+/* Time block: fixed width 90px, centered text */
+.womens-time{
+  font:800 13px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color:#052027;
+  background: linear-gradient(180deg, #fff7ef, #ffe8e8);
+  border:1px solid rgba(217,179,122,.28);
+  border-radius:10px;
+  padding:6px 8px;
+  white-space:nowrap;
+  width: var(--w-time-width);
+  flex:0 0 var(--w-time-width);
+  text-align:center;
+  text-shadow: 0 1px 0 rgba(255,255,255,.9);
+}
+
+/* Cancelled card treatment */
+.womens-card.is-cancelled{
+  opacity:.92;
+  filter:grayscale(.08);
+}
+.womens-card.is-cancelled .womens-title,
+.womens-card.is-cancelled .womens-swap .womens-old,
+.womens-card.is-cancelled .womens-swap .womens-new{
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  text-decoration-color: rgba(180,80,90,.6);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .womens-in{ animation:none; opacity:1; transform:none; }
+}
+
+/* Slightly larger screens tweaks */
+@media (min-width:481px){
+  .womens-card{ padding:14px; border-radius:16px; }
+  .womens-time{ font-size:13px; }
+}

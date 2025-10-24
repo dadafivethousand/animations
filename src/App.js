@@ -22,10 +22,11 @@ import PlayStationSchedule from "./Components/PlayStationSchedule";
 import XboxSchedule from "./Components/XboxSchedule";
 import NintendoSchedule from "./Components/NintendoSchedule";
 import MetaSchedule from "./Components/MetaSchedule";
+import WomensSchedule from "./Components/WomensSchedule";
    function App() {
   return (
     <>
-  <TomJerrySchedule day="Friday" />
+  <WomensSchedule day="Friday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

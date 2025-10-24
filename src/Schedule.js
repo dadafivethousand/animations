@@ -41,7 +41,7 @@ const schedule = {
  
         { name: "MMA", start: 17.5, end: 18.5 },
     { name: "Wrestling", start: 18.5, end: 19.5 },
-    { name: "BJJ - NoGi", start: 19.5, end: 20.5 }
+    { name: "Women's Jiu-Jitsu", start: 19.5, end: 20.5 }
   ],
   Saturday: [ 
  
