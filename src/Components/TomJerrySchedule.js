@@ -1,7 +1,7 @@
 // TomJerrySchedule.jsx
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/TomJerrySchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function TomJerrySchedule({
   day,

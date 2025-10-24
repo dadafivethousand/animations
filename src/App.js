@@ -25,7 +25,7 @@ import MetaSchedule from "./Components/MetaSchedule";
    function App() {
   return (
     <>
-  <StrangerThingsSchedule day="Friday" />
+  <TomJerrySchedule day="Friday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
