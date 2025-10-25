@@ -1,7 +1,7 @@
 // ElmoSchedule.jsx (unchanged)
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/ElmoSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule"
 
 export default function ElmoSchedule({
   day,
