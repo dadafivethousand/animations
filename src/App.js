@@ -29,7 +29,7 @@ import WalkingDeadSchedule from "./Components/WalkingDeadSchedule";
    function App() {
   return (
     <>
-  <WalkingDeadSchedule day="Monday" />
+  <WalkingDeadSchedule day="Tuesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
