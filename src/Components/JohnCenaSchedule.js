@@ -2,7 +2,7 @@
 // Mobile-first. Shows: Day + classes only. Equal-width time badges. MAPLE + replacement.
 import React from "react";
 import "../Stylesheets/JohnCenaSchedule.css";
-import schedule from "../Schedule"; // adjust path if needed
+import schedule from "../RhSchedule"; // adjust path if needed
 
 export default function JohnCenaSchedule({ day }) {
   const items = schedule[day] || [];

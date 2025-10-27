@@ -26,10 +26,11 @@ import WomensSchedule from "./Components/WomensSchedule";
 import MadMaxSchedule from "./Components/MadMaxSchedule";
 import ThroughTheWireSchedule from "./Components/ThroughTheWireSchedule";
 import WalkingDeadSchedule from "./Components/WalkingDeadSchedule";
+import JohnCenaSchedule from "./Components/JohnCenaSchedule";
    function App() {
   return (
     <>
-  <WalkingDeadSchedule day="Tuesday" />
+  <JohnCenaSchedule day="Tuesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
