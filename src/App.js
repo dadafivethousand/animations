@@ -28,7 +28,7 @@ import ThroughTheWireSchedule from "./Components/ThroughTheWireSchedule";
    function App() {
   return (
     <>
-  <ThroughTheWireSchedule day="Monday" />
+  <PlayStationSchedule day="Monday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

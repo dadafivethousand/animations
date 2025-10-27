@@ -1,7 +1,7 @@
 // PlayStationSchedule.jsx (clean PS5-style)
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/PlayStationSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function PlayStationSchedule({
   day,
