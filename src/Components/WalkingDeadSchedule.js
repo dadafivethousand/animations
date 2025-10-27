@@ -36,10 +36,7 @@ export default function WalkingDeadSchedule({
   return (
     <div className="walkingdead2-wrap" role="region" aria-label="Walking Dead themed schedule">
       <header className="walkingdead2-header" aria-hidden>
-        <div className="walkingdead2-poster-stack">
-          <img src="/mnt/data/df3defc0-9e8d-44b8-bf63-b0617cfe9d12.png" alt="" className="walkingdead2-poster left" />
-          <img src="/mnt/data/55407cc8-8830-4b3b-9073-5a30a97a485b.png" alt="" className="walkingdead2-poster right" />
-        </div>
+ 
 
         <h1 className="walkingdead2-day">{safeDay.toUpperCase()}</h1>
       </header>
