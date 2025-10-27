@@ -4,6 +4,7 @@ import "../Stylesheets/ThroughTheWireSchedule.css";
 import schedule from "../Schedule";
 import ThroughTheWireCover from "../Images/throughthewire.jpg"
 
+
 export default function ThroughTheWireSchedule({
   day,
   animationDelay = 900,
@@ -12,6 +13,9 @@ export default function ThroughTheWireSchedule({
   const [visible, setVisible] = useState([]);
   const safeDay = day || "";
   const items = schedule[safeDay] || [];
+  
+ const coverDelayMs = animationDelay + items.length * animationInterval + 120; // tweak as needed
+
 
   useEffect(() => {
     const timers = [];
@@ -101,11 +105,12 @@ export default function ThroughTheWireSchedule({
           ) : null
         )}
       </main>
-           <img
-          src={ThroughTheWireCover}
-          alt="Through The Wire cover"
-          className="throughthewire-cover"
-        />
+       <img
+  src={ThroughTheWireCover}
+  alt="Through The Wire cover"
+  className="throughthewire-cover"
+  style={{ animationDelay: `${coverDelayMs}ms` }}
+/>
     </div>
   );
 }

@@ -53,31 +53,30 @@
 }
 
 /* The provided album art as a centered element; keep it modest on mobile */
+/* CSS */
 .throughthewire-cover{
-  width:80vw;
+  width:70vw;
   object-fit:cover;
   border-radius:8px;
-   animation: 4s appear ease-in;
-   position:absolute;
-   bottom: 0;
+  position:absolute;
+  bottom:0;
 
+  /* start hidden */
+  opacity: 0;
+
+  /* animation (keeps final state) */
+  animation-name: appear;
+  animation-duration: 1s;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards; /* keep the final opacity:1 after animation */
+  /* animation-delay: 1200ms;  <- set from React or here */
 }
-
 
 @keyframes appear {
-    0%{
-        opacity:0
-    };
- 99%{
-        opacity:0
-    };
-
-    100%{
-        opacity: 1;
-
-    }
-
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
+
 
 
 /* Weekday: centered, prominent (30px) with Playfair for a refined look */
