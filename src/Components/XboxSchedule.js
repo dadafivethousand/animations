@@ -1,7 +1,7 @@
 // XboxSchedule.jsx
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/XboxSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function XboxSchedule({
   day,

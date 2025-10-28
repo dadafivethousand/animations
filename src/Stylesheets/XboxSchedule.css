@@ -28,19 +28,13 @@
 .xbox-wrap{
   min-height:100vh;
   width:100vw;
-  background:
-    radial-gradient(900px 520px at 18% -10%, rgba(42,212,111,.10), transparent 60%),
-    radial-gradient(900px 520px at 82% 120%, rgba(16,124,16,.10), transparent 60%),
-    /* soft tech grid */
-    linear-gradient(0deg, rgba(255,255,255,.03) 1px, transparent 1px) 0 0/24px 24px,
-    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px) 0 0/24px 24px,
-    linear-gradient(180deg, var(--xb-graphite-1), var(--xb-graphite-2) 60%, var(--xb-black));
+  background-color:rgb(245, 245, 245);
   color:var(--xb-ink);
   display:flex;
   flex-direction:column;
   align-items:center;
   padding:14px;
-  padding-top:50px; /* ≥ 50px */
+  padding-top:100px; /* ≥ 50px */
   position:relative;
   overflow:hidden;
 }
@@ -64,9 +58,7 @@
   position:sticky; top:0;
   text-align:center;
   z-index:2;
-  background:linear-gradient(180deg, rgba(12,18,20,.88), rgba(12,18,20,.58));
-  border-bottom:1px solid rgba(42,212,111,.18);
-  backdrop-filter: blur(8px);
+   backdrop-filter: blur(8px);
 }
 .xbox-day{
   margin:0;
@@ -76,10 +68,8 @@
   font-size:30px;          /* bigger weekday */
   letter-spacing:.16em;
   text-transform:uppercase;
-  color:#eafff4;
-  text-shadow:
-    0 0 8px rgba(42,212,111,.30),
-    0 2px 0 rgba(0,0,0,.85);
+  color:#050505;
+ 
 }
 
 /* list — 80% width per spec */
