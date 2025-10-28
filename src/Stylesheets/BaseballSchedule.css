@@ -1,24 +1,25 @@
 /* BaseballSchedule.css
-   Baseball-themed schedule:
-   - mobile-first, day centered (30px)
-   - list width 80%, compact cards (≈64–72px)
-   - left row flex layout with inline maple chip
+   Baseball — bat / mitt / ball aesthetic
+   - mobile-first
+   - centered weekday (30px)
+   - list width 80%
+   - left row flex layout with inline MAPLE chip
    - fixed 90px time pill
-   - visual cues: diamond/field green, scoreboard, seam accents
 */
 
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&family=Inter:wght@600;700&display=swap");
 
 :root{
-  --bb-bg: #f7fbf5;           /* soft outfield grass paper */
-  --bb-field: #0f6b3b;        /* deep grass green */
-  --bb-green: #1f8a4a;        /* brighter grass */
+  --bb-bg: #f7fbf5;           /* soft outfield paper */
   --bb-cream: #fffaf0;        /* card surface */
-  --bb-ink: #11221a;          /* deep text */
+  --bb-ink: #10221a;          /* deep text */
   --bb-muted: #6b7b6f;        /* muted text */
-  --bb-red: #c93b3b;          /* stitching / accent red */
+  --bb-leather: #7c4a2b;      /* mitt/bat leather */
+  --bb-leather-2: #a06137;
+  --bb-stitch: #c93b3b;       /* red stitching */
+  --bb-green: #1f8a4a;        /* subtle grass accent */
   --bb-border: rgba(17,34,26,0.06);
-  --bb-shadow: 0 10px 30px rgba(17,34,26,0.08);
+  --bb-shadow: 0 12px 30px rgba(17,34,26,0.08);
 
   --bb-list-width: 80%;
   --bb-time-width: 90px;      /* fixed */
@@ -42,39 +43,104 @@ html,body,#root{ height:100%; background:var(--bb-bg); }
   color:var(--bb-ink);
 }
 
-/* header: small scoreboard bar + centered day */
+/* Header — bat / mitt / ball hero */
 .baseball-header{
   width:100%;
   max-width:960px;
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:8px;
+  gap:12px;
   margin-bottom:6px;
 }
 
-/* stylized scoreboard */
-.baseball-scoreboard{
+/* hero area */
+.baseball-hero{
   width:100%;
   max-width:560px;
+  height:66px;
   display:flex;
-  justify-content:space-between;
   align-items:center;
-  background: linear-gradient(180deg, rgba(15,107,59,0.98), rgba(31,138,74,0.98));
-  color: #f7fbf5;
-  padding:6px 12px;
-  border-radius:8px;
-  box-shadow: 0 8px 20px rgba(15,107,59,0.12);
-  font-weight:700;
-  font-size:12px;
-  letter-spacing:.12em;
-  text-transform:uppercase;
+  justify-content:center;
+  gap:18px;
+  position:relative;
+  pointer-events:none;
 }
-.baseball-score-left,
-.baseball-score-mid,
-.baseball-score-right{ display:flex; align-items:center; gap:8px; }
 
-/* centered day — slab serif */
+/* stylized bat */
+.baseball-bat{
+  width:220px;
+  height:18px;
+  background: linear-gradient(90deg, var(--bb-leather-2), var(--bb-leather));
+  border-radius:10px;
+  transform: rotate(-18deg);
+  box-shadow: 0 6px 18px rgba(124,74,43,.25), inset 0 1px 0 rgba(255,255,255,.06);
+  position:relative;
+}
+.baseball-bat::after{
+  content:"";
+  position:absolute;
+  right:-18px; top:-6px;
+  width:34px; height:34px;
+  border-radius:50%;
+  background: linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.05));
+  box-shadow: inset 0 2px 0 rgba(255,255,255,.06);
+}
+
+/* mitt silhouette */
+.baseball-mitt{
+  width:70px;
+  height:56px;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,.03), transparent 12%),
+    linear-gradient(180deg, var(--bb-leather), var(--bb-leather-2));
+  border-radius:40% 50% 40% 50% / 60% 50% 40% 50%;
+  box-shadow: 0 10px 24px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.05);
+  transform: rotate(6deg);
+  position:relative;
+}
+.baseball-mitt::before{
+  content:"";
+  position:absolute;
+  left:8px; top:14px;
+  width:12px; height:12px;
+  background: rgba(0,0,0,.06);
+  border-radius:3px;
+  transform: rotate(18deg);
+  opacity:.13;
+}
+
+/* baseball with stitching using gradients */
+.baseball-ball{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 30% 30%, #fff, #fff 55%, rgba(255,255,255,0.98) 56%),
+    linear-gradient(90deg, rgba(0,0,0,.02), rgba(0,0,0,.01));
+  border: 2px solid rgba(200,200,200,0.18);
+  position:relative;
+  box-shadow: 0 8px 18px rgba(0,0,0,.18);
+}
+.baseball-ball::before,
+.baseball-ball::after{
+  content:"";
+  position:absolute;
+  left:6px; right:6px;
+  height:8px;
+  top:12px;
+  background:
+    linear-gradient(90deg, transparent 0 15%, var(--bb-stitch) 15% 25%, transparent 25% 35%, var(--bb-stitch) 35% 45%, transparent 45% 100%);
+  border-radius:6px;
+  transform: rotate(12deg);
+  opacity:.95;
+}
+.baseball-ball::after{
+  top:26px;
+  transform: rotate(-12deg);
+}
+
+/* Day — centered and bold (slab) */
 .baseball-day{
   margin:0;
   font-family: "Roboto Slab", serif;
@@ -82,7 +148,7 @@ html,body,#root{ height:100%; background:var(--bb-bg); }
   font-size:30px; /* larger weekday */
   letter-spacing:.12em;
   text-transform:uppercase;
-  color:var(--bb-field);
+  color:var(--bb-field, var(--bb-green));
   padding:8px 18px;
   border-radius:999px;
   background: linear-gradient(180deg, rgba(31,138,74,0.06), rgba(31,138,74,0.02));
@@ -120,38 +186,23 @@ html,body,#root{ height:100%; background:var(--bb-bg); }
   opacity:0;
 }
 
-/* left diamond seam (thin) */
+/* decorative seam arc (subtle) */
 .baseball-card::before{
   content:"";
   position:absolute;
-  left:10px; top:50%;
-  width:calc(100% - 20px);
-  height:2px;
-  background: repeating-linear-gradient(90deg, rgba(201,59,59,0.95) 0 6px, transparent 6px 18px);
-  transform: translateY(-50%) rotate(-2deg);
-  opacity:.06;
-  pointer-events:none;
-}
-
-/* subtle field edge arc (top-left) */
-.baseball-card::after{
-  content:"";
-  position:absolute;
-  left:-60px;
-  top:-40px;
-  width:180px;
-  height:180px;
+  left:-40px; top:-20px;
+  width:220px; height:120px;
   border-radius:50%;
-  background: radial-gradient(circle at 35% 35%, rgba(31,138,74,0.06), transparent 40%);
-  transform: rotate(-18deg);
+  background: radial-gradient(circle at 30% 40%, rgba(31,138,74,0.06), transparent 40%);
+  transform: rotate(-12deg);
   pointer-events:none;
 }
 
 /* in animation */
-.baseball-in{ animation: bb-rise .22s ease-out forwards; }
+.baseball-in{ animation: bb-rise .24s ease-out forwards; }
 @keyframes bb-rise{ to{ opacity:1; transform:translateY(0); } }
 
-/* left content — MUST follow requested layout */
+/* left content — must follow requested layout */
 .baseball-left{
   min-width:0;
   display:flex;               /* as requested */
@@ -178,10 +229,10 @@ html,body,#root{ height:100%; background:var(--bb-bg); }
   display:flex;
   gap:8px;
   align-items:center;
-  margin-left:6px;
+  margin-left:8px;
 }
 
-/* chip (re-using contract style) */
+/* chip base (contract-compatible) */
 .chip{
   font-size:12px;
   line-height:1;
@@ -196,11 +247,11 @@ html,body,#root{ height:100%; background:var(--bb-bg); }
   font-weight:700;
 }
 
-/* maple chip — green field accent */
+/* maple chip — field green accent */
 .chip--maple{
   border-color: rgba(31,138,74,0.18);
   background: linear-gradient(180deg, rgba(31,138,74,0.06), rgba(31,138,74,0.02));
-  color:var(--bb-field);
+  color:var(--bb-field, var(--bb-green));
   box-shadow: 0 0 8px rgba(31,138,74,0.06);
 }
 
@@ -216,7 +267,7 @@ html,body,#root{ height:100%; background:var(--bb-bg); }
 /* Replacement styling per contract */
 .swap .old{ text-decoration: line-through; opacity:.65; }
 .swap .arrow{ opacity:.6; margin:0 6px; }
-.swap .new{ font-weight:800; color:var(--bb-red); }
+.swap .new{ font-weight:800; color:var(--bb-stitch); }
 
 /* time pill fixed width 90px */
 .baseball-time{
@@ -247,17 +298,18 @@ html,body,#root{ height:100%; background:var(--bb-bg); }
 
 /* small screens */
 @media (max-width:420px){
-  .baseball-list{ gap:10px; }
+  .baseball-hero{ height:56px; gap:12px; }
+  .baseball-bat{ width:160px; transform:rotate(-14deg); }
   .baseball-day{ font-size:28px; padding:6px 14px; }
   .baseball-title{ font-size:15px; }
   .baseball-time{ font-size:12px; padding:6px 6px; }
+  .baseball-list{ gap:10px; }
 }
 
 /* wider screens tweaks */
 @media (min-width:900px){
   .baseball-list{ max-width:1100px; }
   .baseball-card{ min-height:72px; padding:14px 18px; border-radius:14px; }
-  .baseball-scoreboard{ max-width:720px; font-size:13px; padding:8px 14px; }
   .baseball-day{ font-size:34px; }
 }
 

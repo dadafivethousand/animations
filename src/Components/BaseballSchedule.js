@@ -25,21 +25,23 @@ export default function BaseballSchedule({
     return () => timers.forEach(clearTimeout);
   }, [safeDay, animationDelay, animationInterval, items.length]);
 
+  // careful 12h conversion (digit-by-digit care)
   const formatTime = (t) => {
     const h = Math.floor(t);
     const m = Math.round((t - h) * 60);
     const hr = h % 12 || 12;
+    const minutes = m < 10 ? "0" + m : String(m);
     const ap = h < 12 ? "AM" : "PM";
-    return `${hr}:${m < 10 ? "0" + m : m} ${ap}`;
+    return `${hr}:${minutes} ${ap}`;
   };
 
   return (
     <div className="baseball-wrap" role="region" aria-label="Baseball themed schedule">
       <header className="baseball-header">
-        <div className="baseball-scoreboard" aria-hidden>
-          <div className="baseball-score-left">HOME</div>
-          <div className="baseball-score-mid">SCORE</div>
-          <div className="baseball-score-right">AWAY</div>
+        <div className="baseball-hero">
+          <div className="baseball-bat" aria-hidden />
+          <div className="baseball-mitt" aria-hidden />
+          <div className="baseball-ball" aria-hidden />
         </div>
 
         <h1 className="baseball-day">{safeDay.toUpperCase()}</h1>
