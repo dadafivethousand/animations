@@ -31,7 +31,7 @@ import BaseballSchedule from "./Components/BaseballSchedule";
    function App() {
   return (
     <>
-  <XboxSchedule day="Wednesday" />
+  <BaseballSchedule day="Wednesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

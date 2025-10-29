@@ -25,7 +25,7 @@ export default function BaseballSchedule({
     return () => timers.forEach(clearTimeout);
   }, [safeDay, animationDelay, animationInterval, items.length]);
 
-  // careful 12h conversion (digit-by-digit care)
+  // careful 12h conversion (digit-by-digit)
   const formatTime = (t) => {
     const h = Math.floor(t);
     const m = Math.round((t - h) * 60);
@@ -38,12 +38,6 @@ export default function BaseballSchedule({
   return (
     <div className="baseball-wrap" role="region" aria-label="Baseball themed schedule">
       <header className="baseball-header">
-        <div className="baseball-hero">
-          <div className="baseball-bat" aria-hidden />
-          <div className="baseball-mitt" aria-hidden />
-          <div className="baseball-ball" aria-hidden />
-        </div>
-
         <h1 className="baseball-day">{safeDay.toUpperCase()}</h1>
       </header>
 
@@ -57,25 +51,31 @@ export default function BaseballSchedule({
               aria-label={`${cls.name}${cls.cancelled ? " — cancelled" : ""}`}
             >
               <div className="baseball-left">
-                <div className="baseball-title">
-                  {cls.replacement ? (
-                    <span className="swap">
-                      <span className="old">{cls.name}</span>
-                      <span className="arrow" aria-hidden>
-                        →
-                      </span>
-                      <span className="new">
-                        {typeof cls.replacement === "string" ? cls.replacement : "Replacement"}
-                      </span>
-                    </span>
-                  ) : (
-                    cls.name
-                  )}
+                <div className="baseball-ballface" aria-hidden>
+                  {/* decorative white "ball" */}
                 </div>
 
-                <div className="baseball-tags">
-                  {cls.maple && <span className="chip chip--maple">📍 MAPLE</span>}
-                  {cls.cancelled && <span className="chip chip--cancelled">✖ CANCELLED</span>}
+                <div className="baseball-title-row">
+                  <div className="baseball-title">
+                    {cls.replacement ? (
+                      <span className="swap">
+                        <span className="old">{cls.name}</span>
+                        <span className="arrow" aria-hidden>
+                          →
+                        </span>
+                        <span className="new">
+                          {typeof cls.replacement === "string" ? cls.replacement : "Replacement"}
+                        </span>
+                      </span>
+                    ) : (
+                      cls.name
+                    )}
+                  </div>
+
+                  <div className="baseball-tags">
+                    {cls.maple && <span className="chip chip--maple">📍 MAPLE</span>}
+                    {cls.cancelled && <span className="chip chip--cancelled">✖ CANCELLED</span>}
+                  </div>
                 </div>
               </div>
 
