@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/BaseballSchedule.css";
 import schedule from "../Schedule";
+import baseball from "../Images/Untitled design (6).png"
 
 export default function BaseballSchedule({
   day,
@@ -51,9 +52,7 @@ export default function BaseballSchedule({
               aria-label={`${cls.name}${cls.cancelled ? " — cancelled" : ""}`}
             >
               <div className="baseball-left">
-                <div className="baseball-ballface" aria-hidden>
-                  {/* decorative white "ball" */}
-                </div>
+                <img src={baseball}/>
 
                 <div className="baseball-title-row">
                   <div className="baseball-title">
@@ -68,6 +67,7 @@ export default function BaseballSchedule({
                         </span>
                       </span>
                     ) : (
+                
                       cls.name
                     )}
                   </div>
