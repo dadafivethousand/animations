@@ -1,0 +1,284 @@
+/* TrophiesSchedule.css
+   "Trophies" theme — warm golds, laurel hints, subtle confetti/gloss.
+   Mobile-first; weekday centered and prominent (30px); list width 80%;
+   .trophies-left follows the required flex layout; time pill fixed 90px.
+   All classes prefixed with "trophies-" to avoid collisions.
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@600;700&display=swap");
+
+:root{
+  --trophies-bg: #fbfaf9;        /* soft paper */
+  --trophies-ink: #1b1b1b;
+  --trophies-muted: #6d655f;
+  --trophies-gold: #d9b44a;      /* warm trophy gold */
+  --trophies-gold-2: #c79b31;    /* deeper gold */
+  --trophies-bronze: #a86f3b;
+  --trophies-white: #ffffff;
+  --trophies-border: rgba(27,27,27,0.06);
+  --trophies-shadow: 0 12px 30px rgba(21,18,14,0.08);
+
+  --trophies-list-width: 80%;
+  --trophies-time-width: 90px;
+  --trophies-card-h: 72px;
+}
+
+/* Reset */
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+
+html,body,#root{ height:100%; background: linear-gradient(180deg, #fffdfc, var(--trophies-bg)); }
+
+.trophies-wrap{
+  min-height:100vh;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:14px;
+  padding-top:56px; /* ensure >=50px */
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color:var(--trophies-ink);
+}
+
+/* Header: centered day and small subtitle */
+.trophies-header{
+  width:100%;
+  max-width:960px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  margin-bottom:8px;
+}
+.trophies-day{
+  margin:0;
+  font-family: "Playfair Display", serif;
+  font-weight:600;
+  font-size:30px; /* prominent weekday */
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--trophies-gold-2);
+  padding:8px 18px;
+  border-radius:999px;
+  background: linear-gradient(180deg, rgba(215,180,90,0.06), rgba(215,180,90,0.02));
+  box-shadow: 0 8px 20px rgba(199,155,49,0.06), inset 0 1px 0 rgba(255,255,255,0.8);
+}
+.trophies-sub{
+  margin:0;
+  font-size:12px;
+  color:var(--trophies-muted);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-weight:700;
+}
+
+/* list */
+.trophies-list{
+  width:var(--trophies-list-width);
+  max-width:960px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:12px;
+  align-items:center;
+}
+
+/* card: polished white plate like a trophy face with subtle laurel and shimmer */
+.trophies-card{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  min-height:var(--trophies-card-h);
+  border-radius:14px;
+  position:relative;
+  background: linear-gradient(180deg, var(--trophies-white), #fffaf7);
+  border:1px solid var(--trophies-border);
+  box-shadow: var(--trophies-shadow);
+  overflow:hidden;
+  transform: translateY(8px);
+  opacity:0;
+}
+
+/* subtle laurel arc (top-left) */
+.trophies-card::before{
+  content:"";
+  position:absolute;
+  left:-40px;
+  top:-36px;
+  width:220px;
+  height:120px;
+  background: radial-gradient(circle at 30% 40%, rgba(215,180,90,0.06), transparent 40%);
+  transform: rotate(-10deg);
+  pointer-events:none;
+  opacity:.9;
+}
+
+/* soft gold sheen (top-right) */
+.trophies-card::after{
+  content:"";
+  position:absolute;
+  right:-36px;
+  top:-26px;
+  width:160px;
+  height:100px;
+  background: linear-gradient(120deg, rgba(215,180,90,0.0), rgba(215,180,90,0.10) 40%, rgba(199,155,49,0.18));
+  transform: rotate(16deg) skewX(-8deg);
+  filter: blur(6px);
+  opacity:.28;
+  pointer-events:none;
+}
+
+/* in animation */
+.trophies-in{ animation: trophies-rise .26s cubic-bezier(.2,.9,.2,1) forwards; }
+@keyframes trophies-rise{ from{ opacity:0; transform:translateY(10px) scale(.996); } to{ opacity:1; transform:translateY(0) scale(1); } }
+
+/* Left area: requested flex layout */
+.trophies-left{
+  min-width:0;
+  display:flex;                /* as requested */
+  align-items:center;          /* aligned center */
+  justify-content:flex-start;  /* start-justified */
+  gap:12px;
+  flex:1 1 auto;
+  flex-wrap:nowrap;
+}
+
+/* decorative medal/icon (pure CSS) */
+.trophies-icon{ display:flex; align-items:center; justify-content:center; flex:0 0 56px; }
+.trophies-medal{
+  display:inline-block;
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  background: radial-gradient(circle at 30% 30%, #fff7d6, var(--trophies-gold));
+  border: 4px solid rgba(199,155,49,0.14);
+  box-shadow: 0 8px 20px rgba(199,155,49,0.12), inset 0 2px 0 rgba(255,255,255,0.6);
+  position:relative;
+}
+.trophies-medal::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:18px;
+  height:6px;
+  background: linear-gradient(90deg, rgba(199,155,49,0.95), rgba(215,180,90,0.95));
+  transform: translate(-50%, -50%);
+  border-radius:3px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.35);
+}
+
+/* meta column: title + tags */
+.trophies-meta{ display:flex; flex-direction:column; gap:6px; min-width:0; }
+
+/* Title */
+.trophies-title{
+  font-weight:800;
+  font-size:16px;
+  color:var(--trophies-ink);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  min-width:0;
+  margin-left:20px;
+}
+
+/* subtle vertical gold bar before title */
+.trophies-meta::before{
+  content:"";
+  position:absolute;
+  left:22px; /* aligns near medal */
+  top:14%;
+  bottom:14%;
+  width:3px;
+  background: linear-gradient(180deg, rgba(199,155,49,0.96), rgba(215,180,90,0.96));
+  border-radius:2px;
+  opacity:0.12;
+  pointer-events:none;
+}
+
+/* tags row */
+.trophies-tags{ display:flex; gap:8px; align-items:center; }
+
+/* chips (maple / cancelled) */
+.chip{
+  font-size:12px;
+  line-height:1;
+  padding:5px 10px;
+  border-radius:999px;
+  border:1px solid rgba(0,0,0,0.06);
+  background: linear-gradient(180deg, #fffefc, #fffaf7);
+  color:var(--trophies-muted);
+  white-space:nowrap;
+  flex:0 0 auto;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
+  font-weight:700;
+}
+.chip--maple{
+  border-color: rgba(199,155,49,0.18);
+  background: linear-gradient(180deg, rgba(199,155,49,0.06), rgba(199,155,49,0.02));
+  color: var(--trophies-gold-2);
+  box-shadow: 0 4px 12px rgba(199,155,49,0.06);
+}
+.chip--cancelled{
+  border-color: rgba(120,120,120,0.06);
+  background: linear-gradient(180deg, #fff9f9, #fff6f6);
+  color:#7a6b6b;
+  font-weight:800;
+  text-transform:uppercase;
+}
+
+/* Replacement styling (contract) */
+.swap .old{ text-decoration: line-through; opacity:.65; }
+.swap .arrow{ opacity:.6; margin:0 6px; }
+.swap .new{ font-weight:800; color:var(--trophies-bronze); }
+
+/* Time pill — fixed width 90px, trophy ribbon color */
+.trophies-time{
+  font:800 13px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color:#fff;
+  background: linear-gradient(180deg, var(--trophies-gold), var(--trophies-gold-2));
+  border-radius:10px;
+  padding:8px 6px;
+  width:var(--trophies-time-width);
+  flex:0 0 var(--trophies-time-width);
+  text-align:center;
+  box-shadow: 0 8px 20px rgba(199,155,49,0.18);
+  border:1px solid rgba(199,155,49,0.12);
+}
+
+/* cancelled card state */
+.trophies-card.is-cancelled{
+  filter: grayscale(.45) brightness(.9);
+  opacity:.95;
+}
+.trophies-card.is-cancelled .trophies-title,
+.trophies-card.is-cancelled .swap .old,
+.trophies-card.is-cancelled .swap .new{
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  text-decoration-color: rgba(160,80,60,0.9);
+}
+
+/* responsive tweaks */
+@media (max-width:420px){
+  .trophies-day{ font-size:28px; padding:8px 14px; }
+  .trophies-medal{ width:40px; height:40px; }
+  .trophies-title{ font-size:15px; }
+  .trophies-time{ font-size:12px; padding:6px 6px; width:76px; flex:0 0 76px; }
+  .trophies-list{ gap:10px; }
+}
+
+@media (min-width:900px){
+  .trophies-list{ max-width:1100px; }
+  .trophies-card{ padding:14px 18px; border-radius:16px; min-height:84px; }
+  .trophies-day{ font-size:34px; }
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .trophies-in{ animation:none; opacity:1; transform:none; }
+}
