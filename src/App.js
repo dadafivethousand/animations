@@ -32,7 +32,7 @@ import TrophiesSchedule from "./Components/Trophies";
    function App() {
   return (
     <>
-  <TrophiesSchedule day="Wednesday" />
+  <TrophiesSchedule day="Friday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
