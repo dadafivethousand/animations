@@ -1,0 +1,208 @@
+ 
+/* ==========================
+   MegaManSchedule.css (high-level, polished chrome + pixel accents)
+   - Mobile-first
+   - Uses a pixel-ish display font and modern layered CSS techniques
+   ========================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Press+Start+2P&display=swap');
+
+:root{
+  --mm-bg-1: #06102a;   /* deep navies */
+  --mm-bg-2: #08142f;
+  --mm-chip: #35b7ff;   /* Mega Man cyan */
+  --mm-accent: #ffd54a; /* energy/yellow */
+  --mm-glow: rgba(53,183,255,0.18);
+  --mm-card: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.16));
+  --mm-border: rgba(53,183,255,0.14);
+  --mm-ink: #eaf6ff;
+  --mm-shadow: 0 12px 30px rgba(2,6,20,0.7);
+}
+*{box-sizing:border-box}
+
+.megaman-wrap{
+  min-height:100vh;
+  width:100vw;
+  background:
+    radial-gradient(600px 220px at 10% 10%, rgba(53,183,255,0.035), transparent 30%),
+    radial-gradient(400px 160px at 85% 80%, rgba(255,213,74,0.03), transparent 28%),
+    linear-gradient(180deg, var(--mm-bg-1), var(--mm-bg-2));
+  color:var(--mm-ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:12px;
+  padding-top:160px; /* >=50px */
+  font-family: 'Orbitron', system-ui, sans-serif;
+}
+
+/* Header with HUD */
+.megaman-header{
+  width:100%;
+  max-width:720px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:10px 6px;
+  position:sticky;
+  top:0;
+  z-index:3;
+  backdrop-filter: blur(6px) saturate(1.05);
+}
+.megaman-day{
+  margin:0;
+  font-size:30px;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--mm-chip);
+  text-shadow: 0 4px 18px var(--mm-glow);
+  font-weight:900;
+  position: relative;
+  left:5px;
+}
+
+.megaman-hud{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.megaman-hud__bar{
+  width:70px;
+  height:12px;
+  background:linear-gradient(90deg, rgba(255,255,255,0.03), rgba(0,0,0,0.12));
+  border-radius:6px;
+  border:1px solid rgba(255,255,255,0.03);
+  padding:2px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+}
+.megaman-hud__energy{
+  width:100%; /* decorative */
+  height:100%;
+  background: linear-gradient(90deg, var(--mm-chip), #79f0ff 60%, var(--mm-accent));
+  border-radius:4px;
+  box-shadow: 0 6px 18px rgba(53,183,255,0.12), 0 0 24px rgba(255,213,74,0.04);
+  transform-origin:left center;
+}
+.megaman-hud__logo{
+  font-family: 'Press Start 2P', monospace;
+  font-size:12px;
+  color:var(--mm-accent);
+  padding:6px 8px;
+  border-radius:6px;
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));
+  border:1px solid rgba(255,255,255,0.03);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5), inset 0 -6px 18px rgba(0,0,0,0.12);
+}
+
+/* List */
+.megaman-list{
+  width:86%;
+  max-width:720px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:12px;
+}
+
+/* Card: modern chrome + pixel accents + scanline */
+.megaman-card{
+  position:relative;
+  overflow:visible;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  background: var(--mm-card);
+  border-radius:14px;
+  border:1px solid var(--mm-border);
+  box-shadow: var(--mm-shadow), inset 0 -6px 24px rgba(0,0,0,0.12);
+  min-height:60px;
+  transform: translateX(-38px) scale(0.996);
+  opacity:0;
+}
+
+/* pixel outline on left reminiscent of power-up blocks */
+ 
+
+/* subtle scanline overlay to feel retro */
+.megaman-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image: linear-gradient(transparent 50%, rgba(255,255,255,0.01) 50%);
+  background-size:100% 4px;
+  pointer-events:none;
+  border-radius:14px;
+}
+
+/* Entry animation: quick slide from left with soft scale + glow */
+.megaman-in{ animation: mm-slide .26s cubic-bezier(.2,.9,.28,1) forwards; }
+@keyframes mm-slide{
+  0%{ opacity:0; transform: translateX(-42px) scale(0.992); filter: blur(2px); }
+  60%{ transform: translateX(6px) scale(1.01); filter: blur(0); }
+  100%{ opacity:1; transform: translateX(0) scale(1); filter: none; }
+}
+
+/* trailing energy flash using a translucent gradient that sweeps */
+.megaman-in .megaman-left::after{
+  content:"";
+  position:absolute;
+  left: -8px;
+  top: -4px;
+  height: calc(100% + 8px);
+  width: 0;
+  background: linear-gradient(90deg, rgba(53,183,255,0.28), rgba(255,213,74,0.10), transparent 60%);
+  filter: blur(8px) saturate(1.2);
+  transform: skewX(-8deg);
+  border-radius:12px;
+  pointer-events:none;
+  animation: mm-flash .5s ease-out forwards;
+}
+@keyframes mm-flash{
+  0%{ width:0; opacity:1; left:-14px }
+  40%{ width:70%; left:-6px; opacity:0.9 }
+  100%{ width:140%; left:40%; opacity:0 }
+}
+
+.megaman-left{ position:relative; min-width:0; display:flex; align-items:center; gap:10px; flex:1 1 auto; }
+.megaman-title{ min-width:0 }
+.megaman-name{
+  font-weight:700;
+  font-size:15px;
+  line-height:1.15;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  color:var(--mm-ink);
+}
+
+/* Replacement */
+.megaman-swap .megaman-old{ text-decoration:line-through; opacity:.6; color:rgba(234,246,255,0.7); }
+.megaman-swap .megaman-arrow{ opacity:.75; margin:0 6px; color:var(--mm-accent) }
+.megaman-swap .megaman-new{ font-weight:900; color:var(--mm-accent); text-shadow:0 6px 20px rgba(255,213,74,0.06); }
+
+/* Maple chip */
+.megaman-chip{ font-size:11px; line-height:1; padding:4px 8px; border-radius:999px; border:1px solid rgba(53,183,255,0.14); background: rgba(53,183,255,0.06); color:var(--mm-ink); white-space:nowrap; }
+.megaman-chip--maple{ border-color: rgba(255,88,88,0.45); background: rgba(255,60,60,0.10); color:#ffdede; box-shadow: 0 0 10px rgba(255,60,60,0.08);} 
+
+/* Time block fixed width 90px */
+.megaman-time{ font:700 13px/1.1 ui-monospace, SFMono-Regular, Menlo, monospace; width:90px; flex:0 0 90px; text-align:center; color:rgba(234,246,255,0.9); background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06)); border-radius:10px; padding:6px 8px; border:1px solid rgba(255,255,255,0.03);} 
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .megaman-in{ animation:none; opacity:1; transform:none; }
+  .megaman-in .megaman-left::after{ display:none }
+}
+
+/* responsive tweaks */
+@media (min-width:520px){
+  .megaman-list{ width:72%; }
+  .megaman-name{ font-size:16px; }
+}
+
+/* Accessibility */
+.megaman-name{ min-width:0; max-width:100%; }
+
+/* End of file */
