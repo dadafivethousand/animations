@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/BlueJaysSchedule.css";
-import schedule from "../Schedule";
+import "./BlueJaysSchedule.css";
+import schedule from "../RhSchedule";
 
 function BlueJaysSchedule({ day, delay = 800 }) {
   const [visibleClasses, setVisibleClasses] = useState([]);

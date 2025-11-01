@@ -38,13 +38,10 @@
 .jays-schedule {
   width: 92%;
   max-width: 420px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 2px solid #ffffff40;
-  padding: 24px;
+    padding: 24px;
   border-radius: 14px;
   backdrop-filter: blur(3px);
-  box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
-  display: flex;
+   display: flex;
   flex-direction: column;
   gap: 16px;
 }
