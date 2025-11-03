@@ -1,7 +1,7 @@
 // TrophiesSchedule.jsx
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/TrophiesSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function TrophiesSchedule({
   day,

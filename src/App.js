@@ -37,7 +37,7 @@ import Saw3Schedule from "./Components/Saw3Schedule";
    function App() {
   return (
     <>
-  <Saw3Schedule day="Monday" />
+  <TrophiesSchedule day="Monday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
