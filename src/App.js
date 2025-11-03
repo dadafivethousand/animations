@@ -33,10 +33,11 @@ import WinniePoohSchedule from "./Components/WinniePoohSchedule";
 import MarvelFlashSchedule from "./Components/FlashSchedule";
 import BlueJaysSchedule from "./Used/BlueJaysSchedule";
 import MegaManSchedule from "./Components/MegaManSchedule";
+import Saw3Schedule from "./Components/Saw3Schedule";
    function App() {
   return (
     <>
-  <MegaManSchedule day="Sunday" />
+  <Saw3Schedule day="Monday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
