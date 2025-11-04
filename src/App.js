@@ -34,10 +34,11 @@ import MarvelFlashSchedule from "./Components/FlashSchedule";
 import BlueJaysSchedule from "./Used/BlueJaysSchedule";
 import MegaManSchedule from "./Components/MegaManSchedule";
 import Saw3Schedule from "./Components/Saw3Schedule";
+import JurassicParkSchedule from "./Components/JurassicParkSchedule";
    function App() {
   return (
     <>
-  <TrophiesSchedule day="Monday" />
+  <JurassicParkSchedule day="Tuesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
