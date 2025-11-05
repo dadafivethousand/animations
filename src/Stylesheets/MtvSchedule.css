@@ -1,203 +1,166 @@
-/* MtvSchedule.css
-   MTV-inspired theme: bold, retro-90s neon / pop aesthetic.
-   Prefix: mtv-
+/* MtvSchedule.css — ultra-simplified, colour-accurate, minimal decorations
+   Uses: bright yellow (#fff200), teal (#00a6b3), vivid red (#ff354f)
    Mobile-first. Top padding >= 50px. List width = 80%. Time block = 90px.
-   Accessibility: respects prefers-reduced-motion.
+   Prefers-reduced-motion respected.
 */
 
-/* Fonts — bold geometric & a display */
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;700&display=swap');
 
 :root{
-  --mtv-bg: #070608;
-  --mtv-panel: linear-gradient(180deg, #0d0d10, #0a0810);
-  --mtv-neon-pink: #ff2d95;
-  --mtv-neon-cyan: #21f0ff;
-  --mtv-neon-yellow: #ffd400;
-  --mtv-ink: #f7f7f8;
-  --mtv-muted: rgba(247,247,248,0.88);
+  --mtv-bg: #050506;
+  --mtv-yellow: #fff200;
+  --mtv-teal: #00a6b3;
+  --mtv-red: #ff354f;
+  --mtv-text: #ffffff;
+  --mtv-muted: rgba(255,255,255,0.88);
   --mtv-border: rgba(255,255,255,0.04);
-  --mtv-shadow: 0 12px 36px rgba(0,0,0,0.75);
-  --mtv-accent-glow: 0 8px 28px rgba(33,240,255,0.12), 0 0 40px rgba(255,45,149,0.06);
+  --mtv-shadow: 0 10px 28px rgba(0,0,0,0.6);
 }
 
-*{box-sizing:border-box}
+/* Box-sizing */
+* { box-sizing: border-box; }
 
-/* Root */
+/* Wrapper */
 .mtv-wrap{
   min-height:100vh;
   width:100vw;
+  padding:12px;
+  padding-top:56px; /* >=50px */
   display:flex;
   flex-direction:column;
   align-items:center;
-  padding:12px;
-  padding-top:56px; /* >= 50px */
-  color:var(--mtv-ink);
-  background:
-    radial-gradient(500px 200px at 10% 12%, rgba(33,240,255,0.03), transparent 22%),
-    radial-gradient(400px 160px at 90% 82%, rgba(255,45,149,0.03), transparent 22%),
-    linear-gradient(180deg, var(--mtv-bg), #050506);
-  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: linear-gradient(180deg, var(--mtv-bg), #020203);
+  color:var(--mtv-text);
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, Arial;
 }
 
-/* Header */
+/* Header: centered, no background behind text */
 .mtv-header{
   width:100%;
-  max-width:820px;
-  padding:10px 6px;
+  max-width:920px;
+  padding:12px 8px;
   position:sticky;
   top:0;
-  z-index:4;
-  text-align:center;
-   border-bottom:1px solid rgba(0,0,0,0.2);
-  backdrop-filter: blur(4px);
+  z-index:6;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  pointer-events:none; /* decorative */
+  background: rgba(3,3,4,0.55);
+  backdrop-filter: blur(3px);
+  border-bottom: 1px solid rgba(0,0,0,0.18);
 }
+
 .mtv-day{
   margin:0;
   font-family: 'Anton', sans-serif;
-  font-size:30px; /* larger day */
-  letter-spacing:0.08em;
+  font-size:34px;
   text-transform:uppercase;
-  color:var(--mtv-neon-pink);
-  text-shadow: 0 6px 26px rgba(255,45,149,0.06);
+  letter-spacing:0.06em;
+  color: var(--mtv-yellow);            /* yellow fill */
+  -webkit-text-stroke: 2px var(--mtv-teal); /* thin teal outline for pop */
+   pointer-events:none;
+  display:inline-block;
 }
 
-/* List (80% width) */
+/* List */
 .mtv-list{
   width:80%;
-  max-width:820px;
+  max-width:920px;
   display:flex;
   flex-direction:column;
   gap:10px;
-  margin-top:12px;
+  margin-top:14px;
 }
 
-/* Card base — glossy neon panel */
+/* Card: minimal, clean */
 .mtv-card{
-  position:relative;
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:12px;
   padding:12px 14px;
   min-height:56px;
-  background: var(--mtv-panel);
-  border-radius:12px;
-  border: 1px solid var(--mtv-border);
+  width:100%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.04));
+  border-radius:10px;
+  border:1px solid var(--mtv-border);
   box-shadow: var(--mtv-shadow);
-  overflow:visible;
-  transform: translateX(-36px) translateY(8px) scale(0.996);
+  transform: translateX(-28px);
   opacity:0;
 }
 
+ 
+ 
 
-/* subtle neon underline */
-.mtv-card::after{
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -6px;
-  width: 100%;
-  height: 6px;
-  background: linear-gradient(90deg, rgba(33,240,255,0.06), rgba(255,45,149,0.06));
-  border-radius: 6px;
-  pointer-events:none;
-  opacity:0.9;
+/* Entry animation: quick, subtle slide-in */
+.mtv-in{ animation: mtv-pop .26s cubic-bezier(.2,.9,.28,1) forwards; }
+@keyframes mtv-pop{
+  0% { opacity:0; transform: translateX(-48px) translateY(8px); }
+  60% { transform: translateX(6px) translateY(-4px); }
+  100% { opacity:1; transform: translateX(0) translateY(0); }
 }
 
-/* Entry animation: fast left→right slide with slight bounce and neon flicker */
-.mtv-in{ animation: mtv-pop .28s cubic-bezier(.2,.9,.28,1) forwards; }
-@keyframes mtv-pop {
-  0% { opacity:0; transform: translateX(-64px) translateY(18px) scale(0.992); filter: blur(2px); }
-  55% { transform: translateX(6px) translateY(-6px) scale(1.01); filter: none; }
-  100% { opacity:1; transform: translateX(0) translateY(0) scale(1); filter: none; }
-}
-
-/* neon streak that sweeps across the card (pseudo) */
-.mtv-in::after{
-  content: "";
-  position: absolute;
-  left: -40%;
-  top: -12%;
-  width: 40%;
-  height: 140%;
-  background: linear-gradient(90deg, rgba(33,240,255,0.28), rgba(255,45,149,0.18), transparent 80%);
-  transform: skewX(-14deg);
-  filter: blur(10px) saturate(1.1);
-  opacity:0;
-  pointer-events:none;
-  animation: mtv-streak .42s ease-out forwards;
-}
-@keyframes mtv-streak {
-  0% { left: -60%; opacity:0.95; transform: skewX(-18deg) translateX(-20px); }
-  35% { left: -8%; opacity:0.9; transform: skewX(-10deg) translateX(6px); }
-  80% { left: 28%; opacity:0.25; transform: skewX(-4deg) translateX(12px); }
-  100% { left: 64%; opacity:0; transform: skewX(0deg) translateX(20px); }
-}
-
-/* left row: title + maple chip inline */
-.mtv-left{ min-width:0; display:flex; align-items:center; gap:10px; flex:1 1 auto; justify-content:flex-start; }
+/* Left content */
+.mtv-left{ min-width:0; display:flex; align-items:center; gap:12px; flex:1 1 auto; justify-content:flex-start; position:relative; }
 .mtv-title{ min-width:0; }
 .mtv-name{
-  font-weight:800;
+  font-weight:700;
   font-size:15px;
-  line-height:1.15;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
-  color:var(--mtv-ink);
-  display:inline-block;
+ 
   max-width:calc(100% - 96px);
+  display:inline-block;
 }
 
-/* replacement styling */
-.mtv-swap .mtv-old{ text-decoration:line-through; opacity:.6; color:rgba(247,247,248,0.78); }
-.mtv-swap .mtv-arrow{ opacity:.75; margin:0 6px; color:var(--mtv-neon-yellow); }
-.mtv-swap .mtv-new{ font-weight:900; color:var(--mtv-neon-cyan); text-shadow: 0 8px 28px rgba(33,240,255,0.06); }
+/* Replacement styling */
+.mtv-swap .mtv-old{ text-decoration:line-through; opacity:.6; }
+.mtv-swap .mtv-arrow{ opacity:.8; margin:0 6px; color:var(--mtv-teal); }
+.mtv-swap .mtv-new{ font-weight:800; color:var(--mtv-teal); }
 
 /* Maple chip */
 .mtv-chip{
   font-size:11px;
-  line-height:1;
   padding:4px 8px;
   border-radius:999px;
-  border:1px solid rgba(255,255,255,0.04);
-  background: linear-gradient(180deg, rgba(33,240,255,0.06), rgba(255,45,149,0.03));
-  color:var(--mtv-ink);
+  border:1px solid rgba(0,0,0,0.06);
+  background: rgba(0,166,179,0.06);
+  color:#041018;
   white-space:nowrap;
   flex:0 0 auto;
 }
 .mtv-chip--maple{
   border-color: rgba(255,88,88,0.45);
-  background: rgba(255,60,60,0.10);
+  background: rgba(255,60,60,0.08);
   color:#ffdede;
-  box-shadow: 0 0 10px rgba(255,60,60,0.08);
 }
 
-/* time block fixed width 90px */
+/* Time block fixed width 90px */
 .mtv-time{
-  font:700 15px/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  font:700 13px/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;
   width:90px;
   flex:0 0 90px;
   text-align:center;
   padding:6px 8px;
-  border-radius:10px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
+  border-radius:8px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.04));
   border:1px solid rgba(255,255,255,0.03);
   color:var(--mtv-muted);
 }
 
-/* reduced motion */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce){
   .mtv-in{ animation:none; opacity:1; transform:none; }
-  .mtv-in::after{ display:none; }
 }
 
-/* slightly larger screens */
+/* Slightly larger screens */
 @media (min-width:520px){
   .mtv-list{ width:72%; }
+  .mtv-day{ font-size:40px; -webkit-text-stroke:3px var(--mtv-teal); }
   .mtv-name{ font-size:16px; }
 }
 
-/* safety: ensure title ellipsis works */
+/* Safety */
 .mtv-name{ min-width:0; max-width:100%; }
