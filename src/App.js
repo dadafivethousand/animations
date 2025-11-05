@@ -36,10 +36,11 @@ import MegaManSchedule from "./Components/MegaManSchedule";
 import Saw3Schedule from "./Components/Saw3Schedule";
 import JurassicParkSchedule from "./Components/JurassicParkSchedule";
 import CrystalBallSchedule from "./Components/CrystalBallSchedule";
+import MtvSchedule from "./Components/MtvSchedule";
    function App() {
   return (
     <>
-  <Saw3Schedule day="Wednesday" />
+  <MtvSchedule day="Thursday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
