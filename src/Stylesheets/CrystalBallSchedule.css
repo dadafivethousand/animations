@@ -1,0 +1,241 @@
+/* CrystalBallSchedule.css
+   Psychic / Fortune Teller / Crystal Ball theme
+   Prefix: crystalball-
+   Mobile-first. Top padding >= 50px. List width = 80%. Time block = 90px.
+   Accessibility: respects prefers-reduced-motion
+*/
+
+/* Palette (mystic purples, moonlight cyan, gold accents) */
+:root{
+  --cb-bg: #06020a;          /* deep night */
+  --cb-gradient-a: #0f0b1a;
+  --cb-gradient-b: #1b0530;
+  --cb-orb: #8ae6ff;         /* moon-cyan orb highlights */
+  --cb-orb-deep: #6ad0ff;
+  --cb-mist: rgba(138,230,255,0.06);
+  --cb-accent: #ffd57a;      /* mystical gold */
+  --cb-pulse: rgba(142, 72, 255, 0.14);
+  --cb-ink: #f6f7fb;
+  --cb-muted: rgba(246,247,251,0.88);
+  --cb-border: rgba(255,255,255,0.04);
+  --cb-shadow: 0 14px 48px rgba(4,6,12,0.78);
+}
+
+/* base */
+*{box-sizing:border-box}
+body{background:transparent}
+
+/* root wrapper */
+.crystalball-wrap{
+  min-height:100vh;
+  width:100vw;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:12px;
+  padding-top:56px; /* >=50px */
+  color:var(--cb-ink);
+  background:
+    radial-gradient(600px 240px at 12% 14%, rgba(138,230,255,0.03), transparent 28%),
+    radial-gradient(500px 200px at 88% 78%, rgba(255,213,122,0.02), transparent 28%),
+    linear-gradient(180deg, var(--cb-gradient-a), var(--cb-gradient-b));
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* header */
+.crystalball-header{
+  width:100%;
+  max-width:760px;
+  padding:10px 6px;
+  position:sticky;
+  top:0;
+  z-index:3;
+  text-align:center;
+   backdrop-filter: blur(4px) saturate(1.05);
+}
+.crystalball-day{
+  margin:0;
+  font-size:30px; /* required larger day */
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--cb-accent);
+  font-weight:800;
+  text-shadow: 0 6px 22px rgba(255,213,122,0.06);
+}
+
+/* list width */
+.crystalball-list{
+  width:80%;
+  max-width:760px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:14px;
+}
+
+/* card base: glassy panel with inner glow to suggest the orb's light */
+.crystalball-card{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  min-height:60px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.14));
+  border-radius:14px;
+  border:1px solid var(--cb-border);
+  box-shadow: var(--cb-shadow), inset 0 -8px 28px rgba(0,0,0,0.12);
+  overflow: visible;
+  transform: translateY(12px) scale(0.994);
+  opacity: 0;
+}
+
+/* ambient mist around card (pseudo element) to hint mystic smoke */
+.crystalball-card::before{
+  content: "";
+  position: absolute;
+  left: -28%;
+  top: -20%;
+  width: 160%;
+  height: 160%;
+  background: radial-gradient(40% 40% at 30% 30%, var(--cb-pulse), transparent 25%),
+              radial-gradient(30% 30% at 70% 70%, rgba(255,213,122,0.02), transparent 30%);
+  filter: blur(18px) saturate(1.05);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-12px) rotate(-6deg);
+}
+
+/* delicate orb reflection on the right edge */
+.crystalball-card::after{
+  content: "";
+  position: absolute;
+  right: -6%;
+  top: -18%;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle at 40% 40%, var(--cb-orb-deep), transparent 30%), radial-gradient(circle at 70% 70%, rgba(0,0,0,0.14), transparent 40%);
+  border-radius: 50%;
+  filter: blur(10px);
+  opacity: 0.12;
+  pointer-events:none;
+}
+
+/* card entry animation: float-up with subtle spin/fade and orb-glow pulse */
+.crystalball-in{ animation: cb-reveal .36s cubic-bezier(.18,.9,.28,1) forwards; }
+@keyframes cb-reveal{
+  0%{
+    opacity:0;
+    transform: translateY(18px) scale(0.992) rotate(-0.6deg);
+    filter: blur(2px) saturate(0.94);
+  }
+  55%{
+    transform: translateY(-6px) scale(1.008) rotate(0.6deg);
+    filter: none;
+  }
+  100%{
+    opacity:1;
+    transform: translateY(0) scale(1) rotate(0deg);
+    filter: none;
+  }
+}
+
+/* animate the mist and orb reflection to pulse during reveal */
+.crystalball-in::before{ animation: cb-mist .56s ease-out forwards; }
+@keyframes cb-mist{
+  0%{ opacity:0.95; transform: translateX(-20px) rotate(-6deg) scale(0.98); }
+  45%{ opacity:0.48; transform: translateX(-6px) rotate(-3deg) scale(1.01); }
+  100%{ opacity:0; transform: translateX(10px) rotate(0deg) scale(1.02); }
+}
+.crystalball-in::after{ animation: cb-orb .6s ease-out forwards; }
+@keyframes cb-orb{
+  0%{ opacity:0.18; transform: scale(0.92) translateY(-6px); filter: blur(16px); }
+  45%{ opacity:0.22; transform: scale(1.02) translateY(0); filter: blur(10px); }
+  100%{ opacity:0.12; transform: scale(1) translateY(0); filter: blur(10px); }
+}
+
+/* left row: title + maple chip inline */
+.crystalball-left{
+  position:relative;
+  min-width:0;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex:1 1 auto;
+  justify-content:flex-start;
+}
+
+/* title with ellipsis */
+.crystalball-title{ min-width:0; }
+.crystalball-name{
+  font-weight:700;
+  font-size:15px;
+  line-height:1.2;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  color:var(--cb-ink);
+  display:inline-block;
+  max-width: calc(100% - 96px);
+}
+
+/* replacement styling */
+.crystalball-swap .crystalball-old{ text-decoration: line-through; opacity:.62; color: rgba(246,247,251,0.8); }
+.crystalball-swap .crystalball-arrow{ opacity:.75; margin:0 6px; color: var(--cb-accent); }
+.crystalball-swap .crystalball-new{ font-weight:800; color: var(--cb-accent); text-shadow: 0 6px 18px rgba(255,213,122,0.04); }
+
+/* Maple chip */
+.crystalball-chip{
+  font-size:11px;
+  line-height:1;
+  padding:4px 8px;
+  border-radius:999px;
+  border:1px solid rgba(138,230,255,0.16);
+  background: rgba(138,230,255,0.06);
+  color: var(--cb-ink);
+  white-space:nowrap;
+  flex:0 0 auto;
+}
+.crystalball-chip--maple{
+  border-color: rgba(255,88,88,0.45);
+  background: rgba(255,60,60,0.10);
+  color:#ffdede;
+  box-shadow: 0 0 10px rgba(255,60,60,0.08);
+}
+
+/* time block (fixed 90px) */
+.crystalball-time{
+  font:700 13px/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  width:90px;
+  flex:0 0 90px;
+  text-align:center;
+  padding:6px 8px;
+  border-radius:10px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
+  border:1px solid rgba(255,255,255,0.03);
+  color: var(--cb-muted);
+}
+
+/* small highlight shimmer that occasionally passes over the title (decorative) */
+.crystalball-name::after{
+  content: "";
+  position: absolute;
+  right: -9999px; /* hidden by default, enabled only during reveal if needed by animation */
+}
+
+/* reduced motion: disable animations but keep layout/visibility */
+@media (prefers-reduced-motion: reduce){
+  .crystalball-in{ animation: none; opacity:1; transform:none; }
+  .crystalball-in::before,
+  .crystalball-in::after { display: none; }
+}
+
+/* slightly larger screens tweaks */
+@media (min-width:520px){
+  .crystalball-list{ width:72%; }
+  .crystalball-name{ font-size:16px; }
+}
+
+/* safeguard: ensure title doesn't overflow on tiny screens */
+.crystalball-name{ min-width:0; max-width:100%; }
