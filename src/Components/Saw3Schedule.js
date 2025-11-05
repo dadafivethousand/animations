@@ -1,7 +1,7 @@
 // Saw3Schedule.jsx
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/Saw3Schedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function Saw3Schedule({
   day,

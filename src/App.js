@@ -39,7 +39,7 @@ import CrystalBallSchedule from "./Components/CrystalBallSchedule";
    function App() {
   return (
     <>
-  <CrystalBallSchedule day="Wednesday" />
+  <Saw3Schedule day="Wednesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
