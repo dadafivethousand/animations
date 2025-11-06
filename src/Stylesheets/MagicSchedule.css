@@ -1,0 +1,219 @@
+/* MagicCardSchedule.css
+   Magic: The Gathering card-back aesthetic
+   - Prefix: magiccard-
+   - Mobile-first. Top padding >= 50px. List width = 80%.
+   - Time block fixed at 90px.
+   - Uses card-back color palette: parchment brown, dark frame, muted blue/gold mana dots.
+   - Minimal, elegant ornamentation to respect readability and WCAG contrast.
+   - Prefers-reduced-motion supported.
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Inter:wght@500;700&display=swap');
+
+:root{
+  --mc-bg: #0b0a08;           /* deep frame black */
+  --mc-frame: #3b2d20;        /* dark aged wood/metal frame */
+  --mc-inner: #b88b5a;        /* parchment rim */
+  --mc-parchment: #d7b89a;    /* card face */
+  --mc-ink: #1c1209;          /* dark text */
+  --mc-muted: rgba(28,18,9,0.9);
+  --mc-gold: #b07a19;         /* gold accent */
+  --mc-blue: #7aa3d6;         /* subtle blue mana */
+  --mc-red: #d04a3d;          /* red mana */
+  --mc-green: #597f4f;        /* green mana */
+  --mc-black: #362e2a;        /* black mana */
+  --mc-shadow: 0 14px 40px rgba(0,0,0,0.75);
+  --mc-border: rgba(0,0,0,0.2);
+}
+
+/* Global box-sizing */
+* { box-sizing: border-box; }
+
+/* Wrapper */
+.magiccard-wrap{
+  min-height:100vh;
+  width:100vw;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:12px;
+  padding-top:56px; /* >= 50px */
+  background: linear-gradient(180deg, var(--mc-bg), #060504);
+  color:var(--mc-ink);
+  font-family: 'Cardo', serif;
+}
+
+/* Header: centered, uses parchment-like day label */
+.magiccard-header{
+  width:100%;
+  max-width:760px;
+  padding:12px 8px;
+  position:sticky;
+  top:0;
+  z-index:6;
+  text-align:center;
+  background: rgba(6,6,4,0.6);
+  border-bottom: 1px solid rgba(0,0,0,0.18);
+}
+.magiccard-day{
+  margin:0;
+  font-size:30px;              /* required */
+  text-transform:uppercase;
+  letter-spacing:0.12em;
+  color:var(--mc-parchment);
+  font-weight:700;
+  text-shadow: 0 4px 12px rgba(0,0,0,0.45);
+  font-family: 'Inter', sans-serif;
+}
+
+/* List wrapper (80% width) */
+.magiccard-list{
+  width:80%;
+  max-width:760px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:14px;
+}
+
+/* Card: mimic card-back inner plaque with parchment face */
+.magiccard-card{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 16px;
+  min-height:62px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.04)),
+    var(--mc-parchment);
+  border-radius:12px;
+  border: 6px solid var(--mc-frame);
+  box-shadow: var(--mc-shadow), inset 0 -6px 18px rgba(0,0,0,0.08);
+  overflow: visible;
+  transform: translateX(-36px) translateY(8px) rotate(-0.6deg);
+  opacity: 0;
+}
+
+/* Thin inner rim to simulate card bevel */
+.magiccard-card::before{
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 2px rgba(0,0,0,0.06);
+  pointer-events:none;
+}
+
+/* Mana-pip cluster (right, faint) — purely decorative but subtle to match card back */
+.magiccard-card .magiccard-mana {
+  position: absolute;
+  right: 14px;
+  top: 12px;
+  display:flex;
+  gap:6px;
+  pointer-events:none;
+  opacity: 0.14;
+}
+.magiccard-card .magiccard-mana .pip{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  flex:0 0 9px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+/* order: white, blue, black, red, green (classic back) */
+.magiccard-card .pip.white{ background: var(--mc-gold); }
+.magiccard-card .pip.blue{ background: var(--mc-blue); }
+.magiccard-card .pip.black{ background: var(--mc-black); }
+.magiccard-card .pip.red{ background: var(--mc-red); }
+.magiccard-card .pip.green{ background: var(--mc-green); }
+
+/* Entry animation: soft 'card placed' slide & settle */
+.magiccard-in{ animation: mc-place .34s cubic-bezier(.18,.9,.28,1) forwards; }
+@keyframes mc-place{
+  0%{ opacity:0; transform: translateX(-56px) translateY(18px) rotate(-2.4deg) scale(.996); filter: blur(2px); }
+  60%{ transform: translateX(6px) translateY(-6px) rotate(1.2deg) scale(1.006); filter:none; }
+  100%{ opacity:1; transform: translateX(0) translateY(0) rotate(0) scale(1); filter:none; }
+}
+
+/* Left column: title + maple chip */
+.magiccard-left{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex:1 1 auto;
+  justify-content:flex-start;
+}
+
+/* Title text — serif/ancient feel with ellipsis */
+.magiccard-title{ min-width:0; }
+.magiccard-name{
+  font-weight:700;
+  font-size:15px;
+  line-height:1.15;
+  color: var(--mc-ink);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width: calc(100% - 96px);
+  display:inline-block;
+  letter-spacing:0.01em;
+}
+
+/* Replacement styling */
+.magiccard-swap .magiccard-old{ text-decoration:line-through; opacity:.58; color: rgba(28,18,9,0.78); }
+.magiccard-swap .magiccard-arrow{ opacity:.7; margin:0 6px; color: var(--mc-ink); }
+.magiccard-swap .magiccard-new{ font-weight:800; color: var(--mc-gold); }
+
+/* Maple chip (kept for contract) */
+.magiccard-chip{
+  font-size:11px;
+  line-height:1;
+  padding:4px 8px;
+  border-radius:999px;
+  border:1px solid rgba(0,0,0,0.06);
+  background: rgba(59,45,32,0.06);
+  color:var(--mc-ink);
+  white-space:nowrap;
+  flex:0 0 auto;
+}
+.magiccard-chip--maple{
+  border-color: rgba(255,88,88,0.45);
+  background: rgba(255,60,60,0.08);
+  color:#ffdede;
+  box-shadow: 0 0 8px rgba(255,60,60,0.08);
+}
+
+/* Time block fixed width 90px: subtle parchment token */
+.magiccard-time{
+  font:700 13px/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  width:90px;
+  flex:0 0 90px;
+  text-align:center;
+  padding:6px 8px;
+  border-radius:10px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.04));
+  border:1px solid var(--mc-border);
+  color: var(--mc-muted);
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .magiccard-in{ animation:none; opacity:1; transform:none; }
+}
+
+/* slightly larger screens tweaks */
+@media (min-width:520px){
+  .magiccard-list{ width:72%; }
+  .magiccard-day{ font-size:32px; }
+  .magiccard-name{ font-size:16px; }
+}
+
+/* Accessibility / safety */
+.magiccard-name{ min-width:0; max-width:100%; }
+
+/* Optional: reveal the faint mana pips for visual richness */
+.magiccard-card .magiccard-mana{ opacity:0.12; }
