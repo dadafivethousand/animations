@@ -72,7 +72,7 @@
 .theme-in{ animation: rise .26s ease-out forwards }
 @keyframes rise{ to{ opacity:1; transform: translateY(0)} }
 
-.theme-left{ min-width:0; display:flex; flex-direction:column; gap:6px }
+.theme-left{ min-width:0; display:flex; gap:6px }
 
 .theme-title{
   font-weight:800; font-size:20px; line-height:1.15;

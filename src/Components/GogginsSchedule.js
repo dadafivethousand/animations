@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/GogginsSchedule.css";
-import schedule from "../Schedule"; // switch to "../RhSchedule" if needed
+import schedule from "../RhSchedule"; // switch to "../RhSchedule" if needed
 
 export default function GogginsSchedule({
   day,
