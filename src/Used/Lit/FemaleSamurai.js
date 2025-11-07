@@ -70,6 +70,7 @@ function FemaleSamurai({ day, animationDelay = 2500, animationInterval = 500 }) 
             )}
           </div>
         ))}
+ 
       </div>
     </div>
 
