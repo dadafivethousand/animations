@@ -1,0 +1,179 @@
+@font-face {
+  font-family: "SamuraiBrush";
+  src: url("https://fonts.cdnfonts.com/s/11594/JapaneseBrush.woff") format("woff");
+}
+
+/* 📱 MOBILE-FIRST SCROLL BACKGROUND */
+.female-samurai-scroll {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  background: #ffd48e;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* 🎏 SAMURAI BATTLE BANNER */
+.female-samurai-banner {
+  width: 100%;
+  max-width: 360px;
+  background: rgba(80, 40, 20, 0.9);
+  border: 3px solid #AA0000;
+  padding: 0.6rem;
+  text-align: center;
+  box-shadow: 0px 0px 10px rgba(170, 0, 0, 0.9);
+  margin-bottom: 3px;
+  animation: female-bannerWave 2.5s infinite alternate ease-in-out;
+  margin-top: 40px;
+}
+
+.female-samurai-banner-text {
+  font-size: 2.5rem;
+  font-family: "SamuraiBrush", sans-serif;
+  color: #FFD700;
+  text-shadow: 2px 2px 6px rgba(255, 215, 0, 0.8);
+  letter-spacing: 1.5px;
+}
+
+/* 📜 PARCHMENT PAPER */
+.female-samurai-paper {
+  width: 100%;
+  max-width: 400px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(20, 20, 20, 0.1) 0px,
+    rgba(20, 20, 20, 0.1) 20px,
+    transparent 20px,
+    transparent 40px
+  );
+  border: 4px solid #4b3621;
+  border-radius: 12px;
+  padding: 3px 10px;
+  box-shadow: inset 0 0 10px rgba(90, 56, 19, 0.4);
+  height: 190px;
+  display: flex;
+  z-index:5
+ 
+}
+
+/* ⚔️ CLASS ENTRY */
+.female-samurai-entry-container {
+  margin-bottom: .1rem;
+}
+
+.female-samurai-entry {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1rem;
+  font-family: "SamuraiBrush", sans-serif;
+  background: rgba(200, 160, 120, 0.9);
+  border: 3px solid #4b3621;
+  border-radius: 10px;
+  color: #4b3621;
+
+  text-shadow: 1px 1px 0px rgba(75, 40, 10, 0.8);
+  animation: female-katanaSlice 0.9s ease-out;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* 🈶 KANJI ICON */
+.female-samurai-kanji {
+  font-size: 2.2rem;
+  flex-shrink: 0;
+}
+
+/* 🖌️ CLASS NAME AND TIME */
+.female-samurai-text {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+}
+
+.female-samurai-class-name {
+  font-weight: bold;
+}
+
+.female-samurai-class-time {
+  font-style: italic;
+  font-size: 0.85rem;
+}
+
+/* 🖋️ TEXT ENTRY ANIMATION */
+.female-samurai-text span {
+  display: inline-block;
+  transform: scaleX(0);
+  animation: female-brushReveal 0.7s forwards ease-out;
+}
+
+/* 🔥 ENTRY HOVER (MOBILE-FRIENDLY: NO SHAKING) */
+.female-samurai-entry:hover {
+  background: rgba(220, 180, 140, 0.95);
+  box-shadow: 0px 0px 12px rgba(170, 0, 0, 0.6);
+}
+
+/* ✨ ANIMATIONS */
+@keyframes female-katanaSlice {
+  0% { transform: scaleX(1.2) translateX(-100vw); opacity: 0; }
+  60% { transform: scaleX(0.95) translateX(10px); opacity: 1; }
+  100% { transform: scaleX(1) translateX(0); }
+}
+
+@keyframes female-brushReveal {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+
+@keyframes female-bannerWave {
+  0% { transform: rotate(1deg); }
+  100% { transform: rotate(-1deg); }
+}
+
+/* IMAGE + show toggle */
+.female-samurai-image {
+  background-image: url(../../Images/femalesamurai.png);
+  width: 100vw;
+  height: 60vh;
+  background-size: contain;
+  background-repeat: no-repeat;
+  transition: opacity 4s ease-in-out;
+  background-size: 100%;
+  opacity: 0;
+  position: absolute;
+  bottom:0px;
+}
+
+.female-samurai-show {
+  opacity: 1;
+}
+
+/* layout helpers */
+.female-samurai-classes {
+  width: 350px;
+  margin: 0 auto;
+}
+
+.female-samurai-katanas {
+  display: flex;
+}
+
+/* katana positioning (keep class names flexible for JS toggling) */
+.female-katana-two {
+  transform: translateX(270px) translateY(-400px) scaleX(-1);
+  transition: transform .1s ease-in-out;
+}
+
+.female-katana-one {
+  transform: translateX(-270px) translateY(-400px);
+  transition: transform .1s ease-in-out;
+}
+
+.female-katana-left {
+  transform: translateX(15px) translateY(0px) rotate(35deg) scale(.7);
+}
+
+.female-katana-right {
+  transform: translateX(-25px) translateY(0px) rotate(-35deg) scaleX(-1) scale(.7);
+}
