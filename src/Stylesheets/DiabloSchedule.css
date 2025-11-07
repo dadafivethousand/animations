@@ -1,0 +1,215 @@
+/* DiabloSchedule.css
+   Classic Diablo III UI look: black stone + ember glows + red-orange accents
+   Prefix: diablo-
+   Mobile-first. Top padding >= 50px. List width = 80%. Time block = 90px.
+   Animations respect prefers-reduced-motion.
+*/
+
+/* Fonts: use system for body, supply a stylized display for the header */
+@import url('https://fonts.googleapis.com/css2?family=Uncial+Antiqua&family=Inter:wght@500;700;800&display=swap');
+
+:root{
+  --d-bg-0: #050505;         /* page background */
+  --d-slate: #0e0e10;        /* panel base */
+  --d-stone: #141213;        /* darker stone */
+  --d-ink: #f7efe9;          /* parchment-like text */
+  --d-muted: rgba(247,239,233,0.92);
+  --d-ember: #ff6b2d;        /* ember orange */
+  --d-ember-deep: #8f2008;   /* deep ember */
+  --d-highlight: #c75a2b;    /* molten highlight */
+  --d-border: rgba(255,255,255,0.04);
+  --d-shadow: 0 20px 60px rgba(0,0,0,0.85);
+  --d-glow: 0 6px 24px rgba(255,107,45,0.14);
+}
+
+/* global */
+* { box-sizing: border-box; }
+
+/* wrapper */
+.diablo-wrap{
+  min-height:100vh;
+  width:100vw;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:12px;
+  padding-top:56px; /* >=50px */
+  background: linear-gradient(180deg, var(--d-bg-0), #040404);
+  color:var(--d-ink);
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  background-image: url('https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZndnYnprb3Q0eXRoYnh4MG15OHlyZHdqaGJ4Zm10ajZtanYzdWN4ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ddW48J6xhUGI6aeDtQ/giphy.gif');
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: 230%;
+
+}
+
+/* header */
+.diablo-header{
+  width:100%;
+  max-width:800px;
+  padding:12px 8px;
+  text-align:center;
+  position: sticky;
+  top:0;
+  z-index:20;
+  backdrop-filter: blur(4px) saturate(1.02);
+  background: rgba(7,7,7,0.6);
+  border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+.diablo-day{
+  margin:0;
+  font-family: 'Uncial Antiqua', serif;
+  font-size:30px; /* required larger day */
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color: var(--d-ember);
+  text-shadow:
+    0 2px 0 rgba(0,0,0,0.8),
+    0 10px 36px rgba(199,90,43,0.06);
+  font-weight:700;
+}
+
+/* list (80% width) */
+.diablo-list{
+  width:80%;
+  max-width:800px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  margin-top:14px;
+}
+
+/* card: stone panel with inset molten trim */
+.diablo-card{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:5px 30px;
+  min-height:26px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
+  border-radius:10px;
+  border:1px solid var(--d-border);
+  box-shadow: var(--d-shadow), inset 0 -8px 24px rgba(0,0,0,0.12);
+  overflow:visible;
+  transform: translateX(-36px) translateY(8px) rotate(-0.6deg);
+  opacity:0;
+}
+
+/* molten inset strip (left) */
+.diablo-card::before{
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  bottom: 10px;
+  width: 6px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, var(--d-ember), var(--d-ember-deep));
+  box-shadow: 0 8px 22px rgba(199,90,43,0.08), 0 0 18px rgba(255,107,45,0.04);
+  pointer-events: none;
+}
+
+
+
+/* ember flicker overlay — uses multiple blended layers for authenticity */
+.diablo-card .diablo-ember {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(400px 80px at 10% 20%, rgba(255,107,45,0.035), transparent 20%),
+    radial-gradient(220px 60px at 80% 60%, rgba(199,90,43,0.02), transparent 20%);
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 220ms linear;
+}
+
+/* in animation: card slides in and ember overlay pulses slightly */
+.diablo-in{ animation: diablo-pop .34s cubic-bezier(.18,.9,.28,1) forwards; }
+@keyframes diablo-pop {
+  0% { opacity: 0; transform: translateX(-72px) translateY(18px) rotate(-2.4deg) scale(.996); filter: blur(2px); }
+  60% { transform: translateX(6px) translateY(-6px) rotate(1.2deg) scale(1.008); }
+  100% { opacity: 1; transform: translateX(0) translateY(0) rotate(0) scale(1); filter:none; }
+}
+
+/* ember flicker keyframes (subtle) */
+.diablo-in .diablo-ember { animation: ember-flicker 1.8s linear infinite; }
+@keyframes ember-flicker {
+  0% { opacity: 0.0; transform: translateY(0) scale(1); filter: blur(8px) contrast(.95); }
+  10% { opacity: 0.16; transform: translateY(-1px) scale(1.01) ; filter: blur(6px) contrast(1.02); }
+  30% { opacity: 0.1; transform: translateY(0) scale(1) ; filter: blur(8px) contrast(1); }
+  50% { opacity: 0.18; transform: translateY(-2px) scale(1.02); filter: blur(5px) contrast(1.04); }
+  75% { opacity: 0.08; transform: translateY(0) scale(1); filter: blur(9px) contrast(.98); }
+  100% { opacity: 0.0; transform: translateY(0) scale(1); filter: blur(8px) contrast(.95); }
+}
+
+/* left content */
+.diablo-left{ min-width:0; display:flex; align-items:center; gap:12px; flex:1 1 auto; justify-content:flex-start; }
+.diablo-title{ min-width:0; }
+.diablo-name{
+  font-weight:700;
+  font-size:15px;
+  line-height:1.15;
+  color: var(--d-ink);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width: calc(100% - 96px);
+  display:inline-block;
+}
+
+/* replacement styling */
+.diablo-swap .diablo-old{ text-decoration: line-through; opacity:.62; color: rgba(247,239,233,0.78); }
+.diablo-swap .diablo-arrow{ opacity:.75; margin:0 6px; color: var(--d-highlight); }
+.diablo-swap .diablo-new{ font-weight:900; color: var(--d-highlight); text-shadow: 0 6px 18px rgba(199,90,43,0.04); }
+
+/* maple chip (kept) */
+.diablo-chip{
+  font-size:11px;
+  line-height:1;
+  padding:4px 8px;
+  border-radius:999px;
+  border:1px solid rgba(0,0,0,0.06);
+  background: rgba(255,107,45,0.06);
+  color:var(--d-ink);
+  white-space:nowrap;
+  flex:0 0 auto;
+}
+.diablo-chip--maple{
+  border-color: rgba(255,88,88,0.45);
+  background: rgba(255,60,60,0.10);
+  color:#ffdede;
+  box-shadow: 0 0 8px rgba(255,60,60,0.08);
+}
+
+/* time block fixed width 90px */
+.diablo-time{
+  font:700 14px/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  width:90px;
+  flex:0 0 90px;
+  text-align:center;
+  padding:6px 8px;
+  border-radius:8px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
+  border:1px solid rgba(255,255,255,0.03);
+  color: var(--d-muted);
+}
+
+/* ensure ember overlay & animations respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .diablo-in{ animation:none; opacity:1; transform:none; }
+  .diablo-in .diablo-ember{ animation:none; opacity:0; }
+}
+
+/* slightly larger screens */
+@media (min-width:520px){
+  .diablo-list{ width:72%; }
+  .diablo-day{ font-size:34px; }
+  .diablo-name{ font-size:16px; }
+}
+
+/* safety */
+.diablo-name{ min-width:0; max-width:100%; }
