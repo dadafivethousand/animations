@@ -33,7 +33,7 @@
   flex-direction:column;
   align-items:center;
   padding:12px;
-  padding-top:156px; /* >=50px */
+  padding-top:126px; /* >=50px */
   background: linear-gradient(180deg, var(--d-bg-0), #040404);
   color:var(--d-ink);
   font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, Arial;
