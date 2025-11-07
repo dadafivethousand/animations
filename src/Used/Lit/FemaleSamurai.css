@@ -12,6 +12,8 @@
   background: #ffd48e;
   min-height: 100vh;
   overflow-x: hidden;
+  padding-top:100px
+
 }
 
 /* 🎏 SAMURAI BATTLE BANNER */
@@ -51,7 +53,7 @@
   border-radius: 12px;
   padding: 3px 10px;
   box-shadow: inset 0 0 10px rgba(90, 56, 19, 0.4);
-  height: 247px;
+  height: 222px;
   display: flex;
   z-index:5
  
@@ -81,7 +83,7 @@
 
 /* 🈶 KANJI ICON */
 .female-samurai-kanji {
-  font-size: 2.2rem;
+  font-size: 1.9rem;
   flex-shrink: 0;
 }
 
@@ -134,15 +136,15 @@
 /* IMAGE + show toggle */
 .female-samurai-image {
   background-image: url(../../Images/femalesamurai.png);
-  width: 80vw;
-  height: 55vh;
+  width: 55vw;
+  height: 40vh;
   background-size: contain;
   background-repeat: no-repeat;
   transition: opacity 4s ease-in-out;
   background-size: 100%;
   opacity: 0;
   position: absolute;
-  bottom:-25px;
+  bottom:0px;
 }
 
 .female-samurai-show {
