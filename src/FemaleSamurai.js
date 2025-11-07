@@ -41,9 +41,10 @@ const schedule = {
         { name: "FREE for all women", start: 17.5, end: 18.5 },
         { name: "No experience required", start: 17.5, end: 18.5 },
 
-        { name: "20 Cranston Park Ave", start: 17.5, end: 18.5 },
+
 
                    { name: "Friday, November 21, 7:30pm "},
+                           { name: "20 Cranston Park Ave", start: 17.5, end: 18.5 },
  
 
   ],

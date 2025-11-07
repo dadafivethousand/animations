@@ -53,7 +53,7 @@ function FemaleSamurai({ day, animationDelay = 2500, animationInterval = 500 }) 
 
   <div className="female-samurai-scroll">
     <div className="female-samurai-banner">
-      <div className="female-samurai-banner-text">Women's Class</div>
+      <div className="female-samurai-banner-text">WOMEN'S CLASS</div>
     </div>
 
     <div className="female-samurai-paper">
