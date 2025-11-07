@@ -1,7 +1,7 @@
 // BaseballSchedule.jsx
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/BaseballSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 import baseball from "../Images/Untitled design (6).png"
 
 export default function BaseballSchedule({

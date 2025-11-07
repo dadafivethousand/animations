@@ -42,7 +42,7 @@ import DiabloSchedule from "./Components/DiabloSchedule";
    function App() {
   return (
     <>
-  <DiabloSchedule day="Thursday" />
+  <BaseballSchedule day="Friday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
