@@ -75,22 +75,23 @@ export default function CodeNinjas({
 
   return (
     <div className="CN-Container">
-      {/* 🚀 Rocket is absolute from start, never pushes layout */}
+      {/* 🚀 Rocket is absolute from start, never pushes layout 
       <span
         className={`${sendRocket ? "Rocket" : ""} Rocket-invisible`}
         aria-hidden
       >
         🚀
       </span>
-
+*/}
       <video
         autoPlay
         muted
         playsInline
         src={cnwoodbridge}
         className="CN-Video"
+      loop
       />
-
+ {/* 
       <div className="CN-Content">
         <ul className="CN-List">
           {fullLines.map((_, idx) => {
@@ -110,6 +111,7 @@ export default function CodeNinjas({
       <div className={`${showFooter ? "cn-show-footer" : ""} cn-footer`}>
         Coming December 2025
       </div>
+    */}
     </div>
   );
 }
