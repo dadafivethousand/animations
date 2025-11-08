@@ -42,10 +42,11 @@ import DiabloSchedule from "./Components/DiabloSchedule";
 import SamuraiSchedule from "./Used/Lit/SamuraiSchedule"
 import FemaleSamurai from "./Used/Lit/FemaleSamurai";
 import ImmortalTechniqueSchedule from "./Components/ImmortalTechniqueSchedule";
+import JockoSchedule from "./Used/JockoSchedule"
    function App() {
   return (
     <>
-  <CasperSchedule day="Saturday" />
+  <JockoSchedule day="Saturday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

@@ -1,7 +1,7 @@
 // JockoSchedule.js
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/JockoSchedule.css";
-import schedule from "../Schedule";
+import "./JockoSchedule.css";
+import schedule from "../RhSchedule";
 
 export default function JockoSchedule({
   day,
