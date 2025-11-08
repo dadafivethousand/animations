@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import "../Stylesheets/CodeNinjas.css";
+import "./CodeNinjas.css";
 import cnwoodbridge from "../Images/Woodbridge.mp4";
 
 export default function CodeNinjas({
