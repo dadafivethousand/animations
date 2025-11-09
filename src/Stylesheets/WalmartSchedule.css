@@ -1,0 +1,201 @@
+/* WalmartSchedule.css
+   Walkmart / Walmart-inspired theme (friendly big-box retail)
+   - Prefix: walmart-
+   - Mobile-first. Top padding >= 50px. List width = 80%. Time block fixed = 90px.
+   - Colors inspired by retail: bright blue + warm yellow accents.
+   - Prefers-reduced-motion respected.
+*/
+
+/* Fonts: neutral system stack with condensed for headings */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&family=Inter:wght@500;700&display=swap');
+
+:root{
+  --wm-bg: #f4f7fb;          /* soft page background */
+  --wm-card: #ffffff;        /* card face */
+  --wm-blue: #0071ce;        /* retail blue */
+  --wm-yellow: #ffc220;      /* warm yellow accent */
+  --wm-ink: #0b2f4a;         /* deep navy text */
+  --wm-muted: rgba(11,47,74,0.66);
+  --wm-border: rgba(11,47,74,0.06);
+  --wm-shadow: 0 12px 30px rgba(9,27,42,0.06);
+}
+
+/* box-sizing */
+* { box-sizing: border-box; }
+
+/* root wrapper */
+.walmart-wrap{
+  min-height:100vh;
+  width:100vw;
+  padding:12px;
+  padding-top:96px; /* >=50px */
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  background: linear-gradient(180deg, var(--wm-bg), #eef4fb);
+  color:var(--wm-ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+}
+
+/* header */
+.walmart-header{
+  width:100%;
+  max-width:920px;
+  padding:12px 8px;
+  position: sticky;
+  top:0;
+  z-index:20;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  background: rgba(255,255,255,0.9);
+  border-bottom: 1px solid var(--wm-border);
+  backdrop-filter: blur(3px);
+}
+
+/* decorative spark (simple CSS, not trademark) */
+.walmart-wordmark{ position:absolute; left:12px; top:12px; pointer-events:none; display:flex; align-items:center; gap:8px; }
+.walmart-spark{
+  width:32px;
+  height:32px;
+  background: radial-gradient(circle at 35% 30%, var(--wm-yellow), #ffd85a 20%, transparent 60%);
+  border-radius:6px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  transform: rotate(12deg);
+  border: 2px solid rgba(0,0,0,0.04);
+}
+
+/* Day label */
+.walmart-day{
+  margin:0;
+  font-family: 'Roboto Condensed', 'Inter', system-ui, sans-serif;
+  font-size:30px; /* required larger day */
+  font-weight:700;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--wm-blue);
+  text-shadow: 0 3px 8px rgba(0,113,206,0.06);
+}
+
+/* list (80% width) */
+.walmart-list{
+  width:80%;
+  max-width:920px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:14px;
+}
+
+/* card */
+.walmart-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  min-height:56px;
+  background: var(--wm-card);
+  border-radius:8px;
+  border:1px solid var(--wm-border);
+  box-shadow: var(--wm-shadow);
+  overflow:visible;
+  transform: translateY(8px);
+  opacity:0;
+}
+
+/* subtle left accent (thin yellow bar) */
+.walmart-card::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:6px;
+  border-radius:8px 0 0 8px;
+  background: linear-gradient(180deg, var(--wm-yellow), #ffb84d);
+  opacity:0.0;
+  transition: opacity .16s ease;
+  pointer-events:none;
+}
+.walmart-card:hover::before,
+.walmart-card:focus-within::before{ opacity:1; }
+
+/* left block */
+.walmart-left{ display:flex; align-items:center; gap:12px; min-width:0; flex:1 1 auto; justify-content:flex-start; padding-left:6px; }
+.walmart-title{ min-width:0; }
+.walmart-name{
+  font-weight:700;
+  font-size:15px;
+  line-height:1.15;
+  color:var(--wm-ink);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width: calc(100% - 110px);
+  display:inline-block;
+}
+
+/* replacement styling */
+.walmart-swap .walmart-old{ text-decoration:line-through; opacity:.6; color:var(--wm-muted); }
+.walmart-swap .walmart-arrow{ margin:0 6px; opacity:.8; color:var(--wm-muted); }
+.walmart-swap .walmart-new{ font-weight:900; color:var(--wm-blue); }
+
+/* maple chip (inline sticker) */
+.walmart-chip{
+  font-size:11px;
+  padding:4px 8px;
+  border-radius:999px;
+  border:1px solid rgba(0,0,0,0.04);
+  background: rgba(255,194,0,0.06);
+  color:var(--wm-ink);
+  white-space:nowrap;
+  flex:0 0 auto;
+}
+.walmart-chip--maple{
+  background: linear-gradient(180deg, rgba(255,194,0,0.09), rgba(255,194,0,0.02));
+  border-color: rgba(255,194,0,0.16);
+}
+
+/* time block fixed width 90px — styled like a friendly stamped badge */
+.walmart-time{
+  min-width:120px;
+  flex:0 0 90px;
+  height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:6px 8px;
+  border-radius:8px;
+  background: linear-gradient(180deg, rgba(0,113,206,0.06), rgba(255,255,255,0.02));
+  color: #04283c;
+  font-weight:700;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  border: 1px solid rgba(0,0,0,0.04);
+  text-align:center;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+}
+
+/* entry animation: short rise & fade */
+.walmart-in{ animation: wm-rise .26s cubic-bezier(.18,.9,.28,1) forwards; }
+@keyframes wm-rise {
+  0% { opacity:0; transform: translateY(10px) translateX(-18px); filter: blur(1px); }
+  60% { transform: translateY(-6px) translateX(6px); filter:none; }
+  100% { opacity:1; transform: translateY(0) translateX(0); filter:none; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .walmart-in{ animation:none; opacity:1; transform:none; }
+}
+
+/* slightly larger screens */
+@media (min-width:520px){
+  .walmart-list{ width:72%; }
+  .walmart-day{ font-size:34px; }
+  .walmart-name{ font-size:16px; }
+}
+
+/* safety */
+.walmart-name{ min-width:0; max-width:100%; }

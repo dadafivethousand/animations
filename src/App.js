@@ -43,10 +43,12 @@ import SamuraiSchedule from "./Used/Lit/SamuraiSchedule"
 import FemaleSamurai from "./Used/Lit/FemaleSamurai";
 import ImmortalTechniqueSchedule from "./Components/ImmortalTechniqueSchedule";
 import JockoSchedule from "./Used/JockoSchedule"
+import GovCanadaSchedule from "./Components/GovCanadaSchedule"
+import WalmartSchedule from "./Components/WalmartSchedule";
    function App() {
   return (
     <>
-  <ImmortalTechniqueSchedule day="Sunday" />
+  <WalmartSchedule day="Sunday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

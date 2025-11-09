@@ -53,7 +53,6 @@ export default function ImmortalTechniqueSchedule({
   };
 
   return (
-        <div className="immortaltech-outside-wrap">
     <div className="immortaltech-wrap">
       <header className="immortaltech-header" role="banner" aria-hidden={false}>
         <h1 className="immortaltech-day" data-text={safeDay ? safeDay.toUpperCase() : ""}>
@@ -98,7 +97,7 @@ export default function ImmortalTechniqueSchedule({
         )}
       </main>
     </div>
-    </div>
+
 
   );
 }

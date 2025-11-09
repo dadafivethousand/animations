@@ -1,0 +1,231 @@
+/* GovCanadaSchedule.css
+   Government of Canada theme (clean, official)
+   Prefix: govcan-
+   Mobile-first. Top padding >= 50px. List width = 80%. Time block fixed at 90px.
+   Accessibility: prefers-reduced-motion supported.
+*/
+
+/* Fonts: neutral system stack; headings use a strong sans */
+:root{
+  --gc-bg: #ffffff;         /* white canvas */
+  --gc-ink: #111111;        /* primary text */
+  --gc-muted: rgba(17,17,17,0.7);
+  --gc-red: #D52B1E;        /* Canada red */
+  --gc-grey: #f2f2f2;       /* subtle panels/lines */
+  --gc-border: rgba(0,0,0,0.06);
+  --gc-shadow: 0 8px 20px rgba(0,0,0,0.06);
+  --gc-accent: rgba(213,43,30,0.08);
+}
+
+* { box-sizing: border-box; }
+
+/* Root wrapper */
+.govcan-wrap{
+  min-height:100vh;
+  width:100vw;
+  padding:12px;
+  padding-top:56px; /* >=50px */
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  background: var(--gc-bg);
+  color:var(--gc-ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* Header: wordmark left, day centered */
+.govcan-header{
+  width:100%;
+  max-width:920px;
+  padding:10px 12px;
+  position: sticky;
+  top:0;
+  z-index:20;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+  background: rgba(255,255,255,0.96);
+  border-bottom: 1px solid var(--gc-border);
+  backdrop-filter: blur(2px);
+}
+
+/* Wordmark group (maple + bilingual labels) */
+.govcan-wordmark{
+  position:absolute;
+  left:12px;
+  top:12px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  pointer-events:none;
+}
+.govcan-maple{
+  width:36px;
+  height:36px;
+  display:block;
+  flex:0 0 36px;
+}
+.govcan-labels{
+  display:flex;
+  flex-direction:column;
+  line-height:1;
+  transform: translateY(1px);
+}
+.govcan-gov{
+  font-weight:700;
+  font-size:12px;
+  color:var(--gc-ink);
+  letter-spacing:0.04em;
+}
+.govcan-gov-fr{
+  font-weight:500;
+  font-size:11px;
+  color:var(--gc-muted);
+  margin-top:-2px;
+}
+
+/* Day label (centered) */
+.govcan-day{
+  margin:0;
+  font-weight:800;
+  font-size:30px; /* larger day per contract */
+  text-transform:uppercase;
+  letter-spacing:0.12em;
+  color:var(--gc-ink);
+}
+
+/* List (80% width) */
+.govcan-list{
+  width:80%;
+  max-width:920px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:14px;
+  align-items:stretch;
+}
+
+/* Card: clean, poster-like horizontal band (but subtle) */
+.govcan-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  min-height:56px;
+  background: linear-gradient(180deg, rgba(213,43,30,0.02), transparent);
+  border-radius:8px;
+  border: 1px solid var(--gc-border);
+  box-shadow: var(--gc-shadow);
+  overflow:visible;
+  transform: translateY(6px) scale(0.998);
+  opacity:0;
+}
+
+/* left block: name + maple chip inline */
+.govcan-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
+  flex:1 1 auto;
+  justify-content:flex-start;
+}
+
+/* title text with ellipsis */
+.govcan-title{ min-width:0; }
+.govcan-name{
+  font-weight:700;
+  font-size:15px;
+  line-height:1.15;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  color:var(--gc-ink);
+  display:inline-block;
+  max-width: calc(100% - 110px);
+}
+
+/* Replacement styling */
+.govcan-swap .govcan-old{ text-decoration: line-through; opacity:.65; color: rgba(17,17,17,0.7); }
+.govcan-swap .govcan-arrow{ opacity:.75; margin:0 6px; color:var(--gc-muted); }
+.govcan-swap .govcan-new{ font-weight:800; color:var(--gc-ink); }
+
+/* Maple chip (inline, subtle) */
+.govcan-chip{
+  font-size:11px;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(0,0,0,0.04);
+  background: #fff;
+  color:var(--gc-ink);
+  white-space:nowrap;
+  flex:0 0 auto;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+.govcan-chip--maple{
+  color: var(--gc-ink);
+  background: linear-gradient(180deg, rgba(213,43,30,0.06), transparent);
+  border-color: rgba(213,43,30,0.08);
+}
+
+/* Time block: fixed 90px, styled like an official stamp */
+.govcan-time{
+  width:90px;
+  flex:0 0 90px;
+  height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:6px 8px;
+  border-radius:6px;
+  background: #ffffff;
+  color: var(--gc-ink);
+  font-weight:700;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  border: 2px solid var(--gc-border);
+  text-align:center;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+/* small red accent bar on the left of name when focused/hover to feel gov branding */
+.govcan-card::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:6px;
+  border-radius:6px 0 0 6px;
+  background: linear-gradient(180deg, var(--gc-red), #b51f17);
+  opacity:0.0;
+  transition: opacity .18s ease;
+  pointer-events:none;
+}
+.govcan-card:hover::before,
+.govcan-card:focus-within::before{
+  opacity:1;
+}
+
+/* entry animation: subtle fade & rise */
+.govcan-in{ animation: govcan-rise .28s cubic-bezier(.18,.9,.28,1) forwards; }
+@keyframes govcan-rise {
+  to { opacity:1; transform: translateY(0) scale(1); }
+  from { opacity:0; transform: translateY(8px) scale(.998); }
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .govcan-in{ animation: none; opacity:1; transform:none; }
+}
+
+/* responsive tweaks */
+@media (min-width:520px){
+  .govcan-list{ width:72%; }
+  .govcan-day{ font-size:34px; }
+  .govcan-name{ font-size:16px; }
+}
+
+/* Safety */
+.govcan-name{ min-width:0; max-width:100%; }
