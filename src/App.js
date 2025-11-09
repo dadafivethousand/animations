@@ -46,7 +46,7 @@ import JockoSchedule from "./Used/JockoSchedule"
    function App() {
   return (
     <>
-  <JockoSchedule day="Saturday" />
+  <ImmortalTechniqueSchedule day="Sunday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

@@ -1,268 +1,257 @@
-/* ImmortalTechniqueSchedule.css  (redesign v2: poster/torn + svg drips)
-   Mobile-first. Poster layout with wax-seal time badge.
-   Prefix: immortaltech-
-   Top padding >= 50px. List width = 80%. Time block is a circular 90px seal.
-   Timers cleaned in JSX. Respects prefers-reduced-motion.
+/* ImmortalTechniqueSchedule.css
+   Graffiti-on-wall only (Revolutionary Vol. 2 inspiration)
+   - Mobile-first. Top padding >= 50px. List width = 80%.
+   - Prefix: immortaltech-
+   - Time block fixed width = 90px.
+   - Uses 'Permanent Marker' like feel (fallback to system fonts).
+   - Respects prefers-reduced-motion.
 */
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto+Condensed:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Roboto+Condensed:wght@700&display=swap');
 
 :root{
-  --bg-ash: #d3d3d1;         /* greyish canvas */
-  --paper: #f6f5f3;          /* card / poster face */
-  --ink: #0e0e0e;            /* dark content text */
-  --accent-deep: #6f1515;    /* dark blood */
-  --accent-fresh: #b92a2a;   /* fresher blood */
-  --stripe: #8a1111;         /* stripe for posters */
-  --seal-bg: #2a1a17;        /* dark wax */
-  --seal-ink: #f6e9e8;       /* text on wax seal */
-  --card-border: rgba(0,0,0,0.12);
-  --card-shadow: 0 18px 46px rgba(0,0,0,0.12);
+  --wall-base: #dcdcdc;           /* light/ash concrete */
+  --wall-stain: #bfbfbf;
+  --spray-red: #b91d1d;          /* blood-like graffiti red */
+  --spray-dark: #3a0f0f;         /* dark core of paint */
+  --spray-highlight: #e34a4a;    /* fresh paint highlight */
+  --time-stamp-bg: #2d1f1d;      /* dark stamp */
+  --time-stamp-ink: #f6e9e7;     /* stamp text */
+  --ink: #111111;
+  --muted: rgba(17,17,17,0.72);
+  --shadow: 0 10px 30px rgba(0,0,0,0.12);
 }
 
-/* general */
+/* box-sizing */
 * { box-sizing: border-box; }
-body { background: transparent; margin:0; }
 
+.immortaltech-outside-wrap{
+  background-image: url(../Images/ChatGPT\ Image\ Nov\ 9\,\ 2025\,\ 07_39_07\ AM.png);
+  height: 100vh;
+  width:100vw;
+  background-size: contain;
+
+ 
+}
+ 
 /* root wrapper */
 .immortaltech-wrap{
+
+  z-index: 44;
   min-height:100vh;
   width:100vw;
   padding:12px;
-  padding-top:56px; /* >= 50px */
+  padding-top:56px; /* >=50px */
   display:flex;
   flex-direction:column;
   align-items:center;
+ 
+    /* soft concrete "texture" layers */
 
-  background-color: var(--bg-ash);
-    background-image: url('../Images/immortaltechnique.jpeg');
-    background-size:contain;
-    background-repeat: no-repeat;
-    background-position: bottom;
-  font-family: 'Roboto Condensed', system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  background-image: url(../Images/immortaltechnique.jpeg);
+  background-size: contain;
+  background-position:bottom ;
+  background-repeat: no-repeat;
   color:var(--ink);
 }
 
-/* header area: centered poster title with SVG drips behind */
+/* header: big graffiti tag centered; data-text used by ::after for drip layering */
 .immortaltech-header{
   width:100%;
   max-width:920px;
-  padding:18px 12px;
+  padding:22px 12px;
   position:sticky;
   top:0;
-  z-index:40;
+  z-index:20;
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:12px;
-  background: transparent;
   pointer-events:none;
 }
 
- 
-
-/* Title sits above the drips — large serif */
-.immortaltech-title{
+.immortaltech-day{
   position:relative;
   margin:0;
-  z-index:45;
-  font-family: 'Playfair Display', serif;
-  font-size:42px;
+  font-family: 'Permanent Marker', system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  font-size:44px;
   line-height:1;
-  letter-spacing:0.14em;
+  letter-spacing:0.02em;
   text-transform:uppercase;
-  color:#f2f0ee;
-  -webkit-font-smoothing:antialiased;
-  text-shadow: 0 2px 0 rgba(0,0,0,0.12);
+  color: var(--spray-red);
+  text-shadow:
+    0 1px 0 rgba(0,0,0,0.6),
+    0 8px 26px rgba(58,15,15,0.08);
   pointer-events:none;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  /* paint texture via multiple text-shadows for rough edges */
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.15));
 }
 
  
-/* list */
+
+/* lighter glossy wet highlight to suggest fresh paint */
+.immortaltech-day::before{
+  content: attr(data-text);
+  position:absolute;
+  left:0;
+  top:2px;
+  width:100%;
+  z-index:-2;
+  color: var(--spray-highlight);
+  opacity:0.18;
+  transform: translateY(2px) scaleY(0.98);
+  filter: blur(1px);
+  pointer-events:none;
+  mix-blend-mode:screen;
+}
+
+/* list area (graffiti lines) */
 .immortaltech-list{
-  width:80%;
+  width:90%;
   max-width:920px;
-  margin-top:18px;
+  margin-top:8px;
   display:flex;
   flex-direction:column;
   gap:14px;
+  align-items:stretch;
 }
 
-/* POSTER card: torn paper aesthetic — rectangular poster with left strip and small shadow.
-   Layout: left text column (flex), right 90px wax seal time badge */
-.immortaltech-poster{
+/* each painted line (no cards) */
+.immortaltech-item{
   position:relative;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:14px;
-  padding:14px 18px;
-  min-height:72px;
-  background: linear-gradient(180deg, var(--paper), #f2f0ee);
-  border-radius:6px;
-  border:1px solid var(--card-border);
-  box-shadow: var(--card-shadow);
+  gap:12px;
+  padding:6px 4px;
+  min-height:56px;
+  background: transparent; /* painted on wall */
   overflow:visible;
-  transform: translateY(8px) scale(0.998);
   opacity:0;
-  /* add a subtle torn-edge top using a pseudo-element */
+  transform: translateX(-28px);
+ 
 }
 
-/* torn top edge — small decorative ridge */
-.immortaltech-poster::before{
-  content:"";
-  position:absolute;
-  left:0;
-  top:-10px;
-  width:100%;
-  height:12px;
-  background: linear-gradient(180deg, rgba(0,0,0,0.04), transparent);
-  border-radius:2px;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.04);
-  pointer-events:none;
-}
-
-/* bold poster stripe on left like a protest poster (simple) */
-.immortaltech-poster::after{
-  content:"";
-  position:absolute;
-  left:8px;
-  top:12px;
-  bottom:12px;
-  width:10px;
-  border-radius:3px;
-  background: linear-gradient(180deg, var(--stripe), #600707);
-  box-shadow: 0 6px 16px rgba(138,17,17,0.06);
-  pointer-events:none;
-}
-
-/* reveal animation: vertical tear — rectangle clip expands downward to reveal content */
-.immortaltech-in{
-  animation: poster-tear .42s cubic-bezier(.2,.9,.28,1) forwards;
-  transform-origin: top center;
-}
-@keyframes poster-tear{
-  0%{ opacity:0; transform: translateY(12px) scaleY(.996); clip-path: inset(0 0 100% 0); }
-  45%{ opacity:1; transform: translateY(-6px) scaleY(1.006); clip-path: inset(0 0 44% 0); }
-  100%{ opacity:1; transform: translateY(0) scaleY(1); clip-path: inset(0 0 0% 0); }
-}
-
-/* left column (text) */
-.immortaltech-poster-left{
-  min-width:0;
+/* graffiti text block */
+.immortaltech-graffiti{
   display:flex;
-  flex-direction:column;
-  gap:6px;
-  align-items:flex-start;
-  justify-content:center;
+  align-items:center;
+  gap:10px;
+  min-width:0;
   padding-left:6px;
 }
 
-/* Title inside poster — large condensed label */
-.immortaltech-poster-title{ min-width:0; }
-.immortaltech-name{
-  font-weight:700;
-  font-size:16px;
-  font-family: 'Roboto Condensed', sans-serif;
-  color:var(--ink);
+/* main graffiti name (spray paint style) */
+.immortaltech-name,
+.immortaltech-old,
+.immortaltech-new{
+  font-family: 'Permanent Marker', 'Roboto Condensed', sans-serif;
+  font-size:20px;
+  line-height:1;
+  color: var(--spray-red);
+  text-transform:none;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
-  max-width: calc(100% - 110px);
+  letter-spacing: 0.01em;
+  position:relative;
   display:inline-block;
-  letter-spacing:0.01em;
+  -webkit-font-smoothing:antialiased;
 }
 
-/* replacement styling — different visual: old fades & tilts slightly like pasted-over poster */
-.immortaltech-swap .immortaltech-old{
-  text-decoration:line-through;
-  opacity:0.62;
-  transform: rotate(-1deg) translateY(1px);
-  display:inline-block;
+/* Give the graffiti a sprayed trail (pseudo-element) */
+.immortaltech-name::before,
+.immortaltech-old::before,
+.immortaltech-new::before{
+  content: "";
+  position: absolute;
+  left: -8%;
+  top: 46%;
+  width: 120%;
+  height: 28%;
+  background: radial-gradient(40% 100% at 20% 50%, rgba(185,29,29,0.18), transparent 30%);
+  filter: blur(6px);
+  opacity: 0.85;
+  transform: translateX(-6px) scaleY(1);
+  pointer-events:none;
+  mix-blend-mode: multiply;
 }
-.immortaltech-swap .immortaltech-arrow{ opacity:0.8; margin:0 6px; color:var(--accent-fresh); }
+
+/* Replacement styling: old name strikes-through (faded), arrow, and new name bold */
+.immortaltech-swap .immortaltech-old{
+  text-decoration: line-through;
+  opacity: 0.6;
+  color: rgba(58,15,15,0.9);
+}
+.immortaltech-swap .immortaltech-arrow{
+  margin: 0 8px;
+  color: var(--spray-dark);
+  font-weight:700;
+}
 .immortaltech-swap .immortaltech-new{
   font-weight:900;
-  color:var(--accent-deep);
+  color: var(--spray-highlight);
 }
 
-/* Maple chip — kept small and flat like a sticker */
+/* tiny maple chip like a sticker next to graffiti */
 .immortaltech-chip{
-  font-size:11px;
-  padding:4px 8px;
+  font-size:12px;
+  padding:3px 8px;
   border-radius:999px;
-  border:1px solid rgba(0,0,0,0.06);
-  background: rgba(138,17,17,0.06);
-  color:var(--ink);
-  white-space:nowrap;
-  flex:0 0 auto;
+  background: rgba(0,0,0,0.06);
+  color: var(--ink);
+  border: 1px solid rgba(0,0,0,0.06);
+  flex: 0 0 auto;
 }
 
-/* WAX SEAL time badge — circle, fixed 90px */
-.immortaltech-wax{
-  width:90px;
-  height:30px;
+/* time stamp (fixed 90px) — grunge stamped rectangle on right */
+.immortaltech-time{
+  min-width:130px;
   flex:0 0 90px;
-  border-radius:50%;
+  height:56px;
   display:flex;
   align-items:center;
   justify-content:center;
+  border-radius:6px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.12));
+  color: var(--spray-red);
   font-weight:700;
   font-family: 'Roboto Condensed', sans-serif;
-  font-size:13px;
   text-align:center;
-  color: black;
-  background: radial-gradient(circle at 30% 28%, #3a241f, var(--seal-bg));
-  box-shadow: 0 8px 22px rgba(0,0,0,0.18), inset 0 -6px 12px rgba(0,0,0,0.35);
-  border: 4px solid rgba(0,0,0,0.18);
+  border: 2px solid rgba(0,0,0,0.12);
+  box-shadow: var(--shadow);
+  transform: rotate(-2deg);
   position:relative;
   overflow:visible;
 }
 
-/* small wax highlight */
-.immortaltech-wax::after{
-  content:"";
-  position:absolute;
-  left:10%;
-  top:10%;
-  width:36%;
-  height:24%;
-  border-radius:50%;
-  background: linear-gradient(180deg, rgba(255,255,255,0.06), transparent);
-  transform: rotate(-12deg);
-  opacity:0.24;
-  pointer-events:none;
+/* little paint splatter around the time stamp to sell the spray effect */
+ 
+/* reveal animation: fast left→right spray with trailing blur (feels like being sprayed) */
+.immortaltech-in{
+  animation: spray-in .26s cubic-bezier(.18,.9,.28,1) forwards;
+}
+@keyframes spray-in{
+  0% { opacity:0; transform: translateX(-72px) scaleX(0.98); filter: blur(2px); }
+  50% { transform: translateX(8px) scaleX(1.01); filter:none; }
+  100% { opacity:1; transform: translateX(0) scaleX(1); filter:none; }
 }
 
-/* small drip mark next to wax (tasteful) */
-.immortaltech-wax::before{
-  content:"";
-  position:absolute;
-  right:-8px;
-  bottom:-8px;
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  background: var(--accent-fresh);
-  opacity:0.06;
-  pointer-events:none;
-}
-
-/* time text sits inside the seal */
-.immortaltech-wax { color:var(--seal-ink); }
-
-/* entry animation respects prefers-reduced-motion */
+/* make the drips animate slightly (vertical wobble) via the ::after on the header already */
 @media (prefers-reduced-motion: reduce){
-  .immortaltech-in{ animation:none; opacity:1; transform:none; clip-path:none; }
-  .immortaltech-drip{ animation:none; opacity:0.95; }
+  .immortaltech-in{ animation:none; opacity:1; transform:none; }
+  .immortaltech-day::after,
+  .immortaltech-day::before{ animation:none; }
 }
 
 /* responsive tweaks */
 @media (min-width:520px){
   .immortaltech-list{ width:72%; }
-  .immortaltech-title{ font-size:56px; }
-  .immortaltech-name{ font-size:18px; }
+  .immortaltech-day{ font-size:64px; }
+  .immortaltech-name{ font-size:22px; }
 }
 
-/* safety */
-.immortaltech-name{ min-width:0; max-width:100%; }
+/* safety: prevent overflow off-screen on small devices */
+.immortaltech-name { min-width:0; max-width:100%; }
