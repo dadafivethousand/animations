@@ -1,7 +1,7 @@
 // MagicCardSchedule.jsx
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/MagicSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function MagicCardSchedule({
   day,

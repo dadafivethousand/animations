@@ -1,0 +1,263 @@
+/* AINeuralSchedule.css
+   AI Neural Network theme
+   - Prefix: ainneural-
+   - Mobile-first. Top padding >= 50px. List width = 80%.
+   - Time block fixed width = 90px.
+   - Accent colors: cool cyan / indigo, subtle glows.
+   - Prefers-reduced-motion respected.
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&display=swap');
+
+:root{
+  --bg-1: #071021;           /* deep background */
+  --grid-1: #0d2333;         /* grid lines */
+  --panel: rgba(255,255,255,0.02);
+  --ink: #e6f7ff;            /* pale text */
+  --muted: rgba(230,247,255,0.85);
+  --accent: #2ce6f2;         /* bright cyan */
+  --accent-2: #4fb3ff;       /* softer blue */
+  --node-core: #9be9ff;
+  --card-bg: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+  --border: rgba(255,255,255,0.04);
+  --shadow: 0 12px 36px rgba(0,0,0,0.6);
+}
+
+/* global box-sizing */
+* { box-sizing: border-box; }
+
+/* wrapper */
+.ainneural-wrap{
+  min-height:100vh;
+  width:100vw;
+  padding:12px;
+  padding-top:56px; /* >=50px */
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  background:
+    radial-gradient(1200px 360px at 10% 10%, rgba(76,120,140,0.02), transparent 20%),
+    linear-gradient(180deg, var(--bg-1), #02101a);
+  color:var(--ink);
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+}
+
+/* subtle matrix grid behind content */
+.ainneural-wrap::before{
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 260vh; /* plenty */
+  background-image:
+    linear-gradient(transparent 0%, rgba(79,179,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, transparent 0%, rgba(79,179,255,0.02) 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* header */
+.ainneural-header{
+  width:100%;
+  max-width:920px;
+  padding:12px 8px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:10;
+  background: linear-gradient(180deg, rgba(2,6,10,0.6), rgba(2,6,10,0.4));
+  border-bottom: 1px solid rgba(255,255,255,0.02);
+  backdrop-filter: blur(4px);
+}
+
+.ainneural-day{
+  margin:0;
+  font-size:30px; /* required larger day */
+  font-weight:800;
+  color: var(--muted);
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  text-shadow: 0 6px 18px rgba(47,119,155,0.04);
+  z-index:5;
+}
+
+/* list */
+.ainneural-list{
+  width:80%;
+  max-width:920px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:14px;
+  position:relative;
+  z-index:5;
+}
+
+/* card */
+.ainneural-card{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  min-height:56px;
+  background: var(--card-bg);
+  border-radius:10px;
+  border:1px solid var(--border);
+  box-shadow: var(--shadow), inset 0 -6px 18px rgba(0,0,0,0.12);
+  overflow:visible;
+  opacity:0;
+  transform: translateX(-32px) translateY(6px);
+}
+
+/* animated reveal: node/line grow + glow */
+.ainneural-in{ animation: ainn-pop .34s cubic-bezier(.18,.9,.28,1) forwards; }
+@keyframes ainn-pop{
+  0% { opacity:0; transform: translateX(-48px) translateY(10px) scale(.998); filter: blur(2px); }
+  60% { transform: translateX(6px) translateY(-6px) scale(1.006); filter:none; }
+  100% { opacity:1; transform: translateX(0) translateY(0) scale(1); filter:none; }
+}
+
+/* left area: nodes + title */
+.ainneural-left{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex:1 1 auto;
+  position:relative;
+}
+
+/* nodes column */
+.ainneural-nodes{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  width:48px;
+  padding-left:6px;
+  padding-right:4px;
+  pointer-events:none;
+}
+
+/* node dots */
+.node{
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background: rgba(46,230,242,0.12);
+  box-shadow: 0 6px 18px rgba(46,230,242,0.04), inset 0 -2px 6px rgba(0,0,0,0.25);
+  position:relative;
+  transform-origin:center;
+  transition: transform .22s ease;
+}
+.node::before{
+  content:"";
+  position:absolute;
+  inset:2px;
+  border-radius:50%;
+  background: radial-gradient(circle at 35% 30%, var(--node-core), rgba(46,230,242,0.06));
+  opacity:0.95;
+  filter: blur(0.6px);
+}
+
+/* size variants */
+.node--big{ width:16px; height:16px; }
+.node--med{ width:12px; height:12px; }
+.node--small{ width:9px; height:9px; }
+
+/* connecting lines — animated scaleX on reveal */
+.link{
+  width:28px;
+  height:2px;
+  background: linear-gradient(90deg, rgba(46,230,242,0.18), rgba(79,179,255,0.9));
+  border-radius:2px;
+  transform-origin:left center;
+  transform: scaleX(0);
+  transition: transform .34s cubic-bezier(.18,.9,.28,1), box-shadow .22s ease;
+  box-shadow: 0 6px 18px rgba(79,179,255,0.02);
+}
+
+/* when card enters, animate nodes & links */
+.ainneural-in .link{ transform: scaleX(1); }
+.ainneural-in .node{ transform: scale(1.06); box-shadow: 0 10px 30px rgba(46,230,242,0.12); }
+
+/* textual info */
+.ainneural-title{ min-width:0; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.ainneural-name, .ainneural-old, .ainneural-new{
+  font-weight:700;
+  font-size:15px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  color:var(--muted);
+  display:inline-block;
+  max-width: calc(100% - 120px);
+}
+
+/* replacement styling */
+.ainneural-swap .ainneural-old{ text-decoration: line-through; opacity:.6; color: rgba(180,210,220,0.9); }
+.ainneural-swap .ainneural-arrow{ margin:0 6px; color: var(--accent-2); opacity:0.9; }
+.ainneural-swap .ainneural-new{ font-weight:800; color: var(--accent); }
+
+/* maple chip: subtle neon sticker */
+.ainneural-chip{
+  font-size:11px;
+  padding:4px 8px;
+  border-radius:999px;
+  background: rgba(46,230,242,0.06);
+  color: var(--muted);
+  border: 1px solid rgba(46,230,242,0.06);
+  flex:0 0 auto;
+}
+.ainneural-chip--maple{ box-shadow: 0 6px 20px rgba(46,230,242,0.04); }
+
+/* time block fixed width 90px — digital stamp style */
+.ainneural-time{
+  width:90px;
+  flex:0 0 90px;
+  height:56px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:10px;
+  background: linear-gradient(180deg, rgba(10,24,36,0.6), rgba(4,12,18,0.6));
+  color: var(--muted);
+  font-weight:700;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  border: 1px solid rgba(127,191,255,0.06);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.6), inset 0 -6px 12px rgba(46,230,242,0.02);
+  text-align:center;
+}
+
+/* little animated pulse on time when card reveals */
+.ainneural-in .ainneural-time{ animation: time-pulse .9s ease-out 1; }
+@keyframes time-pulse{
+  0% { transform: scale(0.96); box-shadow: 0 8px 26px rgba(79,179,255,0.01); }
+  50% { transform: scale(1.02); box-shadow: 0 18px 46px rgba(46,230,242,0.08); }
+  100% { transform: scale(1); box-shadow: 0 10px 26px rgba(0,0,0,0.6); }
+}
+
+/* reduced motion: disable animated growth, keep static state */
+@media (prefers-reduced-motion: reduce){
+  .ainneural-in{ animation:none; opacity:1; transform:none; }
+  .link{ transition:none; transform: scaleX(1); }
+  .node{ transition:none; transform:none; }
+  .ainneural-in .ainneural-time{ animation:none; }
+}
+
+/* slightly larger screens */
+@media (min-width:520px){
+  .ainneural-list{ width:72%; }
+  .ainneural-day{ font-size:34px; }
+  .ainneural-name{ font-size:16px; }
+}
+
+/* safety */
+.ainneural-name{ min-width:0; max-width:100%; }

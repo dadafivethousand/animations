@@ -45,10 +45,15 @@ import ImmortalTechniqueSchedule from "./Components/ImmortalTechniqueSchedule";
 import JockoSchedule from "./Used/JockoSchedule"
 import GovCanadaSchedule from "./Components/GovCanadaSchedule"
 import WalmartSchedule from "./Components/WalmartSchedule";
+import BestBuySchedule from "./Components/BestBuySchedule"
+import ColiseumSchedule from "./Components/ColiseumSchedule";
+import AINeuralSchedule from "./Components/AINeuralSchedule";
+import NasaSchedule from "./Components/NasaSchedule";
+
    function App() {
   return (
     <>
-  <WalmartSchedule day="Sunday" />
+  <MagicSchedule day="Monday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

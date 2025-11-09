@@ -1,0 +1,200 @@
+/* BestBuySchedule.css
+   Best Buy–inspired theme: clean tech retail aesthetic
+   - Prefix: bestbuy-
+   - Mobile-first. Top padding >= 50px. List width = 80%. Time block fixed = 90px.
+   - Colors: deep retail blue + bright yellow accent (tasteful, no logo usage).
+   - Accessibility: prefers-reduced-motion supported.
+*/
+
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+:root{
+  --bb-bg: #f6f8fb;        /* soft page background */
+  --bb-panel: #ffffff;     /* card surface */
+  --bb-blue: #0033a0;      /* deep retail blue (accent) */
+  --bb-yellow: #ffd200;    /* bright accent */
+  --bb-ink: #102a43;       /* primary text */
+  --bb-muted: rgba(16,42,67,0.66);
+  --bb-border: rgba(16,42,67,0.06);
+  --bb-shadow: 0 12px 30px rgba(8,28,48,0.06);
+}
+
+/* box-sizing */
+* { box-sizing: border-box; }
+
+/* wrapper */
+.bestbuy-wrap{
+  min-height:100vh;
+  width:100vw;
+  padding:12px;
+  padding-top:56px; /* >= 50px */
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  background: linear-gradient(180deg, var(--bb-bg), #eef4fb);
+  color:var(--bb-ink);
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+}
+
+/* header */
+.bestbuy-header{
+  width:100%;
+  max-width:920px;
+  padding:12px 10px;
+  position:sticky;
+  top:0;
+  z-index:20;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  background: rgba(255,255,255,0.96);
+  border-bottom: 1px solid var(--bb-border);
+  backdrop-filter: blur(2px);
+}
+
+/* subtle badge (yellow rounded corner block on left — decorative) */
+.bestbuy-badge{
+  position:absolute;
+  left:12px;
+  top:12px;
+  width:40px;
+  height:28px;
+  border-radius:6px;
+  background: linear-gradient(180deg, var(--bb-yellow), #ffcf3c);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+  transform: rotate(-6deg);
+  pointer-events:none;
+}
+
+/* day label centered */
+.bestbuy-day{
+  margin:0;
+  font-size:30px; /* required larger day */
+  font-weight:700;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--bb-blue);
+}
+
+/* list width 80% */
+.bestbuy-list{
+  width:80%;
+  max-width:920px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:14px;
+}
+
+/* card */
+.bestbuy-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  min-height:56px;
+  background: var(--bb-panel);
+  border-radius:8px;
+  border:1px solid var(--bb-border);
+  box-shadow: var(--bb-shadow);
+  overflow:visible;
+  transform: translateY(8px);
+  opacity:0;
+}
+
+/* left block: title + maple chip */
+.bestbuy-left{ display:flex; align-items:center; gap:12px; min-width:0; flex:1 1 auto; justify-content:flex-start; padding-left:6px; }
+.bestbuy-title{ min-width:0; }
+.bestbuy-name{
+  font-weight:700;
+  font-size:15px;
+  line-height:1.15;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  color:var(--bb-ink);
+  display:inline-block;
+  max-width: calc(100% - 110px);
+}
+
+/* replacement styling */
+.bestbuy-swap .bestbuy-old{ text-decoration: line-through; opacity:.6; color: var(--bb-muted); }
+.bestbuy-swap .bestbuy-arrow{ opacity:.8; margin:0 6px; color:var(--bb-muted); }
+.bestbuy-swap .bestbuy-new{ font-weight:900; color:var(--bb-blue); }
+
+/* Maple chip (inline) */
+.bestbuy-chip{
+  font-size:11px;
+  padding:4px 8px;
+  border-radius:999px;
+  border:1px solid rgba(0,0,0,0.04);
+  background: linear-gradient(180deg, rgba(0,51,160,0.04), rgba(255,255,255,0.02));
+  color:var(--bb-ink);
+  white-space:nowrap;
+  flex:0 0 auto;
+}
+.bestbuy-chip--maple{
+  border-color: rgba(255,194,0,0.12);
+  background: linear-gradient(180deg, rgba(255,194,0,0.06), rgba(0,0,0,0.01));
+}
+
+/* time block fixed 90px — styled as a compact digital badge */
+.bestbuy-time{
+  width:90px;
+  flex:0 0 90px;
+  height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:6px 8px;
+  border-radius:8px;
+  background: linear-gradient(180deg, rgba(0,51,160,0.06), rgba(255,255,255,0.02));
+  color: #04263a;
+  font-weight:700;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  border: 1px solid rgba(0,0,0,0.04);
+  text-align:center;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+}
+
+/* thin blue accent on card hover (subtle retail highlight) */
+.bestbuy-card::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:6px;
+  border-radius:8px 0 0 8px;
+  background: linear-gradient(180deg, var(--bb-blue), #002a78);
+  opacity:0;
+  transition: opacity .16s ease;
+}
+.bestbuy-card:hover::before,
+.bestbuy-card:focus-within::before{ opacity:1; }
+
+/* entry animation: short rise combined with a slight left→right nudge */
+.bestbuy-in{ animation: bb-rise .28s cubic-bezier(.18,.9,.28,1) forwards; }
+@keyframes bb-rise {
+  0% { opacity:0; transform: translateY(12px) translateX(-18px); filter: blur(1px); }
+  60% { transform: translateY(-6px) translateX(6px); filter:none; }
+  100% { opacity:1; transform: translateY(0) translateX(0); filter:none; }
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .bestbuy-in{ animation:none; opacity:1; transform:none; }
+}
+
+/* responsive tweaks */
+@media (min-width:520px){
+  .bestbuy-list{ width:72%; }
+  .bestbuy-day{ font-size:34px; }
+  .bestbuy-name{ font-size:16px; }
+}
+
+/* ensure safe ellipsis on tiny screens */
+.bestbuy-name{ min-width:0; max-width:100%; }

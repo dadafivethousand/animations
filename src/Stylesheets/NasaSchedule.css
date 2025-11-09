@@ -1,0 +1,247 @@
+/* NasaSchedule.css
+   NASA Mission Control theme — HUD / mission-log aesthetic
+   - Prefix: nasa-
+   - Mobile-first. Top padding >= 50px. List width = 80%. Time block fixed = 90px.
+   - Respect prefers-reduced-motion. Timers cleaned in JSX.
+*/
+
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&family=Roboto+Mono:wght@500;700&display=swap');
+
+:root{
+  --n-bg-0: #041026;      /* deep navy */
+  --n-bg-1: #08162a;
+  --n-panel: rgba(255,255,255,0.02);
+  --n-ink: #e6f7ff;       /* pale text */
+  --n-muted: rgba(230,247,255,0.7);
+  --n-accent: #3ad4ff;    /* cyanish HUD accent */
+  --n-accent-2: #66b3ff;  /* secondary blue */
+  --n-green: #6cffb8;     /* success */
+  --n-border: rgba(255,255,255,0.04);
+  --n-shadow: 0 18px 48px rgba(0,0,0,0.7);
+}
+
+/* global */
+* { box-sizing: border-box; }
+
+.nasa-wrap{
+  min-height:100vh;
+  width:100vw;
+  padding:12px;
+  padding-top:56px; /* >= 50px */
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  background:
+    radial-gradient(1200px 420px at 10% 10%, rgba(58,212,255,0.01), transparent 20%),
+    linear-gradient(180deg, var(--n-bg-0), var(--n-bg-1));
+  color:var(--n-ink);
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  position:relative;
+}
+
+/* subtle starfield */
+.nasa-wrap::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity:0.06;
+  pointer-events:none;
+}
+
+/* header: wordmark area (logo slot) and day centered */
+.nasa-header{
+  width:100%;
+  max-width:920px;
+  padding:14px 12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  position:sticky;
+  top:0;
+  z-index:30;
+  backdrop-filter: blur(4px) saturate(1.02);
+  background: linear-gradient(180deg, rgba(4,8,18,0.6), rgba(4,8,18,0.45));
+  border-bottom: 1px solid rgba(255,255,255,0.02);
+}
+
+/* logo slot (empty) — paste your logo into this element in markup or via CSS */
+.nasa-logo{
+  position:absolute;
+  left:14px;
+  top:12px;
+  width:44px;
+  height:32px;
+  border-radius:6px;
+  background: transparent;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+  pointer-events:none;
+}
+
+/* day label */
+.nasa-day{
+  margin:0;
+  font-size:30px; /* required */
+  font-weight:800;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--n-ink);
+  text-shadow: 0 10px 30px rgba(58,212,255,0.02);
+}
+
+/* tiny meta on right */
+.nasa-meta{ position:absolute; right:12px; top:12px; display:flex; gap:10px; align-items:center; pointer-events:none; }
+.nasa-tiny{ font-size:11px; color:var(--n-muted); font-weight:700; letter-spacing:0.08em; }
+.nasa-tiny--muted{ opacity:0.7 }
+
+/* list wrapper (80% width) */
+.nasa-list{
+  width:80%;
+  max-width:920px;
+  margin-top:16px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  z-index:5;
+}
+
+/* card: HUD panel with subtle glass + grid accent */
+.nasa-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  min-height:56px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.04));
+  border-radius:10px;
+  border:1px solid var(--n-border);
+  box-shadow: var(--n-shadow), inset 0 -6px 18px rgba(0,0,0,0.12);
+  overflow:visible;
+  transform: translateX(-36px) translateY(8px);
+  opacity:0;
+  position:relative;
+}
+
+/* HUD accent (left) */
+.nasa-card::before{
+  content:"";
+  position:absolute;
+  left:10px;
+  top:10px;
+  bottom:10px;
+  width:6px;
+  border-radius:4px;
+  background: linear-gradient(180deg, var(--n-accent), var(--n-accent-2));
+  box-shadow: 0 8px 22px rgba(58,212,255,0.06);
+  pointer-events:none;
+}
+
+/* entry animation: quick slide + glow like a console row appearing */
+.nasa-in{ animation: nasa-pop .32s cubic-bezier(.18,.9,.28,1) forwards; }
+@keyframes nasa-pop{
+  0%{ opacity:0; transform: translateX(-72px) translateY(18px) scale(.996); filter: blur(2px); }
+  60%{ transform: translateX(6px) translateY(-6px) scale(1.008); filter:none; }
+  100%{ opacity:1; transform: translateX(0) translateY(0) scale(1); filter:none; }
+}
+
+/* left group: hud + title */
+.nasa-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:0;
+  flex:1 1 auto;
+}
+
+/* small HUD: dot + connecting line */
+.nasa-hud{ display:flex; align-items:center; gap:8px; padding-left:6px; }
+.nasa-hud-dot{
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background: radial-gradient(circle at 30% 30%, var(--n-accent), rgba(46,212,255,0.18));
+  box-shadow: 0 8px 22px rgba(58,212,255,0.08), 0 0 18px rgba(58,212,255,0.02);
+}
+.nasa-hud-line{
+  width:28px;
+  height:2px;
+  background: linear-gradient(90deg, rgba(58,212,255,0.22), rgba(102,179,255,0.9));
+  border-radius:2px;
+  box-shadow: 0 6px 18px rgba(79,179,255,0.02);
+}
+
+/* title text */
+.nasa-title{ min-width:0; display:flex; align-items:center; gap:12px; }
+.nasa-name, .nasa-old, .nasa-new{
+  font-weight:700;
+  font-size:15px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  color:var(--n-ink);
+  display:inline-block;
+  max-width: calc(100% - 110px);
+}
+
+/* replacement styling — old faded, new bright */
+.nasa-swap .nasa-old{ text-decoration: line-through; opacity:.6; color: rgba(230,247,255,0.65); }
+.nasa-swap .nasa-arrow{ opacity:.75; margin:0 6px; color: var(--n-accent-2); }
+.nasa-swap .nasa-new{ font-weight:900; color: var(--n-accent); text-shadow: 0 6px 18px rgba(58,212,255,0.04); }
+
+/* maple chip — small HUD pill */
+.nasa-chip{
+  font-size:11px;
+  padding:3px 8px;
+  border-radius:999px;
+  background: rgba(58,212,255,0.06);
+  color:var(--n-ink);
+  border:1px solid rgba(58,212,255,0.06);
+  flex:0 0 auto;
+}
+.nasa-chip--maple{ box-shadow: 0 6px 20px rgba(58,212,255,0.04); }
+
+/* time block fixed width 90px — digital readout */
+.nasa-time{
+  width:90px;
+  flex:0 0 90px;
+  height:56px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:10px;
+  background: linear-gradient(180deg, rgba(6,16,26,0.85), rgba(2,8,14,0.85));
+  color: var(--n-muted);
+  font-weight:700;
+  font-family: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  border: 1px solid rgba(127,191,255,0.06);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.6), inset 0 -6px 12px rgba(58,212,255,0.02);
+  text-align:center;
+}
+
+/* subtle time pulse on reveal */
+.nasa-in .nasa-time{ animation: time-glow .9s ease-out 1; }
+@keyframes time-glow{
+  0% { transform: translateY(2px) scale(0.98); box-shadow: 0 6px 18px rgba(58,212,255,0.02); }
+  50% { transform: translateY(-2px) scale(1.02); box-shadow: 0 20px 46px rgba(58,212,255,0.06); }
+  100% { transform: translateY(0) scale(1); box-shadow: 0 10px 26px rgba(0,0,0,0.6); }
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .nasa-in{ animation:none; opacity:1; transform:none; }
+  .nasa-in .nasa-time{ animation:none; }
+}
+
+/* responsive tweaks */
+@media (min-width:520px){
+  .nasa-list{ width:72%; }
+  .nasa-day{ font-size:34px; }
+  .nasa-name{ font-size:16px; }
+}
+
+/* safety */
+.nasa-name{ min-width:0; max-width:100%; }
