@@ -53,7 +53,7 @@ import NasaSchedule from "./Components/NasaSchedule";
    function App() {
   return (
     <>
-  <MagicSchedule day="Monday" />
+  <NasaSchedule day="Monday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
