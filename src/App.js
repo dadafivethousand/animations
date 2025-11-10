@@ -49,11 +49,12 @@ import BestBuySchedule from "./Components/BestBuySchedule"
 import ColiseumSchedule from "./Components/ColiseumSchedule";
 import AINeuralSchedule from "./Components/AINeuralSchedule";
 import NasaSchedule from "./Components/NasaSchedule";
+import Landing from "./Components/Landing";
 
    function App() {
   return (
     <>
-  <NasaSchedule day="Monday" />
+  <Landing day="Monday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

@@ -45,5 +45,5 @@ export default function TypewriterCycle({
     return () => clearTimeout(timeout);
   }, [currentText, isDeleting, texts, currentIndex, typingSpeed, deletingSpeed, pauseTime, started]);
 
-  return <span>{currentText}</span>;
+  return <span className="typewriter">{currentText}</span>;
 }
