@@ -43,7 +43,7 @@ function MarioSchedule({ day, animationDelay = 1000, animationInterval = 1500 })
   return (
     <div className="mario-container">
 
-      <h1 className="mario-header">Tuesday</h1>
+      <h1 className="mario-header">Code Ninjas</h1>
       {/* Green Pipe at the Bottom */}
       <div className="mario-pipe"></div>
       <div className="mario-pipe-body"></div>
