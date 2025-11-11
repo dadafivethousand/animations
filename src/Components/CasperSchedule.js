@@ -1,7 +1,7 @@
 // CasperSchedule.jsx
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/CasperSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function CasperSchedule({
   day,

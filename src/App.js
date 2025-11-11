@@ -57,7 +57,7 @@ import WatchTheThroneSchedule from "./Components/WatchTheThroneSchedule";
    function App() {
   return (
     <>
-  <WatchTheThroneSchedule day="Tuesday" />
+  <CasperSchedule day="Tuesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
