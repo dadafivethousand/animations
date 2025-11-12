@@ -24,7 +24,7 @@
 
 /* root wrapper — use background-color only (per your request) */
 .gorillaz-wrap{
-  min-height:100vh;
+ height:90vh;
   width:100vw;
   padding:12px;
   padding-top:56px; /* >= 50px */
@@ -38,7 +38,7 @@
   -webkit-font-smoothing:antialiased;
 background-image: url('https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExeTlydDYzdGJvYXNlMzJ3YmZqdWExcGtxdHlvbG9uNncyNjlpOW5qdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/jB4ChigXz5ZXq/giphy.gif');
 background-repeat: no-repeat;
-background-position: bottom;
+background-position: center;
 background-size: contain;
 }
 
@@ -114,7 +114,7 @@ background-size: contain;
   justify-content:space-between;
   gap:2px;
   padding:1px 14px;
-  max-height:40px;
+  max-height:50px;
   background: var(--g-panel);
   border-radius:10px;
   border: 1px solid var(--g-border);
