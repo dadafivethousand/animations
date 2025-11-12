@@ -24,7 +24,7 @@
 
 /* root wrapper — use background-color only (per your request) */
 .gorillaz-wrap{
- height:100vh;
+ height:90vh;
   width:100vw;
   padding:12px;
   padding-top:56px; /* >= 50px */
