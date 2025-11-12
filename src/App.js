@@ -59,7 +59,7 @@ import GorillazSchedule from "./Components/GorillazSchedule";
    function App() {
   return (
     <>
-  <GorillazSchedule day="Wednesday" />
+  <MegaManSchedule day="Wednesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

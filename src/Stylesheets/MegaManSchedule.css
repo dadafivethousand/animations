@@ -184,7 +184,7 @@
 .megaman-swap .megaman-new{ font-weight:900; color:var(--mm-accent); text-shadow:0 6px 20px rgba(255,213,74,0.06); }
 
 /* Maple chip */
-.megaman-chip{ font-size:11px; line-height:1; padding:4px 8px; border-radius:999px; border:1px solid rgba(53,183,255,0.14); background: rgba(53,183,255,0.06); color:var(--mm-ink); white-space:nowrap; }
+.megaman-chip{ font-size:10px; line-height:1; padding:4px 8px; border-radius:999px; border:1px solid rgba(53,183,255,0.14); background: rgba(53,183,255,0.06); color:var(--mm-ink); white-space:nowrap; }
 .megaman-chip--maple{ border-color: rgba(255,88,88,0.45); background: rgba(255,60,60,0.10); color:#ffdede; box-shadow: 0 0 10px rgba(255,60,60,0.08);} 
 
 /* Time block fixed width 90px */

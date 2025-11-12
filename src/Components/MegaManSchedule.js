@@ -1,7 +1,7 @@
 // MegaManSchedule.jsx
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/MegaManSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function MegaManSchedule({
   day,
