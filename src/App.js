@@ -53,11 +53,13 @@ import Landing from "./Components/Landing";
 import SimpsonsSchedule from "./Used/Lit/SimpsonsSchedule"
 import MarioSchedule from "./Used/Lit/MarioSchedule"
 import WatchTheThroneSchedule from "./Components/WatchTheThroneSchedule";
+import GorillazSchedule from "./Components/GorillazSchedule";
+
 
    function App() {
   return (
     <>
-  <CasperSchedule day="Tuesday" />
+  <GorillazSchedule day="Wednesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
