@@ -1,0 +1,212 @@
+/* DonaldDuckSchedule.css
+   Donald Duck–themed schedule with solid black background
+   - Prefix: donaldduck-
+   - Mobile-first. Top padding >= 50px. List width = 80%.
+   - Time block fixed = 90px (donaldduck-time).
+   - Use background-color: black on wrapper (no background image).
+   - Respects prefers-reduced-motion.
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Roboto+Condensed:wght@700&display=swap');
+
+:root{
+  --dd-bg: #000000;          /* solid black background-color */
+  --dd-panel: rgba(12,12,14,0.85); /* semi-opaque panel to ensure legibility */
+  --dd-ink: #fff9f7;         /* off-white text for warmth */
+  --dd-accent-blue: #0b66b3; /* Donald's sailor blue */
+  --dd-accent-yellow: #ffd23f; /* beak/feet yellow */
+  --dd-muted: rgba(255,249,247,0.88);
+  --dd-border: rgba(255,210,70,0.06);
+  --dd-shadow: 0 18px 48px rgba(0,0,0,0.85);
+}
+
+/* box-sizing */
+* { box-sizing: border-box; }
+
+/* root wrapper uses background-color only */
+.donaldduck-wrap{
+  height:90vh;
+  width:100vw;
+  padding:12px;
+  padding-top:56px; /* >=50px */
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  background-color: var(--dd-bg); /* solid black */
+  color:var(--dd-ink);
+  position:relative;
+  font-family: 'Oswald', 'Roboto Condensed', system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  -webkit-font-smoothing:antialiased;
+  
+  
+  background-image: url('https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExaG82NGZlaXI4cXFweHR3MzIxbmRmdWppbDh6OWc2djBjd3R2ejN6NSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/TX2Ht57sKg7yl7ftgL/giphy.gif');
+    background-position: bottom;
+    background-repeat: no-repeat;
+
+
+
+}
+
+
+/* header */
+.donaldduck-header{
+  width:100%;
+  max-width:920px;
+  padding:18px 12px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  position:sticky;
+  top:0;
+  z-index:20;
+}
+
+.donaldduck-day{
+  margin:0;
+  font-size:30px; /* larger day per contract */
+  font-weight:700;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--dd-ink);
+  text-shadow: 0 6px 20px rgba(11,102,179,0.04);
+}
+
+.donaldduck-sub{
+  font-size:11px;
+  color: rgba(255,249,247,0.66);
+  letter-spacing:0.12em;
+  font-weight:700;
+}
+
+/* list container (80% width) */
+.donaldduck-list{
+  width:80%;
+  max-width:920px;
+  margin-top:18px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+/* card */
+.donaldduck-card{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  height:30px;
+  background: var(--dd-panel);
+  border-radius:10px;
+  border:1px solid var(--dd-border);
+  box-shadow: var(--dd-shadow), inset 0 -6px 18px rgba(0,0,0,0.25);
+  overflow:visible;
+  opacity:0;
+  transform: translateX(-40px) translateY(8px);
+}
+
+/* whimsical beak motif on left (small yellow wedge) */
+.donaldduck-beak{
+  width:34px;
+  height:18px;
+  background: linear-gradient(90deg, var(--dd-accent-yellow), #ffb84d);
+  clip-path: polygon(0 20%, 80% 50%, 0 80%);
+  border-radius:2px;
+  box-shadow: 0 8px 20px rgba(255,210,70,0.06), inset 0 -4px 8px rgba(0,0,0,0.18);
+  transform: rotate(-6deg);
+  flex:0 0 auto;
+}
+
+/* left group */
+.donaldduck-left{ min-width:0; display:flex; align-items:center; gap:12px; flex:1 1 auto; justify-content:flex-start; }
+
+/* title text */
+.donaldduck-name,
+.donaldduck-old,
+.donaldduck-new{
+  font-weight:700;
+  font-size:15px;
+  color:var(--dd-ink);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width: calc(100% - 120px);
+  display:inline-block;
+  letter-spacing:0.01em;
+}
+
+/* replacement styling */
+.donaldduck-swap .donaldduck-old{ text-decoration: line-through; opacity:.6; color: rgba(255,235,210,0.88); }
+.donaldduck-swap .donaldduck-arrow{ opacity:.8; margin:0 6px; color: var(--dd-accent-blue); }
+.donaldduck-swap .donaldduck-new{ font-weight:900; color: var(--dd-accent-yellow); text-shadow: 0 6px 20px rgba(255,210,70,0.04); }
+
+/* maple chip (small sailor badge) */
+.donaldduck-chip{
+  font-size:11px;
+  padding:3px 8px;
+  border-radius:999px;
+  background: rgba(11,102,179,0.06);
+  color:var(--dd-ink);
+  border:1px solid rgba(11,102,179,0.08);
+  flex:0 0 auto;
+}
+.donaldduck-chip--maple{
+  box-shadow: 0 6px 18px rgba(11,102,179,0.04);
+}
+
+/* time block fixed width 90px */
+.donaldduck-time{
+  width:90px;
+  flex:0 0 90px;
+  height:36px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:10px;
+  background: linear-gradient(180deg, rgba(6,10,14,0.88), rgba(20,24,28,0.9));
+  color: var(--dd-ink);
+  font-weight:800;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  border: 1px solid rgba(255,255,255,0.02);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.7), inset 0 -6px 12px rgba(255,255,255,0.02);
+  text-align:center;
+}
+
+/* small blue trim on card hover to recall sailor shirt */
+.donaldduck-card::after{
+  content:"";
+  position:absolute;
+  right:10px;
+  top:10px;
+  width:6px;
+  height:6px;
+  border-radius:2px;
+  background: var(--dd-accent-blue);
+  opacity:0.04;
+  pointer-events:none;
+}
+
+/* reveal animation: fast left→right slide with small wobble */
+.donaldduck-in{ animation: dd-pop .28s cubic-bezier(.18,.9,.28,1) forwards; }
+@keyframes dd-pop{
+  0% { opacity:0; transform: translateX(-72px) translateY(12px) scale(.998); filter: blur(2px); }
+  60% { transform: translateX(8px) translateY(-6px) scale(1.004); }
+  100% { opacity:1; transform: translateX(0) translateY(0) scale(1); filter:none; }
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .donaldduck-in{ animation:none; opacity:1; transform:none; }
+}
+
+/* responsive tweaks */
+@media (min-width:520px){
+  .donaldduck-list{ width:72%; }
+  .donaldduck-day{ font-size:34px; }
+  .donaldduck-name{ font-size:16px; }
+}
+
+/* safety */
+.donaldduck-name{ min-width:0; max-width:100%; }
