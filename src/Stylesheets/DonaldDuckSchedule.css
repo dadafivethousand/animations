@@ -25,7 +25,7 @@
 
 /* root wrapper uses background-color only */
 .donaldduck-wrap{
-  height:90vh;
+  height:85vh;
   width:100vw;
   padding:12px;
   padding-top:56px; /* >=50px */
@@ -97,7 +97,7 @@
   justify-content:space-between;
   gap:12px;
   padding:12px 14px;
-  height:30px;
+  height:45px;
   background: var(--dd-panel);
   border-radius:10px;
   border:1px solid var(--dd-border);
@@ -160,7 +160,7 @@
 .donaldduck-time{
   width:90px;
   flex:0 0 90px;
-  height:36px;
+  height:40px;
   display:flex;
   align-items:center;
   justify-content:center;
