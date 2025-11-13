@@ -1,7 +1,7 @@
 // JurassicParkSchedule.jsx
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/JurassicParkSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function JurassicParkSchedule({
   day,

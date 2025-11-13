@@ -60,7 +60,7 @@ import DonaldDuckSchedule from "./Components/DonaldDuckSchedule";
    function App() {
   return (
     <>
-  <DonaldDuckSchedule day="Thursday" />
+  <JurassicParkSchedule day="Thursday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
