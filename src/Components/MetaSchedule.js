@@ -1,7 +1,7 @@
 // MetaSchedule.jsx
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/MetaSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function MetaSchedule({
   day,

@@ -43,7 +43,7 @@ import RobloxSchedule from "./Components/RobloxSchedule";
    function App() {
   return (
     <>
-  <RobloxSchedule day="Friday" />
+  <MetaSchedule day="Friday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
