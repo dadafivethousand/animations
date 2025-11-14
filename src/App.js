@@ -38,10 +38,12 @@ import JurassicParkSchedule from "./Components/JurassicParkSchedule";
 import CrystalBallSchedule from "./Components/CrystalBallSchedule";
 import MtvSchedule from "./Components/MtvSchedule";
 import CodeNinjas from "./Used/CodeNinjas"
+import WatchTheThroneSchedule from "./Components/WatchTheThroneSchedule";
+import RobloxSchedule from "./Components/RobloxSchedule";
    function App() {
   return (
     <>
-  <CodeNinjas />
+  <RobloxSchedule day="Friday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

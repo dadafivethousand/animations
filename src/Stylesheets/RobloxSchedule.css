@@ -1,0 +1,217 @@
+/* RobloxSchedule.css
+   Roblox-themed schedule (blocky, bright red accent)
+   - Prefix: roblox-
+   - Mobile-first. Top padding >= 50px. List width = 80%. Time block fixed = 90px.
+   - Uses background-color on wrapper (dark charcoal) for contrast.
+   - Respects prefers-reduced-motion.
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto+Condensed:wght@700&display=swap');
+
+:root{
+  --rb-bg: #0b0b0d;           /* near black */
+  --rb-panel: rgba(18,18,20,0.86);
+  --rb-ink: #f5f5f7;          /* light text */
+  --rb-red: #e2231a;          /* Roblox red */
+  --rb-accent: #ff5a3c;       /* warm highlight */
+  --rb-muted: rgba(245,245,247,0.88);
+  --rb-border: rgba(226,35,26,0.10);
+  --rb-shadow: 0 18px 48px rgba(0,0,0,0.8);
+}
+
+/* box-sizing */
+* { box-sizing: border-box; }
+
+/* wrapper uses background-color */
+.roblox-wrap{
+  min-height:100vh;
+  width:100vw;
+  padding:12px;
+  padding-top:56px; /* >=50px */
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  background-color: var(--rb-bg);  /* dark charcoal backdrop */
+  color:var(--rb-ink);
+  position:relative;
+  font-family: 'Roboto Condensed', system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* subtle grid accent at top */
+.roblox-wrap::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:140px;
+  background: linear-gradient(180deg, rgba(226,35,26,0.02), transparent);
+  pointer-events:none;
+  z-index:0;
+}
+
+/* header */
+.roblox-header{
+  width:100%;
+  max-width:920px;
+  padding:16px 12px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  position:sticky;
+  top:0;
+  z-index:20;
+}
+
+.roblox-day{
+  margin:0;
+  font-family: 'Montserrat', 'Roboto Condensed', sans-serif;
+  font-size:30px; /* per contract */
+  font-weight:700;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--rb-ink);
+  -webkit-text-stroke: 0.6px rgba(0,0,0,0.5);
+  text-shadow: 0 8px 28px rgba(226,35,26,0.03);
+}
+
+.roblox-sub{
+  font-size:11px;
+  color: rgba(245,245,247,0.7);
+  letter-spacing:0.12em;
+  font-weight:700;
+}
+
+/* list container (80% width) */
+.roblox-list{
+  width:80%;
+  max-width:920px;
+  margin-top:18px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  z-index:10;
+}
+
+/* card: blocky plaque with strong left accent */
+.roblox-card{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  min-height:56px;
+  background: var(--rb-panel);
+  border-radius:10px;
+  border:1px solid var(--rb-border);
+  box-shadow: var(--rb-shadow), inset 0 -6px 18px rgba(0,0,0,0.24);
+  overflow:visible;
+  opacity:0;
+  transform: translateX(-40px) translateY(8px);
+}
+
+/* left blocky emblem — evokes Roblox block shape */
+.roblox-block{
+  width:36px;
+  height:36px;
+  background: linear-gradient(180deg, var(--rb-red), #c71b14);
+  border-radius:6px;
+  box-shadow: 0 8px 22px rgba(226,35,26,0.08), inset 0 -6px 14px rgba(0,0,0,0.18);
+  transform: rotate(-12deg);
+  flex:0 0 auto;
+}
+
+/* title group */
+.roblox-left{ min-width:0; display:flex; align-items:center; gap:12px; flex:1 1 auto; justify-content:flex-start; }
+
+.roblox-name,
+.roblox-old,
+.roblox-new{
+  font-weight:700;
+  font-size:15px;
+  color:var(--rb-ink);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width: calc(100% - 120px);
+  display:inline-block;
+  letter-spacing:0.01em;
+}
+
+/* replacement styling */
+.roblox-swap .roblox-old{ text-decoration: line-through; opacity:.6; color: rgba(245,245,247,0.7); }
+.roblox-swap .roblox-arrow{ opacity:.85; margin:0 6px; color: var(--rb-accent); }
+.roblox-swap .roblox-new{ font-weight:900; color: var(--rb-red); text-shadow: 0 6px 20px rgba(226,35,26,0.06); }
+
+/* maple chip */
+.roblox-chip{
+  font-size:11px;
+  padding:4px 8px;
+  border-radius:999px;
+  background: rgba(0,0,0,0.28);
+  color:var(--rb-ink);
+  border:1px solid rgba(255,255,255,0.02);
+  flex:0 0 auto;
+}
+.roblox-chip--maple{ box-shadow: 0 6px 18px rgba(226,35,26,0.03); }
+
+/* fixed time block 90px */
+.roblox-time{
+  width:90px;
+  flex:0 0 90px;
+  height:56px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:8px;
+  background: linear-gradient(180deg, rgba(6,6,8,0.92), rgba(14,14,16,0.92));
+  color: var(--rb-ink);
+  font-weight:800;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  border: 1px solid rgba(255,255,255,0.02);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.7), inset 0 -6px 12px rgba(226,35,26,0.02);
+  text-align:center;
+}
+
+/* left accent stripe on hover for emphasis */
+.roblox-card::before{
+  content:"";
+  position:absolute;
+  left:8px;
+  top:8px;
+  bottom:8px;
+  width:6px;
+  border-radius:4px;
+  background: linear-gradient(180deg, var(--rb-red), #c71b14);
+  opacity:0;
+  transition: opacity .16s ease;
+  pointer-events:none;
+}
+.roblox-card:hover::before,
+.roblox-card:focus-within::before{ opacity:1; }
+
+/* reveal animation: pop-in with quick left→right move */
+.roblox-in{ animation: rb-pop .28s cubic-bezier(.18,.9,.28,1) forwards; }
+@keyframes rb-pop{
+  0% { opacity:0; transform: translateX(-88px) translateY(12px) scale(.998); filter: blur(2px); }
+  55% { transform: translateX(10px) translateY(-6px) scale(1.006); filter:none; }
+  100% { opacity:1; transform: translateX(0) translateY(0) scale(1); filter:none; }
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .roblox-in{ animation:none; opacity:1; transform:none; }
+}
+
+/* responsive tweaks */
+@media (min-width:520px){
+  .roblox-list{ width:72%; }
+  .roblox-day{ font-size:34px; }
+  .roblox-name{ font-size:16px; }
+}
+
+/* safety */
+.roblox-name{ min-width:0; max-width:100%; }
