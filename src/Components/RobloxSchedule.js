@@ -64,8 +64,7 @@ export default function RobloxSchedule({
     <div className="roblox-wrap" role="region" aria-label={`Schedule for ${safeDay}`}>
       <header className="roblox-header" role="banner">
         <h1 className="roblox-day">{safeDay ? safeDay.toUpperCase() : ""}</h1>
-        <div className="roblox-sub">STUDIO SESSIONS</div>
-      </header>
+       </header>
 
       <main className="roblox-list" aria-live="polite">
         {items.map((cls, i) =>
