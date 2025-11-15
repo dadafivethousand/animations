@@ -55,12 +55,15 @@ import MarioSchedule from "./Used/Lit/MarioSchedule"
 import WatchTheThroneSchedule from "./Components/WatchTheThroneSchedule";
 import GorillazSchedule from "./Components/GorillazSchedule";
 import DonaldDuckSchedule from "./Components/DonaldDuckSchedule";
+import GarfieldSchedule from "./Components/GarfieldSchedule"
+
+
 
 
    function App() {
   return (
     <>
-  <JurassicParkSchedule day="Thursday" />
+  <GarfieldSchedule day="Saturday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
