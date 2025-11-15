@@ -56,6 +56,7 @@ import WatchTheThroneSchedule from "./Components/WatchTheThroneSchedule";
 import GorillazSchedule from "./Components/GorillazSchedule";
 import DonaldDuckSchedule from "./Components/DonaldDuckSchedule";
 import GarfieldSchedule from "./Components/GarfieldSchedule"
+import MonopolySchedule from "./Used/MonopolySchedule";
 
 
 
@@ -63,7 +64,7 @@ import GarfieldSchedule from "./Components/GarfieldSchedule"
    function App() {
   return (
     <>
-  <GarfieldSchedule day="Saturday" />
+  <MonopolySchedule day="Saturday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

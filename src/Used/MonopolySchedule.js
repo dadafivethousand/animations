@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/MonopolySchedule.css";
-import schedule from "../Schedule";
+import "./MonopolySchedule.css";
+import schedule from "../RhSchedule";
 
 export default function MonopolySchedule({ day, animationDelay = 1800, animationInterval = 250 }) {
   const [visible, setVisible] = useState([]);
