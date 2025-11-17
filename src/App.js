@@ -40,10 +40,11 @@ import MtvSchedule from "./Components/MtvSchedule";
 import CodeNinjas from "./Used/CodeNinjas"
 import WatchTheThroneSchedule from "./Components/WatchTheThroneSchedule";
 import RobloxSchedule from "./Components/RobloxSchedule";
+import F1Schedule from "./Components/F1schedule";
    function App() {
   return (
     <>
-  <MetaSchedule day="Friday" />
+  <F1Schedule day="Monday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
