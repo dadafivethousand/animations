@@ -44,7 +44,7 @@ import F1Schedule from "./Components/F1schedule";
    function App() {
   return (
     <>
-  <F1Schedule day="Monday" />
+  <CrystalBallSchedule day="Monday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

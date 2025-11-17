@@ -1,7 +1,7 @@
 // CrystalBallSchedule.jsx
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/CrystalBallSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function CrystalBallSchedule({
   day,
