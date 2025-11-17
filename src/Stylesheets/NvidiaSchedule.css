@@ -1,0 +1,164 @@
+/* NvidiaSchedule.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+:root{
+  --nv-bg-1: #071013;      /* deep carbon */
+  --nv-bg-2: #0b1418;
+  --nv-green: #76ff03;     /* vivid nvidia-like green */
+  --nv-accent: #00ff6a;    /* secondary bright green */
+  --nv-card: #0f1720;
+  --nv-ink: #eaf6ea;
+  --nv-border: rgba(118,255,3,0.08);
+  --nv-shadow: 0 10px 30px rgba(2,6,8,0.6);
+}
+
+/* box-sizing */
+* { box-sizing: border-box; }
+
+.nvidia-wrap{
+  width:100vw;
+  min-height:100vh;
+  padding:12px;
+  padding-top:100px; /* required minimum top padding */
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  background: linear-gradient(180deg, var(--nv-bg-1), var(--nv-bg-2));
+  color:var(--nv-ink);
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+}
+
+/* Header */
+.nvidia-header{
+  width:100%;
+  text-align:center;
+  padding:8px 6px 12px;
+}
+.nvidia-day{
+  margin:0;
+  font-weight:700;
+  font-size:28px;
+  letter-spacing:0.08em;
+  color:var(--nv-green);
+  text-transform:uppercase;
+}
+
+/* List */
+.nvidia-list{
+  width:72%;
+  max-width:760px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:12px;
+}
+
+/* Card */
+.nvidia-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:10px 12px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02)),
+    var(--nv-card);
+  border-radius:12px;
+  box-shadow: var(--nv-shadow);
+  border:1px solid var(--nv-border);
+  min-height:56px; /* compact requirement */
+  opacity:0;
+  transform:translateY(8px) scale(0.995);
+  position:relative;
+  overflow:hidden;
+}
+
+/* racing stripe accent: subtle diagonal green light */
+.nvidia-card::after{
+  content: "";
+  position: absolute;
+  right: -40px;
+  top: -20px;
+  width:140px;
+  height:140px;
+  background: radial-gradient(closest-side, rgba(118,255,3,0.06), transparent 60%);
+  transform: rotate(25deg);
+  pointer-events:none;
+}
+
+/* reveal animation */
+.nvidia-in{ animation: nv-rise .24s cubic-bezier(.2,.9,.25,1) forwards; }
+@keyframes nv-rise{ to { opacity:1; transform: none } }
+
+.nvidia-left{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:8px;
+  flex:1 1 auto;
+  flex-wrap:nowrap;
+}
+
+/* Title */
+.nvidia-title{
+  font-weight:700;
+  font-size:15px;
+  line-height:1.15;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  min-width:0;
+  color:var(--nv-ink);
+}
+
+/* Replacement styling */
+.nvidia-swap .nvidia-old{ text-decoration:line-through; opacity:.65; }
+.nvidia-swap .nvidia-arrow{ opacity:.65; margin:0 6px; }
+.nvidia-swap .nvidia-new{ font-weight:800; color:var(--nv-accent); }
+
+/* Maple chip */
+.nvidia-chip{
+  font-size:11px;
+  padding:4px 8px;
+  border-radius:999px;
+  white-space:nowrap;
+  flex:0 0 auto;
+  border:1px solid rgba(118,255,3,0.12);
+  background: rgba(118,255,3,0.03);
+  color:var(--nv-green);
+}
+.nvidia-chip--maple{
+  border-color: rgba(43,110,230,0.16);
+  background: rgba(43,110,230,0.06);
+  color:#85b7ff;
+}
+
+/* Time block: fixed 90px and centered text */
+.nvidia-time{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Courier New', monospace;
+  font-weight:700;
+  font-size:13px;
+  width:90px;        /* fixed width requirement */
+  flex:0 0 90px;
+  text-align:center;
+  padding:6px 8px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.02);
+  background: linear-gradient(180deg, rgba(0,0,0,0.12), rgba(255,255,255,0.01));
+  color:var(--nv-ink);
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce){
+  .nvidia-in{ animation:none; opacity:1; transform:none; }
+}
+
+/* Wider screens adjustments (list 80% and larger day) */
+@media (min-width:481px){
+  .nvidia-list{ width:80%; }
+  .nvidia-day{ font-size:30px; }
+}
+
+/* Ensure WCAG AA contrasts for important text */
+.nvidia-card, .nvidia-time, .nvidia-title { color: #eaf6ea; }

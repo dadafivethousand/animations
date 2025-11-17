@@ -41,10 +41,11 @@ import CodeNinjas from "./Used/CodeNinjas"
 import WatchTheThroneSchedule from "./Components/WatchTheThroneSchedule";
 import RobloxSchedule from "./Components/RobloxSchedule";
 import F1Schedule from "./Components/F1schedule";
+import NvidiaSchedule from "./Components/NvidiaSchedule";
    function App() {
   return (
     <>
-  <CrystalBallSchedule day="Monday" />
+  <NvidiaSchedule day="Tuesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
