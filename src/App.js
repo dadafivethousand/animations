@@ -45,7 +45,7 @@ import NvidiaSchedule from "./Components/NvidiaSchedule";
    function App() {
   return (
     <>
-  <NvidiaSchedule day="Tuesday" />
+  <MarvelFlashSchedule day="Tuesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
