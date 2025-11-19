@@ -26,7 +26,7 @@
   width:100vw;
   min-height:100vh;
   padding:12px;
-  padding-top:50px; /* must be >=50px */
+  padding-top:100px; /* must be >=50px */
   display:flex;
   flex-direction:column;
   align-items:center;
