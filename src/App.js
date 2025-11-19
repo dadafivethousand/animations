@@ -42,10 +42,11 @@ import WatchTheThroneSchedule from "./Components/WatchTheThroneSchedule";
 import RobloxSchedule from "./Components/RobloxSchedule";
 import F1Schedule from "./Components/F1schedule";
 import NvidiaSchedule from "./Components/NvidiaSchedule";
+import StarbucksSchedule from "./Components/StarbucksSchedule";
    function App() {
   return (
     <>
-  <MarvelFlashSchedule day="Tuesday" />
+  <StarbucksSchedule day="Wednesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

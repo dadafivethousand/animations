@@ -1,0 +1,200 @@
+/* StarbucksSchedule.css */
+/* Mobile-first Starbucks-inspired schedule (green + warm brown accents) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat:wght@600&display=swap');
+
+:root{
+  --sb-bg-1: #0b2a1a;      /* deep coffee-green */
+  --sb-bg-2: #103827;
+  --sb-green: #0e8b53;     /* Starbucks-esque green (distinct) */
+  --sb-accent: #c79b5b;    /* warm cup/brown accent */
+  --sb-card: #f7f3ef;      /* light cup surface */
+  --sb-ink-dark: #1b1b1b;
+  --sb-ink-light: #ffffff;
+  --sb-border: rgba(0,0,0,0.06);
+  --sb-shadow: 0 10px 30px rgba(2,6,6,0.25);
+}
+
+/* base box sizing */
+* { box-sizing: border-box; }
+
+/* wrapper */
+.starbucks-wrap{
+  width:100vw;
+  min-height:100vh;
+  padding:12px;
+  padding-top:50px; /* required minimum */
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  background: linear-gradient(180deg, var(--sb-bg-1), var(--sb-bg-2));
+  color:var(--sb-ink-light);
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+}
+
+/* header */
+.starbucks-header{
+  width:100%;
+  text-align:center;
+  padding:8px 6px 12px;
+}
+.starbucks-day{
+  margin:0;
+  font-family: 'Montserrat', Inter, system-ui, sans-serif;
+  font-size:28px;
+  letter-spacing:0.08em;
+  color:var(--sb-card);
+  text-transform:uppercase;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.35);
+}
+
+/* list */
+.starbucks-list{
+  width:92%;
+  max-width:760px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:12px;
+}
+
+/* card - coffee cup / cozy tile look */
+.starbucks-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  background: linear-gradient(180deg, #fffefc, #f2ede7);
+  border-radius:12px;
+  box-shadow: var(--sb-shadow);
+  border:1px solid var(--sb-border);
+  min-height:56px;
+  opacity:0;
+  transform:translateY(8px) scale(0.996);
+  position:relative;
+  overflow:visible;
+}
+
+/* subtle cup logo circle accent at left */
+.starbucks-card::before{
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background: radial-gradient(circle at 30% 30%, rgba(14,139,83,0.95), rgba(14,139,83,0.85));
+  box-shadow: inset 0 -6px 12px rgba(0,0,0,0.08);
+  z-index: 0;
+  opacity: 0.95;
+}
+
+/* small steam lines inside the circle (using pseudo elements) */
+.starbucks-card::after{
+  content: '';
+  position: absolute;
+  left: 22px;
+  top: calc(50% - 10px);
+  width: 12px;
+  height: 20px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0));
+  mask-image: radial-gradient(circle, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 100%);
+  opacity: 0.9;
+  z-index: 1;
+  transform: rotate(-12deg);
+}
+
+/* ensure content sits above the pseudo-circle */
+.starbucks-left { position: relative; z-index: 2; }
+
+/* reveal animation */
+.starbucks-in{ animation: sb-rise .24s cubic-bezier(.2,.9,.25,1) forwards; }
+@keyframes sb-rise{ to{ opacity:1; transform:none } }
+
+/* left area - title + inline chip */
+.starbucks-left{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:12px;
+  flex:1 1 auto;
+  flex-wrap:nowrap;
+}
+
+/* title - place to the right of the round accent; add padding-left to avoid overlap */
+.starbucks-title{
+  font-weight:700;
+  font-size:15px;
+  line-height:1.15;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  min-width:0;
+  color:var(--sb-ink-dark);
+  margin-left: 48px; /* keep clear of the circular accent */
+}
+
+/* tiny subtitle under title to feel like menu item */
+.starbucks-title::after{
+  content: "Fresh brew • cozy vibes";
+  display:block;
+  font-size:11px;
+  color: rgba(27,27,27,0.6);
+  margin-top:4px;
+}
+
+/* replacement styling */
+.starbucks-swap .starbucks-old{ text-decoration:line-through; opacity:.65; color: rgba(27,27,27,0.85); }
+.starbucks-swap .starbucks-arrow{ opacity:.65; margin:0 6px; color: rgba(80,80,80,0.9); }
+.starbucks-swap .starbucks-new{ font-weight:800; color:var(--sb-accent); }
+
+/* maple chip */
+.starbucks-chip{
+  font-size:11px;
+  padding:4px 8px;
+  border-radius:999px;
+  white-space:nowrap;
+  flex:0 0 auto;
+  border:1px solid rgba(27,27,27,0.06);
+  background: rgba(27,27,27,0.03);
+  color:var(--sb-ink-dark);
+}
+.starbucks-chip--maple{
+  background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(245,240,235,0.6));
+  border: 1px solid rgba(27,27,27,0.06);
+  color: #2b6e44;
+  font-weight:700;
+}
+
+/* Time block - like a stamped label (fixed 90px) */
+.starbucks-time{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Courier New', monospace;
+  font-weight:700;
+  font-size:13px;
+  width:90px;        /* fixed width requirement */
+  flex:0 0 90px;
+  text-align:center;
+  padding:6px 8px;
+  border-radius:8px;
+  border:1px solid rgba(0,0,0,0.06);
+  background: linear-gradient(180deg, rgba(240,235,230,0.9), rgba(230,220,210,0.9));
+  color:var(--sb-ink-dark);
+  box-shadow: inset 0 -4px 10px rgba(0,0,0,0.06);
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .starbucks-in{ animation:none; opacity:1; transform:none; }
+}
+
+/* wider screens adjustments */
+@media (min-width:481px){
+  .starbucks-list{ width:80%; }
+  .starbucks-day{ font-size:30px; }
+}
+
+/* ensure readable contrast */
+.starbucks-card, .starbucks-time, .starbucks-title { color: #1b1b1b; }
