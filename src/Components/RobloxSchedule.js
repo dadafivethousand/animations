@@ -7,7 +7,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import "../Stylesheets/RobloxSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function RobloxSchedule({
   day,
