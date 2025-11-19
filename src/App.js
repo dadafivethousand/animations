@@ -43,10 +43,11 @@ import RobloxSchedule from "./Components/RobloxSchedule";
 import F1Schedule from "./Components/F1schedule";
 import NvidiaSchedule from "./Components/NvidiaSchedule";
 import StarbucksSchedule from "./Components/StarbucksSchedule";
+import AnnoyingOrangeSchedule from "./Components/AnnoyingOrangeSchedule";
    function App() {
   return (
     <>
-  <RobloxSchedule day="Wednesday" />
+  <AnnoyingOrangeSchedule day="Thursday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

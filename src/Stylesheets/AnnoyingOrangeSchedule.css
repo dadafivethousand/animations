@@ -1,0 +1,195 @@
+/* AnnoyingOrangeSchedule.css
+   Mobile-first "Annoying Orange" theme.
+   Files must remain separate: JS imports this CSS via ../Stylesheets/AnnoyingOrangeSchedule.css
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Inter:wght@400;600;700&display=swap');
+
+:root{
+  --ao-bg-1: #fff6ea;      /* soft cream */
+  --ao-bg-2: #fff2df;
+  --ao-orange: #ff8c1a;    /* bright orange */
+  --ao-accent: #ffb923;    /* light orange highlight */
+  --ao-card: #ff8c1a;      /* card color (orange) */
+  --ao-ink-dark: #2a2a2a;
+  --ao-ink-light: #fffdf8;
+  --ao-border: rgba(0,0,0,0.06);
+  --ao-shadow: 0 12px 30px rgba(42,42,42,0.08);
+  --ao-teeth: #ffffff;     /* teeth white for the annoying face */
+}
+
+/* global box sizing */
+* { box-sizing: border-box; }
+
+/* wrapper */
+.annoyingorange-wrap{
+  width:100vw;
+  min-height:100vh;
+  padding:12px;
+  padding-top:50px; /* must be >=50px */
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  background: linear-gradient(180deg, var(--ao-bg-1), var(--ao-bg-2));
+  color:var(--ao-ink-dark);
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+}
+
+/* header */
+.annoyingorange-header{
+  width:100%;
+  text-align:center;
+  padding:8px 6px 12px;
+}
+.annoyingorange-day{
+  margin:0;
+  font-family: 'Fredoka One', 'Inter', system-ui, sans-serif;
+  font-size:28px;
+  color:var(--ao-orange);
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+}
+
+/* list */
+.annoyingorange-list{
+  width:92%;
+  max-width:760px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:12px;
+}
+
+/* card — playful orange fruit with face-like accents */
+/* ensure compact height (≈56px) and left/right layout */
+.annoyingorange-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  background: linear-gradient(180deg, var(--ao-card), var(--ao-accent));
+  border-radius:14px;
+  box-shadow: var(--ao-shadow);
+  border:1px solid rgba(0,0,0,0.04);
+  min-height:56px;
+  opacity:0;
+  transform: translateY(8px) scale(0.996);
+  position:relative;
+  overflow:visible;
+  color: var(--ao-ink-light);
+}
+
+/* cheek highlights (two glossy circles) */
+.annoyingorange-card::before,
+.annoyingorange-card::after{
+  content: "";
+  position: absolute;
+  width: 40px;
+  height: 24px;
+  border-radius: 50%;
+  top: 10px;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.35), transparent 45%);
+  opacity: 0.18;
+  pointer-events:none;
+}
+.annoyingorange-card::before{ left: 12px; transform: rotate(-10deg); }
+.annoyingorange-card::after{ right: 12px; transform: rotate(10deg); }
+
+/* little tooth/ grin mark near left to read as 'annoying face' */
+.annoyingorange-card .ao-grin{
+  position:absolute;
+  left: 20px;
+  top: calc(50% - 6px);
+  width: 28px;
+  height: 12px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, var(--ao-teeth), #f2f2f2);
+  transform: translateY(-10px);
+  opacity:0.95;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.06) inset;
+  pointer-events:none;
+}
+
+/* reveal animation */
+.annoyingorange-in{ animation: ao-rise .24s cubic-bezier(.2,.9,.25,1) forwards; }
+@keyframes ao-rise{ to{ opacity:1; transform:none } }
+
+/* left area (title + maple chip) */
+.annoyingorange-left{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:10px;
+  flex:1 1 auto;
+  flex-wrap:nowrap;
+  position:relative;
+  padding-left:6px; /* space for face/grin accent */
+}
+
+/* title (use ellipsis rules) */
+.annoyingorange-title{
+  font-weight:700;
+  font-size:15px;
+  line-height:1.15;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  min-width:0;
+  color: var(--ao-ink-light);
+  text-shadow: 0 1px 0 rgba(0,0,0,0.08);
+}
+
+/* replacement styling */
+.annoyingorange-swap .annoyingorange-old{ text-decoration: line-through; opacity:.75; color: rgba(255,255,255,0.92); }
+.annoyingorange-swap .annoyingorange-arrow{ opacity:.85; margin:0 6px; color: rgba(255,255,255,0.9); }
+.annoyingorange-swap .annoyingorange-new{ font-weight:800; color:#fffde6; }
+
+/* Maple chip (inline) */
+.annoyingorange-chip{
+  font-size:11px;
+  padding:4px 8px;
+  border-radius:999px;
+  background: rgba(255,255,255,0.14);
+  border:1px solid rgba(255,255,255,0.08);
+  color: var(--ao-ink-dark);
+  flex:0 0 auto;
+  font-weight:700;
+}
+.annoyingorange-chip--maple{
+  background: rgba(255,255,255,0.9);
+  color: var(--ao-ink-dark);
+}
+
+/* time block: fixed width 90px, looks like a citrus stamp */
+.annoyingorange-time{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Courier New', monospace;
+  font-weight:700;
+  font-size:15px;
+  width:90px;
+  flex:0 0 90px;
+  text-align:center;
+  padding:6px 8px;
+  border-radius:8px;
+   color: var(--ao- -light);
+  border:1px solid rgba(255,255,255,0.08);
+ }
+
+/* small 'annoying' wobble hover (keeps reduced-motion in mind) */
+.annoyingorange-card:hover{
+  transform: translateY(-4px) scale(1.002);
+}
+@media (prefers-reduced-motion: reduce){
+  .annoyingorange-card, .annoyingorange-in{ transition:none; animation:none; transform:none; opacity:1; }
+  .annoyingorange-card:hover{ transform:none; }
+}
+
+/* ensure list width 80% on larger screens and slightly larger day */
+@media (min-width:481px){
+  .annoyingorange-list{ width:80%; }
+  .annoyingorange-day{ font-size:30px; }
+}
+
+/* ensure strong contrast on cards */
+.annoyingorange-card, .annoyingorange-time, .annoyingorange-title { color: #fffdf8; }
