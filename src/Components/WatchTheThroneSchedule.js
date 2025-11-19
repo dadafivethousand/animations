@@ -9,7 +9,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import "../Stylesheets/WatchTheThroneSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function WatchTheThroneSchedule({
   day,
