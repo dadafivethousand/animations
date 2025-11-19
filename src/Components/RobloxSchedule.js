@@ -76,8 +76,7 @@ export default function RobloxSchedule({
               style={{ animationDelay: `${Math.max(0, animationDelay - 160) + i * (animationInterval / 1.05)}ms` }}
             >
               <div className="roblox-left">
-                <div className="roblox-block" aria-hidden />
-                <div className="roblox-title">
+                 <div className="roblox-title">
                   {cls.replacement ? (
                     <span className="roblox-swap">
                       <span className="roblox-old">{cls.name}</span>

@@ -46,7 +46,7 @@ import StarbucksSchedule from "./Components/StarbucksSchedule";
    function App() {
   return (
     <>
-  <StarbucksSchedule day="Wednesday" />
+  <RobloxSchedule day="Wednesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

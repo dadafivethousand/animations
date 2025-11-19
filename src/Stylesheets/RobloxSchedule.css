@@ -125,7 +125,7 @@
 }
 
 /* title group */
-.roblox-left{ min-width:0; display:flex; align-items:center; gap:12px; flex:1 1 auto; justify-content:flex-start; }
+.roblox-left{ min-width:0; display:flex; align-items:flex-end; justify-content: center; gap:12px; flex:1 1 auto; justify-content:flex-start; }
 
 .roblox-name,
 .roblox-old,
