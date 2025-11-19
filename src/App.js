@@ -47,7 +47,7 @@ import AnnoyingOrangeSchedule from "./Components/AnnoyingOrangeSchedule";
    function App() {
   return (
     <>
-  <AnnoyingOrangeSchedule day="Thursday" />
+  <WatchTheThroneSchedule day="Thursday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
