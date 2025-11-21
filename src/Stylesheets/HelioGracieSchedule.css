@@ -11,7 +11,7 @@
   --hg-deep-red-2: #5e1212;
   --hg-card-white: #ffffff;
   --hg-ink-dark: #111111;
-  --hg-gold: #e5c341;
+  --hg-gold: #e5c441;
   --hg-border: rgba(0,0,0,0.06);
   --hg-shadow: 0 10px 28px rgba(0,0,0,0.32);
 }
@@ -85,7 +85,7 @@
   top: 12px;
   width: 36px;
   height: 8px;
-  background: linear-gradient(90deg, var(--hg-gold), rgba(229,195,65,0.85));
+  background: linear-gradient(90deg, var(--hg-gold), rgb(229, 196, 65));
   border-radius: 4px;
   pointer-events: none;
 }
