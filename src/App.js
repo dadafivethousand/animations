@@ -48,7 +48,7 @@ import HelioGracieSchedule from "./Components/HelioGracieSchedule";
    function App() {
   return (
     <>
-  <HelioGracieSchedule day="Thursday" />
+  <HelioGracieSchedule day="Friday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
