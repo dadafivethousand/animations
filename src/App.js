@@ -44,10 +44,11 @@ import F1Schedule from "./Components/F1schedule";
 import NvidiaSchedule from "./Components/NvidiaSchedule";
 import StarbucksSchedule from "./Components/StarbucksSchedule";
 import AnnoyingOrangeSchedule from "./Components/AnnoyingOrangeSchedule";
+import HelioGracieSchedule from "./Components/HelioGracieSchedule";
    function App() {
   return (
     <>
-  <WatchTheThroneSchedule day="Thursday" />
+  <HelioGracieSchedule day="Thursday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
