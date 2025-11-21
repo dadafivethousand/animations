@@ -1,7 +1,7 @@
 // NvidiaSchedule.jsx
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/NvidiaSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function NvidiaSchedule({
   day,
