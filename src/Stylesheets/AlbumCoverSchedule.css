@@ -9,8 +9,8 @@
 :root{
   --ac-bg: #e74b4b;        /* vivid red background like album cover */
   --ac-accent: #ffd662;    /* thin gold accent */
-  --ac-card: #1b1b1b;      /* dark card surface */
-  --ac-card-2: #0f0f0f;
+  --ac-card: #1b1b1b88;      /* dark card surface */
+  --ac-card-2: #0f0f0f77;
   --ac-ink: #ffffff;
   --ac-muted: rgba(255,255,255,0.78);
   --ac-shadow: 0 14px 40px rgba(0,0,0,0.6);
@@ -22,7 +22,7 @@
 /* wrapper */
 .albumcover-wrap{
   width:100vw;
-  min-height:100vh;
+  min-height:150vh;
   padding:12px;
   padding-top:150px; /* required */
   display:flex;
@@ -56,7 +56,7 @@
 
 /* list */
 .albumcover-list{
-  width:92%;
+  width:72%;
   max-width:760px;
   display:flex;
   flex-direction:column;
