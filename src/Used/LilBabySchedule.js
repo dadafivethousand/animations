@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/LilBabySchedule.css";
-import schedule from "../Schedule"; // Assuming schedule data exists
-import lilbaby from '../Images/Harder_Than_Ever.jpg'
+import "./LilBabySchedule.css";
+import schedule from "../RhSchedule"; // Assuming schedule data exists
+import lilbaby from '../Images/Used/Harder_Than_Ever.jpg'
 
 function LilBabySchedule({ day, animationDelay = 1000, secondaryAnimationDelay=5000, thirdAnimationDelay=7000,animationInterval = 500 }) {
   const [showSchedule, setShowSchedule] = useState(false);
@@ -19,7 +19,7 @@ function LilBabySchedule({ day, animationDelay = 1000, secondaryAnimationDelay=5
 
   useEffect(() => {
     setTimeout(() => {
-      let text = "maple jiu-jitsu goes";
+      let text = "Richmond Hill jiu-jitsu goes";
        let i = 0;
        const interval = setInterval(() => {
          setTitleText(text.substring(0, i + 1));

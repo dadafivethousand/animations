@@ -47,10 +47,11 @@ import AnnoyingOrangeSchedule from "./Components/AnnoyingOrangeSchedule";
 import HelioGracieSchedule from "./Components/HelioGracieSchedule";
 import AlbumCoverSchedule from "./Components/AlbumCoverSchedule";
 import JuggernautSchedule from "./Components/JuggernautSchedule";
+import LilBabySchedule from "./Used/LilBabySchedule";
    function App() {
   return (
     <>
-  <JuggernautSchedule day="Saturday" />
+  <LilBabySchedule day="Saturday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
