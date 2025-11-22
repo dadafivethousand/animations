@@ -49,8 +49,8 @@
  
 .harder-text {
     font-family: "Arial Black", Impact, sans-serif; /* Wide bold font */
-    font-size: 20px; /* Slightly larger for boldness */
-    font-weight: 900;
+    font-size: 22px; /* Slightly larger for boldness */
+    font-weight: 800;
     text-transform: uppercase;
     color: #c02424; /* Slightly lighter red */
     margin-left: 75px;
