@@ -1,0 +1,210 @@
+/* AlbumCoverSchedule.css
+   Album-cover themed schedule inspired by the uploaded image.
+   Uses the uploaded file at: /mnt/data/91c8c176-53fa-4fd2-b629-f60bf43ae6fc.png
+   Mobile-first. All classes prefixed with 'albumcover-' per spec.
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto+Condensed:wght@700&display=swap');
+
+:root{
+  --ac-bg: #e74b4b;        /* vivid red background like album cover */
+  --ac-accent: #ffd662;    /* thin gold accent */
+  --ac-card: #1b1b1b;      /* dark card surface */
+  --ac-card-2: #0f0f0f;
+  --ac-ink: #ffffff;
+  --ac-muted: rgba(255,255,255,0.78);
+  --ac-shadow: 0 14px 40px rgba(0,0,0,0.6);
+}
+
+/* box model */
+* { box-sizing: border-box; }
+
+/* wrapper */
+.albumcover-wrap{
+  width:100vw;
+  min-height:100vh;
+  padding:12px;
+  padding-top:150px; /* required */
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  background-color: #ff1924;
+  color: var(--ac-ink);
+  font-family: Inter, 'Roboto Condensed', system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+  background-image: url(../Images/kanyealbum.jpeg);
+  background-size: 100%;;
+ 
+  background-position: center
+}
+
+/* header */
+.albumcover-header{
+  width:100%;
+  text-align:center;
+  padding:10px 6px 14px;
+}
+.albumcover-day{
+  margin:0;
+  font-size:28px;
+  letter-spacing:0.12em;
+  font-weight:700;
+  color: var(--ac-ink);
+  font-family: 'Roboto Condensed', 'Inter', sans-serif;
+  text-transform:uppercase;
+  text-shadow: 0 6px 20px rgba(0,0,0,0.45);
+}
+
+/* list */
+.albumcover-list{
+  width:92%;
+  max-width:760px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:12px;
+}
+
+/* card */
+.albumcover-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:18px 18px;
+  background: linear-gradient(180deg, var(--ac-card), var(--ac-card-2));
+  border-radius:12px;
+  box-shadow: var(--ac-shadow);
+  border: 1px solid rgba(255,255,255,0.03);
+  min-height:56px;
+  opacity:0;
+  transform:translateY(8px) scale(0.995);
+  position:relative;
+  overflow:visible;
+
+}
+
+/* subtle 'album frame' thin top/bottom lines */
+.albumcover-card::before,
+.albumcover-card::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  height:4px;
+  background: linear-gradient(90deg, rgba(0,0,0,0.12), var(--ac-accent), rgba(0,0,0,0.12));
+  opacity:0.08;
+  pointer-events:none;
+}
+.albumcover-card::before{ top:6px; border-top-left-radius:12px; border-top-right-radius:12px; }
+.albumcover-card::after{ bottom:6px; border-bottom-left-radius:12px; border-bottom-right-radius:12px; }
+
+/* reveal animation */
+.albumcover-in{ animation: ac-rise .24s cubic-bezier(.2,.9,.25,1) forwards; }
+@keyframes ac-rise{ to{ opacity:1; transform:none } }
+
+.albumcover-left{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:12px;
+  flex:1 1 auto;
+  flex-wrap:nowrap;
+}
+
+/* album-art thumbnail on every card (pixelated / scaled) */
+.albumcover-art{
+  width:56px;
+  height:56px;
+  border-radius:6px;
+  flex:0 0 56px;
+ 
+  background-size: cover;
+  background-position: center;
+  /* pixelated feel: scale up an image rendered with nearest-neighbor */
+  image-rendering: pixelated;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.04);
+  border: 2px solid rgba(255,255,255,0.04);
+}
+
+/* title */
+.albumcover-title{
+  font-weight:700;
+  font-size:15px;
+  line-height:1.15;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  min-width:0;
+  color: var(--ac-ink);
+}
+
+/* Replacement styling */
+.albumcover-swap .albumcover-old{ text-decoration:line-through; opacity:.65; color: rgba(255,255,255,0.9); }
+.albumcover-swap .albumcover-arrow{ opacity:.65; margin:0 6px; }
+.albumcover-swap .albumcover-new{ font-weight:800; color: var(--ac-accent); }
+
+/* Maple chip */
+.albumcover-chip{
+  font-size:11px;
+  padding:4px 8px;
+  border-radius:999px;
+  white-space:nowrap;
+  flex:0 0 auto;
+  border:1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.02);
+  color: var(--ac-ink);
+}
+.albumcover-chip--maple{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  color: var(--ac-muted);
+}
+
+/* Time badge — improved and stylized like an album sticker */
+.albumcover-time{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Courier New', monospace;
+  font-weight:700;
+  font-size:13px;
+  width:90px;        /* fixed width requirement */
+  flex:0 0 90px;
+  text-align:center;
+  padding:8px 6px;
+  border-radius:8px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  color: var(--ac-ink);
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.5), inset 0 -4px 8px rgba(0,0,0,0.3);
+  letter-spacing:0.02em;
+}
+
+/* small Parental Advisory-style badge in lower right of card (visual nod) */
+.albumcover-card .pa-badge{
+  position:absolute;
+  right:10px;
+  bottom:10px;
+  background:#111;
+  color:#fff;
+  font-size:9px;
+  padding:4px 6px;
+  border-radius:3px;
+  opacity:0.9;
+  pointer-events:none;
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+}
+
+/* hover lifts the card slightly (respect reduced-motion) */
+.albumcover-card:hover{ transform: translateY(-6px) scale(1.002); transition: transform .18s ease; }
+@media (prefers-reduced-motion: reduce){
+  .albumcover-card, .albumcover-in{ transition:none; animation:none; transform:none; opacity:1; }
+  .albumcover-card:hover{ transform:none; }
+}
+
+/* larger screens: list width 80% and bigger day */
+@media (min-width:481px){
+  .albumcover-list{ width:80%; }
+  .albumcover-day{ font-size:30px; }
+}
+
+/* ensure text contrast */
+.albumcover-card, .albumcover-title, .albumcover-time { color: #fff; }
