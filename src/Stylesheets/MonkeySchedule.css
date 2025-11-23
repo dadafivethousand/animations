@@ -55,7 +55,7 @@ background-repeat: no-repeat;
 
 /* list */
 .monkey-list{
-  width:82%;
+  width:72%;
   max-width:760px;
   display:flex;
   flex-direction:column;
