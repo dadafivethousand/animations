@@ -1,0 +1,300 @@
+/* MonkeySchedule.css
+   Monkey / suspicious-monkey meme theme.
+   Mobile-first. No external images. All visuals done in CSS.
+   Prefix: monkey-
+*/
+
+:root{
+  --mk-bg: #bfc6d1;           /* background color from provided sample */
+  --mk-card: #7e5b2d;         /* rich brown card (monkey fur) */
+  --mk-face: #f0c38b;         /* lighter face tone */
+  --mk-ink: #fffefb;
+  --mk-accent: #a85b2a;
+  --mk-border: rgba(0,0,0,0.12);
+  --mk-shadow: 0 10px 28px rgba(0,0,0,0.35);
+}
+
+/* base */
+* { box-sizing: border-box; }
+
+.monkey-wrap{
+  width:100vw;
+  min-height:100vh;
+  padding-bottom:22px;
+ 
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content: flex-end;
+  background-color: #8f97ff;
+  color: var(--mk-ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background-image: url('https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGR0am9ocDBud242ajI3ODRidnViemQ3ampqODBoeGMzejA2c3M5eSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/H5C8CevNMbpBqNqFjl/giphy.gif');
+background-size:100%;
+background-position: bottom;
+background-repeat: no-repeat;
+}
+
+/* header */
+.monkey-header{
+  width:100%;
+  text-align:center;
+  padding:8px 6px 12px;
+ 
+}
+.monkey-day{
+  margin:0;
+  font-size:45px;
+  color:#fcfcfc;
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+}
+
+/* list */
+.monkey-list{
+  width:82%;
+  max-width:760px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:12px;
+}
+
+/* card */
+.monkey-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  background: linear-gradient(180deg, var(--mk-card), #b9733a);
+  border-radius:12px;
+  box-shadow: var(--mk-shadow);
+  border:1px solid var(--mk-border);
+  min-height:64px;
+  opacity:0;
+  transform: translateY(8px) scale(0.995);
+  position:relative;
+  overflow:visible;
+}
+
+/* reveal animation */
+.monkey-in{ animation: mk-rise .22s cubic-bezier(.2,.9,.25,1) forwards; }
+@keyframes mk-rise{ to{ opacity:1; transform:none } }
+
+.monkey-left{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:12px;
+  flex:1 1 auto;
+  flex-wrap:nowrap;
+}
+
+/* MONKEY FACE (pure CSS)
+   Structure:
+   - .monkey-face container (circle-ish)
+   - ears via pseudo elements / child divs
+   - head contains eyes, pupils, brows, mouth
+*/
+.monkey-face{
+  width:64px;
+  height:64px;
+  flex:0 0 64px;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-left:4px;
+}
+
+/* ears */
+.monkey-ear{
+  position:absolute;
+  width:28px;
+  height:28px;
+  background: linear-gradient(180deg, #563e2a, #3b2b1a);
+  border-radius:50%;
+  top:6px;
+  z-index:0;
+  box-shadow: inset -3px -6px 12px rgba(0,0,0,0.35);
+}
+.monkey-ear.ear-left{ left: -6px; transform: scaleX(-1); }
+.monkey-ear.ear-right{ right: -6px; }
+
+/* head */
+.monkey-head{
+  width:56px;
+  height:56px;
+  background: radial-gradient(circle at 35% 30%, var(--mk-face), #ddb183 70%);
+  border-radius:50%;
+  position:relative;
+  z-index:1;
+  box-shadow: inset 0 -8px 16px rgba(0,0,0,0.18);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:row;
+  gap:8px;
+  transform-origin: center;
+  transition: transform .28s ease;
+}
+
+/* eyes */
+.monkey-eye{
+  width:12px;
+  height:16px;
+  background: #fff;
+  border-radius:8px;
+  position:relative;
+  overflow:visible;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.monkey-pupil{
+  width:6px;
+  height:6px;
+  background: #1a1a1a;
+  border-radius:50%;
+  transform: translateX(0);
+  transition: transform .22s ease;
+}
+
+/* brows (suspicious expression) */
+.monkey-brows{
+  position:absolute;
+  top:8px;
+  left:8px;
+  right:8px;
+  height:8px;
+  pointer-events:none;
+}
+.monkey-brows::before,
+.monkey-brows::after{
+  content:"";
+  position:absolute;
+  width:18px;
+  height:6px;
+  background: linear-gradient(90deg, rgba(0,0,0,0.6), rgba(0,0,0,0.35));
+  border-radius:4px;
+  transform-origin:center;
+}
+.monkey-brows::before{ left:6px; transform: rotate(-18deg); top:0; opacity:0.95; }
+.monkey-brows::after{ right:6px; transform: rotate(10deg); top:6px; opacity:0.82; }
+
+/* mouth */
+.monkey-mouth{
+  position:absolute;
+  bottom:10px;
+  width:28px;
+  height:4px;
+  background: #6a3f28;
+  border-radius:0 0 14px 14px;
+  box-shadow: inset 0 3px 8px rgba(0,0,0,0.35);
+}
+
+/* SUSPICIOUS LOOK ANIMATIONS:
+   - pupils shift gently to the left then snap back (like checking behind)
+   - head tilts slightly at the same time
+   - stagger per-card by animationDelay from JS (cards are revealed staggered)
+*/
+@keyframes pupil-glance {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-3px); }
+  40% { transform: translateX(-6px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes head-tilt {
+  0% { transform: rotate(0deg); }
+  20% { transform: rotate(-4deg); }
+  40% { transform: rotate(-6deg); }
+  60% { transform: rotate(-6deg); }
+  80% { transform: rotate(-2deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* Apply animation to pupils and head with a long loop so it's subtle */
+.monkey-face .monkey-pupil {
+  animation: pupil-glance 3.8s cubic-bezier(.2,.8,.2,1) infinite;
+  animation-delay: 0.2s;
+}
+.monkey-face .monkey-head {
+  animation: head-tilt 3.8s cubic-bezier(.2,.8,.2,1) infinite;
+  animation-delay: 0.1s;
+}
+
+/* Reduce motion: disable looping animations */
+@media (prefers-reduced-motion: reduce){
+  .monkey-face .monkey-pupil,
+  .monkey-face .monkey-head {
+    animation: none;
+    transform: none;
+  }
+}
+
+/* title */
+.monkey-title{
+  font-weight:700;
+  font-size:15px;
+  color: var(--mk-ink);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  min-width:0;
+}
+
+/* replacement styling */
+.monkey-swap .monkey-old{ text-decoration:line-through; opacity:.82; }
+.monkey-swap .monkey-arrow{ opacity:.82; margin:0 6px; }
+.monkey-swap .monkey-new{ font-weight:800; color: var(--mk-accent); }
+
+/* maple chip */
+.monkey-chip{
+  font-size:11px;
+  padding:4px 8px;
+  border-radius:999px;
+  white-space:nowrap;
+  flex:0 0 auto;
+  border:1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.04);
+  color: var(--mk-ink);
+}
+.monkey-chip--maple{
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  color:#2f2f2f;
+  font-weight:700;
+}
+
+/* Time — fixed 90px, clean badge */
+.monkey-time{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Courier New', monospace;
+  font-weight:700;
+  font-size:13px;
+  width:90px;
+  flex:0 0 90px;
+  text-align:center;
+  padding:8px 6px;
+  border-radius:10px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(245,240,235,0.95));
+  color:#2f2f2f;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08), inset 0 -4px 8px rgba(0,0,0,0.04);
+  letter-spacing:0.02em;
+}
+
+/* hover lift (keeps reduced-motion) */
+.monkey-card:hover{ transform: translateY(-6px) scale(1.002); transition: transform .18s ease; }
+@media (prefers-reduced-motion: reduce){
+  .monkey-card, .monkey-card:hover{ transition:none; transform:none; }
+}
+
+/* wider screens adjustments */
+@media (min-width:481px){
+  .monkey-list{ width:80%; }
+  .monkey-day{ font-size:30px; }
+}

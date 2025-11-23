@@ -1,0 +1,209 @@
+/* UfcSchedule.css
+   UFC-themed schedule. Mobile-first. No external fonts.
+   Uses uploaded crowd image for background texture:
+   /mnt/data/1e0015c6-9305-45cc-8880-38993b95c03a.png
+*/
+
+:root{
+  --ufc-bg-dark: #0f1214;       /* arena dark */
+  --ufc-accent: #d63a2f;        /* fight-night red */
+  --ufc-card: #0b0d0f;          /* card surface */
+  --ufc-ink: #ffffff;
+  --ufc-muted: rgba(255,255,255,0.82);
+  --ufc-border: rgba(255,255,255,0.04);
+  --ufc-shadow: 0 14px 40px rgba(0,0,0,0.65);
+  --ufc-ring-accent: rgba(255,255,255,0.06);
+}
+
+/* box sizing */
+* { box-sizing: border-box; }
+
+/* wrapper: use uploaded image as faint texture for background/color */
+.ufc-wrap{
+  width:100vw;
+  min-height:100vh;
+  padding:12px;
+  padding-top:50px; /* required top padding */
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+ 
+  background-blend-mode: overlay;
+  color: var(--ufc-ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* header */
+.ufc-header{
+  width:100%;
+  text-align:center;
+  padding:10px 6px 14px;
+}
+.ufc-day{
+  margin:0;
+  font-size:30px;
+  letter-spacing:0.12em;
+  color: var(--ufc-ink);
+  text-transform:uppercase;
+  text-shadow: 0 8px 24px rgba(0,0,0,0.8);
+}
+
+/* list */
+.ufc-list{
+  width:92%;
+  max-width:760px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:12px;
+}
+
+/* card */
+.ufc-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  background: linear-gradient(180deg, rgba(20,22,24,0.96), rgba(11,12,13,0.96));
+  border-radius:12px;
+  box-shadow: var(--ufc-shadow);
+  border:1px solid var(--ufc-border);
+  min-height:56px;
+  opacity:0;
+  transform:translateY(8px) scale(0.995);
+  position:relative;
+  overflow:visible;
+}
+
+/* ring badge — left-side circular ring like octagon/cage nod */
+.ufc-badge{
+  width:56px;
+  height:56px;
+  flex:0 0 56px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+.ufc-ring{
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.35));
+  border:3px solid rgba(255,255,255,0.03);
+  box-shadow: inset 0 -6px 14px rgba(0,0,0,0.7), 0 6px 18px rgba(0,0,0,0.6);
+  position:relative;
+}
+/* subtle cage lines using pseudo-elements on the ring */
+.ufc-ring::before,
+.ufc-ring::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform-origin:center;
+  width:60%;
+  height:2px;
+  background: var(--ufc-ring-accent);
+  opacity:0.08;
+}
+.ufc-ring::before{ transform: translate(-50%,-50%) rotate(0deg) }
+.ufc-ring::after{ transform: translate(-50%,-50%) rotate(45deg) }
+
+/* reveal animation */
+.ufc-in{ animation: ufc-rise .22s cubic-bezier(.2,.9,.25,1) forwards; }
+@keyframes ufc-rise{ to{ opacity:1; transform:none } }
+
+.ufc-left{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:12px;
+  flex:1 1 auto;
+  flex-wrap:nowrap;
+}
+
+/* title */
+.ufc-title{
+  font-weight:700;
+  font-size:15px;
+  line-height:1.15;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  min-width:0;
+  color: var(--ufc-ink);
+}
+
+/* replacement styling */
+.ufc-swap .ufc-old{ text-decoration:line-through; opacity:.7; color: rgba(255,255,255,0.9); }
+.ufc-swap .ufc-arrow{ opacity:.7; margin:0 6px; }
+.ufc-swap .ufc-new{ font-weight:800; color: var(--ufc-accent); }
+
+/* Maple chip */
+.ufc-chip{
+  font-size:11px;
+  padding:4px 8px;
+  border-radius:999px;
+  white-space:nowrap;
+  flex:0 0 auto;
+  border:1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.02);
+  color: var(--ufc-ink);
+}
+.ufc-chip--maple{
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  color: var(--ufc-muted);
+  font-weight:700;
+}
+
+/* Time plate: fixed 90px, improved — bold metallic plate */
+.ufc-time{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Courier New', monospace;
+  font-weight:800;
+  font-size:13px;
+  width:90px;        /* fixed width requirement */
+  flex:0 0 90px;
+  text-align:center;
+  padding:8px 6px;
+  border-radius:10px;
+  background: linear-gradient(180deg, #2a2a2a, #0d0d0d);
+  color: var(--ufc-ink);
+  border: 2px solid rgba(214,58,47,0.85);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.6), inset 0 -6px 12px rgba(0,0,0,0.6);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* small fight-night stripe on the left edge of each card */
+.ufc-card::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:6px;
+  background: linear-gradient(180deg, rgba(214,58,47,0.95), rgba(140,20,18,0.8));
+  border-top-left-radius:12px;
+  border-bottom-left-radius:12px;
+  opacity:0.95;
+  pointer-events:none;
+}
+
+/* hover lift (respects reduced motion) */
+.ufc-card:hover{ transform: translateY(-6px) scale(1.002); transition: transform .18s ease; }
+@media (prefers-reduced-motion: reduce){
+  .ufc-in{ animation:none; opacity:1; transform:none; }
+  .ufc-card, .ufc-card:hover{ transition:none; transform:none; }
+}
+
+/* wider screens adjustments */
+@media (min-width:481px){
+  .ufc-list{ width:80%; }
+  .ufc-day{ font-size:32px; }
+}
+
+/* ensure contrast */
+.ufc-card, .ufc-time, .ufc-title { color: #fff; }

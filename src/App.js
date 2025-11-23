@@ -48,10 +48,12 @@ import HelioGracieSchedule from "./Components/HelioGracieSchedule";
 import AlbumCoverSchedule from "./Components/AlbumCoverSchedule";
 import JuggernautSchedule from "./Components/JuggernautSchedule";
 import LilBabySchedule from "./Used/LilBabySchedule";
+import UfcSchedule from "./Components/UfcSchedule";
+import MonkeySchedule from "./Components/MonkeySchedule";
    function App() {
   return (
     <>
-  <LilBabySchedule day="Saturday" />
+  <MonkeySchedule day="Sunday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
