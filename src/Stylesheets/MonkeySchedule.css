@@ -47,6 +47,8 @@ background-repeat: no-repeat;
   font-size:45px;
   color:#fcfcfc;
   text-transform:uppercase;
+  position:absolute;
+  top:130px;
   letter-spacing:0.08em;
 }
 
