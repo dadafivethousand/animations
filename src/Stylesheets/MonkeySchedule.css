@@ -44,11 +44,12 @@ background-repeat: no-repeat;
 }
 .monkey-day{
   margin:0;
-  font-size:45px;
+  font-size:55px;
   color:#fcfcfc;
   text-transform:uppercase;
   position:absolute;
-  top:130px;
+  width:100%;
+  top:220px;
   letter-spacing:0.08em;
 }
 
