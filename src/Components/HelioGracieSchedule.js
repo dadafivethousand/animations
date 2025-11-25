@@ -1,7 +1,7 @@
 // HelioGracieSchedule.jsx
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/HelioGracieSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function HelioGracieSchedule({
   day,

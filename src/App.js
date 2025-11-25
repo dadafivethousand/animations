@@ -56,7 +56,7 @@ import DisneyRecessSchedule from "./Components/DisneyRecessSchedule";
    function App() {
   return (
     <>
-  <DisneyRecessSchedule day="Tuesday" />
+  <HelioGracieSchedule day="Tuesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
