@@ -1,0 +1,240 @@
+/* OlympicsSchedule.css */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@500;600;700&display=swap");
+
+:root {
+  --ol-bg: #f4f6fb;
+  --ol-bg-2: #e7ebf7;
+  --ol-ink: #10131f;
+  --ol-card: #ffffff;
+  --ol-border: rgba(10, 19, 54, 0.16);
+  --ol-shadow: 0 10px 22px rgba(6, 11, 32, 0.22);
+
+  --ol-gold: #f5b400;
+  --ol-blue: #0071c5;
+  --ol-red: #d52027;
+  --ol-green: #009f3d;
+  --ol-black: #1b1b1b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* Root wrapper */
+.olympics-wrap {
+  min-height: 100vh;
+  width: 100vw;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0, 113, 197, 0.08),
+      rgba(0, 113, 197, 0.08) 2px,
+      transparent 2px,
+      transparent 10px
+    ),
+    radial-gradient(1200px 520px at 50% -10%, rgba(245, 180, 0, 0.18), transparent 70%),
+    linear-gradient(180deg, var(--ol-bg), var(--ol-bg-2));
+  color: var(--ol-ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 12px 24px;
+  padding-top: 52px; /* ≥ 50px top padding */
+}
+
+/* Header */
+.olympics-header {
+  width: 100%;
+  max-width: 560px;
+  padding: 8px 4px 10px;
+  position: sticky;
+  top: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(244, 246, 251, 0.96),
+    rgba(231, 235, 247, 0.92)
+  );
+  backdrop-filter: blur(4px);
+  z-index: 2;
+  border-bottom: 1px solid rgba(16, 19, 31, 0.12);
+  text-align: center;
+}
+
+.olympics-day {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 30px; /* required 30px for this theme */
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ol-black);
+  position: relative;
+}
+
+/* Small ring motif under the day */
+.olympics-day::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  transform: translateX(-50%);
+  width: 56px;
+  height: 8px;
+  background:
+    radial-gradient(circle at 0% 50%, var(--ol-blue) 0 4px, transparent 4px),
+    radial-gradient(circle at 25% 50%, var(--ol-black) 0 4px, transparent 4px),
+    radial-gradient(circle at 50% 50%, var(--ol-red) 0 4px, transparent 4px),
+    radial-gradient(circle at 75% 50%, var(--ol-green) 0 4px, transparent 4px),
+    radial-gradient(circle at 100% 50%, var(--ol-gold) 0 4px, transparent 4px);
+  opacity: 0.9;
+}
+
+/* List (80% width) */
+.olympics-list {
+  width: 80%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+/* Card */
+.olympics-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  background:
+    linear-gradient(90deg, rgba(245, 180, 0, 0.06), transparent 40%),
+    linear-gradient(180deg, #ffffff, #f8f9fe);
+  border: 1px solid var(--ol-border);
+  border-radius: 12px;
+  box-shadow: var(--ol-shadow);
+  position: relative;
+  min-height: 56px; /* compact height ≈56px */
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+/* Thin lane accent on the left */
+.olympics-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 3px;
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    var(--ol-blue),
+    var(--ol-black),
+    var(--ol-red)
+  );
+}
+
+/* Entry animation */
+.olympics-in {
+  animation: ol-slide-up 0.24s ease-out forwards;
+}
+
+@keyframes ol-slide-up {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Left row: title + maple inline */
+.olympics-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+}
+
+/* Title/Name — ellipsis */
+.olympics-title {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 15px; /* compact title size */
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  color: var(--ol-ink);
+}
+
+/* Replacement styling */
+.olympics-swap .olympics-old {
+  text-decoration: line-through;
+  opacity: 0.65;
+}
+
+.olympics-swap .olympics-arrow {
+  opacity: 0.65;
+  margin: 0 6px;
+}
+
+.olympics-swap .olympics-new {
+  font-weight: 800;
+}
+
+/* Maple chip inline */
+.olympics-chip {
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(213, 32, 39, 0.35);
+  background: rgba(213, 32, 39, 0.07);
+  color: #5b0b12;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.olympics-chip--maple {
+  box-shadow: 0 0 10px rgba(213, 32, 39, 0.22),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.45);
+}
+
+/* Time block: fixed width 90px, centered */
+.olympics-time {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1.1;
+  color: #17203b;
+  background: linear-gradient(180deg, #e9eefc, #d3dbf6);
+  border: 1px solid rgba(15, 27, 84, 0.28);
+  border-radius: 10px;
+  padding: 6px 8px;
+  white-space: nowrap;
+  text-align: center;
+  width: 90px;      /* fixed width */
+  flex: 0 0 90px;   /* no grow/shrink */
+}
+
+/* Slightly larger screens */
+@media (min-width: 481px) {
+  .olympics-card {
+    padding: 12px 14px;
+  }
+}

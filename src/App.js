@@ -50,10 +50,13 @@ import JuggernautSchedule from "./Components/JuggernautSchedule";
 import LilBabySchedule from "./Used/LilBabySchedule";
 import UfcSchedule from "./Components/UfcSchedule";
 import MonkeySchedule from "./Components/MonkeySchedule";
+import OlympicsSchedule from "./Components/OlympicsSchedule";
+import TwitterSchedule from "./Components/TwitterSchedule";
+import DisneyRecessSchedule from "./Components/DisneyRecessSchedule";
    function App() {
   return (
     <>
-  <MonkeySchedule day="Sunday" />
+  <DisneyRecessSchedule day="Tuesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

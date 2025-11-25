@@ -1,0 +1,240 @@
+/* DisneyRecessSchedule.css */
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@600;700&family=Luckiest+Guy&display=swap");
+
+:root {
+  /* Recess playground palette */
+  --dr-bg-top: #f6e9cf;       /* warm paper/beige */
+  --dr-bg-bot: #edd3a8;       /* slightly darker tan */
+  --dr-ink: #2a2017;          /* dark brown ink */
+  --dr-muted: #7a5a3b;
+
+  --dr-card: #fffaf0;
+  --dr-border: rgba(96, 68, 38, 0.35);
+  --dr-shadow: 0 6px 16px rgba(96, 68, 38, 0.35);
+
+  --dr-red: #c54630;          /* TJ's cap red */
+  --dr-green: #3d7f42;        /* playground grass */
+  --dr-blue: #3b5f8f;         /* denim/jacket blue */
+}
+
+/* Global reset-ish */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* Root wrapper */
+.disneyrecess-wrap {
+  min-height: 100vh;
+  width: 100vw;
+  background:
+    linear-gradient(180deg, var(--dr-bg-top), var(--dr-bg-bot));
+  color: var(--dr-ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 12px 24px;
+  padding-top: 100px; /* user preference */
+}
+
+/* Header */
+.disneyrecess-header {
+  width: 100%;
+  max-width: 560px;
+  padding: 8px 4px 10px;
+  position: sticky;
+  top: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(246, 233, 207, 0.97),
+    rgba(237, 211, 168, 0.94)
+  );
+  backdrop-filter: blur(3px);
+  z-index: 2;
+  border-bottom: 2px solid rgba(96, 68, 38, 0.35);
+  text-align: center;
+}
+
+/* Day label – Recess-style chunky logo */
+.disneyrecess-day {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: "Luckiest Guy", system-ui, sans-serif;
+  font-weight: 400;
+  font-size: 30px; /* spec */
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dr-ink);
+  text-shadow:
+    0 2px 0 #f6e9cf,
+    0 3px 0 #b1895c,
+    0 4px 0 #6a4525;
+  position: relative;
+}
+
+/* Simple underline (no rainbow) */
+.disneyrecess-day::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  border-radius: 999px;
+  background: #6a4525;
+}
+
+/* List (80% width) */
+.disneyrecess-list {
+  width: 80%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+/* Card */
+.disneyrecess-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.02) 0px,
+      rgba(0, 0, 0, 0.02) 1px,
+      transparent 1px,
+      transparent 10px
+    ),
+    linear-gradient(180deg, #fffdf7, #fff4e0);
+  border: 2px solid var(--dr-border);
+  border-radius: 10px;
+  box-shadow: var(--dr-shadow);
+  position: relative;
+  min-height: 56px; /* compact */
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+/* Simple playground pole on left */
+.disneyrecess-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 4px;
+  border-radius: 999px;
+  background: var(--dr-blue);
+}
+
+/* Entry animation */
+.disneyrecess-in {
+  animation: dr-bounce-in 0.22s ease-out forwards;
+}
+
+@keyframes dr-bounce-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Left row: title + maple inline */
+.disneyrecess-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+}
+
+/* Title/Name — ellipsis */
+.disneyrecess-title {
+  font-family: "Nunito", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  color: var(--dr-ink);
+}
+
+/* Replacement styling */
+.disneyrecess-swap .disneyrecess-old {
+  text-decoration: line-through;
+  opacity: 0.65;
+}
+
+.disneyrecess-swap .disneyrecess-arrow {
+  opacity: 0.75;
+  margin: 0 6px;
+}
+
+.disneyrecess-swap .disneyrecess-new {
+  font-weight: 800;
+}
+
+/* Maple chip inline */
+.disneyrecess-chip {
+  font-family: "Nunito", system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(61, 127, 66, 0.9);
+  background: rgba(61, 127, 66, 0.16);
+  color: #18381d;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.disneyrecess-chip--maple {
+  box-shadow: 0 0 8px rgba(61, 127, 66, 0.3),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+}
+
+/* Time block: fixed width 90px, centered */
+.disneyrecess-time {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1.1;
+  color: #fffdf7;
+  background: linear-gradient(180deg, var(--dr-red), #8e2f20);
+  border: 2px solid rgba(52, 34, 20, 0.55);
+  border-radius: 999px;
+  padding: 6px 8px;
+  white-space: nowrap;
+  text-align: center;
+  width: 90px;      /* fixed width */
+  flex: 0 0 90px;   /* no grow/shrink */
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+}
+
+/* Slightly larger screens */
+@media (min-width: 481px) {
+  .disneyrecess-card {
+    padding: 12px 14px;
+  }
+}

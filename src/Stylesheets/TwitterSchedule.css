@@ -1,0 +1,232 @@
+/* TwitterSchedule.css */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=Space+Grotesk:wght@500;700&display=swap");
+
+:root {
+  --tw-bg-top: #1da1f2;   /* Twitter blue */
+  --tw-bg-bot: #6ec6ff;   /* lighter blue */
+  --tw-ink: #0f1419;      /* dark text */
+  --tw-muted: #536471;
+
+  --tw-card: #ffffff;
+  --tw-border: rgba(15, 20, 25, 0.12);
+  --tw-shadow: 0 10px 22px rgba(15, 20, 25, 0.18);
+
+  --tw-blue: #1da1f2;
+  --tw-blue-soft: rgba(29, 161, 242, 0.12);
+  --tw-chip-bg: rgba(29, 161, 242, 0.10);
+  --tw-chip-border: rgba(29, 161, 242, 0.7);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* Root wrapper */
+.twitter-wrap {
+  min-height: 100vh;
+  width: 100vw;
+  background:
+    radial-gradient(1100px 420px at 50% -10%, rgba(255, 255, 255, 0.38), transparent 70%),
+    linear-gradient(180deg, var(--tw-bg-top), var(--tw-bg-bot));
+  color: var(--tw-ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 12px 24px;
+  padding-top: 52px; /* ≥ 50px top padding */
+}
+
+/* Header */
+.twitter-header {
+  width: 100%;
+  max-width: 560px;
+  padding: 8px 4px 10px;
+  position: sticky;
+  top: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.96),
+    rgba(255, 255, 255, 0.92)
+  );
+  backdrop-filter: blur(6px);
+  z-index: 2;
+  border-bottom: 1px solid rgba(15, 20, 25, 0.14);
+  text-align: center;
+}
+
+.twitter-day {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 30px; /* big header */
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tw-ink);
+  position: relative;
+}
+
+/* Tiny tweet line under the day */
+.twitter-day::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--tw-blue), #ffffff);
+}
+
+/* List (80% width) */
+.twitter-list {
+  width: 80%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+/* Card */
+.twitter-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  background:
+    radial-gradient(220px 80px at 0% 0%, var(--tw-blue-soft), transparent 70%),
+    linear-gradient(180deg, #ffffff, #f5f8fa);
+  border: 1px solid var(--tw-border);
+  border-radius: 14px;
+  box-shadow: var(--tw-shadow);
+  position: relative;
+  min-height: 56px; /* compact height */
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+/* Left "tweet" border */
+.twitter-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    rgba(29, 161, 242, 0.95),
+    rgba(29, 161, 242, 0.35)
+  );
+}
+
+/* Entry animation */
+.twitter-in {
+  animation: tw-pop 0.22s ease-out forwards;
+}
+
+@keyframes tw-pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Left row: title + maple inline */
+.twitter-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+}
+
+/* Title/Name — ellipsis */
+.twitter-title {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  color: var(--tw-ink);
+}
+
+/* Replacement styling */
+.twitter-swap .twitter-old {
+  text-decoration: line-through;
+  opacity: 0.65;
+}
+
+.twitter-swap .twitter-arrow {
+  opacity: 0.65;
+  margin: 0 6px;
+}
+
+.twitter-swap .twitter-new {
+  font-weight: 800;
+}
+
+/* Maple chip inline */
+.twitter-chip {
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--tw-chip-border);
+  background: var(--tw-chip-bg);
+  color: var(--tw-ink);
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.twitter-chip--maple {
+  box-shadow: 0 0 10px rgba(29, 161, 242, 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.65);
+}
+
+/* Time block: fixed width 90px, centered */
+.twitter-time {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1.1;
+  color: var(--tw-ink);
+  background: linear-gradient(180deg, #e8f5fe, #d4ecff);
+  border: 1px solid rgba(15, 20, 25, 0.16);
+  border-radius: 10px;
+  padding: 6px 8px;
+  white-space: nowrap;
+  text-align: center;
+  width: 90px;      /* fixed width */
+  flex: 0 0 90px;   /* no grow/shrink */
+}
+
+/* Slightly larger screens */
+@media (min-width: 481px) {
+  .twitter-card {
+    padding: 12px 14px;
+  }
+}
