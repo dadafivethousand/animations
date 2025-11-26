@@ -57,7 +57,7 @@ import GithubTechSchedule from "./Components/GithubTechSchedule";
    function App() {
   return (
     <>
-  <GithubTechSchedule day="Wednesday" />
+  <F1Schedule day="Wednesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
