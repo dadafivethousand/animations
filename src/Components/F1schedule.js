@@ -1,7 +1,7 @@
 // File: F1Schedule.jsx
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/F1Schedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function F1Schedule({
   day,
