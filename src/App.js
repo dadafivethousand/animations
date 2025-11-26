@@ -53,10 +53,11 @@ import MonkeySchedule from "./Components/MonkeySchedule";
 import OlympicsSchedule from "./Components/OlympicsSchedule";
 import TwitterSchedule from "./Components/TwitterSchedule";
 import DisneyRecessSchedule from "./Components/DisneyRecessSchedule";
+import GithubTechSchedule from "./Components/GithubTechSchedule";
    function App() {
   return (
     <>
-  <HelioGracieSchedule day="Tuesday" />
+  <GithubTechSchedule day="Wednesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
