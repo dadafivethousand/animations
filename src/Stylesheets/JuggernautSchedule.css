@@ -1,11 +1,7 @@
 /* JuggernautSchedule.css
-   Heavy, helmeted Juggernaut vibe:
-   - deep crimson + iron metallic accents
-   - bold heavy header
-   - time badge redesigned as a metallic plate (fixed 90px)
-   - subtle uploaded image used as low-opacity square crest accent
-   NOTE: Uses uploaded image path as background asset:
-         /mnt/data/91c8c176-53fa-4fd2-b629-f60bf43ae6fc.png
+   Heavy, helmeted Juggernaut vibe with inverted colours:
+   - Page background = dark iron plate
+   - Cards = deep crimson gradient
 */
 
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;600;700&display=swap');
@@ -13,7 +9,7 @@
 :root{
   --jj-bg-1: #7d0f12;     /* deep crimson */
   --jj-bg-2: #5b0c0e;
-  --jj-card: #1f1f20;     /* dark iron plate */
+  --jj-card: #1f1f20;     /* dark iron plate (legacy var, not strictly needed now) */
   --jj-accent: #b87b2b;   /* bronze metal trim */
   --jj-ink: #ffffff;
   --jj-border: rgba(255,255,255,0.04);
@@ -29,16 +25,19 @@
   width:100vw;
   min-height:100vh;
   padding:12px;
-  padding-top:150px; /* required minimum */
+  padding-top:150px; /* >= 50px as per spec */
   display:flex;
   flex-direction:column;
   align-items:center;
-  background: linear-gradient(180deg, var(--jj-bg-1), var(--jj-bg-2));
+
+  /* INVERTED: page background now the old card iron plate */
+  background: linear-gradient(180deg, #232426, #161617);
+
   color: var(--jj-ink);
   font-family: Inter, 'Oswald', system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
 }
 
-/* subtle centered crest square (uses uploaded image) */
+/* subtle centered crest square (optional image decal) */
 .juggernaut-wrap::after{
   content: "";
   position: fixed;
@@ -75,7 +74,7 @@
 
 /* list */
 .juggernaut-list{
-  width:72%;
+  width:92%;
   max-width:760px;
   display:flex;
   flex-direction:column;
@@ -84,14 +83,17 @@
   z-index:2;
 }
 
-/* card - heavy armor plate */
+/* card - heavy armor plate (now crimson instead of iron) */
 .juggernaut-card{
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:12px;
   padding:14px 16px;
-  background: linear-gradient(180deg, #232426, #161617); /* metallic plate */
+
+  /* INVERTED: cards now use the old page deep crimson */
+  background: linear-gradient(180deg, var(--jj-bg-1), var(--jj-bg-2));
+
   border-radius:12px;
   box-shadow: var(--jj-shadow);
   border:1px solid var(--jj-border);
@@ -119,8 +121,15 @@
 }
 
 /* reveal animation */
-.juggernaut-in{ animation: jj-rise .26s cubic-bezier(.2,.9,.25,1) forwards; }
-@keyframes jj-rise{ to{ opacity:1; transform:none } }
+.juggernaut-in{
+  animation: jj-rise .26s cubic-bezier(.2,.9,.25,1) forwards;
+}
+@keyframes jj-rise{
+  to{
+    opacity:1;
+    transform:none;
+  }
+}
 
 .juggernaut-left{
   min-width:0;
@@ -132,7 +141,7 @@
   flex-wrap:nowrap;
 }
 
-/* helmet icon accent square to the left of the title */
+/* helmet icon accent square to the left of the title (not currently used in JSX) */
 .juggernaut-art{
   width:56px;
   height:56px;
@@ -151,7 +160,6 @@
   letter-spacing:0.02em;
   position:relative;
 }
-/* place a subtle helmet crest using the uploaded image as small decal */
 .juggernaut-art::after{
   content: "";
   position:absolute;
@@ -179,9 +187,19 @@
 }
 
 /* Replacement styling */
-.juggernaut-swap .juggernaut-old{ text-decoration:line-through; opacity:.7; color: rgba(255,255,255,0.9); }
-.juggernaut-swap .juggernaut-arrow{ opacity:.7; margin:0 6px; }
-.juggernaut-swap .juggernaut-new{ font-weight:800; color: var(--jj-accent); }
+.juggernaut-swap .juggernaut-old{
+  text-decoration:line-through;
+  opacity:.7;
+  color: rgba(255,255,255,0.9);
+}
+.juggernaut-swap .juggernaut-arrow{
+  opacity:.7;
+  margin:0 6px;
+}
+.juggernaut-swap .juggernaut-new{
+  font-weight:800;
+  color: var(--jj-accent);
+}
 
 /* Maple chip inline */
 .juggernaut-chip{
@@ -201,7 +219,7 @@
   font-weight:700;
 }
 
-/* TIME PLATE — improved: metal nameplate / belt plate */
+/* TIME PLATE — metal nameplate / belt plate */
 .juggernaut-time{
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Courier New', monospace;
   font-weight:800;
@@ -219,7 +237,7 @@
   text-transform: uppercase;
 }
 
-/* subtle traces / scratches for rugged feel */
+/* subtle traces / scratches for rugged feel (optional child element) */
 .juggernaut-card .scratches{
   position:absolute;
   left: 16px;
@@ -232,10 +250,21 @@
 }
 
 /* hover lift (respects reduced motion) */
-.juggernaut-card:hover{ transform: translateY(-6px) scale(1.002); transition: transform .18s ease; }
+.juggernaut-card:hover{
+  transform: translateY(-6px) scale(1.002);
+  transition: transform .18s ease;
+}
 @media (prefers-reduced-motion: reduce){
-  .juggernaut-in{ animation:none; opacity:1; transform:none; }
-  .juggernaut-card, .juggernaut-card:hover{ transition:none; transform:none; }
+  .juggernaut-in{
+    animation:none;
+    opacity:1;
+    transform:none;
+  }
+  .juggernaut-card,
+  .juggernaut-card:hover{
+    transition:none;
+    transform:none;
+  }
 }
 
 /* wider screens: list width 80% and slightly larger day */
@@ -245,4 +274,8 @@
 }
 
 /* Contrast enforcement */
-.juggernaut-card, .juggernaut-time, .juggernaut-title { color: #fff; }
+.juggernaut-card,
+.juggernaut-time,
+.juggernaut-title {
+  color: #fff;
+}

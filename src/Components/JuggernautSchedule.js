@@ -1,7 +1,7 @@
 // JuggernautSchedule.jsx
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/JuggernautSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function JuggernautSchedule({
   day,
