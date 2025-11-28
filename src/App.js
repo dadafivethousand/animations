@@ -53,11 +53,12 @@ import MonkeySchedule from "./Components/MonkeySchedule";
 import OlympicsSchedule from "./Components/OlympicsSchedule";
 import TwitterSchedule from "./Components/TwitterSchedule";
 import DisneyRecessSchedule from "./Components/DisneyRecessSchedule";
+import AndroidSchedule from "./Components/AndroidSchedule"
 import GithubTechSchedule from "./Components/GithubTechSchedule";
    function App() {
   return (
     <>
-  <F1Schedule day="Wednesday" />
+  <AndroidSchedule day="Friday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
