@@ -333,6 +333,7 @@
 .ctv-lower-line-primary {
   font-weight: 800;
   text-transform: uppercase;
+    font-size: 11px;
 }
 
 .ctv-lower-line-secondary {
