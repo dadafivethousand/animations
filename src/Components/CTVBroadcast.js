@@ -108,7 +108,7 @@ export default function CTVBroadcast() {
             </p>
             <p className="ctv-story-copy">
               Spots are limited. To secure your place, send a direct message to{" "}
-              <strong>@maple_bjj</strong> on Instagram and reserve your spot.
+              <strong>@nabiha.shaikh</strong> on Instagram and reserve your spot.
             </p>
           </section>
         </main>
