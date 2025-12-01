@@ -20,7 +20,7 @@
   width: 100%;
   max-width: 430px;
   margin: 0 auto;
-  padding-top: 100px; /* your global preference */
+  padding: 30px; /* your global preference */
   display: flex;
   flex-direction: column;
   color: #ffffff;
