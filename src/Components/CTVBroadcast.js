@@ -97,15 +97,7 @@ export default function CTVBroadcast() {
             <p className="ctv-story-meta">
               <span className="ctv-label">Instructors:</span> Nabiha Shaikh & Jessica Chaberski
             </p>
-       
-
-            <p className="ctv-story-copy">
-              Maple Jiu-Jitsu is hosting a dedicated women&apos;s-only Brazilian
-              Jiu-Jitsu class led by Nabiha Shaikh & Jessica Chaberski. The session
-              focuses on fundamentals, confidence, and safe rolling in a
-              supportive, women-only environment. All experience levels are
-              welcome—no prior training needed.
-            </p>
+    
             <p className="ctv-story-copy">
               Spots are limited. To secure your place, send a direct message to{" "}
               <strong>@nabiha.shaikh</strong> on Instagram and reserve your spot.
