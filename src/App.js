@@ -56,10 +56,11 @@ import DisneyRecessSchedule from "./Components/DisneyRecessSchedule";
 import AndroidSchedule from "./Components/AndroidSchedule"
 import GithubTechSchedule from "./Components/GithubTechSchedule";
 import ShopifySchedule from "./Components/ShopifySchedule";
+import HulkamaniaSchedule from "./Used/HulkamaniaSchedule";
     function App() {
   return (
     <>
-  <ShopifySchedule day="Monday" />
+  <HulkamaniaSchedule day="Monday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

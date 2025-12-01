@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/HulkamaniaSchedule.css";
-import schedule from "../Schedule";
+import "./HulkamaniaSchedule.css";
+import schedule from "../RhSchedule";
 
 function HulkamaniaSchedule({ day }) {
   const [showSchedule, setShowSchedule] = useState(false);
 
+  const safeDay = day || "";
+  const items = schedule[safeDay] || [];
+
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setShowSchedule(true);
     }, 500);
-  }, []);
+
+    return () => clearTimeout(timer);
+  }, [safeDay]);
 
   // Convert decimal hours to AM/PM format
   const formatTime = (decimalTime) => {
@@ -25,18 +30,32 @@ function HulkamaniaSchedule({ day }) {
     <div className="hulkamania-container">
       <div className="hulkamania-content">
         {/* Title */}
-        <h1 className="hulkamania-title">{day}</h1>
+        <h1 className="hulkamania-title">{safeDay}</h1>
 
         {/* Schedule Classes */}
         <div className="hulkamania-classes">
           {showSchedule &&
-            schedule[day]?.map((cls, idx) => (
+            items.map((cls, idx) => (
               <div
                 key={idx}
                 className="hulkamania-class"
                 style={{ animationDelay: `${idx * 0.2}s` }}
               >
-                <div className="hulkamania-class-name">{cls.name} - {formatTime(cls.start)}</div>
+                <div className="hulkamania-left">
+                  <span className="hulkamania-class-name">
+                    {cls.name}
+                  </span>
+
+                  {cls.maple && (
+                    <span className="hulkamania-chip">
+                      📍 MAPLE
+                    </span>
+                  )}
+                </div>
+
+                <time className="hulkamania-time">
+                  {formatTime(cls.start)}
+                </time>
               </div>
             ))}
         </div>

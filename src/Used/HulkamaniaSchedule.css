@@ -12,11 +12,12 @@
   color: white;
   text-align: center;
   overflow: hidden;
+  padding-top: 0px; /* your global preference */
 }
 
 /* 💪 The Content Box */
 .hulkamania-content {
-  width: 100%;
+  width: 80%;
   height: 70%; /* Content takes 70% of the screen height */
   display: flex;
   flex-direction: column;
@@ -43,32 +44,69 @@
   width: 90%;
 }
 
-/* 💪 Each Class - Huge Impact */
+/* 💪 Each Class - now a single-line flex row */
 .hulkamania-class {
   margin: 0 auto;
   background: yellow;
   color: red;
-  font-size: 2.5rem;
-  padding: 0px 30px;
-  text-align: center;
+  padding: 0px 18px;
   border-radius: 15px;
-  width: 60%;
-   text-transform: uppercase;
+  width: 100%;
+  max-width: 600px;
   border: 5px solid black;
   box-shadow: 5px 5px 10px black;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  /* Strong Hulkamania look but keep it to one line */
+  white-space: nowrap;
+  overflow: hidden;
+
+  font-size: 2rem;
+  text-transform: uppercase;
+
   transform: scale(1);
   animation: hulkamaniaBounce 0.8s infinite ease-in-out alternate;
 }
 
-/* 💪 Class Name */
-.hulkamania-class-name {
-   font-size: 1.6rem;
+/* 💪 Left side: class name + MAPLE chip, both on same line */
+.hulkamania-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  flex: 1 1 auto;
 }
 
-/* 💪 Class Time */
-.hulkamania-class-time {
-  font-size: 1.1rem;
-  font-style: italic;
+/* 💪 Class Name — truncates with ellipsis */
+.hulkamania-class-name {
+  font-size: 1.6rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 💪 MAPLE chip */
+.hulkamania-chip {
+  font-size: 1rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 2px solid black;
+  background: rgb(116, 0, 0);
+  color: yellow;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+/* 💪 Time — fixed-ish width, right side */
+.hulkamania-time {
+  font-size: 1.2rem;
+  white-space: nowrap;
+  flex: 0 0 auto;
 }
 
 /* 💪 Hulkamania Shake Animation */
