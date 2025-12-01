@@ -57,10 +57,12 @@ import AndroidSchedule from "./Components/AndroidSchedule"
 import GithubTechSchedule from "./Components/GithubTechSchedule";
 import ShopifySchedule from "./Components/ShopifySchedule";
 import HulkamaniaSchedule from "./Used/HulkamaniaSchedule";
+import CTVBroadcast from "./Components/CTVBroadcast";
+import LacosteSchedule from "./Components/LacosteSchedule";
     function App() {
   return (
     <>
-  <ShopifySchedule day="Monday" />
+  <LacosteSchedule day="Monday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

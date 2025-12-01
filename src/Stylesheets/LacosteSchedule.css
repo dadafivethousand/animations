@@ -1,0 +1,289 @@
+/* LacosteSchedule.css */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=DM+Sans:wght@500;600;700&display=swap");
+
+:root {
+  --la-green: #0b5b3c;         /* Lacoste-style deep green */
+  --la-green-dark: #063624;
+  --la-green-soft: #e3f0e9;
+
+  --la-cream: #fdf7ed;
+  --la-bg-top: #f7f8fa;
+  --la-bg-bot: #edf0f4;
+
+  --la-ink: #111827;
+  --la-muted: #6b7280;
+
+  --la-card: #ffffff;
+  --la-border: #d1d5db;
+  --la-shadow: 0 18px 42px rgba(15, 23, 42, 0.16);
+
+  --la-stripe: rgba(15, 23, 42, 0.06);
+}
+
+/* Reset-ish */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* Root wrapper */
+.lacoste-wrap {
+  min-height: 100vh;
+  width: 100vw;
+  color: var(--la-ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 12px 32px;
+  padding-top: 100px; /* your global preference */
+
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      var(--la-stripe) 0,
+      var(--la-stripe) 1px,
+      transparent 1px,
+      transparent 14px
+    ),
+    linear-gradient(180deg, var(--la-bg-top), var(--la-bg-bot));
+}
+
+/* Header */
+.lacoste-header {
+  width: 100%;
+  max-width: 560px;
+  padding: 10px 4px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  backdrop-filter: blur(12px);
+  background: linear-gradient(
+    180deg,
+    rgba(247, 248, 250, 0.98),
+    rgba(237, 240, 244, 0.95)
+  );
+  border-bottom: 1px solid rgba(209, 213, 219, 0.9);
+  text-align: center;
+}
+
+/* Day label – like a Lacoste tag */
+.lacoste-day {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 24px;
+  font-family: "DM Sans", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  color: var(--la-ink);
+
+  background:
+    linear-gradient(180deg, #ffffff, #f5f7f9);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9),
+    0 1px 0 rgba(15, 23, 42, 0.05),
+    0 10px 26px rgba(15, 23, 42, 0.16);
+  position: relative;
+}
+
+/* Green underline bar */
+.lacoste-day::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  transform: translateX(-50%);
+  width: 96px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--la-green), var(--la-green-dark));
+}
+
+/* List (80% width) */
+.lacoste-list {
+  width: 80%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+/* Card */
+.lacoste-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 16px;
+  min-height: 56px;
+
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, #ffffff, var(--la-cream));
+  border: 1px solid var(--la-border);
+  box-shadow: var(--la-shadow);
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(10px) scale(0.99);
+
+  transition:
+    transform 0.18s ease-out,
+    box-shadow 0.18s ease-out,
+    border-color 0.18s ease-out,
+    background 0.18s ease-out;
+}
+
+/* Inner edge highlight */
+.lacoste-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(11, 91, 60, 0.25),
+      rgba(209, 213, 219, 0.35)
+    );
+  opacity: 0.14;
+  mix-blend-mode: multiply;
+}
+
+/* Left trim stripe – tennis court vibe */
+.lacoste-card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    var(--la-green),
+    var(--la-green-dark)
+  );
+}
+
+/* Entry animation */
+.lacoste-in {
+  animation: la-rise 0.26s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes la-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Hover feedback */
+.lacoste-card:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow:
+    0 20px 48px rgba(15, 23, 42, 0.22),
+    0 0 0 1px rgba(11, 91, 60, 0.5);
+  border-color: rgba(11, 91, 60, 0.75);
+}
+
+/* Left row: title + maple inline */
+.lacoste-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+}
+
+/* Title/Name — ellipsis */
+.lacoste-title {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  color: var(--la-ink);
+}
+
+/* Replacement styling */
+.lacoste-swap .lacoste-old {
+  text-decoration: line-through;
+  opacity: 0.65;
+}
+
+.lacoste-swap .lacoste-arrow {
+  opacity: 0.75;
+  margin: 0 6px;
+}
+
+.lacoste-swap .lacoste-new {
+  font-weight: 800;
+}
+
+/* Maple chip inline – like a small badge */
+.lacoste-chip {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(11, 91, 60, 0.9);
+  background: var(--la-green-soft);
+  color: #123526;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.9),
+    0 0 8px rgba(11, 91, 60, 0.28);
+}
+
+/* Time block: fixed width 90px */
+.lacoste-time {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1.1;
+  white-space: nowrap;
+  text-align: center;
+  width: 90px;
+  flex: 0 0 90px;
+  padding: 6px 8px;
+  border-radius: 999px;
+
+  background: #f9fafb;
+  border: 1px solid rgba(148, 163, 184, 0.85);
+  color: #111827;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9),
+    0 6px 14px rgba(148, 163, 184, 0.32);
+}
+
+/* Slightly larger screens */
+@media (min-width: 481px) {
+  .lacoste-card {
+    padding: 14px 20px;
+  }
+}
