@@ -115,7 +115,7 @@ export default function CTVBroadcast() {
 
         {/* BOTTOM TICKER FILM STRIP */}
         <div className="ctv-ticker-shell">
-          <div className="ctv-ticker-label">MAPLE ALERT</div>
+     
           <div className="ctv-ticker-mask">
             <div className="ctv-ticker-track">
               <span>{tickerText}</span>
