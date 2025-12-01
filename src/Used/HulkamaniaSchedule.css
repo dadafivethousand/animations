@@ -84,7 +84,7 @@
 
 /* 💪 Class Name — truncates with ellipsis */
 .hulkamania-class-name {
-  font-size: 1.6rem;
+  font-size: 1.2rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
