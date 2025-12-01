@@ -1,0 +1,259 @@
+/* ShopifySchedule.css */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=DM+Sans:wght@500;600;700&display=swap");
+
+:root {
+  --sh-bg-top: #f6f8fb;
+  --sh-bg-bot: #e9edf3;
+  --sh-ink: #111827;
+  --sh-muted: #6b7280;
+
+  --sh-card: #ffffff;
+  --sh-border: #d1d5db;
+  --sh-shadow: 0 16px 40px rgba(15, 23, 42, 0.16);
+
+  --sh-green: #008060;     /* Shopify green */
+  --sh-green-soft: #e0f4ec;
+  --sh-line: #cfd5e2;
+}
+
+/* Reset-ish */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* Root wrapper */
+.shopify-wrap {
+  min-height: 100vh;
+  width: 100vw;
+  background:
+    radial-gradient(1200px 520px at 0% 0%, rgba(0, 128, 96, 0.08), transparent 70%),
+    radial-gradient(1000px 520px at 100% 120%, rgba(37, 99, 235, 0.06), transparent 70%),
+    linear-gradient(180deg, var(--sh-bg-top), var(--sh-bg-bot));
+  color: var(--sh-ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 12px 28px;
+  padding-top: 100px; /* per user preference */
+}
+
+/* Header */
+.shopify-header {
+  width: 100%;
+  max-width: 560px;
+  padding: 10px 4px 12px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  backdrop-filter: blur(12px);
+  background: linear-gradient(
+    180deg,
+    rgba(246, 248, 251, 0.98),
+    rgba(233, 237, 243, 0.96)
+  );
+  border-bottom: 1px solid rgba(209, 213, 219, 0.9);
+  text-align: center;
+}
+
+/* Day label – Shopify admin vibe */
+.shopify-day {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 18px;
+  font-family: "DM Sans", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  color: var(--sh-ink);
+  background: #ffffff;
+  box-shadow:
+    0 0 0 1px rgba(209, 213, 219, 0.9),
+    0 10px 22px rgba(15, 23, 42, 0.18);
+  position: relative;
+}
+
+/* subtle green underline */
+.shopify-day::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  transform: translateX(-50%);
+  width: 76px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--sh-green);
+}
+
+/* List (80% width) */
+.shopify-list {
+  width: 80%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+/* Card */
+.shopify-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 14px;
+  min-height: 56px;
+
+  border-radius: 12px;
+  background:
+    linear-gradient(180deg, #ffffff, #f9fafb);
+  border: 1px solid var(--sh-border);
+  box-shadow: var(--sh-shadow);
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+/* left “status bar” */
+.shopify-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  border-radius: 999px;
+  background: var(--sh-green);
+}
+
+/* faint grid line at bottom like Shopify index rows */
+.shopify-card::after {
+  content: "";
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--sh-line),
+    transparent
+  );
+  opacity: 0.7;
+}
+
+/* Entry animation */
+.shopify-in {
+  animation: sh-rise 0.22s ease-out forwards;
+}
+
+@keyframes sh-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hover / tap feedback */
+.shopify-card:hover {
+  box-shadow:
+    0 18px 40px rgba(15, 23, 42, 0.22),
+    0 0 0 1px rgba(0, 128, 96, 0.35);
+  transform: translateY(-1px);
+}
+
+/* Left row: title + maple inline */
+.shopify-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+}
+
+/* Title/Name — ellipsis */
+.shopify-title {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  color: var(--sh-ink);
+}
+
+/* Replacement styling */
+.shopify-swap .shopify-old {
+  text-decoration: line-through;
+  opacity: 0.65;
+}
+
+.shopify-swap .shopify-arrow {
+  opacity: 0.7;
+  margin: 0 6px;
+}
+
+.shopify-swap .shopify-new {
+  font-weight: 800;
+}
+
+/* Maple chip inline – looks like a Shopify status pill */
+.shopify-chip {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 128, 96, 0.6);
+  background: var(--sh-green-soft);
+  color: #024437;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+/* Time block: fixed width 90px */
+.shopify-time {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1.1;
+  white-space: nowrap;
+  text-align: center;
+  width: 90px;
+  flex: 0 0 90px;
+  padding: 6px 8px;
+  border-radius: 999px;
+
+  background: #f9fafb;
+  border: 1px solid #d1d5db;
+  color: #111827;
+}
+  
+/* Slightly larger screens */
+@media (min-width: 481px) {
+  .shopify-card {
+    padding: 12px 16px;
+  }
+}
