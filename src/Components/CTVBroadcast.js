@@ -3,36 +3,35 @@
 
 import React from "react";
 import "../Stylesheets/CTVBroadcast.css";
-import classImage from "../Images/IMG_4224.jpg"
+import ctvlogo from "../Images/ctvlogo.png"
+import womensclass from "../Images/IMG_4224.jpg"
 
 export default function CTVBroadcast() {
   const tickerText =
-    "WOMEN'S BJJ CLASS • SATURDAY DECEMBER 20, 2025 • 1:00 PM • LED BY NABIHA SHAIKH • MAPLE JIU-JITSU • WOMEN ONLY • ALL LEVELS WELCOME • LIMITED SPOTS • DM @MAPLE_JIU_JITSU TO REGISTER • ";
+    "WOMEN'S BJJ CLASS • SATURDAY DECEMBER 20, 2025 • 12:00 PM • LED BY NABIHA SHAIKH • MAPLE JIU-JITSU • WOMEN ONLY • ALL LEVELS WELCOME • LIMITED SPOTS • DM @NABIHA.SHAIKH ON INSTAGRAM TO REGISTER • ";
 
   return (
     <div className="ctv-root">
       <div className="ctv-frame">
-        {/* TOP INFO BAR */}
+        {/* TOP INFO BAR (EVENT FOCUS) */}
         <div className="ctv-info-bar">
           <div className="ctv-info-left">
             <span className="ctv-info-label">SAT</span>
             <span className="ctv-info-date">DEC 20, 2025</span>
           </div>
           <div className="ctv-info-center">
-            MAPLE, ON • WOMEN&apos;S BJJ
+            MAPLE, ON • WOMEN&apos;S BJJ EVENT
           </div>
           <div className="ctv-info-right">
             <span className="ctv-info-time">12:00 PM</span>
           </div>
         </div>
 
-        {/* MAIN TOP BAR: LOGO + LIVE */}
+        {/* MAIN TOP BAR: CTV LOGO + LIVE + BUG */}
         <header className="ctv-topbar">
           <div className="ctv-logo">
-            <span className="ctv-logo-block ctv-logo-block--red">C</span>
-            <span className="ctv-logo-block ctv-logo-block--blue">T</span>
-            <span className="ctv-logo-block ctv-logo-block--green">V</span>
-            <span className="ctv-logo-text">NEWS</span>
+ <img className="ctvlogo" src={ctvlogo} />
+        <span className="ctv-logo-text">NEWS</span>
           </div>
 
           <div className="ctv-live-group">
@@ -40,7 +39,9 @@ export default function CTVBroadcast() {
               <span className="ctv-live-dot" />
               LIVE
             </div>
-            <div className="ctv-network-bug">MAPLE JIU-JITSU</div>
+            <div className="ctv-network-bug">
+              MAPLE JIU-JITSU
+            </div>
           </div>
         </header>
 
@@ -48,29 +49,29 @@ export default function CTVBroadcast() {
         <div className="ctv-headline-banner">
           <div className="ctv-headline-left">SPECIAL REPORT</div>
           <div className="ctv-headline-right">
-            WOMEN&apos;S BRAZILIAN JIU-JITSU CLASS THIS SATURDAY
+            WOMEN&apos;S BRAZILIAN JIU-JITSU CLASS ANNOUNCED FOR DEC 20
           </div>
         </div>
 
         {/* MAIN CONTENT AREA */}
         <main className="ctv-main">
-          {/* IMAGE + LOWER THIRD OVERLAY ZONE */}
+          {/* VIDEO / IMAGE ZONE WITH LOWER THIRD OVERLAY */}
           <div className="ctv-video-area">
             <div className="ctv-image-shell">
-              {/* Replace this inner div with an <img> when you have real media */}
-              <div className="ctv-image-placeholder"> 
-                <img className="class-image" src={classImage}/>
-               </div>
+              {/* Replace this div with an <img> when you have real media */}
+              <div className="ctv-image-placeholder">
+              <img className="womens-class" src={womensclass} />
+              </div>
             </div>
 
-            {/* LOWER THIRD OVERLAY (like TV) */}
+            {/* LOWER THIRD OVERLAY */}
             <div className="ctv-lower-third">
               <div className="ctv-lower-main">
                 <div className="ctv-lower-line-primary">
                   WOMEN&apos;S BJJ CLASS – MAPLE JIU-JITSU
                 </div>
                 <div className="ctv-lower-line-secondary">
-                  SATURDAY DECEMBER 20, 2025 • LED BY NABIHA SHAIKH
+                  SAT DEC 20, 2025 • 12:00 PM  
                 </div>
               </div>
               <div className="ctv-lower-side">
@@ -80,36 +81,39 @@ export default function CTVBroadcast() {
             </div>
           </div>
 
-          {/* STORY COPY BELOW VIDEO */}
+          {/* STORY TEXT BELOW VIDEO */}
           <section className="ctv-story">
             <h1 className="ctv-story-title">
-              Women&apos;s Brazilian Jiu-Jitsu – Special Class
+              Women&apos;s Brazilian Jiu-Jitsu Class
             </h1>
+
             <p className="ctv-story-meta">
-              <span className="ctv-label">Date:</span> Saturday, December 20,
-              2025
+              <span className="ctv-label">Event Date:</span> Saturday,
+              December 20, 2025
             </p>
             <p className="ctv-story-meta">
-              <span className="ctv-label">Time:</span> 12:00 PM
+              <span className="ctv-label">Time:</span> 12:00 PM (Noon)
             </p>
             <p className="ctv-story-meta">
-              <span className="ctv-label">Instructor:</span> Nabiha Shaikh
+              <span className="ctv-label">Instructors:</span> Nabiha Shaikh & Jessica Chaberski
+            </p>
+       
+
+            <p className="ctv-story-copy">
+              Maple Jiu-Jitsu is hosting a dedicated women&apos;s-only Brazilian
+              Jiu-Jitsu class led by Nabiha Shaikh & Jessica Chaberski. The session
+              focuses on fundamentals, confidence, and safe rolling in a
+              supportive, women-only environment. All experience levels are
+              welcome—no prior training needed.
             </p>
             <p className="ctv-story-copy">
-              A dedicated women&apos;s-only Brazilian Jiu-Jitsu session at Maple
-              Jiu-Jitsu. Focus on fundamentals, self-confidence, and safe
-              rolling in a supportive environment. Open to all experience
-              levels—no prior training required.
-            </p>
-            <p className="ctv-story-copy">
-              Spots are limited. DM{" "}
-              <strong>@maple_bjj</strong> to secure your place on the
-              mats for this special event.
+              Spots are limited. To secure your place, send a direct message to{" "}
+              <strong>@maple_bjj</strong> on Instagram and reserve your spot.
             </p>
           </section>
         </main>
 
-        {/* BOTTOM NEWS TICKER / FILM STRIP */}
+        {/* BOTTOM TICKER FILM STRIP */}
         <div className="ctv-ticker-shell">
           <div className="ctv-ticker-label">MAPLE ALERT</div>
           <div className="ctv-ticker-mask">

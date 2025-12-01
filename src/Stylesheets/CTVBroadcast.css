@@ -1,5 +1,5 @@
 /* CTVBroadcast.css */
-/* Ultra-realistic, mobile-first CTV-style layout with ticker film strip */
+/* Ultra-realistic mobile CTV-style layout with CTV logo + ticker film */
 
 *,
 *::before,
@@ -9,7 +9,7 @@
 
 .ctv-root {
   width: 100%;
-  min-height: 100vh;
+  min-height: 95vh;
   display: flex;
   justify-content: center;
   align-items: stretch;
@@ -20,7 +20,7 @@
   width: 100%;
   max-width: 430px;
   margin: 0 auto;
-  padding-top: 100px; /* user preference */
+  padding-top: 100px; /* your global preference */
   display: flex;
   flex-direction: column;
   color: #ffffff;
@@ -43,7 +43,7 @@
   mix-blend-mode: soft-light;
 }
 
-/* TOP INFO BAR */
+/* TOP INFO BAR (EVENT DATA) */
 
 .ctv-info-bar {
   position: relative;
@@ -63,6 +63,10 @@
   gap: 6px;
 }
 
+
+.ctvlogo{
+  height:20px;
+}
 .ctv-info-label {
   background: #e30613;
   padding: 2px 6px;
@@ -73,6 +77,7 @@
 
 .ctv-info-date {
   color: #e5e7eb;
+  font-weight: 500;
 }
 
 .ctv-info-center {
@@ -91,7 +96,7 @@
   letter-spacing: 0.5px;
 }
 
-/* MAIN TOPBAR: LOGO + LIVE */
+/* MAIN TOPBAR: CTV LOGO + LIVE + BUG */
 
 .ctv-topbar {
   position: relative;
@@ -104,43 +109,64 @@
   border-bottom: 3px solid #e30613;
 }
 
+/* CTV LOGO (circle, square, triangle) */
+
 .ctv-logo {
   display: flex;
   align-items: center;
   gap: 4px;
 }
 
-.ctv-logo-block {
-  width: 18px;
-  height: 18px;
-  border-radius: 2px;
-  font-size: 12px;
-  font-weight: 800;
+.ctv-logo-shape {
+  width: 22px;
+  height: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: 800;
+  font-size: 13px;
   color: #ffffff;
 }
 
-.ctv-logo-block--red {
+/* Red circle with white C */
+.ctv-logo-circle {
+  border-radius: 50%;
   background: #e30613;
 }
 
-.ctv-logo-block--blue {
+/* Blue square with white T */
+.ctv-logo-square {
+  border-radius: 2px;
   background: #005daa;
 }
 
-.ctv-logo-block--green {
+/* Green triangle with white V (using clip-path) */
+.ctv-logo-triangle {
   background: #00a94f;
+  clip-path: polygon(15% 0%, 100% 50%, 15% 100%);
+  padding-left: 2px; /* nudge V to center visually */
+  transform: rotate(90deg);
 }
 
+#letter-v{
+    transform: rotate(-90deg);
+}
+
+.ctv-logo-triangle span {
+  transform: translateX(-2px);
+}
+
+/* NEWS text to the right of CTV logo */
+
 .ctv-logo-text {
-  margin-left: 6px;
+ 
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 1.2px;
   text-transform: uppercase;
 }
+
+/* LIVE + BUG */
 
 .ctv-live-group {
   display: flex;
@@ -204,6 +230,8 @@
   text-transform: uppercase;
   padding-right: 8px;
   border-right: 1px solid rgba(15, 23, 42, 0.7);
+  display: flex;
+  align-items: center;
 }
 
 .ctv-headline-right {
@@ -402,15 +430,14 @@
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
-  animation: ctvTickerMove 14s linear infinite;
-}
-
-.class-image{
-    width:100vw;
+  animation: ctvTickerMove 54s linear infinite;
 }
 
 .ctv-ticker-track span {
   padding-left: 40px;
+}
+.womens-class{
+  width:100vw
 }
 
 /* Ticker animation */
@@ -423,7 +450,7 @@
   }
 }
 
-/* Mobile tweaks */
+/* Small-device tweaks */
 
 @media (max-width: 390px) {
   .ctv-story-title {
