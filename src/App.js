@@ -62,7 +62,7 @@ import LacosteSchedule from "./Components/LacosteSchedule";
     function App() {
   return (
     <>
-  <LacosteSchedule day="Monday" />
+  <CTVBroadcast />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
