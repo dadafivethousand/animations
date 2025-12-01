@@ -403,7 +403,8 @@
   display: grid;
   grid-template-columns: auto 1fr;
   background: #001427;
-  border-top: 3px solid #e30613;
+  border-top: 2px solid #e30613;
+  border-bottom: 2px solid #e30613;
   box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.9);
 }
 
@@ -414,6 +415,8 @@
   text-transform: uppercase;
   background: linear-gradient(180deg, #e30613, #b10610);
   border-right: 1px solid #7f0210;
+  display: flex;
+  align-items: center;
 }
 
 .ctv-ticker-mask {
