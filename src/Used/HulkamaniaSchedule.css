@@ -67,7 +67,7 @@
 
   font-size: 2rem;
   text-transform: uppercase;
-
+  height:30px;
   transform: scale(1);
   animation: hulkamaniaBounce 0.8s infinite ease-in-out alternate;
 }
