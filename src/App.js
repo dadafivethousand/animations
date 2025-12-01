@@ -60,7 +60,7 @@ import HulkamaniaSchedule from "./Used/HulkamaniaSchedule";
     function App() {
   return (
     <>
-  <HulkamaniaSchedule day="Monday" />
+  <ShopifySchedule day="Monday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
