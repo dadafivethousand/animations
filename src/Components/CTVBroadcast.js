@@ -20,7 +20,7 @@ export default function CTVBroadcast() {
             <span className="ctv-info-date">DEC 20, 2025</span>
           </div>
           <div className="ctv-info-center">
-            MAPLE, ON • WOMEN&apos;S BJJ EVENT
+        WOMEN&apos;S JIU-JITSU EVENT
           </div>
           <div className="ctv-info-right">
             <span className="ctv-info-time">12:00 PM</span>
@@ -49,7 +49,7 @@ export default function CTVBroadcast() {
         <div className="ctv-headline-banner">
           <div className="ctv-headline-left">SPECIAL REPORT</div>
           <div className="ctv-headline-right">
-            WOMEN&apos;S BRAZILIAN JIU-JITSU CLASS ANNOUNCED FOR DEC 20
+            NEXT WOMEN&apos;S CLASS: <br></br> DEC 20 - 12:00pm
           </div>
         </div>
 
@@ -68,7 +68,7 @@ export default function CTVBroadcast() {
             <div className="ctv-lower-third">
               <div className="ctv-lower-main">
                 <div className="ctv-lower-line-primary">
-                  WOMEN&apos;S BJJ CLASS – MAPLE JIU-JITSU
+                  WOMEN&apos;S CLASS – MAPLE JIU-JITSU
                 </div>
                 <div className="ctv-lower-line-secondary">
                   SAT DEC 20, 2025 • 12:00 PM  

@@ -406,6 +406,9 @@
   border-top: 2px solid #e30613;
   border-bottom: 2px solid #e30613;
   box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.9);
+  width:100vw;
+  position:relative;
+  left:-30px;
 }
 
 .ctv-ticker-label {
