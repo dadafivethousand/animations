@@ -1,118 +1,267 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Oswald:wght@500&display=swap');
+/* TrueReligionSchedule.css
+   True Religion denim theme:
+   - Ultra-realistic dark indigo jeans
+   - Contrast stitching, leather patch vibe, metal rivet
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@500;700&display=swap");
 
 :root {
-  --tr-black: #0b0b0b;
-  --tr-deep-black: #050505;
-  --tr-thread-gold: #b8860b;
-  --tr-thread-glow: rgba(184, 134, 11, 0.4);
+  --tr-denim-deep: #111827;
+  --tr-denim-main: #16213b;
+  --tr-denim-wash: #1f2b48;
+  --tr-denim-highlight: #304064;
+
+  --tr-thread-gold: #f4c86b;
+  --tr-thread-cream: #f9e3b0;
+
+  --tr-leather: #8b5a33;
+  --tr-leather-deep: #5b3a21;
+
+  --tr-ink-light: #f8fafc;
+  --tr-ink-soft: rgba(248, 250, 252, 0.76);
+
+  --tr-border-denim: rgba(10, 10, 10, 0.9);
+  --tr-shadow: 0 14px 30px rgba(0, 0, 0, 0.7);
 }
 
-body {
-  margin: 0;
+/* global */
+* {
+  box-sizing: border-box;
 }
 
-.tr-wrapper {
-  background-color: var(--tr-deep-black);
-  background-image: url("https://www.transparenttextures.com/patterns/denim.png");
-  background-size: 200px;
-  background-blend-mode: multiply;
+/* wrapper – full denim background */
+.truereligion-wrap {
+  width: 100vw;
   min-height: 100vh;
-  padding: 10px 20px;
+  padding: 16px;
+  padding-top: 56px; /* >= 50px */
   display: flex;
   flex-direction: column;
   align-items: center;
-   height:80vh;
+
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.03) 0px,
+      rgba(255, 255, 255, 0.03) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+    radial-gradient(900px 700px at 15% 0%, rgba(255, 255, 255, 0.12), transparent 70%),
+    radial-gradient(900px 700px at 85% 10%, rgba(255, 255, 255, 0.09), transparent 70%),
+    linear-gradient(180deg, var(--tr-denim-main), var(--tr-denim-deep));
+  color: var(--tr-ink-light);
 }
 
-.tr-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
- 
-}
-
-.tr-logo {
-  background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/True_Religion_logo.svg/800px-True_Religion_logo.svg.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  width: 80px;
-  height: 80px;
-  filter: brightness(0.85) sepia(1) hue-rotate(20deg) saturate(2);
-}
-
-.tr-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 2.8rem;
-  color: var(--tr-thread-gold);
-  letter-spacing: 5px;
-  text-transform: uppercase;
-  margin-top: 10px;
-}
-
-.tr-schedule {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+/* header – leather patch with stitched day text */
+.truereligion-header {
   width: 100%;
-  max-width: 700px;
+  max-width: 560px;
+  text-align: center;
+  padding: 10px 8px 12px;
+  border-radius: 10px;
+
+  background:
+    radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.18), transparent 55%),
+    linear-gradient(160deg, var(--tr-leather), var(--tr-leather-deep));
+  box-shadow:
+    0 14px 32px rgba(0, 0, 0, 0.8),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+  border: 2px solid rgba(35, 17, 6, 0.8);
 }
 
-.tr-card {
+.truereligion-day {
+  margin: 0;
+  font-family: "Oswald", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #fbe7c9;
+}
+
+/* list – 80% width */
+.truereligion-list {
+  width: 80%;
+  max-width: 560px;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+/* card – denim strip with contrast stitching and rivet */
+.truereligion-card {
+  display: flex;
   align-items: center;
-  background-color: var(--tr-black);
-  border-radius: 10px;
-  padding: 18px 26px;
-  border: 2px dashed var(--tr-thread-gold);
-  box-shadow: 0 0 6px var(--tr-thread-glow);
-  font-family: 'Oswald', sans-serif;
-  color: white;
+  justify-content: space-between;
+  gap: 10px;
+
+  padding: 10px 12px;
+  min-height: 56px;
+
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.06) 0px,
+      rgba(255, 255, 255, 0.06) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+    linear-gradient(135deg, var(--tr-denim-wash), var(--tr-denim-highlight));
+  border-radius: 14px;
+  border: 2px solid var(--tr-border-denim);
+  box-shadow:
+    var(--tr-shadow),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+
   position: relative;
   overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(10px);
 }
 
-.tr-card::after {
+ 
+
+/* contrast top + bottom stitching lines */
+.truereligion-card::after {
   content: "";
   position: absolute;
-  top: 0;
-  left: -60%;
-  width: 40%;
-  height: 100%;
-  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.15), transparent);
-  transform: skewX(-20deg);
-  transition: all 0.8s ease;
+  left: 26px;
+  right: 10px;
+  top: 6px;
+  height: 2px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      var(--tr-thread-gold) 0,
+      var(--tr-thread-gold) 6px,
+      transparent 6px,
+      transparent 10px
+    );
+  box-shadow: 0 40px 0 0 var(--tr-thread-gold);
+  opacity: 0.92;
 }
 
-.tr-card:hover::after {
-  left: 120%;
+/* entry animation – subtle snap in */
+.truereligion-in {
+  animation: tr-snap-in 0.22s ease-out forwards;
 }
 
-.tr-card:hover {
-  box-shadow: 0 0 12px var(--tr-thread-glow);
+@keyframes tr-snap-in {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(-3px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
-.tr-details {
-  z-index: 1;
+/* left row */
+.truereligion-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
 }
 
-.tr-class {
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: white;
+/* title */
+.truereligion-title {
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.2;
+  color: var(--tr-ink-light);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 
-.tr-premium {
-  font-size: 0.75rem;
-  color: var(--tr-thread-gold);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin-top: 4px;
+.truereligion-normal {}
+
+/* replacement styling */
+.truereligion-swap .truereligion-old {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+.truereligion-swap .truereligion-arrow {
+  opacity: 0.8;
+  margin: 0 6px;
+  color: var(--tr-ink-soft);
+}
+.truereligion-swap .truereligion-new {
+  font-weight: 800;
+  color: var(--tr-thread-cream);
 }
 
-.tr-time {
-  z-index: 1;
-  font-size: 1.1rem;
-  color: #ccc;
-  font-weight: 500;
+/* Maple chip – small stitched label inline */
+.truereligion-chip {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(8, 8, 8, 0.9);
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #fdf7e6 0,
+      #fdf7e6 6px,
+      #f4e2b8 6px,
+      #f4e2b8 12px
+    );
+  color: #22150a;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.truereligion-chip--maple {
+  border-color: rgba(197, 31, 31, 0.95);
+}
+
+/* time block – 90px stitched pocket label */
+.truereligion-time {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New",
+    monospace;
+  font-weight: 800;
+  font-size: 13px;
+  width: 90px;       /* fixed width */
+  flex: 0 0 90px;
+  text-align: center;
+  white-space: nowrap;
+
+  color: #fdf7ec;
+  background:
+    linear-gradient(140deg, #101622, #05070c);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  padding: 6px 8px;
+  box-shadow:
+    0 6px 14px rgba(0, 0, 0, 0.7),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+}
+
+/* slightly larger screens */
+@media (min-width: 481px) {
+  .truereligion-card {
+    padding: 12px 14px;
+  }
+  .truereligion-time {
+    font-size: 13px;
+  }
 }
