@@ -59,10 +59,11 @@ import ShopifySchedule from "./Components/ShopifySchedule";
 import HulkamaniaSchedule from "./Used/HulkamaniaSchedule";
 import CTVBroadcast from "./Components/CTVBroadcast";
 import LacosteSchedule from "./Components/LacosteSchedule";
+import WoodyWoodpeckerSchedule from "./Components/WoodyWoodpeckerSchedule";
     function App() {
   return (
     <>
-  <CTVBroadcast />
+  <WoodyWoodpeckerSchedule day="Tuesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
