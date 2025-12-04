@@ -1,34 +1,54 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/StackOverflowSchedule.css";
-import schedule from "../Schedule";
+import "./StackOverflowSchedule.css";
+import schedule from "../RhSchedule";
 
 function StackOverflowSchedule({ day, delay = 1600 }) {
   const [visibleClasses, setVisibleClasses] = useState([]);
   const [displayDay, setDisplayDay] = useState("");
 
+  // Type out the day label
   useEffect(() => {
-    const timer = setTimeout(() => {
+    let typeTimeout;
+    let typeInterval;
+
+    setDisplayDay("");
+
+    typeTimeout = setTimeout(() => {
       let i = 0;
-      const typeInterval = setInterval(() => {
+      typeInterval = setInterval(() => {
         setDisplayDay(day.substring(0, i + 1));
         i++;
-        if (i > day.length) clearInterval(typeInterval);
+        if (i > day.length) {
+          clearInterval(typeInterval);
+        }
       }, 55);
     }, delay);
-    return () => clearTimeout(timer);
+
+    return () => {
+      clearTimeout(typeTimeout);
+      if (typeInterval) clearInterval(typeInterval);
+    };
   }, [day, delay]);
 
+  // Staggered reveal of classes
   useEffect(() => {
     const classes = schedule[day] || [];
-    const animationDelay = setTimeout(() => {
+    const timeouts = [];
+    setVisibleClasses([]);
+
+    const baseTimeout = setTimeout(() => {
       classes.forEach((_, idx) => {
-        setTimeout(() => {
+        const t = setTimeout(() => {
           setVisibleClasses((prev) => [...prev, idx]);
         }, idx * 180);
+        timeouts.push(t);
       });
     }, 1000 + delay);
 
-    return () => clearTimeout(animationDelay);
+    return () => {
+      clearTimeout(baseTimeout);
+      timeouts.forEach(clearTimeout);
+    };
   }, [day, delay]);
 
   const formatTime = (decimalTime) => {
@@ -39,15 +59,24 @@ function StackOverflowSchedule({ day, delay = 1600 }) {
     return `${hour12}:${minutes.toString().padStart(2, "0")} ${amPm}`;
   };
 
+  const items = schedule[day] || [];
+
   return (
     <div className="stack-container">
       <div className="stack-day">{displayDay}</div>
       <div className="stack-schedule">
-        {(schedule[day] || []).map((cls, idx) =>
+        {items.map((cls, idx) =>
           visibleClasses.includes(idx) ? (
             <div className="stack-class" key={idx}>
-              <span className="stack-name">{cls.name}</span>
-              <span className="stack-time">{formatTime(cls.start)}</span>
+              <div className="stack-left">
+                <span className="stack-name">{cls.name}</span>
+                {cls.maple && (
+                  <span className="stack-chip">📍 MAPLE</span>
+                )}
+              </div>
+              <time className="stack-time">
+                {formatTime(cls.start)}
+              </time>
             </div>
           ) : null
         )}
