@@ -1,0 +1,312 @@
+/* ChuckySchedule.css */
+@import url("https://fonts.googleapis.com/css2?family=Creepster&family=Inter:wght@500;600;700&display=swap");
+
+:root {
+  --ck-bg: #050307;
+  --ck-bg-2: #12020a;
+  --ck-ink: #fef2f2;
+  --ck-muted: #9f8282;
+
+  --ck-card: #14070b;
+  --ck-border: #3b181c;
+  --ck-shadow: 0 20px 46px rgba(0, 0, 0, 0.95);
+
+  --ck-red: #f52a2a;
+  --ck-red-dark: #7f0505;
+  --ck-amber: #ffb347;
+
+  --ck-scratch: rgba(255, 255, 255, 0.05);
+}
+
+/* Reset-ish */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* Root wrapper */
+.chucky-wrap {
+  min-height: 100vh;
+  width: 100vw;
+  color: var(--ck-ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 12px 32px;
+  padding-top: 100px;
+
+  background:
+    radial-gradient(1000px 520px at 0% 0%, rgba(245, 42, 42, 0.28), transparent 70%),
+    radial-gradient(900px 480px at 100% 120%, rgba(127, 5, 5, 0.45), transparent 75%),
+    linear-gradient(180deg, var(--ck-bg), var(--ck-bg-2)),
+    /* scratches */
+    repeating-linear-gradient(
+      -12deg,
+      var(--ck-scratch) 0,
+      var(--ck-scratch) 1px,
+      transparent 1px,
+      transparent 6px
+    );
+}
+
+/* Header */
+.chucky-header {
+  width: 100%;
+  max-width: 560px;
+  padding: 10px 4px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  backdrop-filter: blur(10px);
+  background: linear-gradient(
+    180deg,
+    rgba(5, 3, 7, 0.96),
+    rgba(11, 2, 8, 0.96)
+  );
+  border-bottom: 1px solid rgba(59, 24, 28, 0.9);
+  text-align: center;
+}
+
+/* Day label – creepy logo */
+.chucky-day {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 20px;
+  font-family: "Creepster", system-ui, sans-serif;
+  font-weight: 400;
+  font-size: 30px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #ffe8e8;
+  text-shadow:
+    0 0 4px #000,
+    0 2px 0 #000,
+    0 4px 10px rgba(0, 0, 0, 0.9);
+  position: relative;
+}
+
+/* Dripping underline bar */
+.chucky-day::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--ck-red), var(--ck-red-dark));
+  box-shadow: 0 0 14px rgba(245, 42, 42, 0.8);
+}
+
+/* List (80% width) */
+.chucky-list {
+  width: 80%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+/* Card */
+.chucky-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 14px;
+  min-height: 56px;
+
+  border-radius: 14px;
+  background:
+    radial-gradient(280px 130px at 0% 0%, rgba(245, 42, 42, 0.28), transparent 70%),
+    radial-gradient(200px 90px at 100% 100%, rgba(255, 179, 71, 0.16), transparent 70%),
+    linear-gradient(160deg, #20060c, #0c0205);
+  border: 1px solid var(--ck-border);
+  box-shadow: var(--ck-shadow);
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(14px) scale(0.97);
+}
+
+/* Inner glitch border */
+.chucky-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(245, 42, 42, 0.75),
+      rgba(255, 179, 71, 0.5)
+    );
+  mix-blend-mode: screen;
+  opacity: 0.18;
+}
+
+/* Left “knife” bar */
+.chucky-card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 4px;
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    var(--ck-red),
+    var(--ck-red-dark)
+  );
+}
+
+/* Entry animation – slight glitch pop */
+.chucky-in {
+  animation: ck-rise 0.26s cubic-bezier(0.23, 1, 0.32, 1) forwards,
+             ck-flicker 1.3s ease-out 0.26s infinite;
+}
+
+@keyframes ck-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.95);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(0) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Light intensity flicker */
+@keyframes ck-flicker {
+  0%   { filter: brightness(1);   }
+  15%  { filter: brightness(0.6); }
+  30%  { filter: brightness(1.1); }
+  45%  { filter: brightness(0.8); }
+  60%  { filter: brightness(1.05);}
+  100% { filter: brightness(1);   }
+}
+
+/* Hover – subtle creep forward */
+.chucky-card:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.95),
+    0 0 0 1px rgba(245, 42, 42, 0.7);
+}
+
+/* Left row: title + maple inline */
+.chucky-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+}
+
+/* Title/Name — ellipsis */
+.chucky-title {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  color: var(--ck-ink);
+}
+
+/* Replacement styling */
+.chucky-swap .chucky-old {
+  text-decoration: line-through;
+  opacity: 0.65;
+}
+
+.chucky-swap .chucky-arrow {
+  opacity: 0.8;
+  margin: 0 6px;
+}
+
+.chucky-swap .chucky-new {
+  font-weight: 800;
+  color: #ffe1e1;
+}
+
+/* Maple chip inline – warning badge */
+.chucky-chip {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 179, 71, 0.95);
+  background: rgba(255, 179, 71, 0.18);
+  color: #fff5dd;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  box-shadow:
+    0 0 0 1px rgba(5, 3, 7, 0.95),
+    0 0 10px rgba(255, 179, 71, 0.45);
+}
+
+/* Time block: fixed width 90px */
+.chucky-time {
+  position: relative;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1.1;
+  white-space: nowrap;
+  text-align: center;
+  width: 90px;
+  flex: 0 0 90px;
+  padding: 6px 8px;
+  border-radius: 999px;
+
+  background:
+    linear-gradient(180deg, #1a0506, #0b0203);
+  border: 1px solid rgba(148, 27, 35, 0.9);
+  color: #ffecec;
+  box-shadow:
+    0 0 0 1px rgba(5, 3, 7, 0.95),
+    0 0 16px rgba(245, 42, 42, 0.7);
+}
+
+/* Small glowing dot on time pill */
+.chucky-time::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: radial-gradient(circle, #f52a2a 0, #7f0505 65%, transparent 100%);
+}
+
+/* Slightly larger screens */
+@media (min-width: 481px) {
+  .chucky-card {
+    padding: 14px 18px;
+  }
+}

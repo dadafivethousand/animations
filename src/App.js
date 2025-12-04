@@ -62,10 +62,11 @@ import LacosteSchedule from "./Components/LacosteSchedule";
 import WoodyWoodpeckerSchedule from "./Components/WoodyWoodpeckerSchedule";
 import VisionSchedule from "./Used/VisionSchedule";
 import TrueReligionSchedule from "./Used/TrueReligionSchedule";
+import ChuckySchedule from "./Components/ChuckySchedule";
     function App() {
   return (
     <>
-  <TrueReligionSchedule day="Tuesday" />
+  <ChuckySchedule day="Thursday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
