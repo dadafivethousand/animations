@@ -64,10 +64,11 @@ import VisionSchedule from "./Used/VisionSchedule";
 import TrueReligionSchedule from "./Used/TrueReligionSchedule";
 import ChuckySchedule from "./Components/ChuckySchedule";
 import StackOverflowSchedule from "./Used/StackOverflowSchedule";
+import MacOSSchedule from "./Components/MacOSSchedule";
     function App() {
   return (
     <>
-  <StackOverflowSchedule day="Thursday" />
+  <MacOSSchedule day="Friday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

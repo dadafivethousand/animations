@@ -1,0 +1,272 @@
+/* MacOSSchedule.css */
+@import url("https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@500;600;700&display=swap");
+/* if SF Pro doesn't load, system fallbacks handle it */
+
+:root {
+  --mac-bg-top: #e9edf7;
+  --mac-bg-bot: #cfd7f0;
+  --mac-ink: #111827;
+  --mac-muted: #6b7280;
+
+  --mac-card: rgba(248, 250, 252, 0.75);
+  --mac-border: rgba(148, 163, 184, 0.6);
+  --mac-shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.25);
+
+  --mac-accent: #2563eb;
+  --mac-accent-soft: rgba(37, 99, 235, 0.12);
+  --mac-chip-bg: rgba(59, 130, 246, 0.08);
+}
+
+/* Reset-ish */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* Root wrapper */
+.macos-wrap {
+  min-height: 100vh;
+  width: 100vw;
+  color: var(--mac-ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 12px 32px;
+  padding-top: 100px; /* your preference */
+
+  background:
+    radial-gradient(1200px 520px at 0% 0%, rgba(37, 99, 235, 0.18), transparent 70%),
+    radial-gradient(1000px 520px at 100% 120%, rgba(56, 189, 248, 0.18), transparent 70%),
+    linear-gradient(180deg, var(--mac-bg-top), var(--mac-bg-bot));
+}
+
+/* Header */
+.macos-header {
+  width: 100%;
+  max-width: 560px;
+  padding: 10px 4px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  backdrop-filter: blur(20px);
+  background: linear-gradient(
+    180deg,
+    rgba(233, 237, 247, 0.9),
+    rgba(207, 215, 240, 0.95)
+  );
+  border-bottom: 1px solid rgba(148, 163, 184, 0.7);
+  text-align: center;
+}
+
+/* Day label – like a widget title */
+.macos-day {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 22px;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+    "Segoe UI", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  color: var(--mac-ink);
+  background:
+    linear-gradient(180deg, #ffffff, #f3f4f9);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9),
+    0 1px 0 rgba(15, 23, 42, 0.04),
+    0 12px 28px rgba(15, 23, 42, 0.18);
+  position: relative;
+}
+
+/* small accent line below day */
+.macos-day::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--mac-accent), #38bdf8);
+}
+
+/* List (80% width) */
+.macos-list {
+  width: 80%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+/* Card */
+.macos-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 16px;
+  min-height: 56px;
+
+  border-radius: 18px;
+  background:
+    radial-gradient(260px 140px at 0% 0%, rgba(255, 255, 255, 0.7), transparent 70%),
+    linear-gradient(180deg, rgba(248, 250, 252, 0.9), rgba(241, 245, 249, 0.85));
+  border: 1px solid var(--mac-border);
+  box-shadow: var(--mac-shadow-soft);
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(10px) scale(0.99);
+  backdrop-filter: blur(18px);
+
+  transition:
+    transform 0.18s ease-out,
+    box-shadow 0.18s ease-out,
+    border-color 0.18s ease-out,
+    background 0.18s ease-out;
+}
+
+/* subtle inner highlight ring */
+.macos-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(148, 163, 184, 0.5),
+    rgba(191, 219, 254, 0.6)
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+/* Entry animation */
+.macos-in {
+  animation: mac-rise 0.26s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes mac-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Hover */
+.macos-card:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow:
+    0 22px 55px rgba(15, 23, 42, 0.28),
+    0 0 0 1px rgba(148, 163, 184, 0.9);
+  border-color: rgba(148, 163, 184, 0.9);
+}
+
+/* Left row: title + maple inline */
+.macos-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+}
+
+/* Title/Name — ellipsis */
+.macos-title {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  color: var(--mac-ink);
+}
+
+/* Replacement styling */
+.macos-swap .macos-old {
+  text-decoration: line-through;
+  opacity: 0.65;
+}
+
+.macos-swap .macos-arrow {
+  opacity: 0.7;
+  margin: 0 6px;
+}
+
+.macos-swap .macos-new {
+  font-weight: 800;
+}
+
+/* Maple chip inline – like a system tag */
+.macos-chip {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(37, 99, 235, 0.8);
+  background: var(--mac-chip-bg);
+  color: #1e3a8a;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.9),
+    0 0 8px rgba(37, 99, 235, 0.25);
+}
+
+/* Time block: fixed width 90px, right side */
+.macos-time {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1.1;
+  white-space: nowrap;
+  text-align: center;
+  width: 90px;
+  flex: 0 0 90px;
+  padding: 6px 8px;
+  border-radius: 999px;
+
+  background:
+    linear-gradient(180deg, #f9fafb, #e5e7eb);
+  border: 1px solid rgba(148, 163, 184, 0.9);
+  color: #111827;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9),
+    0 6px 14px rgba(148, 163, 184, 0.3);
+}
+
+/* Slightly larger screens */
+@media (min-width: 481px) {
+  .macos-card {
+    padding: 14px 20px;
+  }
+}
