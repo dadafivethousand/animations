@@ -68,7 +68,7 @@ import MacOSSchedule from "./Components/MacOSSchedule";
     function App() {
   return (
     <>
-  <MacOSSchedule day="Friday" />
+  <WoodyWoodpeckerSchedule day="Friday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

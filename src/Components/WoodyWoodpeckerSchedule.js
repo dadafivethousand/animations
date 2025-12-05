@@ -1,7 +1,7 @@
 // WoodyWoodpeckerSchedule.jsx
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/WoodyWoodpeckerSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function WoodyWoodpeckerSchedule({
   day,
