@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Windows98Schedule.css";
-import schedule from "../../Schedule";
+import schedule from "../../RhSchedule";
 import windows from "../../Images/Used/Microsoft Windows 98 Wallpaper.jpeg"
 import icons from "../../Images/Used/Windows 98 Icons are Great · Alex Meub.jpeg"
 import startWidget from "../../Images/Used/Windows Start Widget.jpeg"
