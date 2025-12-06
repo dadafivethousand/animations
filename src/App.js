@@ -66,10 +66,12 @@ import ChuckySchedule from "./Components/ChuckySchedule";
 import StackOverflowSchedule from "./Used/StackOverflowSchedule";
 import MacOSSchedule from "./Components/MacOSSchedule";
 import LiloStitchSchedule from "./Components/LiloStitchSchedule";
+import RolexSchedule from "./Used/Lit/RolexSchedule";
+import Windows98Schedule from "./Used/Lit/Windows98Schedule";
     function App() {
   return (
     <>
-  <LiloStitchSchedule day="Saturday" />
+  <Windows98Schedule day="Saturday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
