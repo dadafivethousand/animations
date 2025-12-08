@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/Windows98Schedule.css";
-import schedule from "../Schedule";
-import windows from "../Images/Microsoft Windows 98 Wallpaper.jpeg"
-import icons from "../Images/Windows 98 Icons are Great · Alex Meub.jpeg"
-import startWidget from "../Images/Windows Start Widget.jpeg"
+import "./Windows98Schedule.css";
+import schedule from "../../RhSchedule";
+import windows from "../../Images/Used/Microsoft Windows 98 Wallpaper.jpeg"
+import icons from "../../Images/Used/Windows 98 Icons are Great · Alex Meub.jpeg"
+import startWidget from "../../Images/Used/Windows Start Widget.jpeg"
 
 export default function Windows98Schedule({ day, animationDelay = 4000, animationInterval = 300 }) {
   const [visibleArray, setVisibleArray] = useState([]);
