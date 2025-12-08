@@ -1,9 +1,9 @@
-// ChuckySchedule.jsx
+// CaterpillarSchedule.jsx
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/ChuckySchedule.css";
-import schedule from "../RhSchedule";
+import "../Stylesheets/CaterpillarSchedule.css";
+import schedule from "../Schedule";
 
-export default function ChuckySchedule({
+export default function CaterpillarSchedule({
   day,
   animationDelay = 900,
   animationInterval = 160,
@@ -45,14 +45,14 @@ export default function ChuckySchedule({
   };
 
   return (
-    <div className="chucky-wrap">
-      <header className="chucky-header">
-        <h1 className="chucky-day" aria-label={safeDay || "Day"}>
+    <div className="caterpillar-wrap">
+      <header className="caterpillar-header">
+        <h1 className="caterpillar-day" aria-label={safeDay || "Day"}>
           {safeDay ? safeDay.toUpperCase() : ""}
         </h1>
       </header>
 
-      <main className="chucky-list">
+      <main className="caterpillar-list">
         {items.map((cls, i) => {
           if (!visible.includes(i)) return null;
 
@@ -63,16 +63,16 @@ export default function ChuckySchedule({
               : "Replacement";
 
           return (
-            <article className="chucky-card chucky-in" key={i}>
-              <div className="chucky-left">
-                <div className="chucky-title">
+            <article className="caterpillar-card caterpillar-in" key={i}>
+              <div className="caterpillar-left">
+                <div className="caterpillar-title">
                   {hasReplacement ? (
-                    <span className="chucky-swap">
-                      <span className="chucky-old">{cls.name}</span>
-                      <span className="chucky-arrow" aria-hidden="true">
+                    <span className="caterpillar-swap">
+                      <span className="caterpillar-old">{cls.name}</span>
+                      <span className="caterpillar-arrow" aria-hidden="true">
                         →
                       </span>
-                      <span className="chucky-new">{newName}</span>
+                      <span className="caterpillar-new">{newName}</span>
                     </span>
                   ) : (
                     cls.name
@@ -80,13 +80,13 @@ export default function ChuckySchedule({
                 </div>
 
                 {cls.maple && (
-                  <span className="chucky-chip chucky-chip--maple">
+                  <span className="caterpillar-chip caterpillar-chip--maple">
                     📍 MAPLE
                   </span>
                 )}
               </div>
 
-              <time className="chucky-time">
+              <time className="caterpillar-time">
                 {formatTime(cls.start)}
               </time>
             </article>
