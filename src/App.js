@@ -73,7 +73,7 @@ import KoolAidSchedule from "./Components/KoolAidSchedule";
     function App() {
   return (
     <>
-  <CaterpillarSchedule day="Tuesday" />
+  <LacosteSchedule day="Tuesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
