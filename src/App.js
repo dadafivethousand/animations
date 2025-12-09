@@ -68,10 +68,12 @@ import MacOSSchedule from "./Components/MacOSSchedule";
 import WorldCupSchedule from "./Components/WorldCupSchedule";
 import CyberpunkSchedule from "./Components/CyberpunkSchedule";
 import CaterpillarSchedule from "./Components/CaterpillarSchedule";
+import LaysSchedule from "./Components/LaysSchedule";
+import KoolAidSchedule from "./Components/KoolAidSchedule";
     function App() {
   return (
     <>
-  <ChuckySchedule day="Monday" />
+  <CaterpillarSchedule day="Tuesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
