@@ -1,0 +1,159 @@
+/* File: F1Schedule.css */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@400;600;700&display=swap');
+
+:root{
+  --f1-bg-1: #0b1220; /* deep asphalt */
+  --f1-bg-2: #0f1b2a;
+  --f1-accent: #ffcc00; /* chequered yellow */
+  --f1-accent-2: #e10600; /* racing red */
+  --f1-card: #0e1622;
+  --f1-ink: #e9eef8;
+  --f1-border: rgba(225, 230, 255, 0.06);
+  --f1-shadow: 0 10px 26px rgba(2,6,23,0.6);
+}
+
+*{box-sizing:border-box}
+
+.f1-wrap{
+  width:100vw;
+  min-height:100vh;
+  padding:12px;
+  padding-top:100px; /* required */
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  background: linear-gradient(180deg,var(--f1-bg-1), var(--f1-bg-2));
+  color:var(--f1-ink);
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+}
+
+.f1-header{
+  width:100%;
+  text-align:center;
+  padding:6px 4px 10px;
+}
+
+.f1-day{
+  margin:0;
+  font-family: 'Orbitron', system-ui, sans-serif;
+  font-size:28px;
+  letter-spacing:0.08em;
+  color:var(--f1-accent);
+}
+
+/* list width: mobile-first, slightly narrower on desktop */
+.f1-list{
+  width:92%;
+  max-width:760px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:12px;
+}
+
+.f1-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:10px 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)), var(--f1-card);
+  border-radius:10px;
+  box-shadow: var(--f1-shadow);
+  border:1px solid var(--f1-border);
+  min-height:56px;
+  opacity:0;
+  transform:translateY(8px) scale(0.995);
+}
+
+/* reveal animation */
+.f1-in{ animation: f1-rise .24s cubic-bezier(.2,.9,.25,1) forwards; }
+@keyframes f1-rise{ to{ opacity:1; transform:none } }
+
+.f1-left{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:10px;
+  flex:1 1 auto;
+  flex-wrap:nowrap;
+}
+
+.f1-title{
+  font-weight:700;
+  font-size:15px;
+  line-height:1.15;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  min-width:0;
+  color:var(--f1-ink);
+}
+
+.f1-normal{ display:inline-block }
+
+/* Replacement styling */
+.f1-swap .f1-old{ text-decoration:line-through; opacity:.65; }
+.f1-swap .f1-arrow{ opacity:.65; margin:0 6px; }
+.f1-swap .f1-new{ font-weight:800; color:var(--f1-accent-2); }
+
+/* Maple chip */
+.f1-chip{
+  font-size:11px;
+  padding:4px 8px;
+  border-radius:999px;
+  white-space:nowrap;
+  flex:0 0 auto;
+  border:1px solid rgba(255,204,0,0.12);
+  background: rgba(255,204,0,0.06);
+  color:var(--f1-accent);
+}
+
+.f1-chip--maple{
+  border-color: rgba(43,110,230,0.16);
+  background: rgba(43,110,230,0.06);
+  color: #85b7ff;
+}
+
+/* Time block: fixed 90px */
+.f1-time{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Courier New', monospace;
+  font-weight:700;
+  font-size:13px;
+  width:90px;
+  flex:0 0 90px;
+  text-align:center;
+  padding:6px 8px;
+  border-radius:8px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.12), rgba(255,255,255,0.02));
+  border:1px solid rgba(255,255,255,0.02);
+  color:var(--f1-ink);
+}
+
+/* small chequered accent on left of card to give racing flag vibe */
+.f1-card::before{
+  content:"";
+  width:8px;
+  height:36px;
+  margin-right:6px;
+  background: repeating-linear-gradient(90deg, var(--f1-accent) 0 6px, black 6px 12px);
+  border-radius:6px;
+  flex:0 0 auto;
+}
+
+/* Accessibility: prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce){
+  .f1-in{ animation:none; opacity:1; transform:none }
+}
+
+/* Wider screens: list width 80% and larger day text */
+@media (min-width:481px){
+  .f1-list{ width:80%; }
+  .f1-day{ font-size:30px; }
+}
+
+/* Contrast adjustments to meet WCAG AA for text on card */
+.f1-card, .f1-time, .f1-title{ color: #e9eef8; }
+
+/* End of F1Schedule.css */

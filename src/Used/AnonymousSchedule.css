@@ -117,7 +117,7 @@
   animation: glitchIn 0.4s ease-out forwards;
   transform: translateY(20px) scale(0.95);
   opacity: 0;
-  width:250px;
+  width:350px;
 }
 
 @keyframes glitchIn {
@@ -150,4 +150,9 @@
 .anon-time {
   font-size: 1.1rem;
   color: #77ffd4;
+}
+
+
+.anon-maple{
+  font-size: 15px;
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/AnonymousSchedule.css";
-import schedule from "../Schedule";
+import "./AnonymousSchedule.css";
+import schedule from "../RhSchedule";
 
 export default function AnonymousSchedule({ day, animationDelay = 3400, animationInterval = 150 }) {
   const [visibleArray, setVisibleArray] = useState([]);
@@ -32,6 +32,7 @@ export default function AnonymousSchedule({ day, animationDelay = 3400, animatio
           visibleArray.includes(idx) ? (
             <div className="anon-card" key={idx}>
               <span className="anon-class">{cls.name}</span>
+              {cls.maple && <div className="anon-maple"> @ MAPLE   </div>}
               <span className="anon-time">{formatTime(cls.start)}</span>
             </div>
           ) : null

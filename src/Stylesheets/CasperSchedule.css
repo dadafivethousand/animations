@@ -1,0 +1,175 @@
+/* CasperSchedule.css */
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Inter:wght@600;700&display=swap");
+
+:root{
+  --cp-bg-1:#0a0f19;
+  --cp-bg-2:#0e1526;
+  --cp-fog-cyan: rgba(147,224,255,.12);
+  --cp-fog-lilac: rgba(191,174,255,.10);
+
+  --cp-card:#0f1a2c;
+  --cp-card-2:#0b1324;
+
+  --cp-ink:#eaf3ff;
+  --cp-muted:#bcd0e9;
+
+  --cp-accent:#9be7ff;
+  --cp-accent-2:#c6bbff;
+
+  --cp-border:rgba(155,231,255,.26);
+  --cp-shadow:0 12px 28px rgba(0,0,0,.45);
+}
+
+*{ box-sizing:border-box; }
+
+.casper-wrap{
+  min-height:100vh;
+  width:100vw;
+  background:
+    radial-gradient(900px 560px at 50% -10%, var(--cp-fog-cyan), transparent 60%),
+    radial-gradient(1100px 680px at 50% 120%, var(--cp-fog-lilac), transparent 65%),
+    radial-gradient(3px 3px at 20% 30%, rgba(255,255,255,.12) 40%, transparent 42%) repeat,
+    linear-gradient(180deg, var(--cp-bg-1) 0%, var(--cp-bg-2) 100%);
+  color:var(--cp-ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:14px;
+  padding-top:50px; /* minimum 50px top padding */
+  background-size: auto, auto, 120px 120px, auto;
+}
+
+/* Header — day centered and 30px */
+.casper-header{
+  width:100%;
+  max-width:560px;
+  padding:10px 4px 12px;
+  position:sticky;
+  top:0;
+  text-align:center;
+  background:linear-gradient(180deg, rgba(10,15,25,.88), rgba(14,21,38,.68));
+  backdrop-filter: blur(4px);
+  border-bottom:1px solid rgba(155,231,255,.18);
+  z-index:2;
+}
+.casper-day{
+  margin:0;
+  display:inline-block;
+  font-family:"Baloo 2", system-ui, sans-serif;
+  font-weight:700;
+  font-size:30px; /* bigger day label */
+  letter-spacing:.10em;
+  text-transform:uppercase;
+  background:linear-gradient(90deg, var(--cp-accent), #ffffff);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  text-shadow:
+    0 0 18px rgba(155,231,255,.45),
+    0 1px 0 rgba(0,0,0,.35);
+}
+
+/* List (80% width) */
+.casper-list{
+  width:80%;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-top:10px;
+}
+
+/* Card */
+.casper-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px 12px;
+  background:
+    linear-gradient(180deg, var(--cp-card), var(--cp-card-2));
+  border:1px solid var(--cp-border);
+  border-radius:14px;
+  box-shadow:
+    var(--cp-shadow),
+    inset 0 0 0 1px rgba(255,255,255,.02),
+    0 0 18px rgba(155,231,255,.08); /* soft ghostly glow */
+  opacity:0;
+  transform: translateY(8px);
+  min-height:56px; /* compact */
+}
+
+/* In animation */
+.casper-in{ animation: casper-rise .24s ease-out forwards; }
+@keyframes casper-rise{ to{ opacity:1; transform:translateY(0);} }
+
+/* Left row: title + maple inline, start-justified */
+.casper-left{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start; /* per guideline */
+  gap:8px;
+  flex:1 1 auto;
+  flex-wrap:nowrap;
+}
+
+/* Title — keep compact for single-line fit */
+.casper-title{
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight:700;
+  font-size:15px;   /* compact title size */
+  line-height:1.2;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  min-width:0;
+}
+
+/* Replacement styling */
+.casper-swap .casper-old{ text-decoration:line-through; opacity:.65; }
+.casper-swap .casper-arrow{ opacity:.65; margin:0 6px; }
+.casper-swap .casper-new{ font-weight:800; }
+
+/* Maple chip inline — frosty pill */
+.casper-chip{
+  font-size:11px;
+  line-height:1;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(155,231,255,.55);
+  background: linear-gradient(180deg, rgba(155,231,255,.16), rgba(198,224,255,.12));
+  color:#ecf7ff;
+  white-space:nowrap;
+  flex:0 0 auto;
+  box-shadow:
+    inset 0 0 10px rgba(155,231,255,.18),
+    0 0 10px rgba(155,231,255,.12);
+}
+.casper-chip--maple{}
+
+/* Time block: fixed width 90px, centered text */
+.casper-time{
+  font:800 13px/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color:#0f1424;
+  background:linear-gradient(180deg, #e8f6ff, #d8ecff);
+  border:1px solid rgba(155,231,255,.55);
+  border-radius:10px;
+  padding:6px 8px;
+  white-space:nowrap;
+  width:90px;        /* fixed width */
+  flex:0 0 90px;     /* prevent grow/shrink */
+  text-align:center; /* centered */
+  text-shadow:0 1px 0 rgba(255,255,255,.8);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .casper-in{ animation:none; opacity:1; transform:none; }
+}
+
+/* Slightly larger screens */
+@media (min-width:481px){
+  .casper-card{ padding:12px 14px; }
+  .casper-time{ font-size:13px; }
+}

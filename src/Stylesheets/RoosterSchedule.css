@@ -1,0 +1,216 @@
+/* Rooster Theme — sunrise barnyard: dawn gradient, feather texture, warm reds & golds */
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&family=Inter:wght@600;700;800&display=swap');
+
+:root{
+  --dawn-top:#07121c;         /* pre-dawn sky */
+  --dawn-mid:#1d3a55;         /* deep blue */
+  --dawn-haze:#f0a86e;        /* sunrise haze */
+  --sunrise:#ffdb87;          /* golden sun */
+  --barn-red:#9e1b1f;
+  --barn-deep:#6f1114;
+
+  --card:#1a1f26;             /* card surface */
+  --card-brd:#2b3441;
+
+  --chip-bg:#2c3a23;          /* maple tag */
+  --chip-brd:#ffd56b;
+
+  --time-bg:#221c10;          /* time pill */
+  --time-brd:#6b4a1f;
+
+  --ink:#fffaf3;
+
+  --card-width:80%;           /* centered cards */
+  --time-width:80px;          /* equal width times */
+}
+
+/* Reset */
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+.rooster-wrap{
+  min-height:100vh;
+  width:100vw;
+  background:
+    radial-gradient(1100px 400px at 50% 115%, rgba(255,161,84,.22), transparent 60%),
+    radial-gradient(600px 260px at 50% 86%, rgba(255,219,135,.25), transparent 62%),
+    linear-gradient(180deg, var(--dawn-top), var(--dawn-mid) 55%, var(--dawn-haze) 85%, var(--sunrise) 100%);
+  color:var(--ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:54px 14px 24px;
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  position:relative;
+  overflow:hidden;
+}
+
+/* faint feather texture sweeping across */
+.rooster-wrap::before{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    repeating-linear-gradient(25deg, rgba(255,255,255,.04) 0 2px, rgba(0,0,0,.04) 2px 4px);
+  mix-blend-mode:soft-light; opacity:.15; pointer-events:none;
+}
+
+/* Header — barn sign badge, centered weekday */
+.rooster-header{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:12px 2px 16px;
+  text-align:center;
+}
+.rooster-day{
+  font-family:"Baloo 2", system-ui, sans-serif;
+  font-size:24px;
+  letter-spacing:.14em;
+  color:#fff;
+  background:linear-gradient(180deg, #b52025, var(--barn-red) 60%, var(--barn-deep));
+  border:2px solid #3a0708;
+  border-radius:12px;
+  padding:8px 14px;
+  box-shadow:0 4px 0 #3a0708, 0 14px 24px rgba(0,0,0,.35);
+}
+
+/* List */
+.rooster-list{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  align-items:center;
+}
+
+/* Card — compact, 80% width, centered; warm sheen + woodgrain edge */
+.rooster-card{
+  width:var(--card-width);
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 12px;
+  border-radius:14px;
+  position:relative;
+  overflow:hidden;
+  opacity:0;
+  transform:translateY(10px) scale(.995);
+
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0)),
+    var(--card);
+  border:1px solid var(--card-brd);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.05),
+    0 10px 24px rgba(0,0,0,.45);
+}
+
+/* barn siding strip at left */
+.rooster-card::before{
+  content:"";
+  position:absolute; left:0; top:0; height:100%; width:8px;
+  background:
+    repeating-linear-gradient(180deg, rgba(0,0,0,.12) 0 3px, rgba(255,255,255,.08) 3px 6px),
+    linear-gradient(180deg, #c82a30, #7c1417);
+  box-shadow:0 0 10px rgba(124,20,23,.35);
+}
+
+/* sunrise highlight sweep + rooster crest icon */
+.rooster-card::after{
+  content:"";
+  position:absolute; inset:0;
+  background:linear-gradient(120deg, transparent 45%, rgba(255,219,135,.08) 55%, transparent 65%);
+  pointer-events:none;
+}
+
+/* small rooster crest */
+.rooster-crest{
+  position:absolute; right:10px; top:10px; width:18px; height:18px; opacity:.55;
+  background:
+    conic-gradient(from 0deg, #ffd56b 0 20%, transparent 20% 40%, #ffd56b 40% 60%, transparent 60% 80%, #ffd56b 80% 100%);
+  clip-path: polygon(50% 0, 58% 18%, 80% 20%, 62% 32%, 70% 50%, 50% 42%, 30% 50%, 38% 32%, 20% 20%, 42% 18%);
+  filter: drop-shadow(0 0 8px rgba(255,213,107,.25));
+}
+
+/* Stagger animation */
+.rooster-in{ animation:rise-crow .24s ease-out forwards; }
+@keyframes rise-crow{ to{ opacity:1; transform:translateY(0) scale(1); } }
+
+/* Left column */
+.rooster-left{ min-width:0; }
+
+/* Keep name + MAPLE on one line */
+.rooster-row{
+  min-width:0;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  white-space:nowrap;
+  overflow:hidden;
+}
+
+.rooster-title{
+  font-weight:800;
+  font-size:16px;
+  color:#fff9ef;
+  letter-spacing:.01em;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  text-shadow:0 1px 0 rgba(0,0,0,.45);
+}
+
+/* Replacement styling (contract) */
+.swap .old{ text-decoration:line-through; opacity:.65; }
+.swap .arrow{ opacity:.6; margin:0 6px; }
+.swap .new{ font-weight:900; color:#ffe2a6; }
+
+/* Maple chip — straw tag look */
+.chip{
+  font-size:12px;
+  line-height:1;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.10);
+  color:#fff;
+  white-space:nowrap;
+  flex:none;
+}
+.chip--maple{
+  background:linear-gradient(180deg, #3a4b2a, var(--chip-bg));
+  border-color:var(--chip-brd);
+  color:#fff9d9;
+  box-shadow:0 0 10px rgba(255,213,107,.28);
+}
+
+/* Start time ONLY — fixed equal width, centered */
+.rooster-time{
+  font:800 13px/1 "Inter", system-ui, sans-serif;
+  padding:8px 0;
+  border-radius:10px;
+  background:
+    linear-gradient(180deg, #3a2b15, var(--time-bg));
+  border:1px solid var(--time-brd);
+  color:#fff3d6;
+  letter-spacing:.02em;
+
+  width:var(--time-width);
+  flex:0 0 var(--time-width);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.08),
+    0 6px 14px rgba(0,0,0,.5);
+}
+
+/* Slight bumps on wider screens */
+@media (min-width:431px){
+  .rooster-title{ font-size:17px; }
+  .rooster-time{ font-size:14px; }
+}

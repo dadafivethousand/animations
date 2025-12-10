@@ -34,13 +34,10 @@
   text-transform: uppercase;
   color: #ffc107;
   padding: 12px 24px;
- 
   border-radius: 8px;
-   animation: badgeReveal 1s ease-out;
+  animation: badgeReveal 1s ease-out;
   position: absolute;
-  top:100px;
- 
-
+  top: 100px;
 }
 
 /* Schedule container */
@@ -54,17 +51,25 @@
   box-shadow: 0 0 10px rgba(255, 87, 34, 0.25);
   height: 380px;
   backdrop-filter: blur(5px);
+  overflow-y: auto;
 }
 
-/* Class cards — tighter, centered */
+/* Wrap each class + maple plaque vertically */
+.badboys-card-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Class cards */
 .badboys-class {
   background: linear-gradient(to right, #191919, #0b0b0b);
   border: 2px solid #ff3d00;
-  border-radius: 6px;
+  border-radius: 6px 6px 0 0; /* top only; maple bar attaches under */
   width: 85%;
   height: 56px;
   padding: 0 14px;
-  margin: 12px auto;
+  margin: 12px auto 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -73,7 +78,6 @@
   animation: heatEntry 0.4s ease-out;
   transition: transform 0.2s ease;
   box-shadow: 0 2px 6px rgba(255, 61, 0, 0.3);
- 
 }
 
 .badboys-class:hover {
@@ -92,7 +96,23 @@
 .badboys-class-time {
   font-size: 20px;
   color: #ffd699;
+  min-width:60px;
   text-shadow: 0 0 1px #000;
+}
+
+/* Maple plaque (attached under the card) */
+.badboys-maple {
+  width: 25%;
+  text-align: center;
+   color: #ffd699;
+  font-size: 14px;
+  letter-spacing: 1px;
+  padding: 6px 10px;
+ 
+  border-top: none;             /* connects to the class card */
+  border-radius: 0 0 6px 6px;   /* matches card radius */
+   transform: translateY(-2px);  /* hide seam */
+  text-transform: uppercase;
 }
 
 /* Animations */

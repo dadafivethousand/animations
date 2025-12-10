@@ -1,98 +1,86 @@
+/* TransformersSchedule.css */
 /* ⚡ High-End Transformers Color Palette */
 :root {
-    --tf-dark-gray: #1c1c1c;
-    --tf-metal-gray: #3a3a3a;
-    --tf-neon-blue: #008cff;
-    --tf-neon-yellow: #ffcc00;
-    --tf-white: #ffffff;
+  --tf-dark-gray: #1c1c1c;
+  --tf-metal-gray: #3a3a3a;
+  --tf-neon-blue: #008cff;
+  --tf-neon-yellow: #ffcc00;
+  --tf-white: #ffffff;
 }
 
 /* ⚡ Cybertron Background */
 .tf-container {
-    background: linear-gradient(180deg, var(--tf-dark-gray) 40%, var(--tf-metal-gray) 100%);
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: "Oswald", sans-serif;
-    text-align: center;
-    color: var(--tf-white);
+  background: linear-gradient(180deg, var(--tf-dark-gray) 40%, var(--tf-metal-gray) 100%);
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: "Oswald", sans-serif;
+  text-align: center;
+  color: var(--tf-white);
 }
 
 /* ⚡ Premium Transformers Font */
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap');
 
-/* 🏆 TITLE */
+/* 🏆 TITLE (optional if you add one elsewhere) */
 .tf-title {
-    font-size: 3rem;
-    font-weight: bold;
-    color: var(--tf-neon-yellow);
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    margin-bottom: 10px;
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--tf-neon-yellow);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 10px;
 }
 
 /* ⚡ DAY */
 .tf-day {
-    font-size: 2rem;
-    font-weight: bold;
-    color: var(--tf-neon-blue);
-    text-transform: uppercase;
-    margin-bottom: 20px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--tf-neon-blue);
+  text-transform: uppercase;
+  margin-bottom: 20px;
 }
 
 /* 🕑 SCHEDULE CONTAINER */
 .tf-schedule {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60%;
 }
 
 /* ⚡ CLASS BOXES */
 .tf-class {
-    background: linear-gradient(145deg, var(--tf-metal-gray), var(--tf-dark-gray));
-    color: var(--tf-neon-yellow);
-    padding: 8px;
-    margin: 5px 0;
-    width: 100%;
-    text-align: center;
-    font-size: 1.3rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    border-radius: 5px;
-    border: 3px solid var(--tf-neon-blue);
-    opacity: 0;
-    transform: translateX(-120%);
-    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+  background: linear-gradient(145deg, var(--tf-metal-gray), var(--tf-dark-gray));
+  color: var(--tf-neon-yellow);
+  padding: 8px;
+  margin: 10px 0;
+  width: 80%;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 5px;
+  border: 3px solid var(--tf-neon-blue);
+  opacity: 0;
+  transform: translateX(-120%);
+  transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+  position: relative;
+  overflow: hidden;
+  z-index: 5;
+
+  /* layout to keep left (name+badge) and right (time) */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 /* ⚡ SLIDE-IN ANIMATION */
 .tf-slide-in {
-    opacity: 1;
-    transform: translateX(0);
-}
-/* Transformer Class Box */
-.tf-class {
-    background: linear-gradient(145deg, var(--tf-metal-gray), var(--tf-dark-gray));
-    color: var(--tf-neon-yellow);
-    padding: 8px;
-    margin: 10px 0;
-    width: 100%;
-    text-align: center;
-    font-size: 1.3rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    border-radius: 5px;
-    border: 3px solid var(--tf-neon-blue);
-    opacity: 0;
-    transform: translateX(-120%);
-    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
-    position: relative;
-    overflow: hidden;
-    z-index:5
+  opacity: 1;
+  transform: translateX(0);
 }
 
 /* Glitchy, Transforming Border Pieces */
@@ -102,67 +90,103 @@
 .tf-border-bottom,
 .tf-border-left,
 .tf-border-right {
-    content: "";
-    position: absolute;
-    background: var(--tf-neon-blue);
-    opacity: 0;
-    z-index: 50
+  content: "";
+  position: absolute;
+  background: var(--tf-neon-blue);
+  opacity: 0;
+  z-index: 50;
 }
 
 /* Top & Bottom Border Flickering */
-.tf-border-top, .tf-border-bottom {
-    width: 50px;
-    height: 4px;
-    animation: borderBlink 1.2s infinite ease-in-out alternate;
+.tf-border-top,
+.tf-border-bottom {
+  width: 50px;
+  height: 4px;
+  animation: borderBlink 1.2s infinite ease-in-out alternate;
 }
 .tf-border-top { top: -4px; left: 20%; }
 .tf-border-bottom { bottom: -4px; right: 20%; }
 
 /* Left & Right Borders Flickering */
-.tf-border-left, .tf-border-right {
-    width: 4px;
-    height: 30px;
-    animation: borderBlink 1.2s infinite ease-in-out alternate;
+.tf-border-left,
+.tf-border-right {
+  width: 4px;
+  height: 30px;
+  animation: borderBlink 1.2s infinite ease-in-out alternate;
 }
 .tf-border-left { left: -4px; top: 20%; }
 .tf-border-right { right: -4px; bottom: 20%; }
 
 /* Glitchy Neon Flicker Animation */
 @keyframes borderBlink {
-    0% { opacity: 0; transform: scaleX(1) scaleY(1); }
-    50% { opacity: 1; transform: scaleX(1.1) scaleY(1.1); }
-    100% { opacity: 0; transform: scaleX(1) scaleY(1); }
+  0% { opacity: 0; transform: scaleX(1) scaleY(1); }
+  50% { opacity: 1; transform: scaleX(1.1) scaleY(1.1); }
+  100% { opacity: 0; transform: scaleX(1) scaleY(1); }
 }
 
 /* Inner Glow Effect for Extra Transformer Vibes */
 .tf-class::before,
 .tf-class::after {
-    width: 8px;
-    height: 8px;
-    background: var(--tf-neon-yellow);
-    box-shadow: 0px 0px 10px var(--tf-neon-yellow);
-    animation: flickerGlow 0.8s infinite alternate ease-in-out;
+  width: 8px;
+  height: 8px;
+  background: var(--tf-neon-yellow);
+  box-shadow: 0px 0px 10px var(--tf-neon-yellow);
+  animation: flickerGlow 0.8s infinite alternate ease-in-out;
 }
 .tf-class::before { top: 5px; left: 5px; }
 .tf-class::after { top: 5px; right: 5px; }
 
 @keyframes flickerGlow {
-    0% { opacity: 0.2; transform: scale(1); }
-    100% { opacity: 1; transform: scale(1.2); }
+  0%   { opacity: 0.2; transform: scale(1); }
+  100% { opacity: 1;   transform: scale(1.2); }
 }
 
-/* SLIDE-IN with Border Animation */
-.tf-slide-in {
-    opacity: 1;
-    transform: translateX(0);
+/* Left cluster: name + maple badge */
+.tf-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
 }
 
-/* Make Borders Visible on Slide-In */
-.tf-slide-in .tf-border-top,
-.tf-slide-in .tf-border-bottom,
-.tf-slide-in .tf-border-left,
-.tf-slide-in .tf-border-right {
-    opacity: 1;
+.tf-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+    position: relative;
+  left:10px;
 }
 
+/* Time on the right */
+.tf-time {
+  color: var(--tf-white);
+  letter-spacing: 1px;
+  position: relative;
+  right:10px;
+}
 
+/* Maple badge (kept within .tf-class) */
+.tf-badge {
+  font-size: 12px;
+  line-height: 1;
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.25);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  white-space: nowrap;
+}
+
+.tf-badge--maple {
+  background: #1c1f2b;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(255,0,0,0.25);
+   position: relative;
+  left:4px;
+}
+
+/* Responsive tweak */
+@media (max-width: 420px){
+  .tf-schedule { width: 90%; }
+  .tf-badge { font-size: 11px; padding: 2px 6px; }
+}

@@ -1,0 +1,207 @@
+/* StarcraftSchedule.css — RTS HUD vibe: deep space, hex grid, neon cyan, holo plaques */
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@600;700;800&display=swap");
+
+:root{
+  /* Sector palette */
+  --sc-bg:#060a12;
+  --sc-bg-2:#0a1120;
+  --sc-stars: rgba(255,255,255,.08);
+  --sc-nebula-1: rgba(0,224,255,.10);
+  --sc-nebula-2: rgba(122,0,255,.08);
+
+  --sc-ink:#e8f3ff;
+  --sc-muted:#b6c5e0;
+
+  --sc-accent:#00e0ff;     /* terran-ish cyan */
+  --sc-accent-2:#8be9ff;
+  --sc-protoss:#ffd24a;    /* protoss gold hint */
+
+  --sc-card:#0e1624;
+  --sc-card-2:#0b1322;
+  --sc-border: rgba(0,224,255,.28);
+  --sc-shadow: 0 14px 34px rgba(0,0,0,.55);
+
+  --sc-time-width:90px;    /* fixed time width */
+}
+
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+.starcraft-wrap{
+  min-height:100vh;
+  width:100vw;
+  background:
+    /* soft nebula glows */
+    radial-gradient(900px 520px at 20% -10%, var(--sc-nebula-1), transparent 60%),
+    radial-gradient(900px 520px at 80% 120%, var(--sc-nebula-2), transparent 60%),
+    /* hex grid */
+    linear-gradient(60deg, rgba(255,255,255,.035) 1px, transparent 1px) 0 0/18px 18px,
+    linear-gradient(-60deg, rgba(255,255,255,.035) 1px, transparent 1px) 0 0/18px 18px,
+    linear-gradient(180deg, var(--sc-bg), var(--sc-bg-2));
+  color:var(--sc-ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:14px;
+  padding-top:50px; /* >= 50px per spec */
+  background-attachment: fixed,fixed,scroll,scroll,scroll;
+}
+
+/* Header — holographic bar, day centered @ 30px */
+.starcraft-header{
+  width:100%;
+  max-width:560px;
+  padding:12px 6px 14px;
+  position:sticky;
+  top:0;
+  text-align:center;
+  background:
+    linear-gradient(180deg, rgba(8,14,28,.92), rgba(10,17,32,.70));
+  border-bottom:1px solid rgba(0,224,255,.22);
+  backdrop-filter: blur(6px);
+  z-index:2;
+}
+.starcraft-day{
+  margin:0;
+  display:inline-block;
+  font-family:"Orbitron", system-ui, sans-serif;
+  font-weight:700;
+  font-size:30px;              /* bigger weekday */
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:transparent;
+  background:linear-gradient(90deg, var(--sc-accent), var(--sc-protoss));
+  -webkit-background-clip:text;
+  background-clip:text;
+  text-shadow:
+    0 0 10px rgba(0,224,255,.35),
+    0 1px 0 rgba(0,0,0,.65);
+}
+
+/* List — 80% width per spec */
+.starcraft-list{
+  width:80%;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:12px;
+}
+
+/* Card — holo plaque with scanline sheen */
+.starcraft-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:12px;
+  background:
+    linear-gradient(180deg, var(--sc-card), var(--sc-card-2));
+  border:1px solid var(--sc-border);
+  border-radius:14px;
+  box-shadow:
+    var(--sc-shadow),
+    inset 0 0 0 1px rgba(255,255,255,.03);
+  position:relative;
+  overflow:hidden;
+  opacity:0;
+  transform: translateY(8px);
+  min-height:56px; /* compact */
+}
+
+/* edge glow + scanline */
+.starcraft-card::before{
+  content:"";
+  position:absolute; inset:0;
+  border-radius:14px;
+  box-shadow: 0 0 14px rgba(0,224,255,.18), inset 0 0 0 1px rgba(255,255,255,.02);
+  pointer-events:none;
+}
+.starcraft-card::after{
+  content:"";
+  position:absolute; inset:0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255,255,255,.06) 0 1px,
+    transparent 1px 3px
+  );
+  mix-blend-mode:overlay;
+  opacity:.18;
+  pointer-events:none;
+}
+
+/* In animation */
+.starcraft-in{ animation: sc-rise .24s ease-out forwards; }
+@keyframes sc-rise{ to{ opacity:1; transform:translateY(0);} }
+
+/* Left row — inline title + MAPLE chip */
+.starcraft-left{
+  min-width:0;
+  display:flex;               /* as requested */
+  align-items:center;         /* aligned center */
+  justify-content:flex-start; /* start-justified */
+  gap:8px;
+  flex:1 1 auto;
+  flex-wrap:nowrap;
+}
+
+/* Title */
+.starcraft-title{
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight:800;
+  font-size:15px;           /* compact to keep one line */
+  line-height:1.2;
+  color:var(--sc-muted);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  min-width:0;
+  text-shadow: 0 0 6px rgba(0,224,255,.25);
+}
+
+/* Replacement styling */
+.starcraft-swap .starcraft-old{ text-decoration:line-through; opacity:.65; }
+.starcraft-swap .starcraft-arrow{ opacity:.65; margin:0 6px; }
+.starcraft-swap .starcraft-new{ font-weight:900; color:#ffffff; }
+
+/* Maple chip — cyan rim */
+.starcraft-chip{
+  font-size:11px;
+  line-height:1;
+  padding:3px 9px;
+  border-radius:999px;
+  border:1px solid rgba(0,224,255,.55);
+  background:linear-gradient(180deg, rgba(0,224,255,.16), rgba(0,224,255,.10));
+  color:#ccf7ff;
+  white-space:nowrap;
+  flex:0 0 auto;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.12),
+    0 0 10px rgba(0,224,255,.18);
+}
+.starcraft-chip--maple{}
+
+/* Time — fixed 90px, centered text */
+.starcraft-time{
+  font:800 13px/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color:#0e1420;
+  background:linear-gradient(180deg, #aef6ff, #6ee8ff);
+  border:1px solid rgba(0,224,255,.55);
+  border-radius:10px;
+  padding:6px 8px;
+  white-space:nowrap;
+  width:var(--sc-time-width);     /* fixed width */
+  flex:0 0 var(--sc-time-width);  /* prevent grow/shrink */
+  text-align:center;              /* centered */
+  text-shadow:0 1px 0 rgba(255,255,255,.85);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .starcraft-in{ animation:none; opacity:1; transform:none; }
+}
+
+/* Slightly larger screens */
+@media (min-width:481px){
+  .starcraft-card{ padding:12px 14px; }
+  .starcraft-time{ font-size:13px; }
+}

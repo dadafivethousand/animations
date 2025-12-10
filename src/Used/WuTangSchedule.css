@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+@media (min-width: 768px) {
+  .wutang-container {
+    display: none !important;
+  }
+}
+
+.wutang-container {
+  height: 90vh;
+  width: 100vw;
+  background-color: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 100px;
+  font-family: 'Bebas Neue', sans-serif;
+  color: #fcdc00;
+  overflow-y: auto;
+  background-image: url('https://upload.wikimedia.org/wikipedia/en/c/cb/Wu-Tang_Clan_Logo.png');
+  background-size: 180px;
+  background-repeat: no-repeat;
+  background-position: top right;
+}
+
+/* Title */
+.wutang-day {
+  font-size: 52px;
+  color: #fcdc00;
+  padding: 12px 40px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  min-height: 60px;
+}
+
+/* Schedule Box */
+.wutang-schedule {
+  width: 92%;
+  max-width: 420px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 24px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* Class Item */
+.wutang-class {
+  background: #0a0a0a;
+  border: 1px solid #fcdc00;
+  border-left: 10px solid #fcdc00;
+  padding: 14px 22px;
+  border-radius: 8px;
+  color: #fcdc00;
+  font-size: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: punchSlideIn 0.4s ease-out forwards;
+  transition: 0.3s ease-in-out;
+}
+
+.wutang-class:hover {
+  background: #1a1a1a;
+  transform: scale(1.03);
+}
+
+/* Left stack: name + MAPLE chip */
+.wutang-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.wutang-name {
+  font-size: 20px;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Maple chip */
+.wutang-chip {
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid #fcdc00;
+  color: #ffffff;
+   text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Time */
+.wutang-time {
+  font-size: 20px;
+  color: #fcdc00;
+  white-space: nowrap;
+}
+
+/* Entry Animation */
+@keyframes punchSlideIn {
+  0% { transform: translateX(-50%) scale(0.9); opacity: 0; }
+  100% { transform: translateX(0) scale(1); opacity: 1; }
+}

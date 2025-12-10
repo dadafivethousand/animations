@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Schedule from "../../RhSchedule"; // Correct import path
+import Schedule from "../../CnSchedule"; // Correct import path
 import "./PokemonSchedule.css";
 
 export default function PokemonSchedule({ day }) {
@@ -32,7 +32,7 @@ export default function PokemonSchedule({ day }) {
   return (
     <div className="pokemon-container">
       {/* Pokémon Style Title */}
-      <h1 className="pokemon-title">Richmond Hill <br></br> Jiu-Jitsu</h1>
+     {/*   <h1 className="pokemon-title">Code Ninjas <br></br> Woodbridge</h1>*/}
 
       {/* Pokéball */}
       <div className={`pokeball-container ${isShaking ? "shake" : ""} ${isOpening ? "open" : ""}`}>
@@ -43,10 +43,10 @@ export default function PokemonSchedule({ day }) {
 
       {/* Schedule List */}
       <div className={`pokemon-schedule ${showSchedule ? "show" : ""}`}>
-        <h2 className="pokemon-subtitle">{day.toUpperCase()}</h2>
+        <h2 className="pokemon-subtitle">💻 Code Ninjas 🥷</h2>
         {todaysSchedule.map((event, index) => (
-          <div key={index} className="pokemon-class">
-            {event.name} {formatTime(event.start)}
+          <div key={index} className={`pokemon-class ${event.smallfont&& "smallfont"} ${event.smallerfont&& "smallerfont"}`}>
+            {event.name}  
           </div>
         ))}
       </div>

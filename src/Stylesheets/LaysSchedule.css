@@ -1,0 +1,320 @@
+/* LaysSchedule.css */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=Montserrat:wght@600;700&display=swap");
+
+:root {
+  --lays-yellow: #ffd84a;         /* Lay's chip bag yellow */
+  --lays-yellow-deep: #ffb800;
+  --lays-red: #e32227;            /* Lay's logo red */
+  --lays-cream: #fff7df;
+
+  --lays-bg-top: #fff6d9;
+  --lays-bg-bot: #ffe49b;
+
+  --lays-ink: #1f1f1f;
+  --lays-muted: #6b7280;
+
+  --lays-card: #ffffff;
+  --lays-border: #facc15;
+  --lays-shadow: 0 18px 42px rgba(180, 104, 0, 0.32);
+}
+
+/* Global reset-ish */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* Root wrapper */
+.lays-wrap {
+  min-height: 100vh;
+  width: 100vw;
+  color: var(--lays-ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 12px 32px;
+  padding-top: 100px; /* user preference */
+
+  background:
+    radial-gradient(1200px 520px at 0% 0%, rgba(255, 216, 74, 0.35), transparent 70%),
+    radial-gradient(1100px 520px at 100% 120%, rgba(255, 184, 0, 0.35), transparent 70%),
+    linear-gradient(180deg, var(--lays-bg-top), var(--lays-bg-bot));
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+/* subtle chip waves */
+.lays-wrap::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.6) 0, transparent 55%),
+    radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.5) 0, transparent 55%);
+  opacity: 0.6;
+}
+
+/* Header */
+.lays-header {
+  width: 100%;
+  max-width: 560px;
+  padding: 10px 4px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  backdrop-filter: blur(14px);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 244, 210, 0.96),
+    rgba(255, 228, 155, 0.96)
+  );
+  border-bottom: 1px solid rgba(250, 204, 21, 0.9);
+  text-align: center;
+}
+
+/* Day label – like a Lay's logo band */
+.lays-day {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 24px;
+  font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  color: #ffffff;
+
+  background:
+    radial-gradient(circle at 0% 50%, #ffffff 0, #ffe6b5 40%, transparent 70%),
+    linear-gradient(180deg, var(--lays-red), #b7131b);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.85),
+    0 8px 20px rgba(183, 19, 27, 0.7);
+  position: relative;
+  overflow: hidden;
+}
+
+/* yellow swoosh underline */
+.lays-day::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  transform: translateX(-50%);
+  width: 98px;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--lays-yellow), var(--lays-yellow-deep));
+}
+
+/* List (80% width) */
+.lays-list {
+  width: 80%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+/* Card */
+.lays-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 16px;
+  min-height: 56px;
+
+  border-radius: 16px;
+  background:
+    radial-gradient(260px 140px at 0% 0%, rgba(255, 255, 255, 0.9), transparent 70%),
+    radial-gradient(220px 120px at 100% 100%, rgba(255, 246, 222, 0.95), transparent 70%),
+    linear-gradient(180deg, #ffffff, #fff7e3);
+  border: 1px solid rgba(250, 204, 21, 0.85);
+  box-shadow: var(--lays-shadow);
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(10px) scale(0.99);
+
+  transition:
+    transform 0.2s ease-out,
+    box-shadow 0.2s ease-out,
+    border-color 0.2s ease-out,
+    background 0.2s ease-out;
+}
+
+/* inner crispy highlight */
+.lays-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.85),
+      rgba(255, 244, 210, 0.4)
+    );
+  opacity: 0.4;
+  mix-blend-mode: screen;
+}
+
+/* left red flavor stripe */
+.lays-card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 12px;
+  bottom: 12px;
+  width: 4px;
+  border-radius: 0 8px 8px 0;
+  background: linear-gradient(
+    180deg,
+    var(--lays-red),
+    #8f0712
+  );
+}
+
+/* Entry animation – slight "pop" like a chip toss */
+.lays-in {
+  animation: lays-rise 0.24s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes lays-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.95);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Hover – bouncy crunch */
+.lays-card:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow:
+    0 20px 40px rgba(180, 104, 0, 0.45),
+    0 0 0 1px rgba(250, 204, 21, 0.9);
+  border-color: rgba(250, 204, 21, 1);
+}
+
+/* Left row: title + maple inline */
+.lays-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+}
+
+/* Title/Name — ellipsis */
+.lays-title {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  color: var(--lays-ink);
+}
+
+/* Replacement styling */
+.lays-swap .lays-old {
+  text-decoration: line-through;
+  opacity: 0.65;
+}
+
+.lays-swap .lays-arrow {
+  opacity: 0.75;
+  margin: 0 6px;
+}
+
+.lays-swap .lays-new {
+  font-weight: 800;
+  color: #b91c1c;
+}
+
+/* Maple chip inline – flavored tag */
+.lays-chip {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(227, 34, 39, 0.9);
+  background: rgba(227, 34, 39, 0.08);
+  color: #7c0410;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.8),
+    0 0 8px rgba(227, 34, 39, 0.35);
+}
+
+/* Time block: fixed width 90px */
+.lays-time {
+  position: relative;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1.1;
+  white-space: nowrap;
+  text-align: center;
+  width: 90px;
+  flex: 0 0 90px;
+  padding: 6px 8px;
+  border-radius: 999px;
+
+  background:
+    linear-gradient(180deg, #fff9e6, #ffe7a8);
+  border: 1px solid rgba(250, 204, 21, 0.85);
+  color: #7c2d12;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9),
+    0 6px 14px rgba(250, 204, 21, 0.45);
+}
+
+/* tiny chip dot inside time pill */
+.lays-time::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: radial-gradient(circle, #ffe9a8 0, #fbbf24 60%, #c56a00 100%);
+}
+
+/* Slightly larger screens */
+@media (min-width: 481px) {
+  .lays-card {
+    padding: 14px 20px;
+  }
+}

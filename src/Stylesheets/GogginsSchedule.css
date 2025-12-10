@@ -1,0 +1,123 @@
+/* Goggins — lighter grey UI, classic list layout, 2s pre-anim pause via JS
+   Nomenclature preserved: theme-wrap/header/day/list/card/title/tags/chip/time
+   Fonts: Inter (system fallback)
+*/
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&display=swap');
+
+:root{
+  --bg:#f3f4f6;         /* light grey background */
+  --ink:#111827;        /* slate-900 text */
+  --muted:#4b5563;      /* slate-600 */
+  --card:#ffffff;       /* white cards */
+  --border:#e5e7eb;     /* light border */
+  --shadow:0 8px 20px rgba(17,24,39,.06);
+  --time-bg:#f3f4f6;    /* light pill */
+  --time-br:#e5e7eb;
+  --time-fg:#111827;
+  --maple-bg:#ecfdf5;   /* subtle green */
+  --maple-br:#34d399;
+  --maple-fg:#065f46;
+  --accent:#0ea5e9;     /* cyan accent for tiny details if needed */
+}
+
+*{ box-sizing:border-box }
+
+.theme-wrap.goggins-light{
+  min-height:100vh; width:100vw;
+
+  background: var(--bg);
+  color: var(--ink);
+  display:flex; flex-direction:column; align-items:center;
+  padding:14px;
+   padding-top:140px;
+}
+
+.theme-header{
+  width:100%;
+   max-width:620px;
+  padding:70px 6px; 
+  margin-bottom:2px;
+    text-align: center;
+     display: flex;
+     justify-content: center;
+       padding-bottom:30px; 
+ 
+}
+
+.theme-day{
+  font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight:800; font-size:30px; line-height:1.1;
+  letter-spacing:.08em;
+  color:var(--ink);
+
+}
+
+.theme-list{
+  width:100%; max-width:620px;
+  display:flex; flex-direction:column; gap:10px;
+}
+
+.theme-card{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:10px;
+  padding:12px 14px;
+  background: var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  box-shadow: var(--shadow);
+  opacity:0; transform: translateY(8px);
+}
+
+/* smooth rise-in; per-item extra 40ms delay from inline style */
+.theme-in{ animation: rise .26s ease-out forwards }
+@keyframes rise{ to{ opacity:1; transform: translateY(0)} }
+
+.theme-left{ min-width:0; display:flex; flex-direction:column; gap:6px }
+
+.theme-title{
+  font-weight:800; font-size:20px; line-height:1.15;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  color:var(--ink);
+}
+
+/* Replacement styling */
+.swap .old{ text-decoration: line-through; opacity:.7; color:var(--muted) }
+.swap .arrow{ opacity:.6; margin:0 6px }
+.swap .new{ font-weight:800; color:var(--ink) }
+
+/* Tags */
+.tags{ display:flex; gap:6px; margin-top:2px }
+.chip{
+  font-size:11px; line-height:1;
+  padding:4px 8px; border-radius:999px;
+  border:1px solid rgba(0,0,0,.06);
+  background:#f8fafc;
+  color:#111827;
+  white-space:nowrap;
+}
+.chip--maple{
+  background: var(--maple-bg);
+  border-color: var(--maple-br);
+  color: var(--maple-fg);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.5);
+}
+
+/* Time pill */
+.theme-time{
+  font:800 13px/1 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  color: var(--time-fg);
+  background: var(--time-bg);
+  border:1px solid var(--time-br);
+  border-radius:10px;
+  padding:6px 9px;
+  white-space:nowrap;
+  font-size: 20px;
+  
+}
+
+/* Slight scale polish on tap */
+.theme-card:active{ transform: translateY(0) scale(.99) }
+
+@media (min-width:480px){
+  .theme-title{ font-size:36px }
+}

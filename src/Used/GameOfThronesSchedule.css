@@ -1,136 +1,223 @@
-@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&display=swap');
+/* Medieval/fantasy vibe with frosty North & deep red accents */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@400;700;800&display=swap');
 
-.got-container {
+:root{
+  --got-bg:#0b0e13;             /* night sky */
+  --got-ice:#16202b;            /* icy blue/steel */
+  --got-card:#121821;           /* card surface */
+  --got-border:#263444;         /* cold border */
+  --got-ink:#eef4ff;            /* pale ink */
+  --got-accent:#b21e2b;         /* deep red (Targaryen/Lannister hint) */
+  --got-frost:rgba(200,230,255,.14);
+
+  --card-width:80%;
+  --time-width:90px;            /* fixed equal width for time pills */
+}
+
+/* Reset */
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+/* Wrap */
+.got-wrap {
+  min-height: 100vh;
   width: 100vw;
-  height: 100vh;
-  background: linear-gradient(to bottom, #111111fe, #000);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  position: relative;
-  overflow: hidden;
-  padding: 20px;
-}
 
 
-/* Maple Jiu-Jitsu Title */
-.got-title {
-  font-family: 'IM Fell English SC', serif;
-  font-size: 4rem;
-  color: #d7d7d7; /* Light silver-grey */
-  text-shadow: 
-    3px 3px 10px rgba(0, 0, 0, 0.7), /* Dark outer glow */
-    0 0 5px rgba(255, 255, 255, 0.3), /* Subtle inner glow */
-    -2px -2px 5px rgba(0, 0, 0, 0.5); /* Light bevel effect */
-  text-align: center;
-  margin-bottom: 20px;
-  letter-spacing: 2px;
-}
-
-
-/* Swords Container */
-.sword-container {
-  position: relative;
-  width: 100%;
-  height: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Base Sword */
-.sword {
-  font-size: 10rem; /* Large swords */
-  position: absolute;
-  opacity: 0;
-}
-
-/* Left Sword */
-.sword-left {
-  color: beige;
-  left: -80px;
-  top:-8px;
-  animation: slide-left 2.5s ease-in-out forwards;
-  transform: rotate(-170deg);
-
-}
-
-/* Right Sword */
-.sword-right {
-  color: beige;
-  right: -80px;
+  /* put the gradients first (on top), image last (at the bottom) */
+  background-image: 
  
-  animation: slide-right 2.5s ease-in-out forwards;
-  transform: rotate(80deg);
+    url("../Images/got.webp");
+        background-color:black;
+ 
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-position: center, center, bottom;
+  background-size:  contain;
+  background-position: top;
+
+  color: var(--got-ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 14px 24px;
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
 
-/* Left Sword Animation */
-@keyframes slide-left {
-  0% {
-    left: -100px;
-    opacity: 1;
-  }
-  100% {
-    left: 30%;
-    opacity: 1;
-  }
+
+/* Header — weekday centered */
+.got-header{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  align-items:center;
+  justify-content:center; /* center the weekday */
+  padding:8px 2px 12px;
+  text-align:center;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  position:relative;
+  margin-top: 230px;
+      border-top: 1px solid #b9c8db;
 }
 
-/* Right Sword Animation */
-@keyframes slide-right {
-  0% {
-    right: -100px;
-    opacity: 1;
-  }
-  100% {
-    right: 30%;
-    opacity: 1;
-  }
+/* Subtle sword-divider accent */
+.got-header:after{
+  content:"";
+  position:absolute;
+  bottom:-1px;
+  left:50%;
+  transform:translateX(-50%);
+  width:120px;
+  height:2px;
+  background:linear-gradient(90deg, transparent, #b9c8db 35%, #b9c8db 65%, transparent);
+  filter:drop-shadow(0 0 6px rgba(185,200,219,.25));
+
 }
 
-/* Subtitle */
-.got-subtitle {
-  font-family: 'IM Fell English SC', serif;
-  font-size: 2.5rem;
-  color: #d7d7d7; /* Light silver-grey */
-  text-shadow: 
-    3px 3px 10px rgba(0, 0, 0, 0.7), /* Dark outer glow */
-    0 0 5px rgba(255, 255, 255, 0.3), /* Subtle inner glow */
-    -2px -2px 5px rgba(0, 0, 0, 0.5); /* Light bevel effect */
-  margin-bottom: 20px;
+.got-day{
+  font-family:"Cinzel", serif;
+  font-weight:800;
+  font-size:22px;
+  letter-spacing:.14em;
+  color:#ffffff;
+  text-shadow:0 2px 0 rgba(0,0,0,.5), 0 0 18px rgba(185,200,219,.25);
+
 }
 
-/* Schedule */
-.got-schedule {
-  text-align: center;
-  font-family: 'IM Fell English SC', serif;
-  font-size: 1.8rem;
-  color: #d7d7d7; /* Light silver-grey */
-  text-shadow: 
-    3px 3px 10px rgba(0, 0, 0, 0.7), /* Dark outer glow */
-    0 0 5px rgba(255, 255, 255, 0.3), /* Subtle inner glow */
-    -2px -2px 5px rgba(0, 0, 0, 0.5); /* Light bevel effect */
-  opacity: 0;
-  transform: translateY(-20px);
-  transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+/* List */
+.got-list{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+  align-items:center;            /* center the cards block */
 }
 
-/* Show the schedule when the swords finish crossing */
-.got-schedule.show {
-  opacity: 1;
-  transform: translateY(40px);
+/* Cards — 80% width and centered */
+.got-card{
+  width:var(--card-width);       /* 80% width */
+  margin:0 auto;                 /* centered */
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:3px 12px;
+  border-radius:14px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0)),
+    var(--got-card);
+  border:1px solid var(--got-border);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.03),
+    0 10px 22px rgba(0,0,0,.35),
+    0 0 28px rgba(128,168,204,.12);
+  opacity:0;
+  transform:translateY(10px) scale(.995);
+  position:relative;
+  overflow:hidden;
+  width:85%;
 }
 
-/* MOBILE OPTIMIZATION */
-@media (max-width: 768px) {
-  .sword {
-    font-size: 6rem;
-  }
-  .got-subtitle {
-    font-size: 2rem;
-  }
-  .got-schedule {
-    font-size: 1.4rem;
-  }
+/* Thin banner edge like a house banner */
+.got-card:before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  width:4px;
+  height:100%;
+  background:linear-gradient(180deg, rgba(178,30,43,.9), rgba(178,30,43,.55));
+  box-shadow:0 0 10px rgba(178,30,43,.25);
+}
+
+/* Frosted glints */
+.got-card:after{
+  content:"";
+  position:absolute;
+  right:-30%;
+  top:-60%;
+  width:70%;
+  height:180%;
+  transform:rotate(18deg);
+  background:linear-gradient(90deg, transparent, rgba(200,230,255,.03), transparent);
+  pointer-events:none;
+}
+
+.got-in{ animation:got-rise .24s cubic-bezier(.2,.8,.2,1) forwards; }
+@keyframes got-rise{ to{ opacity:1; transform:translateY(0) scale(1); } }
+
+/* Left column */
+.got-left{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+/* Title */
+.got-title{
+  font-weight:800;
+  font-size:16px;
+  color:#ffffff;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  letter-spacing:.02em;
+}
+
+/* Replacement & tags (contract) */
+.swap .old{ text-decoration:line-through; opacity:.65; }
+.swap .arrow{ opacity:.65; margin:0 6px; }
+.swap .new{ font-weight:900; }
+
+.tags{ display:flex; gap:6px; margin-top:2px; }
+.chip{
+  font-size:12px;
+  line-height:1;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.06);
+  color:#f3f7ff;
+  white-space:nowrap;
+}
+.chip--maple{
+  background:#2a1013;
+  border-color: rgba(178,30,43,.55);
+  color:#ffe6ea;
+  box-shadow: 0 0 10px rgba(178,30,43,.3);
+}
+
+/* Start times ONLY — fixed equal width, centered text */
+.got-time{
+  font:800 13px/1 "Inter", system-ui, sans-serif;
+  border-radius:10px;
+  background:linear-gradient(180deg, #101a25, #0e151e);
+  border:1px solid #2b3c4f;
+  color:#eaf2ff;
+  letter-spacing:.02em;
+
+  width:var(--time-width);
+  flex:0 0 var(--time-width);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:8px 0;
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.05),
+    0 6px 14px rgba(0,0,0,.35),
+    0 0 16px rgba(150,200,240,.18);
+}
+
+/* Tap feedback */
+.got-card:active{
+  transform:translateY(12px) scale(.992);
+  transition:transform .06s ease;
+  box-shadow:0 4px 14px rgba(0,0,0,.35);
+}
+
+/* Slight bumps on wider screens */
+@media (min-width:431px){
+  .got-title{ font-size:17px; }
+  .got-time{ font-size:14px; }
 }

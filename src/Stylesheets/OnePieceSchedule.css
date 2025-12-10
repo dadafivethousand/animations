@@ -1,0 +1,227 @@
+/* OnePieceSchedule.css — Grand Line vibe: sea blues, aged parchment, rope accents */
+@import url("https://fonts.googleapis.com/css2?family=Pirata+One&family=Inter:wght@600;700;800&display=swap");
+
+:root{
+  /* Seas & parchment */
+  --op-sea-1:#06253a;         /* deep ocean */
+  --op-sea-2:#0b3b57;         /* mid ocean */
+  --op-glow-1:rgba(16,148,196,.12);
+  --op-glow-2:rgba(255,193,94,.10); /* sunset/gold glow */
+
+  --op-parch-1:#f5ecd6;       /* parchment top */
+  --op-parch-2:#e8d8b4;       /* parchment bottom */
+  --op-parch-edge:#d2c099;
+
+  --op-ink:#142029;           /* dark ink for body text */
+  --op-ink-soft:#364556;
+
+  --op-gold-1:#ffd57a;        /* treasure gold */
+  --op-gold-2:#e9b84e;
+
+  --op-rope:#c8a66b;          /* rope fiber */
+  --op-rope-deep:#9c7a43;
+
+  --op-card:#f7f0dd;
+  --op-card-2:#efe0bd;
+
+  --op-border:rgba(110,88,44,.35);
+  --op-shadow:0 12px 28px rgba(0,0,0,.45);
+
+  --op-time-width:90px;       /* fixed time width */
+}
+
+/* Safety reset */
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+.onepiece-wrap{
+  min-height:100vh;
+  width:100vw;
+  background:
+    radial-gradient(900px 520px at 20% -10%, var(--op-glow-1), transparent 60%),
+    radial-gradient(900px 520px at 80% 120%, var(--op-glow-2), transparent 60%),
+    /* subtle chart grid like a sea map */
+    linear-gradient(0deg, rgba(255,255,255,.03) 1px, transparent 1px) 0 0/24px 24px,
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px) 0 0/24px 24px,
+    linear-gradient(180deg, var(--op-sea-1), var(--op-sea-2));
+  color:#eaf2ff;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:14px;
+  padding-top:50px; /* minimum top padding */
+}
+
+/* Header — centered 30px pirate logotype */
+.onepiece-header{
+  width:100%;
+  max-width:560px;
+  padding:12px 4px 14px;
+  position:sticky;
+  top:0;
+  text-align:center;
+   border-bottom:1px solid rgba(255,213,122,.22);
+   z-index:2;
+}
+.onepiece-day{
+  margin:0;
+  display:inline-block;
+  font-family:"Pirata One", ui-serif, Georgia, serif;
+  font-size:45px;                 /* bigger weekday */
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:transparent;
+   -webkit-background-clip:text;
+  background-clip:text;
+  text-shadow:
+    0 0 12px rgba(255,213,122,.35),
+    0 1px 0 rgba(0,0,0,.65);
+  padding:4px 10px;
+  position:relative;
+}
+/* tiny rope underline */
+.onepiece-day::after{
+  content:"";
+  display:block;
+  height:6px;
+  margin:6px auto 0;
+  width:140px;
+  border-radius:999px;
+  background:
+    repeating-linear-gradient(90deg, var(--op-rope) 0 6px, var(--op-rope-deep) 6px 12px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 1px 0 rgba(0,0,0,.25);
+}
+
+/* List (80% width) */
+.onepiece-list{
+  width:80%;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:12px;
+}
+
+/* Card — aged parchment with rope edges and a red band (straw hat) */
+.onepiece-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:12px;
+  background:
+    radial-gradient(120% 120% at 50% -10%, rgba(0,0,0,.06), transparent 40%),
+    linear-gradient(180deg, var(--op-card), var(--op-card-2));
+  border:1px solid var(--op-parch-edge);
+  border-radius:14px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.45),
+    inset 0 -2px 0 rgba(0,0,0,.08),
+    var(--op-shadow);
+  color:var(--op-ink);
+  position:relative;
+  overflow:hidden;
+  opacity:0;
+  transform: translateY(8px);
+  min-height:56px; /* compact */
+}
+
+/* rope side + straw-hat red band */
+.onepiece-card::before{
+  content:"";
+  position:absolute; left:0; top:0; height:100%; width:8px;
+  border-top-left-radius:14px; border-bottom-left-radius:14px;
+  background:
+    linear-gradient(180deg, #c12b2b, #a01818 45%, #7f0f0f),                 /* red band */
+    repeating-linear-gradient(180deg, var(--op-rope) 0 8px, var(--op-rope-deep) 8px 16px); /* rope */
+  background-blend-mode:multiply;
+  box-shadow:0 0 14px rgba(161,24,24,.24);
+}
+
+/* faint compass rose sheen */
+.onepiece-card::after{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    radial-gradient(40% 60% at 85% 20%, rgba(255,213,122,.10), transparent 60%);
+  pointer-events:none;
+}
+
+/* In animation */
+.onepiece-in{ animation: op-rise .24s ease-out forwards; }
+@keyframes op-rise{ to{ opacity:1; transform:translateY(0);} }
+
+/* Left row — keep title + MAPLE inline, start-justified */
+.onepiece-left{
+  min-width:0;
+  display:flex;                 /* as requested */
+  align-items:center;           /* aligned center */
+  justify-content:flex-start;   /* start-justified */
+  gap:8px;
+  flex:1 1 auto;
+  flex-wrap:nowrap;
+}
+
+/* Title (compact, readable) */
+.onepiece-title{
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight:800;
+  font-size:15px;               /* compact to keep one line */
+  line-height:1.2;
+  color:var(--op-ink-soft);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  min-width:0;
+  text-shadow:0 1px 0 rgba(255,255,255,.65);
+}
+
+/* Replacement styling */
+.onepiece-swap .onepiece-old{ text-decoration:line-through; opacity:.65; }
+.onepiece-swap .onepiece-arrow{ opacity:.65; margin:0 6px; }
+.onepiece-swap .onepiece-new{ font-weight:900; color:#201a12; }
+
+/* Maple chip — treasure tag */
+.onepiece-chip{
+  font-size:11px;
+  line-height:1;
+  padding:3px 9px;
+  border-radius:999px;
+  border:1px solid rgba(110,88,44,.45);
+  background:linear-gradient(180deg, #fff7e3, #f1e0bb);
+  color:#5a421c;
+  white-space:nowrap;
+  flex:0 0 auto;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.85),
+    0 0 10px rgba(255,213,122,.25);
+}
+.onepiece-chip--maple{}
+
+/* Time — fixed 90px, centered text (bounty plaque) */
+.onepiece-time{
+  font:800 13px/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color:#1c1308;
+  background:linear-gradient(180deg, #ffe6ae, #f2c665);
+  border:1px solid rgba(233,184,78,.65);
+  border-radius:10px;
+  padding:6px 8px;
+  white-space:nowrap;
+  width:var(--op-time-width);       /* fixed width */
+  flex:0 0 var(--op-time-width);    /* prevent grow/shrink */
+  text-align:center;                /* centered */
+  text-shadow:0 1px 0 rgba(255,255,255,.85);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.35),
+    0 6px 14px rgba(0,0,0,.18);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .onepiece-in{ animation:none; opacity:1; transform:none; }
+}
+
+/* Slightly larger screens */
+@media (min-width:481px){
+  .onepiece-card{ padding:12px 14px; }
+  .onepiece-time{ font-size:13px; }
+}

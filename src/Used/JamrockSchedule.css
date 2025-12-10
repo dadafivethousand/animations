@@ -1,0 +1,237 @@
+/* Welcome to Jamrock — gritty dancehall poster vibe
+   Namespace: jam-*
+   Background pulled from user image (aqua sky), with film grain & Rasta accents
+   Fonts: Bebas Neue (headline & titles), DM Mono (time)
+*/
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@500;700&display=swap');
+
+:root{
+  /* Base from the provided swatch */
+  --jam-sky:#aefcff;      /* aqua background from image */
+  --jam-sky-deep:#0e3b3d; /* teal shadow for depth */
+
+  /* Ink */
+  --ink:#0c1616;
+  --ink-hi:#0a0a0a;
+  --paper:#f7fff9;
+
+  /* Rasta accents */
+  --r-red:#e21a1a;
+  --r-gold:#ffd84a;
+  --r-green:#1aa247;
+
+  /* Card glass edge */
+  --edge: rgba(0,0,0,.18);
+
+  /* Time pill */
+  --time-bg:#0a2224;
+  --time-br:#184047;
+  --time-ink:#e8fbff;
+
+  /* Maple chip */
+  --maple-bg:#103b28;
+  --maple-br:#48d490;
+  --maple-ink:#eafff5;
+
+  /* Type */
+  --day: clamp(28px, 9vw, 56px);
+  --title: clamp(16px, 3.8vw, 22px);
+}
+
+*{ box-sizing:border-box }
+html,body{ height:100% }
+
+/* ===== Wrap (aqua + vignette + grain) ===== */
+.jam-wrap{
+  min-height:100vh; width:100vw; color:var(--ink);
+  display:flex; flex-direction:column; align-items:center; padding:16px;
+  position:relative; overflow:hidden; isolation:isolate;
+  background:
+    radial-gradient(120% 140% at 50% -30%, var(--jam-sky) 0%, #86eef4 40%, var(--jam-sky-deep) 90%);
+    padding-top:60px;
+}
+.jam-wrap::before{
+  /* film grain */
+  content:""; position:fixed; inset:-20vmax; z-index:-1; pointer-events:none;
+  background-image:
+    radial-gradient(1px 1px at 10% 20%, rgba(0,0,0,.25) 50%, transparent 51%),
+    radial-gradient(1px 1px at 70% 40%, rgba(0,0,0,.18) 50%, transparent 51%),
+    radial-gradient(1px 1px at 40% 80%, rgba(0,0,0,.22) 50%, transparent 51%);
+  background-size: 180px 180px, 220px 220px, 200px 200px;
+  opacity:.25; mix-blend-mode:multiply;
+  animation: jam-grain 6s steps(2) infinite;
+}
+@keyframes jam-grain{
+  0%{ transform:translate(0,0) }
+  100%{ transform:translate(10px,8px) }
+}
+.jam-wrap::after{
+  /* vignette */
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:-1;
+  background: radial-gradient(120% 120% at 50% -10%, transparent 55%, rgba(0,0,0,.25) 100%);
+}
+
+/* ===== Header ===== */
+.jam-header{ width:100%; max-width:560px; padding:14px 8px 6px }
+.jam-header--center{ display:grid; place-items:center }
+.jam-day{ margin:0; text-align:center }
+
+.jam-day-inner{
+  display:inline-block; position:relative; padding:.18em .8em .26em;
+  font: 700 var(--day)/1 "Bebas Neue", system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+  letter-spacing:.06em; text-transform:uppercase;
+  color: var(--paper);
+
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.25), rgba(255,255,255,.05));
+  border:2px solid var(--edge);
+  border-radius:12px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.55),
+    0 10px 26px rgba(0,0,0,.25);
+  text-shadow:
+    0 1px 0 rgba(0,0,0,.35),
+    0 18px 28px rgba(0,0,0,.35);
+}
+
+/* “Rasta bar” underline */
+.jam-day-inner::after{
+  content:""; position:absolute; left:10%; right:10%; bottom:-10px; height:6px;
+  border-radius:999px;
+  background:
+    linear-gradient(90deg, var(--r-green) 0 33%, var(--r-gold) 33% 66%, var(--r-red) 66% 100%);
+  box-shadow: 0 6px 16px rgba(0,0,0,.25);
+}
+
+/* ===== List ===== */
+.jam-list{
+  width:100%; max-width:560px;
+  display:flex; flex-direction:column; gap:5px; margin-top:20px;
+}
+
+/* ===== Card — transparent poster slab (no left spine) ===== */
+.jam-card{
+  position:relative;
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:10px 12px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.06));
+  border:1px solid var(--edge);
+  border-radius:12px;
+  color: var(--ink-hi);
+  opacity:0; transform: translateY(10px);
+  box-shadow: 0 12px 24px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.35);
+  backdrop-filter: blur(4px) saturate(112%);
+  -webkit-backdrop-filter: blur(4px) saturate(112%);
+  width:90%;
+  margin: 0 auto;
+}
+
+/* subtle top rasta line on each card */
+.jam-card::before{
+  content:""; position:absolute; left:10px; right:10px; top:-1px; height:2px; border-radius:2px;
+  background: linear-gradient(90deg, var(--r-green), var(--r-gold), var(--r-red));
+  box-shadow: 0 0 10px rgba(0,0,0,.15);
+}
+
+/* rise-in */
+.jam-in{ animation: jam-rise .26s cubic-bezier(.2,.9,.2,1) forwards }
+@keyframes jam-rise{ to{ opacity:1; transform: translateY(0) } }
+
+/* hover/active */
+.jam-card:hover{ transform: translateY(6px); transition: transform .16s ease-out }
+.jam-card:active{ transform: translateY(4px) scale(.995) }
+.jam-card:focus-within{
+  outline:none;
+  box-shadow:
+    0 12px 24px rgba(0,0,0,.25),
+    0 0 0 2px rgba(26,162,71,.28),
+    0 0 0 8px rgba(26,162,71,.12);
+}
+
+/* ===== Content ===== */
+.jam-left{ min-width:0; display:flex; justify-content: center; align-items: center; gap:4px }
+.jam-title{
+  font: 700 var(--title)/1.04 "Bebas Neue", system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+  letter-spacing:.02em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  color:#041215;
+     font-size: 20px;
+}
+
+/* Replacement styling */
+.jam-swap .jam-old{ position:relative; color:#1d383a }
+.jam-swap .jam-old::after{
+  content:""; position:absolute; left:0; right:0; top:55%; height:2px;
+  background: linear-gradient(90deg, rgba(7,34,36,.15), rgba(7,34,36,.7), rgba(7,34,36,.15));
+  transform: translateY(-50%);
+}
+.jam-swap .jam-arrow{ opacity:.7; margin:0 6px }
+.jam-swap .jam-new{ font-weight:900; color:#061a1d }
+
+/* Tags (Maple chip) */
+.jam-tags{ display:flex; gap:10px; margin-top:2px; flex-wrap:wrap }
+.jam-chip{
+  font-size:12px; line-height:1; font-weight:800;
+  padding:4px 9px; border-radius:999px; white-space:nowrap;
+  border:1px solid rgba(0,0,0,.18);
+  background:#eafff5; color:#062416;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.85);
+}
+.jam-chip--maple{
+  background: linear-gradient(180deg, var(--maple-bg), rgba(16,59,40,.6));
+  border-color: var(--maple-br);
+  color: var(--maple-ink);
+  box-shadow: 0 0 0 1px rgba(72,212,144,.18);
+}
+
+/* Time pill */
+.jam-time{
+  font: 800 12px/1 "DM Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  color: var(--time-ink);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.03)),
+    var(--time-bg);
+  border:1px solid var(--time-br);
+  border-radius:11px; padding:6px 9px; white-space:nowrap;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.22), 0 1px 2px rgba(0,0,0,.22);
+  font-size: 15px;
+  width:90px;
+  text-align: center;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .jam-in{ animation:none; opacity:1; transform:none }
+  .jam-wrap::before{ animation:none }
+}
+
+/* …keep your existing Jamrock CSS… */
+
+/* Make sure the container establishes a stacking context */
+.jam-wrap{
+  position:relative;
+  isolation:isolate;
+  /* your existing background gradient stays */
+}
+
+/* Move grain/vignette behind the GIF so it’s visible */
+.jam-wrap::before{ z-index:-2; }   /* grain */
+.jam-wrap::after{  z-index:-2; }   /* vignette */
+
+/* NEW: Bottom-anchored background GIF */
+.jam-bg{
+  position:fixed;          /* stays put while scrolling */
+  left:0; right:0; bottom:0;
+  height:35vh;             /* visible band from the bottom */
+  pointer-events:none;
+  z-index:-1;              /* behind content, above grain/vignette */
+
+  background-image: url("https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExeTNjZm15b2MxZW1kMmhxZ2kxM3Z6ejZlazkzMjFpMnoybnBjczY1eiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MBleGORUeWVUZHyM6o/giphy.gif");
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  background-size: min(900px, 100vw) auto; /* scales nicely on mobile */
+  opacity: .9;             /* tweak if you want it subtler */
+  /* Optional soft fade at the top edge so text stays readable */
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%);
+  mask-image: linear-gradient(to top, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%);
+}

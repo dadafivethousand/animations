@@ -1,0 +1,208 @@
+/* Ninja Theme — midnight dojo: obsidian blacks, smoke gradients, steel accents */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700&family=Inter:wght@600;700;800&display=swap');
+
+:root{
+  --night-0:#07090C;
+  --night-1:#0D1218;
+  --night-2:#141B22;
+
+  --steel:#36424f;
+  --steel-bright:#9fb4c9;
+
+  --ink:#f2f6ff;
+
+  --chip-bg:#17241a;
+  --chip-brd:#45e38b;
+
+  --time-bg:#0f1520;
+  --time-brd:#2b3c55;
+
+  --card-width:80%;
+  --time-width:90px; /* equal-width times */
+}
+
+/* Reset */
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+.ninja-wrap{
+  min-height:100vh;
+  width:100vw;
+  background:
+    radial-gradient(800px 380px at 50% 110%, rgba(106,129,154,.12), transparent 60%),
+    linear-gradient(180deg, var(--night-1), var(--night-2)),
+    var(--night-0);
+  color:var(--ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:114px 14px 24px;
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* Centered weekday, katana divider */
+.ninja-header{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:10px 2px 14px;
+  text-align:center;
+  position:relative;
+}
+.ninja-header:after{
+  content:"";
+  position:absolute;
+  bottom:-2px; left:50%;
+  transform:translateX(-50%);
+  width:160px; height:2px;
+  background:
+    linear-gradient(90deg, transparent, #cdd8e6 20%, #5b6a7a 50%, #cdd8e6 80%, transparent);
+  box-shadow: 0 0 10px rgba(205,216,230,.25);
+}
+.ninja-day{
+  font-family:"Noto Sans JP", system-ui, sans-serif;
+  font-weight:800;
+  font-size:22px;
+  letter-spacing:.18em;
+}
+
+/* List */
+.ninja-list{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  align-items:center; /* center cards */
+}
+
+/* Cards — stealth plates with bevel + slash edge */
+.ninja-card{
+  width:var(--card-width);
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:30px 12px;
+  border-radius:14px;
+  position:relative;
+  overflow:hidden;
+  opacity:0;
+  transform:translateY(10px) scale(.995);
+
+  background:
+    radial-gradient(120px 80px at 20% 30%, rgba(255,255,255,.05), transparent 60%),
+    linear-gradient(180deg, #1a212a, #10161c 60%, #0c1217);
+  border:1px solid #232c36;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.06),
+    inset 0 -2px 0 rgba(0,0,0,.5),
+    0 10px 24px rgba(0,0,0,.45);
+}
+
+/* angled steel slash on left edge */
+.ninja-card:before{
+  content:"";
+  position:absolute; left:0; top:0; width:6px; height:100%;
+  background:linear-gradient(180deg, #9fb4c9, #4a5969);
+  transform:skewY(-10deg);
+  box-shadow:0 0 12px rgba(159,180,201,.25);
+}
+
+/* soft specular sweep */
+.ninja-card:after{
+  content:"";
+  position:absolute; inset:0;
+  background:linear-gradient(115deg, transparent 40%, rgba(255,255,255,.05) 50%, transparent 60%);
+  pointer-events:none;
+}
+
+/* shuriken accent */
+.ninja-star{
+  position:absolute;
+  right:12px; top:10px; width:16px; height:16px; opacity:.35;
+  background:
+    conic-gradient(from 45deg, #9fb4c9 0 25%, transparent 25% 50%, #9fb4c9 50% 75%, transparent 75% 100%);
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+  filter: drop-shadow(0 0 8px rgba(159,180,201,.2));
+}
+
+/* Stagger animation */
+.ninja-in{ animation:ninja-rise .22s ease-out forwards; }
+@keyframes ninja-rise{ to{ opacity:1; transform:translateY(0) scale(1); } }
+
+/* Left column */
+.ninja-left{ min-width:0; }
+
+/* Keep name + MAPLE on one line */
+.ninja-row{
+  min-width:0;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  white-space:nowrap;
+  overflow:hidden;
+}
+.ninja-title{
+  font-weight:800;
+  font-size:19px;
+  letter-spacing:.02em;
+  color:#eef4ff;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  text-shadow:0 1px 0 rgba(0,0,0,.5);
+}
+
+/* Replacement styling (contract) */
+.swap .old{ text-decoration:line-through; opacity:.65; }
+.swap .arrow{ opacity:.65; margin:0 6px; }
+.swap .new{ font-weight:900; color:#cfe3ff; }
+
+/* Maple chip — jade glow */
+.chip{
+  font-size:12px;
+  line-height:1;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.08);
+  color:#fff;
+  white-space:nowrap;
+  flex:none;
+}
+.chip--maple{
+  background:var(--chip-bg);
+  border-color:var(--chip-brd);
+  color:#dfffe9;
+  box-shadow:0 0 10px rgba(69,227,139,.25);
+}
+
+/* Start time ONLY — fixed equal width, centered */
+.ninja-time{
+  font:800 13px/1 "Inter", system-ui, sans-serif;
+  padding:8px 0;
+  border-radius:10px;
+  background:linear-gradient(180deg, #1a2230, var(--time-bg));
+  border:1px solid var(--time-brd);
+  color:#eaf2ff;
+  letter-spacing:.02em;
+
+  width:var(--time-width);
+  flex:0 0 var(--time-width);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+font-size: 18px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.08),
+    inset 0 -2px 0 rgba(0,0,0,.45),
+    0 6px 14px rgba(0,0,0,.5);
+}
+
+/* Wider screens small bump */
+@media (min-width:431px){
+  .ninja-title{ font-size:17px; }
+  .ninja-time{ font-size:14px; }
+}

@@ -1,0 +1,281 @@
+/* OldSpiceSchedule.css — truer Old Spice vibe: red body, white label, gold rope accents */
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@600;700&family=Marcellus+SC&display=swap");
+
+:root{
+  /* Old Spice–leaning reds + warm parchment + gold rope */
+  --os-red-deep:#7f0b1b;    /* deep bottle red (darker shadows) */
+  --os-red:#b4192c;         /* primary Old Spice red */
+  --os-red-bright:#cf2036;  /* lighter highlight red */
+  --os-cream:#fff3e1;       /* parchment/label */
+  --os-cream-2:#ffebd2;
+  --os-ink:#2b1614;         /* warm brown-black for copy */
+  --os-gold:#e6c56a;        /* rope/gold foil */
+  --os-gold-deep:#b19545;
+  --os-card:#fffdf8;
+
+  --os-border: rgba(180,25,44,.22);
+  --os-shadow: 0 10px 24px rgba(28, 6, 8, .22);
+  --os-vignette: radial-gradient(1200px 520px at 50% -8%, rgba(0,0,0,.10), transparent 55%),
+                 radial-gradient(1200px 520px at 50% 108%, rgba(0,0,0,.10), transparent 60%);
+}
+
+*{ box-sizing:border-box; }
+
+.oldspice-wrap{
+  min-height:100vh;
+  width:100vw;
+
+  /* Brand body: rich red with subtle engraving + parchment glow so stickers still pop */
+  background:
+    /* faint diagonal “engraving” lines like the label etching */
+    repeating-linear-gradient(135deg,
+      rgba(255,255,255,.06) 0px,
+      rgba(255,255,255,.06) 1px,
+      transparent 1px,
+      transparent 7px),
+    linear-gradient(180deg, var(--os-red) 0%, var(--os-red-deep) 60%, #4c0a11 100%),
+    var(--os-vignette);
+  color:var(--os-ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:14px;
+  padding-top:50px; /* minimum 50px top padding */
+}
+
+/* ===== Header: “white diamond” label with gold rope rim (brand cue) ===== */
+.oldspice-header{
+  width:100%;
+  max-width:560px;
+  padding:18px 16px 22px;
+  position:sticky;
+  top:0;
+  text-align:center;
+  background: transparent;
+  z-index:2;
+  isolation:isolate; /* for proper layering of pseudo-label */
+
+  /* gentle lift from red body */
+  transform: translateZ(0);
+}
+
+/* White diamond label behind the day text */
+.oldspice-header::before{
+  content:"";
+  position:absolute;
+  inset:8px 16px;
+  background:
+    /* subtle paper grain */
+    radial-gradient(120% 140% at 50% -10%, rgba(255,255,255,.9), transparent 60%),
+    linear-gradient(180deg, var(--os-cream) 0%, var(--os-cream-2) 100%);
+  /* diamond shape */
+  clip-path: polygon(50% 0%, 100% 45%, 50% 100%, 0% 55%);
+  box-shadow:
+    0 12px 24px rgba(0,0,0,.22),
+    inset 0 1px 0 rgba(255,255,255,.8);
+
+  z-index:-1;
+}
+
+/* Gold “rope” rim around the diamond (gradient border trick) */
+.oldspice-header::after{
+  content:"";
+  position:absolute;
+  inset:6px 14px;             /* slightly larger than ::before for a visible rim */
+  clip-path: polygon(50% 0%, 100% 45%, 50% 100%, 0% 55%);
+  padding:2px;                /* border thickness */
+  background:
+    conic-gradient(from 0deg,
+      var(--os-gold) 0 10%,
+      var(--os-gold-deep) 10% 20%,
+      var(--os-gold) 20% 30%,
+      var(--os-gold-deep) 30% 40%,
+      var(--os-gold) 40% 50%,
+      var(--os-gold-deep) 50% 60%,
+      var(--os-gold) 60% 70%,
+      var(--os-gold-deep) 70% 80%,
+      var(--os-gold) 80% 90%,
+      var(--os-gold-deep) 90% 100%);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  filter: drop-shadow(0 1px 0 rgba(255,255,255,.45));
+  z-index:-1;
+}
+
+/* Day text sits on the “label” — elegant engraved look */
+.oldspice-day{
+  margin:0;
+  display:inline-block;
+  font-family:"Marcellus SC", "Cinzel", ui-serif, Georgia, serif;
+  font-weight:700;
+  font-size:30px;            /* per guideline */
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  background:
+    linear-gradient(180deg, #6e1f1f 0%, #2f1412 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  text-shadow:
+    0 1px 0 rgba(255,255,255,.75),
+    0 8px 18px rgba(0,0,0,.15);
+}
+
+/* ===== List (80% width) ===== */
+.oldspice-list{
+  width:80%;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:12px;
+}
+
+/* ===== Cards: white label panels with gold rope border and subtle emboss ===== */
+.oldspice-card{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  background:
+    linear-gradient(180deg, var(--os-card), #fff7ee);
+  border:1px solid rgba(126, 20, 34, .08);
+  border-radius:16px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.85),
+    var(--os-shadow);
+  color:var(--os-ink);
+  opacity:0;
+  transform: translateY(8px);
+  min-height:56px; /* compact */
+}
+
+/* Gold rope border around each card */
+.oldspice-card::before{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  border-radius:16px;
+  padding:2px; /* border thickness */
+  background:
+    conic-gradient(from 0deg,
+      var(--os-gold) 0 10%,
+      var(--os-gold-deep) 10% 20%,
+      var(--os-gold) 20% 30%,
+      var(--os-gold-deep) 30% 40%,
+      var(--os-gold) 40% 50%,
+      var(--os-gold-deep) 50% 60%,
+      var(--os-gold) 60% 70%,
+      var(--os-gold-deep) 70% 80%,
+      var(--os-gold) 80% 90%,
+      var(--os-gold-deep) 90% 100%);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events:none;
+}
+
+/* Tiny gold “crest dot” before the title */
+.oldspice-card .oldspice-title::before{
+  content:"";
+  display:inline-block;
+  width:8px; height:8px;
+  margin-right:8px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 30% 30%, #fff 0 15%, transparent 16%),
+    radial-gradient(circle at 70% 70%, rgba(0,0,0,.15) 0 35%, transparent 36%),
+    linear-gradient(180deg, var(--os-gold), var(--os-gold-deep));
+  vertical-align:middle;
+  filter: drop-shadow(0 1px 0 rgba(255,255,255,.65));
+}
+
+/* In animation */
+.oldspice-in{ animation: os-rise .24s ease-out forwards; }
+@keyframes os-rise{ to{ opacity:1; transform:translateY(0);} }
+
+/* Left row: title + maple inline, start-justified */
+.oldspice-left{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:8px;
+  flex:1 1 auto;
+  flex-wrap:nowrap;
+}
+
+/* Compact title (kept modest for layout balance) */
+.oldspice-title{
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight:700;
+  font-size:15px;
+  line-height:1.2;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  min-width:0;
+  color:#3a1f1d;
+}
+
+/* Replacement styling */
+.oldspice-swap .oldspice-old{ text-decoration:line-through; opacity:.65; }
+.oldspice-swap .oldspice-arrow{ opacity:.65; margin:0 6px; }
+.oldspice-swap .oldspice-new{ font-weight:800; }
+
+/* Maple chip — red ribbon vibe with subtle emboss */
+.oldspice-chip{
+  font-size:11px;
+  line-height:1;
+  padding:4px 10px;
+  border-radius:999px;
+  border:1px solid rgba(186,35,56,.55);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.25), rgba(255,255,255,0) 40%),
+    linear-gradient(180deg, rgba(207,32,54,.18), rgba(180,25,44,.12));
+  color:#5b1f25;
+  white-space:nowrap;
+  flex:0 0 auto;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.75),
+    0 1px 0 rgba(0,0,0,.06);
+}
+.oldspice-chip--maple{}
+
+/* Time block — “wax seal” label, centered text */
+.oldspice-time{
+  font:800 13px/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color:#3a2a1f;
+  background:
+    radial-gradient(140% 120% at 30% 20%, #fff8ef, transparent 45%),
+    linear-gradient(180deg, #fff7eb, #ffefd9);
+  border:1px solid rgba(186,35,56,.35);
+  border-radius:12px;
+  padding:7px 10px;
+  white-space:nowrap;
+  width:90px;        /* fixed width */
+  flex:0 0 90px;     /* prevent grow/shrink */
+  text-align:center; /* centered text */
+  text-shadow:0 1px 0 rgba(255,255,255,.85);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.75),
+    0 6px 12px rgba(0,0,0,.08);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .oldspice-in{ animation:none; opacity:1; transform:none; }
+}
+
+/* Slightly larger screens */
+@media (min-width: 481px){
+  .oldspice-card{ padding:14px 16px; }
+  .oldspice-time{ font-size:13px; }
+}

@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from "react";
-import schedule from "../Schedule";
-import "../Stylesheets/SpartanSchedule.css"; // Pure CSS Spartan theme
-import Spear from "./Spear";
+import schedule from "../RhSchedule";
+import "./SpartanSchedule.css";
+import Spear from "./Spear.css";
 
 function SpartanSchedule({ day }) {
   const [showSchedule, setShowSchedule] = useState(false);
 
   useEffect(() => {
-    // Delay before schedule appears
-    const timeout = setTimeout(() => {
-      setShowSchedule(true);
-    }, 1000);
-
+    const timeout = setTimeout(() => setShowSchedule(true), 1000);
     return () => clearTimeout(timeout);
   }, []);
 
-  // Convert decimal time to 12-hour format
   const formatTime = (decimalTime) => {
     const hour = Math.floor(decimalTime);
     const minutes = Math.round((decimalTime - hour) * 60);
@@ -27,27 +22,32 @@ function SpartanSchedule({ day }) {
 
   return (
     <div className="spartan-container">
-      {/* Title */}
       <h1 className={`spartan-title ${showSchedule ? "spartan-visible" : ""}`}>
         {day}
       </h1>
-      
 
-      {/* Schedule */}
       <div className="spartan-schedule">
-        {schedule[day] &&
-          schedule[day].map((cls, idx) => (
+        {(schedule[day] || []).map((cls, idx) => (
+          <div className="spartan-card-wrap" key={idx}>
             <div
-              key={idx}
               className={`spartan-class ${showSchedule ? "spartan-fade-in" : ""}`}
               style={{ animationDelay: `${idx * 1}s` }}
             >
               <span className="spartan-class-text">
-                {cls.name} <br></br> {formatTime(cls.start)}
+                {cls.name}
+                <br />
+                {formatTime(cls.start)}
               </span>
             </div>
-          ))}
+
+            {/* Maple plaque under the circle */}
+            {cls.maple && (
+              <div className="spartan-maple">📍 MAPLE LOCATION</div>
+            )}
+          </div>
+        ))}
       </div>
+
       <Spear />
     </div>
   );

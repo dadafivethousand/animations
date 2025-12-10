@@ -1,0 +1,265 @@
+/* TattooSchedule.css — classic parlor vibe: parchment cards, ink, rose-crimson, needle accents */
+@import url("https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Inter:wght@600;700;800&display=swap");
+
+:root{
+  /* Ink shop palette */
+  --tt-ink:#0b0c0e;           /* room black */
+  --tt-char:#121317;          /* charcoal */
+  --tt-smoke:#1a1d22;         /* smoky blue-black */
+
+  --tt-parch-1:#f7f1e4;       /* parchment */
+  --tt-parch-2:#efe5d0;
+  --tt-parch-edge:#d9c9a9;
+
+  --tt-crimson:#b3262a;       /* rose red */
+  --tt-crimson-2:#821c20;
+
+  --tt-gold:#c7a46b;          /* pinstripe gold */
+  --tt-steel:#2e3947;         /* needle steel */
+  --tt-inkfade:rgba(255,255,255,.05);
+
+  --tt-border:rgba(46,57,71,.35);
+  --tt-shadow:0 14px 34px rgba(0,0,0,.55);
+
+  --tt-time-width:90px;
+}
+
+/* Safety reset */
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+.tattoo-wrap{
+  min-height:100vh;
+  width:100vw;
+  background:
+    radial-gradient(900px 520px at 20% -10%, rgba(195,164,107,.10), transparent 60%),
+    radial-gradient(900px 520px at 80% 120%, rgba(179,38,42,.10), transparent 60%),
+    /* stipple/halftone noise */
+    radial-gradient(2px 2px at 30% 40%, var(--tt-inkfade) 40%, transparent 41%) repeat,
+    linear-gradient(180deg, var(--tt-char), var(--tt-smoke));
+  background-size:auto, auto, 6px 6px, auto;
+  color:#f2f5ff;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:14px;
+  padding-top:50px; /* minimum 50px */
+  position:relative;
+}
+
+/* crossed-needle watermark */
+.tattoo-wrap::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(135deg, transparent 48%, rgba(199,164,107,.08) 50%, transparent 52%),
+    linear-gradient(45deg, transparent 48%, rgba(199,164,107,.08) 50%, transparent 52%);
+  background-size: 380px 380px, 380px 380px;
+  background-position: center;
+  pointer-events:none;
+  opacity:.18;
+}
+
+/* Header — blackletter plaque; centered 30px */
+.tattoo-header{
+  width:100%;
+  max-width:560px;
+  position:sticky;
+  top:0;
+  text-align:center;
+  z-index:2;
+  padding:12px 0 16px;
+  background:linear-gradient(180deg, rgba(18,19,23,.86), rgba(26,29,34,.70));
+  border-bottom:1px solid rgba(199,164,107,.22);
+  backdrop-filter: blur(6px);
+}
+.tattoo-day{
+  margin:0;
+  display:inline-block;
+  font-family:"UnifrakturCook", ui-serif, Georgia, serif;
+  font-weight:700;
+  font-size:30px; /* bigger weekday */
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:#fff;
+  padding:6px 16px;
+  position:relative;
+  text-shadow:
+    0 2px 0 rgba(0,0,0,.35),
+    0 0 14px rgba(195,164,107,.25);
+}
+.tattoo-day::before{
+  content:"";
+  position:absolute;
+  inset:-4px -12px;
+  border-radius:12px;
+  background:
+    linear-gradient(180deg, #1f232a, #15181e);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.12),
+    0 6px 18px rgba(0,0,0,.45);
+  border:1px solid rgba(199,164,107,.35);
+  z-index:-1;
+}
+
+/* List (80% width) */
+.tattoo-list{
+  width:80%;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:12px;
+}
+
+/* Card — parchment slab with ink scuff & steel pin */
+.tattoo-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:12px;
+  border-radius:14px;
+  position:relative;
+  overflow:hidden;
+
+  background:
+    /* edge burn */
+    radial-gradient(120% 100% at 50% -20%, rgba(0,0,0,.18), transparent 40%),
+    linear-gradient(180deg, var(--tt-parch-1), var(--tt-parch-2));
+  border:1px solid var(--tt-parch-edge);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.45),
+    inset 0 -2px 0 rgba(0,0,0,.12),
+    var(--tt-shadow);
+
+  opacity:0;
+  transform: translateY(8px) scale(.995);
+  min-height:56px; /* compact */
+  color:#1a1410;
+}
+
+/* steel pinstripe (needle) */
+.tattoo-card::before{
+  content:"";
+  position:absolute;
+  left:0; top:0;
+  width:6px; height:100%;
+  background:
+    linear-gradient(180deg, #6a7b8e, var(--tt-steel));
+  box-shadow:0 0 12px rgba(106,123,142,.25);
+  border-top-left-radius:14px; border-bottom-left-radius:14px;
+}
+
+/* faint rose ink smear */
+.tattoo-card::after{
+  content:"";
+  position:absolute;
+  right:-10%; top:-30%;
+  width:50%; height:120%;
+  background:radial-gradient(60% 40% at 60% 30%, rgba(179,38,42,.09), transparent 60%);
+  transform:rotate(8deg);
+  pointer-events:none;
+}
+
+/* In animation */
+.tattoo-in{ animation: tattoo-rise .24s ease-out forwards; }
+@keyframes tattoo-rise{ to{ opacity:1; transform:translateY(0) scale(1);} }
+
+/* Left row — keep name + chips inline, start-justified */
+.tattoo-left{
+  min-width:0;
+  display:flex;               /* as requested */
+  align-items:center;         /* aligned center */
+  justify-content:flex-start; /* start-justified */
+  gap:8px;
+  flex:1 1 auto;
+  flex-wrap:nowrap;
+}
+
+/* Title (compact, strong) */
+.tattoo-title{
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight:800;
+  font-size:15px;
+  line-height:1.2;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  min-width:0;
+  color:#20140f;
+  text-shadow:0 1px 0 rgba(255,255,255,.65);
+}
+
+/* Replacement styling */
+.tattoo-swap .tattoo-old{ text-decoration:line-through; opacity:.65; }
+.tattoo-swap .tattoo-arrow{ opacity:.65; margin:0 6px; }
+.tattoo-swap .tattoo-new{ font-weight:900; color:#120d0a; }
+
+/* Chips */
+.tattoo-chip{
+  font-size:11px;
+  line-height:1;
+  padding:3px 9px;
+  border-radius:999px;
+  border:1px solid rgba(0,0,0,.2);
+  background:linear-gradient(180deg, #fff, #f2e7cf);
+  color:#3a231f;
+  white-space:nowrap;
+  flex:0 0 auto;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.8),
+    0 1px 0 rgba(0,0,0,.06);
+}
+.tattoo-chip--maple{
+  border-color: rgba(195,164,107,.75);
+  background:linear-gradient(180deg, #fff8e6, #f3e3c1);
+  color:#5a3d12;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.9),
+    0 0 10px rgba(199,164,107,.28);
+}
+.tattoo-chip--cancelled{
+  border-color: rgba(179,38,42,.7);
+  background:linear-gradient(180deg, #ffe9ea, #ffd7d9);
+  color:#821c20;
+  text-transform:uppercase;
+  font-weight:800;
+}
+
+/* Time — fixed 90px, centered */
+.tattoo-time{
+  font:800 13px/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color:#f7f1e4;
+  background:linear-gradient(180deg, #2b3542, #1e2732);
+  border:1px solid rgba(46,57,71,.55);
+  border-radius:10px;
+  padding:6px 8px;
+  white-space:nowrap;
+  width:var(--tt-time-width);
+  flex:0 0 var(--tt-time-width);
+  text-align:center;
+  text-shadow:0 1px 0 rgba(0,0,0,.65);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.08),
+    0 6px 14px rgba(0,0,0,.35);
+}
+
+/* CANCELLED state: strike & dim */
+.is-cancelled{
+  filter:saturate(.85);
+}
+.is-cancelled .tattoo-title,
+.is-cancelled .tattoo-swap .tattoo-old,
+.is-cancelled .tattoo-swap .tattoo-new{
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  text-decoration-color: rgba(179,38,42,.85);
+}
+.is-cancelled .tattoo-time{ opacity:.8; }
+
+/* Slight bumps on wider screens */
+@media (min-width:481px){
+  .tattoo-card{ padding:12px 14px; }
+  .tattoo-time{ font-size:13px; }
+}

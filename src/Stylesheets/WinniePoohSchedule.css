@@ -1,0 +1,297 @@
+/* WinniePoohSchedule.css
+   Winnie the Pooh — warm honey yellows, soft browns, puff-clouds, gentle hand-made textures.
+   - Mobile-first
+   - Weekday centered and prominent (30px)
+   - .winnie-left uses requested flex layout and alignment
+   - Maple chip inline
+   - Replacement styling preserved
+   - Time pill fixed width 90px
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@500;700&family=Playfair+Display:wght@600&display=swap");
+
+:root{
+  --wp-bg: #fff9ef;        /* warm paper */
+  --wp-honey: #f2c04a;     /* honey gold */
+  --wp-honey-2: #d99f2a;   /* deeper honey */
+  --wp-brown: #7b4f2d;     /* honey-pot brown */
+  --wp-wood: #a67846;      /* wooden accent */
+  --wp-muted: #7a6a5f;
+  --wp-ink: #2b221b;       /* dark warm text */
+  --wp-card: #ffffff;      /* card white like a ball */
+  --wp-shadow: 0 12px 34px rgba(38,28,20,0.06);
+
+  --winnie-list-width: 80%;
+  --winnie-time-width: 90px;
+  --winnie-card-h: 72px;
+}
+
+/* reset */
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+
+html,body,#root{ height:100%; background: linear-gradient(180deg, #fffaf1, var(--wp-bg)); }
+
+.winnie-wrap{
+  min-height:100vh;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:14px;
+  padding-top:50px; /* minimum 50px as required */
+  color:var(--wp-ink);
+  font-family: "Rubik", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  position:relative;
+}
+
+/* top playful subtle cloud band */
+.winnie-wrap::before{
+  content:"";
+  position:absolute;
+  left:0; right:0; top:0;
+  height:160px;
+  background:
+    radial-gradient(800px 120px at 10% 0%, rgba(242,192,74,0.06), transparent 30%),
+    radial-gradient(600px 90px at 90% 100%, rgba(210,160,60,0.04), transparent 30%);
+  pointer-events:none;
+  opacity:.95;
+}
+
+/* Header: centered day */
+.winnie-header{
+  width:100%;
+  max-width:960px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:8px 4px 12px;
+  margin-bottom:8px;
+  z-index:2;
+}
+.winnie-day{
+  margin:0;
+  font-family: "Playfair Display", serif;
+  font-weight:600;
+  font-size:30px; /* larger weekday */
+  letter-spacing:.10em;
+  text-transform:uppercase;
+  color:var(--wp-honey-2);
+  padding:8px 18px;
+  border-radius:999px;
+  background: linear-gradient(180deg, rgba(242,192,74,0.10), rgba(217,159,42,0.04));
+  box-shadow: 0 8px 20px rgba(167,120,60,0.06), inset 0 1px 0 rgba(255,255,255,0.8);
+}
+
+/* List */
+.winnie-list{
+  width:var(--winnie-list-width);
+  max-width:960px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:12px;
+  align-items:center;
+}
+
+/* Card: soft rounded white face (like a badge/ball) with gentle honey rim */
+.winnie-card{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  min-height:var(--winnie-card-h);
+  border-radius:14px;
+  position:relative;
+  background: linear-gradient(180deg, var(--wp-card), #fffaf8);
+  box-shadow: var(--wp-shadow);
+  overflow:hidden;
+  transform: translateY(8px);
+  opacity:0;
+  border: 1px solid rgba(43,34,27,0.04);
+}
+
+/* subtle honey rim left */
+.winnie-card::before{
+  content:"";
+  position:absolute;
+  left:0; top:0;
+  width:8px; height:100%;
+  border-top-left-radius:14px; border-bottom-left-radius:14px;
+  background: linear-gradient(180deg, var(--wp-honey), var(--wp-honey-2));
+  opacity:.18;
+  pointer-events:none;
+}
+
+/* playful faint wood grain accent top-right */
+.winnie-card::after{
+  content:"";
+  position:absolute;
+  right:-32px; top:-30px;
+  width:180px; height:120px;
+  background: radial-gradient(circle at 40% 40%, rgba(166,119,71,0.06), transparent 40%);
+  transform: rotate(12deg);
+  pointer-events:none;
+}
+
+/* in animation */
+.winnie-in{ animation: winnie-rise .28s cubic-bezier(.2,.9,.2,1) forwards; }
+@keyframes winnie-rise{ from{ opacity:0; transform: translateY(10px); } to{ opacity:1; transform: translateY(0); } }
+
+/* Left area - MUST match the requested layout exactly */
+.winnie-left{
+  min-width:0;
+  display:flex;                 /* as requested */
+  align-items:center;           /* aligned center */
+  justify-content:flex-start;   /* start-justified */
+  gap:8px;
+  flex:1 1 auto;
+  flex-wrap:nowrap;
+}
+
+/* decorative honey pot circle (pure CSS, soft) */
+.winnie-honey{
+  width:56px;
+  height:56px;
+  border-radius:8px;
+  background: linear-gradient(180deg, #fff7e1, var(--wp-honey));
+  box-shadow: inset 0 6px 8px rgba(255,255,255,0.6), 0 8px 20px rgba(167,120,60,0.06);
+  flex:0 0 56px;
+  position:relative;
+}
+.winnie-honey::after{
+  content:"";
+  position:absolute;
+  left:10px; top:8px;
+  width:36px; height:14px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.6));
+  border-radius:6px;
+  opacity:.95;
+}
+
+/* Title wrap with subtle vertical wooden line BEFORE title (small, tasteful) */
+.winnie-title-wrap{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  min-width:0;
+  position:relative;
+  padding-left:12px;
+}
+.winnie-title-wrap::before{
+  content:"";
+  position:absolute;
+  left:4px;
+  top:12%;
+  bottom:12%;
+  width:3px;
+  background: linear-gradient(180deg, rgba(166,119,71,0.95), rgba(123,79,45,0.95));
+  border-radius:2px;
+  opacity:0.20;
+  box-shadow: 0 2px 8px rgba(123,79,45,0.04);
+}
+
+/* Title */
+.winnie-title{
+  font-weight:700;
+  font-size:16px;
+  color:var(--wp-ink);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  min-width:0;
+}
+
+/* tags row (inline) */
+.winnie-tags{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+/* chip base */
+.chip{
+  font-size:12px;
+  line-height:1;
+  padding:5px 10px;
+  border-radius:999px;
+  border:1px solid rgba(0,0,0,0.06);
+  background: linear-gradient(180deg, #fffefc, #fffaf7);
+  color:var(--wp-muted);
+  white-space:nowrap;
+  flex:0 0 auto;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
+  font-weight:700;
+}
+
+/* maple chip — honey-tinted capsule */
+.chip--maple{
+  border-color: rgba(166,119,71,0.14);
+  background: linear-gradient(180deg, rgba(242,192,74,0.06), rgba(166,119,71,0.02));
+  color: var(--wp-brown);
+  box-shadow: 0 4px 12px rgba(166,119,71,0.04);
+}
+
+/* cancelled chip */
+.chip--cancelled{
+  border-color: rgba(120,120,120,0.06);
+  background: linear-gradient(180deg, #fff9f9, #fff6f6);
+  color:#7a6b6b;
+  font-weight:800;
+  text-transform:uppercase;
+}
+
+/* time pill: warm wooden frame and honey fill */
+.winnie-time{
+  font:800 13px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color:#2b221b;
+  background: linear-gradient(180deg, var(--wp-honey), var(--wp-honey-2));
+  border:1px solid rgba(123,79,45,0.12);
+  border-radius:10px;
+  padding:8px 6px;
+  width: var(--winnie-time-width);
+  flex:0 0 var(--winnie-time-width);
+  text-align:center;
+  box-shadow: 0 8px 20px rgba(167,120,60,0.12);
+}
+
+/* replacement styling (contract) */
+.swap .old{ text-decoration: line-through; opacity:.65; }
+.swap .arrow{ opacity:.6; margin:0 6px; }
+.swap .new{ font-weight:800; color:var(--wp-wood); }
+
+/* cancelled card look */
+.winnie-card.is-cancelled{
+  filter: grayscale(.25) brightness(.95);
+  opacity:.95;
+}
+.winnie-card.is-cancelled .winnie-title,
+.winnie-card.is-cancelled .swap .old,
+.winnie-card.is-cancelled .swap .new{
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  text-decoration-color: rgba(160,80,60,0.9);
+}
+
+/* responsive tweaks */
+@media (max-width:420px){
+  .winnie-day{ font-size:28px; padding:8px 14px; }
+  .winnie-honey{ width:48px; height:48px; flex:0 0 48px; }
+  .winnie-title{ font-size:15px; }
+  .winnie-time{ font-size:12px; padding:6px 6px; width:76px; flex:0 0 76px; }
+  .winnie-list{ gap:10px; }
+}
+
+@media (min-width:900px){
+  .winnie-list{ max-width:1100px; }
+  .winnie-card{ padding:14px 18px; border-radius:16px; min-height:84px; }
+  .winnie-day{ font-size:34px; color:var(--wp-honey-2); }
+  .winnie-honey{ width:72px; height:72px; flex:0 0 72px; border-radius:10px; }
+  .winnie-time{ width:var(--winnie-time-width); flex:0 0 var(--winnie-time-width); }
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .winnie-in{ animation:none; transform:none; opacity:1; }
+}

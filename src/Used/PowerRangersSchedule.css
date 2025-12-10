@@ -1,0 +1,256 @@
+/* Mighty Morphin’ — tuned to the image palette
+   Rangers: Red, Blue, Black/Gold, Yellow, Pink
+   Namespace: ranger-*
+   Fonts: Bangers (headline), Exo 2 (titles), DM Mono (time)
+*/
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Exo+2:wght@700;800&family=DM+Mono:wght@500;700&display=swap');
+
+:root{
+  /* From the reference image */
+  --morph-blue:#1390ff;      /* background lightning blue */
+  --morph-blue-deep:#0b56c7; /* darker sky */
+  --red:#e30b17;
+  --blue:#1f5ec9;
+  --black:#0b0b0f;
+  --gold:#f1c93b;
+  --yellow:#ffd023;
+  --pink:#ff2f86;
+  --white:#f7f7f9;
+
+  /* Ink */
+  --ink:#eef5ff;
+  --muted:#cbd4e6;
+
+  /* Glass */
+  --edge:#26304a;
+  --soft: 0 14px 28px rgba(0,0,0,.30);
+
+  /* Time pill */
+  --time-bg:#0f1524;
+  --time-br:#2a3147;
+  --time-ink:#eaf2ff;
+
+  /* Maple chip */
+  --maple-bg:#17392a;
+  --maple-br:#60d9a5;
+  --maple-ink:#e8fff6;
+
+  /* Type */
+  --day: clamp(28px, 8.8vw, 52px);
+  --title: clamp(16px, 3.8vw, 20px);
+}
+
+/* ===== Wrapper with electric blue sky ===== */
+*{ box-sizing:border-box }
+html,body{ height:100% }
+
+.ranger-wrap{
+  min-height:100vh; width:100vw; color:var(--ink);
+  display:flex; flex-direction:column; align-items:center; padding:16px;
+  background: radial-gradient(120% 140% at 50% -40%, var(--morph-blue) 0%, var(--morph-blue-deep) 45%, #070912 100%);
+  position:relative; overflow:hidden; isolation:isolate;
+  padding-top: 150px;
+}
+
+/* morphin grid (parallax twin layers) */
+.ranger-grid{
+  position:fixed; inset:-12vmax; z-index:-2; pointer-events:none;
+  background:
+    repeating-linear-gradient(0deg,  transparent 0 22px, rgba(255,255,255,.10) 22px 23px),
+    repeating-linear-gradient(90deg, transparent 0 22px, rgba(255,255,255,.10) 22px 23px);
+  filter: drop-shadow(0 0 10px rgba(255,255,255,.25));
+  opacity:.45;
+  animation: ranger-grid-anim 16s linear infinite;
+}
+.ranger-grid::after{
+  content:""; position:absolute; inset:0;
+  background:
+    repeating-linear-gradient(0deg,  transparent 0 18px, rgba(19,144,255,.14) 18px 19px),
+    repeating-linear-gradient(90deg, transparent 0 18px, rgba(19,144,255,.14) 18px 19px);
+  mix-blend-mode:screen; opacity:.9;
+  animation: ranger-grid-anim-2 26s linear infinite reverse;
+}
+@keyframes ranger-grid-anim{
+  0%{ transform: translateY(0) skewX(-6deg) scale(1.2); }
+  100%{ transform: translateY(22px) skewX(-6deg) scale(1.2); }
+}
+@keyframes ranger-grid-anim-2{
+  0%{ transform: translateX(0) skewY(6deg) scale(1.25); }
+  100%{ transform: translateX(18px) skewY(6deg) scale(1.25); }
+}
+
+/* lightning bolts in the image hue */
+.ranger-bolts{ position:fixed; inset:0; z-index:-1; pointer-events:none }
+.ranger-bolt{
+  position:absolute; width:2px; height:44vh; left:12%; top:-10%;
+  background: linear-gradient(180deg, #d7f0ff, #5ec1ff 60%, transparent 100%);
+  filter: drop-shadow(0 0 10px #5ec1ff) drop-shadow(0 0 20px #5ec1ff);
+  opacity:.0; transform: rotate(8deg);
+  animation: bolt 4.6s ease-in-out infinite;
+}
+.ranger-bolt.b2{ left:78%; height:38vh; transform: rotate(-10deg); animation-delay: 1.1s }
+.ranger-bolt.b3{ left:52%; height:42vh; transform: rotate(5deg);  animation-delay: 2.3s }
+
+@keyframes bolt{
+  0%, 74% { opacity:0; }
+  75%    { opacity:.95; }
+  80%    { opacity:.2;  }
+  83%    { opacity:1;    }
+  100%   { opacity:0;    }
+}
+
+/* ===== Header ===== */
+.ranger-header{ width:100%; max-width:720px; padding:14px 8px 6px }
+.ranger-header--center{ display:grid; place-items:center }
+.ranger-day{ margin:0; text-align:center }
+
+.ranger-day-inner{
+  display:inline-block; position:relative; padding:.28em .9em .36em;
+  font: 700 var(--day)/1 "Bangers", system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+  letter-spacing:.08em; text-transform:uppercase;
+  color:#0b0e18;
+
+  background:
+    radial-gradient(120% 220% at 50% -120%, rgba(255,255,255,.25), rgba(255,255,255,0) 60%),
+    linear-gradient(180deg, #d7f0ff, #5ec1ff);
+  border:3px solid #0c121f;
+  border-radius:14px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.65),
+    0 10px 26px rgba(0,0,0,.35),
+    0 0 0 6px rgba(94,193,255,.20);
+  text-shadow: 0 2px 0 rgba(255,255,255,.45), 0 16px 28px rgba(0,0,0,.35);
+}
+
+/* ===== List ===== */
+.ranger-list{
+  width:100%; max-width:720px;
+  display:flex; flex-direction:column; gap:12px; margin-top:22px;
+}
+
+/* ===== Card (glass) with left color spine ===== */
+.ranger-card{
+  position:relative;
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:12px 14px 12px 50px; /* spine space */
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.03)),
+    radial-gradient(120% 220% at 50% -120%, rgba(255,255,255,.12), rgba(255,255,255,0) 60%);
+  border:1px solid var(--edge);
+  border-radius:14px;
+  color:var(--ink);
+  opacity:0; transform: translateY(12px);
+  box-shadow: var(--soft), inset 0 1px 0 rgba(255,255,255,.10);
+  backdrop-filter: blur(6px) saturate(118%);
+  width:80%;
+  margin: 0 auto;
+  -webkit-backdrop-filter: blur(6px) saturate(118%);
+}
+
+/* per-card accent colors tuned to the image */
+.ranger-color-0{ --accent: var(--red);   --accent-glow: rgba(227,11,23,.55) }
+.ranger-color-1{ --accent: var(--blue);  --accent-glow: rgba(31,94,201,.55) }
+.ranger-color-2{ --accent: var(--black); --accent-glow: rgba(241,201,59,.45); --accent-edge: var(--gold) }
+.ranger-color-3{ --accent: var(--yellow);--accent-glow: rgba(255,208,35,.55) }
+.ranger-color-4{ --accent: var(--pink);  --accent-glow: rgba(255,47,134,.55) }
+
+/* left morph stripe with metallic highlight & diamond */
+.ranger-spine{
+  position:absolute; left:0; top:0; bottom:0; width:38px; border-radius:14px 0 0 14px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,0)),
+    linear-gradient(90deg, #05060a, #111623),
+    linear-gradient(180deg,
+      color-mix(in oklab, var(--accent) 85%, #000 15%),
+      color-mix(in oklab, var(--accent) 65%, #000 35%));
+  background-blend-mode:overlay, normal, normal;
+  box-shadow:
+    inset -1px 0 0 rgba(0,0,0,.45),
+    0 0 26px var(--accent-glow);
+}
+.ranger-color-2 .ranger-spine{ /* Black ranger gets a gold edge line */
+  box-shadow:
+    inset -1px 0 0 rgba(0,0,0,.55),
+    0 0 0 2px rgba(241,201,59,.25),
+    0 0 26px var(--accent-glow);
+}
+.ranger-spine::after{
+  /* “diamond” node */
+  content:""; position:absolute; left:50%; top:50%; width:18px; height:18px;
+  border:2px solid rgba(255,255,255,.9);
+  transform: translate(-50%,-50%) rotate(45deg);
+  background: radial-gradient(circle at 30% 30%, #fff8 0 30%, transparent 32%);
+  box-shadow: 0 0 12px var(--accent-glow);
+  border-radius:2px;
+}
+
+/* rise-in */
+.ranger-in{ animation: ranger-rise .28s cubic-bezier(.2,.9,.2,1) forwards }
+@keyframes ranger-rise{ to{ opacity:1; transform: translateY(0) } }
+
+/* hover/active */
+.ranger-card:hover{ transform: translateY(8px); transition: transform .18s ease-out }
+.ranger-card:active{ transform: translateY(6px) scale(.995) }
+.ranger-card:focus-within{
+  outline:none;
+  box-shadow:
+    var(--soft),
+    0 0 0 2px color-mix(in oklab, var(--accent) 55%, white 45%),
+    0 0 0 8px color-mix(in oklab, var(--accent) 22%, transparent 78%);
+}
+
+/* ===== Content ===== */
+.ranger-left{ min-width:0; display:flex; flex-direction:column; gap:6px; position:relative }
+.ranger-title{
+  font: 800 var(--title)/1.06 "Exo 2", system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+  letter-spacing:.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  color:#f3f6ff;
+  text-shadow: 0 1px 0 rgba(255,255,255,.12), 0 14px 24px rgba(0,0,0,.35);
+}
+
+/* Replacement styling */
+.ranger-swap .ranger-old{ position:relative; color:var(--muted) }
+.ranger-swap .ranger-old::after{
+  content:""; position:absolute; left:0; right:0; top:55%; height:2px;
+  background: linear-gradient(90deg, rgba(203,212,230,.15), rgba(203,212,230,.70), rgba(203,212,230,.15));
+  transform: translateY(-50%);
+}
+.ranger-swap .ranger-arrow{ opacity:.65; margin:0 6px }
+.ranger-swap .ranger-new{ font-weight:900; color:#fff }
+
+/* Tags (chips) */
+.ranger-tags{ display:flex; gap:8px; margin-top:2px; flex-wrap:wrap }
+.ranger-chip{
+  font-size:12px; line-height:1; font-weight:800;
+  padding:5px 10px; border-radius:999px; white-space:nowrap;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.08); color:#fff;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.18);
+}
+.ranger-chip--maple{
+  background: linear-gradient(180deg, var(--maple-bg), rgba(23,57,42,.55));
+  border-color: var(--maple-br);
+  color: var(--maple-ink);
+  box-shadow: 0 0 0 1px rgba(96,217,165,.18);
+}
+
+/* Time pill */
+.ranger-time{
+  font: 800 13px/1 "DM Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  color: var(--time-ink);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02)),
+    var(--time-bg);
+  border:1px solid var(--time-br);
+  border-radius:12px; padding:7px 10px; white-space:nowrap;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.18),
+    0 1px 2px rgba(0,0,0,.25);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .ranger-grid, .ranger-bolt{ animation: none }
+  .ranger-in{ animation: none; opacity:1; transform:none }
+  .ranger-card:hover, .ranger-card:active{ transform:none }
+}

@@ -1,0 +1,222 @@
+/* JurassicParkSchedule.css
+   Jurassic Park color scheme (logo-inspired):
+   - deep black background
+   - logo red
+   - logo gold/yellow
+   - off-white text
+   Mobile-first. Prefix = jurassic-
+   Top padding >= 50px. Time block = 90px.
+*/
+
+:root{
+  /* Colors sampled from the Jurassic Park logo */
+  --jp-bg: #020202;            /* near-black page bg */
+  --jp-panel: #0b0b0b;         /* panel base */
+  --jp-red: #c91f1f;           /* logo red */
+  --jp-deep-red: #8f1515;      /* deeper red for borders/shadows */
+  --jp-gold: #f2c400;          /* logo yellow/gold */
+  --jp-ink: #f7f3ef;           /* off-white text */
+  --jp-muted: rgba(247,243,239,0.9);
+  --jp-border: rgba(255,255,255,0.03);
+  --jp-shadow: 0 14px 36px rgba(0,0,0,0.78);
+}
+
+*{ box-sizing: border-box; }
+
+/* root */
+.jurassic-wrap{
+  min-height: 100vh;
+  width: 100vw;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:12px;
+  padding-top:56px; /* >=50px */
+  color: var(--jp-ink);
+  background:
+    radial-gradient(500px 160px at 12% 10%, rgba(201,31,31,0.03), transparent 30%),
+    linear-gradient(180deg, var(--jp-bg), #050505);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* header */
+.jurassic-header{
+  width:100%;
+  max-width:720px;
+  padding:10px 6px;
+  position: sticky;
+  top:0;
+  z-index:10;
+  text-align:center;
+  background: linear-gradient(180deg, rgba(2,2,2,0.9), rgba(8,8,8,0.75));
+  border-bottom: 1px solid rgba(0,0,0,0.25);
+}
+.jurassic-day{
+  margin:0;
+  font-size:30px; /* required larger day */
+  text-transform:uppercase;
+  letter-spacing:0.12em;
+  color: var(--jp-gold);
+  font-weight:800;
+  text-shadow: 0 6px 18px rgba(242,196,0,0.06);
+}
+
+/* list width */
+.jurassic-list{
+  width:80%;
+  max-width:720px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:12px;
+}
+
+/* card base — cinematic plaque with logo red accents */
+.jurassic-card{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  min-height:56px;
+  background: linear-gradient(180deg, var(--jp-panel), rgba(8,8,8,0.6));
+  border-radius:12px;
+  border: 1px solid var(--jp-border);
+  box-shadow: var(--jp-shadow), inset 0 -6px 18px rgba(0,0,0,0.14);
+  overflow: visible;
+  transform: translateX(-36px) translateY(8px) rotate(-0.6deg);
+  opacity: 0;
+  border: 2px solid red
+}
+
+/* left logo band (gold outline like JP logo) */
+.jurassic-card::before{
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  bottom: 8px;
+  width: 8px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, var(--jp-gold), #d4a500);
+  box-shadow: 0 8px 24px rgba(242,196,0,0.04), inset 0 -4px 8px rgba(0,0,0,0.12);
+  opacity: 0.98;
+  pointer-events:none;
+}
+
+/* subtle circular T-Rex watermark on larger screens (kept very faint) */
+.jurassic-card::after{
+  content: "";
+  position: absolute;
+  right: -8%;
+  top: -28%;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle at 40% 35%, rgba(201,31,31,0.08), transparent 35%),
+              radial-gradient(circle at 65% 65%, rgba(0,0,0,0.12), transparent 45%);
+  border-radius: 50%;
+  filter: blur(6px) saturate(.9);
+  opacity: 0.18;
+  pointer-events:none;
+  transform: rotate(6deg);
+}
+
+/* entry animation: quick bold slide+settle (stomp-like) */
+.jurassic-in { animation: jp-stomp .34s cubic-bezier(.2,.9,.28,1) forwards; }
+@keyframes jp-stomp {
+  0% { opacity:0; transform: translateX(-64px) translateY(26px) rotate(-3.6deg) scale(0.994); filter: blur(2px); }
+  55% { transform: translateX(8px) translateY(-8px) rotate(2deg) scale(1.01); filter:none; }
+  75% { transform: translateX(-6px) translateY(4px) rotate(-1deg) scale(0.998); }
+  100% { opacity:1; transform: translateX(0) translateY(0) rotate(0) scale(1); filter:none; }
+}
+
+/* small golden dust puff on arrival */
+.jurassic-in::before{
+  content: "";
+  position: absolute;
+  left: -34%;
+  top: 62%;
+  width: 72%;
+  height: 56%;
+  background:
+    radial-gradient(120px 44px at 20% 40%, rgba(242,196,0,0.06), transparent 36%),
+    radial-gradient(80px 30px at 70% 60%, rgba(201,31,31,0.03), transparent 50%);
+  transform: translateX(-16px) skewX(-6deg);
+  filter: blur(8px) saturate(.9);
+  opacity: 0;
+  pointer-events:none;
+  animation: jp-puff .48s ease-out forwards;
+}
+@keyframes jp-puff {
+  0% { opacity:0.9; transform: translateX(-30px) scaleX(.9) skewX(-8deg); }
+  50% { opacity:0.6; transform: translateX(-6px) scaleX(1) skewX(-4deg); }
+  100% { opacity:0; transform: translateX(20px) scaleX(1.1) skewX(0deg); }
+}
+
+/* left content row */
+.jurassic-left { min-width:0; display:flex; align-items:center; gap:10px; flex:1 1 auto; justify-content:flex-start; }
+.jurassic-title { min-width:0; }
+.jurassic-name {
+  font-weight:700;
+  font-size:15px;
+  line-height:1.2;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  color: var(--jp-ink);
+  display:inline-block;
+  max-width: calc(100% - 96px);
+}
+
+/* replacement styling */
+.jurassic-swap .jurassic-old { text-decoration: line-through; opacity: .6; color: rgba(247,243,239,0.8); }
+.jurassic-swap .jurassic-arrow { opacity: .75; margin: 0 6px; color: var(--jp-gold); }
+.jurassic-swap .jurassic-new { font-weight: 900; color: var(--jp-gold); text-shadow: 0 6px 20px rgba(242,196,0,0.04); }
+
+/* maple chip */
+.jurassic-chip {
+  font-size:11px;
+  line-height:1;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,0.03);
+  background: rgba(201,31,31,0.06);
+  color: var(--jp-ink);
+  white-space:nowrap;
+  flex:0 0 auto;
+}
+.jurassic-chip--maple {
+  border-color: rgba(255,88,88,0.45);
+  background: rgba(255,60,60,0.10);
+  color: #ffdede;
+  box-shadow: 0 0 10px rgba(255,60,60,0.08);
+}
+
+/* time block fixed 90px */
+.jurassic-time {
+  font:700 13px/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  width:90px;
+  flex:0 0 90px;
+  text-align:center;
+  padding:6px 8px;
+  border-radius:10px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
+  border:1px solid rgba(255,255,255,0.03);
+  color: var(--jp-muted);
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .jurassic-in { animation: none; opacity:1; transform:none; }
+  .jurassic-in::before { display:none; }
+}
+
+/* slightly larger screens */
+@media (min-width:520px){
+  .jurassic-list { width:72%; }
+  .jurassic-name { font-size:16px; }
+}
+
+/* safety */
+.jurassic-name { min-width:0; max-width:100%; }

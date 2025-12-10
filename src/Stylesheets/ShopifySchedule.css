@@ -1,0 +1,301 @@
+/* ShopifySchedule.css */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=DM+Sans:wght@500;600;700&display=swap");
+
+/* Shopify brand green from the logo */
+:root {
+  --sh-green: #95bf47;
+  --sh-green-dark: #5e8e3e;
+  --sh-green-soft: #e7f3d3;
+
+  --sh-bg-top: #f7f8fb;
+  --sh-bg-bot: #edf1f7;
+  --sh-ink: #111827;
+  --sh-muted: #6b7280;
+
+  --sh-card: #ffffff;
+  --sh-border: #d1d5db;
+  --sh-shadow-soft: 0 18px 42px rgba(15, 23, 42, 0.18);
+
+  --sh-grid-line: rgba(148, 163, 184, 0.26);
+}
+
+/* Reset-ish */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* Root wrapper */
+.shopify-wrap {
+  min-height: 100vh;
+  width: 100vw;
+  color: var(--sh-ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 12px 32px;
+  padding-top: 100px; /* your preference */
+
+  background:
+    radial-gradient(900px 420px at 0% 0%, rgba(149, 191, 71, 0.18), transparent 70%),
+    radial-gradient(1100px 520px at 100% 120%, rgba(37, 99, 235, 0.12), transparent 70%),
+    linear-gradient(180deg, var(--sh-bg-top), var(--sh-bg-bot)),
+    /* faint grid */
+    linear-gradient(
+      to right,
+      var(--sh-grid-line) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      var(--sh-grid-line) 1px,
+      transparent 1px
+    );
+  background-size:
+    auto,
+    auto,
+    auto,
+    72px 72px,
+    72px 72px;
+}
+
+/* Header */
+.shopify-header {
+  width: 100%;
+  max-width: 560px;
+  padding: 10px 4px 14px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  backdrop-filter: blur(14px);
+  background: linear-gradient(
+    180deg,
+    rgba(247, 248, 251, 0.98),
+    rgba(237, 241, 247, 0.96)
+  );
+  border-bottom: 1px solid rgba(209, 213, 219, 0.9);
+  text-align: center;
+}
+
+/* Day label – Shopify admin pill with 3D-ish effect */
+.shopify-day {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 22px;
+  font-family: "DM Sans", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  color: var(--sh-ink);
+  background:
+    linear-gradient(180deg, #ffffff, #f5f6f8);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9),
+    0 1px 0 rgba(15, 23, 42, 0.08),
+    0 10px 28px rgba(15, 23, 42, 0.18);
+  position: relative;
+}
+
+/* Slim green underline bar */
+.shopify-day::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  transform: translateX(-50%);
+  width: 88px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--sh-green), var(--sh-green-dark));
+}
+
+/* List (80% width) */
+.shopify-list {
+  width: 80%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+/* Card */
+.shopify-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 16px;
+  min-height: 56px;
+
+  border-radius: 14px;
+  background:
+    radial-gradient(260px 120px at 0% 0%, rgba(149, 191, 71, 0.12), transparent 70%),
+    radial-gradient(220px 80px at 100% 100%, rgba(37, 99, 235, 0.08), transparent 70%),
+    linear-gradient(180deg, #ffffff, #f9fafb);
+  border: 1px solid var(--sh-border);
+  box-shadow: var(--sh-shadow-soft);
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(10px) scale(0.99);
+
+  transition:
+    transform 0.18s ease-out,
+    box-shadow 0.18s ease-out,
+    border-color 0.18s ease-out;
+}
+
+/* Subtle inner highlight ring */
+.shopify-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(149, 191, 71, 0.4),
+      rgba(94, 142, 62, 0.2)
+    );
+  opacity: 0.12;
+  mix-blend-mode: multiply;
+}
+
+/* Left vertical accent */
+.shopify-card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 12px;
+  bottom: 12px;
+  width: 3px;
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    var(--sh-green),
+    var(--sh-green-dark)
+  );
+}
+
+/* Entry animation */
+.shopify-in {
+  animation: sh-rise 0.26s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes sh-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Hover / tap feedback */
+.shopify-card:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow:
+    0 20px 50px rgba(15, 23, 42, 0.25),
+    0 0 0 1px rgba(149, 191, 71, 0.55);
+  border-color: rgba(149, 191, 71, 0.6);
+}
+
+/* Left row: title + maple inline */
+.shopify-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+}
+
+/* Title/Name — ellipsis */
+.shopify-title {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  color: var(--sh-ink);
+}
+
+/* Replacement styling */
+.shopify-swap .shopify-old {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.shopify-swap .shopify-arrow {
+  opacity: 0.75;
+  margin: 0 6px;
+}
+
+.shopify-swap .shopify-new {
+  font-weight: 800;
+}
+
+/* Maple chip inline – Shopify status pill */
+.shopify-chip {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(149, 191, 71, 0.9);
+  background: var(--sh-green-soft);
+  color: #234123;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.75),
+    0 0 10px rgba(149, 191, 71, 0.35);
+}
+
+/* Time block: fixed width 90px, right side */
+.shopify-time {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1.1;
+  white-space: nowrap;
+  text-align: center;
+  width: 90px;
+  flex: 0 0 90px;
+  padding: 6px 8px;
+  border-radius: 999px;
+
+  background:
+    linear-gradient(180deg, #f9fafb, #eef2f7);
+  border: 1px solid rgba(148, 163, 184, 0.8);
+  color: #111827;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9),
+    0 6px 16px rgba(148, 163, 184, 0.35);
+}
+
+/* Slightly larger screens */
+@media (min-width: 481px) {
+  .shopify-card {
+    padding: 14px 18px;
+  }
+}

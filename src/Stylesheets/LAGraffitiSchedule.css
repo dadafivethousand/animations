@@ -1,0 +1,207 @@
+/* LAGraffitiSchedule.css — LA street wall at sunset */
+@import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Bebas+Neue&family=Inter:wght@600;700;800&display=swap");
+
+:root{
+  /* West Coast Graffiti Palette */
+  --la-sunset-1:#ff3366;
+  --la-sunset-2:#ff8a00;
+  --la-sunset-3:#7a00ff;
+
+  --la-cement:#0e1014;
+  --la-gray:#181c23;
+  --la-light:#eaf2ff;
+
+  --la-cyan:#00eaff;
+  --la-mag:#ff3fb7;
+  --la-yellow:#ffd84a;
+
+  --la-border:rgba(255,255,255,.15);
+  --la-card:#141820;
+  --la-card-2:#0f131a;
+  --la-shadow:0 14px 34px rgba(0,0,0,.6);
+}
+
+/* Base */
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+
+.lagraffiti-wrap{
+  min-height:100vh;
+  width:100vw;
+  background:
+    /* Graffiti wall fade */
+    radial-gradient(900px 520px at 80% -20%, rgba(255,63,183,.14), transparent 70%),
+    radial-gradient(900px 520px at 15% 120%, rgba(0,234,255,.12), transparent 70%),
+    linear-gradient(180deg, var(--la-sunset-1) 0%, var(--la-sunset-2) 50%, var(--la-sunset-3) 100%),
+    url('https://i.ibb.co/GcMxXpK/concrete-texture.jpg');
+  background-blend-mode: overlay, overlay, multiply;
+  background-size: cover;
+  background-attachment: fixed;
+  color:var(--la-light);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:14px;
+  padding-top:50px;
+  position:relative;
+}
+
+/* faint palm silhouettes */
+.lagraffiti-wrap::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:url('https://i.ibb.co/9N8C2T3/palms-silhouette.png') center bottom/cover no-repeat;
+  opacity:.08;
+  pointer-events:none;
+}
+
+/* Header — graffiti tag style */
+.lagraffiti-header{
+  width:100%;
+  max-width:560px;
+  text-align:center;
+  position:sticky;
+  top:0;
+  z-index:2;
+  background:rgba(14,16,20,.65);
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid rgba(255,255,255,.15);
+  padding:12px 0 16px;
+}
+.lagraffiti-day{
+  margin:0;
+  font-family:"Permanent Marker", "Bebas Neue", sans-serif;
+  font-size:34px;
+  color:#fff;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  text-shadow:
+    0 0 8px rgba(255,63,183,.8),
+    0 0 18px rgba(0,234,255,.5),
+    0 2px 4px rgba(0,0,0,.9);
+}
+
+/* List (80% width) */
+.lagraffiti-list{
+  width:80%;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:12px;
+}
+
+/* Card */
+.lagraffiti-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:12px;
+  border-radius:14px;
+  background:
+    linear-gradient(180deg, var(--la-card), var(--la-card-2));
+  border:1px solid var(--la-border);
+  box-shadow:
+    var(--la-shadow),
+    0 0 12px rgba(255,63,183,.2),
+    0 0 8px rgba(0,234,255,.15);
+  position:relative;
+  opacity:0;
+  transform:translateY(8px);
+  overflow:hidden;
+}
+
+/* Graffiti glow edge */
+.lagraffiti-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:
+    0 0 12px rgba(255,63,183,.25),
+    0 0 22px rgba(0,234,255,.15);
+  pointer-events:none;
+  opacity:.4;
+}
+
+/* Subtle overspray sheen */
+.lagraffiti-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at 10% 30%, rgba(255,255,255,.05), transparent 60%);
+  mix-blend-mode:overlay;
+}
+
+/* Animation */
+.lagraffiti-in{animation:lagra-rise .24s ease-out forwards;}
+@keyframes lagra-rise{to{opacity:1;transform:translateY(0);}}
+
+/* Left row */
+.lagraffiti-left{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:8px;
+  flex:1 1 auto;
+  flex-wrap:nowrap;
+}
+
+/* Title */
+.lagraffiti-title{
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight:800;
+  font-size:15px;
+  color:#f0f6ff;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  text-shadow:0 0 4px rgba(0,234,255,.3);
+}
+
+/* Replacement styling */
+.lagraffiti-swap .lagraffiti-old{text-decoration:line-through;opacity:.65;}
+.lagraffiti-swap .lagraffiti-arrow{opacity:.65;margin:0 6px;}
+.lagraffiti-swap .lagraffiti-new{font-weight:900;color:#fff;}
+
+/* Maple chip — neon spray cap */
+.lagraffiti-chip{
+  font-size:11px;
+  line-height:1;
+  padding:3px 9px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.25);
+  background:linear-gradient(180deg, rgba(255,255,255,.15), rgba(0,0,0,.1));
+  color:#fff;
+  text-shadow:0 0 6px rgba(255,255,255,.5);
+  box-shadow:0 0 8px rgba(0,234,255,.4);
+}
+.lagraffiti-chip--maple{
+  border-color:rgba(247,230,95,.8);
+  background:linear-gradient(180deg, rgba(247,230,95,.2), rgba(247,230,95,.1));
+  color:#fff9b3;
+  text-shadow:0 0 6px rgba(247,230,95,.7);
+}
+
+/* Time block */
+.lagraffiti-time{
+  font:800 13px/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color:#0a0a0a;
+  background:linear-gradient(180deg, #fff9b3, #ffd84a);
+  border:1px solid rgba(247,230,95,.5);
+  border-radius:10px;
+  padding:6px 8px;
+  width:90px;
+  flex:0 0 90px;
+  text-align:center;
+  text-shadow:0 1px 0 rgba(255,255,255,.85);
+}
+
+/* Slightly larger screens */
+@media (min-width:481px){
+  .lagraffiti-card{padding:14px;}
+  .lagraffiti-time{font-size:13px;}
+}

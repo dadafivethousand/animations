@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/ASAPRockySchedule.css";
-import schedule from "../Schedule";
+import "./ASAPRockySchedule.css";
+import schedule from "../RhSchedule";
 import MapleJiuJitsuHeader from "./MapleJiuJitsuHeader";
  
 export default function ASAPRockySchedule({

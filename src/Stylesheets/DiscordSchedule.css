@@ -1,0 +1,141 @@
+/* Discord — every class looks like the input bar, one iconic blurple accent */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&display=swap');
+
+:root{
+  --bg:#313338;
+  --top:#2b2d31;
+  --panel:#383a40;
+  --border:#464b57;
+  --ink:#f2f3f5;
+  --muted:#b5bac1;
+
+  --blurple:#5865F2;      /* the only accent */
+  --blurple-ink:#ffffff;
+
+  --card-width:80%;
+  --time-width:90px;
+}
+
+/* Reset */
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+.discord-wrap{
+  min-height:100vh;
+  width:100vw;
+  background:
+    linear-gradient(180deg, var(--top) 0 72px, transparent 72px),
+    var(--bg);
+  color:var(--ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:150px 12px 18px;
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* Header */
+.discord-header{
+  height:56px;
+  width:100%;
+  max-width:680px;
+  display:flex;
+  align-items:center;
+  justify-content:center;   /* center weekday */
+  gap:10px;
+  position:sticky; top:0; z-index:2;
+  background:linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,0));
+  backdrop-filter: blur(4px);
+}
+.discord-hash{ font-weight:900; color:var(--muted); }
+.discord-day{
+  letter-spacing:.14em;
+  font-size:18px;
+  font-weight:800;
+  text-transform:uppercase;
+}
+
+/* List */
+.discord-list{
+  width:100%;
+  max-width:680px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  align-items:center;
+  margin-top:10px;
+}
+
+/* ===== Card — mimic the input bar (one look for all) ===== */
+.discord-card{
+  width:var(--card-width);
+  margin:0 auto;
+  display:flex;
+  justify-content: space-between;
+  gap:10px;
+  padding:8px 12px;
+  border-radius:12px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  box-shadow: 0 6px 14px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.03);
+  opacity:0;
+  transform:translateY(10px);
+}
+.discord-in{ animation:dc-rise .22s ease-out forwards; }
+@keyframes dc-rise{ to{ opacity:1; transform:translateY(0); } }
+
+/* Blue hash pill (same as screenshot) */
+.pill{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:28px; height:28px; border-radius:9px;
+   font-weight:900;
+ }
+
+/* Name + Maple one line, like placeholder text */
+.discord-row{
+  min-width:0;
+  display:inline-flex; align-items:center; gap:8px;
+  white-space:nowrap; overflow:hidden;
+}
+.discord-title{
+  font-weight:700; font-size:15px; color:var(--ink);
+  overflow:hidden; text-overflow:ellipsis;
+}
+
+/* Replacement styling */
+.swap .old{ text-decoration:line-through; opacity:.65; }
+.swap .arrow{ opacity:.65; margin:0 6px; }
+.swap .new{ font-weight:900; }
+
+/* Maple chip — subtle, still within the blue-only accent world */
+.chip{
+  font-size:12px; line-height:1; padding:4px 10px; border-radius:999px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(88,101,242,.12);
+  color:#e7e9ff; white-space:nowrap; flex:none;
+}
+
+/* Time pill — fixed width, centered; grayscale with blue border */
+.discord-time{
+  font:800 13px/1 "Inter", system-ui, sans-serif;
+  width:var(--time-width);
+  text-align:center;
+  padding:8px 0;
+  border-radius:10px;
+  background:#2a2d33;
+  border:1px solid rgba(88,101,242,.45);
+  color:#fff;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.05);
+ 
+}
+
+/* Bottom input mimic */
+.discord-input{
+  width:100%; max-width:680px; margin-top:14px; padding:0 8px;
+}
+.input-fake{
+  height:44px; border-radius:12px;
+  background:#383a40; border:1px solid var(--border);
+  display:flex; align-items:center; gap:10px; padding:0 12px; color:var(--muted);
+}
+.input-fake .placeholder{ flex:1; }
+.input-fake .send{ opacity:.6; }

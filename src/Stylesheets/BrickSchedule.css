@@ -1,0 +1,202 @@
+/* BrickSchedule — blue wall background; cards styled like embossed bricks */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&display=swap');
+
+:root{
+  /* Background sampled from your swatch (deep royal/denim blue) */
+  --wall-blue:#1f57a6;
+  --wall-blue-deep:#163c79;
+
+  /* Brick (card) tones */
+  --brick-face:#2a66bf;        /* main brick surface */
+  --brick-edge:#1c4c96;        /* bottom edge/shadow */
+  --brick-top:#3b7ae0;         /* top highlight */
+
+  --ink:#f8fbff;
+
+  --mortar:#0e2b5f;            /* thin mortar lines */
+  --speck:#ffffff1a;
+
+  --card-width:80%;            /* per your global rules */
+  --time-width:90px;           /* equal-width time pills */
+}
+
+/* Reset */
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+.brick-wrap {
+  height: 100vh;
+  width: 100vw;
+
+  /* Solid blue background + gif at bottom */
+  background:
+    url("https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExdXZwcWdvejEzdGNiM3M2bHlmcTAzcXd2cG9tM3hvMXpxbjJkMGs1ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/C9PXSH5ZASgkU/giphy.gif")
+      no-repeat bottom center,
+    #0e3d82;  /* replace with the exact hex from your swatch */
+
+  background-size: contain, contain; /* gif stretches full width at bottom */
+  background-attachment: fixed;  /* keeps bg stable while scrolling */
+
+  color: var(--ink);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 184px 14px 24px;
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+
+/* Centered weekday */
+.brick-header{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  
+  text-align:center;
+  position:relative;
+}
+.brick-header:after{
+  content:"";
+  position:absolute;
+  bottom:-2px;
+  left:50%;
+  transform:translateX(-50%);
+  width:140px;
+  height:2px;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.65), transparent);
+}
+.brick-day{
+  font-weight:800;
+  font-size:26px;
+  letter-spacing:.12em;
+}
+
+/* List */
+.brick-list{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+  align-items:center; /* center cards */
+}
+
+/* Brick cards — 80% width; look like 3D bricks */
+.brick-card{
+  width:var(--card-width);
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:7px;
+  border-radius:8px;
+  color:var(--ink);
+  position:relative;
+  opacity:0;
+  transform:translateY(10px);
+
+  /* Brick face with subtle pores and top highlight */
+  background:
+    radial-gradient(18px 10px at 18% 30%, var(--speck), transparent 60%),
+    radial-gradient(16px 8px at 72% 66%, var(--speck), transparent 60%),
+    linear-gradient(180deg, var(--brick-top), var(--brick-face));
+  border:1px solid #153b7a;
+
+  /* Bottom bevel to feel like a stacked brick */
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.18),
+    inset 0 -3px 0 var(--brick-edge),
+    0 4px 0 var(--mortar),           /* mortar line below */
+    0 10px 18px rgba(0,0,0,.25);
+}
+
+/* Create a thin vertical mortar groove (center) like staggered bricks */
+.brick-card:after{
+  content:"";
+  position:absolute;
+  top:6px;
+  bottom:6px;
+  left:50%;
+  width:2px;
+  transform:translateX(-50%);
+  background: linear-gradient(180deg, transparent, rgba(255,255,255,.08), transparent);
+  opacity:.6;
+  pointer-events:none;
+}
+
+/* Stagger animation */
+.brick-in{ animation:rise .22s ease-out forwards; }
+@keyframes rise{ to{ opacity:1; transform:translateY(0); } }
+
+.brick-left{ min-width:0; }
+
+/* Keep name + MAPLE chip on ONE line */
+.brick-row{
+  min-width:0;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  white-space:nowrap;
+  overflow:hidden;
+}
+
+.brick-title{
+  font-weight:800;
+  font-size:18px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* Replacement styling (contract) */
+.swap .old{ text-decoration:line-through; opacity:.65; }
+.swap .arrow{ opacity:.65; margin:0 6px; }
+.swap .new{ font-weight:800; }
+
+/* Maple chip */
+.chip{
+  font-size:12px;
+  line-height:1;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.25);
+  background:rgba(255,255,255,.12);
+  color:#fff;
+  white-space:nowrap;
+  flex:none;
+}
+.chip--maple{
+  background:#0f2a5b;
+  border-color:#7ec3ff;
+  color:#e8f4ff;
+  box-shadow:0 0 8px rgba(126,195,255,.25);
+}
+
+/* Time pill — start time ONLY, equal width, centered */
+.brick-time{
+  font:800 13px/1 "Inter", system-ui, sans-serif;
+  padding:8px 0;
+  border-radius:8px;
+  background:#0d1d40;
+  border:1px solid #2e4f8f;
+  color:#f2f7ff;
+  letter-spacing:.02em;
+
+  width:var(--time-width);
+  flex:0 0 var(--time-width);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.06),
+    0 6px 14px rgba(0,0,0,.45);
+}
+
+/* Slight bumps on wider screens */
+@media (min-width:431px){
+  .brick-title{ font-size:17px; }
+  .brick-time{ font-size:14px; }
+}

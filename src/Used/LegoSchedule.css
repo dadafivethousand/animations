@@ -1,0 +1,119 @@
+/* LegoSchedule.css — title styled like LEGO logo */
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Montserrat:wght@700;800;900&display=swap');
+
+:root{
+  --lego-yellow:#ffe000;
+  --lego-red:#d70010;
+  --lego-red-dark:#a3000c;
+  --outline:#111;
+  --panel:#fff;
+  --ink:#111;
+  --ink-dim:#666;
+  --green:#19c37d;
+  --shadow: 0 14px 28px rgba(0,0,0,.18);
+}
+
+*{ box-sizing:border-box; }
+html,body,#root{ height:100%; }
+body{ margin:0; background:#f5f6fb; color:var(--ink); }
+
+.lego2-wrap{
+  min-height:100dvh;
+  padding: 90px 14px 20px;
+  position:relative;
+  overflow:hidden;
+  background: var(--lego-yellow);
+}
+.lego2-wrap::before{
+  content:"";
+  position:absolute; inset:-20% -40% -20% auto;
+  width: 18%;
+  transform: rotate(10deg);
+  background: #ff7a00;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,.25));
+}
+
+/* ====== NEW: LEGO-style DAY BADGE ====== */
+.lego2-head{ display:flex; justify-content:center; margin-bottom: 10px; }
+.lego2-logo{
+  background: linear-gradient(180deg,var(--lego-red),var(--lego-red-dark));
+ 
+  padding: 6px 16px 10px;
+  border: 4px solid var(--outline);
+  box-shadow:
+  inset 0 4px 6px rgba(255, 255, 255, 0.4),   /* top inner highlight */
+  inset 0 -6px 6px rgba(0, 0, 0, 0.25),       /* bottom inner shadow */
+  0 4px 0 var(--outline),                     /* hard outline (like LEGO border) */
+  0 6px 8px rgba(0, 0, 0, 0.35),              /* main drop shadow */
+  0 12px 15px rgba(0, 0, 0, 0.25);    
+}
+.lego2-logoText{
+  font-family: Bangers, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-size: clamp(36px, 12vw, 60px);
+  line-height: 1;
+  color:#fff;
+  text-transform: uppercase;
+
+  /* thick black stroke */
+  -webkit-text-stroke: 6px #000;
+
+  /* yellow ring outside the stroke (approximation) */
+  filter:
+    drop-shadow(0 0 0 var(--lego-yellow))
+    drop-shadow(0 0 6px var(--lego-yellow))
+    drop-shadow(0 2px 0 #000);
+
+  /* extra crisp outline using layered shadows */
+  text-shadow:
+    0 0 0 #000,
+    0 2px 0 #000,
+    2px 0 0 #000,
+    -2px 0 0 #000,
+    0 -2px 0 #000;
+}
+
+/* panel + rows (unchanged) */
+.lego2-panel{
+  width: 100%;
+  max-width: 520px;
+  margin: 10px auto 0;
+  background: var(--panel);
+  border-radius: 18px;
+  border: 3px solid var(--outline);
+  box-shadow: var(--shadow);
+  padding: 10px 10px 12px;
+  margin-top:50px;
+}
+.lego2-row{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding: 10px 12px; border: 2px solid var(--outline);
+  border-radius: 12px; background:#fff; box-shadow: 0 4px 0 var(--outline);
+  transform: translateY(12px) scale(.98); opacity:0;
+}
+.lego2-row + .lego2-row{ margin-top: 8px; }
+.lego2-in{ animation: popUp .22s cubic-bezier(.2,.9,.2,1) forwards; }
+@keyframes popUp{ to{ opacity:1; transform: translateY(0) scale(1); } }
+
+.lego2-left{ display:flex; align-items:center; gap:10px; min-width:0; }
+.lego2-name{ font-family: Montserrat, sans-serif; font-weight:900; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+.lego2-swap{ display:inline-flex; align-items:center; gap:6px; }
+.lego2-old{ color:var(--ink-dim); text-decoration: line-through; text-decoration-thickness:3px; }
+.lego2-arrow{ font-weight:900; }
+.lego2-new{ background:#fff3b0; border:2px solid var(--outline); border-radius:8px; padding:2px 6px; box-shadow:0 2px 0 var(--outline); }
+
+.lego2-sticker{
+  font-family: Montserrat, sans-serif; font-weight:900; font-size:12px;
+  color:#0b3b24; background: var(--green);
+  border:2px solid var(--outline); border-radius:10px; padding:2px 8px; box-shadow:0 3px 0 var(--outline); transform: rotate(-6deg); white-space:nowrap;
+}
+.lego2-bubble{
+  font-family: Montserrat, sans-serif; font-weight:900; font-size:13px; color:var(--outline);
+  background:#fff; border:3px solid var(--outline); border-radius:999px; padding:6px 10px; box-shadow:0 4px 0 var(--outline); white-space:nowrap;
+}
+
+@media (max-width: 360px){
+  .lego2-name{ font-size:14px; }
+  .lego2-bubble{ font-size:12px; padding:5px 8px; }
+  .lego2-sticker{ font-size:11px; padding:2px 6px; }
+}

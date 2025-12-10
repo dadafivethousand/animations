@@ -1,28 +1,28 @@
+// FastFuriousSchedule.jsx
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/FastFuriousSchedule.css";
-import schedule from "../Schedule"; // Assuming schedule data exists
+import "./FastFuriousSchedule.css";
+import schedule from "../RhSchedule";
 
 function FastFuriousSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
-    setTimeout(() => {
-      setShowSchedule(true);
-    }, animationDelay);
+    const t = setTimeout(() => setShowSchedule(true), animationDelay);
+    return () => clearTimeout(t);
   }, [animationDelay]);
 
   useEffect(() => {
-    if (showSchedule) {
-      const classes = schedule[day] || [];
-      if (classes.length === 0) return;
-
-      classes.forEach((_, idx) => {
-        setTimeout(() => {
-          setVisibleArray((prev) => [...prev, idx]);
-        }, idx * animationInterval);
-      });
-    }
+    if (!showSchedule) return;
+    const classes = schedule[day] || [];
+    const timers = [];
+    classes.forEach((_, idx) => {
+      const t = setTimeout(() => {
+        setVisibleArray((prev) => [...prev, idx]);
+      }, idx * animationInterval);
+      timers.push(t);
+    });
+    return () => timers.forEach(clearTimeout);
   }, [showSchedule, day, animationInterval]);
 
   const formatTime = (decimalTime) => {
@@ -36,20 +36,26 @@ function FastFuriousSchedule({ day, animationDelay = 1000, animationInterval = 5
 
   return (
     <div className="fastfurious-container">
-      <h1 className="fastfurious-day"> <br></br>{day.toUpperCase()} <br></br></h1>
+      <h1 className="fastfurious-day"><br />{day.toUpperCase()}<br /></h1>
+
       <div className="fastfurious-schedule">
-        {schedule[day]?.map((cls, idx) => (
-          visibleArray.includes(idx) && (
+        {(schedule[day] || []).map((cls, idx) =>
+          visibleArray.includes(idx) ? (
             <div key={idx} className="fastfurious-class animated-entry">
-              <span className="fastfurious-class-name"> {cls.name}</span>
+              <div className="ff-left">
+                <span className="fastfurious-class-name">{cls.name}</span>
+                {cls.maple && (
+                  <span className="ff-maple">
+                    <span className="ff-pin" aria-hidden>📍</span>
+                    MAPLE
+                  </span>
+                )}
+              </div>
               <span className="fastfurious-class-time">⏱️ {formatTime(cls.start)}</span>
             </div>
-          )
-        ))}
+          ) : null
+        )}
       </div>
-
-      {/* 🏁 Speedometer & NOS Effect */}
-    
     </div>
   );
 }

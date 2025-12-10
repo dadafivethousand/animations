@@ -1,61 +1,56 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/MinionSchedule.css";
-import schedule from "../Schedule"; // -> { Monday: [{ name, start }, ...], Tuesday: [...], etc. }
+import schedule from "../Schedule";
 
-function MinionSchedule({ day }) {
-  const [fadeIn, setFadeIn] = useState(false);
-  const [visibleItems, setVisibleItems] = useState([]);
+function MinionSchedule({ day, delay = 1600 }) {
+  const [visibleClasses, setVisibleClasses] = useState([]);
+  const [displayDay, setDisplayDay] = useState("");
 
-  // 1) On mount, fade in after short delay
   useEffect(() => {
-    const fadeTimer = setTimeout(() => setFadeIn(true), 500);
-    return () => clearTimeout(fadeTimer);
-  }, []);
+    const timer = setTimeout(() => {
+      let i = 0;
+      const typeInterval = setInterval(() => {
+        setDisplayDay(day.substring(0, i + 1));
+        i++;
+        if (i > day.length) clearInterval(typeInterval);
+      }, 55);
+    }, delay);
+    return () => clearTimeout(timer);
+  }, [day, delay]);
 
-  // 2) Reveal each schedule item one-by-one
   useEffect(() => {
-    if (!fadeIn) return;
+    const classes = schedule[day] || [];
+    const animationDelay = setTimeout(() => {
+      classes.forEach((_, idx) => {
+        setTimeout(() => {
+          setVisibleClasses((prev) => [...prev, idx]);
+        }, idx * 180);
+      });
+    }, 1000 + delay);
 
-    const items = schedule[day] || [];
-    items.forEach((_, idx) => {
-      setTimeout(() => {
-        setVisibleItems((prev) => [...prev, idx]);
-      }, idx * 400); // 400ms apart
-    });
-  }, [fadeIn, day]);
+    return () => clearTimeout(animationDelay);
+  }, [day, delay]);
 
-  // Time formatting helper
   const formatTime = (decimalTime) => {
     const hour = Math.floor(decimalTime);
     const minutes = Math.round((decimalTime - hour) * 60);
-    const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+    const hour12 = hour % 12 || 12;
     const amPm = hour < 12 ? "AM" : "PM";
-    const paddedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-    return `${hour12}:${paddedMinutes} ${amPm}`;
+    return `${hour12}:${minutes.toString().padStart(2, "0")} ${amPm}`;
   };
 
   return (
-    <div className="minion-blueprint">
-      {/* Big Minion silhouette in background, day label at top */}
-      <div className={`minion-header ${fadeIn ? "visible" : ""}`}>
-        <h1 className="minion-day-title">
-          {day.toUpperCase()} SCHEDULE
-        </h1>
-      </div>
-
-      {/* Schedule items with banana bullets */}
-      <div className="minion-schedule-list">
-        {(schedule[day] || []).map((cls, idx) => (
-          visibleItems.includes(idx) && (
-            <div key={idx} className="minion-schedule-item">
-              <div className="banana-bullet">🍌</div>
-              <div className="minion-class-name">{cls.name}</div>
-              <div className="minion-class-time">
-                {formatTime(cls.start)}
-              </div>
+    <div className="minion-container">
+      <div className="minion-day">{displayDay}</div>
+      <div className="minion-schedule">
+        {(schedule[day] || []).map((cls, idx) =>
+          visibleClasses.includes(idx) ? (
+            <div className="minion-class" key={idx}>
+              <span className="minion-name">{cls.name}</span>
+              <span className="minion-time">{formatTime(cls.start)}</span>
             </div>
-          )
-        ))}
+          ) : null
+        )}
       </div>
     </div>
   );

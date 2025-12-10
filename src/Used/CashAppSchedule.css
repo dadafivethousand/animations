@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700;800&display=swap');
+
+:root{
+  --cash-green:#00d632;
+  --cash-green-deep:#00b82c;
+  --ink:#e9f7ef;
+  --bg:#0a0f0a;
+  --card:#0f1410;
+  --border:#182118;
+  --shadow:0 8px 20px rgba(0,0,0,.35);
+}
+
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+
+.cashapp-wrap{
+  min-height:100vh;
+
+  width:100vw;
+  background:
+    radial-gradient(1200px 600px at 50% -20%, rgba(0,214,50,.13), transparent 60%),
+    radial-gradient(800px 480px at 120% 20%, rgba(0,214,50,.08), transparent 70%),
+    var(--bg);
+  color:var(--ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:14px 14px 24px;
+  font-family:"Rubik", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  padding-top:70px;
+}
+
+.cashapp-header{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  align-items:center;
+  justify-content: center;
+ 
+  padding:6px 2px 10px;
+    font-size: 25px;
+}
+
+.cashapp-icon{
+  width:32px;
+  height:32px;
+  border-radius:8px;
+  display:flex;
+ justify-content: center;
+   align-items:center;
+  background:var(--cash-green);
+  color:#061006;
+  font-weight:800;
+  box-shadow:0 6px 14px rgba(0,214,50,.35);
+ 
+font-size: 20px;
+}
+
+.cashapp-day{
+  font:800 18px/1.1 "Rubik", system-ui, sans-serif;
+  letter-spacing:.06em;
+  color:#eaffed;
+    font-size: 35px;
+}
+
+.cashapp-list{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.cashapp-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 12px;
+  border-radius:14px;
+  background:
+    linear-gradient(180deg, rgba(0,214,50,.10), rgba(0,214,50,.00)),
+    var(--card);
+  border:1px solid var(--border);
+  opacity:0;
+  transform:translateY(8px);
+  box-shadow:var(--shadow);
+  width:80%;
+  margin: 0 auto;
+}
+
+.cashapp-in{ animation:cashapp-rise .22s ease-out forwards; }
+@keyframes cashapp-rise{ to{ opacity:1; transform:translateY(0); } }
+
+.cashapp-left{ min-width:0; display:flex; align-items: center; justify-content:center ; gap: 5px; }
+
+.cashapp-title{
+  font-weight:800;
+  font-size:16px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  color:#f4fff7;
+  letter-spacing:.01em;
+}
+
+/* Reuse contract classes for replacement + tags */
+.swap .old{ text-decoration:line-through; opacity:.65; }
+.swap .arrow{ opacity:.6; margin:0 6px; }
+.swap .new{ font-weight:700; }
+
+.tags{ display:flex; gap:6px; margin-top:2px; }
+.chip{
+  font-size:12px;
+  line-height:1;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.06);
+  color:#f0fff5;
+  white-space:nowrap;
+}
+.chip--maple{
+  background:#0e2a12;
+  border-color:rgba(0, 171, 40, 0.55);
+  color:#cfffdc;
+  box-shadow:0 0 10px rgba(0,214,50,.22);
+}
+
+.cashapp-time{
+  font:800 13px/1 "Rubik", system-ui, sans-serif;
+  padding:8px 10px;
+  border-radius:10px;
+  background:#0b1a0e;
+  border:1px solid #133a1c;
+  color:#dbffe7;
+  letter-spacing:.02em;
+  white-space:nowrap;
+  box-shadow:inset 0 0 0 1px rgba(0,214,50,.18), 0 4px 10px rgba(0,0,0,.35);
+}
+
+/* Optional alternate Maple-under-card layout
+.maple-row{
+  margin-top:8px;
+  padding:6px 10px;
+  border-radius:0 0 10px 10px;
+  background:#0d2212;
+  border-top:1px solid #153a1d;
+  color:#caffdf;
+  font-weight:700;
+}
+*/
+
+@media (min-width:431px){
+  .cashapp-title{ font-size:17px; }
+  .cashapp-time{ font-size:14px; }
+}
+
+.cashapp-card:active{
+  transform:translateY(10px) scale(.995);
+  transition:transform .06s ease;
+  box-shadow:0 2px 10px rgba(0,0,0,.35);
+}
+
+.cashapp-wrap, .cashapp-card, .cashapp-time, .chip--maple{
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}

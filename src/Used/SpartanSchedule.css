@@ -1,4 +1,3 @@
-/* 300 Spartan Premium Theme - NO External Images */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap');
 
 :root {
@@ -10,7 +9,6 @@
   --shadow-dark: rgba(0, 0, 0, 0.7);
 }
 
-/* Full-Screen Spartan Background */
 .spartan-container {
   background: linear-gradient(120deg, var(--spartan-dark), var(--stone-gray));
   height: 100vh;
@@ -22,28 +20,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
- }
-
-/* Subtle Fog Effect */
- 
-
-/* Cinematic Fog Motion */
-@keyframes fogMove {
-  0% {
-    transform: translateY(5px);
-    opacity: 0.7;
-  }
-  50% {
-    transform: translateY(-5px);
-    opacity: 0.8;
-  }
-  100% {
-    transform: translateY(5px);
-    opacity: 0.7;
-  }
 }
 
-/* Spartan Title */
 .spartan-title {
   font-size: 3rem;
   font-weight: bold;
@@ -54,35 +32,31 @@
   transform: scale(0.8);
   transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
   z-index: 10;
- 
 }
+.spartan-title.spartan-visible { opacity: 1; transform: scale(1); }
 
-.spartan-title.spartan-visible {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* Schedule Box */
+/* schedule container (unchanged behavior) */
 .spartan-schedule {
- 
-   transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
   z-index: 10;
 }
 
-.spartan-schedule.spartan-visible {
-  opacity: 1;
-  transform: scale(1);
+/* wrap each circle + maple plaque vertically */
+.spartan-card-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 8px 0;
 }
 
-/* Class Containers */
+/* class circle (unchanged visuals) */
 .spartan-class {
   background: linear-gradient(135deg, rgba(48, 17, 17, 0.9), rgba(85, 30, 30, 0.85));
   padding: 25px;
-  margin: 15px auto;
+  margin: 6px auto 0;
   width: 100px;
-  height:100px;
+  height: 100px;
   border-radius: 50%;
-   font-size: 1.1rem;
+  font-size: 1.1rem;
   text-align: center;
   box-shadow: 0px 10px 25px var(--shadow-dark);
   color: var(--text-light);
@@ -98,24 +72,31 @@
   justify-content: center;
   align-items: center;
 }
-
-/* Glowing Gold Edge */
- 
-
-/* Fade- Animation for Schedule */
-.spartan-class.spartan-fade-in {
-  animation: fadeIn 1s ease-in-out forwards;
-}
+.spartan-class.spartan-fade-in { animation: fadeIn 1s ease-in-out forwards; }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
+/* maple plaque attaches under the circle */
+.spartan-maple {
+  margin-top: 2px;
+  padding: 6px 10px;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  background: rgba(60, 32, 32, 0.85);
+  color: var(--text-light);
+  border: 2px solid var(--spartan-gold);
+  border-top: none;                 /* visually attached */
+  border-radius: 0 0 12px 12px;     /* curve to match circle vibe */
+  box-shadow: 0 6px 18px var(--shadow-dark), inset 0 0 8px rgba(184,134,11,0.25);
+  transform: translateY(-2px);      /* hide seam with circle border */
+  min-width: 140px;                 /* a bit wider than the circle */
+  text-transform: uppercase;
+}
 
+/* class text inside circle */
+.spartan-class-text {
+  line-height: 1.1;
+}

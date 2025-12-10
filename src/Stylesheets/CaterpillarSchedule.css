@@ -1,0 +1,319 @@
+/* CaterpillarSchedule.css */
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@500;600;700&display=swap");
+
+:root {
+  --cat-yellow: #f2c230;          /* CAT yellow */
+  --cat-yellow-dark: #b58707;
+  --cat-black: #111111;
+  --cat-steel: #2b2f36;
+  --cat-ink: #f9fafb;
+  --cat-muted: #d1d5db;
+
+  --cat-card: #1b1e24;
+  --cat-border: #383d45;
+  --cat-shadow: 0 18px 42px rgba(0, 0, 0, 0.9);
+
+  --cat-stripe: rgba(0, 0, 0, 0.24);
+}
+
+/* Reset-ish */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* Root wrapper */
+.caterpillar-wrap {
+  min-height: 100vh;
+  width: 100vw;
+  color: var(--cat-ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 12px 32px;
+  padding-top: 100px; /* user preference */
+
+  background:
+    radial-gradient(1100px 520px at 0% 0%, rgba(242, 194, 48, 0.18), transparent 70%),
+    radial-gradient(1100px 520px at 100% 120%, rgba(17, 17, 17, 0.9), transparent 70%),
+    linear-gradient(180deg, #201f20, #050507),
+    /* hazard stripes overlay */
+    repeating-linear-gradient(
+      -45deg,
+      var(--cat-stripe) 0,
+      var(--cat-stripe) 6px,
+      transparent 6px,
+      transparent 14px
+    );
+}
+
+/* Header */
+.caterpillar-header {
+  width: 100%;
+  max-width: 560px;
+  padding: 10px 4px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  backdrop-filter: blur(14px);
+  background: linear-gradient(
+    180deg,
+    rgba(17, 17, 17, 0.96),
+    rgba(5, 5, 7, 0.96)
+  );
+  border-bottom: 1px solid rgba(56, 61, 69, 0.85);
+  text-align: center;
+}
+
+/* Day label – heavy industrial header */
+.caterpillar-day {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 20px;
+  font-family: "Oswald", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  border-radius: 6px;
+  color: var(--cat-black);
+  background:
+    linear-gradient(180deg, var(--cat-yellow), #f0b714);
+  box-shadow:
+    0 2px 0 #6d4b00,
+    0 8px 18px rgba(0, 0, 0, 0.9);
+  position: relative;
+}
+
+/* small black underline bar */
+.caterpillar-day::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 4px;
+  border-radius: 999px;
+  background: #000000;
+}
+
+/* List (80% width) */
+.caterpillar-list {
+  width: 80%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+/* Card */
+.caterpillar-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 16px;
+  min-height: 56px;
+
+  border-radius: 10px;
+  background:
+    radial-gradient(240px 120px at 0% 0%, rgba(242, 194, 48, 0.18), transparent 70%),
+    radial-gradient(240px 120px at 100% 100%, rgba(40, 40, 40, 0.7), transparent 70%),
+    linear-gradient(150deg, #1c1f26, #090a0c);
+  border: 1px solid var(--cat-border);
+  box-shadow: var(--cat-shadow);
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(14px) scale(0.97);
+
+  transition:
+    transform 0.2s ease-out,
+    box-shadow 0.2s ease-out,
+    border-color 0.2s ease-out,
+    background 0.2s ease-out;
+}
+
+/* top & bottom bevel / wear */
+.caterpillar-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.06),
+      transparent 40%,
+      transparent 60%,
+      rgba(0, 0, 0, 0.45)
+    );
+  opacity: 0.85;
+}
+
+/* left “steel beam” */
+.caterpillar-card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 5px;
+  border-radius: 0 4px 4px 0;
+  background: linear-gradient(
+    180deg,
+    #facc15,
+    #f97316,
+    #facc15
+  );
+}
+
+/* Entry animation – slight rumble */
+.caterpillar-in {
+  animation: cat-rise 0.26s cubic-bezier(0.23, 1, 0.32, 1) forwards,
+             cat-rumble 1.2s ease-in-out 0.26s infinite;
+}
+
+@keyframes cat-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* subtle vibration like heavy machinery idle */
+@keyframes cat-rumble {
+  0%   { transform: translateY(0)      translateX(0); }
+  20%  { transform: translateY(-0.5px) translateX(0.5px); }
+  40%  { transform: translateY(0.5px)  translateX(-0.5px); }
+  60%  { transform: translateY(-0.5px) translateX(0); }
+  80%  { transform: translateY(0.5px)  translateX(0.5px); }
+  100% { transform: translateY(0)      translateX(0); }
+}
+
+/* Hover */
+.caterpillar-card:hover {
+  transform: translateY(-1px) scale(1.01);
+  box-shadow:
+    0 22px 52px rgba(0, 0, 0, 0.98),
+    0 0 0 1px rgba(250, 204, 21, 0.7);
+  border-color: rgba(250, 204, 21, 0.85);
+}
+
+/* Left row: title + maple inline */
+.caterpillar-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+}
+
+/* Title/Name — ellipsis */
+.caterpillar-title {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  color: var(--cat-ink);
+}
+
+/* Replacement styling */
+.caterpillar-swap .caterpillar-old {
+  text-decoration: line-through;
+  opacity: 0.65;
+}
+
+.caterpillar-swap .caterpillar-arrow {
+  opacity: 0.75;
+  margin: 0 6px;
+}
+
+.caterpillar-swap .caterpillar-new {
+  font-weight: 800;
+  color: #fef9c3;
+}
+
+/* Maple chip inline – jobsite tag */
+.caterpillar-chip {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(250, 204, 21, 0.9);
+  background: rgba(250, 204, 21, 0.16);
+  color: #fefce8;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.95),
+    0 0 10px rgba(250, 204, 21, 0.5);
+}
+
+/* Time block: fixed width 90px */
+.caterpillar-time {
+  position: relative;
+  font-family: "Oswald", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+  white-space: nowrap;
+  text-align: center;
+  width: 90px;
+  flex: 0 0 90px;
+  padding: 6px 8px;
+  border-radius: 8px;
+
+  background:
+    linear-gradient(180deg, #000000, #111827);
+  border: 1px solid rgba(248, 250, 252, 0.5);
+  color: var(--cat-yellow);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.95),
+    0 0 14px rgba(250, 204, 21, 0.6);
+}
+
+/* small bolt / rivet icon on time pill */
+.caterpillar-time::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 2px;
+  border: 1px solid rgba(248, 250, 252, 0.8);
+  background: linear-gradient(135deg, #4b5563, #9ca3af);
+}
+
+/* Slightly larger screens */
+@media (min-width: 481px) {
+  .caterpillar-card {
+    padding: 14px 20px;
+  }
+}

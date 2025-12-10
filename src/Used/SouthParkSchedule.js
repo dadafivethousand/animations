@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/SouthParkSchedule.css";
-import schedule from "../Schedule"; // Assuming schedule data exists
-import southParkImage from "../Images/Trending GIF eric cartman stan marsh kyle broflovski south park kenny mccormick unsure question unknown who are you.gif"
+import "./SouthParkSchedule.css";
+import schedule from "../RhSchedule"; // Assuming schedule data exists
+import southParkImage from "../Images/Used/Trending GIF eric cartman stan marsh kyle broflovski south park kenny mccormick unsure question unknown who are you.gif"
 
 function SouthParkSchedule({ day, animationDelay = 1000, animationInterval = 500 }) {
   const [showSchedule, setShowSchedule] = useState(false);
@@ -44,9 +44,13 @@ function SouthParkSchedule({ day, animationDelay = 1000, animationInterval = 500
           {schedule[day]?.map((cls, idx) => (
             visibleArray.includes(idx) && (
               <div key={idx} className="southpark-class animated-entry">
-                <span className="southpark-class-name">{cls.name}</span>
+                <div> 
+                <span className="southpark-class-name">{cls.name}</span> <br></br>
+                          <span className="southpark-maple southpark-class-name ">{cls.maple && '📍 Maple Location'}</span>
+                                   </div>
                 <span className="southpark-class-time">{formatTime(cls.start)}</span>
               </div>
+     
             )
           ))}
         </div>

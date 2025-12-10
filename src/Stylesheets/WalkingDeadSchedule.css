@@ -1,0 +1,334 @@
+/* WalkingDeadSchedule.css — upgraded Walking Dead vibe (green palette)
+   - mobile first
+   - centered weekday (30px)
+   - list 80% width
+   - left row flex layout and inline MAPLE chip
+   - fixed 90px time pill
+   - film-grain, torn edges, mossy/decay green accents
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&family=Roboto:wght@400;700&display=swap");
+
+:root{
+  --wd2-bg-0: #08100e;        /* deep soot */
+  --wd2-ink: #e9f3ec;         /* pale warm text */
+  --wd2-muted: #9aa499;       /* desaturated green/gray */
+  --wd2-moss: #6b8b48;        /* moss/olive green */
+  --wd2-sick: #8aa059;        /* sickly green accent */
+  --wd2-deep: #27412a;        /* deep forest green */
+  --wd2-metal: #5a5a5a;
+  --wd2-card: #0f1312;        /* card surface */
+  --wd2-border: rgba(255,255,255,.03);
+  --wd2-shadow: 0 20px 50px rgba(0,0,0,.7);
+
+  --wd2-list-width: 80%;
+  --wd2-time-width: 90px;
+  --wd2-card-height: 68px;
+}
+
+/* base reset */
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+
+html,body,#root{ height:100%; background: linear-gradient(180deg, #060707, #0e120f); }
+
+.walkingdead2-wrap{
+  min-height:100vh;
+  width:100%;
+  background:
+    radial-gradient(800px 240px at 10% 0%, rgba(34,50,34,0.04), transparent 30%),
+    radial-gradient(700px 220px at 90% 100%, rgba(30,30,30,0.04), transparent 30%),
+    linear-gradient(180deg, #060706, #0e120f);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:18px;
+  padding-top:56px; /* >=50px */
+  color:var(--wd2-ink);
+  font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+  position:relative;
+  overflow-x:hidden;
+}
+
+/* film grain overlay */
+.walkingdead2-wrap::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'><circle cx='1' cy='1' r='0.6' fill='rgba(255,255,255,0.02)'/></svg>");
+  opacity:.5;
+  pointer-events:none;
+  mix-blend-mode:overlay;
+}
+
+/* header with poster stack — desaturated, torn mask, parallax hint */
+.walkingdead2-header{
+  width:100%;
+  max-width:980px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  margin-bottom:6px;
+  position:relative;
+  z-index:2;
+}
+
+/* poster stack */
+.walkingdead2-poster-stack{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  justify-content:center;
+  pointer-events:none;
+  filter:grayscale(100%) contrast(.85) brightness(.8) sepia(.08);
+  opacity:.16;
+  transform:translateZ(0);
+}
+
+/* torn-edge posters look */
+.walkingdead2-poster{
+  width:130px;
+  height:170px;
+  object-fit:cover;
+  border-radius:6px;
+  box-shadow: 0 20px 50px rgba(0,0,0,.6);
+  border: 2px solid rgba(255,255,255,.02);
+  transform-origin:center;
+  transition: transform .45s cubic-bezier(.2,.9,.2,1), opacity .35s;
+  mask-image: linear-gradient(180deg, black 0 92%, transparent 100%);
+}
+
+/* slight tilt */
+.walkingdead2-poster.left{ transform: rotate(-6deg) translateY(4px); }
+.walkingdead2-poster.right{ transform: rotate(6deg) translateY(0); }
+
+/* big centered day — slab serif for presence */
+.walkingdead2-day{
+  margin:0;
+  font-family: "Roboto Slab", serif;
+  font-weight:700;
+  font-size:30px; /* required larger weekday */
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--wd2-moss);
+  padding:8px 18px;
+  border-radius:6px;
+  background: linear-gradient(180deg, rgba(106,139,69,0.04), rgba(138,160,88,0.02));
+  box-shadow: 0 6px 18px rgba(0,0,0,.6);
+  border:1px solid rgba(255,255,255,.02);
+  text-shadow: 0 2px 0 rgba(0,0,0,.7);
+  z-index:3;
+}
+
+/* list container */
+.walkingdead2-list{
+  width:var(--wd2-list-width);
+  max-width:980px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:12px;
+  align-items:center;
+  z-index:2;
+}
+
+/* card: rugged plate with moss/blood smear and cracked asphalt texture */
+.walkingdead2-card{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  min-height:var(--wd2-card-height);
+  border-radius:10px;
+  position:relative;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.002)),
+    linear-gradient(180deg, #0f1312, #0b0c0b);
+  border:1px solid var(--wd2-border);
+  box-shadow: var(--wd2-shadow);
+  overflow:hidden;
+  transform: translateY(10px);
+  opacity:0;
+}
+
+/* cracked asphalt / grime inset */
+.walkingdead2-card::before{
+  content:"";
+  position:absolute;
+  left:-24px;
+  top:-24px;
+  width:180%;
+  height:60%;
+  background: radial-gradient(120px 40px at 50% 100%, rgba(0,0,0,0.22), transparent 30%);
+  transform: rotate(-2deg);
+  opacity:.18;
+  pointer-events:none;
+  mix-blend-mode:multiply;
+}
+
+/* moss smear accent (top-right) */
+.walkingdead2-card::after{
+  content:"";
+  position:absolute;
+  right:-40px;
+  top:-10px;
+  width:220px;
+  height:80px;
+  background: linear-gradient(90deg, rgba(34,58,24,0.0), rgba(106,139,69,0.10) 40%, rgba(106,139,69,0.24));
+  transform: rotate(18deg) skewX(-8deg);
+  filter: blur(2px);
+  opacity:.14;
+  pointer-events:none;
+}
+
+/* bolt / rivet decoration */
+.walkingdead2-bolt{
+  position:absolute;
+  right:12px;
+  top:50%;
+  width:8px;
+  height:8px;
+  border-radius:2px;
+  background:linear-gradient(180deg,#46554a,#232926);
+  box-shadow: 0 2px 6px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.02);
+  transform: translateY(-50%);
+  opacity:.9;
+  pointer-events:none;
+}
+
+/* in animation (staggered via inline style delay) */
+.walkingdead2-in{ animation: wd2-rise .34s cubic-bezier(.2,.9,.2,1) forwards; }
+@keyframes wd2-rise{
+  from{ opacity:0; transform: translateY(10px) scale(.995); filter: blur(.6px); }
+  to{ opacity:1; transform: translateY(0) scale(1); filter: none; }
+}
+
+/* left container that holds title + chips; must match spec */
+.walkingdead2-left{
+  min-width:0;
+  display:flex;                 /* as requested */
+  align-items:center;           /* center aligned */
+  justify-content:flex-start;   /* start-justified */
+  gap:12px;
+  flex:1 1 auto;
+  flex-wrap:nowrap;
+}
+
+/* title wrap to allow stacked smaller tag row */
+.walkingdead2-title-wrap{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  min-width:0;
+}
+
+/* title (big, bold, one-line) */
+.walkingdead2-title{
+  font-weight:700;
+  font-size:16px;
+  line-height:1.05;
+  color:var(--wd2-ink);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  letter-spacing:.01em;
+  text-shadow: 0 1px 0 rgba(0,0,0,.7);
+}
+
+/* replacement styling */
+.walkingdead2-swap .walkingdead2-old{ text-decoration:line-through; opacity:.6; color:var(--wd2-muted); }
+.walkingdead2-swap .walkingdead2-arrow{ opacity:.6; margin:0 6px; }
+.walkingdead2-swap .walkingdead2-new{ font-weight:800; color:var(--wd2-sick); }
+
+/* tags row inline (maple/cancelled chips) */
+.walkingdead2-tags{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+/* chip base */
+.walkingdead2-chip{
+  font-size:12px;
+  line-height:1;
+  padding:5px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,0.03);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005));
+  color:var(--wd2-muted);
+  white-space:nowrap;
+  flex:0 0 auto;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.02);
+  font-weight:700;
+  letter-spacing:.02em;
+}
+
+/* maple chip — mossy green readout */
+.walkingdead2-chip--maple{
+  border-color: rgba(106,139,69,0.18);
+  background: linear-gradient(180deg, rgba(106,139,69,0.06), rgba(106,139,69,0.02));
+  color:var(--wd2-moss);
+  box-shadow: 0 0 8px rgba(106,139,69,0.06);
+}
+
+/* cancelled chip — desaturated, stamped */
+.walkingdead2-chip--cancelled{
+  border-color: rgba(120,120,120,0.06);
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+  color: rgba(160,150,150,0.9);
+  text-transform:uppercase;
+  font-size:11px;
+  padding:4px 8px;
+}
+
+/* time pill — fixed width, centered text, worn metal look */
+.walkingdead2-time{
+  font:700 13px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color:#08100c;
+  background: linear-gradient(180deg, #dfe6d8, #d2dbc9);
+  border:1px solid rgba(106,139,69,0.14);
+  border-radius:10px;
+  padding:8px 6px;
+  width:var(--wd2-time-width);
+  flex:0 0 var(--wd2-time-width);
+  text-align:center;
+  box-shadow: 0 6px 18px rgba(0,0,0,.5);
+}
+
+/* cancelled card visual state — heavy strike + dim */
+.walkingdead2-card.is-cancelled{
+  filter: grayscale(.6) brightness(.75);
+  opacity:.95;
+}
+.walkingdead2-card.is-cancelled .walkingdead2-title,
+.walkingdead2-card.is-cancelled .walkingdead2-swap .walkingdead2-old,
+.walkingdead2-card.is-cancelled .walkingdead2-swap .walkingdead2-new{
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  text-decoration-color: rgba(138,160,88,0.9);
+}
+
+/* small screens tweaks to keep cards compact */
+@media (max-width: 420px){
+  .walkingdead2-poster{ width:100px; height:140px; opacity:.12; }
+  .walkingdead2-day{ font-size:28px; padding:6px 14px; }
+  .walkingdead2-title{ font-size:15px; }
+  .walkingdead2-time{ font-size:12px; padding:6px 6px; }
+  .walkingdead2-list{ gap:10px; }
+}
+
+/* larger screens add more grit and scale posters up */
+@media (min-width: 900px){
+  .walkingdead2-poster{ width:160px; height:200px; opacity:.2; }
+  .walkingdead2-day{ font-size:34px; color:var(--wd2-deep); }
+  .walkingdead2-card{ min-height:72px; padding:14px 18px; border-radius:12px; }
+  .walkingdead2-time{ width:var(--wd2-time-width); }
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .walkingdead2-in{ animation:none; opacity:1; transform:none; }
+  .walkingdead2-poster{ transition:none; transform:none; }
+}

@@ -1,15 +1,20 @@
+/* ZeldaSchedule.css */
 @import url('https://fonts.googleapis.com/css2?family=Uncial+Antiqua&display=swap');
 
 .zelda-wrapper {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #ffffff, #0f0e0c);
-  background-image: url("https://www.transparenttextures.com/patterns/parchment.png");
-  font-family: 'Uncial Antiqua', cursive;
   padding: 50px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-family: 'Uncial Antiqua', cursive;
   color: #e8d8a0;
+  background-color: #1a140d;
+  background-image:
+    url('https://www.transparenttextures.com/patterns/parchment.png'),
+    radial-gradient(circle at top, #4a3b1e 0%, #1a140d 100%);
+  background-blend-mode: overlay;
+  background-size: cover;
 }
 
 .zelda-day {
@@ -17,8 +22,7 @@
   letter-spacing: 2px;
   color: #d4b866;
   text-shadow: 0 0 10px #ffd700;
-  margin-bottom: 30px;
-  margin-top: 20px;
+  margin: 20px 0 30px;
 }
 
 .zelda-grid {
@@ -40,43 +44,64 @@
   animation: riseIn 0.5s ease forwards;
   opacity: 0;
   transform: translateY(20px);
+
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
+  gap: 12px;
 }
 
 @keyframes riseIn {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.zelda-left{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
 }
 
 .zelda-class {
   font-size: 1.4rem;
-   color: #fff2c0;
+  color: #fff2c0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .zelda-time {
   font-size: 1.1rem;
   color: #ffed95;
+  white-space: nowrap;
 }
 
+/* 📍 Maple badge (kept within the card) */
+.zelda-badge{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 10px;
+  font-size: 0.8rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: #140e05;
+  background: linear-gradient(180deg, #fff5cc, #e9d38f);
+  border: 1px solid #c9a642;
+  border-radius: 999px;
+  box-shadow: inset 0 0 6px rgba(255,255,255,0.25), 0 0 8px rgba(201,166,66,0.4);
+  white-space: nowrap;
+}
 
-.zelda-wrapper {
-    min-height: 100vh;
-    padding: 40px 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: 'Uncial Antiqua', cursive;
-    color: #e8d8a0;
-  
-    background-color: #1a140d;
-    background-image: 
-      url('https://www.transparenttextures.com/patterns/parchment.png'),
-      radial-gradient(circle at top, #4a3b1e 0%, #1a140d 100%);
-    background-blend-mode: overlay;
-    background-size: cover;
-  }
-  
+.zelda-pin{
+  line-height: 1;
+  filter: drop-shadow(0 0 3px rgba(201,166,66,0.6));
+}
+
+/* Responsive */
+@media (max-width: 480px){
+  .zelda-card{ padding: 12px 14px; }
+  .zelda-class{ font-size: 1.2rem; }
+  .zelda-time{ font-size: 1rem; }
+  .zelda-badge{ font-size: .72rem; padding: 2px 8px; }
+}

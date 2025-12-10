@@ -49,6 +49,7 @@
   gap: 2px;
 }
 
+/* class row */
 .sn-class {
   display: flex;
   justify-content: space-between;
@@ -61,8 +62,8 @@
   text-transform: uppercase;
   color: var(--class-text);
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
- width:60%;
- margin: 0 auto;
+  width: 80%;
+  margin: 0 auto;
   opacity: 0;
   animation: popIn 0.4s ease-out forwards;
   animation-delay: var(--delay);
@@ -74,11 +75,33 @@
   box-shadow: var(--hover-glow);
 }
 
+/* left stack: name + maple */
+.sn-left{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+}
+
 .sn-name,
 .sn-time {
   color: #000;
- 
   font-weight: bold;
+  white-space: nowrap;
+}
+
+/* MAPLE chip — high-contrast so it pops over the rainbow fill */
+.sn-chip{
+  font-size: 0.55em;                /* scales with big Bangers size */
+  letter-spacing: .06em;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 2px solid #000;
+  background: rgba(255,255,255,0.9);
+  color: #000;
+  text-transform: uppercase;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+  white-space: nowrap;
 }
 
 @keyframes bounce {
@@ -87,15 +110,12 @@
 }
 
 @keyframes popIn {
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
+  from { transform: scale(.96); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
 }
 
- 
 .tenor-gif-embed{
-    width:100vw;
-    height:50vh;
-    position: absolute;
+  width:100vw;
+  height:50vh;
+  position: absolute;
 }

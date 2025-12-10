@@ -1,8 +1,13 @@
+// GladiatorSchedule.js
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/GladiatorSchedule.css";
-import schedule from "../Schedule";
+import "./GladiatorSchedule.css";
+import schedule from "../RhSchedule";
 
-export default function GladiatorSchedule({ day, animationDelay = 1300, animationInterval = 150 }) {
+export default function GladiatorSchedule({
+  day,
+  animationDelay = 1300,
+  animationInterval = 150,
+}) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
@@ -24,12 +29,23 @@ export default function GladiatorSchedule({ day, animationDelay = 1300, animatio
 
   return (
     <div className="gladiator-wrapper">
-      <h3 className="gladiator-title">{day.toUpperCase()}</h3>
+      <h3 className="gladiator-title">{(day || "").toUpperCase()}</h3>
+
       <div className="gladiator-grid">
         {(schedule[day] || []).map((cls, idx) =>
           visibleArray.includes(idx) ? (
             <div className="gladiator-card" key={idx}>
-              <span className="gladiator-class">{cls.name}</span>
+              <div className="gladiator-left">
+                <span className="gladiator-class">{cls.name}</span>
+                {cls.maple && (
+                  <span className="gladiator-maple">
+                    <span className="gladiator-pin" aria-hidden>
+                      📍
+                    </span>
+                    MAPLE
+                  </span>
+                )}
+              </div>
               <span className="gladiator-time">{formatTime(cls.start)}</span>
             </div>
           ) : null

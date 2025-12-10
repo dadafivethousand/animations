@@ -1,0 +1,185 @@
+/* HeavyMetalSchedule.css — Slipknot/Korn vibe (drips, splatter, torn steel) */
+@import url('https://fonts.googleapis.com/css2?family=Nosifer&family=Chakra+Petch:wght@600;700&display=swap');
+
+.hm3-wrap, .hm3-wrap * { box-sizing: border-box; }
+
+/* ====== SAFE percent-encoded SVG masks/tex ====== */
+:root{
+  /* jagged tear for card spine */
+  --hm-torn-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 400' preserveAspectRatio='none'%3E%3Cpath d='M0,0 C6,26 10,58 6,90 C2,126 12,162 6,198 C2,236 10,272 6,308 C2,346 12,380 10,400 L0,400 Z' fill='%23000'/%3E%3C/svg%3E");
+
+  /* gritty noise for text/edges (used as mask) */
+  --hm-noise-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='7'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='2' intercept='-0.6'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ====== Canvas ====== */
+.hm3-wrap{
+  position: relative;
+  min-height: 100vh; width: 100vw; overflow-x: hidden;
+  padding: 84px 14px 22px;             /* mobile-first spacing */
+  background: #050607;                 /* void black */
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+  color: #f6f7f9;
+  isolation: isolate;
+}
+
+/* Deep vignette so red pops */
+.hm3-vignette{
+  position:absolute; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(0,0,0,.35), transparent 60%),
+    radial-gradient(120% 80% at 50% 100%, rgba(0,0,0,.45), transparent 55%),
+    radial-gradient(130% 120% at 50% 50%, rgba(0,0,0,.55), transparent 70%);
+}
+
+/* Blood-red splatter & smears (multiple radial spots) */
+.hm3-splatter{
+  position:absolute; inset:0; z-index:0; pointer-events:none; mix-blend-mode:screen;
+  background:
+    radial-gradient(220px 160px at 18% 12%, rgba(199,0,18,.28), transparent 70%),
+    radial-gradient(260px 180px at 82% 10%, rgba(255,0,36,.24), transparent 72%),
+    radial-gradient(200px 160px at 28% 78%, rgba(140,0,0,.22), transparent 70%),
+    radial-gradient(180px 160px at 70% 68%, rgba(255,30,0,.18), transparent 72%);
+  filter: saturate(1.15) contrast(1.02);
+}
+
+/* Torn red gutters left/right */
+.hm3-gutters{
+  position:absolute; inset:0; z-index:0; pointer-events:none;
+}
+.hm3-gutters::before,
+.hm3-gutters::after{
+  content:""; position:absolute; top:0; bottom:0; width:14px; background:#c5001a;
+  -webkit-mask-image: var(--hm-torn-mask); mask-image: var(--hm-torn-mask);
+  -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
+  box-shadow: 0 0 20px rgba(197,0,26,.35);
+}
+.hm3-gutters::before{ left:0; }
+.hm3-gutters::after{ right:0; transform: scaleX(-1); }
+
+/* ====== Header (dripping wordmark vibe) ====== */
+.hm3-head{ width:100%; max-width:760px; text-align:center; z-index:1; }
+.hm3-day{
+  margin:0 0 12px;
+  font-family: "Nosifer", system-ui, sans-serif; /* red drip font */
+  font-size: clamp(30px, 11vw, 70px);
+  line-height: .9;
+  letter-spacing: .02em;
+  color: #ff1229;
+  text-shadow:
+    0 1px 0 #000,
+    0 0 18px rgba(255,0,36,.36),
+    0 0 44px rgba(255,0,36,.22);
+  position: relative;
+  display: inline-block;
+  padding: 0 6px 6px;
+}
+/* scratch the glyph edges using a noise mask */
+.hm3-day{
+  -webkit-mask-image: var(--hm-noise-mask);
+          mask-image: var(--hm-noise-mask);
+  -webkit-mask-size: 240px 240px; mask-size: 240px 240px;
+}
+
+/* ====== List ====== */
+.hm3-list{
+  width:100%; max-width:760px; z-index:1;
+  display:flex; flex-direction:column; gap:10px;
+}
+
+/* ====== Cards: black steel plates with torn red spine ====== */
+.hm3-card{
+  position:relative; overflow:hidden;
+  display:flex; justify-content:space-between; align-items:center;
+  background:
+    radial-gradient(140% 100% at 10% 0%, rgba(255,255,255,.05), transparent 40%),
+    linear-gradient(180deg, #1b1e22, #121519); /* cold steel */
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 14px;
+  padding: 12px 14px;
+  color:#f6f7f9;
+  box-shadow: 0 12px 26px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.05);
+}
+.hm3-card::before{
+  content:""; position:absolute; left:0; top:0; bottom:0; width:12px; background:#c5001a;
+  -webkit-mask-image: var(--hm-torn-mask); mask-image: var(--hm-torn-mask);
+  -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
+  box-shadow: 0 0 16px rgba(197,0,26,.35);
+}
+
+/* left cluster */
+.hm3-left{ display:flex; align-items:center; gap:12px; min-width:0; }
+
+/* spine: double spike bar (no images) */
+.hm3-spine{
+  position:relative; width: 16px; height: 16px; flex:0 0 auto;
+}
+.hm3-spine::before,
+.hm3-spine::after{
+  content:""; position:absolute; left:0; right:0; margin:auto;
+  width: 0; height: 0;
+  border-left: 8px solid transparent; border-right: 8px solid transparent;
+}
+.hm3-spine::before{
+  border-bottom: 12px solid #e3e7eb; top:-1px;
+  filter: drop-shadow(0 0 2px rgba(255,255,255,.25));
+}
+.hm3-spine::after{
+  border-top: 12px solid #969ea6; bottom:-1px; opacity:.85;
+}
+
+/* text */
+.hm3-name{
+  font-family: "Chakra Petch", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(1rem, 4.4vw, 1.12rem);
+  letter-spacing:.01em; color:#ffffff;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+
+/* replacements */
+.hm3-swap{ display:inline-flex; align-items:center; gap:.45rem }
+.hm3-old{ opacity:.68; text-decoration: line-through; }
+.hm3-arrow{ opacity:.85; }
+.hm3-new{ color:#fff; }
+
+/* MAPLE chip — deep crimson tag */
+.hm3-chip{
+  margin-left:8px; white-space:nowrap;
+  font-family:"Chakra Petch", system-ui, sans-serif; font-weight:700;
+  font-size: clamp(.7rem, 2.8vw, .78rem);
+  letter-spacing:.1em; text-transform:uppercase; color:#140406;
+  background: linear-gradient(180deg, #ff4d60, #d11326);
+  border:1px solid #7e0a17; border-radius:999px; padding:3px 8px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 2px 0 rgba(0,0,0,.35);
+}
+
+/* time — equal width backstage pass with ripped holes */
+.hm3-time{
+  --hm3-time-w: 110px;                  /* set once for perfect alignment */
+  display:inline-block; width: var(--hm3-time-w); text-align:center;
+  font-family:"Chakra Petch", system-ui, sans-serif; font-weight:700;
+  font-variant-numeric: tabular-nums; font-feature-settings:"tnum" 1;
+  font-size: clamp(.94rem, 3.8vw, 1.02rem); line-height:1;
+  color:#07090b; background:#f2f5f8;
+  border: 2px solid #c5001a; border-radius:8px;
+  padding:6px 8px; white-space:nowrap;
+  position:relative;
+  box-shadow: 0 0 0 3px rgba(197,0,26,.22), inset 0 1px 0 rgba(255,255,255,.5);
+}
+.hm3-time::before,
+.hm3-time::after{
+  content:""; position:absolute; top:50%; transform:translateY(-50%);
+  width:8px; height:8px; border-radius:50%;
+  background:#050607; border:2px solid #c5001a;
+}
+.hm3-time::before{ left:-8px; }
+.hm3-time::after{ right:-8px; }
+
+/* phones */
+@media (max-width:420px){
+  .hm3-wrap{ padding: 74px 12px 18px; }
+  .hm3-card{ padding: 11px 12px; border-radius:12px; }
+  .hm3-left{ gap: 10px; }
+  .hm3-time{ --hm3-time-w: 104px; }
+}

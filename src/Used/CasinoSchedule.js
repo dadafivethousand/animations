@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/CasinoSchedule.css";
-import schedule from "../Schedule";
+import "./CasinoSchedule.css";
+import schedule from "../RhSchedule";
 
 export default function CasinoSchedule({ day, animationDelay = 1500, animationInterval = 250 }) {
   const [visibleArray, setVisibleArray] = useState([]);
@@ -19,7 +19,7 @@ export default function CasinoSchedule({ day, animationDelay = 1500, animationIn
     const minutes = Math.round((decimalTime - hour) * 60);
     const hour12 = hour % 12 === 0 ? 12 : hour % 12;
     const amPm = hour < 12 ? "AM" : "PM";
-    return `${hour12}:${minutes.toString().padStart(2, "0")} ${amPm}`;
+    return `${hour12}:${minutes.toString().padStart(2, "0")}  `;
   };
 
   const getChipColor = (index, total) => {
@@ -49,6 +49,7 @@ export default function CasinoSchedule({ day, animationDelay = 1500, animationIn
               <div className="chip-inner">
                 <span className="chip-class">{cls.name}</span>
                 <span className="chip-time">{formatTime(cls.start)}</span>
+                <span>PM</span>
               </div>
             </div>
           ) : null

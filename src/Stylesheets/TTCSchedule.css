@@ -1,0 +1,138 @@
+/* TTCSchedule.css — refined TTC look, dense for mobile */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Orbitron:wght@700&display=swap');
+
+:root{
+  --ttc-red:#DA291C;
+  --ttc-bg:#F7F6F2;
+  --ink:#0e1116;
+  --line:#e6e9ef;
+  --amber:#ffc107;
+  --card:#ffffff;
+  --shadow: 0 10px 24px rgba(0,0,0,.10);
+}
+
+*{ box-sizing:border-box; }
+html,body,#root{ height:100%; }
+body{ margin:0; background:var(--ttc-bg); color:var(--ink); }
+
+.ttc-wrap{
+  min-height:100dvh;
+  padding: 80px 10px 20px;
+  display:flex; flex-direction:column; align-items:center;
+}
+
+/* Crest bar */
+.ttc-top{
+  width:100%;
+  max-width:560px;
+  display:flex; justify-content:center; align-items:center;
+  background:var(--ttc-red);
+  border-top:6px double #fff;
+  border-bottom:6px double #fff;
+  border-radius:12px;
+  padding:6px 10px;
+  margin-bottom:10px;
+}
+.ttc-crest{
+  color:#fff;
+  font-family:"Barlow Condensed", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight:800; letter-spacing:.2em; font-size:18px;
+}
+
+/* LED day sign (dot-matrix) */
+.ttc-daysign{
+  width:100%;
+  max-width:560px;
+  border-radius:12px;
+  padding:12px 14px;
+  margin-bottom:10px;
+  background:
+    radial-gradient(#111 1px, transparent 1px) 0 0/6px 6px,
+    #000;
+  border:2px solid #222;
+}
+.ttc-daytext{
+  display:block;
+  font-family:"Orbitron", monospace;
+  font-size: clamp(18px, 7vw, 28px);
+  color: var(--amber);
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  text-align: center;
+  text-shadow:
+    0 0 6px rgba(255,193,7,.65),
+    0 0 14px rgba(255,193,7,.35);
+}
+
+/* List */
+.ttc-list{
+  width:100%;
+  max-width:560px;
+  display:flex; flex-direction:column; gap:8px;
+}
+
+/* Cards: compact for mobile */
+.ttc-card{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:10px;
+  padding:8px 10px;
+  min-height:44px;                 /* shorter height */
+  background:var(--card);
+  border:1px solid var(--line);
+  border-left:6px solid var(--ttc-red);
+  border-radius:12px;
+  box-shadow: var(--shadow);
+  transform: translateY(8px);
+  opacity:0;
+}
+.ttc-in{ animation: rise .18s ease-out forwards; }
+@keyframes rise{ to{ opacity:1; transform:translateY(0); } }
+
+.ttc-left{ display:flex; align-items:center; gap:10px; min-width:0; }
+.ttc-bullet{
+  width:10px; height:10px; border-radius:50%;
+  background:var(--ttc-red);
+  box-shadow:0 0 0 2px #fff, 0 0 0 3px var(--ttc-red);
+  flex:none;
+}
+.ttc-info{ display:flex; align-items:center; gap:8px; min-width:0; flex-wrap:wrap; }
+.ttc-name{
+  font-family:"Barlow Condensed", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight:700; font-size:16px; letter-spacing:.02em;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+
+/* Replacement */
+.ttc-swap{ display:inline-flex; align-items:center; gap:6px; }
+.ttc-old{ color:#80858e; text-decoration:line-through; text-decoration-thickness:2px; }
+.ttc-arrow{ opacity:.85; }
+.ttc-new{
+  color:var(--ttc-red);
+  background:#ffe8e6;
+  border:1px solid #ffd1cc;
+  padding:1px 6px; border-radius:6px; font-weight:800;
+}
+
+/* Maple */
+.ttc-chip{
+  font-family:"Barlow Condensed", sans-serif;
+  font-weight:800; letter-spacing:.05em;
+  font-size:12px; color:var(--ttc-red);
+  border:1px solid var(--ttc-red);
+  padding:2px 8px; border-radius:999px; background:#fff;
+  white-space:nowrap;
+}
+
+.ttc-time{
+  font-family:"Barlow Condensed", sans-serif;
+  font-size:15px; font-weight:800; letter-spacing:.04em;
+  color:var(--ttc-red);
+  white-space:nowrap;
+}
+
+/* Tiny screens */
+@media (max-width:360px){
+  .ttc-name{ font-size:15px; }
+  .ttc-time{ font-size:14px; }
+  .ttc-chip{ font-size:11px; padding:2px 6px; }
+}

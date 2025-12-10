@@ -1,0 +1,205 @@
+/* James Bond 007 — tuxedo noir, gunbarrel swirl, gold accents
+   Namespace: bond-*
+   Fonts: Cinzel (title/day), Cormorant Garamond (class titles), DM Mono (time)
+*/
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cormorant+Garamond:wght@600;700&family=DM+Mono:wght@500;700&display=swap');
+
+:root{
+  --noir:#0b0c10;           /* deep black */
+  --char:#121318;           /* charcoal */
+  --smoke:#1e2027;          /* soft black for cards */
+  --edge:#2b2d36;           /* borders */
+  --ink:#f6f7fb;            /* light ink */
+  --muted:#c5c7d2;          /* muted ink */
+
+  --gold:#c9a646;           /* Bond gold */
+  --gold-br:#9b8237;
+  --crimson:#b20a15;        /* title underline cue */
+
+  --time-bg:#13161d;
+  --time-br:#2a2d36;
+  --time-ink:#f2f6ff;
+
+  --maple-bg:#1e3328;
+  --maple-br:#6ed39b;
+  --maple-ink:#eafff4;
+
+  --day: clamp(26px, 8.6vw, 50px);
+  --title: clamp(16px, 3.9vw, 20px);
+}
+
+*{ box-sizing:border-box }
+html,body{ height:100% }
+
+.bond-wrap{
+  min-height:100vh; width:100vw; color:var(--ink);
+  background: radial-gradient(120% 120% at 50% -10%, #1a1b22, #0b0c10 70%);
+  display:flex; flex-direction:column; align-items:center; padding:16px;
+  position:relative; overflow:hidden; isolation:isolate;
+  padding-top:140px;
+}
+
+/* ===== Gunbarrel swirl ===== */
+.bond-gunbarrel{
+  position:fixed; inset:-10vmax; z-index:-1; pointer-events:none;
+  background:
+    /* barrel ribs */
+    repeating-conic-gradient(from 0deg, rgba(255,255,255,.08) 0 10deg, rgba(255,255,255,0) 10deg 20deg),
+    radial-gradient(closest-side, rgba(0,0,0,.25), rgba(0,0,0,0) 70%);
+  /* fade center & edges so content stays readable */
+  -webkit-mask:
+    radial-gradient(closest-side, rgba(0,0,0,.55), rgba(0,0,0,.05) 55%, rgba(0,0,0,0) 72%),
+    radial-gradient(120% 120% at 50% 50%, #000 50%, transparent 70%);
+  mask:
+    radial-gradient(closest-side, rgba(0,0,0,.55), rgba(0,0,0,.05) 55%, rgba(0,0,0,0) 72%),
+    radial-gradient(120% 120% at 50% 50%, #000 50%, transparent 70%);
+  opacity:.33;
+  animation: bond-spin 36s linear infinite;
+}
+@keyframes bond-spin{
+  to{ transform: rotate(360deg) }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .bond-gunbarrel{ animation:none; opacity:.22 }
+}
+
+/* ===== Header ===== */
+.bond-header{ width:100%; max-width:720px; padding:14px 8px 6px; }
+.bond-header--center{ display:grid; place-items:center }
+.bond-day{ margin:0; text-align:center }
+
+.bond-day-inner{
+  display:inline-block; position:relative; padding:.32em 1.1em .42em;
+  font: 900 var(--day)/1 "Cinzel", Georgia, "Times New Roman", serif;
+  letter-spacing:.16em; text-transform:uppercase;
+  color:#f3efdf;
+
+  background:
+    radial-gradient(120% 220% at 50% -120%, rgba(255,255,255,.18), rgba(255,255,255,0) 60%),
+    linear-gradient(180deg, #1e1f27, #0f1014);
+  border:2px solid var(--edge);
+  border-radius:14px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.25),
+    0 8px 24px rgba(0,0,0,.35),
+    0 0 0 2px rgba(255,255,255,.06);
+}
+
+/* subtle crimson underline cue */
+.bond-day-inner::after{
+  content:""; position:absolute; left:12%; right:12%; bottom:-12px; height:4px; border-radius:999px;
+  background: linear-gradient(90deg, #5c0207, var(--crimson), #5c0207);
+  box-shadow: 0 8px 22px rgba(178,10,21,.35);
+}
+
+/* small “007” gold mark tucked in */
+.bond-007{
+  font: 900 .45em/1 "Cinzel", Georgia, serif;
+  letter-spacing:.12em; margin-left:.6em;
+  color: #ffefb0;
+  text-shadow: 0 1px 0 #4a3a0f, 0 0 18px rgba(201,166,70,.35);
+}
+
+/* ===== List ===== */
+.bond-list{
+  width:100%; max-width:720px;
+  display:flex; flex-direction:column; gap:12px; margin-top:24px;
+}
+
+/* ===== Card — smoky glass with gold sight-line ===== */
+.bond-card{
+  position:relative;
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:3px 14px 12px 46px; /* room for sight-line */
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)),
+    radial-gradient(120% 220% at 50% -120%, rgba(255,255,255,.12), rgba(255,255,255,0) 60%);
+  border:1px solid var(--edge);
+  border-radius:14px;
+  color:var(--ink);
+  opacity:0; transform: translateY(12px);
+  box-shadow: 0 12px 28px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.08);
+  backdrop-filter: blur(6px) saturate(116%);
+  -webkit-backdrop-filter: blur(6px) saturate(116%);
+}
+
+/* left gold edge (sight) */
+.bond-sight{
+  position:absolute; left:0; top:0; bottom:0; width:34px; border-radius:14px 0 0 14px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,0)),
+    linear-gradient(90deg, #2c230a, #151007),
+    linear-gradient(180deg, #f2d27a, var(--gold), #a07820);
+  background-blend-mode: overlay, normal, normal;
+  box-shadow: inset -1px 0 0 rgba(0,0,0,.4);
+}
+
+.bond-in{ animation: bond-rise .28s cubic-bezier(.2,.9,.2,1) forwards }
+@keyframes bond-rise{ to{ opacity:1; transform: translateY(0) } }
+
+.bond-card:hover{ transform: translateY(8px); transition: transform .18s ease-out }
+.bond-card:active{ transform: translateY(6px) scale(.995) }
+.bond-card:focus-within{
+  outline:none;
+  box-shadow:
+    0 12px 28px rgba(0,0,0,.35),
+    0 0 0 2px rgba(201,166,70,.35),
+    0 0 0 8px rgba(201,166,70,.16);
+}
+
+/* ===== Content ===== */
+.bond-left{ min-width:0; display:flex;  justify-content: center; align-items: center; gap:6px; position:relative }
+
+.bond-title{
+  font: 700 var(--title)/1.06 "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  letter-spacing:.02em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  color:#f3f4f8;
+  text-shadow: 0 1px 0 rgba(255,255,255,.12), 0 14px 24px rgba(0,0,0,.35);
+}
+
+/* Replacement handling */
+.bond-swap .bond-old{ position:relative; color:var(--muted) }
+.bond-swap .bond-old::after{
+  content:""; position:absolute; left:0; right:0; top:55%; height:2px;
+  background: linear-gradient(90deg, rgba(197,199,210,.15), rgba(197,199,210,.65), rgba(197,199,210,.15));
+  transform: translateY(-50%);
+}
+.bond-swap .bond-arrow{ opacity:.65; margin:0 6px }
+.bond-swap .bond-new{ font-weight:800; color:#fff; }
+
+/* Tags / Maple chip */
+.bond-tags{ display:flex; gap:8px; margin-top:2px; flex-wrap:wrap }
+.bond-chip{
+  font-size:12px; line-height:1; font-weight:800;
+  padding:5px 10px; border-radius:999px; white-space:nowrap;
+  border:1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.06); color:#fff;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.15);
+}
+.bond-chip--maple{
+  background: linear-gradient(180deg, var(--maple-bg), rgba(30,51,40,.5));
+  border-color: var(--maple-br);
+  color: var(--maple-ink);
+  box-shadow: 0 0 0 1px rgba(110,211,155,.18);
+}
+
+/* Time pill */
+.bond-time{
+  font: 800 13px/1 "DM Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  color: var(--time-ink);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02)),
+    var(--time-bg);
+  border:1px solid var(--time-br);
+  border-radius:12px; padding:7px 10px; white-space:nowrap;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.18),
+    0 1px 2px rgba(0,0,0,.25);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .bond-in{ animation:none; opacity:1; transform:none }
+  .bond-card:hover, .bond-card:active{ transform:none }
+}

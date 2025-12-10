@@ -1,0 +1,183 @@
+/* Lyft — light surfaces, bold magenta accent, glossy header
+   Namespace: lyft-*
+   Fonts: Poppins (brand-ish), DM Mono (time)
+*/
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&family=DM+Mono:wght@500;700&display=swap');
+
+:root{
+  --lyft-pink:#FF00BF;
+  --lyft-pink-2:#ff2fb2;
+  --lyft-purple:#6E1FFF;
+  --ink:#0a0d12;
+  --muted:#6a7380;
+
+  --bg:#f7f8fb;         /* app background */
+  --card:#ffffff;       /* surface card */
+  --border:#e7e9ef;
+  --shadow:0 10px 24px rgba(18,22,33,.06);
+
+  /* time pill */
+  --time-bg:#0f1320;
+  --time-br:#283048;
+  --time-ink:#eaf2ff;
+
+  /* maple chip */
+  --maple-bg:#103b28;
+  --maple-br:#57d6a0;
+  --maple-ink:#e8fff5;
+
+  --day: clamp(26px, 8.5vw, 46px);
+  --title: clamp(16px, 4.2vw, 19px);
+}
+
+*{ box-sizing:border-box }
+html,body{ height:100% }
+
+.lyft-wrap{
+  min-height:100vh; width:100vw; color:var(--ink);
+  display:flex; flex-direction:column; align-items:center;
+  background:
+    radial-gradient(120% 140% at 50% -30%, #fff 0, #f9f9fc 40%, var(--bg) 100%);
+  position:relative; overflow:hidden; isolation:isolate;
+}
+
+/* floating magenta glow + dotted wallpaper */
+.lyft-wrap::before{
+  content:""; position:fixed; inset:-10vmax; z-index:-1; pointer-events:none;
+  background:
+    radial-gradient(40vmax 30vmax at 85% -10%, rgba(255,0,191,.14), transparent 60%),
+    radial-gradient(30vmax 22vmax at 10% 0%, rgba(110,31,255,.12), transparent 60%),
+    radial-gradient(circle at 16px 16px, rgba(0,0,0,.025) 2px, transparent 3px) 0 0/28px 28px;
+  animation: lyft-pan 18s linear infinite;
+}
+@keyframes lyft-pan{
+  0%  { transform: translateY(0) }
+  100%{ transform: translateY(20px) }
+}
+
+/* ===== Header ===== */
+.lyft-header{
+  width:100%; max-width:560px;
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  padding:16px 12px 8px;
+}
+.lyft-header--center{ justify-content:center }
+
+.lyft-brand{
+  display:flex; align-items:center; gap:8px;
+  background: linear-gradient(90deg, var(--lyft-pink), var(--lyft-purple));
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 0 rgba(0,0,0,0);
+}
+.lyft-glyph{
+  width:22px; height:22px; display:inline-block; border-radius:6px;
+  background: linear-gradient(180deg, var(--lyft-pink), var(--lyft-pink-2));
+  box-shadow: 0 0 0 2px rgba(255,255,255,.8), 0 6px 16px rgba(255,0,191,.25);
+}
+.lyft-word{
+  font: 800 18px/1 "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  letter-spacing:.3px;
+}
+
+.lyft-day{
+  margin:0;
+  display:inline-block;
+  font: 800 var(--day)/1 "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  letter-spacing:.06em;
+  color:#0a0d12;
+  background:
+    radial-gradient(120% 220% at 50% -120%, rgba(255,255,255,.6), rgba(255,255,255,0) 60%),
+    linear-gradient(180deg, #fff, #f5f6fb);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:.28em .9em .34em;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.9), var(--shadow);
+}
+
+/* ===== List ===== */
+.lyft-list{
+  width:100%; max-width:560px;
+  display:flex; flex-direction:column; gap:10px;
+  padding:14px 10px 24px;
+}
+
+/* ===== Card (chat-row / trip-row hybrid) ===== */
+.lyft-card{
+  display:flex; align-items:center; gap:12px;
+  padding:12px 14px;
+  background: var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  box-shadow: var(--shadow);
+  opacity:0; transform: translateY(10px);
+}
+
+/* rise-in */
+.lyft-in{ animation: lyft-rise .24s cubic-bezier(.2,.9,.2,1) forwards }
+@keyframes lyft-rise{ to{ opacity:1; transform: translateY(0) } }
+
+/* avatar puck like a driver bubble */
+.lyft-avatar{
+  flex:0 0 48px; height:48px; width:48px; border-radius:50%;
+  display:grid; place-items:center; font-weight:800; color:#fff;
+  background:
+    radial-gradient(circle at 30% 30%, #ffd6f2, #ff56d7 55%, #c60090 100%);
+  box-shadow:
+    inset 0 0 0 2px rgba(255,255,255,.9),
+    0 6px 14px rgba(255,0,191,.25);
+}
+
+/* center column */
+.lyft-left{ min-width:0; display:flex; flex-direction:column; gap:6px }
+
+.lyft-title{
+  font: 800 var(--title)/1.08 "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  color:#0b0f17;
+}
+
+/* Replacement styling */
+.lyft-swap .lyft-old{ text-decoration: line-through; opacity:.65 }
+.lyft-swap .lyft-arrow{ opacity:.6; margin:0 6px }
+.lyft-swap .lyft-new{ font-weight:900 }
+
+/* tags */
+.lyft-tags{ display:flex; gap:6px; flex-wrap:wrap }
+.lyft-chip{
+  font-size:12px; line-height:1; font-weight:800;
+  padding:4px 9px; border-radius:999px; white-space:nowrap;
+  border:1px solid rgba(0,0,0,.07);
+  background:#f7fff9; color:#0c3a25;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
+}
+.lyft-chip--maple{
+  background: linear-gradient(180deg, var(--maple-bg), rgba(16,59,40,.65));
+  border-color: var(--maple-br);
+  color: var(--maple-ink);
+  box-shadow: 0 0 0 1px rgba(87,214,160,.16);
+}
+
+/* time pill on the right (ETA vibe) */
+.lyft-time{
+  margin-left:auto;
+  font: 800 12px/1 "DM Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color: var(--time-ink);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.02)),
+    var(--time-bg);
+  border:1px solid var(--time-br);
+  border-radius:12px; padding:7px 10px; white-space:nowrap;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.22),
+    0 1px 2px rgba(0,0,0,.2);
+}
+
+/* touch feedback */
+.lyft-card:active{ transform: translateY(2px); transition: transform .12s ease }
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .lyft-in{ animation:none; opacity:1; transform:none }
+  .lyft-wrap::before{ animation:none }
+}

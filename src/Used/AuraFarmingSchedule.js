@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/AuraFarmingSchedule.css";
-import schedule from "../Schedule";
+import "./AuraFarmingSchedule.css";
+import schedule from "../RhSchedule";
 
 function AuraFarmingSchedule({ day }) {
   const [visibleClasses, setVisibleClasses] = useState([]);

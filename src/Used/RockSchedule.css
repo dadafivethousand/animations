@@ -41,6 +41,7 @@
   font-size: 1.4rem;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .rock-card:hover {
@@ -48,13 +49,54 @@
   background-color: rgba(204, 0, 0, 0.3);
 }
 
+.rock-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
+}
+
 .rock-class {
   color: #ffffff;
   font-size: 1.5rem;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
 .rock-time {
   color: #00baff;
   font-size: 1.1rem;
   margin-top: 6px;
+}
+
+/* Maple badge (kept inside the card) */
+.rock-maple{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:2px 10px;
+  font-size: .8rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:#001018;
+  background: linear-gradient(180deg, #e6f7ff, #bde8ff);
+  border:1px solid #00baff;
+  border-radius:999px;
+  box-shadow:
+    inset 0 0 8px rgba(255,255,255,0.25),
+    0 0 12px rgba(0,186,255,0.35);
+  white-space:nowrap;
+}
+.rock-pin{
+  line-height:1;
+  filter: drop-shadow(0 0 4px rgba(0,186,255,0.5));
+}
+
+/* small screens */
+@media (max-width: 420px){
+  .rock-card { padding: 10px 16px; }
+  .rock-class { font-size: 1.25rem; }
+  .rock-time { font-size: 1rem; }
+  .rock-maple { font-size: .72rem; padding: 2px 8px; }
 }

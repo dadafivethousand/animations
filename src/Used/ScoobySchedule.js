@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/ScoobySchedule.css";
+import "./ScoobySchedule.css";
 import schedule from "../Schedule";
 
 export default function ScoobySchedule({ day, animationDelay = 1000, animationInterval = 300 }) {

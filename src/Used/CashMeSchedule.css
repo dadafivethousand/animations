@@ -1,0 +1,161 @@
+/* Cash Me Outside — neon pink/blue over club-night backdrop (mobile-first)
+   - Use your provided image as the background layer.
+   - Keep required nomenclature: theme-wrap/header/day/list/card/title/tags/chip/chip--maple/theme-time
+   Fonts: Bebas Neue (headline), Inter (UI)
+*/
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@500;600;700;800&display=swap');
+
+:root{
+  /* Colors sampled from the provided strip */
+  --night-1:#06070b;       /* deep black/indigo */
+  --night-2:#0b1020;       /* navy */
+  --neon-blue:#1ea4ff;     /* electric */
+  --royal-blue:#2455ff;
+  --neon-pink:#ff2f92;     /* hot pink accent */
+
+  --ink:#f7f9ff;           /* high-contrast text */
+  --muted:#c5d0e6;
+
+  /* Cards */
+  --card:#0e1426cc;        /* translucent to let bg glow through */
+  --card-solid:#0e1426;    /* fallback */
+  --edge:#192447;
+  --soft-shadow: 0 16px 30px rgba(0,0,0,.35);
+
+  /* Time pill */
+  --time-bg:#0b1224;
+  --time-br:#253265;
+  --time-fg:#eaf1ff;
+
+  /* Maple chip */
+  --maple-bg:#122923;
+  --maple-br:#2ecb8b;
+  --maple-fg:#d8ffee;
+
+  /* Type scales */
+  --title: clamp(15px, 3.8vw, 18px);
+  --day: clamp(24px, 7.6vw, 40px);
+}
+
+/* Place your provided image at ../Assets/cashme-bg.png (or adjust path below) */
+ 
+ 
+.theme-wrap.cashme{
+  min-height:90vh; width:100vw; color:var(--ink);
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  display:flex; flex-direction:column; align-items:center; padding:16px;
+  padding-top:70px;
+  /* image + neon sweeps + subtle noise */
+  background:
+    /* your image */
+    url("https://media1.tenor.com/m/2LA1rnsPZB8AAAAC/dr-phil-cash-me-otside.gif") center/cover no-repeat fixed,
+
+    /* neon sweep from the right */
+    radial-gradient(60% 100% at 80% 40%, rgba(36,85,255,.55), transparent 60%),
+    radial-gradient(50% 80% at 10% 10%, rgba(255,47,146,.25), transparent 60%),
+    linear-gradient(180deg, var(--night-2) 0%, var(--night-1) 100%);
+
+    background-size: contain;
+    background-position-y: 90%;
+}
+
+/* ===== Centered Day Header — neon badge ===== */
+.theme-header{ width:100%; max-width:720px; padding:12px 6px 6px; }
+.theme-header--center{ display:grid; place-items:center }
+
+.theme-day{
+  margin:0;
+  font: 800 var(--day)/1 'Bebas Neue', system-ui, -apple-system, Segoe UI, Inter, Roboto, Arial, sans-serif;
+  letter-spacing:.08em; text-align:center;
+    font-size: 60px;
+}
+ 
+
+ 
+
+/* ===== List ===== */
+.theme-list{
+  width:100%; max-width:720px;
+  display:flex; flex-direction:column; gap:7px; margin-top:22px;
+}
+
+/* ===== Card — glossy neon edge + tape corners ===== */
+.theme-card{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:8px 16px;
+  background: var(--card);
+  backdrop-filter: blur(4px) saturate(120%);
+  border:1px solid var(--edge);
+  border-radius:16px;
+  position:relative; opacity:0; transform: translateY(12px);
+  box-shadow: var(--soft-shadow);
+  isolation:isolate;
+  width:80% ;
+  margin: 0 auto;
+}
+
+ 
+/* “tape” corners */
+ 
+
+/* smooth rise-in; extra 40ms per-item delay comes from inline style in JSX */
+.theme-in{ animation: rise .36s cubic-bezier(.2,.9,.2,1) forwards }
+@keyframes rise{ to{ opacity:1; transform: translateY(0)} }
+
+/* Interactions */
+.theme-card:hover{ transform: translateY(8px); transition: transform .18s ease-out }
+.theme-card:active{ transform: translateY(6px) scale(.995) }
+.theme-card:focus-within{
+  outline:none;
+  box-shadow:
+    0 0 0 2px rgba(36,85,255,.28),
+    0 0 0 8px rgba(36,85,255,.14);
+}
+
+/* ===== Content ===== */
+.theme-left{ min-width:0; display:flex; flex-direction:column; gap:6px; position: relative; left:10px }
+.theme-title{
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight:800; font-size:var(--title); line-height:1.15; letter-spacing:.02em;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--ink);
+}
+
+/* Replacement styling */
+.swap .old{ position:relative; color:var(--muted) }
+.swap .old::after{
+  content:""; position:absolute; left:0; right:0; top:55%; height:2px;
+  background: linear-gradient(90deg, rgba(197,208,230,.2), rgba(197,208,230,.9), rgba(197,208,230,.2));
+  transform: translateY(-50%) scaleX(1); transform-origin:left;
+}
+.swap .arrow{ opacity:.7; margin:0 6px }
+.swap .new{ font-weight:900; color:#fff }
+
+/* Tags */
+.tags{ display:flex; gap:8px; margin-top:2px; flex-wrap:wrap }
+.chip{
+  font-size:12px; line-height:1; font-weight:700;
+  padding:5px 10px; border-radius:999px; white-space:nowrap;
+  border:1px solid rgba(255,255,255,.15);
+  background: rgba(255,255,255,.08);
+  color:#fff;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.25);
+}
+.chip--maple{
+  background: var(--maple-bg);
+  border-color: var(--maple-br);
+  color: var(--maple-fg);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 0 0 1px rgba(46,203,139,.15);
+}
+
+ 
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .theme-in{ animation:none; opacity:1; transform:none }
+  .theme-card:hover, .theme-card:active{ transform:none }
+}
+
+/* Wider phones */
+@media (min-width:480px){
+  .theme-title{ font-size: clamp(16px, 3.2vw, 19px) }
+}

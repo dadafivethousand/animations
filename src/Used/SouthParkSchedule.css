@@ -18,9 +18,9 @@
 
 /* 🎬 SOUTH PARK SCHEDULE BOX */
 .southpark-schedule-box {
-  margin-top:80px;
+  margin-top:40px;
   position: relative;
-  width: 70vw;
+  width: 90vw;
   max-width: 500px;
   background: #C1552F; /* South Park Signboard Orange */
   border: 8px solid black;
@@ -28,7 +28,8 @@
   padding: 25px;
   text-align: center;
    animation: wobble 3s infinite alternate ease-in-out;
-  height:250px
+  height:440px;
+  z-index:30
 }
 
 /* 🎬 SOUTH PARK DAY TITLE */
@@ -55,8 +56,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 85%;
-  padding: 7px;
+  width: 95%;
+  padding: 3px 8px;
   margin: 8px auto;
   font-size: 20px;
   font-weight: bold;
@@ -69,6 +70,7 @@
   transform: scale(0.95);
   transition: transform 0.3s ease-in-out;
   animation: bounceEntry 1s ease-in-out forwards;
+  height:60px;
 }
 
 /* 🎬 CLASS NAME TEXT */
@@ -77,11 +79,12 @@
   text-transform: uppercase;
   color: white;
   text-shadow: 3px 3px 0px black;
+    font-size: 18px;
 }
 
 /* 🎬 CLASS TIME TEXT */
 .southpark-class-time {
-  font-size: 22px;
+  font-size: 18px;
   font-weight: bold;
   color: white;
   text-shadow: 3px 3px 0px black;
@@ -124,4 +127,9 @@
   position: absolute;
   width:100%;
   bottom:0
+}
+
+.southpark-maple  {
+  font-size: 12px;
+ 
 }

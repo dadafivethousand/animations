@@ -1,0 +1,238 @@
+/* PeakyBlindersSchedule.css */
+/* Peaky Blinders — sepia grit, brass plaque, razor accent, tweed/coal mill vibe */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Inter:wght@600;700;800&display=swap');
+
+:root{
+  --coal-0:#0b0d0e;        /* deep coal */
+  --coal-1:#121518;        /* surface */
+  --coal-2:#1a1f23;
+
+  --sepia-ink:#efe7d6;     /* parchment ink */
+  --muted:#cfc6b1;
+
+  --brass:#b08d57;         /* brass accent */
+  --brass-deep:#8a6a3e;
+
+  --card:#121519;          /* card body */
+  --card-brd:#2a2f36;
+
+  --chip-bg:#2a2317;       /* maple tag */
+  --chip-brd:#caa76d;
+
+  --time-bg:#12171f;       /* time pill */
+  --time-brd:#314055;
+
+  --card-width:80%;
+  --time-width:90px;       /* fixed equal time width */
+}
+
+/* Reset */
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+.peaky-wrap{
+  min-height:100vh;
+  width:100vw;
+  background:
+    radial-gradient(900px 380px at 50% 110%, rgba(176,141,87,.12), transparent 60%),
+    /* fine soot specks */
+    radial-gradient(2px 2px at 25% 30%, rgba(255,255,255,.02) 0 50%, transparent 51%) repeat,
+    linear-gradient(180deg, var(--coal-1), var(--coal-2)),
+    var(--coal-0);
+  background-size:auto, 4px 4px, auto, auto;
+  color:var(--sepia-ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:64px 14px 24px; /* >= 50px top padding */
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* Centered weekday — brass plaque */
+.peaky-header{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:12px 2px 16px;
+}
+.peaky-day{
+  font-family:"Cormorant Garamond", serif;
+  font-weight:700;
+  font-size:22px;
+  letter-spacing:.18em;
+  color:#1a1410;
+  text-transform:uppercase;
+  background:
+    linear-gradient(180deg, #e7d1a6, #caa76d 55%, #9c7a45);
+  border:2px solid #3e2f1f;
+  border-radius:12px;
+  padding:8px 16px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.45),
+    inset 0 -2px 0 rgba(0,0,0,.35),
+    0 6px 0 #3e2f1f,
+    0 18px 28px rgba(0,0,0,.35);
+}
+
+/* List */
+.peaky-list{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  align-items:center; /* center the cards block */
+}
+
+/* Card — forged plate with soot & edge bevel; 80% width centered */
+.peaky-card{
+  width:var(--card-width);
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  padding:20px 12px;
+  border-radius:14px;
+  position:relative;
+  overflow:hidden;
+  opacity:0;
+  transform:translateY(10px) scale(.995);
+
+  background:
+    /* brushed streaks */
+    repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 1px, transparent 1px 3px),
+    linear-gradient(180deg, #151a20, var(--card) 60%, #0e1216);
+  border:1px solid var(--card-brd);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.05),
+    inset 0 -2px 0 rgba(0,0,0,.45),
+    0 10px 24px rgba(0,0,0,.5);
+}
+
+/* brass razor strip on the left */
+.peaky-card:before{
+  content:"";
+  position:absolute;
+  left:0; top:0;
+  width:6px; height:100%;
+  background:linear-gradient(180deg, var(--brass), var(--brass-deep));
+  box-shadow:0 0 12px rgba(176,141,87,.32);
+  border-top-left-radius:14px; border-bottom-left-radius:14px;
+}
+
+/* soft specular sweep */
+.peaky-razor{
+  position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(115deg, transparent 48%, rgba(255,255,255,.06) 55%, transparent 62%);
+  mix-blend-mode:screen; opacity:.5;
+}
+
+/* Stagger animation */
+.peaky-in{ animation:peaky-rise .24s ease-out forwards; }
+@keyframes peaky-rise{ to{ opacity:1; transform:translateY(0) scale(1); } }
+
+/* Left column */
+.peaky-left{ min-width:0; }
+
+/* Keep name + MAPLE/CANCELLED inline on one row */
+.peaky-row{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  white-space:nowrap;
+  overflow:hidden;
+}
+.peaky-title{
+  font-weight:800;
+  font-size:12px;
+  color:var(--muted);
+  letter-spacing:.02em;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  text-shadow:0 1px 0 rgba(0,0,0,.5);
+  margin-bottom:50px;
+}
+
+/* Replacement styling (contract) */
+.swap .old{ text-decoration:line-through; opacity:.65; }
+.swap .arrow{ opacity:.65; margin:0 6px; }
+.swap .new{ font-weight:900; color:#f3ead5; }
+
+/* Chips */
+.chip{
+  font-size:12px;
+  line-height:1;
+  padding:2px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.08);
+  color:#fff;
+  white-space:nowrap;
+  flex:none;
+}
+.chip--maple{
+  background:linear-gradient(180deg, #3a2c1c, var(--chip-bg));
+  border-color:var(--chip-brd);
+  color:#fff4dc;
+  box-shadow:0 0 10px rgba(202,167,109,.28);
+}
+/* NEW: Cancelled chip */
+.chip--cancelled{
+  background:linear-gradient(180deg, #3a1b1b, #2a1212);
+  border-color:#7a3a3a;
+  color:#ffdddd;
+  box-shadow:0 0 10px rgba(122,58,58,.28);
+}
+
+/* Start time ONLY — fixed equal width pill, centered text */
+.peaky-time{
+  font:800 12px/1 "Inter", system-ui, sans-serif;
+  padding:4px 0;
+  border-radius:10px;
+  background:
+    linear-gradient(180deg, #182230, var(--time-bg));
+  border:1px solid var(--time-brd);
+  color:#f0f4ff;
+  letter-spacing:.02em;
+
+  width:var(--time-width);
+  flex:0 0 var(--time-width);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.08),
+    0 6px 14px rgba(0,0,0,.55);
+}
+
+/* CANCELLED STATE */
+/* Dim card, strike title (and swap parts), soften time, mute sheen */
+.is-cancelled{
+  filter:saturate(.8);
+  opacity:.85;
+}
+.is-cancelled .peaky-title,
+.is-cancelled .swap .old,
+.is-cancelled .swap .new{
+  text-decoration:line-through;
+  text-decoration-thickness: 2px;
+  text-decoration-color: rgba(200,80,80,.8);
+}
+.is-cancelled .peaky-time{
+  opacity:.7;
+  border-color:#3a3f49;
+}
+.is-cancelled .peaky-razor{
+  opacity:.25;
+}
+
+/* Slight bumps on wider screens */
+@media (min-width:431px){
+  .peaky-title{ font-size:17px; }
+  .peaky-time{ font-size:14px; }
+}

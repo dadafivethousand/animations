@@ -1,0 +1,239 @@
+/* LiloStitchSchedule.css
+   Lilo & Stitch theme:
+   - Tropical ocean gradient
+   - Rounded, surfboard-style cards
+   - Bright aqua / pink / coral accents
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Inter:wght@500;700&display=swap");
+
+:root {
+  --ls-sky-top: #38d0ff;       /* bright ocean sky */
+  --ls-sky-bottom: #0077b6;    /* deeper blue */
+
+  --ls-card-top: #32c9b7;      /* lagoon aqua */
+  --ls-card-bottom: #007f8b;   /* deeper teal */
+
+  --ls-pink: #ff5f9a;          /* Lilo flower pink */
+  --ls-coral: #ff9874;
+  --ls-sand: #ffe1a4;
+
+  --ls-ink-dark: #05252b;
+  --ls-ink-light: #fdfcff;
+
+  --ls-border: rgba(0, 44, 61, 0.9);
+  --ls-shadow: 0 14px 30px rgba(0, 0, 0, 0.45);
+}
+
+/* global */
+* {
+  box-sizing: border-box;
+}
+
+/* wrapper – tropical ocean background */
+.lilostitch-wrap {
+  width: 100vw;
+  min-height: 100vh;
+  padding: 16px;
+  padding-top: 156px; /* >= 50px */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background:
+    radial-gradient(800px 500px at 10% 0%, rgba(255, 255, 255, 0.45), transparent 70%),
+    radial-gradient(800px 600px at 90% 0%, rgba(255, 200, 160, 0.4), transparent 70%),
+    linear-gradient(180deg, var(--ls-sky-top), var(--ls-sky-bottom));
+  color: var(--ls-ink-dark);
+}
+
+/* header – soft rounded pill with warm sand tint */
+.lilostitch-header {
+  width: 100%;
+  max-width: 560px;
+  text-align: center;
+  padding: 8px 8px 10px;
+  border-radius: 999px;
+
+  background:
+    linear-gradient(135deg, #ffffff, var(--ls-sand));
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.22),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 197, 142, 0.9);
+}
+
+.lilostitch-day {
+  margin: 0;
+  font-family: "Baloo 2", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ls-pink);
+}
+
+/* list – 80% width */
+.lilostitch-list {
+  width: 80%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+/* card – surfboard / floaty style */
+.lilostitch-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  padding: 10px 12px;
+  min-height: 56px;
+
+  background:
+    radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.38), transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(255, 176, 160, 0.35), transparent 55%),
+    linear-gradient(145deg, var(--ls-card-top), var(--ls-card-bottom));
+  border-radius: 999px;
+  border: 2px solid var(--ls-border);
+  box-shadow:
+    var(--ls-shadow),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+
+  position: relative;
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(10px) scale(0.97);
+}
+
+/* subtle wave highlight along the bottom */
+.lilostitch-card::before {
+  content: "";
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  bottom: -40%;
+  height: 60%;
+  background:
+    radial-gradient(120% 120% at 50% 0%, rgba(255, 255, 255, 0.45), transparent 60%);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+/* entry animation – bouncy "wave" pop */
+.lilostitch-in {
+  animation: ls-wave-in 0.24s cubic-bezier(0.25, 0.9, 0.3, 1.4) forwards;
+}
+
+@keyframes ls-wave-in {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.94);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.03);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* left row */
+.lilostitch-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+}
+
+/* title */
+.lilostitch-title {
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.2;
+  color: var(--ls-ink-light);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.lilostitch-normal {}
+
+/* replacement styling */
+.lilostitch-swap .lilostitch-old {
+  text-decoration: line-through;
+  opacity: 0.75;
+}
+.lilostitch-swap .lilostitch-arrow {
+  opacity: 0.85;
+  margin: 0 6px;
+  color: rgba(255, 255, 255, 0.9);
+}
+.lilostitch-swap .lilostitch-new {
+  font-weight: 800;
+  color: var(--ls-sand);
+}
+
+/* Maple chip inline – tiny hibiscus tag */
+.lilostitch-chip {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.7), transparent 60%),
+    #ffe9f3;
+  color: #8a1c46;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.lilostitch-chip--maple {
+  border-color: var(--ls-pink);
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), transparent 60%),
+    #ffd2e4;
+}
+
+/* time block – 90px seashell pill */
+.lilostitch-time {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New",
+    monospace;
+  font-weight: 800;
+  font-size: 13px;
+  width: 90px;      /* fixed width */
+  flex: 0 0 90px;
+  text-align: center;
+  white-space: nowrap;
+
+  color: var(--ls-ink-dark);
+  background:
+    linear-gradient(135deg, #fffdf7, #ffe1b7);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 244, 210, 0.9);
+  padding: 6px 8px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+}
+
+/* slightly larger screens */
+@media (min-width: 481px) {
+  .lilostitch-card {
+    padding: 12px 14px;
+  }
+  .lilostitch-time {
+    font-size: 13px;
+  }
+}

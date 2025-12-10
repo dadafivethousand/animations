@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/VisionSchedule.css";
+import "./VisionSchedule.css";
 import schedule from "../Schedule";
 
 function VisionSchedule({ day, animationDelay = 1000, animationInterval = 350 }) {

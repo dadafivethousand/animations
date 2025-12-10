@@ -1,0 +1,193 @@
+/* MGK "Wild Boy" — gritty punk neon on teal/green background (from provided swatch) */
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;700;800&display=swap');
+
+:root{
+  --mgk-bg:#2aa57f;           /* sampled-ish from your image */
+  --mgk-ink:#f7fbff;
+  --mgk-black:#0a0a0a;
+  --mgk-border:#1e2a26;
+  --mgk-neon:#ff2d9b;         /* hot pink accent */
+  --mgk-neon-dim:#b81e6f;
+
+  --card-width:80%;
+  --time-width:90px;          /* fixed equal width for time pills */
+}
+
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+/* Wrap with your background color solid */
+.mgk-wrap{
+  min-height:100vh;
+  width:100vw;
+  background: var(--mgk-bg);
+  color:var(--mgk-ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:14px 14px 24px;
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background-position: 0px 20px;
+  background-image: url("https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExMnduOTBzcTRrNHBra25lb2lveW5ld3BvdXFidHhmZ2htajZpZzR3cyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/H6hz7X4dvcwJCKPlLa/giphy.gif");
+}
+.mgk-wrap::after{
+ content:"";
+ background-color: #0a0a0a6c;
+ position: absolute;
+ top:0px;
+ height:100vh;
+ width:100vw;
+}
+
+/* Header — weekday centered */
+.mgk-header{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+ 
+  text-align:center;
+  position:relative;
+  margin-top: 150px;;
+  z-index: 5;
+ 
+}
+
+.mgk-day{
+  font-family:"Anton", system-ui, sans-serif;
+  font-size:45px;
+  letter-spacing:.14em;
+  color:#ffffff;
+  text-shadow:0 1px 0 rgb(0, 0, 0), 0 0 14px rgba(0, 0, 0, 0.25);
+  text-decoration: underline;
+}
+
+/* List */
+.mgk-list{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  align-items:center; /* center cards */
+    z-index: 5;
+}
+
+/* Cards — 80% width and centered, compact */
+.mgk-card{
+  width:var(--card-width);
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 12px;
+  border-radius:12px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,0)),
+    var(--mgk-black);
+  border:1px solid var(--mgk-border);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.04),
+    0 10px 22px rgba(0,0,0,.35),
+    0 0 24px rgba(255,45,155,.18);
+  opacity:0;
+  transform:translateY(10px);
+  position:relative;
+  overflow:hidden;
+}
+
+/* Neon torn-edge accent */
+.mgk-card:before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  width:4px;
+  height:100%;
+  background:white;
+  box-shadow:0 0 12px rgba(255, 255, 255, 0.45);
+}
+
+.mgk-in{ animation:mgk-rise .22s ease-out forwards; }
+@keyframes mgk-rise{ to{ opacity:1; transform:translateY(0); } }
+
+/* Left column */
+.mgk-left{ min-width:0; display:flex; flex-direction:column; gap:4px; }
+
+/* Keep name + MAPLE chip on one line */
+.mgk-title-row{
+  min-width:0;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  white-space:nowrap;
+  overflow:hidden;
+}
+
+.mgk-title{
+  font-weight:800;
+  font-size:16px;
+  color:#ffffff;
+  letter-spacing:.02em;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* Replacement styling (contract) */
+.swap .old{ text-decoration:line-through; opacity:.65; }
+.swap .arrow{ opacity:.6; margin:0 6px; }
+.swap .new{ font-weight:700; }
+
+/* Chip (Maple) */
+.chip{
+  font-size:12px;
+  line-height:1;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.25);
+  background:rgba(255,255,255,.12);
+  color:#fff;
+  white-space:nowrap;
+  flex:none; /* keep inline; don't shrink */
+}
+.chip--maple{
+  background:#2a0f22;
+  border-color: rgba(255,45,155,.6);
+  color:#ffe9f6;
+  box-shadow:0 0 10px rgba(255,45,155,.35);
+}
+
+/* Time pill — start time ONLY, equal width, centered */
+.mgk-time{
+  font:800 13px/1 "Inter", system-ui, sans-serif;
+  padding:8px 0;
+  border-radius:9px;
+  background:#0f0f0f;
+  border:1px solid #313131;
+  color:#f1f4ff;
+  letter-spacing:.02em;
+
+  width:var(--time-width);
+  flex:0 0 var(--time-width);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+font-size: 17px;;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.05),
+    0 6px 14px rgba(0,0,0,.5);
+}
+
+/* Active tap feedback */
+.mgk-card:active{
+  transform:translateY(12px);
+  transition:transform .06s ease;
+  box-shadow:0 4px 14px rgba(0,0,0,.45);
+}
+
+/* Slight bumps on wider screens */
+@media (min-width:431px){
+  .mgk-title{ font-size:17px; }
+  .mgk-time{ font-size:14px; }
+}

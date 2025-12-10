@@ -1,0 +1,482 @@
+/* CTVBroadcast.css */
+/* Ultra-realistic mobile CTV-style layout with CTV logo + ticker film */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.ctv-root {
+  width: 100%;
+  min-height: 95vh;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  background: radial-gradient(circle at top, #111827 0%, #020308 55%, #000000 100%);
+}
+
+.ctv-frame {
+  width: 100%;
+  max-width: 430px;
+  margin: 0 auto;
+  padding: 30px; /* your global preference */
+    padding-top: 50px; /* your global preference */
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #05070a 0%, #05070a 60%, #010208 100%);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.9);
+}
+
+/* Subtle TV noise overlay */
+.ctv-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.08;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='noStitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  mix-blend-mode: soft-light;
+}
+
+/* TOP INFO BAR (EVENT DATA) */
+
+.ctv-info-bar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 10px;
+  font-size: 11px;
+  background: linear-gradient(90deg, #020617 0%, #0b1120 40%, #020617 100%);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.9);
+}
+
+.ctv-info-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+
+.ctvlogo{
+  height:20px;
+}
+.ctv-info-label {
+  background: #e30613;
+  padding: 2px 6px;
+  border-radius: 2px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.ctv-info-date {
+  color: #e5e7eb;
+  font-weight: 500;
+}
+
+.ctv-info-center {
+  text-align: center;
+  flex: 1;
+  font-weight: 500;
+  color: #9ca3af;
+}
+
+.ctv-info-right {
+  font-weight: 600;
+  color: #f9fafb;
+}
+
+.ctv-info-time {
+  letter-spacing: 0.5px;
+}
+
+/* MAIN TOPBAR: CTV LOGO + LIVE + BUG */
+
+.ctv-topbar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: linear-gradient(90deg, #001737 0%, #003a8c 55%, #001022 100%);
+  border-bottom: 3px solid #e30613;
+}
+
+/* CTV LOGO (circle, square, triangle) */
+
+.ctv-logo {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ctv-logo-shape {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 13px;
+  color: #ffffff;
+}
+
+/* Red circle with white C */
+.ctv-logo-circle {
+  border-radius: 50%;
+  background: #e30613;
+}
+
+/* Blue square with white T */
+.ctv-logo-square {
+  border-radius: 2px;
+  background: #005daa;
+}
+
+/* Green triangle with white V (using clip-path) */
+.ctv-logo-triangle {
+  background: #00a94f;
+  clip-path: polygon(15% 0%, 100% 50%, 15% 100%);
+  padding-left: 2px; /* nudge V to center visually */
+  transform: rotate(90deg);
+}
+
+#letter-v{
+    transform: rotate(-90deg);
+}
+
+.ctv-logo-triangle span {
+  transform: translateX(-2px);
+}
+
+/* NEWS text to the right of CTV logo */
+
+.ctv-logo-text {
+ 
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+/* LIVE + BUG */
+
+.ctv-live-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ctv-live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #e30613;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  box-shadow: 0 0 12px rgba(227, 6, 19, 0.7);
+}
+
+.ctv-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #ffffff;
+}
+
+.ctv-network-bug {
+  font-size: 10px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 2px;
+  border: 1px solid rgba(148, 163, 184, 0.9);
+  background: linear-gradient(180deg, #020617 0%, #020617 40%, #0f172a 100%);
+  color: #e5e7eb;
+}
+
+/* HEADLINE STRAP */
+
+.ctv-headline-banner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  padding: 6px 10px;
+  background: linear-gradient(
+    90deg,
+    #e30613 0%,
+    #b10610 35%,
+    #001737 75%,
+    #020617 100%
+  );
+  border-bottom: 2px solid #000000;
+}
+
+.ctv-headline-left {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding-right: 8px;
+  border-right: 1px solid rgba(15, 23, 42, 0.7);
+  display: flex;
+  align-items: center;
+}
+
+.ctv-headline-right {
+  padding-left: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* MAIN AREA */
+
+.ctv-main {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 10px;
+  max-height:60vh
+}
+
+/* VIDEO / IMAGE AREA */
+
+.ctv-video-area {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #020617;
+  border: 2px solid #020617;
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.9);
+}
+
+.ctv-image-shell {
+  position: relative;
+}
+
+.ctv-image-placeholder {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-image: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.12) 0,
+      transparent 45%
+    ),
+    radial-gradient(circle at top left, #1f2937, #020617 55%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #d1d5db;
+}
+
+/* Fake scanlines overlay */
+.ctv-image-placeholder::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.25) 1px,
+    transparent 3px
+  );
+  background-size: 100% 4px;
+  mix-blend-mode: soft-light;
+  opacity: 0.7;
+}
+
+/* LOWER THIRD OVERLAY (inside video) */
+
+.ctv-lower-third {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4px;
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 6px 8px;
+  font-size: 11px;
+}
+
+.ctv-lower-main {
+  flex: 1;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 23, 55, 0.96),
+    rgba(0, 90, 170, 0.96)
+  );
+  padding: 4px 8px;
+  border-radius: 3px;
+  border: 1px solid rgba(15, 23, 42, 0.9);
+}
+
+.ctv-lower-line-primary {
+  font-weight: 800;
+  text-transform: uppercase;
+    font-size: 11px;
+}
+
+.ctv-lower-line-secondary {
+  margin-top: 2px;
+  font-size: 10px;
+  color: #e5e7eb;
+}
+
+.ctv-lower-side {
+  min-width: 80px;
+  background: linear-gradient(180deg, #e30613, #b10610);
+  border-radius: 3px;
+  padding: 4px 6px;
+  text-align: center;
+  text-transform: uppercase;
+  border: 1px solid #7f0210;
+}
+
+.ctv-lower-side-top {
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.ctv-lower-side-bottom {
+  font-size: 9px;
+  color: #f9fafb;
+}
+
+/* STORY TEXT AREA */
+
+.ctv-story {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px 2px 10px;
+}
+
+.ctv-story-title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.ctv-story-meta {
+  margin: 0;
+  font-size: 12px;
+  color: #e5e7eb;
+}
+
+.ctv-label {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 10px;
+  color: #f9fafb;
+  margin-right: 4px;
+  margin-left:15px;
+}
+
+.ctv-story-copy {
+  margin: 4px 0 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #e5e7eb;
+}
+
+/* BOTTOM TICKER STRIP */
+
+.ctv-ticker-shell {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  background: #001427;
+  border-top: 2px solid #e30613;
+  border-bottom: 2px solid #e30613;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.9);
+  width:100vw;
+  position:relative;
+  left:-30px;
+}
+
+.ctv-ticker-label {
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #e30613, #b10610);
+  border-right: 1px solid #7f0210;
+  display: flex;
+  align-items: center;
+  padding-left:30px;
+}
+
+.ctv-ticker-mask {
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.ctv-ticker-track {
+  display: inline-flex;
+  gap: 40px;
+  padding: 6px 0;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  animation: ctvTickerMove 54s linear infinite;
+}
+
+.ctv-ticker-track span {
+  padding-left: 40px;
+}
+.womens-class{
+  width:100vw
+}
+
+/* Ticker animation */
+@keyframes ctvTickerMove {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Small-device tweaks */
+
+@media (max-width: 390px) {
+  .ctv-story-title {
+    font-size: 15px;
+  }
+
+  .ctv-headline-right {
+    font-size: 12px;
+  }
+
+  .ctv-lower-main {
+    padding: 3px 6px;
+  }
+
+  .ctv-lower-side {
+    min-width: 70px;
+  }
+}

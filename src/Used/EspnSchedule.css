@@ -1,74 +1,201 @@
-@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600&display=swap');
+/* ESPNSchedule.css — ESPN-inspired, crisp black/red UI, mobile-first */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&family=Oswald:wght@600;700&display=swap');
 
-:root {
-  --espn-red: #e82110;
-  --espn-bg: #121212;
-  --espn-card: #1e1e1e;
-  --espn-text: #ffffff;
-  --espn-muted: #bbbbbb;
+:root{
+  --espn-red: #e31837;
+  --espn-red-dark: #b8152c;
+  --bg: #0b0b0b;
+  --panel: #151515;
+  --text: #f5f5f5;
+  --sub: #cfcfcf;
+  --border: rgba(255,255,255,.12);
+  --shadow: rgba(0,0,0,.35);
 }
 
- 
+*{ box-sizing: border-box; }
 
-.espn-container {
-  background: var(--espn-bg);
+.espn-wrap{
   min-height: 100vh;
-  padding: 40px 40px 20px;
-  font-family: 'Rajdhani', sans-serif;
-  color: var(--espn-text);
+  width: 100vw;
+  padding: 156px 14px 60px;
+  background: radial-gradient(120% 100% at 50% -10%, #111 0%, var(--bg) 55%, #000 100%);
+  color: var(--text);
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-x: hidden;
 }
 
-.espn-day {
-  font-size: 9vw;
-  color: var(--espn-text);
-   margin-bottom: 30px;
-  padding-bottom: 6px;
-  letter-spacing: 1px;
-  margin-top: 30px;
-}
-
-.espn-track {
+/* Header */
+.espn-head{
   width: 100%;
-  max-width: 500px;
+  max-width: 620px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: end;
+  gap: 12px;
+  border-bottom: 4px solid var(--espn-red);
+  padding-bottom: 8px;
+  opacity: 0;
+  transform: translateY(6px);
+}
+.espn-head--in{ animation: espnHead .28s ease-out forwards; }
+@keyframes espnHead{ to{ opacity:1; transform: translateY(0);} }
+
+.espn-brand{
+  font-family: "Oswald", system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: .08em;
+  font-size: 8vw;
+  line-height: .9;
+  color: #fff;
+  padding: 2px 8px;
+  background: var(--espn-red);
+  border-radius: 6px;
+  text-shadow: 0 1px 0 #0005;
 }
 
-.espn-class-container {
-  margin-bottom: 18px;
+.espn-day{
+  margin: 0;
+  font-family: "Oswald", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 10vw;
+  line-height: .9;
+  color: #ffffff;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 0 #000, 0 8px 24px rgba(0,0,0,.35);
+  text-align: center;
+  margin-bottom:50px;
 }
 
-.espn-class {
+/* List */
+.espn-list{
+  width: 100%;
+  max-width: 620px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+/* Card rows */
+.espn-card{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: var(--espn-card);
-  border-left: 6px solid var(--espn-red);
-  padding: 18px 20px;
-  border-radius: 6px;
-  transform: translateY(20px);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.0)),
+    var(--panel);
+  border: 1px solid var(--border);
+  border-left: 8px solid var(--espn-red);
+  border-radius: 14px;
+  padding: 12px 14px;
+  box-shadow: 0 8px 24px var(--shadow), inset 0 0 0 9999px rgba(0,0,0,.06);
+  transform: translateY(12px);
   opacity: 0;
-  animation: fadeInEspn 0.5s forwards;
+  backdrop-filter: blur(3px);
+}
+.espn-in{ animation: espnRow .26s ease-out forwards; }
+@keyframes espnRow{ to{ transform: translateY(0); opacity: 1; } }
+
+.espn-left{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
 }
 
-.espn-class-name {
-  font-size: 5.5vw;
-  color: var(--espn-text);
-  max-width: 70%;
-  word-break: break-word;
+.espn-stripe{
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, var(--espn-red), var(--espn-red-dark));
+  box-shadow: 0 0 0 2px rgba(255,255,255,.06), 0 0 10px rgba(227,24,55,.35);
+  flex: 0 0 auto;
+}
+
+.espn-name{
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: .01em;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Replacement styling */
+.espn-swap{ display:inline-flex; align-items:center; gap:.5rem; }
+.espn-old{ text-decoration: line-through; opacity:.65; }
+.espn-arrow{ opacity:.8; }
+.espn-new{ color:#fff; }
+
+/* MAPLE chip */
+.espn-chip{
+  margin-left: 8px;
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: .68rem;
+  padding: 3px 8px;
+  border-radius: 999px;
+  color: #0b0b0b;
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,.25);
+  letter-spacing: .08em;
   text-transform: uppercase;
+  box-shadow: 0 0 10px rgba(255,255,255,.15), inset 0 0 6px rgba(255,255,255,.25);
+  white-space: nowrap;
 }
 
-.espn-class-time {
-  font-size: 4.8vw;
-  color: var(--espn-red);
-  font-weight: 600;
+/* Time pill */
+.espn-time{
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: .98rem;
+  color: #fff;
+  background: linear-gradient(180deg, var(--espn-red), var(--espn-red-dark));
+  border: 1px solid rgba(0,0,0,.35);
+  border-radius: 999px;
+  padding: 5px 10px;
+  box-shadow: 0 3px 0 rgba(0,0,0,.25), 0 0 10px rgba(227,24,55,.25);
+  white-space: nowrap;
 }
 
-@keyframes fadeInEspn {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Bottom ticker */
+.espn-ticker{
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  background: #0e0e0e;
+  border-top: 3px solid var(--espn-red);
+  height: 34px;
+  overflow: hidden;
+  z-index: 5;
+}
+.espn-tape{
+  position: absolute;
+  white-space: nowrap;
+  color: #fff;
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: .06em;
+  font-size: .85rem;
+  line-height: 34px;
+  animation: tape 16s linear infinite;
+  padding-left: 100%;
+}
+@keyframes tape{
+  0%{ transform: translateX(0); }
+  100%{ transform: translateX(-100%); }
+}
+
+/* Tight mobile */
+@media (max-width: 420px){
+  .espn-brand{ font-size: 9vw; }
+  .espn-day{ font-size: 12vw; text-align: center; }
+  .espn-card{ padding: 10px 12px; border-radius: 12px; }
+  .espn-name{ font-size: .95rem; }
+  .espn-time{ font-size: .9rem; padding: 4px 9px; }
+  .espn-chip{ font-size: .6rem; padding: 2px 6px; }
 }

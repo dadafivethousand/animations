@@ -1,3 +1,4 @@
+/* CowboySchedule.css — with MAPLE badge inside each class row */
 /* 🤠 Import Wild West Saloon Font */
 @font-face {
   font-family: "WildWest";
@@ -22,17 +23,22 @@
 /* 🏜️ Floating Dust Effect */
 .cowboy-dust {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 5%, transparent 60%);
+  width: 120%;
+  height: 120%;
+  top: -10%;
+  left: -10%;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.06) 0 35%, transparent 36%),
+    radial-gradient(circle at 70% 60%, rgba(255,255,255,0.05) 0 28%, transparent 29%),
+    radial-gradient(circle at 40% 80%, rgba(255,255,255,0.04) 0 22%, transparent 23%);
   animation: dustFloat 5s infinite alternate ease-in-out;
   pointer-events: none;
   filter: blur(10px);
 }
 
 @keyframes dustFloat {
-  0% { opacity: 0.2; transform: translateY(-20px); }
-  100% { opacity: 0.5; transform: translateY(20px); }
+  0% { opacity: 0.18; transform: translate(-8px, -10px) scale(1.02); }
+  100% { opacity: 0.45; transform: translate(8px, 10px) scale(1.05); }
 }
 
 /* 🏜️ Header - Old Western Town Sign */
@@ -53,10 +59,16 @@
   color: #f5deb3;
   font-family: "WildWest", sans-serif;
   letter-spacing: 3px;
-  text-shadow: 
-    0px 0px 5px rgba(139, 69, 19, 0.8),
-    0px 0px 10px rgba(139, 69, 19, 0.6),
-    0px 0px 15px rgba(139, 69, 19, 0.4);
+  text-shadow:
+    0 0 5px rgba(139, 69, 19, 0.8),
+    0 0 10px rgba(139, 69, 19, 0.6),
+    0 0 15px rgba(139, 69, 19, 0.4);
+}
+
+/* List container */
+.cowboy-content {
+  width: 100%;
+  padding: 8px 10px 16px;
 }
 
 /* 🔥 Class Entries - Worn Out Paper */
@@ -65,50 +77,87 @@
   justify-content: space-between;
   align-items: center;
   min-width: 250px;
-  padding: 15px;
-  margin: 5px auto;;
-  font-size: 1.3rem;
+  padding: 12px 14px;
+  margin: 6px auto;
+  font-size: 1.05rem;
   font-family: "WildWest", sans-serif;
-  background: rgba(67, 29, 2, 0.493);
+  background: rgba(67, 29, 2, 0.5);
   border: 3px solid rgba(139, 69, 19, 0.9);
   text-transform: uppercase;
   color: #f5deb3;
-  text-shadow: 0px 0px 10px rgba(139, 69, 19, 0.6);
-   transition: transform 1.4s ease-in-out;
+  text-shadow: 0 0 10px rgba(139, 69, 19, 0.6);
+  transition: transform 1.4s ease-in-out;
+  max-width: 640px;
+  gap: 8px;
+  height:100px;
+}
+
+/* Left side (name + MAPLE badge) */
+.cowboy-left{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.cowboy-class-name{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 📍 MAPLE badge (sheriff badge vibe) */
+.cowboy-badge{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 2px solid #f5deb3;
+  color: #2b1603;
+  background:
+    linear-gradient(180deg, #f7e3b0 0%, #e6c87e 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.6),
+    0 2px 6px rgba(0,0,0,0.25);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .06em;
+}
+.cowboy-star{
+  color: #b8860b;
+  filter: drop-shadow(0 0 2px rgba(184,134,11,.6));
+}
+
+/* Time */
+.cowboy-class-time{
+  white-space: nowrap;
+  font-weight: 800;
+  letter-spacing: .02em;
 }
 
 /* 🤠 SLAM IN EFFECT - "THROWN POSTER" */
-.cowboy-drop-left {
-  animation: slamLeft 0.7s forwards ease-out;
-}
-.cowboy-drop-right {
-  animation: slamRight 0.7s forwards ease-out;
-}
+.cowboy-drop-left { animation: slamLeft 0.7s forwards ease-out; }
+.cowboy-drop-right{ animation: slamRight 0.7s forwards ease-out; }
 
-/* 🔥 LEFT DROP */
 @keyframes slamLeft {
   0% { opacity: 0; transform: translateX(-150%) rotate(-10deg); }
   60% { opacity: 1; transform: translateX(10px) rotate(2deg); }
   100% { transform: translateX(0) rotate(0); }
 }
-
-/* 🔥 RIGHT DROP */
 @keyframes slamRight {
   0% { opacity: 0; transform: translateX(150%) rotate(10deg); }
   60% { opacity: 1; transform: translateX(-10px) rotate(-2deg); }
   100% { transform: translateX(0) rotate(0); }
 }
 
-/* 🤠 Hover Effect - Slight Wind Sway */
-.cowboy-class:hover {
-  transform: rotate(1deg) scale(1.02);
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
+/* 🤠 Hover Effect - Slight Wind Sway (desktop only) */
+@media (hover:hover){
+  .cowboy-class:hover {
+    transform: rotate(1deg) scale(1.02);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
+  }
 }
 
-/* 🌵 Slight Sway for Each Poster */
-.cowboy-class:nth-child(odd) {
-  transform: rotate(-1deg);
-}
-.cowboy-class:nth-child(even) {
-  transform: rotate(1deg);
-}
+/* Slight stagger rotation for flavor */
+.cowboy-class-container:nth-child(odd) .cowboy-class { transform: rotate(-1deg); }
+.cowboy-class-container:nth-child(even) .cowboy-class{ transform: rotate(1deg); }

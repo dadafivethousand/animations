@@ -1,0 +1,188 @@
+/* DeepOceanSchedule.css */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&display=swap');
+
+:root{
+  --sea-abyss:#00111b;
+  --sea-deep:#001a28;
+  --sea-mid:#032b3f;
+  --sea-foam:#73f7ff;
+  --sea-foam-soft:#35d6e8;
+  --sea-glass:#0a1620;
+  --sea-edge:#113245;
+  --kelp:#1fb87a;
+  --kelp-dark:#128f5e;
+  --white:#eafaff;
+}
+
+*{ box-sizing:border-box; }
+
+.ocean-wrap{
+  min-height:100vh;
+  width:100%;
+  color: var(--white);
+  font-family: 'Manrope', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  padding: 98px 14px 46px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:16px;
+  background:
+    radial-gradient(1200px 700px at 70% 10%, rgba(115,247,255,.12), transparent 60%),
+    linear-gradient(180deg, var(--sea-abyss) 0%, var(--sea-deep) 45%, var(--sea-mid) 100%);
+  position:relative;
+  isolation:isolate;
+  overflow-x:hidden;
+}
+
+/* moving caustics */
+.ocean-wrap::before{
+  content:"";
+  position:absolute; inset:-20% -20% -10% -20%;
+  background:
+    repeating-conic-gradient(from 0deg at 50% 50%,
+      rgba(255,255,255,.10) 0 6deg, transparent 6deg 12deg);
+  mix-blend-mode: screen;
+  opacity:.18;
+  filter: blur(14px) saturate(120%);
+  animation: caustics 24s linear infinite;
+  pointer-events:none;
+  z-index:-1;
+}
+@keyframes caustics{
+  0%{ transform: translateY(0) scale(1); }
+  50%{ transform: translateY(-6%) scale(1.06) rotate(2deg); }
+  100%{ transform: translateY(0) scale(1); }
+}
+
+/* drifting bubbles */
+.ocean-wrap::after{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    radial-gradient(circle at 10% 110%, rgba(255,255,255,.12) 0 2px, transparent 3px),
+    radial-gradient(circle at 30% 120%, rgba(255,255,255,.10) 0 1.6px, transparent 2.6px),
+    radial-gradient(circle at 55% 115%, rgba(255,255,255,.13) 0 2.2px, transparent 3.2px),
+    radial-gradient(circle at 78% 118%, rgba(255,255,255,.09) 0 1.8px, transparent 2.8px),
+    radial-gradient(circle at 90% 112%, rgba(255,255,255,.11) 0 2px, transparent 3px);
+  background-repeat: no-repeat;
+  animation: bubbles 28s linear infinite;
+  pointer-events:none;
+  opacity:.35;
+  z-index:-1;
+}
+@keyframes bubbles{
+  0%{ background-position: 0% 100%, 20% 110%, 50% 105%, 80% 115%, 95% 108%; }
+  100%{ background-position: 0% -10%, 20% 0%, 50% -5%, 80% -15%, 95% -8%; }
+}
+
+/* day heading */
+.ocean-day{
+  text-transform:uppercase;
+  letter-spacing:.22em;
+  font-weight:800;
+  font-size: clamp(22px, 6.5vw, 44px);
+  text-shadow: 0 0 26px rgba(53,214,232,.35);
+}
+
+/* list */
+.ocean-list{
+  width:min(960px, 96%);
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+/* wrapper for card + maple plaque */
+.ocean-card-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  animation: rise .28s ease-out both;
+}
+@keyframes rise{ from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:translateY(0)} }
+
+/* card */
+.ocean-card{
+  position:relative;
+  display:grid;
+  grid-template-columns: 1fr auto;
+  align-items:center;
+  gap:12px;
+  padding: 16px 18px;
+  border-radius: 14px 14px 0 0;    /* maple attaches under */
+  background: linear-gradient(180deg, rgba(6,20,30,.65), rgba(5,16,26,.65));
+  border: 1px solid var(--sea-edge);
+  box-shadow:
+    inset 0 0 22px rgba(115,247,255,.06),
+    0 18px 46px rgba(0,0,0,.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  overflow:hidden;
+}
+
+/* glow edges */
+.oc-corner{
+  position:absolute; width:16px; height:16px; border:2px solid var(--sea-foam);
+  filter: drop-shadow(0 0 10px rgba(115,247,255,.45));
+}
+.oc-corner.tl{ top:-6px; left:-6px; border-bottom:none; border-right:none; border-radius:8px 0 0 0; }
+.oc-corner.tr{ top:-6px; right:-6px; border-bottom:none; border-left:none; border-radius:0 8px 0 0; }
+.oc-corner.bl{ bottom:-6px; left:-6px; border-top:none; border-right:none; border-radius:0 0 0 8px; }
+.oc-corner.br{ bottom:-6px; right:-6px; border-top:none; border-left:none; border-radius:0 0 8px 0; }
+
+/* left cluster */
+.ocean-left{ display:flex; align-items:center; gap:12px; min-width:0; flex-wrap:wrap; }
+
+.ocean-name{
+  font-weight:800;
+  font-size: clamp(18px, 5vw, 24px);
+  letter-spacing:.02em;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+
+.ocean-name-block{ display:inline-flex; gap:10px; align-items:baseline; min-width:0; flex-wrap:wrap; }
+.ocean-name.old{
+  opacity:.6;
+  text-decoration: line-through;
+  text-decoration-thickness: 3px;
+  text-decoration-color: rgba(115,247,255,.6);
+}
+.ocean-name.new{
+  color:var(--white);
+  text-shadow: 0 0 14px rgba(115,247,255,.35);
+}
+
+/* time chip */
+.ocean-time{
+  font-weight:900;
+  font-size: clamp(14px, 4.2vw, 18px);
+  color:#001017;
+  background: linear-gradient(180deg, var(--sea-foam), var(--sea-foam-soft));
+  border: 1px solid #2eb0c5;
+  border-radius: 10px;
+  padding: 6px 12px;
+  box-shadow:
+    0 0 20px rgba(115,247,255,.35),
+    inset 0 0 10px rgba(255,255,255,.25);
+}
+
+/* maple plaque like kelp strip */
+.ocean-maple{
+  text-align:center;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:#00221b;
+  background: linear-gradient(180deg, var(--kelp), var(--kelp-dark));
+  border: 1px solid #0f6f4a;
+  border-top:none;
+  border-radius: 0 0 14px 14px;
+  padding: 8px 10px;
+  box-shadow: 0 14px 28px rgba(0,0,0,.45), inset 0 -8px 14px rgba(0,0,0,.12);
+  transform: translateY(-2px);
+}
+
+/* small screens */
+@media (max-width: 420px){
+  .ocean-time{ font-size:14px; }
+}

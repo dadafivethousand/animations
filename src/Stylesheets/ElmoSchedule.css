@@ -1,0 +1,187 @@
+/* ElmoSchedule.css — boosted weekday contrast */
+@import url("https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Inter:wght@600;700&display=swap");
+
+:root{
+  /* Elmo palette */
+  --el-red-dark:#9f0f16;
+  --el-red:#e41c24;
+  --el-red-soft:#ff4a50;
+  --el-orange:#f59e0b;
+  --el-yellow:#ffd166;
+
+  --el-bg-1:#ffefef;
+  --el-bg-2:#ffe6e6;
+
+  --el-card:#ffffff;
+  --el-card-2:#fff8f8;
+
+  --el-ink:#1d0b0b;
+  --el-border:rgba(228,28,36,.18);
+  --el-shadow:0 10px 24px rgba(100,0,0,.18);
+}
+
+*{ box-sizing:border-box; }
+
+.elmo-wrap{
+  min-height:100vh;
+  width:100vw;
+  background:
+    radial-gradient(20px 20px at 18% 16%, rgba(228,28,36,.08) 0 60%, transparent 62%) repeat,
+    radial-gradient(26px 26px at 84% 12%, rgba(245,158,11,.10) 0 60%, transparent 62%) repeat,
+    linear-gradient(180deg, var(--el-bg-1) 0%, var(--el-bg-2) 100%);
+  background-size: 120px 120px, 160px 160px, auto;
+  color:var(--el-ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:14px;
+  padding-top:80px; /* minimum 50px top padding */
+}
+
+/* Header — add stronger separation from background */
+.elmo-header{
+  width:100%;
+  max-width:560px;
+  padding:12px 4px 14px;
+  position:sticky;
+  top:0;
+  text-align:center;
+  background:
+    linear-gradient(180deg, rgba(255,239,239,.94), rgba(255,230,230,.82));
+  border-bottom:1px solid var(--el-border);
+  backdrop-filter: blur(6px);
+  z-index:2;
+  margin-bottom:70px
+}
+
+/* Weekday: solid, high-contrast text + pill behind it */
+.elmo-day{
+  position:relative;
+  margin:0;
+  display:inline-block;
+  font-family:"Luckiest Guy", system-ui, sans-serif;
+  font-size:40px;         /* bigger day label */
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  padding:6px 16px;       /* space for the pill */
+  color:#ffffff;          /* SOLID white for max contrast */
+  text-shadow:
+    0 2px 0 rgba(0,0,0,.28),
+    0 0 14px rgba(228,28,36,.35);
+}
+.elmo-day::before{
+  content:"";
+  position:absolute;
+  inset:-4px -10px;       /* pill size around the text */
+  border-radius:999px;
+  background:
+    linear-gradient(180deg, var(--el-red), var(--el-red-dark));
+  box-shadow:
+    0 2px 0 rgba(0,0,0,.18),
+    0 10px 22px rgba(228,28,36,.25),
+    inset 0 1px 0 rgba(255,255,255,.25);
+  z-index:-1;
+}
+
+/* List (80% width) */
+.elmo-list{
+  width:80%;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-top:10px;
+}
+
+/* Card */
+.elmo-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:30px 12px;
+  background:
+    linear-gradient(180deg, var(--el-card), var(--el-card-2));
+  border:1px solid var(--el-border);
+  border-radius:14px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.7),
+    var(--el-shadow);
+  opacity:0;
+  transform: translateY(8px);
+  min-height:56px; /* compact */
+}
+
+/* In animation */
+.elmo-in{ animation: elmo-rise .24s ease-out forwards; }
+@keyframes elmo-rise{ to{ opacity:1; transform:translateY(0);} }
+
+/* Left row: title + maple inline, start-justified */
+.elmo-left{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:8px;
+  flex:1 1 auto;
+  flex-wrap:nowrap;
+}
+
+/* Compact title */
+.elmo-title{
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight:700;
+  font-size:15px;
+  line-height:1.2;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  min-width:0;
+  color:var(--el-ink);
+}
+
+/* Replacement styling */
+.elmo-swap .elmo-old{ text-decoration:line-through; opacity:.65; }
+.elmo-swap .elmo-arrow{ opacity:.65; margin:0 6px; }
+.elmo-swap .elmo-new{ font-weight:800; }
+
+/* Maple chip inline */
+.elmo-chip{
+  font-size:11px;
+  line-height:1;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(245,158,11,.55);
+  background:linear-gradient(180deg, rgba(228,28,36,.14), rgba(228,28,36,.10));
+  color:#651113;
+  white-space:nowrap;
+  flex:0 0 auto;
+  box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.04);
+}
+.elmo-chip--maple{}
+
+/* Time block: fixed width 90px, centered text */
+.elmo-time{
+  font:800 13px/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color:#3a1f00;
+  background:linear-gradient(180deg, #fff3c4, var(--el-yellow));
+  border:1px solid rgba(245,158,11,.55);
+  border-radius:10px;
+  padding:6px 8px;
+  white-space:nowrap;
+  width:90px;       /* fixed width */
+  flex:0 0 90px;    /* prevent grow/shrink */
+  text-align:center;/* centered */
+  text-shadow:0 1px 0 rgba(255,255,255,.85);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .elmo-in{ animation:none; opacity:1; transform:none; }
+}
+
+/* Slightly larger screens */
+@media (min-width:481px){
+  .elmo-card{ padding:12px 14px; }
+  .elmo-time{ font-size:13px; }
+}

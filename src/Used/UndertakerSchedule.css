@@ -6,12 +6,17 @@
   --undertaker-flame: #ff4400;
   --text-white: #ffffff;
   --glow-shadow: rgba(0, 115, 230, 0.7);
+
+  /* Maple chip palette (high contrast on blue) */
+  --maple-bg: #103b28;
+  --maple-br: #47d08f;
+  --maple-ink: #eafff5;
 }
 
 .undertaker-container {
-    background-color: black;
-    background-image: url("../Images/taker.gif");
-    background-repeat: no-repeat;
+  background-color: black;
+  background-image: url("../Images/Used/taker.gif");
+  background-repeat: no-repeat;
   min-height: 100vh;
   padding: 40px 16px 20px;
   font-family: 'Bebas Neue', sans-serif;
@@ -21,41 +26,35 @@
   background-position: top;
   background-size: contain;
   justify-content: flex-start;
-
 }
 
 .undertaker-day {
   font-size: 15vw;
   color: #ffffff;
-  margin-bottom: 30px;
   letter-spacing: 3px;
   text-shadow: 0 0 15px var(--glow-shadow);
   text-align: center;
-   width:100%;
-  margin: 0 auto;
-            background-color: #0000008a;
-            border-top:4px solid white;
-                    border-bottom:4px solid white;
-                    margin-bottom: 20px;
+  width: 100%;
+  margin: 0 auto 20px;
+  background-color: #0000008a;
+  border-top: 4px solid white;
+  border-bottom: 4px solid white;
 }
 
 .undertaker-track {
   width: 100vw;
   max-width: 500px;
- 
- 
 }
 
-.undertaker-class-container {
-  margin-bottom: 4px;
-}
+.undertaker-class-container { margin-bottom: 4px; }
 
 .undertaker-day-track{
   position: absolute;
-  bottom:5px;
-    min-height:50vh
+  bottom: 5px;
+  min-height: 50vh;
 }
 
+/* Card */
 .undertaker-class {
   display: flex;
   justify-content: space-between;
@@ -69,22 +68,49 @@
   opacity: 0;
   animation: fadeInUndertaker 0.5s forwards;
   transition: transform 0.3s ease;
-  width:85%;
+  width: 85%;
   margin: 0 auto;
+}
+.undertaker-class:hover { transform: scale(1.03); }
 
+/* Left column inside the card */
+.undertaker-left{
+  min-width: 0;
+  display: flex;
+ 
+  gap: 4px;
 }
 
-.undertaker-class:hover {
-  transform: scale(1.03);
-}
-
+/* Title */
 .undertaker-class-name {
   font-size: 5.5vw;
   color: var(--text-white);
-  max-width: 70%;
-  word-break: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
+/* Maple badge */
+.undertaker-tags { display:flex; gap:6px; }
+.undertaker-chip{
+  font-size: 12px;
+  line-height: 1;
+  padding: 7px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.25);
+  background: rgba(255,255,255,.10);
+  color: #fff;
+  white-space: nowrap;
+}
+.undertaker-chip--maple{
+   color: var(--maple-ink);
+  box-shadow: 0 0 0 1px rgba(71,208,143,.18);
+
+  position:relative;
+ 
+}
+
+/* Time */
 .undertaker-class-time {
   font-size: 4.8vw;
   color: var(--undertaker-flame);

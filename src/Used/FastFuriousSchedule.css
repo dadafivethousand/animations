@@ -20,9 +20,7 @@
     font-weight: bold;
     font-family: "Impact", sans-serif;
     color: white;
-    text-shadow: 6px 6px 0px black, 12px 12px 20px rgba(0, 0, 0, 0.9);
-    animation: nosBoost 0.5s infinite alternate ease-in-out;
-    letter-spacing: 2px;
+     letter-spacing: 2px;
     background: linear-gradient(to right, #FFD700, #FF4500);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -46,7 +44,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 80%;
+    width: 95%;
     margin: 5px auto;
     padding: 12px;
     font-size: 22px;
@@ -60,6 +58,54 @@
     transition: transform 0.3s ease-in-out;
     animation: fastEntry 0.8s ease-out forwards, shakeOnBoost 1.5s infinite alternate ease-in-out;
     position: relative;
+}
+
+/* Left cluster: name + maple badge */
+.ff-left{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    min-width:0;
+}
+
+/* 🏷️ Maple badge (kept inside the card) */
+.ff-maple{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:2px 8px;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:#1a0d00;
+    background: linear-gradient(180deg, #FFD700, #FFB300);
+    border:1px solid #b88a00;
+    border-radius:999px;
+    box-shadow:
+      inset 0 0 8px rgba(255,255,255,0.25),
+      0 0 12px rgba(255, 215, 0, 0.45);
+    white-space:nowrap;
+    text-shadow: none;
+}
+.ff-pin{
+    line-height:1;
+    filter: drop-shadow(0 0 4px rgba(255, 153, 0, 0.6));
+}
+
+/* 🏁 STREET RACING TEXT */
+.fastfurious-class-name {
+    display: block;
+    font-size: 14px;
+    color: #FFD700; /* Gold neon glow */
+    text-shadow: 4px 4px 0px black, 6px 6px 10px rgba(255, 255, 255, 0.8);
+}
+
+/* ⏱️ CLOCK-STYLE TIME TEXT */
+.fastfurious-class-time {
+    font-size: 14px;
+    color: #FF4500; /* Deep orange */
+    text-shadow: 3px 3px 0px black, 5px 5px 15px rgba(255, 255, 255, 0.8);
+    font-family: monospace;
 }
 
 /* 🏁 TURBO ENTRY EFFECT */
@@ -76,22 +122,6 @@
     50% { transform: translateX(2px); }
     75% { transform: translateX(-2px); }
     100% { transform: translateX(0); }
-}
-
-/* 🏁 STREET RACING TEXT */
-.fastfurious-class-name {
-    display: block;
-    font-size: 24px;
-    color: #FFD700; /* Gold neon glow */
-    text-shadow: 4px 4px 0px black, 6px 6px 10px rgba(255, 255, 255, 0.8);
-}
-
-/* ⏱️ CLOCK-STYLE TIME TEXT */
-.fastfurious-class-time {
-    font-size: 20px;
-    color: #FF4500; /* Deep orange */
-    text-shadow: 3px 3px 0px black, 5px 5px 15px rgba(255, 255, 255, 0.8);
-    font-family: monospace;
 }
 
 /* 🔥 NOS BOOST LIGHT */

@@ -1,0 +1,178 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Oswald:wght@500;600&display=swap');
+
+:root{
+  --tdf-yellow:#ffd100;      /* maillot jaune */
+  --tdf-ink:#0b0c10;
+  --tdf-asphalt:#1b1d22;
+  --tdf-line:#e0e3ea;
+  --tdf-edge:#2e3138;
+  --tdf-red:#d72638;         /* sprint pop */
+  --tdf-sky:#0f1f4a;
+}
+
+.tdf-wrap{
+  min-height:100vh;
+  width:94vw;
+  color:#fff;
+  background:
+    linear-gradient(180deg, #0c0d12 0%, #0a0b10 60%, #08090d 100%);
+  font-family: 'Montserrat', system-ui, sans-serif;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding: 68px 12px 36px;
+  position: relative;
+}
+
+/* road stripe backdrop */
+.tdf-wrap::before{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.06) 0 2px, transparent 2px 8px),
+    linear-gradient(180deg, var(--tdf-asphalt), #13151a 70%, #101217);
+  opacity:.7;
+  pointer-events:none;
+}
+
+/* header jersey (yellow) */
+.tdf-header{
+  width:230px;
+  margin: 6px auto 18px;
+  z-index:1;
+  text-align: center;
+  margin-bottom: 50px;
+}
+.tdf-jersey{
+ 
+ text-align: center;
+  background: linear-gradient(180deg, #ffe34a, var(--tdf-yellow));
+  color:#111;
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: 1px solid #f4c700;
+  box-shadow: 0 8px 24px rgba(0,0,0,.35), inset 0 -6px 12px rgba(0,0,0,.08);
+  margin: 0 auto;
+}
+.tdf-jersey-title{
+  font-family:'Oswald', sans-serif;
+  letter-spacing:.06em;
+  font-weight:700;
+  font-size: 30px
+}
+.tdf-day{
+  font-family:'Oswald', sans-serif;
+  letter-spacing:.14em;
+  font-weight:700;
+  font-size: 30px;
+  color:#222;
+}
+
+/* stage list */
+.tdf-stage-list{
+  width:min(880px,80%);
+  display:flex;
+  flex-direction:column;
+  gap:32px;
+  z-index:1;
+  margin: 0 auto;
+}
+
+/* wrap each card + maple plaque */
+.tdf-stage-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+}
+
+/* stage card */
+.tdf-stage-card{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding: 12px 16px;
+  border-radius: 12px 12px 0 0; /* maple bar attaches under */
+  background:
+    linear-gradient(180deg, #161922, #121520);
+  border: 1px solid var(--tdf-edge);
+  box-shadow: 0 10px 24px rgba(0,0,0,.35);
+  transform: translateY(10px);
+  opacity: 0;
+  animation: tdf-in .36s ease-out forwards;
+}
+
+@keyframes tdf-in {
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.tdf-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
+}
+.tdf-bib{
+  display:inline-grid;
+  place-items:center;
+  width:28px; height:28px;
+  border-radius:6px;
+  background:#fff;
+  color:#111;
+  font-weight:800;
+  font-size:14px;
+  border:2px solid var(--tdf-yellow);
+  box-shadow:0 2px 8px rgba(0,0,0,.25);
+}
+.tdf-name{
+  font-weight:700;
+  font-size: clamp(16px, 4.2vw, 22px);
+  letter-spacing:.02em;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.tdf-time{
+  font-weight:800;
+  font-size: clamp(15px, 4vw, 20px);
+  color: var(--tdf-yellow);
+  padding:6px 10px;
+  border-radius:8px;
+  border:1px solid #3a3d47;
+  background: linear-gradient(180deg, #161922, #10131b);
+  box-shadow: inset 0 0 10px rgba(255,255,255,.05);
+}
+
+/* bracket chevrons */
+.tdf-corner{
+  position:absolute; width:14px; height:14px;
+  border: 2px solid var(--tdf-yellow);
+  filter: drop-shadow(0 0 6px rgba(255,209,0,.35));
+}
+.tdf-corner.tl{ top:-6px; left:-6px; border-bottom:none; border-right:none; border-radius:6px 0 0 0; }
+.tdf-corner.tr{ top:-6px; right:-6px; border-bottom:none; border-left:none; border-radius:0 6px 0 0; }
+.tdf-corner.bl{ bottom:-6px; left:-6px; border-top:none; border-right:none; border-radius:0 0 0 6px; }
+.tdf-corner.br{ bottom:-6px; right:-6px; border-top:none; border-left:none; border-radius:0 0 6px 0; }
+
+/* Maple plaque */
+.tdf-maple{
+  text-align:center;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:#0a0c12;
+  background: var(--tdf-yellow);
+  border: 1px solid #f4c700;
+  border-top:none;                 /* attach under card */
+  border-radius: 0 0 12px 12px;
+  padding: 6px 10px;
+  box-shadow: 0 10px 20px rgba(0,0,0,.35), inset 0 -6px 10px rgba(0,0,0,.08);
+  transform: translateY(-2px);     /* hide seam */
+}
+
+/* responsive tweak */
+@media (max-width: 420px){
+  .tdf-bib{ width:24px; height:24px; font-size:12px; }
+  .tdf-time{ font-size:14px; }
+}

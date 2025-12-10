@@ -1,0 +1,245 @@
+/* WatchTheThroneSchedule.css
+   Watch The Throne aesthetic:
+   - Bold, regal gold lettering over a dark / textured background (you will paste the album cover).
+   - Cards are semi-translucent dark plaques with gold trim so text is readable against the cover.
+   - Mobile-first. Top padding >= 50px. List width = 80%. Time block fixed = 90px.
+   - Prefix: watchthrone-
+   - Respects prefers-reduced-motion.
+*/
+
+/* Fonts: display serif for title, strong condensed for content */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Roboto+Condensed:wght@700&display=swap');
+
+:root{
+  --wt-bg-veil: rgba(8,8,10,0.56);    /* dark veil to improve contrast over album cover */
+  --wt-card:#e8c66a;         /* semi-translucent plaque */
+  --wt-gold-0: #e8c66a;               /* bright gold */
+  --wt-gold-1: #b98f2a;               /* deep gold */
+  --wt-ink: #f6f3ee;                  /* light text */
+  --wt-muted: rgba(246,243,238,0.86);
+  --wt-border: rgba(255,230,150,0.12);
+  --wt-shadow: 0 20px 50px rgba(0,0,0,0.7);
+  --wt-accent: rgba(232,198,106,0.06);
+}
+
+/* global */
+* { box-sizing: border-box; }
+
+/* wrapper — don't force a background image here; paste your album cover via background-image if you like */
+.watchthrone-wrap{
+  min-height:100vh;
+  width:100vw;
+  padding:12px;
+  padding-top:56px; /* >=50px */
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  /* If you want the album cover as background, add it here:
+     background-image: url('../Media/watch_the_throne.jpg');
+     background-size: cover;
+     background-position: center;
+  */
+  background-color: #0b0b0b; /* fallback dark */
+  position:relative;
+  font-family: 'Roboto Condensed', system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  color: var(--wt-ink);
+  background-image: url(../Images/watchthethrone.jpg);
+}
+
+/* overlay to dim the background cover and ensure legibility */
+.watchthrone-overlay{
+  position:absolute;
+  inset:0;
+   pointer-events:none;
+  z-index:0;
+}
+
+/* header: big ornate title */
+.watchthrone-header{
+  width:100%;
+  max-width:920px;
+  padding:18px 12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:sticky;
+  top:0;
+  z-index:30;
+  pointer-events:none;
+  font-size: 35px;
+}
+
+/* Title: heavy serif, gold gradient, small stroke and subtle emboss to pop from background */
+.watchthrone-day{
+  margin:0;
+  z-index:35;
+  position:relative;
+  font-family: 'Playfair Display', serif;
+  font-weight:700;
+  font-size:36px; /* larger per contract */
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color: var(--wt-gold-0);
+  background: linear-gradient(180deg, var(--wt-gold-0), var(--wt-gold-1));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow:
+    0 1px 0 rgba(0,0,0,0.6),
+    0 8px 30px rgba(0,0,0,0.6);
+  /* light stroke */
+  -webkit-text-stroke: 0.6px rgba(16,12,10,0.55);
+  pointer-events:none;
+}
+
+/* duplicate faint metallic stroke behind for extra readability on highly detailed covers */
+.watchthrone-day::after{
+  content: attr(data-text);
+  position:absolute;
+  left:0;
+  top:0;
+  z-index:-1;
+  color: rgba(16,12,10,0.6);
+  transform: translateY(6px);
+  filter: blur(3px);
+  opacity:0.35;
+  pointer-events:none;
+}
+
+/* list container (80% width) */
+.watchthrone-list{
+  width:80%;
+  max-width:920px;
+  margin-top:18px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  position:relative;
+  z-index:10;
+}
+
+/* card: semi-translucent plaque with gold filigree trim */
+.watchthrone-card{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 16px;
+  min-height:64px;
+  background: var(--wt-card);
+  border-radius:10px;
+  border: 1px solid var(--wt-border);
+  box-shadow: var(--wt-shadow), inset 0 -6px 18px rgba(0,0,0,0.12);
+  overflow:visible;
+  transform: translateY(10px) translateX(-26px);
+  opacity:0;
+}
+
+/* thin ornate gold top accent */
+.watchthrone-card::before{
+  content:"";
+  position:absolute;
+  left:10px;
+  right:10px;
+  top:8px;
+  height:4px;
+  border-radius:4px;
+  background: linear-gradient(90deg, rgba(232,198,106,0.95), rgba(185,142,48,0.9));
+  opacity:0.18;
+  pointer-events:none;
+}
+
+/* reveal: fast left→right with a slight metallic shimmer */
+.watchthrone-in{ animation: wt-pop .32s cubic-bezier(.18,.9,.28,1) forwards; }
+@keyframes wt-pop{
+  0% { opacity:0; transform: translateX(-52px) translateY(12px) scale(.996); filter: blur(2px); }
+  60% { transform: translateX(6px) translateY(-4px) scale(1.006); filter:none; }
+  100% { opacity:1; transform: translateX(0) translateY(0) scale(1); filter:none; }
+}
+
+/* left area: title + chip */
+.watchthrone-left{ min-width:0; display:flex; align-items:center; gap:12px; flex:1 1 auto; justify-content:flex-start; }
+
+/* title text: condensed bold with gold-ish highlight on new names */
+.watchthrone-title{ min-width:0; }
+.watchthrone-name, .watchthrone-old, .watchthrone-new{
+  font-weight:700;
+  font-size:16px;
+  font-family: 'Roboto Condensed', sans-serif;
+  color: var(--wt-ink);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  display:inline-block;
+  max-width: calc(100% - 120px);
+  letter-spacing:0.02em;
+}
+
+/* replacement styling: original faded + struck, new in gold */
+.watchthrone-swap .watchthrone-old{ text-decoration: line-through; opacity:.56; color: rgba(246,243,238,0.7); }
+.watchthrone-swap .watchthrone-arrow{ opacity:.8; margin:0 6px; color: var(--wt-gold-1); }
+.watchthrone-swap .watchthrone-new{ font-weight:900; color: var(--wt-gold-0); text-shadow: 0 6px 18px rgba(0,0,0,0.14); }
+
+/* maple chip: small metallic badge */
+.watchthrone-chip{
+  font-size:11px;
+  padding:4px 9px;
+  border-radius:999px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.04));
+  color:var(--wt-ink);
+  border:1px solid rgba(255,230,150,0.06);
+  flex:0 0 auto;
+}
+.watchthrone-chip--maple{
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+}
+
+/* time block fixed width 90px — ornate stamped rectangle */
+.watchthrone-time{
+  width:90px;
+  flex:0 0 90px;
+  height:56px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:10px;
+  background: linear-gradient(180deg, rgba(12,10,8,0.88), rgba(22,18,14,0.9));
+  color: var(--wt-muted);
+  font-weight:800;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  border: 2px solid rgba(232,198,106,0.08);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.65), inset 0 -6px 12px rgba(232,198,106,0.02);
+  text-align:center;
+  position:relative;
+}
+
+/* small gold flourish inside time block */
+.watchthrone-time::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:6px;
+  transform: translateX(-50%);
+  width:36px;
+  height:4px;
+  border-radius:2px;
+  background: linear-gradient(90deg, var(--wt-gold-0), var(--wt-gold-1));
+  opacity:0.12;
+  pointer-events:none;
+}
+
+/* reduced motion respects user preference */
+@media (prefers-reduced-motion: reduce){
+  .watchthrone-in{ animation:none; opacity:1; transform:none; }
+}
+
+/* slightly larger screens */
+@media (min-width:520px){
+  .watchthrone-list{ width:72%; }
+  .watchthrone-day{ font-size:46px; }
+  .watchthrone-name{ font-size:17px; }
+}
+
+/* safety */
+.watchthrone-name{ min-width:0; max-width:100%; }

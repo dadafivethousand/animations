@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap');
+
+@media (min-width: 768px) {
+  .kitty-container {
+    display: none !important;
+  }
+}
+
+.kitty-container {
+  height: 90vh;
+  width: 100vw;
+  background-color: #ffe4ec;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 60px;
+  font-family: 'Quicksand', sans-serif;
+  color: #333;
+  overflow-y: auto;
+  background-image: url('https://i.pinimg.com/originals/f0/b4/b3/f0b4b353c4ac20e63057f70a88f8ff2d.png');
+  background-size: 130px;
+  background-repeat: no-repeat;
+  background-position: top right;
+}
+
+/* Title */
+.kitty-day {
+  font-size: 42px;
+  color: #fff;
+  background: #ff69b4;
+  padding: 16px 40px;
+  border-radius: 50px;
+  box-shadow: 0 0 15px #ff9ecb;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+}
+
+/* Schedule Box */
+.kitty-schedule {
+  width: 90%;
+  max-width: 420px;
+  background: #ffffffdd;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px #ffc0cb66;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Class Item */
+.kitty-class {
+  background: #ffe0f0;
+  border-left: 6px solid #ff69b4;
+  padding: 34px 20px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: fadeSlideIn 0.4s ease forwards;
+  transition: all 0.3s ease;
+}
+
+.kitty-class:hover {
+  background: #ffd2eb;
+  transform: scale(1.03);
+}
+
+.kitty-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #d63384;
+}
+
+.kitty-time {
+  font-size: 15px;
+  color: #ff69b4;
+}
+
+/* Animation */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,250 @@
+/* ThroughTheWireSchedule.css
+   Kanye "Through The Wire" inspired — white page background, warm gold + maroon accents,
+   ornate/frame vibes echoing the album art while keeping all major background white.
+   Mobile-first. Cards 80% width, day centered (large), maple inline, 90px fixed time.
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@600;700&display=swap");
+
+:root{
+  --ttw-bg: #ffffff;            /* page must be all white */
+  --ttw-ink: #2b1e1c;           /* deep warm ink (near-brown) */
+  --ttw-muted: #6b5448;
+  --ttw-maroon: #6b1f1f;        /* bear's warm red / burgundy */
+  --ttw-gold: #c59a3a;          /* ornate gold frame */
+  --ttw-warm: #7a4f3a;          /* warm brown accents */
+  --ttw-card: #fffaf7;          /* slightly off-white card */
+  --ttw-border: rgba(107,84,72,0.08);
+  --ttw-shadow: 0 10px 28px rgba(20,18,16,0.06);
+
+  --ttw-list-width: 80%;
+  --ttw-time-width: 90px;       /* fixed time width */
+}
+
+/* Reset */
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+.throughthewire-wrap{
+  min-height:100vh;
+  width:100vw;
+  background: var(--ttw-bg); /* all white per request */
+  color: var(--ttw-ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:14px;
+  padding-top:50px; /* minimum top padding required */
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* Header: album cover centered with delicate gold underline and day centered, larger */
+.throughthewire-header{
+  width:100%;
+  max-width:720px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  padding:8px 4px 12px;
+  position:sticky;
+  top:0;
+  z-index:2;
+  background: transparent; /* keep page white */
+}
+
+/* The provided album art as a centered element; keep it modest on mobile */
+/* CSS */
+.throughthewire-cover{
+  width:70vw;
+  object-fit:cover;
+  border-radius:8px;
+  position:absolute;
+  bottom:0;
+
+  /* start hidden */
+  opacity: 0;
+
+  /* animation (keeps final state) */
+  animation-name: appear;
+  animation-duration: 1s;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards; /* keep the final opacity:1 after animation */
+  /* animation-delay: 1200ms;  <- set from React or here */
+}
+
+@keyframes appear {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+
+
+/* Weekday: centered, prominent (30px) with Playfair for a refined look */
+.throughthewire-day{
+  margin:0;
+  display:inline-block;
+  font-family: "Playfair Display", serif;
+  font-size:30px;            /* bigger weekday */
+  font-weight:600;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color: var(--ttw-maroon);
+  padding:6px 14px;
+  border-radius:999px;
+  background: linear-gradient(180deg, rgba(197,154,58,0.06), rgba(197,154,58,0.02));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.6);
+}
+
+/* List: 80% width centered */
+.throughthewire-list{
+  width:var(--ttw-list-width);
+  max-width:720px;
+  display:flex;
+  flex-direction:column;
+  gap:1px;
+  margin-top:12px;
+  align-items:center;
+}
+
+/* Card: warm parchment-ish card with subtle gold accent rail on left */
+.throughthewire-card{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:12px;
+  background: linear-gradient(180deg, var(--ttw-card), #fff8f66f);
+  border:1px solid var(--ttw-border);
+  border-radius:12px;
+  box-shadow: var(--ttw-shadow);
+  position:relative;
+  overflow:hidden;
+  opacity:0;
+  transform: translateY(8px);
+  z-index: 5;
+  
+ }
+
+/* gold rail left to echo ornate frame */
+.throughthewire-card::before{
+  content:"";
+  position:absolute;
+  left:0; top:0;
+  width:6px; height:100%;
+  border-top-left-radius:12px; border-bottom-left-radius:12px;
+  background: linear-gradient(180deg, rgba(197,154,58,1), rgba(173,134,44,0.85));
+  box-shadow: 0 0 10px rgba(197,154,58,0.08);
+  pointer-events:none;
+}
+
+/* slight decorative warm vignette (very subtle) */
+.throughthewire-card::after{
+  content:"";
+  position:absolute;
+  right:-20%; top:-30%;
+  width:60%; height:140%;
+  background: radial-gradient(40% 40% at 60% 20%, rgba(107,31,31,0.04), transparent 60%);
+  transform: rotate(8deg);
+  pointer-events:none;
+}
+
+/* Reveal animation */
+.throughthewire-in{ animation: ttw-rise .24s ease-out forwards; }
+@keyframes ttw-rise{ to{ opacity:1; transform:translateY(0);} }
+
+/* Left group: must follow the requested spec layout */
+.throughthewire-left{
+  min-width:0;
+  display:flex;                 /* as requested */
+  align-items:center;           /* aligned center */
+  justify-content:flex-start;   /* start-justified */
+  gap:8px;
+  flex:1 1 auto;
+  flex-wrap:nowrap;
+}
+
+/* Title styling: strong, slightly warm */
+.throughthewire-title{
+  font-weight:700;
+  font-size:15px;
+  color: var(--ttw-ink);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  min-width:0;
+}
+
+/* Replacement styling (contract) */
+.throughthewire-swap .throughthewire-old{ text-decoration:line-through; opacity:.65; }
+.throughthewire-swap .throughthewire-arrow{ opacity:.6; margin:0 6px; }
+.throughthewire-swap .throughthewire-new{ font-weight:800; color:var(--ttw-warm); }
+
+/* Chips: maple + cancelled */
+.throughthewire-chip{
+  font-size:11px;
+  line-height:1;
+  padding:4px 10px;
+  border-radius:999px;
+  border:1px solid rgba(34,30,28,0.06);
+  background: linear-gradient(180deg, #fffefc, #fff8f6);
+  color: var(--ttw-muted);
+  white-space:nowrap;
+  flex:0 0 auto;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.85);
+}
+
+.throughthewire-chip--maple{
+  border-color: rgba(197,154,58,0.18);
+  background: linear-gradient(180deg, rgba(197,154,58,0.06), rgba(197,154,58,0.02));
+  color: var(--ttw-maroon);
+  box-shadow: 0 0 6px rgba(197,154,58,0.06);
+}
+
+.throughthewire-chip--cancelled{
+  border-color: rgba(90,85,80,0.08);
+  background: linear-gradient(180deg, #fff9f9, #fff6f6);
+  color:#8b6b6b;
+  font-weight:700;
+  text-transform:uppercase;
+}
+
+/* Time pill: fixed width 90px, centered text */
+.throughthewire-time{
+  font:800 13px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color:#2a1f1b;
+  background: linear-gradient(180deg, #fff4e6, #ffe9d6);
+  border:1px solid rgba(197,154,58,0.12);
+  border-radius:10px;
+  padding:6px 8px;
+  white-space:nowrap;
+  width: var(--ttw-time-width);
+  flex:0 0 var(--ttw-time-width);
+  text-align:center;
+  text-shadow:0 1px 0 rgba(255,255,255,.9);
+}
+
+/* Cancelled state style */
+.throughthewire-card.is-cancelled{
+  opacity:0.9;
+  filter:grayscale(.06);
+}
+.throughthewire-card.is-cancelled .throughthewire-title,
+.throughthewire-card.is-cancelled .throughthewire-swap .throughthewire-old,
+.throughthewire-card.is-cancelled .throughthewire-swap .throughthewire-new{
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  text-decoration-color: rgba(150,60,60,0.85);
+}
+
+/* Accessibility: reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .throughthewire-in{ animation:none; opacity:1; transform:none; }
+}
+
+/* Slight tweaks for wider screens */
+@media (min-width:481px){
+  .throughthewire-cover{ width:140px; height:140px; }
+  .throughthewire-card{ padding:14px; border-radius:14px; min-height:64px; }
+  .throughthewire-day{ font-size:32px; }
+}

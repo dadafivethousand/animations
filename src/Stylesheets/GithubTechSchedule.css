@@ -1,0 +1,312 @@
+/* GithubTechSchedule.css */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap");
+
+:root {
+  --gt-bg: #010409;
+  --gt-bg-2: #020816;
+  --gt-ink: #f0f6fc;
+  --gt-muted: #8b949e;
+
+  --gt-card: rgba(13, 17, 23, 0.9);
+  --gt-border: rgba(48, 54, 61, 0.9);
+  --gt-shadow-soft: 0 18px 40px rgba(1, 4, 9, 0.9);
+
+  --gt-accent: #2ea043;      /* green */
+  --gt-accent-alt: #238636;  /* darker green */
+  --gt-accent-blue: #f71212; /* one blue accent */
+
+  --gt-chip-bg: rgba(46, 160, 67, 0.2);
+  --gt-chip-border: rgba(46, 160, 67, 0.9);
+}
+
+/* Reset-ish */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* Root wrapper */
+.githubtech-wrap {
+  min-height: 100vh;
+  width: 100vw;
+  color: var(--gt-ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 12px 28px;
+  padding-top: 100px; /* user preference */
+
+  background:
+    radial-gradient(1200px 520px at 12% -10%, rgba(88, 166, 255, 0.16), transparent 70%),
+    radial-gradient(900px 480px at 100% 120%, rgba(46, 160, 67, 0.22), transparent 70%),
+    linear-gradient(180deg, var(--gt-bg), var(--gt-bg-2)),
+    linear-gradient(
+      to right,
+      rgba(33, 38, 45, 0.32) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(33, 38, 45, 0.32) 1px,
+      transparent 1px
+    );
+  background-size:
+    auto,
+    auto,
+    auto,
+    70px 70px,
+    70px 70px;
+}
+
+/* Header */
+.githubtech-header {
+  width: 100%;
+  max-width: 560px;
+  padding: 10px 4px 12px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  backdrop-filter: blur(14px);
+  background: linear-gradient(
+    180deg,
+    rgba(1, 4, 9, 0.98),
+    rgba(1, 4, 9, 0.9)
+  );
+  border-bottom: 1px solid rgba(48, 54, 61, 0.9);
+  text-align: center;
+}
+
+/* Day label – repo title / branch bar */
+.githubtech-day {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 4px 14px;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  position: relative;
+
+  background: linear-gradient(135deg, #0d1117, #161b22);
+  box-shadow:
+    0 0 0 1px rgba(240, 246, 252, 0.04),
+    0 16px 40px rgba(1, 4, 9, 0.9);
+}
+
+/* Underline bar – single direction, no rainbow */
+.githubtech-day::before {
+  content: "";
+  position: absolute;
+  inset: auto 14px -6px 14px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    var(--gt-accent),
+    var(--gt-accent-blue)
+  );
+}
+
+/* List (80% width) */
+.githubtech-list {
+  width: 80%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+/* Card */
+.githubtech-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  min-height: 56px;
+
+  border-radius: 14px;
+  background:
+    radial-gradient(220px 120px at 0% 0%, rgba(88, 166, 255, 0.16), transparent 70%),
+    linear-gradient(150deg, #0d1117, #050810);
+  border: 1px solid var(--gt-border);
+  box-shadow: var(--gt-shadow-soft);
+
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(10px) scale(0.99);
+  backdrop-filter: blur(16px);
+}
+
+/* Subtle inner edge highlight */
+.githubtech-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(88, 166, 255, 0.35),
+      rgba(46, 160, 67, 0.45)
+    );
+  opacity: 0.18;
+  mix-blend-mode: screen;
+}
+
+/* Left accent bar */
+.githubtech-card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    var(--gt-accent),
+    var(--gt-accent-alt)
+  );
+}
+
+/* Entry animation */
+.githubtech-in {
+  animation: gt-rise 0.26s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes gt-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Hover / tap feedback */
+.githubtech-card:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow:
+    0 20px 50px rgba(1, 4, 9, 0.98),
+    0 0 0 1px rgba(110, 118, 129, 0.6);
+}
+
+.githubtech-card:hover::before {
+  opacity: 0.28;
+}
+
+/* Left row: title + maple inline */
+.githubtech-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+}
+
+/* Title/Name — ellipsis */
+.githubtech-title {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  color: var(--gt-ink);
+}
+
+/* Replacement styling */
+.githubtech-swap .githubtech-old {
+  text-decoration: line-through;
+  opacity: 0.65;
+}
+
+.githubtech-swap .githubtech-arrow {
+  opacity: 0.7;
+  margin: 0 6px;
+}
+
+.githubtech-swap .githubtech-new {
+  font-weight: 800;
+}
+
+/* Maple chip inline – status badge */
+.githubtech-chip {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--gt-chip-border);
+  background: var(--gt-chip-bg);
+  color: #c9ffd9;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  box-shadow:
+    0 0 0 1px rgba(13, 17, 23, 0.98),
+    0 0 10px rgba(46, 160, 67, 0.4);
+}
+
+/* Time block: fixed width 90px */
+.githubtech-time {
+  position: relative;
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1.1;
+  white-space: nowrap;
+  text-align: center;
+  width: 90px;
+  flex: 0 0 90px;
+  padding: 6px 8px;
+  border-radius: 11px;
+
+  background:
+    linear-gradient(180deg, #020814, #050d1a) padding-box;
+  border: 1px solid rgba(110, 118, 129, 0.9);
+  color: #f0f6fc;
+  box-shadow:
+    0 0 0 1px rgba(13, 17, 23, 0.95),
+    0 0 12px rgba(88, 166, 255, 0.35);
+}
+
+/* Small status dot on time pill */
+.githubtech-time::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: radial-gradient(circle, #4ade80 0, #166534 60%, transparent 100%);
+}
+
+/* Slightly larger screens */
+@media (min-width: 481px) {
+  .githubtech-card {
+    padding: 14px 16px;
+  }
+}

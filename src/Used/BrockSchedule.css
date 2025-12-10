@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&display=swap');
+
+:root {
+  --gold: #ffd700;
+  --blood-red: #ff0000;
+}
+
+.brock-wrapper {
+  background: #000 url('https://www.transparenttextures.com/patterns/brushed-alum.png');
+  background-size: cover;
+  min-height: 100vh;
+  padding: 50px 20px;
+  font-family: 'Oswald', sans-serif;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.brock-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.brock-title {
+  font-size: 3.5rem;
+  background: linear-gradient(90deg, var(--gold), white, var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px var(--blood-red);
+  animation: flicker 2s infinite alternate;
+}
+
+.brock-subtitle {
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  color: var(--gold);
+  margin-top: 5px;
+}
+
+.brock-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 620px;
+}
+
+.brock-card {
+  background: rgba(15, 15, 15, 0.9);
+  border: 2px solid var(--gold);
+  border-radius: 12px;
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3), inset 0 0 10px rgba(255, 215, 0, 0.2);
+  transform: scale(0.9);
+  animation: punchIn 0.4s ease forwards;
+}
+
+.brock-time {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--blood-red);
+  text-shadow: 0 0 8px rgba(255, 0, 0, 0.8);
+}
+
+.brock-class {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: white;
+}
+
+.brock-tag {
+  margin-left: 10px;
+  font-size: 0.7rem;
+  background: var(--blood-red);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    text-shadow: 0 0 10px rgba(255,215,0,0.8), 0 0 20px var(--blood-red);
+  }
+  20%, 24%, 55% {
+    text-shadow: none;
+  }
+}
+
+@keyframes punchIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.7) translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}

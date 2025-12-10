@@ -1,0 +1,166 @@
+/* MtvSchedule.css — ultra-simplified, colour-accurate, minimal decorations
+   Uses: bright yellow (#fff200), teal (#00a6b3), vivid red (#ff354f)
+   Mobile-first. Top padding >= 50px. List width = 80%. Time block = 90px.
+   Prefers-reduced-motion respected.
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;700&display=swap');
+
+:root{
+  --mtv-bg: #050506;
+  --mtv-yellow: #fff200;
+  --mtv-teal: #00a6b3;
+  --mtv-red: #ff354f;
+  --mtv-text: #ffffff;
+  --mtv-muted: rgba(255,255,255,0.88);
+  --mtv-border: rgba(255,255,255,0.04);
+  --mtv-shadow: 0 10px 28px rgba(0,0,0,0.6);
+}
+
+/* Box-sizing */
+* { box-sizing: border-box; }
+
+/* Wrapper */
+.mtv-wrap{
+  min-height:100vh;
+  width:100vw;
+  padding:12px;
+  padding-top:56px; /* >=50px */
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  background: linear-gradient(180deg, var(--mtv-bg), #020203);
+  color:var(--mtv-text);
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+}
+
+/* Header: centered, no background behind text */
+.mtv-header{
+  width:100%;
+  max-width:920px;
+  padding:12px 8px;
+  position:sticky;
+  top:0;
+  z-index:6;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  pointer-events:none; /* decorative */
+  background: rgba(3,3,4,0.55);
+  backdrop-filter: blur(3px);
+  border-bottom: 1px solid rgba(0,0,0,0.18);
+}
+
+.mtv-day{
+  margin:0;
+  font-family: 'Anton', sans-serif;
+  font-size:34px;
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  color: black;            /* yellow fill */
+  -webkit-text-stroke: white; /* thin teal outline for pop */
+   pointer-events:none;
+  display:inline-block;
+}
+
+/* List */
+.mtv-list{
+  width:80%;
+  max-width:920px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:14px;
+}
+
+/* Card: minimal, clean */
+.mtv-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  min-height:56px;
+  width:100%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.04));
+  border-radius:10px;
+  border:1px solid var(--mtv-border);
+  box-shadow: var(--mtv-shadow);
+  transform: translateX(-28px);
+  opacity:0;
+}
+
+ 
+ 
+
+/* Entry animation: quick, subtle slide-in */
+.mtv-in{ animation: mtv-pop .26s cubic-bezier(.2,.9,.28,1) forwards; }
+@keyframes mtv-pop{
+  0% { opacity:0; transform: translateX(-48px) translateY(8px); }
+  60% { transform: translateX(6px) translateY(-4px); }
+  100% { opacity:1; transform: translateX(0) translateY(0); }
+}
+
+/* Left content */
+.mtv-left{ min-width:0; display:flex; align-items:center; gap:12px; flex:1 1 auto; justify-content:flex-start; position:relative; }
+.mtv-title{ min-width:0; }
+.mtv-name{
+  font-weight:700;
+  font-size:15px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+ 
+  max-width:calc(100% - 96px);
+  display:inline-block;
+}
+
+/* Replacement styling */
+.mtv-swap .mtv-old{ text-decoration:line-through; opacity:.6; }
+.mtv-swap .mtv-arrow{ opacity:.8; margin:0 6px; color:var(--mtv-teal); }
+.mtv-swap .mtv-new{ font-weight:800; color:var(--mtv-teal); }
+
+/* Maple chip */
+.mtv-chip{
+  font-size:11px;
+  padding:4px 8px;
+  border-radius:999px;
+  border:1px solid rgba(0,0,0,0.06);
+  background: rgba(0,166,179,0.06);
+  color:#041018;
+  white-space:nowrap;
+  flex:0 0 auto;
+}
+.mtv-chip--maple{
+  border-color: rgba(255,88,88,0.45);
+  background: rgba(255,60,60,0.08);
+  color:#ffdede;
+}
+
+/* Time block fixed width 90px */
+.mtv-time{
+  font:700 13px/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  width:90px;
+  flex:0 0 90px;
+  text-align:center;
+  padding:6px 8px;
+  border-radius:8px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.04));
+  border:1px solid rgba(255,255,255,0.03);
+  color:var(--mtv-muted);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .mtv-in{ animation:none; opacity:1; transform:none; }
+}
+
+/* Slightly larger screens */
+@media (min-width:520px){
+  .mtv-list{ width:72%; }
+  .mtv-day{ font-size:40px; -webkit-text-stroke:3px white; }
+  .mtv-name{ font-size:16px; }
+}
+
+/* Safety */
+.mtv-name{ min-width:0; max-width:100%; }

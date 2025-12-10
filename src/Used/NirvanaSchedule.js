@@ -1,34 +1,51 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/NirvanaSchedule.css";
-import schedule from "../Schedule";
+import "./NirvanaSchedule.css";
+import schedule from "../RhSchedule";
 
-function NirvanaSchedule({ day, delay = 1800 }) {
+export default function NirvanaSchedule({ day, delay = 1800 }) {
   const [visibleClasses, setVisibleClasses] = useState([]);
   const [displayDay, setDisplayDay] = useState("");
 
+  // Typewriter for the day
   useEffect(() => {
-    const timer = setTimeout(() => {
+    let startTimer = null;
+    let typeInterval = null;
+
+    startTimer = setTimeout(() => {
       let i = 0;
-      const typeInterval = setInterval(() => {
-        setDisplayDay(day.substring(0, i + 1));
+      typeInterval = setInterval(() => {
+        setDisplayDay((day || "").substring(0, i + 1));
         i++;
-        if (i > day.length) clearInterval(typeInterval);
+        if (i > (day || "").length) clearInterval(typeInterval);
       }, 80);
     }, delay);
-    return () => clearTimeout(timer);
+
+    return () => {
+      if (startTimer) clearTimeout(startTimer);
+      if (typeInterval) clearInterval(typeInterval);
+    };
   }, [day, delay]);
 
+  // Stagger-in classes
   useEffect(() => {
     const classes = schedule[day] || [];
+    const timers = [];
+    setVisibleClasses([]);
+
     const animationDelay = setTimeout(() => {
       classes.forEach((_, idx) => {
-        setTimeout(() => {
-          setVisibleClasses((prev) => [...prev, idx]);
-        }, idx * 300);
+        const t = setTimeout(
+          () => setVisibleClasses((prev) => [...prev, idx]),
+          idx * 300
+        );
+        timers.push(t);
       });
-    }, 1000+delay);
+    }, 1000 + delay);
 
-    return () => clearTimeout(animationDelay);
+    return () => {
+      clearTimeout(animationDelay);
+      timers.forEach(clearTimeout);
+    };
   }, [day, delay]);
 
   const formatTime = (decimalTime) => {
@@ -42,11 +59,30 @@ function NirvanaSchedule({ day, delay = 1800 }) {
   return (
     <div className="nirvana-container">
       <div className="nirvana-day">{displayDay}</div>
+
       <div className="nirvana-schedule">
         {(schedule[day] || []).map((cls, idx) =>
           visibleClasses.includes(idx) ? (
             <div className="nirvana-class" key={idx}>
-              <span className="nirvana-name">{cls.name}</span>
+              {/* Name + inline Maple chip kept on ONE line */}
+              <div className="nirvana-row">
+                <span className="nirvana-name">
+                  {cls.replacement ? (
+                    <span className="swap">
+                      <span className="old">{cls.name}</span>
+                      <span className="arrow" aria-hidden>→</span>
+                      <span className="new">{String(cls.replacement)}</span>
+                    </span>
+                  ) : (
+                    cls.name
+                  )}
+                </span>
+                {cls.maple && (
+                  <span className="chip chip--maple" title="Maple">📍 Maple</span>
+                )}
+              </div>
+
+              {/* Start time ONLY */}
               <span className="nirvana-time">{formatTime(cls.start)}</span>
             </div>
           ) : null
@@ -55,5 +91,3 @@ function NirvanaSchedule({ day, delay = 1800 }) {
     </div>
   );
 }
-
-export default NirvanaSchedule;

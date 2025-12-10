@@ -1,6 +1,7 @@
+// PandaSchedule.jsx — refactored to show MAPLE chip (kept structure/behavior)
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/PandaSchedule.css";
-import schedule from "../Schedule";
+import "./PandaSchedule.css";
+import schedule from "../RhSchedule";
 
 function PandaSchedule({ day, animationDelay = 1500, animationInterval = 500 }) {
   const [showSchedule, setShowSchedule] = useState(false);
@@ -23,14 +24,13 @@ function PandaSchedule({ day, animationDelay = 1500, animationInterval = 500 }) 
   }, [animationDelay]);
 
   useEffect(() => {
-    if (showSchedule) {
-      const classes = schedule[day] || [];
-      classes.forEach((_, idx) => {
-        setTimeout(() => {
-          setVisibleArray((prev) => [...prev, idx]);
-        }, idx * animationInterval);
-      });
-    }
+    if (!showSchedule) return;
+    const classes = schedule[day] || [];
+    classes.forEach((_, idx) => {
+      setTimeout(() => {
+        setVisibleArray((prev) => [...prev, idx]);
+      }, idx * animationInterval);
+    });
   }, [showSchedule, day, animationInterval]);
 
   const formatTime = (decimalTime) => {
@@ -45,12 +45,15 @@ function PandaSchedule({ day, animationDelay = 1500, animationInterval = 500 }) 
   return (
     <div className="panda-container">
       <div className="panda-scroll">
-              <div className="panda-header-scroll">{displayDay}</div>
+        <div className="panda-header-scroll">{displayDay}</div>
 
-        {schedule[day]?.map((cls, idx) =>
+        {(schedule[day] || []).map((cls, idx) =>
           visibleArray.includes(idx) ? (
             <div key={idx} className="panda-class">
-              <span className="panda-class-name">{cls.name}</span>
+              <div className="panda-left">
+                <span className="panda-class-name">{cls.name}</span>
+                {cls.maple && <span className="panda-chip">📍 MAPLE</span>}
+              </div>
               <span className="panda-class-time">{formatTime(cls.start)}</span>
             </div>
           ) : null

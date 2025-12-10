@@ -15,7 +15,7 @@
 
   @font-face {
     font-family: 'MonsterFont';
-    src: url('../Fonts/Green_Energy.ttf') format('truetype');
+    src: url('../../Fonts/Green_Energy.ttf') format('truetype');
 }
 
   

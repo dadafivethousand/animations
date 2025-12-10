@@ -1,0 +1,40 @@
+.lego-container {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 30px;
+  background: #d62828; /* LEGO red */
+  border-radius: 12px;
+}
+
+/* LEGO-style text */
+.lego-text {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 900;
+  font-size: 34px;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+
+  /* Smooth LEGO outline */
+  text-shadow:
+    /* black outline close to text */
+    -1px -1px 0 #000,
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000,
+    -2px  0   0 #000,
+     2px  0   0 #000,
+     0   -2px 0 #000,
+     0    2px 0 #000,
+
+    /* yellow border further out */
+    -3px -3px 0 #f7d708,
+     3px -3px 0 #f7d708,
+    -3px  3px 0 #f7d708,
+     3px  3px 0 #f7d708,
+    -4px  0   0 #f7d708,
+     4px  0   0 #f7d708,
+     0   -4px 0 #f7d708,
+     0    4px 0 #f7d708;
+}

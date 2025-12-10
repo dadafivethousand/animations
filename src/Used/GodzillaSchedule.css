@@ -25,7 +25,7 @@
 
 /* Godzilla Title - More Destruction Vibes */
 .godzilla-title {
-  font-size: 60px;
+  font-size: 50px;
   color: #33ff00; /* Stronger neon green */
   text-shadow: 4px 4px 20px #33ff00, 0 0 30px #ff0000; /* Dual glow effect: green & red */
   position: relative;
@@ -51,6 +51,18 @@
   border: 3px solid #33ff00;
   box-shadow: 0px 0px 15px #33ff00;
   animation: fadeIn 0.5s ease-in-out, godzilla-stomp 0.5s ease-in-out 0.8s infinite alternate;
+  display: flex;
+  flex-direction: column;
+  align-items:flex-end;
+  height:50px;
+}
+
+
+.godzilla-flex{
+  display: flex;
+  justify-content: space-between;
+  width:100%
+ 
 }
 
 /* Green Flicker */
@@ -63,4 +75,66 @@
 @keyframes godzilla-stomp {
   0% { transform: rotate(-3deg) translateX(-8px) scale(1.02); }
   100% { transform: rotate(3deg) translateX(8px) scale(1.05); }
+}
+
+
+/* Wrapper so the maple row sits under the card */
+.godzilla-class-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Keep left side flexible if you expand later */
+.godzilla-left {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Preserve your look but allow name-specific styling */
+.godzilla-name { 
+  font-size: 24px;
+  font-weight: 700;
+  color: #33ff00;
+}
+
+/* Strike-through when replacement exists */
+.godzilla-name-replaced {
+  opacity: 0.6;
+  text-decoration: line-through;
+  text-decoration-thickness: 3px;
+  text-decoration-color: #ff3b3b;
+}
+
+/* Replacement shown clearly next to original */
+.godzilla-replacement {
+  color: #33ff00;
+  text-shadow: 0 0 10px #33ff00, 0 0 20px #33ff00;
+  font-weight: 700;
+}
+
+/* Attach a radioactive Maple bar under the class */
+.godzilla-maple-row {
+  width: 65%;
+   color: #33ff00;
+  font-size: 10px;
+  text-align: center;
+  padding: 8px 10px;
+   border-top: none;                 /* visually attached to .godzilla-class */
+  border-radius: 0 0 10px 10px;     /* matches .godzilla-class radius */
+   transform: translateY(-3px);      /* hides seam with the class border */
+}
+
+/* Tweak original .godzilla-class corners so it pairs with maple row */
+.godzilla-class {
+  border-radius: 10px 10px 0 0;     /* top-rounded only, maple row finishes bottom */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height:50px;
+}
+.godzilla-class-time{
+  align-self: flex-end;
 }

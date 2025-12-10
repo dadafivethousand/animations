@@ -1,0 +1,194 @@
+ 
+/* ==========================
+   MarvelFlashSchedule.css
+   Updated: fast left->right run animation with trailing glow using image palette
+   ========================== */
+
+:root{
+  /* Colors sampled from the provided image */
+  --mf-bg: #ac1919;
+  --mf-red: #c9161c;   /* Flash suit red */
+  --mf-deep-red: #8f0f12;
+  --mf-yellow: #ffd400; /* lightning yellow */
+  --mf-ink: #f8f9fb;
+  --mf-muted: rgba(255,255,255,0.85);
+  --mf-border: rgba(255,212,0,0.12);
+  --mf-shadow: 0 10px 26px rgba(0,0,0,0.6);
+}
+*{box-sizing:border-box}
+
+.marvelflash-wrap{
+  min-height:100vh;
+  width:100vw;
+  background: linear-gradient(180deg, #040405 0%, var(--mf-bg) 100%);
+  color:var(--mf-ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:12px;
+  padding-top:250px; /* >=50px */
+}
+
+.marvelflash-header{
+  width:100%;
+  max-width:700px;
+  text-align:center;
+  padding:8px 4px 10px;
+  position:sticky;
+  top:0;
+   z-index:2;
+  border-bottom:1px solid rgba(255,255,255,0.02);
+}
+
+.marvelflash-day{
+  margin:0;
+  font-size:30px; /* required larger day */
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  font-weight:800;
+  color:var(--mf-yellow);
+  text-shadow: 0 2px 8px rgba(255,212,0,0.08);
+}
+
+/* List width 80% for this theme */
+.marvelflash-list{
+  width:80%;
+  max-width:700px;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  margin-top:8px;
+}
+
+/* Card base. position:relative needed for trail pseudo-element */
+.marvelflash-card{
+  position:relative;
+  overflow:visible; /* allow trail to extend */
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
+  border:1px solid var(--mf-border);
+  border-left:4px solid var(--mf-deep-red);
+  border-radius:12px;
+  box-shadow:var(--mf-shadow), inset 0 0 0 1px rgba(255,255,255,0.02);
+  opacity:0;
+  transform:translateX(-24px) translateY(6px) scale(0.995);
+  min-height:56px;
+}
+
+/* Trail: pseudo element that animates from left to right briefly to simulate streak */
+.marvelflash-card::before{
+  content:"";
+  position:absolute;
+  left:-60%;
+  top:0;
+  height:100%;
+  width:60%;
+  background: linear-gradient(90deg, rgba(255,212,0,0.65) 0%, rgba(201,30,36,0.18) 50%, transparent 100%);
+  filter: blur(10px) saturate(1.2);
+  transform: translateX(-20px) skewX(-12deg);
+  opacity:0;
+  pointer-events:none;
+  border-radius:12px;
+}
+
+/* In animation: fast left->right with trail */
+.marvelflash-in{ animation: mf-run .28s cubic-bezier(.18,.9,.3,1) forwards; }
+@keyframes mf-run{
+  0%{
+    opacity:0;
+    transform:translateX(-28px) translateY(8px) scale(0.992);
+  }
+  40%{ transform:translateX(6px) translateY(-2px) scale(1.008); }
+  100%{
+    opacity:1;
+    transform:translateX(0) translateY(0) scale(1);
+  }
+}
+
+/* Trail animation timed slightly ahead so it streaks across as the card settles */
+.marvelflash-in::before{ animation: mf-trail .36s linear forwards; }
+@keyframes mf-trail{
+  0%{ left:-60%; opacity:0.9; transform:translateX(-40px) skewX(-12deg); }
+  30%{ left:-10%; opacity:0.8; transform:translateX(6px) skewX(-6deg); }
+  70%{ left:20%; opacity:0.25; transform:translateX(12px) skewX(-2deg); }
+  100%{ left:60%; opacity:0; transform:translateX(20px) skewX(0deg); }
+}
+
+.marvelflash-left{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:8px;
+  flex:1 1 auto;
+  flex-wrap:nowrap;
+}
+
+.marvelflash-title{ min-width:0; }
+.marvelflash-name{
+  font-weight:700;
+  font-size:15px;
+  line-height:1.2;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  display:inline-block;
+  max-width:calc(100% - 88px);
+  color:var(--mf-ink);
+}
+
+/* Replacement styling */
+.marvelflash-swap .marvelflash-old{ text-decoration:line-through; opacity:.65; }
+.marvelflash-swap .marvelflash-arrow{ opacity:.65; margin:0 6px; }
+.marvelflash-swap .marvelflash-new{ font-weight:800; color:var(--mf-yellow); }
+
+/* Maple chip */
+.marvelflash-chip{
+  font-size:11px;
+  line-height:1;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(255,212,0,0.12);
+  background:rgba(255,212,0,0.06);
+  color:var(--mf-ink);
+  white-space:nowrap;
+  flex:0 0 auto;
+}
+.marvelflash-chip--maple{
+  border-color: rgba(255,88,88,0.45);
+  background: rgba(255,60,60,0.10);
+  color: #ffdede;
+  box-shadow: 0 0 10px rgba(255,60,60,0.12);
+}
+
+/* Time block fixed width 90px */
+.marvelflash-time{
+  font:700 13px/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
+  border:1px solid rgba(255,255,255,0.03);
+  border-radius:10px;
+  padding:6px 8px;
+  width:90px;
+  flex:0 0 90px;
+  text-align:center;
+  color:var(--mf-muted);
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce){
+  .marvelflash-in{ animation:none; opacity:1; transform:none; }
+  .marvelflash-card::before{ display:none; }
+}
+
+/* Slightly larger screens tweaks */
+@media (min-width:481px){
+  .marvelflash-card{ padding:12px 14px; }
+  .marvelflash-name{ font-size:16px; }
+}
+
+/* Accessibility: ensure ellipsis doesn't cut off important text on very small screens */
+.marvelflash-name{ min-width:0; max-width:100%; }

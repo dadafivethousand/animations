@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/DJKhaledSchedule.css";
-import schedule from "../Schedule";
+import "./DJKhaledSchedule.css";
+import schedule from "../RhSchedule";
 
 export default function DJKhaledSchedule({
   day,
@@ -34,13 +34,19 @@ export default function DJKhaledSchedule({
         {schedule[day]?.map((cls, i) =>
           visible.includes(i) && (
             <div key={i} className="dk-class">
-              <span className="dk-class-name">{cls.name}</span>
+              <div className="dk-class-info">
+                <span className="dk-class-name">{cls.name}</span>
+                {cls.maple && <span className="dk-maple-tag">(at Maple BJJ)</span>}
+              </div>
               <span className="dk-class-time">{formatTime(cls.start)}</span>
             </div>
           )
         )}
       </div>
-      <img src={'https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExYTZoYm8zMjB5dzh0ZTNhM3poYW1hemZwOXgwMzhtNjNwOHVkMTExeCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l3zoTAbMu27n6zrH2/giphy.gif'}/>
+      <img
+        src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExYTZoYm8zMjB5dzh0ZTNhM3poYW1hemZwOXgwMzhtNjNwOHVkMTExeCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l3zoTAbMu27n6zrH2/giphy.gif"
+        alt="DJ Khaled"
+      />
     </div>
   );
 }

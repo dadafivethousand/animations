@@ -1,0 +1,189 @@
+/* HelioGracieSchedule.css
+   Clean Helio Gracie schedule — no PNG background, improved time badge.
+   Mobile-first, compact cards, maple chip and replacement logic retained.
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@500;700&family=Inter:wght@400;600;700&display=swap');
+
+:root{
+  /* palette inspired by Helio Gracie imagery */
+  --hg-deep-red-1: #7a1414;
+  --hg-deep-red-2: #5e1212;
+  --hg-card-white: #ffffff;
+  --hg-ink-dark: #111111;
+  --hg-gold: #e5c441;
+  --hg-border: rgba(0,0,0,0.06);
+  --hg-shadow: 0 10px 28px rgba(0,0,0,0.32);
+}
+
+/* global */
+* { box-sizing: border-box; }
+
+.heliogracie-wrap{
+  width:100vw;
+  min-height:100vh;
+  padding:12px;
+  padding-top:100px; /* required minimum top padding */
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  background: linear-gradient(180deg, var(--hg-deep-red-1), var(--hg-deep-red-2));
+  color: var(--hg-card-white);
+  font-family: Inter, Rubik, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+}
+
+/* header */
+.heliogracie-header{
+  width:100%;
+  text-align:center;
+  padding:8px 6px 12px;
+}
+.heliogracie-day{
+  margin:0;
+  font-family: 'Rubik', Inter, system-ui, sans-serif;
+  font-size:28px;
+  letter-spacing:0.08em;
+  color: var(--hg-card-white);
+  text-transform:uppercase;
+  text-shadow: 0 6px 18px rgba(0,0,0,0.45);
+}
+
+/* list */
+.heliogracie-list{
+  width:72%;
+  max-width:760px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:12px;
+}
+
+/* card */
+.heliogracie-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  background: var(--hg-card-white);
+  border-radius:12px;
+  box-shadow: var(--hg-shadow);
+  border:1px solid var(--hg-border);
+  min-height:56px;
+  opacity:0;
+  transform: translateY(8px) scale(0.996);
+  position:relative;
+  overflow:visible;
+  color: var(--hg-ink-dark);
+}
+
+/* small gold accent strip top-right */
+.heliogracie-card::before{
+  content: "";
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  width: 36px;
+  height: 8px;
+  background: linear-gradient(90deg, var(--hg-gold), rgb(229, 196, 65));
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+/* subtle gi-weave texture (light) */
+.heliogracie-card .gi-weave{
+  position:absolute;
+  inset:0;
+  background-image:
+    linear-gradient(90deg, rgba(0,0,0,0.015) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(0,0,0,0.015) 1px, transparent 1px);
+  background-size: 14px 14px;
+  opacity: 0.04;
+  pointer-events:none;
+  border-radius: 12px;
+}
+
+/* reveal animation */
+.heliogracie-in{ animation: hg-rise .26s cubic-bezier(.2,.9,.25,1) forwards; }
+@keyframes hg-rise{ to{ opacity:1; transform:none } }
+
+.heliogracie-left{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:12px;
+  flex:1 1 auto;
+  flex-wrap:nowrap;
+}
+
+/* title */
+.heliogracie-title{
+  font-weight:700;
+  font-size:15px;
+  line-height:1.15;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  min-width:0;
+  color: var(--hg-ink-dark);
+  letter-spacing: 0.01em;
+}
+
+/* replacement styling */
+.heliogracie-swap .heliogracie-old{ text-decoration:line-through; opacity:.65; color: rgba(17,17,17,0.7); }
+.heliogracie-swap .heliogracie-arrow{ opacity:.65; margin:0 6px; }
+.heliogracie-swap .heliogracie-new{ font-weight:800; color: var(--hg-gold); }
+
+/* maple chip inline — subtle */
+.heliogracie-chip{
+  font-size:11px;
+  padding:4px 8px;
+  border-radius:999px;
+  white-space:nowrap;
+  flex:0 0 auto;
+  border:1px solid rgba(17,17,17,0.06);
+  background: rgba(17,17,17,0.03);
+  color: var(--hg-ink-dark);
+}
+
+/* visible maple variant using gold */
+.heliogracie-chip--maple{
+  background: linear-gradient(180deg, rgba(229,195,65,0.12), rgba(229,195,65,0.04));
+  border: 1px solid rgba(229,195,65,0.18);
+  color: #2b1a00;
+  font-weight:700;
+}
+
+/* TIME BADGE — improved: belt-like, clean, high-contrast */
+.heliogracie-time{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Courier New', monospace;
+  font-weight:700;
+  font-size:13px;
+  width:90px;        /* fixed width requirement */
+  flex:0 0 90px;
+  text-align:center;
+  padding:8px 6px;
+  border-radius:10px;
+  background: linear-gradient(180deg, #221f1f, #0f0d0d);
+  color: var(--hg-card-white);
+  border: 2px solid var(--hg-gold);
+  box-shadow: 0 6px 18px rgba(14,14,14,0.45), inset 0 -6px 12px rgba(0,0,0,0.4);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .heliogracie-in{ animation:none; opacity:1; transform:none; }
+}
+
+/* Wider screens adjustments */
+@media (min-width:481px){
+  .heliogracie-list{ width:80%; }
+  .heliogracie-day{ font-size:30px; }
+}
+
+/* Ensure contrast */
+.heliogracie-card, .heliogracie-title { color: #111; }
+.heliogracie-time { color: #fff; }

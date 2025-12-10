@@ -1,17 +1,16 @@
+// KhabibSchedule.jsx
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/KhabibSchedule.css";
-import schedule from "../Schedule";
+import "./KhabibSchedule.css";
+import schedule from "../RhSchedule";
 
 function KhabibSchedule({ day }) {
   const [showSchedule, setShowSchedule] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
-      setShowSchedule(true);
-    }, 500);
+    const t = setTimeout(() => setShowSchedule(true), 500);
+    return () => clearTimeout(t);
   }, []);
 
-  // Convert decimal hours to AM/PM format
   const formatTime = (decimalTime) => {
     const hour = Math.floor(decimalTime);
     const minutes = Math.round((decimalTime - hour) * 60);
@@ -27,16 +26,25 @@ function KhabibSchedule({ day }) {
 
       <div className="khabib-classes">
         {showSchedule &&
-          schedule[day]?.map((cls, idx) => (
+          (schedule[day] || []).map((cls, idx) => (
             <div
               key={idx}
               className="khabib-class"
               style={{ animationDelay: `${idx * 0.3}s` }}
             >
-              <div className="papakha-hat"></div>
+              <div className="papakha-hat" />
               <div className="khabib-class-content">
                 <div className="khabib-class-name">{cls.name}</div>
+
+           
+
                 <div className="khabib-class-time">{formatTime(cls.start)}</div>
+                     {cls.maple && (
+                  <div className="khabib-maple">
+                    <span className="khabib-pin" aria-hidden>📍</span>
+                    MAPLE
+                  </div>
+                )}
               </div>
             </div>
           ))}

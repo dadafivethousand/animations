@@ -1,0 +1,148 @@
+/* Popeye — nautical cartoon vibe (mobile-first)
+   Fonts: Bangers for headline, Inter for UI
+*/
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@500;700;800&display=swap');
+
+:root{
+  --sea-deep:#071520;
+  --sea:#0b1d2a;
+  --foam:#f3f7fa;
+  --spinach:#2aae4e;
+  --rope:#d2b48c;
+  --ink:#eaf0ff;
+  --anchor:#1e3a5f;
+  --card:#0f2534;
+  --border:#1b3647;
+  --accent:#e43b2c; /* cheeky Popeye red */
+  --shadow: 0 6px 14px rgba(0,0,0,.25);
+}
+
+*{ box-sizing:border-box }
+
+.theme-wrap.popeye-wrap{
+  min-height:100vh; width:100vw;
+  background:
+    radial-gradient(1200px 600px at 50% -20%, rgba(255,255,255,.06), transparent 60%),
+    linear-gradient(180deg, var(--sea) 0%, var(--sea-deep) 100%);
+  color:var(--ink);
+  display:flex; flex-direction:column; align-items:center;
+  padding-top: 100px;
+
+ 
+  position:relative;
+  overflow-x:hidden;
+}
+
+/* faint wave overlay */
+.theme-wrap.popeye-wrap::before{
+  content:""; position:absolute; inset:0; pointer-events:none; opacity:.06;
+  background:
+    repeating-linear-gradient( -6deg, transparent 0 18px, rgba(255,255,255,.4) 18px 19px),
+    repeating-linear-gradient(  6deg, transparent 0 22px, rgba(255,255,255,.35) 22px 23px);
+  mix-blend-mode: overlay;
+}
+
+.theme-header{
+  width:80%; max-width:560px; padding:8px 4px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+
+.popeye-day{
+  font-family:'Bangers', system-ui, sans-serif;
+  font-size:40px; letter-spacing:.06em; color:#fff;
+  text-shadow: 0 2px 0 rgba(0,0,0,.4);
+}
+
+.popeye-badge, .popeye-spinach{
+  width:34px; height:34px; border-radius:12px;
+  display:grid; place-items:center;
+  background:linear-gradient(180deg, #0f2a3c, #0b2130);
+  border:1px solid #1d3a4e; color:#cfe9ff;
+  box-shadow: var(--shadow), inset 0 0 0 2px rgba(255,255,255,.04);
+  font-size:18px;
+}
+
+.theme-list{
+  width:80%; max-width:560px;
+  display:flex; flex-direction:column; gap:10px;
+}
+
+/* Card: compact rope-border sailor tag */
+.theme-card{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 12px; border-radius:14px;
+  background: linear-gradient(180deg, var(--card), #0c1f2c);
+  border:1px solid var(--border);
+  position:relative; opacity:0; transform:translateY(8px);
+  box-shadow: var(--shadow);
+}
+
+/* rope edge using double border illusion */
+.popeye-card::after{
+  content:""; position:absolute; inset:0; border-radius:14px;
+  border:2px dashed rgba(210,180,140,.45); /* rope color */
+  pointer-events:none;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  padding:3px;
+}
+
+.theme-in{ animation: rise .22s ease-out forwards }
+@keyframes rise { to { opacity:1; transform:translateY(0) } }
+
+.theme-left{ min-width:0 }
+.theme-title{
+  font:700 15px/1.15 'Inter', system-ui, sans-serif;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+
+.swap .old{ text-decoration: line-through; opacity:.65 }
+.swap .arrow{ opacity:.65; margin:0 6px }
+.swap .new{ font-weight:800; color:var(--foam) }
+
+/* Tags row */
+.tags{ display:flex; gap:6px; margin-top:4px }
+.chip{
+  font-size:11px; line-height:1;
+  padding:3px 8px; border-radius:999px;
+  border:1px solid rgba(255,255,255,.25);
+  background:rgba(255,255,255,.08);
+  color:#fff; white-space:nowrap;
+}
+
+/* Maple chip with spinach pop */
+.chip--maple{
+  background: #123023;
+  border-color: rgba(42,174,78,.55);
+  color: #d7ffe4;
+  box-shadow: 0 0 8px rgba(42,174,78,.35);
+}
+
+/* Time pill */
+.theme-time{
+  font:800 13px/1 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  color:#fff;
+  background: linear-gradient(180deg, #0d2433, #0b1f2a);
+  border:1px solid #234255;
+  border-radius:10px; padding:6px 9px;
+  white-space:nowrap;
+  font-size: 20px;
+  width: 120px;
+  text-align: center;
+}
+
+/* Small screens first — already compact.
+   Optional larger tweaks below if desired. */
+@media (min-width: 480px){
+  .popeye-day{ font-size:30px }
+  .theme-title{ font-size:20px }
+}
+
+/* Alt Maple row (if you switch layouts in JSX) */
+.maple-row{
+  margin-top:8px; padding:6px 10px;
+  border-radius:10px;
+  background:#123023;
+  border:1px dashed rgba(42,174,78,.55);
+  color:#d7ffe4; font-weight:800;
+}

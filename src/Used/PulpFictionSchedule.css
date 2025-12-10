@@ -1,0 +1,183 @@
+/* Pulp Fiction — bold canary yellow, black, and blood red accents */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;700;800&display=swap');
+
+:root{
+  --pulp-yellow:#ffd000;       /* poster yellow */
+  --pulp-yellow-deep:#ffbf00;
+  --pulp-black:#0b0b0b;
+  --pulp-ink:#111;
+  --pulp-border:#1f1f1f;
+  --pulp-red:#d11e1e;
+
+  --card-width:80%;
+  --time-width:90px;           /* fixed equal width for time pills */
+}
+
+/* Reset */
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+/* Wrap: loud yellow like the movie cover */
+.pulp-wrap{
+  min-height:100vh;
+  width:100vw;
+  background: linear-gradient(180deg, var(--pulp-yellow) 0%, var(--pulp-yellow-deep) 100%);
+  color:var(--pulp-ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:74px 14px 24px;
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* Centered weekday in tall condensed type */
+.pulp-header{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:10px 2px 14px;
+  text-align:center;
+  position:relative;
+}
+
+.pulp-header:after{
+  content:"";
+  position:absolute;
+  bottom:-2px;
+  left:50%;
+  transform:translateX(-50%);
+  width:160px;
+  height:3px;
+  background:linear-gradient(90deg, transparent, var(--pulp-black), transparent);
+}
+
+.pulp-day{
+  font-family:"Bebas Neue", system-ui, sans-serif;
+  font-size:44px;
+  letter-spacing:.14em;
+  color:var(--pulp-black);
+  text-shadow:0 1px 0 rgba(255,255,255,.45);
+}
+
+/* List */
+.pulp-list{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  align-items:center; /* center cards */
+}
+
+/* Cards — 80% width & centered, compact, gritty edge */
+.pulp-card{
+  width:var(--card-width);
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 12px;
+  border-radius:12px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0)),
+    var(--pulp-black);
+  border:1px solid var(--pulp-border);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.05),
+    0 10px 22px rgba(0,0,0,.35),
+    0 0 24px rgba(209,30,30,.18);
+  opacity:0;
+  transform:translateY(10px);
+  position:relative;
+  overflow:hidden;
+}
+
+/* Red left bar like a grindhouse poster strip */
+.pulp-card:before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  width:6px;
+  height:100%;
+  background:linear-gradient(180deg, var(--pulp-red), #8f1010);
+  box-shadow:0 0 12px rgba(209,30,30,.45);
+}
+
+.pulp-in{ animation:pulp-rise .22s ease-out forwards; }
+@keyframes pulp-rise{ to{ opacity:1; transform:translateY(0); } }
+
+/* Left column */
+.pulp-left{ min-width:0; }
+
+/* Keep name + Maple chip on ONE line */
+.pulp-title-row{
+  min-width:0;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  white-space:nowrap;
+  overflow:hidden;
+}
+
+.pulp-title{
+  font-weight:800;
+  font-size:16px;
+  color:#fff;
+  letter-spacing:.02em;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* Replacement styling (contract) */
+.swap .old{ text-decoration:line-through; opacity:.65; }
+.swap .arrow{ opacity:.6; margin:0 6px; }
+.swap .new{ font-weight:800; }
+
+/* Maple chip */
+.chip{
+  font-size:12px;
+  line-height:1;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.25);
+  background:rgba(255,255,255,.1);
+  color:#fff;
+  white-space:nowrap;
+  flex:none; /* keep inline */
+}
+.chip--maple{
+  background:#2a1010;
+  border-color: rgba(209,30,30,.55);
+  color:#ffd7d7;
+  box-shadow:0 0 10px rgba(209,30,30,.35);
+}
+
+/* Time pill — start time ONLY, equal width, centered */
+.pulp-time{
+  font:800 13px/1 "Inter", system-ui, sans-serif;
+  padding:8px 0;
+  border-radius:9px;
+  background:#111;
+  border:1px solid #2a2a2a;
+  color:#f1f4ff;
+  letter-spacing:.02em;
+
+  width:var(--time-width);
+  flex:0 0 var(--time-width);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.06),
+    0 6px 14px rgba(0,0,0,.5);
+}
+
+/* Slight bumps on wider screens */
+@media (min-width:431px){
+  .pulp-title{ font-size:17px; }
+  .pulp-time{ font-size:14px; }
+}

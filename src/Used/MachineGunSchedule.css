@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600&display=swap');
+
+@media (min-width: 768px) {
+  .machinegun-container {
+    display: none !important;
+  }
+}
+
+.machinegun-container {
+  height: 90vh;
+  width: 100vw;
+  background: linear-gradient(145deg, #1a1a1a, #2c2c2c);
+  padding-top: 300px;
+  font-family: 'Chakra Petch', monospace;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+  color: #f8f8f8;
+  position: relative;
+  background-image: url(https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYjl1eHFoNWRiM2kwc3QydGJ1ZnY1MmJmcnZ2dW54Z3NzMHV2MnByeSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lF5bH6enH9F1m/giphy.gif);
+}
+
+/* Header */
+.machinegun-day {
+      background: #222;
+  font-size: 36px;
+  color: #f8f8f8;
+ border: 1px solid  #ffcc00;
+  min-height: 50px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding:10px;
+    border-radius: 6px;
+}
+
+/* Schedule */
+.machinegun-schedule {
+  width: 92%;
+  max-width: 460px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+/* Class card */
+.machinegun-class {
+  background: #222;
+  border-left: 8px solid #ffcc00;
+  border-radius: 6px;
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 0 6px #000;
+  animation: recoilIn 0.3s ease-out forwards;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.machinegun-class:hover {
+  transform: translateX(-2px);
+  background: #2d2d2d;
+  box-shadow: 0 0 10px #ffcc0033;
+}
+
+.machinegun-name {
+  font-size: 15px;
+  font-weight: bold;
+  color: #f8f8f8;
+}
+
+.machinegun-time {
+  font-size: 15px;
+  color: #ffcc00;
+}
+
+/* Bullet hole effect (optional) */
+.machinegun-container::after {
+  content: "";
+  position: absolute;
+  top: 18%;
+  left: 12%;
+  width: 12px;
+  height: 12px;
+  background: #444;
+  border: 2px solid #222;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #000 inset;
+  transform: rotate(15deg);
+}
+
+/* Recoil-style animation */
+@keyframes recoilIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px) scale(0.9);
+  }
+  50% {
+    transform: translateX(10px) scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}

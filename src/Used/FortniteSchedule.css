@@ -1,156 +1,226 @@
-@import url('https://fonts.googleapis.com/css2?family=Bowlby+One+SC&display=swap');
+/* Headline vibe approximating Fortnite: bold, playful */
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;700;800&display=swap');
 
-.fortnite-wrapper {
-  position: relative;
-  min-height: 100vh;
-  max-height: 100vh;
+:root{
+  --fn-bg:#090a1a;
+  --fn-deep:#0f1130;
+  --fn-card:#12143a;
+  --fn-border:#2a2f78;
+  --fn-ink:#eef1ff;
+  --fn-cyan:#00e5ff;
+  --fn-violet:#6a5cff;
+  --fn-pink:#ff4d9d;
+  --fn-glow:0 0 24px rgba(106,92,255,.45), 0 0 12px rgba(0,229,255,.25);
 
- 
-  font-family: 'Bowlby One SC', sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: linear-gradient(to bottom right, #0f0120, #320a88);
-  overflow: hidden;
-  color: white;
+  /* New sizing knobs per request */
+  --card-width:80%;
+  --time-width:90px;
 }
 
-/* Glowing floating loot vibe */
-.glow-overlay {
-  position: absolute;
-  top: 0; left: 0;
-  width: 200%;
-  height: 200%;
-  background:
-    radial-gradient(circle at 20% 30%, rgba(173, 92, 255, 0.3), transparent 30%),
-    radial-gradient(circle at 80% 60%, rgba(0, 255, 255, 0.2), transparent 40%),
-    radial-gradient(circle at 50% 90%, rgba(255, 255, 0, 0.1), transparent 50%);
-  animation: glowDrift 20s linear infinite;
-  z-index: 0;
-  pointer-events: none;
-}
+/* Reset */
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 
-@keyframes glowDrift {
-  0% { transform: translate(0, 0); }
-  100% { transform: translate(-20%, -10%); }
-}
-
-/* Title with bold neon */
-.fortnite-title {
-  font-size: 10vw;
-  text-shadow:
-    0 0 10px #00f0ff,
-    0 0 30px #9d4edd,
-    0 0 60px #7209b7;
-  color: #fff;
-  z-index: 2;
-  margin-top: 40px;
-  margin-bottom: 5px;
-}
-
-/* Schedule container */
-.fortnite-schedule {
-  width: 100vw;
-  max-width: 900px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  z-index: 2;
-  
-}
-
-/* Class card with glowy border */
-.fortnite-class {
-  background: linear-gradient(135deg, #1a073b, #230b5c);
-  border: 3px solid transparent;
-  width: 100vw;
- 
-  position: relative;
-  color: #fff;
-  overflow: hidden;
-  box-shadow:
-    0 0 20px rgba(158, 0, 255, 0.3),
-    inset 0 0 10px rgba(0, 255, 255, 0.1);
-  animation: fadeIn 0.5s ease forwards;
-  padding: 2px 0px;
- 
-
- 
-}
-
-.fortnite-inner-class {
-  display: flex;
-  justify-content: space-between;
-  width:100%;
-  width:70%;
-  margin: 0 auto;
-}
-
-.fortnite-class::before {
-  content: "";
-  position: absolute;
-  top: -50%; left: -50%;
-  width: 200%; height: 200%;
-  background: conic-gradient(from 90deg, #0ff, #f0f, #0ff);
-  animation: borderSpin 4s linear infinite;
-  z-index: 0;
-  filter: blur(30px);
-  opacity: 0.2;
-}
-
-@keyframes borderSpin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.fortnite-class:hover {
-  transform: scale(1.03);
-  box-shadow:
-    0 0 25px rgba(0, 255, 255, 0.4),
-    inset 0 0 12px rgba(255, 0, 255, 0.2);
-}
-
-/* Class text */
-.fortnite-class-name {
-  font-size: 20px;
-  color: #fff;
-  text-shadow: 1px 1px #000;
-}
-
-.fortnite-class-time {
-  font-size: 18px;
-  font-style: italic;
-  color: #b8faff;
-}
-
-@keyframes fadeIn {
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.fortnite-wrapper {
-  position: relative;
-  min-height: 100vh;
- 
-  font-family: 'Bowlby One SC', sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: linear-gradient(to right, #00aaff, #0b24f5); /* ← extracted from your image */
-  overflow: hidden;
-  color: white;
-}
-
-.fortnite-gif{
-  position: absolute;
-  bottom:0px;
+.fortnite-wrap{
+  min-height:100vh;
   width:100vw;
-  transition: opacity 4s ease-in-out;
-  opacity:0
+  background:
+    radial-gradient(1200px 600px at 50% -20%, rgba(106,92,255,.18), transparent 60%),
+    radial-gradient(900px 500px at 110% 0%, rgba(0,229,255,.14), transparent 70%),
+    linear-gradient(180deg, var(--fn-deep), var(--fn-bg));
+  color:var(--fn-ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:14px 14px 24px;
+  font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  padding-top: 60px;
 }
 
-.fortnite-show{
-  opacity: 1;
+/* Header — center the weekday */
+.fortnite-header{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  align-items:center;
+  justify-content:center; /* center the whole header row */
+  gap:10px;
+  padding:8px 2px 12px;
+  text-align:center;
+}
+
+.fortnite-logo{
+  width:36px;
+  height:36px;
+  border-radius:10px;
+  display:grid;
+  place-items:center;
+  background:
+    conic-gradient(from 210deg, var(--fn-pink), var(--fn-violet), var(--fn-cyan), var(--fn-pink));
+  color:#0a0c1e;
+  font-weight:800;
+  box-shadow: var(--fn-glow), 0 10px 24px rgba(0,0,0,.35);
+}
+
+.fortnite-day{
+  font-family:"Bangers", system-ui, sans-serif;
+  font-size:44px;
+  letter-spacing:.08em;
+  color:#ffffff;
+  text-shadow:0 2px 0 rgba(0,0,0,.5), 0 0 18px rgba(106,92,255,.45);
+  text-align:center; /* ensure centered text */
+}
+
+/* List */
+.fortnite-list{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+/* Cards — 80% width and centered */
+.fortnite-card{
+  width:var(--card-width);           /* 80% width */
+  margin:0 auto;                     /* centered */
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:25px 12px;
+  border-radius:14px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0)),
+    var(--fn-card);
+  border:1px solid var(--fn-border);
+  position:relative;
+  opacity:0;
+  transform:translateY(10px) scale(.995);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.03),
+    0 10px 22px rgba(0,0,0,.35),
+    0 0 30px rgba(0,229,255,.18);
+}
+
+/* Slanted neon edge (Fortnite-y accent) */
+.fortnite-card:before{
+  content:"";
+  position:absolute;
+  inset:auto 2px 1px auto;
+  width:98%;
+  height:6px;
+  background: linear-gradient(90deg, var(--fn-pink), var(--fn-violet), var(--fn-cyan));
+  border-bottom-left-radius:10px;
+    border-bottom-right-radius:10px;
+  filter:blur(.6px);
+ 
+  opacity:.7;
+  pointer-events:none;
+}
+
+.fortnite-in{ animation:fn-rise .24s cubic-bezier(.2,.8,.2,1) forwards; }
+@keyframes fn-rise{
+  to{ opacity:1; transform:translateY(0) scale(1); }
+}
+
+.fortnite-left{
+  min-width:0;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  gap:4px;
+}
+
+/* Title */
+.fortnite-title{
+  font-weight:900;
+  font-size:16px;
+  color:#ffffff;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  letter-spacing:.015em;
+  text-shadow: 0 0 10px rgba(106,92,255,.35);
+}
+
+/* Replacement & tags (contract) */
+.swap .old{ text-decoration:line-through; opacity:.65; }
+.swap .arrow{ opacity:.65; margin:0 6px; }
+.swap .new{ font-weight:900; }
+
+.tags{ display:flex; gap:6px; margin-top:2px; }
+.chip{
+  font-size:12px;
+  line-height:1;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.06);
+  color:#f3f6ff;
+  white-space:nowrap;
+}
+.chip--maple{
+  background:#1b1440;
+  border-color: rgba(106,92,255,.55);
+  color:#efe8ff;
+  box-shadow: 0 0 10px rgba(106,92,255,.35);
+}
+
+.chip--maple::before{
+opacity: 0;
+}
+
+.chip--maple::after{
+opacity: 0;
+}
+
+
+
+/* Time pill — fixed equal width, centered text, start time only */
+.fortnite-time{
+  font:800 13px/1 "Inter", system-ui, sans-serif;
+  padding:8px 10px;
+  border-radius:10px;
+  background:linear-gradient(180deg, #0f1a44, #0c1333);
+  border:1px solid #2a2f78;
+  color:#eaf1ff;
+  letter-spacing:.02em;
+  white-space:nowrap;
+
+  /* Equal widths + centered text */
+  width:var(--time-width);
+  flex:0 0 var(--time-width);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.06),
+    0 6px 14px rgba(0,0,0,.35),
+    0 0 16px rgba(0,229,255,.22);
+}
+
+/* Optional alternate Maple-under-card layout (enable if requested)
+.maple-row{
+  margin-top:8px;
+  padding:6px 10px;
+  border-radius:0 0 12px 12px;
+  background:#14123a;
+  border-top:1px solid #2a2f78;
+  color:#efe8ff;
+  font-weight:800;
+}
+*/
+
+/* Active tap feedback */
+.fortnite-card:active{
+  transform:translateY(12px) scale(.992);
+  transition:transform .06s ease;
+  box-shadow:0 4px 14px rgba(0,0,0,.35);
+}
+
+/* Slight bumps on wider screens */
+@media (min-width:431px){
+  .fortnite-title{ font-size:17px; }
+  .fortnite-time{ font-size:14px; }
 }

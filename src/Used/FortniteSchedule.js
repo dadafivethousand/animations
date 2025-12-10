@@ -1,54 +1,80 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/FortniteSchedule.css";
-import schedule from "../Schedule";
-import fortniteGif from "../Images/icegif-555.gif"
+import "./FortniteSchedule.css";
+import schedule from "../RhSchedule"; // or "../RhSchedule" if you prefer
 
-export default function FortniteSchedule({ day, animationDelay = 1000, animationInterval = 300 }) {
-  const [visibleArray, setVisibleArray] = useState([]);
-  const [showgif, setShowgif] = useState(false);
-
-  useEffect(() => {
-  setTimeout(() => {
-    setShowgif(true)
-  }, 2000);
-  }, []);
+export default function FortniteSchedule({ day, animationDelay = 900, animationInterval = 160 }) {
+  const [visible, setVisible] = useState([]);
+  const safeDay = day || "";
+  const items = schedule[safeDay] || [];
 
   useEffect(() => {
-    const classes = schedule[day] || [];
-    classes.forEach((_, idx) => {
-      setTimeout(() => {
-        setVisibleArray(prev => [...prev, idx]);
-      }, animationDelay + idx * animationInterval);
+    const timers = [];
+    setVisible([]);
+    items.forEach((_, i) => {
+      const t = setTimeout(
+        () => setVisible((v) => [...v, i]),
+        animationDelay + i * animationInterval
+      );
+      timers.push(t);
     });
-  }, [day, animationDelay, animationInterval]);
+    return () => timers.forEach(clearTimeout);
+  }, [safeDay, animationDelay, animationInterval, items.length]);
 
-  const formatTime = (decimalTime) => {
-    const hour = Math.floor(decimalTime);
-    const minutes = Math.round((decimalTime - hour) * 60);
-    const hour12 = hour % 12 === 0 ? 12 : hour % 12;
-    const amPm = hour < 12 ? "AM" : "PM";
-    const paddedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-    return `${hour12}:${paddedMinutes} ${amPm}`;
+  const formatTime = (t) => {
+    const h = Math.floor(t);
+    const m = Math.round((t - h) * 60);
+    const hr = h % 12 || 12;
+    const ap = h < 12 ? "AM" : "PM";
+    return `${hr}:${m < 10 ? "0" + m : m} ${ap}`;
   };
 
-  return (
-    <div className="fortnite-wrapper">
-      <div className="glow-overlay" />
-      <h1 className="fortnite-title">{day.toUpperCase()}</h1>
+  const formatRange = (s, e) =>
+    typeof e === "number" ? `${formatTime(s)} — ${formatTime(e)}` : formatTime(s);
 
-      <div className="fortnite-schedule">
-        {schedule[day]?.map((cls, idx) =>
-          visibleArray.includes(idx) ? (
-            <div key={idx} className="fortnite-class">
-              <div className="fortnite-inner-class">
-              <span className="fortnite-class-name">{cls.name}</span>
-              <span className="fortnite-class-time">{formatTime(cls.start)}</span>
-            </div>
-            </div>
+  return (
+    <div className="fortnite-wrap">
+      <header className="fortnite-header">
+        <div className="fortnite-logo" aria-hidden>
+          ⚡
+        </div>
+        <h1 className="fortnite-day">{safeDay.toUpperCase()}</h1>
+      </header>
+
+      <main className="fortnite-list">
+        {items.map((cls, i) =>
+          visible.includes(i) ? (
+            <article
+              className="fortnite-card fortnite-in"
+              key={i}
+              style={{ animationDelay: `${i * 40}ms` }}
+            >
+              <div className="fortnite-left">
+                <div className="fortnite-title">
+                  {cls.replacement ? (
+                    <span className="swap">
+                      <span className="old">{cls.name}</span>
+                      <span className="arrow" aria-hidden>→</span>
+                      <span className="new">{String(cls.replacement)}</span>
+                    </span>
+                  ) : (
+                    cls.name
+                  )}
+                </div>
+
+                {cls.maple && (
+                  <div className="tags">
+                    <span className="chip chip--maple">📍 Maple</span>
+                  </div>
+                )}
+              </div>
+
+              <time className="fortnite-time" aria-label="Class time">
+                {formatRange(cls.start)}
+              </time>
+            </article>
           ) : null
         )}
-      </div>
-      <img className={`fortnite-gif ${showgif? 'fortnite-show': ''}` } src={fortniteGif} />
+      </main>
     </div>
   );
 }

@@ -1,0 +1,300 @@
+/* AndroidSchedule.css — Android / Material You style */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap");
+
+:root {
+  --android-bg: #050814;
+  --android-bg-2: #050915;
+  --android-surface: #101522;
+  --android-surface-high: #171c2c;
+  --android-outline: rgba(202, 211, 255, 0.25);
+  --android-outline-soft: rgba(202, 211, 255, 0.16);
+  --android-ink: #f7f8ff;
+  --android-ink-soft: rgba(247, 248, 255, 0.74);
+  --android-accent: #8ce079; /* Android greenish */
+  --android-accent-soft: rgba(140, 224, 121, 0.16);
+  --android-chip-bg: rgba(34, 244, 156, 0.12);
+  --android-maple: #ffb4ab;
+
+  --android-shadow: 0 14px 30px rgba(0, 0, 0, 0.6);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Root wrapper */
+.android-wrap {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px;
+  padding-top: 86px;
+
+  background:
+    radial-gradient(900px 700px at 0% 0%, rgba(140, 224, 121, 0.16), transparent 65%),
+    radial-gradient(900px 700px at 100% 100%, rgba(130, 200, 255, 0.18), transparent 65%),
+    conic-gradient(
+      from 210deg at 50% 30%,
+      #050814 0deg,
+      #040815 90deg,
+      #050915 180deg,
+      #050814 270deg,
+      #050814 360deg
+    );
+  color: var(--android-ink);
+}
+
+/* Header with pseudo status bar / Android card */
+.android-header {
+  width: 100%;
+  max-width: 560px;
+  padding: 10px 12px 12px;
+  border-radius: 20px;
+  background:
+    radial-gradient(120% 140% at 0% 0%, rgba(140, 224, 121, 0.22), transparent 60%),
+    radial-gradient(110% 130% at 100% 100%, rgba(130, 200, 255, 0.25), transparent 60%),
+    linear-gradient(145deg, #131729, #101422);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.8),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--android-outline-soft);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+/* Fake status icons */
+.android-status {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+
+.android-signal,
+.android-wifi,
+.android-battery {
+  position: relative;
+  display: inline-block;
+}
+
+.android-signal::before {
+  content: "";
+  display: block;
+  width: 14px;
+  height: 10px;
+  border-radius: 2px;
+  background: linear-gradient(135deg, rgba(247, 248, 255, 0.24), transparent);
+}
+
+.android-wifi::before {
+  content: "";
+  display: block;
+  width: 14px;
+  height: 10px;
+  border-radius: 0 0 8px 8px;
+  border: 1.5px solid rgba(247, 248, 255, 0.5);
+  border-top: none;
+}
+
+.android-battery::before {
+  content: "";
+  display: block;
+  width: 16px;
+  height: 10px;
+  border-radius: 3px;
+  border: 1.5px solid rgba(247, 248, 255, 0.6);
+  box-shadow: inset 0 0 0 2px rgba(247, 248, 255, 0.35);
+}
+
+/* Day title */
+.android-day {
+  margin: 0;
+  margin-top: 4px;
+  font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--android-ink);
+  text-shadow: 0 0 14px rgba(0, 0, 0, 0.9);
+}
+
+.android-subtitle {
+  margin: 0;
+  margin-top: 2px;
+  font-family: "Roboto", system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--android-ink-soft);
+}
+
+/* List — 80% width */
+.android-list {
+  width: 80%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+/* Card */
+.android-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  padding: 10px 12px;
+  min-height: 56px;
+
+  background:
+    radial-gradient(160% 160% at 0% 0%, rgba(140, 224, 121, 0.12), transparent 60%),
+    linear-gradient(145deg, var(--android-surface), var(--android-surface-high));
+  border-radius: 18px;
+  border: 1px solid var(--android-outline);
+  box-shadow:
+    0 10px 26px rgba(0, 0, 0, 0.7),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.01);
+
+  opacity: 0;
+  transform: translateY(8px) scale(0.985);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Accent strip on left like Material nav pill */
+.android-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 7px;
+  bottom: 7px;
+  width: 4px;
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    rgba(140, 224, 121, 0.95),
+    rgba(130, 200, 255, 0.8)
+  );
+}
+
+/* Entry animation */
+.android-in {
+  animation: android-rise 0.25s ease-out forwards;
+}
+
+@keyframes android-rise {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Left row */
+.android-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+}
+
+/* Title */
+.android-title {
+  font-family: "Roboto", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.2;
+  color: var(--android-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+/* Replacement styling */
+.android-swap .android-old {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+.android-swap .android-arrow {
+  opacity: 0.65;
+  margin: 0 6px;
+}
+.android-swap .android-new {
+  font-weight: 800;
+  color: var(--android-accent);
+}
+
+/* Maple chip — inline, Android pill style */
+.android-chip {
+  font-family: "Roboto", system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(140, 224, 121, 0.4);
+  background: var(--android-chip-bg);
+  color: var(--android-ink);
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.android-chip--maple {
+  border-color: rgba(255, 180, 171, 0.8);
+  background: rgba(255, 180, 171, 0.12);
+  color: var(--android-maple);
+  box-shadow: 0 0 10px rgba(255, 180, 171, 0.4);
+}
+
+/* Time block — 90px pill, centered */
+.android-time {
+  width: 90px;
+  flex: 0 0 90px;
+  text-align: center;
+  white-space: nowrap;
+
+  font: 700 13px/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: var(--android-ink);
+  background:
+    radial-gradient(120% 120% at 50% 0%, rgba(140, 224, 121, 0.14), transparent 50%),
+    linear-gradient(145deg, #181d30, #111729);
+  border-radius: 999px;
+  border: 1px solid var(--android-outline-soft);
+  padding: 6px 8px;
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.65),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .android-in {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Slightly larger screens */
+@media (min-width: 481px) {
+  .android-card {
+    padding: 12px 14px;
+  }
+  .android-time {
+    font-size: 13px;
+  }
+}

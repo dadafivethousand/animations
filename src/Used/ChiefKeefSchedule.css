@@ -1,0 +1,146 @@
+/* ChiefKeefSchedule.css — blacked-out backdrop, metallic engraved title */
+@import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap');
+
+:root{
+  --metal-1:#d8dbe0;
+  --metal-2:#aeb4bb;
+  --metal-3:#6a7178;
+  --metal-4:#3c4248;
+  --ink:#000;
+  --panel:#0e0e0e;
+  --edge:#1a1a1a;
+  --text:#f5f5f5;
+  --accent:#bbbbbb;
+}
+
+*{ box-sizing: border-box; }
+
+.ck-wrap{
+  min-height:100vh;
+  width:100vw;
+  background:#000;
+  color:var(--text);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:400px 14px 28px;
+  overflow-x:hidden;
+  background-image: url(../Images/chiefkeef.jpg);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+/* Metallic, angular “Chief Keef” vibe */
+.ck-day{
+  margin:0 0 14px 0;
+  font-family:"Black Ops One", system-ui, sans-serif;
+         /* mobile-first */
+  letter-spacing:.006em;
+  text-transform:uppercase;
+  line-height:.9;
+  color: rgb(117, 7, 7);
+  font-size: 40px;
+font-weight: 300;
+  /* brushed metal fill */
+color: rgb(255, 196, 0);
+  /* bevel & grime */
+ 
+  position:relative;
+}
+.ck-day::after{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    radial-gradient(120% 60% at 50% 0%, rgba(255,255,255,.08), transparent 60%),
+    radial-gradient(120% 60% at 50% 100%, rgba(0,0,0,.45), transparent 55%);
+  mix-blend-mode:overlay;
+  pointer-events:none;
+}
+
+/* List */
+.ck-list{
+  width:100%;
+  max-width:640px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-top:6px;
+}
+
+/* Rows */
+.ck-card{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.0)),
+    var(--panel);
+  border:1px solid #1f1f1f;
+  border-left:6px solid #7c7c7c;
+  border-radius:12px;
+  padding:30px 14px;
+  box-shadow: inset 0 0 0 9999px rgba(255,255,255,.015), 0 10px 20px rgba(0,0,0,.35);
+  transform: translateY(12px) scale(.98);
+  opacity:0;
+}
+.ck-in{ animation: rowIn .24s ease-out forwards; }
+@keyframes rowIn{ to{ transform: translateY(0) scale(1); opacity:1; } }
+
+.ck-left{
+  display:flex; align-items:center; gap:10px; min-width:0;
+}
+.ck-bolt{
+  width:16px; height:16px; transform:skewX(-18deg);
+  background: linear-gradient(180deg,#9ea3a8,#575e66);
+  border:1px solid #2a2f34; border-radius:2px;
+  box-shadow: 0 0 8px rgba(255,255,255,.08), inset 0 1px 0 rgba(255,255,255,.25);
+}
+
+.ck-name{
+  font-family:"Black Ops One", system-ui, sans-serif;
+  letter-spacing:.02em;
+  font-size:1.02rem; color:#e9ecef;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+
+/* Replacement state */
+.ck-swap{ display:inline-flex; align-items:center; gap:.5rem; }
+.ck-old{ text-decoration:line-through; opacity:.65; }
+.ck-arrow{ opacity:.8; }
+.ck-new{ color:#fff; }
+
+/* Maple chip (optional if cls.maple true) */
+.ck-chip{
+  margin-left:8px;
+  font-size:.68rem;
+  font-weight:800;
+  letter-spacing:.06em;
+  color:#0b0b0b;
+  background:#e6e6e6;
+  border:1px solid #0005;
+  border-radius:999px;
+  padding:2px 8px;
+  white-space:nowrap;
+  box-shadow: inset 0 0 8px rgba(255,255,255,.4), 0 0 10px rgba(255,255,255,.1);
+}
+
+.ck-time{
+  font-family:"Black Ops One", system-ui, sans-serif;
+  font-size:.98rem;
+  color:#e3e6ea;
+  background: linear-gradient(180deg,#3b3f45,#202328);
+  border:1px solid #2a2e33;
+  border-radius:999px;
+  padding:5px 10px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.15), 0 3px 0 rgba(0,0,0,.35);
+  white-space:nowrap;
+}
+
+/* Tight mobiles */
+@media (max-width:420px){
+ 
+  .ck-card{ padding:9px 12px; }
+  .ck-name{ font-size:.95rem; }
+  .ck-time{ font-size:.9rem; }
+  .ck-chip{ font-size:.6rem; padding:2px 6px; }
+}

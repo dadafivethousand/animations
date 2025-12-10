@@ -1,0 +1,188 @@
+/* Microsoft — Fluent-inspired, clean, accessible */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&display=swap');
+
+:root{
+  /* Microsoft brand colors */
+  --ms-blue:#00a4ef;
+  --ms-red:#f25022;
+  --ms-green:#7fba00;
+  --ms-yellow:#ffb900;
+
+  /* Surface */
+  --ms-bg:#f5f5f7;
+  --ms-ink:#0f172a;
+  --ms-card:#ffffff;
+  --ms-brd:#e3e7ef;
+  --ms-elev:rgba(15,23,42,.06);
+
+  /* Controls */
+  --ms-chip-bg:#eef6ff;
+  --ms-chip-brd:#cfe7ff;
+  --ms-chip-ink:#0b4a7e;
+
+  --ms-time-bg:#eef2f7;
+  --ms-time-brd:#d7deea;
+
+  /* Layout knobs */
+  --card-width:100%;   /* mobile-first, centered */
+ }
+
+/* Reset */
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+.microsoft-wrap{
+  min-height:100vh;
+  width:100vw;
+  background: var(--ms-bg);
+  color:var(--ms-ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:14px 14px 24px;
+  font-family:"Inter","Segoe UI",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+}
+
+/* Header: centered weekday with tiny MS logo block above */
+.microsoft-header{
+  width:100%;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:75px 2px 14px;
+  text-align:center;
+  position:relative;
+}
+.microsoft-day{
+  font-weight:800;
+  font-size:32px;
+  letter-spacing:.12em;
+}
+.microsoft-logo{
+  display:grid;
+  grid-template-columns:15px 15px;
+  grid-template-rows:15px 15px;
+  gap:1px;
+}
+.sq{ width:15px;height:15px;border-radius:2px;display:block; }
+.sq--blue{ background:var(--ms-blue); }
+.sq--red{ background:var(--ms-red); }
+.sq--green{ background:var(--ms-green); }
+.sq--yellow{ background:var(--ms-yellow); }
+
+/* List */
+.microsoft-list{
+  width:100%;
+   display:flex;
+  flex-direction:column;
+  gap:10px;
+  align-items:center; /* center cards */
+}
+
+/* Card */
+.microsoft-card{
+  width:var(--card-width);
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:5px 12px;
+  border-radius:12px;
+  background:var(--ms-card);
+  border:1px solid var(--ms-brd);
+  box-shadow:
+    0 8px 20px var(--ms-elev),
+    0 1px 0 rgba(255,255,255,.9) inset;
+  opacity:0;
+  transform:translateY(10px);
+}
+
+/* subtle colored accent on left edge (Fluent hint) */
+.microsoft-card:before{
+  content:"";
+  position:absolute;
+  left:calc(10% - 40%);
+  display:none;
+}
+.microsoft-in{ animation:ms-rise .22s ease-out forwards; }
+@keyframes ms-rise{ to{ opacity:1; transform:translateY(0); } }
+
+.microsoft-left{ min-width:0; }
+
+/* Keep name + MAPLE on one line */
+.microsoft-row{
+  min-width:0;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  white-space:nowrap;
+  overflow:hidden;
+}
+.microsoft-title{
+  font-weight:700;
+  font-size:16px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* Replacement styling (contract) */
+.swap .old{ text-decoration:line-through; opacity:.65; }
+.swap .arrow{ opacity:.6; margin:0 6px; }
+.swap .new{ font-weight:800; }
+
+/* Maple chip */
+.chip{
+  font-size:12px;
+  line-height:1;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid var(--ms-chip-brd);
+  background:var(--ms-chip-bg);
+  color:var(--ms-chip-ink);
+  white-space:nowrap;
+  flex:none; /* do not shrink */
+ 
+}
+
+/* Time pill — start time ONLY, equal width, centered */
+.microsoft-time{
+  font:800 13px/1 "Inter", system-ui, sans-serif;
+  padding:10px 0;
+  border-radius:10px;
+  background:var(--ms-time-bg);
+  border:1px solid var(--ms-time-brd);
+  color:#0b1220;
+  letter-spacing:.02em;
+
+  width:var(--time-width);
+  flex:0 0 var(--time-width);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  max-width:70px;
+}
+
+/* Color strips for variety: alternate cards take logo colors on left border */
+.microsoft-card:nth-child(4n+1){ border-left:4px solid var(--ms-red); }
+.microsoft-card:nth-child(4n+2){ border-left:4px solid var(--ms-green); }
+.microsoft-card:nth-child(4n+3){ border-left:4px solid var(--ms-blue); }
+.microsoft-card:nth-child(4n+4){ border-left:4px solid var(--ms-yellow); }
+
+/* Slight bumps on wider screens */
+@media (min-width:431px){
+  .microsoft-title{ font-size:17px; }
+  .microsoft-time{ font-size:14px; }
+}
+
+
+.mschip--maple{
+color:black;
+font-size: 10px;
+  font:800 13px/1 "Inter", system-ui, sans-serif;
+  border-radius:5px;
+  border:1px solid rgb(255, 0, 0);
+  padding:2px;
+}

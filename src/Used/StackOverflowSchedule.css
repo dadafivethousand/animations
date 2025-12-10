@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap');
+
+@media (min-width: 768px) {
+  .stack-container {
+    display: none !important;
+  }
+}
+
+.stack-container {
+  height: 85vh;
+  width: 100vw;
+  padding-top: 40px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Roboto Mono', monospace;
+  overflow-y: auto;
+  background-image: url(../Images/stack.gif);
+  background-repeat: no-repeat;
+  background-position: bottom center;
+}
+
+/* Day Header */
+.stack-day {
+  font-size: 50px;
+  color: #f34418;
+  min-height: 60px;
+  padding: 2px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+}
+
+/* Schedule List */
+.stack-schedule {
+  width: 92%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Class Card */
+.stack-class {
+  background: #f8f9f9;
+  border-left: 6px solid #f48024;
+  padding: 5px 22px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 6px rgba(35, 38, 41, 0.1);
+  animation: codeSlide 0.4s ease-out forwards;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  opacity: 0.8;
+}
+
+/* Left side: name + maple chip on one line */
+.stack-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 auto;
+}
+
+/* Class Name */
+.stack-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #232629;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* MAPLE chip */
+.stack-chip {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(244, 128, 36, 0.8);
+  background: rgba(244, 128, 36, 0.12);
+  color: #c45100;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+/* Time */
+.stack-time {
+  font-size: 15px;
+  color: #ea6c00;
+  white-space: nowrap;
+}
+
+/* Hover */
+.stack-class:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 10px rgba(35, 38, 41, 0.2);
+}
+
+/* Animation */
+@keyframes codeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

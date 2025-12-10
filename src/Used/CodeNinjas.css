@@ -1,0 +1,139 @@
+.CN-Container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  font-family: "Roboto", system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+  color: #000; /* pure black */
+  background-color: #fff; /* clean white */
+}
+
+.CN-Video {
+  position: absolute;
+   width: 100%;
+  object-fit: cover;
+height:100vh;
+}
+
+.CN-Content {
+  position: relative;
+  z-index: 1;
+  width: min(900px, 92vw);
+  margin: 0 auto;
+  top: 50%;
+  padding: 0;
+  padding-left: 65px; 
+  text-align: left;
+}
+
+.CN-Title {
+  font-family: "Roboto", sans-serif;
+  font-weight: 900;
+  letter-spacing: 0.3px;
+  font-size: clamp(28px, 5vw, 44px);
+  margin: 0 0 16px;
+  color: #000;
+}
+
+.CN-List {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  height: 500px;
+}
+
+.CN-ListItem {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-size: clamp(16px, 2.6vw, 22px);
+  line-height: 1.6;
+  display: flex;
+  align-items: center;
+  min-height: 1.6em;
+  white-space: pre-wrap;
+  color: #000;
+}
+
+.CN-Line {
+  display: inline-flex;
+  align-items: center;
+  font-variant-ligatures: none;
+  min-height: 20px;
+  max-height: 20px;
+}
+
+.CN-Caret {
+  display: inline-block;
+  margin-left: 4px;
+  animation: cn-blink 1s step-start infinite;
+  font-weight: 900;
+  color: #000;
+  font-size: 22px;
+  position: relative;
+  top: -1px;
+}
+
+@keyframes cn-blink {
+  50% { opacity: 0; }
+}
+
+/* 🚀 Rocket fix: always absolute, no layout shift */
+.Rocket-invisible {
+  position: absolute;
+  top: 80%;
+  left: -300px;
+  font-size: 70px;
+  z-index: 56;
+  opacity: 0; /* hidden until activated */
+  pointer-events: none;
+  transform: rotate(-45deg);
+  will-change: transform, top, left, opacity;
+}
+
+.Rocket {
+  opacity: 1;
+  animation: rocket-fly 5s linear;
+}
+
+@keyframes rocket-fly {
+  0% {
+    top: 80%;
+    left: -300px;
+    transform: rotate(5deg);
+  }
+  100% {
+    top: -20%;
+    left: 110%;
+    transform: rotate(5deg);
+  }
+}
+
+.cn-footer {
+  text-align: center;
+  margin-top: 40px;
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+  position: absolute;
+  bottom: 200px;
+  z-index: 5;
+  left: 50%;
+  transform: translateX(-50%);
+
+}
+
+.cn-show-footer {
+  animation: pulsating 2s infinite ease-in-out;
+}
+
+@keyframes pulsating {
+  0% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.9; /* peak brightness */
+  }
+  100% {
+    opacity: 0.3;
+  }
+}
+

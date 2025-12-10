@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import "../Stylesheets/SpotifySchedule.css";
-import schedule from "../Schedule";
+import "./SpotifySchedule.css";
+import schedule from "../RhSchedule";
 
 export default function SpotifySchedule({ day, animationDelay = 1800, animationInterval = 250 }) {
   const [visibleArray, setVisibleArray] = useState([]);
 
   useEffect(() => {
     const entries = schedule[day] || [];
+    setVisibleArray([]); // reset
     entries.forEach((_, idx) => {
       setTimeout(() => {
         setVisibleArray(prev => [...prev, idx]);
@@ -38,7 +39,10 @@ export default function SpotifySchedule({ day, animationDelay = 1800, animationI
                 </div>
               </div>
               <div className="spotify-info">
-                <span className="spotify-class">{cls.name}</span>
+                <span className="spotify-class">
+                  {cls.name}
+                  {cls.maple && <span className="maple-tag">MAPLE LOCATION</span>}
+                </span>
                 <span className="spotify-time">{formatTime(cls.start)}</span>
               </div>
             </div>

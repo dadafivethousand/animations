@@ -1,8 +1,8 @@
 import React from "react";
-import schedule from "../Schedule";
-import "../Stylesheets/GTASchedule.css"; // Correct import
-import gta from '../Images/gta.webp'
-import rockstar from '../Images/unnamed.png'
+import schedule from "../RhSchedule";
+import "./GTASchedule.css"; // Correct import
+import gta from '../Images/Used/gta.webp'
+import rockstar from '../Images/Used/unnamed.png'
 import { useState, useEffect } from "react";
 const formatTime = (time) => {
   const hours = Math.floor(time);

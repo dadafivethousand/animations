@@ -1,9 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
 
 @media (min-width: 768px) {
-  .nirvana-container {
-    display: none !important;
-  }
+  .nirvana-container { display: none !important; }
 }
 
 .nirvana-container {
@@ -44,7 +42,6 @@
   width: 92%;
   max-width: 420px;
   background: rgba(255, 255, 255, 0.03);
- 
   padding: 24px;
   border-radius: 8px;
   display: flex;
@@ -72,25 +69,57 @@
   transform: scale(1.02);
 }
 
+/* Keep class name and Maple on ONE line */
+.nirvana-row{
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .nirvana-name {
   font-weight: bold;
   font-size: 16px;
   color: #fefefe;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
+/* Maple chip */
+.chip{
+  font-size: 12px;
+  line-height: 1;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.25);
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  white-space: nowrap;
+  flex: none; /* prevent shrinking so it stays inline */
+}
+
+.chip--maple{
+  background: #1a1600;
+  border-color: rgba(246,199,0,.55);
+  color: #fff6cc;
+  box-shadow: 0 0 8px rgba(246,199,0,.25);
+}
+
+/* Time */
 .nirvana-time {
   font-size: 16px;
   color: #f6c700;
 }
 
+/* Replacement styling */
+.swap .old { text-decoration: line-through; opacity: .65; }
+.swap .arrow { opacity: .6; margin: 0 6px; }
+.swap .new { font-weight: 800; }
+
 /* Animation */
 @keyframes fadeSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

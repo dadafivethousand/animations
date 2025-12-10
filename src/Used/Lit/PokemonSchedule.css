@@ -37,8 +37,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  top:150px;
+  top:110px;
   transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+  
 }
 
 /* Pokéball Top Half */
@@ -156,6 +157,19 @@
     display:none
 }
 
+.pokemon-class{
+  margin-bottom:10px
+}
+
+.smallfont{
+  font-size: 10px;
+}
+
+.smallerfont{
+  font-size: 9px;
+}
+
+
 /* MOBILE OPTIMIZATION */
 @media (max-width: 768px) {
   .pokeball-container {
@@ -173,6 +187,6 @@
     font-size: 1.2rem;
   }
   .pokemon-schedule {
-    font-size: 1rem;
+    font-size: 12px;
   }
 }

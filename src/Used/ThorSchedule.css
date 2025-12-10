@@ -1,24 +1,21 @@
+/* ThorSchedule.css */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap');
 
 .thor-container {
   background: #0e0e0e;
   min-height: 100vh;
   max-height: 100vh;
- 
   font-family: 'Cinzel', serif;
   display: flex;
   flex-direction: column;
   align-items: center;
   color: #d2e9ff;
-
 }
 
 .thor-title {
   font-size: 10vw;
-  margin: 5px auto;;
+  margin: 5px auto;
   margin-top: 10px;
- 
- 
   color: #c71f1f; /* Thor cape red */
   text-shadow: 0 0 10px rgba(199, 31, 31, 0.5);
   letter-spacing: 4px;
@@ -33,21 +30,32 @@
   background: #1a1a1a;
   border: 2px solid #c0c0c0; /* Silver armor outline */
   color: #ffffff;
- 
   padding: 5px 30px;
   border-radius: 8px;
   box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width:60%;
+  width: 60%;
   margin: 0px auto;
+  height:400px;
+}
+
+/* Left cluster: class name + maple badge kept INSIDE the card */
+.thor-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
 }
 
 .thor-class-name {
   font-size: 20px;
   font-weight: bold;
   color: #c71f1f; /* Red accent */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .thor-class-time {
@@ -55,12 +63,43 @@
   color: #c0c0c0; /* Silver text */
 }
 
-.tenor{
-  margin-top:50px;
- 
-  width:100%;
-  border-bottom:2px solid white;
-  border-top:2px solid white;
- 
+/* Inline maple badge */
+.thor-maple {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 10px;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #111;
+  background: linear-gradient(180deg, #e8e8e8, #bfbfbf);
+  border: 1px solid #c0c0c0;
+  border-radius: 999px;
+  box-shadow: inset 0 0 8px rgba(255,255,255,0.25), 0 0 10px rgba(199,31,31,0.25);
+  white-space: nowrap;
 }
 
+.thor-pin {
+  line-height: 1;
+  color: #c71f1f;
+  filter: drop-shadow(0 0 4px rgba(199, 31, 31, 0.45));
+}
+
+.tenor {
+  margin-top: 50px;
+  width: 100%;
+  border-bottom: 2px solid white;
+  border-top: 2px solid white;
+}
+
+/* Small screens */
+@media (max-width: 480px) {
+  .thor-class {
+    width: 86%;
+    padding: 8px 16px;
+  }
+  .thor-class-name { font-size: 18px; }
+  .thor-class-time { font-size: 14px; }
+  .thor-maple { font-size: 11px; padding: 2px 8px; }
+}

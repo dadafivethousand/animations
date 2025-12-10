@@ -1,0 +1,123 @@
+/* Root — pitch black background */
+.sw-wrap {
+  --sw-crawl-duration: 60s;   /* set dynamically from JS */
+  --sw-start-offset: 160px;   /* set dynamically from JS */
+  --sw-tilt: 22deg;           /* classic Star Wars angle */
+  --sw-perspective: 700px;
+  --sw-max-width: min(820px, 84vw);
+
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #000000;           /* pitch black */
+  color: #feda4a;
+  font-family: "News Gothic MT", "Franklin Gothic Medium", "Helvetica Neue",
+    Arial, sans-serif;
+  letter-spacing: 0.02em;
+ 
+}
+
+.sw-wrap img {
+    width:100vw;
+    position: absolute;
+    top:40%;
+    animation: shrink 8s forwards ease-in-out;
+}   
+
+@keyframes shrink {
+    0%{ transform: scale(4.5); opacity:0 }
+        9%{ transform: scale(4.5); opacity:0 }
+        10%{ transform: scale(4); opacity:1  }
+      99%{ transform: scale(.2); opacity: 1;}
+        100%{ transform: scale(.2); opacity: 0;}
+    
+}
+
+/* Optional, subtle stars (kept very faint so background stays effectively black) */
+.sw-stars {
+  position: absolute;
+  inset: -50% -50% -50% -50%;
+ 
+  background-size: 3px 3px, 2px 2px;
+  background-position: 0 0, 1px 1px;
+  opacity: 0.15;              /* faint; set to 0 to remove completely */
+  pointer-events: none;
+}
+.sw-stars--far { transform: translateZ(0) scale(1.4); opacity: 0.08; }
+.sw-stars--near { transform: translateZ(0); }
+
+/* 3D stage: perspective lives on the parent of the tilted element */
+.sw-stage {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: end center;     /* anchor at bottom center */
+  perspective: var(--sw-perspective);
+  perspective-origin: 50% 85%;
+}
+
+/* This element holds a CONSTANT rotateX so the panel can just translateY.
+   Keeping rotateX separate preserves the “pyramid” taper. */
+.sw-tilt {
+  width: var(--sw-max-width);
+  transform-origin: 50% 100%;
+  transform: rotateX(var(--sw-tilt));
+}
+
+/* Content panel — only translateY is animated */
+.sw-panel {
+  text-align: justify;
+  line-height: 1.45;
+  font-size: clamp(16px, 2.1vw, 22px);
+  transform: translateY(var(--sw-start-offset));
+  will-change: transform;
+}
+
+/* Type hierarchy */
+.sw-kicker {
+  text-align: center;
+  font-weight: 700;
+  font-size: clamp(20px, 2.4vw, 26px);
+  margin: 0 0 0.6em 0;
+  letter-spacing: 0.08em;
+}
+
+.sw-headline {
+  text-align: center;
+  margin: 0 0 1.6em 0;
+  font-weight: 900;
+  font-size: clamp(26px, 3.5vw, 40px);
+  letter-spacing: 0.08em;
+}
+
+.sw-body .sw-line { margin: 0 0 1em 0;  text-align: center;}
+
+/* Crawl animation — ONLY moves along Y, tilt stays intact on .sw-tilt */
+@keyframes sw-crawl-y {
+  0%   { transform: translateY(var(--sw-start-offset)); opacity: 1; }
+  92%  { transform: translateY(calc(-120vh)); opacity: 1; }
+  100% { transform: translateY(calc(-160vh)); opacity: 0.9; }
+}
+
+.sw-start .sw-panel {
+  animation: sw-crawl-y var(--sw-crawl-duration) linear both;
+}
+
+.sw-loop .sw-panel {
+  animation-iteration-count: infinite;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .sw-start .sw-panel,
+  .sw-loop .sw-panel,
+  .sw-stars { animation: none !important; }
+  .sw-tilt { transform: none; }
+  .sw-panel { transform: none; margin: 10vh auto 0; }
+}
+
+/* Small devices */
+@media (max-width: 420px) {
+  .sw-panel { line-height: 1.5; }
+}
