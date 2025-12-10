@@ -70,10 +70,11 @@ import CyberpunkSchedule from "./Components/CyberpunkSchedule";
 import CaterpillarSchedule from "./Components/CaterpillarSchedule";
 import LaysSchedule from "./Components/LaysSchedule";
 import KoolAidSchedule from "./Components/KoolAidSchedule";
+import PetroCanadaSchedule from "./Components/PetroCanadaSchedule";
     function App() {
   return (
     <>
-  <LacosteSchedule day="Tuesday" />
+  <PetroCanadaSchedule day="Wednesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
