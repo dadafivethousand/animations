@@ -74,7 +74,7 @@ import PetroCanadaSchedule from "./Components/PetroCanadaSchedule";
     function App() {
   return (
     <>
-  <PetroCanadaSchedule day="Wednesday" />
+  <MacOSSchedule day="Wednesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

@@ -1,7 +1,7 @@
 MacOSSchedule// MacOSSchedule.jsx
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/MacOSSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function MacOSSchedule({
   day,
