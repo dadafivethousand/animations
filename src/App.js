@@ -71,10 +71,11 @@ import CaterpillarSchedule from "./Components/CaterpillarSchedule";
 import LaysSchedule from "./Components/LaysSchedule";
 import KoolAidSchedule from "./Components/KoolAidSchedule";
 import PetroCanadaSchedule from "./Components/PetroCanadaSchedule";
+import LinkedInSchedule from "./Components/LinkedInSchedule";
     function App() {
   return (
     <>
-  <MacOSSchedule day="Wednesday" />
+  <LinkedInSchedule day="Thursday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

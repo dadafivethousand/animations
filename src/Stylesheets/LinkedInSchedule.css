@@ -1,0 +1,309 @@
+/* LinkedInSchedule.css */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=DM+Sans:wght@500;600;700&display=swap");
+
+:root {
+  --li-blue: #0a66c2;
+  --li-blue-dark: #004182;
+  --li-bg-top: #f3f6f9;
+  --li-bg-bot: #e4edf5;
+  --li-ink: #1f2933;
+  --li-muted: #6b7280;
+
+  --li-card: #ffffff;
+  --li-border: #d1d5db;
+  --li-shadow: 0 18px 42px rgba(15, 23, 42, 0.18);
+
+  --li-chip-bg: #e0f2ff;
+}
+
+/* Reset-ish */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* Root wrapper */
+.linkedin-wrap {
+  min-height: 100vh;
+  width: 100vw;
+  color: var(--li-ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 12px 32px;
+  padding-top: 100px; /* your preference */
+
+  background:
+    radial-gradient(1000px 520px at 0% 0%, rgba(10, 102, 194, 0.14), transparent 70%),
+    radial-gradient(1000px 520px at 100% 120%, rgba(15, 23, 42, 0.14), transparent 70%),
+    linear-gradient(180deg, var(--li-bg-top), var(--li-bg-bot));
+}
+
+/* Header */
+.linkedin-header {
+  width: 100%;
+  max-width: 560px;
+  padding: 10px 4px 18px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  backdrop-filter: blur(14px);
+  background: linear-gradient(
+    180deg,
+    rgba(243, 246, 249, 0.98),
+    rgba(228, 237, 245, 0.96)
+  );
+  border-bottom: 1px solid rgba(209, 213, 219, 0.9);
+  text-align: center;
+}
+
+/* Day label – LinkedIn card / profile header vibe */
+.linkedin-day {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 26px;
+  font-family: "DM Sans", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  color: #ffffff;
+
+  background:
+    linear-gradient(135deg, var(--li-blue), var(--li-blue-dark));
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9),
+    0 10px 26px rgba(15, 23, 42, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+/* subtle animated shine sweep on hover */
+.linkedin-day::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -40%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+  transform: skewX(-25deg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.linkedin-header:hover .linkedin-day::before {
+  animation: li-shine 0.9s ease-out forwards;
+}
+
+/* baseline underline bar */
+.linkedin-day::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--li-blue), var(--li-blue-dark));
+}
+
+/* List (80% width) */
+.linkedin-list {
+  width: 80%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+/* Card */
+.linkedin-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 16px;
+  min-height: 56px;
+
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, #ffffff, #f9fafb);
+  border: 1px solid var(--li-border);
+  box-shadow: var(--li-shadow);
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(10px) scale(0.99);
+
+  transition:
+    transform 0.2s ease-out,
+    box-shadow 0.2s ease-out,
+    border-color 0.2s ease-out,
+    background 0.2s ease-out;
+}
+
+/* left accent bar */
+.linkedin-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  border-radius: 0 8px 8px 0;
+  background: linear-gradient(180deg, var(--li-blue), var(--li-blue-dark));
+}
+
+/* entry animation */
+.linkedin-in {
+  animation: li-rise 0.24s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes li-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* hover */
+.linkedin-card:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow:
+    0 20px 46px rgba(15, 23, 42, 0.25),
+    0 0 0 1px rgba(10, 102, 194, 0.4);
+  border-color: rgba(10, 102, 194, 0.6);
+}
+
+/* Left row: title + maple inline */
+.linkedin-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+}
+
+/* Title/Name — ellipsis */
+.linkedin-title {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  color: var(--li-ink);
+}
+
+/* Replacement styling */
+.linkedin-swap .linkedin-old {
+  text-decoration: line-through;
+  opacity: 0.65;
+}
+
+.linkedin-swap .linkedin-arrow {
+  opacity: 0.75;
+  margin: 0 6px;
+}
+
+.linkedin-swap .linkedin-new {
+  font-weight: 800;
+}
+
+/* Maple chip inline – looks like a LinkedIn tag/pill */
+.linkedin-chip {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(10, 102, 194, 0.8);
+  background: var(--li-chip-bg);
+  color: var(--li-blue-dark);
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+/* Time block: fixed width 90px */
+.linkedin-time {
+  position: relative;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1.1;
+  white-space: nowrap;
+  text-align: center;
+  width: 90px;
+  flex: 0 0 90px;
+  padding: 6px 8px;
+  border-radius: 999px;
+
+  background:
+    linear-gradient(180deg, #f9fafb, #e5edf7);
+  border: 1px solid rgba(148, 163, 184, 0.9);
+  color: var(--li-blue-dark);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9),
+    0 6px 16px rgba(148, 163, 184, 0.4);
+}
+
+/* tiny presence dot in time pill (like online indicator) */
+.linkedin-time::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: radial-gradient(circle, #22c55e 0, #15803d 65%, transparent 100%);
+}
+
+/* Header shine animation */
+@keyframes li-shine {
+  0% {
+    opacity: 0;
+    transform: translateX(-40%) skewX(-25deg);
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(160%) skewX(-25deg);
+  }
+}
+
+/* Slightly larger screens */
+@media (min-width: 481px) {
+  .linkedin-card {
+    padding: 14px 20px;
+  }
+}
