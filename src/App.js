@@ -72,10 +72,11 @@ import LaysSchedule from "./Components/LaysSchedule";
 import KoolAidSchedule from "./Components/KoolAidSchedule";
 import PetroCanadaSchedule from "./Components/PetroCanadaSchedule";
 import LinkedInSchedule from "./Components/LinkedInSchedule";
+import SamuraiSchedule from "./Used/Lit/SamuraiSchedule"
     function App() {
   return (
     <>
-  <LinkedInSchedule day="Thursday" />
+  <SamuraiSchedule day="Thursday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

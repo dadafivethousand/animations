@@ -1,44 +1,66 @@
 import React, { useEffect, useState } from "react";
 import "./SamuraiSchedule.css";
-import schedule from "../../Schedule"; // Assuming schedule data exists
+import schedule from "../../RhSchedule"; // Assuming schedule data exists
 import Katana from "./Katana";
 
-function SamuraiSchedule({ day, animationDelay = 2500, animationInterval = 500 }) {
+function SamuraiSchedule({
+  day,
+  animationDelay = 2500,
+  animationInterval = 500,
+}) {
   const [visibleArray, setVisibleArray] = useState([]);
   const [visibleImage, setVisibleImage] = useState(false);
   const [moveKatanas, setMoveKatanas] = useState(false);
   const [moveKatana, setMoveKatana] = useState(false);
+
+  const safeDay = day || "";
+  const items = schedule[safeDay] || [];
+
+  // Show background image
   useEffect(() => {
-    setTimeout(() => {
-      setVisibleImage(true)
+    const t = setTimeout(() => {
+      setVisibleImage(true);
     }, 1000);
+    return () => clearTimeout(t);
   }, []);
 
+  // Move katanas (pair)
   useEffect(() => {
-    setTimeout(() => {
-      setMoveKatanas(true)
+    const t = setTimeout(() => {
+      setMoveKatanas(true);
     }, 5000);
+    return () => clearTimeout(t);
   }, []);
+
+  // Move single katana
   useEffect(() => {
-    setTimeout(() => {
-      setMoveKatana(true)
+    const t = setTimeout(() => {
+      setMoveKatana(true);
     }, 5500);
+    return () => clearTimeout(t);
   }, []);
 
-
-
+  // Reveal schedule entries
   useEffect(() => {
-    setTimeout(() => {
-      const classes = schedule[day] || [];
-      if (classes.length === 0) return;
+    setVisibleArray([]);
+    const classes = items;
+    if (!classes.length) return;
 
+    const timeouts = [];
+    const startTimeout = setTimeout(() => {
       classes.forEach((_, idx) => {
-        setTimeout(() => {
+        const t = setTimeout(() => {
           setVisibleArray((prev) => [...prev, idx]);
         }, idx * animationInterval);
+        timeouts.push(t);
       });
     }, animationDelay);
-  }, [day, animationDelay, animationInterval]);
+
+    return () => {
+      clearTimeout(startTimeout);
+      timeouts.forEach(clearTimeout);
+    };
+  }, [safeDay, animationDelay, animationInterval, items.length]);
 
   const formatTime = (decimalTime) => {
     const hour = Math.floor(decimalTime);
@@ -53,38 +75,47 @@ function SamuraiSchedule({ day, animationDelay = 2500, animationInterval = 500 }
     <div className="samurai-scroll">
       {/* Samurai Battle Banner (Day of the Week) */}
       <div className="samurai-banner">
-        <div className="samurai-banner-text">{day.toUpperCase()}</div>
+        <div className="samurai-banner-text">{safeDay.toUpperCase()}</div>
       </div>
- 
+
       <div className="samurai-paper">
         <div className="samurai-classes">
-        {schedule[day]?.map((cls, idx) => (
-          <div key={idx} className="samurai-entry-container">
-            {visibleArray.includes(idx) && (
-              <div className="samurai-entry samurai-slice">
-                <div className="samurai-kanji">武</div> {/* Kanji for "Martial Arts" */}
-                <div className="samurai-text">
-                  <span className="samurai-class-name">{cls.name}</span>
-                  <span className="samurai-class-time">{formatTime(cls.start)}</span>
+          {items.map((cls, idx) => (
+            <div key={idx} className="samurai-entry-container">
+              {visibleArray.includes(idx) && (
+                <div className="samurai-entry samurai-slice">
+                  <div className="samurai-kanji">武</div>
+                  <div className="samurai-text">
+                    <div className="samurai-line">
+                      <span className="samurai-class-name">{cls.name}</span>
+                      {cls.maple && (
+                        <span className="samurai-chip">📍 MAPLE</span>
+                      )}
+                    </div>
+                    <span className="samurai-class-time">
+                      {formatTime(cls.start)}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
+          ))}
+        </div>
+
+        <div className="samurai-katanas">
+          <div className={`katana-one ${moveKatanas ? "katana-left" : ""}`}>
+            <Katana />
           </div>
-        ))}
-</div>
-<div className="samurai-katanas ">
-  <div className={`katana-one ${moveKatanas? 'katana-left':''}`}>
-<Katana />
-</div>
 
-<div className={`katana-two ${moveKatana? 'katana-right':''}`}>
-<Katana />
-</div>
-</div>
+          <div className={`katana-two ${moveKatana ? "katana-right" : ""}`}>
+            <Katana />
+          </div>
+        </div>
       </div>
-      <div className={`samurai-image ${visibleImage ? 'samurai-show': ''}`}>
 
-      </div>
+      <div
+        className={`samurai-image ${visibleImage ? "samurai-show" : ""}`}
+      ></div>
     </div>
   );
 }
