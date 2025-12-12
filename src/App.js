@@ -77,7 +77,7 @@ import SevenElevenSchedule from "./Components/SevenElevenSchedule";
     function App() {
   return (
     <>
-    <SevenElevenSchedule day="Friday"/>
+    <PetroCanadaSchedule day="Friday"/>
       {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

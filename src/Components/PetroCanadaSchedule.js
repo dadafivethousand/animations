@@ -1,7 +1,7 @@
 // PetroCanadaSchedule.jsx
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/PetroCanadaSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function PetroCanadaSchedule({
   day,

@@ -220,6 +220,7 @@ body {
   color: var(--pc-red-dark);
   white-space: nowrap;
   flex: 0 0 auto;
+  background-color: white;
 }
 
 /* TIME: fixed 90px */
