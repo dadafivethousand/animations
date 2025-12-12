@@ -68,8 +68,7 @@ import MacOSSchedule from "./Components/MacOSSchedule";
 import WorldCupSchedule from "./Components/WorldCupSchedule";
 import CyberpunkSchedule from "./Components/CyberpunkSchedule";
 import CaterpillarSchedule from "./Components/CaterpillarSchedule";
-import LaysSchedule from "./Components/LaysSchedule";
-import KoolAidSchedule from "./Components/KoolAidSchedule";
+ import KoolAidSchedule from "./Components/KoolAidSchedule";
 import PetroCanadaSchedule from "./Components/PetroCanadaSchedule";
 import LinkedInSchedule from "./Components/LinkedInSchedule";
 import SamuraiSchedule from "./Used/Lit/SamuraiSchedule"
