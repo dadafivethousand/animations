@@ -1,0 +1,232 @@
+/* HugoBossSchedule.css
+   Hugo Boss theme:
+   - Minimal, sharp black & white with red accents
+   - Cards feel like tailored suit fabric
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@500;700&display=swap");
+
+:root {
+  --hb-bg-top: #f1f1f2;
+  --hb-bg-bottom: #dadbdd;
+
+  --hb-surface-dark: #111111;
+  --hb-surface-mid: #1b1b1c;
+  --hb-surface-weave: rgba(255, 255, 255, 0.06);
+
+  --hb-red: #e30613;
+  --hb-red-soft: #ff4a55;
+
+  --hb-ink: #f9f9f9;
+  --hb-ink-muted: rgba(245, 245, 245, 0.78);
+
+  --hb-border: rgba(0, 0, 0, 0.9);
+  --hb-shadow: 0 16px 34px rgba(0, 0, 0, 0.7);
+}
+
+/* global */
+* {
+  box-sizing: border-box;
+}
+
+/* wrapper – editorial grey, centered content */
+.hugoboss-wrap {
+  width: 100vw;
+  min-height: 100vh;
+  padding: 16px;
+  padding-top: 56px; /* >= 50px */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background:
+    radial-gradient(900px 700px at 10% 0%, rgba(0, 0, 0, 0.07), transparent 70%),
+    radial-gradient(900px 700px at 90% 10%, rgba(0, 0, 0, 0.08), transparent 70%),
+    linear-gradient(180deg, var(--hb-bg-top), var(--hb-bg-bottom));
+  color: #111111;
+}
+
+/* header – simple wordmark bar */
+.hugoboss-header {
+  width: 100%;
+  max-width: 560px;
+  text-align: center;
+  padding: 10px 8px 12px;
+  border-radius: 999px;
+
+  background: #ffffff;
+  box-shadow:
+    0 12px 26px rgba(0, 0, 0, 0.12),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.hugoboss-day {
+  margin: 0;
+  font-family: "Oswald", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #111111;
+}
+
+/* list – 80% width */
+.hugoboss-list {
+  width: 80%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+/* card – suit fabric with red accent bar */
+.hugoboss-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  padding: 10px 12px;
+  min-height: 56px;
+
+  background:
+    repeating-linear-gradient(
+      135deg,
+      var(--hb-surface-weave) 0px,
+      var(--hb-surface-weave) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+    linear-gradient(145deg, var(--hb-surface-mid), var(--hb-surface-dark));
+  border-radius: 14px;
+  border: 1px solid var(--hb-border);
+  box-shadow:
+    var(--hb-shadow),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  position: relative;
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+/* left red accent strip */
+.hugoboss-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--hb-red), var(--hb-red-soft));
+}
+
+/* entry animation – quick, clean slide in */
+.hugoboss-in {
+  animation: hb-slide-in 0.2s ease-out forwards;
+}
+
+@keyframes hb-slide-in {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* left row */
+.hugoboss-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+}
+
+/* title */
+.hugoboss-title {
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.2;
+  color: var(--hb-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.hugoboss-normal {}
+
+/* replacement styling */
+.hugoboss-swap .hugoboss-old {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+.hugoboss-swap .hugoboss-arrow {
+  opacity: 0.8;
+  margin: 0 6px;
+  color: var(--hb-ink-muted);
+}
+.hugoboss-swap .hugoboss-new {
+  font-weight: 800;
+  color: var(--hb-red-soft);
+}
+
+/* Maple chip – minimal inline pill */
+.hugoboss-chip {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  background: rgba(0, 0, 0, 0.45);
+  color: var(--hb-ink-muted);
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.hugoboss-chip--maple {
+  border-color: var(--hb-red);
+  color: var(--hb-ink);
+}
+
+/* time block – 90px, crisp pill */
+.hugoboss-time {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New",
+    monospace;
+  font-weight: 800;
+  font-size: 13px;
+  width: 90px;      /* fixed width */
+  flex: 0 0 90px;
+  text-align: center;
+  white-space: nowrap;
+
+  color: #111111;
+  background: #f9f9f9;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  padding: 6px 8px;
+}
+
+/* slightly larger screens */
+@media (min-width: 481px) {
+  .hugoboss-card {
+    padding: 12px 14px;
+  }
+  .hugoboss-time {
+    font-size: 13px;
+  }
+}

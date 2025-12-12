@@ -1,0 +1,280 @@
+/* SevenElevenSchedule.css
+   7-Eleven theme:
+   - Off-white store interior background
+   - Dark green cards with orange/red stripe bar
+   - Clean, compact mobile-first layout
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Inter:wght@500;700&display=swap");
+
+:root {
+  --se-bg-1: #f6f2e9;         /* store wall off-white */
+  --se-bg-2: #ece2d0;
+
+  --se-green-dark: #005f3a;   /* 7-Eleven green */
+  --se-green-mid: #037347;
+  --se-green-soft: #0b8f55;
+
+  --se-orange: #f46e2b;       /* 7-Eleven orange */
+  --se-red: #e1261c;          /* 7-Eleven red */
+
+  --se-ink-light: #fdfdfd;
+  --se-ink-soft: rgba(253, 253, 253, 0.78);
+
+  --se-border: rgba(0, 0, 0, 0.35);
+  --se-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+}
+
+/* global */
+* {
+  box-sizing: border-box;
+}
+
+/* wrapper */
+.seveneleven-wrap {
+  width: 100vw;
+  min-height: 100vh;
+  padding: 14px;
+  padding-top: 56px; /* >= 50px */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background:
+    radial-gradient(900px 600px at 10% 0%, rgba(0, 0, 0, 0.04), transparent 70%),
+    radial-gradient(900px 600px at 90% 0%, rgba(0, 0, 0, 0.05), transparent 70%),
+    linear-gradient(180deg, var(--se-bg-1), var(--se-bg-2));
+  color: #161616;
+}
+
+/* header – simple pill with subtle stripes hint */
+.seveneleven-header {
+  width: 100%;
+  max-width: 560px;
+  text-align: center;
+  padding: 10px 8px 12px;
+  border-radius: 999px;
+
+  background:
+    linear-gradient(135deg, #ffffff, #f3ebe0);
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.18),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.seveneleven-day {
+  margin: 0;
+  font-family: "Poppins", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #141414;
+}
+
+/* list – 80% width */
+.seveneleven-list {
+  width: 80%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+/* card – dark green panel with 7-Eleven stripe bar */
+.seveneleven-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  padding: 10px 12px;
+  min-height: 56px;
+
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.04) 0px,
+      rgba(255, 255, 255, 0.04) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+    linear-gradient(145deg, var(--se-green-mid), var(--se-green-dark));
+  border-radius: 14px;
+  border: 1px solid var(--se-border);
+  box-shadow:
+    var(--se-shadow),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+
+  position: relative;
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+/* vertical stripe bar on the left: green / orange / red */
+.seveneleven-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -4px;
+  bottom: -4px;
+  width: 8px;
+  background:
+    linear-gradient(
+      180deg,
+      var(--se-green-soft) 0%,
+      var(--se-green-soft) 34%,
+      var(--se-orange) 34%,
+      var(--se-orange) 67%,
+      var(--se-red) 67%,
+      var(--se-red) 100%
+    );
+}
+
+/* inner highlight bar hint */
+.seveneleven-card::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 0;
+  height: 20%;
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.18),
+    transparent
+  );
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* entry animation – clean slide up */
+.seveneleven-in {
+  animation: se-rise 0.22s ease-out forwards;
+}
+
+@keyframes se-rise {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* left row: title + maple chip inline */
+.seveneleven-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+}
+
+/* title */
+.seveneleven-title {
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.2;
+  color: var(--se-ink-light);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.seveneleven-normal {}
+
+/* replacement styling */
+.seveneleven-swap .seveneleven-old {
+  text-decoration: line-through;
+  opacity: 0.75;
+}
+.seveneleven-swap .seveneleven-arrow {
+  opacity: 0.85;
+  margin: 0 6px;
+  color: var(--se-ink-soft);
+}
+.seveneleven-swap .seveneleven-new {
+  font-weight: 800;
+  color: #ffe8c7;
+}
+
+/* maple chip inline */
+.seveneleven-chip {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.7), transparent 60%),
+    #f5f5f5;
+  color: #1a1a1a;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.seveneleven-chip--maple {
+  border-color: var(--se-red);
+}
+
+/* time block – 90px white price tag pill */
+.seveneleven-time {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New",
+    monospace;
+  font-weight: 800;
+  font-size: 13px;
+  width: 90px;      /* fixed width */
+  flex: 0 0 90px;
+  text-align: center;
+  white-space: nowrap;
+
+  color: #161616;
+  background: #ffffff;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  padding: 6px 8px;
+}
+
+/* slightly larger screens */
+@media (min-width: 481px) {
+  .seveneleven-card {
+    padding: 12px 14px;
+  }
+  .seveneleven-time {
+    font-size: 13px;
+  }
+}
+.seveneleven-header {
+  width: 100%;
+  max-width: 560px;
+  text-align: center;
+  padding: 10px 8px 12px;
+  border-radius: 999px;
+
+  /* RED 7-Eleven style header */
+  background:
+    radial-gradient(circle at 10% 0%, rgba(255, 255, 255, 0.22), transparent 55%),
+    linear-gradient(135deg, var(--se-red), #ff5a48);
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.25),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(120, 10, 5, 0.9);
+}
+
+.seveneleven-day {
+  margin: 0;
+  font-family: "Poppins", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #ffffff; /* white text on red header */
+}

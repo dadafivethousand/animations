@@ -73,11 +73,12 @@ import KoolAidSchedule from "./Components/KoolAidSchedule";
 import PetroCanadaSchedule from "./Components/PetroCanadaSchedule";
 import LinkedInSchedule from "./Components/LinkedInSchedule";
 import SamuraiSchedule from "./Used/Lit/SamuraiSchedule"
+import SevenElevenSchedule from "./Components/SevenElevenSchedule";
     function App() {
   return (
     <>
-  <SamuraiSchedule day="Thursday" />
-       {/* You can toggle others like this */}
+    <SevenElevenSchedule day="Friday"/>
+      {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
   );
