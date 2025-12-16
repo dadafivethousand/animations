@@ -78,7 +78,7 @@ import ClashOfClansSchedule from "./Components/ClashOfClansSchedule";
     function App() {
   return (
     <>
-  <ClashOfClansSchedule day="Wednesday" />
+  <CaterpillarSchedule day="Wednesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

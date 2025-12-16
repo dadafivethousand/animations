@@ -1,7 +1,7 @@
 // CaterpillarSchedule.jsx
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/CaterpillarSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function CaterpillarSchedule({
   day,
