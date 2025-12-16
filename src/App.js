@@ -73,10 +73,11 @@ import KoolAidSchedule from "./Components/KoolAidSchedule";
 import PetroCanadaSchedule from "./Components/PetroCanadaSchedule";
 import LinkedInSchedule from "./Components/LinkedInSchedule";
 import SamuraiSchedule from "./Used/Lit/SamuraiSchedule"
+import SubwayMapSchedule from "./Components/SubwayMapSchedule";
     function App() {
   return (
     <>
-  <LinkedInSchedule day="Tuesday" />
+  <SubwayMapSchedule day="Tuesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
