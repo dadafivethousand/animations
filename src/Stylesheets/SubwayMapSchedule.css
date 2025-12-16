@@ -1,0 +1,346 @@
+/* SubwayMapSchedule.css */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=Rajdhani:wght@500;600;700&display=swap");
+
+:root {
+  --sw-bg: #020617;
+  --sw-bg-2: #020314;
+  --sw-ink: #e5f0ff;
+  --sw-muted: #94a3b8;
+
+  --sw-card: rgba(15, 23, 42, 0.96);
+  --sw-border: rgba(51, 65, 85, 0.9);
+  --sw-shadow: 0 18px 44px rgba(2, 6, 23, 0.9);
+
+  --sw-line: #22d3ee;        /* subway line cyan */
+  --sw-node-ring: #e5e7eb;
+  --sw-node-core: #22d3ee;
+
+  --sw-chip-bg: rgba(15, 23, 42, 0.85);
+  --sw-chip-border: rgba(148, 163, 184, 0.9);
+}
+
+/* Reset-ish */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* Root wrapper */
+.subway-wrap {
+  min-height: 100vh;
+  width: 100vw;
+  color: var(--sw-ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 12px 32px;
+  padding-top: 100px; /* global preference */
+
+  background:
+    radial-gradient(1200px 520px at 0% 0%, rgba(34, 211, 238, 0.25), transparent 70%),
+    radial-gradient(1100px 520px at 100% 120%, rgba(129, 140, 248, 0.22), transparent 70%),
+    linear-gradient(180deg, var(--sw-bg), var(--sw-bg-2)),
+    /* faint grid like a transit map */
+    linear-gradient(
+      to right,
+      rgba(15, 23, 42, 0.65) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(15, 23, 42, 0.65) 1px,
+      transparent 1px
+    );
+  background-size:
+    auto,
+    auto,
+    auto,
+    64px 64px,
+    64px 64px;
+}
+
+/* Header */
+.subway-header {
+  width: 100%;
+  max-width: 560px;
+  padding: 10px 4px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  backdrop-filter: blur(18px);
+  background: linear-gradient(
+    180deg,
+    rgba(15, 23, 42, 0.96),
+    rgba(15, 23, 42, 0.98)
+  );
+  border-bottom: 1px solid rgba(51, 65, 85, 0.9);
+  text-align: center;
+}
+
+/* Day label – like a line name plate */
+.subway-day {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 24px;
+  font-family: "Rajdhani", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  color: var(--sw-ink);
+
+  background:
+    linear-gradient(90deg, #0f172a, #020617);
+  box-shadow:
+    0 0 0 1px rgba(148, 163, 184, 0.7),
+    0 12px 28px rgba(0, 0, 0, 0.95);
+  position: relative;
+}
+
+/* small colored bar under the line name */
+.subway-day::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--sw-line), #6366f1);
+}
+
+/* List (80% width) */
+.subway-list {
+  width: 80%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 26px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Card */
+.subway-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 16px;
+  min-height: 56px;
+
+  border-radius: 16px;
+  background:
+    radial-gradient(260px 120px at 0% 0%, rgba(15, 118, 110, 0.25), transparent 70%),
+    radial-gradient(260px 120px at 100% 100%, rgba(37, 99, 235, 0.25), transparent 70%),
+    linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(2, 6, 23, 0.98));
+  border: 1px solid var(--sw-border);
+  box-shadow: var(--sw-shadow);
+  overflow: visible;
+
+  opacity: 0;
+  transform: translateY(14px) scale(0.97);
+
+  transition:
+    transform 0.2s ease-out,
+    box-shadow 0.2s ease-out,
+    border-color 0.2s ease-out;
+}
+
+/* Entry animation */
+.subway-in {
+  animation: subway-rise 0.26s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes subway-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Hover */
+.subway-card:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 1),
+    0 0 0 1px rgba(148, 163, 184, 0.85);
+  border-color: rgba(148, 163, 184, 0.95);
+}
+
+/* Left row: track + title + maple inline */
+.subway-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+}
+
+/* Track column */
+.subway-track {
+  position: relative;
+  width: 26px;
+  flex: 0 0 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* vertical line segment – extends beyond each card so segments connect */
+.subway-track::before {
+  content: "";
+  position: absolute;
+  top: -24px;
+  bottom: -24px;
+  width: 3px;
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    rgba(34, 211, 238, 0),
+    var(--sw-line),
+    rgba(34, 211, 238, 0)
+  );
+  opacity: 0.9;
+}
+
+/* station node */
+.subway-node {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  border: 2px solid var(--sw-node-ring);
+  background: radial-gradient(circle, var(--sw-node-core) 0, #020617 70%);
+  box-shadow:
+    0 0 0 2px rgba(15, 23, 42, 1),
+    0 0 12px rgba(34, 211, 238, 0.8);
+  animation: subway-node-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes subway-node-pulse {
+  0% {
+    transform: scale(1);
+    box-shadow:
+      0 0 0 2px rgba(15, 23, 42, 1),
+      0 0 6px rgba(34, 211, 238, 0.5);
+  }
+  50% {
+    transform: scale(1.12);
+    box-shadow:
+      0 0 0 2px rgba(15, 23, 42, 1),
+      0 0 14px rgba(34, 211, 238, 0.9);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 0 2px rgba(15, 23, 42, 1),
+      0 0 6px rgba(34, 211, 238, 0.5);
+  }
+}
+
+/* Title/Name — ellipsis */
+.subway-title {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  color: var(--sw-ink);
+}
+
+/* Replacement styling */
+.subway-swap .subway-old {
+  text-decoration: line-through;
+  opacity: 0.65;
+}
+
+.subway-swap .subway-arrow {
+  opacity: 0.8;
+  margin: 0 6px;
+}
+
+.subway-swap .subway-new {
+  font-weight: 800;
+  color: #e0f2fe;
+}
+
+/* Maple chip inline – looks like a transfer tag */
+.subway-chip {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--sw-chip-border);
+  background: var(--sw-chip-bg);
+  color: var(--sw-muted);
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+/* Time block: fixed width 90px, circular-ish station marker */
+.subway-time {
+  position: relative;
+  font-family: "Rajdhani", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+  white-space: nowrap;
+  text-align: center;
+  width: 90px;
+  flex: 0 0 90px;
+  padding: 8px 8px;
+  border-radius: 999px;
+
+  background:
+    radial-gradient(circle at 30% 0%, rgba(248, 250, 252, 0.32), transparent 55%),
+    linear-gradient(180deg, #020617, #020617);
+  border: 2px solid rgba(148, 163, 184, 0.9);
+  color: var(--sw-ink);
+  box-shadow:
+    0 0 0 1px rgba(2, 6, 23, 1),
+    0 0 14px rgba(34, 211, 238, 0.7);
+}
+
+/* small inner station dot */
+.subway-time::before {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: radial-gradient(circle, var(--sw-line) 0, #0369a1 70%);
+}
+
+/* Slightly larger screens */
+@media (min-width: 481px) {
+  .subway-card {
+    padding: 14px 20px;
+  }
+}

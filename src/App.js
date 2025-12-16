@@ -76,7 +76,7 @@ import SamuraiSchedule from "./Used/Lit/SamuraiSchedule"
     function App() {
   return (
     <>
-  <LinkedInSchedule day="Thursday" />
+  <LinkedInSchedule day="Tuesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
