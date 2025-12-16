@@ -74,10 +74,11 @@ import PetroCanadaSchedule from "./Components/PetroCanadaSchedule";
 import LinkedInSchedule from "./Components/LinkedInSchedule";
 import SamuraiSchedule from "./Used/Lit/SamuraiSchedule"
 import SubwayMapSchedule from "./Components/SubwayMapSchedule";
+import ClashOfClansSchedule from "./Components/ClashOfClansSchedule";
     function App() {
   return (
     <>
-  <SubwayMapSchedule day="Tuesday" />
+  <ClashOfClansSchedule day="Wednesday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

@@ -1,0 +1,347 @@
+/* ClashOfClansSchedule.css */
+@import url("https://fonts.googleapis.com/css2?family=Bowlby+One+SC&family=Inter:wght@500;600;700&display=swap");
+
+:root {
+  --cl-bg-top: #3a2050;   /* sky */
+  --cl-bg-mid: #55321f;   /* cliffs */
+  --cl-bg-bot: #2f4b26;   /* grass */
+
+  --cl-ink: #fef9e6;
+  --cl-muted: #d1d5db;
+
+  --cl-card: #3c2413;
+  --cl-card-dark: #26140b;
+  --cl-border: #8d5a27;
+  --cl-shadow: 0 20px 40px rgba(9, 5, 2, 0.9);
+
+  --cl-gold: #f7c74a;
+  --cl-gold-dark: #b37517;
+  --cl-red: #d52f21;
+}
+
+/* reset-ish */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* ROOT WRAP – base / sky gradient */
+.clash-wrap {
+  min-height: 100vh;
+  width: 100vw;
+  color: var(--cl-ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 12px 32px;
+  padding-top: 100px; /* your global preference */
+
+  background:
+    radial-gradient(1200px 520px at 50% -10%, rgba(244, 159, 76, 0.22), transparent 70%),
+    linear-gradient(180deg, var(--cl-bg-top), var(--cl-bg-mid) 45%, var(--cl-bg-bot));
+}
+
+/* HEADER – top resource bar vibe */
+.clash-header {
+  width: 100%;
+  max-width: 560px;
+  padding: 6px 6px 12px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  backdrop-filter: blur(10px);
+  background: linear-gradient(
+    180deg,
+    rgba(32, 16, 48, 0.96),
+    rgba(28, 18, 30, 0.96)
+  );
+  border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+}
+
+/* topbar container */
+.clash-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* fake gem / resource icon */
+.clash-topbar-gem {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  background:
+    linear-gradient(135deg, #46fcb0, #0fb37e);
+  box-shadow:
+    0 0 0 2px #0d3b2b,
+    0 4px 8px rgba(0, 0, 0, 0.7);
+}
+
+/* fake shield icon */
+.clash-topbar-shield {
+  width: 26px;
+  height: 26px;
+  border-radius: 50% 50% 40% 40%;
+  background:
+    linear-gradient(180deg, #f97316, #b45309);
+  box-shadow:
+    0 0 0 2px #451a03,
+    0 4px 8px rgba(0, 0, 0, 0.8);
+}
+
+/* DAY label – chunky Clash text */
+.clash-day {
+  margin: 0;
+  flex: 1;
+  text-align: center;
+  font-family: "Bowlby One SC", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-size: 26px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #ffe9b3;
+
+  text-shadow:
+    -2px 0 0 #3a1a01,
+    0 2px 0 #3a1a01,
+    2px 0 0 #3a1a01,
+    0 -2px 0 #3a1a01,
+    0 4px 6px rgba(0, 0, 0, 0.7);
+}
+
+/* LIST (80% width) */
+.clash-list {
+  width: 80%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+/* CARD – 3D wooden panel */
+.clash-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 14px;
+  min-height: 56px;
+
+  border-radius: 16px;
+  background:
+    linear-gradient(180deg, var(--cl-card), var(--cl-card-dark));
+  border: 2px solid var(--cl-border);
+  box-shadow:
+    0 2px 0 #000000,
+    0 8px 0 #1b0e06,
+    var(--cl-shadow);
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(14px) scale(0.96);
+
+  transition:
+    transform 0.18s ease-out,
+    box-shadow 0.18s ease-out,
+    border-color 0.18s ease-out;
+}
+
+/* beveled edge highlight */
+.clash-card::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: 14px;
+  border-top: 2px solid rgba(255, 255, 255, 0.18);
+  border-left: 2px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.45);
+  border-right: 2px solid rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+}
+
+/* gold strap on left */
+.clash-card::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  bottom: 8px;
+  width: 6px;
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    var(--cl-gold),
+    var(--cl-gold-dark)
+  );
+}
+
+/* entry animation */
+.clash-in {
+  animation: clash-rise 0.26s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes clash-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.92);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(-1px) scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* hover */
+.clash-card:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow:
+    0 3px 0 #000,
+    0 10px 0 #1b0e06,
+    0 22px 40px rgba(0, 0, 0, 0.9);
+  border-color: #fbbf24;
+}
+
+/* LEFT SIDE: shield icon + info */
+.clash-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  flex: 1 1 auto;
+}
+
+/* little town-hall style badge */
+.clash-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, #7f4316, #3a1c0a);
+  box-shadow:
+    0 0 0 2px #1c0b04,
+    0 4px 6px rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clash-badge-inner {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background:
+    linear-gradient(180deg, var(--cl-gold), var(--cl-gold-dark));
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.4),
+    0 2px 0 #5b320b;
+}
+
+/* stacked title + maple */
+.clash-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* TITLE – ellipsis */
+.clash-title {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  color: #fff7dc;
+}
+
+/* Replacement styling */
+.clash-swap .clash-old {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.clash-swap .clash-arrow {
+  opacity: 0.8;
+  margin: 0 6px;
+}
+
+.clash-swap .clash-new {
+  font-weight: 800;
+  color: #ffeab5;
+}
+
+/* MAPLE chip – resource tag */
+.clash-chip {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  background: rgba(33, 37, 41, 0.6);
+  color: #fed7aa;
+  white-space: nowrap;
+  align-self: flex-start;
+}
+
+/* TIME – gold coin / button, fixed 90px */
+.clash-time {
+  position: relative;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 800;
+  font-size: 13px;
+  line-height: 1.1;
+  white-space: nowrap;
+  text-align: center;
+  width: 90px;
+  flex: 0 0 90px;
+  padding: 7px 8px;
+  border-radius: 999px;
+
+  background:
+    radial-gradient(circle at 30% 0%, #fff7d2 0, transparent 55%),
+    linear-gradient(180deg, var(--cl-gold), var(--cl-gold-dark));
+  border: 2px solid #3b2006;
+  color: #3b1c05;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.7),
+    0 3px 0 #5b320b,
+    0 8px 12px rgba(0, 0, 0, 0.7);
+}
+
+/* small bolt on time pill */
+.clash-time::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, #fff8e1 0, #fbbf24 60%, #b45309 100%);
+}
+
+/* larger screens */
+@media (min-width: 481px) {
+  .clash-card {
+    padding: 12px 18px;
+  }
+}
