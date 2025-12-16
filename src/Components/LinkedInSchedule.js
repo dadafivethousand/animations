@@ -1,7 +1,7 @@
 // LinkedInSchedule.jsx
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/LinkedInSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function LinkedInSchedule({
   day,
