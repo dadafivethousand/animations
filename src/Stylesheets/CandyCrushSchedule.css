@@ -1,0 +1,409 @@
+/* CandyCrushSchedule.css */
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Inter:wght@500;600;700&display=swap");
+
+:root {
+  --cc2-bg-top: #4a2c90;
+  --cc2-bg-mid: #7a48c8;
+  --cc2-bg-bot: #ff9ad0;
+
+  --cc2-ink: #fff7ff;
+  --cc2-muted: #f4e4ff;
+
+  --cc2-card: #ffeefb;
+  --cc2-card2: #ffd3f0;
+  --cc2-border: #fb7ec0;
+  --cc2-shadow: 0 20px 42px rgba(74, 20, 102, 0.85);
+
+  --cc2-blue: #43c4ff;
+  --cc2-orange: #ff9f42;
+  --cc2-purple: #c084fc;
+  --cc2-yellow: #ffe866;
+}
+
+/* reset-ish */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* ROOT – candy board with subtle grid */
+.candycrush-wrap {
+  min-height: 100vh;
+  width: 100vw;
+  color: var(--cc2-ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 12px 32px;
+  padding-top: 100px;
+
+  background:
+    radial-gradient(900px 420px at 0% 0%, rgba(255, 200, 120, 0.3), transparent 70%),
+    radial-gradient(900px 500px at 100% 100%, rgba(100, 220, 255, 0.25), transparent 70%),
+    linear-gradient(180deg, var(--cc2-bg-top), var(--cc2-bg-mid) 55%, var(--cc2-bg-bot)),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.09) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.09) 1px,
+      transparent 1px
+    );
+  background-size:
+    auto,
+    auto,
+    auto,
+    56px 56px,
+    56px 56px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* floating candy glare */
+.candycrush-wrap::before {
+  content: "";
+  position: fixed;
+  inset: -40%;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.2) 0, transparent 55%),
+    radial-gradient(circle at 80% 30%, rgba(255, 255, 255, 0.24) 0, transparent 55%),
+    radial-gradient(circle at 30% 90%, rgba(255, 255, 255, 0.14) 0, transparent 60%);
+  mix-blend-mode: screen;
+  opacity: 0.9;
+  z-index: 0;
+}
+
+/* HEADER – level bar */
+.candycrush-header {
+  width: 100%;
+  max-width: 560px;
+  padding: 8px 6px 14px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  backdrop-filter: blur(12px);
+  background: linear-gradient(
+    180deg,
+    rgba(73, 38, 133, 0.96),
+    rgba(116, 54, 159, 0.96)
+  );
+  border-bottom: 1px solid rgba(248, 187, 255, 0.65);
+}
+
+.candycrush-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* heart life gem */
+.candycrush-heart {
+  width: 28px;
+  height: 24px;
+  background:
+    radial-gradient(circle at 30% 25%, #ffe4ec 0, transparent 55%),
+    linear-gradient(145deg, #ff4b8c, #d4145a);
+  clip-path: polygon(
+    50% 90%,
+    0 40%,
+    5% 15%,
+    25% 0,
+    50% 18%,
+    75% 0,
+    95% 15%,
+    100% 40%
+  );
+  box-shadow:
+    0 0 0 2px rgba(255, 255, 255, 0.7),
+    0 4px 6px rgba(0, 0, 0, 0.7);
+}
+
+/* gold bar counter */
+.candycrush-gold {
+  width: 46px;
+  height: 24px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 25% 0%, #fff8d0 0, transparent 55%),
+    linear-gradient(180deg, #ffd56a, #f59e0b);
+  box-shadow:
+    0 0 0 2px #7c2d12,
+    0 4px 8px rgba(0, 0, 0, 0.7);
+}
+
+/* DAY label – bubbly logo type */
+.candycrush-day {
+  margin: 0;
+  flex: 1;
+  text-align: center;
+  font-family: "Baloo 2", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #ffeefe;
+
+  padding: 6px 18px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 25% 0%, #b813b8 0, transparent 55%),
+    linear-gradient(145deg, #31031c, #ff3c8a);
+  box-shadow:
+    -2px 0 0 #8b1c5a,
+    0 2px 0 #8b1c5a,
+    2px 0 0 #8b1c5a,
+    0 10px 22px rgba(49, 16, 70, 0.9);
+}
+
+/* LIST */
+.candycrush-list {
+  width: 80%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 22px;
+  position: relative;
+  z-index: 1;
+}
+
+/* CARD – slightly chunky candy tile */
+.candycrush-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  min-height: 56px;
+
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 20% 0%, #fff7ff 0, transparent 60%),
+    linear-gradient(135deg, var(--cc2-card), var(--cc2-card2));
+  border: 2px solid var(--cc2-border);
+  box-shadow: var(--cc2-shadow);
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(16px) scale(0.94);
+
+  transition:
+    transform 0.22s ease-out,
+    box-shadow 0.22s ease-out,
+    border-color 0.22s ease-out,
+    filter 0.22s ease-out;
+}
+
+/* inner gloss */
+.candycrush-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.7),
+      rgba(255, 255, 255, 0.2) 40%,
+      transparent 70%
+    );
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* entry animation + subtle pulse */
+.candycrush-in {
+  animation:
+    candycrush-rise 0.26s cubic-bezier(0.23, 1, 0.32, 1) forwards,
+    candycrush-pulse 2.4s ease-in-out 0.26s infinite;
+}
+
+@keyframes candycrush-rise {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.03);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes candycrush-pulse {
+  0%   { filter: brightness(1); }
+  50%  { filter: brightness(1.05); }
+  100% { filter: brightness(1); }
+}
+
+/* hover */
+.candycrush-card:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow:
+    0 22px 46px rgba(49, 16, 70, 0.95),
+    0 0 0 1px rgba(255, 255, 255, 0.75);
+  border-color: #f973c9;
+}
+
+/* LEFT – candy trio + text */
+.candycrush-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  flex: 1 1 auto;
+}
+
+/* mini candy cluster */
+.candycrush-gems {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.candycrush-gem {
+  width: 14px;
+  height: 14px;
+  border-radius: 6px;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.8),
+    0 2px 4px rgba(88, 28, 135, 0.7);
+}
+
+.candycrush-gem--blue {
+  background:
+    radial-gradient(circle at 30% 20%, #e0f9ff 0, transparent 50%),
+    linear-gradient(145deg, #43c4ff, #1d9bf0);
+}
+
+.candycrush-gem--orange {
+  background:
+    radial-gradient(circle at 30% 20%, #fff3d0 0, transparent 50%),
+    linear-gradient(145deg, #ff9f42, #ea580c);
+}
+
+.candycrush-gem--purple {
+  background:
+    radial-gradient(circle at 30% 20%, #f8e9ff 0, transparent 50%),
+    linear-gradient(145deg, #c084fc, #7e22ce);
+}
+
+/* main text container */
+.candycrush-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+/* row: title + MAPLE inline */
+.candycrush-title-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+/* TITLE – ellipsis */
+.candycrush-title {
+  font-family: "Baloo 2", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  color: #8b255f;
+}
+
+/* replacement styling */
+.candycrush-swap .candycrush-old {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.candycrush-swap .candycrush-arrow {
+  opacity: 0.8;
+  margin: 0 6px;
+}
+
+.candycrush-swap .candycrush-new {
+  font-weight: 800;
+  color: #b91c5c;
+}
+
+/* MAPLE chip inline */
+.candycrush-chip {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 7px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  background: rgba(14, 165, 233, 0.15);
+  color: #075985;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+/* TIME – 90px candy button on the right */
+.candycrush-time {
+  position: relative;
+  font-family: "Baloo 2", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1.1;
+  white-space: nowrap;
+  text-align: center;
+  width: 90px;
+  flex: 0 0 90px;
+  padding: 7px 8px;
+  border-radius: 999px;
+
+  background:
+    radial-gradient(circle at 30% 0%, #fff9df 0, transparent 55%),
+    linear-gradient(180deg, var(--cc2-yellow), #facc15);
+  border: 2px solid #b45309;
+  color: #7c2d12;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9),
+    0 3px 0 #7c2d12,
+    0 8px 12px rgba(15, 23, 42, 0.7);
+}
+
+/* small candy dot on time pill */
+.candycrush-time::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 30% 20%, #fff7cc 0, #fbbf24 50%, #ea580c 100%);
+}
+
+/* slightly larger screens */
+@media (min-width: 481px) {
+  .candycrush-card {
+    padding: 12px 18px;
+  }
+}
