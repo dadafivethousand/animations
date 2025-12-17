@@ -79,7 +79,7 @@ import CandyCrushSchedule from "./Components/CandyCrushSchedule";
     function App() {
   return (
     <>
-  <CyberpunkSchedule day="Thursday" />
+  <CandyCrushSchedule day="Thursday" />
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
