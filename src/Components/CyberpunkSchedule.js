@@ -1,7 +1,7 @@
 // CyberpunkSchedule.jsx
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/CyberpunkSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function CyberpunkSchedule({
   day,
