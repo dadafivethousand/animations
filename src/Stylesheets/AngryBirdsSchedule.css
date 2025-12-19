@@ -1,0 +1,350 @@
+/* AngryBirdsSchedule.css */
+@import url("https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Inter:wght@500;600;700&display=swap");
+
+:root {
+  --ab-sky-top: #6fd4ff;
+  --ab-sky-mid: #9ee4ff;
+  --ab-grass: #6bbf3a;
+  --ab-dirt: #3f2a1f;
+
+  --ab-ink: #102427;
+  --ab-muted: #4b5563;
+
+  --ab-card: #f8e1b5;
+  --ab-card-dark: #e0bf7b;
+  --ab-border: #8b5a2b;
+  --ab-shadow: 0 18px 44px rgba(0, 0, 0, 0.65);
+
+  --ab-red: #e43a2f;
+  --ab-wood-light: #c47b36;
+  --ab-wood-dark: #8b4b1b;
+}
+
+/* reset-ish */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* ROOT WRAPPER – sky, hills, grass */
+.angrybirds-wrap {
+  min-height: 100vh;
+  width: 100vw;
+  color: var(--ab-ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 12px 32px;
+  padding-top: 100px;
+
+  background:
+    radial-gradient(1000px 460px at 50% -10%, rgba(255, 255, 255, 0.9), transparent 70%),
+    linear-gradient(180deg, var(--ab-sky-top), var(--ab-sky-mid) 40%, var(--ab-grass) 60%, var(--ab-dirt) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* distant hill silhouettes */
+.angrybirds-wrap::before {
+  content: "";
+  position: fixed;
+  inset: 30% -20% 35%;
+  background:
+    radial-gradient(circle at 20% 100%, rgba(46, 117, 35, 0.9) 0, transparent 55%),
+    radial-gradient(circle at 60% 110%, rgba(56, 130, 43, 0.9) 0, transparent 55%),
+    radial-gradient(circle at 95% 100%, rgba(44, 108, 35, 0.9) 0, transparent 55%);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+/* HEADER – wooden banner like level select */
+.angrybirds-header {
+  width: 100%;
+  max-width: 560px;
+  padding: 8px 6px 14px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  backdrop-filter: blur(10px);
+  background: linear-gradient(
+    180deg,
+    rgba(111, 212, 255, 0.96),
+    rgba(96, 183, 224, 0.96)
+  );
+  border-bottom: 1px solid rgba(29, 78, 137, 0.55);
+  text-align: center;
+}
+
+/* DAY label – chunky Angry Birds style log */
+.angrybirds-day {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 20px;
+  font-family: "Luckiest Guy", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-size: 28px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #fff7dd;
+
+  background:
+    linear-gradient(180deg, #e0a458, #b36a22);
+  border-radius: 18px;
+  box-shadow:
+    0 2px 0 #5a2f09,
+    0 6px 0 #3a1c05,
+    0 14px 22px rgba(0, 0, 0, 0.7);
+  text-shadow:
+    -2px 0 0 #3a1c05,
+    0 2px 0 #3a1c05,
+    2px 0 0 #3a1c05,
+    0 -2px 0 #3a1c05;
+}
+
+/* LIST – 80% width */
+.angrybirds-list {
+  width: 80%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+/* CARD – wooden planks / crate */
+.angrybirds-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 14px;
+  min-height: 56px;
+
+  border-radius: 16px;
+  background:
+    linear-gradient(135deg, var(--ab-card), var(--ab-card-dark));
+  border: 2px solid var(--ab-border);
+  box-shadow:
+    0 2px 0 #5d3615,
+    0 7px 0 #3a210c,
+    var(--ab-shadow);
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(16px) scale(0.95);
+
+  transition:
+    transform 0.2s ease-out,
+    box-shadow 0.2s ease-out,
+    border-color 0.2s ease-out;
+}
+
+/* wood grain + plank edges */
+.angrybirds-card::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: 14px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.1),
+      rgba(0, 0, 0, 0.1) 1px,
+      transparent 1px,
+      transparent 10px
+    );
+  opacity: 0.28;
+  pointer-events: none;
+}
+
+/* metal bolts in corners */
+.angrybirds-card::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border-radius: 12px;
+  border: 2px dashed rgba(90, 56, 22, 0.6);
+}
+
+/* entry animation */
+.angrybirds-in {
+  animation: ab-rise 0.26s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes ab-rise {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.03);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* hover */
+.angrybirds-card:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow:
+    0 3px 0 #5d3615,
+    0 9px 0 #3a210c,
+    0 22px 36px rgba(0, 0, 0, 0.8);
+  border-color: #fbbf77;
+}
+
+/* LEFT – slingshot + text + MAPLE */
+.angrybirds-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  flex: 1 1 auto;
+}
+
+/* decorative slingshot */
+.angrybirds-sling {
+  position: relative;
+  width: 20px;
+  height: 32px;
+  flex: 0 0 20px;
+}
+
+/* wooden posts */
+.angrybirds-sling-post {
+  position: absolute;
+  bottom: 0;
+  width: 6px;
+  height: 24px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--ab-wood-light), var(--ab-wood-dark));
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.35),
+    0 2px 3px rgba(0, 0, 0, 0.7);
+}
+
+.angrybirds-sling-post--left {
+  left: 1px;
+  transform: rotate(-6deg);
+}
+
+.angrybirds-sling-post--right {
+  right: 1px;
+  transform: rotate(6deg);
+}
+
+/* rubber band */
+.angrybirds-sling-band {
+  position: absolute;
+  top: 7px;
+  left: 4px;
+  right: 4px;
+  height: 5px;
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, #c56b3b, #8f3b12);
+}
+
+/* TITLE – single line, ellipsis */
+.angrybirds-title {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  color: #311409;
+}
+
+/* replacement */
+.angrybirds-swap .angrybirds-old {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.angrybirds-swap .angrybirds-arrow {
+  opacity: 0.8;
+  margin: 0 6px;
+}
+
+.angrybirds-swap .angrybirds-new {
+  font-weight: 800;
+  color: #8b1f10;
+}
+
+/* MAPLE chip – pig fortress banner */
+.angrybirds-chip {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 7px;
+  border-radius: 999px;
+  border: 1px solid rgba(22, 101, 52, 0.9);
+  background: rgba(74, 222, 128, 0.18);
+  color: #14532d;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.8),
+    0 0 8px rgba(34, 197, 94, 0.6);
+}
+
+/* TIME – 90px egg / bomb badge */
+.angrybirds-time {
+  position: relative;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-weight: 800;
+  font-size: 13px;
+  line-height: 1.1;
+  white-space: nowrap;
+  text-align: center;
+  width: 90px;           /* fixed width */
+  flex: 0 0 90px;
+  padding: 6px 8px;
+  border-radius: 999px;
+
+  background:
+    radial-gradient(circle at 30% 0%, #ffffff 0, transparent 55%),
+    linear-gradient(180deg, #fef9f2, #e6d5bd);
+  border: 2px solid #b68a54;
+  color: #3a1f09;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.85),
+    0 3px 0 #7a5730,
+    0 8px 12px rgba(0, 0, 0, 0.6);
+}
+
+/* little “fuse” nub on egg */
+.angrybirds-time::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle, #fee2e2 0, #f97316 40%, #7c2d12 100%);
+}
+
+/* slightly larger screens */
+@media (min-width: 481px) {
+  .angrybirds-card {
+    padding: 12px 18px;
+  }
+}

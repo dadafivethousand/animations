@@ -76,10 +76,13 @@ import SamuraiSchedule from "./Used/Lit/SamuraiSchedule"
 import SubwayMapSchedule from "./Components/SubwayMapSchedule";
 import ClashOfClansSchedule from "./Components/ClashOfClansSchedule";
 import CandyCrushSchedule from "./Components/CandyCrushSchedule";
+import CP24Broadcast from "./Components/CP24Broadcast";
+import AngryBirdsSchedule from "./Components/AngryBirdsSchedule";
+ 
     function App() {
   return (
     <>
-  <CandyCrushSchedule day="Thursday" />
+  < AngryBirdsSchedule day="Friday"/>
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
