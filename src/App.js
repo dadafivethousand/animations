@@ -82,7 +82,7 @@ import AngryBirdsSchedule from "./Components/AngryBirdsSchedule";
     function App() {
   return (
     <>
-  < AngryBirdsSchedule day="Friday"/>
+  < ClashOfClansSchedule day="Friday"/>
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
