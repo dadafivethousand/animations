@@ -1,7 +1,7 @@
 // AngryBirdsSchedule.jsx
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/AngryBirdsSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function AngryBirdsSchedule({
   day,

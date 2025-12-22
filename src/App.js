@@ -83,7 +83,7 @@ import TimberlandSchedule from "./Components/TimberlandSchedule";
     function App() {
   return (
     <>
-  < TimberlandSchedule day="Monday"/>
+  < AngryBirdsSchedule day="Monday"/>
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
