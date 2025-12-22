@@ -1,0 +1,263 @@
+/* TimberlandSchedule.css
+   Timberland boot theme:
+   - Nubuck tan + dark brown
+   - Cards like leather boot tags with stitching
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap");
+
+:root {
+  --tb-bg-top: #f2e3cb;
+  --tb-bg-mid: #e4d0aa;
+  --tb-bg-bottom: #c9a671;
+
+  --tb-card-top: #d8b26e;    /* nubuck tan */
+  --tb-card-bottom: #c1914e;
+  --tb-card-edge: #8a5c2a;
+
+  --tb-brown-dark: #3b2b1c;
+  --tb-brown-deep: #24170f;
+
+  --tb-stitch: #f9e8c9;
+  --tb-ink-main: #1a120c;
+  --tb-ink-soft: rgba(48, 34, 22, 0.9);
+  --tb-border: rgba(59, 43, 28, 0.8);
+  --tb-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* global */
+* {
+  box-sizing: border-box;
+}
+
+/* wrapper */
+.timberland-wrap {
+  width: 100vw;
+  min-height: 100vh;
+  padding: 16px;
+  padding-top: 56px; /* >= 50px */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background:
+    radial-gradient(900px 600px at 10% 0%, rgba(255, 255, 255, 0.8), transparent 65%),
+    radial-gradient(900px 600px at 90% 100%, rgba(201, 166, 113, 0.45), transparent 70%),
+    linear-gradient(180deg, var(--tb-bg-top), var(--tb-bg-mid), var(--tb-bg-bottom));
+  color: var(--tb-ink-main);
+}
+
+/* header – leather label */
+.timberland-header {
+  width: 100%;
+  max-width: 560px;
+  text-align: center;
+  padding: 10px 12px 12px;
+  border-radius: 18px;
+
+  background:
+    radial-gradient(circle at 10% 0%, rgba(255, 255, 255, 0.4), transparent 55%),
+    linear-gradient(135deg, #c8954a, #a46c2e);
+  border: 2px solid rgba(106, 67, 29, 0.85);
+  box-shadow:
+    0 12px 22px rgba(0, 0, 0, 0.4),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+
+  position: relative;
+}
+
+/* fake stitches on header */
+.timberland-header::after {
+  content: "";
+  position: absolute;
+  inset: 6px 10px;
+  border-radius: 14px;
+  border: 1px dashed rgba(57, 37, 19, 0.75);
+  pointer-events: none;
+}
+
+.timberland-day {
+  margin: 0;
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 30px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--tb-brown-deep);
+}
+
+/* list – 80% width */
+.timberland-list {
+  width: 80%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+/* card – leather boot tag */
+.timberland-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  padding: 10px 12px;
+  min-height: 56px;
+
+  background:
+    linear-gradient(160deg, var(--tb-card-top), var(--tb-card-bottom));
+  border-radius: 16px;
+  border: 2px solid var(--tb-border);
+  box-shadow:
+    var(--tb-shadow),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+
+  position: relative;
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(10px) scale(0.97);
+}
+
+/* stitched edge around card */
+.timberland-card::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 13px;
+  border: 1px dashed rgba(69, 46, 25, 0.85);
+  pointer-events: none;
+}
+
+/* eyelet hole on left, like a tag */
+.timberland-card::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 30% 30%, #ffffffcc, #00000088 65%);
+  box-shadow: inset 0 0 0 2px #c8a679;
+}
+
+/* entry animation */
+.timberland-in {
+  animation: tb-rise 0.22s ease-out forwards;
+}
+
+@keyframes tb-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.9);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* left row: title + maple inline */
+.timberland-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  flex: 1 1 auto;
+  padding-left: 8px; /* space from eyelet */
+}
+
+/* title */
+.timberland-title {
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.2;
+  color: var(--tb-ink-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.timberland-normal {}
+
+/* replacement styling */
+.timberland-swap .timberland-old {
+  text-decoration: line-through;
+  opacity: 0.8;
+  color: var(--tb-ink-soft);
+}
+.timberland-swap .timberland-arrow {
+  opacity: 0.9;
+  margin: 0 6px;
+  color: var(--tb-brown-deep);
+}
+.timberland-swap .timberland-new {
+  font-weight: 800;
+  color: #7c4c1d;
+}
+
+/* maple chip – little fabric tag */
+.timberland-chip {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(59, 43, 28, 0.85);
+  background:
+    linear-gradient(135deg, #f5e2bf, #e4c994);
+  color: #2d1e11;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.6),
+    0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.timberland-chip--maple {
+  border-color: #a5482b;
+}
+
+/* time – fixed 90px, centered */
+.timberland-time {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New",
+    monospace;
+  font-weight: 700;
+  font-size: 13px;
+  width: 90px;      /* fixed width */
+  flex: 0 0 90px;
+  text-align: center;
+  white-space: nowrap;
+
+  color: var(--tb-brown-deep);
+  background:
+    linear-gradient(145deg, #f7e8c7, #e9d4a5);
+  border-radius: 12px;
+  border: 1px solid rgba(139, 99, 52, 0.8);
+  padding: 5px 6px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.7),
+    0 4px 10px rgba(0, 0, 0, 0.35);
+}
+
+/* slightly larger screens */
+@media (min-width: 481px) {
+  .timberland-card {
+    padding: 12px 14px;
+  }
+  .timberland-time {
+    font-size: 13px;
+  }
+}

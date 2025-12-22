@@ -78,11 +78,12 @@ import ClashOfClansSchedule from "./Components/ClashOfClansSchedule";
 import CandyCrushSchedule from "./Components/CandyCrushSchedule";
 import CP24Broadcast from "./Components/CP24Broadcast";
 import AngryBirdsSchedule from "./Components/AngryBirdsSchedule";
- 
+import TimberlandSchedule from "./Components/TimberlandSchedule";
+
     function App() {
   return (
     <>
-  < ClashOfClansSchedule day="Friday"/>
+  < TimberlandSchedule day="Monday"/>
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
