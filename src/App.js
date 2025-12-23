@@ -83,7 +83,7 @@ import JimmyNeutronSchedule from "./Components/JimmyNeutronSchedule";
     function App() {
   return (
     <>
-  < JimmyNeutronSchedule day="Tuesday"/>
+  < AngryBirdsSchedule day="Tuesday"/>
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
