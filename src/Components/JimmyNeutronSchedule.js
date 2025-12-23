@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import "../Stylesheets/JimmyNeutronSchedule.css";
 import schedule from "../Schedule";
 
+const REACT_ATOM_SRC = "/favicon.ico"; // React favicon as atom icon
+
 export default function JimmyNeutronSchedule({
   day,
   animationDelay = 900,
@@ -51,8 +53,12 @@ export default function JimmyNeutronSchedule({
   return (
     <div className="neutron-wrap">
       <header className="neutron-header" role="banner">
-       
-        <h1 className="neutron-day">{safeDay ? safeDay.toUpperCase() : ""}</h1>
+        <div className="neutron-header-orbit" aria-hidden="true">
+          <span className="neutron-header-atom" />
+        </div>
+        <h1 className="neutron-day">
+          {safeDay ? safeDay.toUpperCase() : ""}
+        </h1>
       </header>
 
       <main
@@ -71,10 +77,13 @@ export default function JimmyNeutronSchedule({
               aria-labelledby={`neutron-title-${i}`}
             >
               <div className="neutron-left">
-                <div className="neutron-atom">
-                  <span className="neutron-atom-core" />
-                  <span className="neutron-atom-orbit neutron-atom-orbit--one" />
-                  <span className="neutron-atom-orbit neutron-atom-orbit--two" />
+                <div className="neutron-atom" aria-hidden="true">
+                  <img
+                    src={REACT_ATOM_SRC}
+                    alt=""
+                    className="neutron-atom-icon"
+                    loading="lazy"
+                  />
                 </div>
 
                 <div
@@ -106,10 +115,7 @@ export default function JimmyNeutronSchedule({
                 )}
               </div>
 
-              <time
-                className="neutron-time"
-                dateTime={String(cls.start)}
-              >
+              <time className="neutron-time" dateTime={String(cls.start)}>
                 {formatTime(cls.start)}
               </time>
             </article>
