@@ -1,0 +1,373 @@
+/* JimmyNeutronSchedule.css
+   Jimmy Neutron – Scientific Pixar-level lab console:
+   - Deep space lab background with subtle grid & constellations
+   - Holographic "experiment tiles" for each class
+   - Animated atom icon on the left of each card
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@500;700&display=swap");
+
+:root {
+  --nt-bg-1: #050617;
+  --nt-bg-2: #020617;
+
+  --nt-grid: rgba(148, 163, 184, 0.08);
+  --nt-star-soft: rgba(96, 165, 250, 0.28);
+  --nt-star-warm: rgba(251, 191, 36, 0.3);
+
+  --nt-card-1: #0b1120;
+  --nt-card-2: #020617;
+  --nt-card-edge: rgba(56, 189, 248, 0.6);
+  --nt-card-glow: rgba(59, 130, 246, 0.65);
+
+  --nt-ink-main: #e5e7eb;
+  --nt-ink-soft: #9ca3af;
+  --nt-ink-accent: #38bdf8;
+  --nt-ink-warm: #fbbf24;
+
+  --nt-border: rgba(15, 23, 42, 0.9);
+  --nt-shadow: 0 22px 50px rgba(0, 0, 0, 0.9);
+}
+
+/* global */
+* {
+  box-sizing: border-box;
+}
+
+/* wrapper – space lab background with faint grid */
+.neutron-wrap {
+  width: 100vw;
+  min-height: 100vh;
+  padding: 16px;
+  padding-top: 56px; /* >= 50px */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--nt-ink-main);
+  background:
+    radial-gradient(850px 650px at 15% 0%, rgba(56, 189, 248, 0.18), transparent 65%),
+    radial-gradient(900px 700px at 85% 100%, rgba(251, 191, 36, 0.18), transparent 65%),
+    linear-gradient(180deg, var(--nt-bg-1), var(--nt-bg-2));
+  position: relative;
+  overflow: hidden;
+}
+
+/* subtle grid overlay */
+.neutron-wrap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, var(--nt-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--nt-grid) 1px, transparent 1px);
+  background-size: 30px 30px;
+  opacity: 0.5;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+/* tiny "star" specks */
+.neutron-wrap::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background-image:
+    radial-gradient(circle at 10% 20%, var(--nt-star-soft) 0, transparent 45%),
+    radial-gradient(circle at 80% 10%, rgba(59, 130, 246, 0.28) 0, transparent 50%),
+    radial-gradient(circle at 60% 80%, var(--nt-star-warm) 0, transparent 55%);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* header – lab console title strip with central orbit */
+.neutron-header {
+  width: 100%;
+  max-width: 560px;
+  padding: 10px 14px 12px;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 0 0, rgba(59, 130, 246, 0.35), transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(251, 191, 36, 0.25), transparent 55%),
+    linear-gradient(130deg, #020617, #020617 45%, #0f172a 100%);
+  border: 1px solid rgba(148, 163, 184, 0.55);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.9),
+    inset 0 0 0 1px rgba(15, 23, 42, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+/* orbit decoration in header */
+.neutron-header-orbit {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 2px solid rgba(59, 130, 246, 0.7);
+  border-right-color: rgba(129, 230, 217, 0.9);
+  border-bottom-color: rgba(248, 250, 252, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 18px rgba(59, 130, 246, 0.7);
+}
+
+.neutron-header-atom {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 20%, #fefce8, #f97316 75%);
+}
+
+/* day label */
+.neutron-day {
+  margin: 0;
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 30px; /* spec */
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #e5e7eb;
+  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.9);
+}
+
+/* list – 80% width per spec */
+.neutron-list {
+  width: 80%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 18px;
+  z-index: 1;
+}
+
+/* card – holographic experiment tile */
+.neutron-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  padding: 10px 12px;
+  min-height: 56px;
+
+  background:
+    radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.3), transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(251, 191, 36, 0.18), transparent 60%),
+    linear-gradient(145deg, var(--nt-card-1), var(--nt-card-2));
+  border-radius: 18px;
+  border: 1px solid var(--nt-border);
+  box-shadow:
+    var(--nt-shadow),
+    0 0 0 1px rgba(15, 23, 42, 0.9),
+    0 0 36px var(--nt-card-glow);
+
+  position: relative;
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(14px) scale(0.96);
+}
+
+/* inner "screen" frame */
+.neutron-card::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 15px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.85);
+  pointer-events: none;
+}
+
+/* faint scan line */
+.neutron-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(15, 23, 42, 0.0) 0,
+    rgba(148, 163, 184, 0.06) 50%,
+    rgba(15, 23, 42, 0.0) 100%
+  );
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+/* entry animation – lab materialization */
+.neutron-in {
+  animation: neutron-materialize 0.22s cubic-bezier(0.22, 0.9, 0.25, 1) forwards;
+}
+
+@keyframes neutron-materialize {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.9);
+    filter: blur(3px);
+  }
+  65% {
+    opacity: 1;
+    transform: translateY(-3px) scale(1.02);
+    filter: blur(0.4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* left side – atom icon + title + maple chip */
+.neutron-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  flex: 1 1 auto;
+}
+
+/* animated atom icon */
+.neutron-atom {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  border-radius: 999px;
+  position: relative;
+  background: radial-gradient(
+    circle at 30% 20%,
+    rgba(248, 250, 252, 0.9),
+    rgba(15, 23, 42, 0.95)
+  );
+  box-shadow:
+    0 0 0 2px rgba(15, 23, 42, 0.9),
+    0 0 22px rgba(56, 189, 248, 0.9);
+  overflow: hidden;
+}
+
+.neutron-atom-core {
+  position: absolute;
+  inset: 9px;
+  border-radius: inherit;
+  background: radial-gradient(circle at 30% 20%, #fef3c7, #f97316 80%);
+  box-shadow: 0 0 16px rgba(248, 250, 252, 0.85);
+}
+
+.neutron-atom-orbit {
+  position: absolute;
+  inset: 2px;
+  border-radius: inherit;
+  border: 2px solid rgba(56, 189, 248, 0.85);
+  border-top-color: rgba(129, 230, 217, 0.95);
+  border-right-color: rgba(248, 250, 252, 0.5);
+  mix-blend-mode: screen;
+}
+
+.neutron-atom-orbit--one {
+  animation: neutron-orbit-spin 3.4s linear infinite;
+}
+
+.neutron-atom-orbit--two {
+  transform: rotate(60deg);
+  border-color: rgba(59, 130, 246, 0.85);
+  border-bottom-color: rgba(249, 115, 22, 0.9);
+  animation: neutron-orbit-spin 4.2s linear infinite reverse;
+}
+
+@keyframes neutron-orbit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* title */
+.neutron-title {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.2;
+  color: var(--nt-ink-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.neutron-normal {}
+
+/* replacement styling */
+.neutron-swap .neutron-old {
+  text-decoration: line-through;
+  opacity: 0.75;
+  color: var(--nt-ink-soft);
+}
+.neutron-swap .neutron-arrow {
+  opacity: 0.9;
+  margin: 0 6px;
+  color: var(--nt-ink-warm);
+}
+.neutron-swap .neutron-new {
+  font-weight: 700;
+  color: var(--nt-ink-accent);
+}
+
+/* Maple chip – inline glowing capsule */
+.neutron-chip {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(56, 189, 248, 0.9);
+  background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.4), transparent 70%);
+  color: #e5f9ff;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  box-shadow:
+    0 0 12px rgba(56, 189, 248, 0.65),
+    inset 0 0 0 1px rgba(15, 23, 42, 0.8);
+}
+
+.neutron-chip--maple {
+  border-color: rgba(239, 68, 68, 0.95);
+  background: radial-gradient(circle at 0 0, rgba(248, 113, 113, 0.45), transparent 70%);
+  color: #fee2e2;
+}
+
+/* time – fixed 90px, centered digital */
+.neutron-time {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+    "Courier New", monospace;
+  font-weight: 700;
+  font-size: 13px;
+  width: 90px;       /* fixed width */
+  flex: 0 0 90px;
+  text-align: center;
+  white-space: nowrap;
+
+  color: var(--nt-ink-main);
+  background:
+    radial-gradient(circle at 20% 0%, rgba(56, 189, 248, 0.45), transparent 70%),
+    linear-gradient(145deg, #020617, #020617 40%, #020617 100%);
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.9);
+  padding: 5px 6px;
+  box-shadow:
+    0 0 0 1px rgba(15, 23, 42, 0.9),
+    0 8px 16px rgba(0, 0, 0, 0.85);
+}
+
+/* slightly larger screens */
+@media (min-width: 481px) {
+  .neutron-card {
+    padding: 12px 14px;
+  }
+  .neutron-time {
+    font-size: 13px;
+  }
+}
