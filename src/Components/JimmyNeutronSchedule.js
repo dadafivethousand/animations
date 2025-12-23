@@ -53,9 +53,7 @@ export default function JimmyNeutronSchedule({
   return (
     <div className="neutron-wrap">
       <header className="neutron-header" role="banner">
-        <div className="neutron-header-orbit" aria-hidden="true">
-          <span className="neutron-header-atom" />
-        </div>
+      
         <h1 className="neutron-day">
           {safeDay ? safeDay.toUpperCase() : ""}
         </h1>
