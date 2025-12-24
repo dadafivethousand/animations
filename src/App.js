@@ -79,11 +79,14 @@ import CP24Broadcast from "./Components/CP24Broadcast";
 import AngryBirdsSchedule from "./Components/AngryBirdsSchedule";
 import TimberlandSchedule from "./Components/TimberlandSchedule";
 import JimmyNeutronSchedule from "./Components/JimmyNeutronSchedule";
+import ChickFilaSchedule from "./Components/ChickFilaSchedule";
+import KinderSurpriseSchedule from "./Components/KinderSurpriseSchedule";
+
 
     function App() {
   return (
     <>
-  < JimmyNeutronSchedule day="Tuesday"/>
+  < ChickFilaSchedule day="Wednesday"/>
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>

@@ -1,0 +1,354 @@
+/* KinderSurpriseSchedule.css
+   Kinder Surprise theme:
+   - White + red wave background, chocolate + orange capsule accents
+   - Cards as half-chocolate, half-white egg panels
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Inter:wght@500;700&display=swap");
+
+:root {
+  --kinder-bg-top: #ffffff;
+  --kinder-bg-mid: #fffbf4;
+  --kinder-bg-bottom: #ff4b33;
+
+  --kinder-red: #ff3b30;
+  --kinder-red-dark: #d62622;
+
+  --kinder-choc-top: #7b4424;
+  --kinder-choc-bottom: #3f2416;
+
+  --kinder-egg-top: #ffffff;
+  --kinder-egg-bottom: #ffe9df;
+
+  --kinder-capsule: #ffa62b;
+
+  --kinder-ink-main: #23120b;
+  --kinder-ink-soft: #7a4b34;
+  --kinder-ink-light: #fff7f2;
+
+  --kinder-border: rgba(183, 119, 86, 0.95);
+  --kinder-shadow: 0 16px 40px rgba(120, 61, 25, 0.5);
+}
+
+/* global */
+* {
+  box-sizing: border-box;
+}
+
+/* wrapper – white to red wave */
+.kinder-wrap {
+  width: 100vw;
+  min-height: 100vh;
+  padding: 16px;
+  padding-top: 60px; /* >= 50px */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(900px 600px at 15% 0%, rgba(255, 255, 255, 0.9), transparent 60%),
+    radial-gradient(900px 600px at 90% 0%, rgba(255, 170, 135, 0.85), transparent 65%),
+    linear-gradient(180deg, var(--kinder-bg-top), var(--kinder-bg-mid));
+}
+
+/* red wave band at bottom like Kinder packaging */
+.kinder-wrap::after {
+  content: "";
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  bottom: -40px;
+  height: 240px;
+  background:
+    radial-gradient(circle at 10% 0, #ff7a5f, transparent 65%),
+    radial-gradient(circle at 80% 50%, #ff9178, transparent 60%),
+    linear-gradient(180deg, #ff4b33, #d62622);
+  border-top-left-radius: 50% 80px;
+  border-top-right-radius: 50% 80px;
+  z-index: 0;
+}
+
+/* header – egg-like white cap with red text */
+.kinder-header {
+  width: 100%;
+  max-width: 560px;
+  padding: 10px 14px 12px;
+  border-radius: 24px;
+
+  background:
+    radial-gradient(circle at 10% 0, rgba(255, 255, 255, 1), transparent 60%),
+    radial-gradient(circle at 90% 100%, rgba(255, 224, 209, 0.9), transparent 60%),
+    linear-gradient(145deg, #ffffff, #ffece1);
+  border: 2px solid rgba(216, 151, 116, 0.95);
+  box-shadow:
+    0 16px 34px rgba(166, 91, 52, 0.45),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+/* small egg + capsule in header */
+.kinder-header-egg {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px 999px 70% 70%;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 4px 10px rgba(141, 85, 54, 0.5),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+  background: linear-gradient(180deg, #ffffff, #ffe8dd);
+}
+
+.kinder-header-shell {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 0, #ffffff, #ffe9df 60%);
+}
+
+.kinder-header-capsule {
+  position: absolute;
+  left: 50%;
+  right: 2px;
+  bottom: 0;
+  top: 40%;
+  border-radius: 999px;
+  background: linear-gradient(145deg, #ffb63a, #ff8a00);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+  transform: translateX(-2px);
+}
+
+.kinder-day {
+  margin: 0;
+  font-family: "Baloo 2", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 30px; /* spec */
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--kinder-red-dark);
+  text-shadow:
+    0 3px 0 rgba(255, 255, 255, 0.8),
+    0 9px 20px rgba(141, 85, 54, 0.7);
+}
+
+/* list – 80% width */
+.kinder-list {
+  width: 80%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 18px;
+  z-index: 1;
+}
+
+/* card – half chocolate, half egg shell */
+.kinder-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  padding: 10px 12px;
+  min-height: 56px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.95) 0,
+      rgba(255, 250, 245, 0.96) 40%,
+      #f5e0d5 60%,
+      #c47b44 75%,
+      #55301c 100%
+    );
+  border-radius: 18px;
+  border: 2px solid var(--kinder-border);
+  box-shadow:
+    var(--kinder-shadow),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+
+  position: relative;
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(12px) scale(0.96);
+}
+
+/* wavy boundary in the middle of the card like bitten chocolate edge */
+.kinder-card::before {
+  content: "";
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  top: 48%;
+  height: 20px;
+  background:
+    radial-gradient(circle at 0 50%, rgba(245, 224, 210, 1) 0, transparent 70%),
+    radial-gradient(circle at 20% 50%, rgba(245, 224, 210, 0.96) 0, transparent 70%),
+    radial-gradient(circle at 40% 50%, rgba(245, 224, 210, 0.96) 0, transparent 70%),
+    radial-gradient(circle at 60% 50%, rgba(245, 224, 210, 0.96) 0, transparent 70%),
+    radial-gradient(circle at 80% 50%, rgba(245, 224, 210, 0.96) 0, transparent 70%),
+    radial-gradient(circle at 100% 50%, rgba(245, 224, 210, 1) 0, transparent 70%);
+  mix-blend-mode: normal;
+  opacity: 0.96;
+  pointer-events: none;
+}
+
+/* entry animation – popping out of the egg */
+.kinder-in {
+  animation: kinder-pop 0.22s ease-out forwards;
+}
+
+@keyframes kinder-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.9);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.03);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* left: egg icon + title + maple chip */
+.kinder-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  flex: 1 1 auto;
+}
+
+/* mini Kinder egg icon */
+.kinder-egg {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  border-radius: 999px 999px 70% 70%;
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, #ffffff, #ffe9df 58%, #f7e0d2 62%, #a75c30 80%, #4c2918 100%);
+  box-shadow:
+    0 4px 10px rgba(141, 85, 54, 0.6),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+}
+
+.kinder-egg-shell {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 0, #ffffff, #ffe9df 60%);
+  opacity: 0.9;
+}
+
+.kinder-egg-capsule {
+  position: absolute;
+  left: 50%;
+  right: 6px;
+  bottom: 2px;
+  top: 52%;
+  border-radius: 999px;
+  background: linear-gradient(145deg, #ffbf45, #ff8a00);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.6),
+    0 0 0 1px rgba(150, 78, 34, 0.8);
+  transform: translateX(-4px);
+}
+
+/* title */
+.kinder-title {
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.2;
+  color: var(--kinder-ink-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.kinder-normal {}
+
+/* replacement styling */
+.kinder-swap .kinder-old {
+  text-decoration: line-through;
+  opacity: 0.75;
+  color: var(--kinder-ink-soft);
+}
+.kinder-swap .kinder-arrow {
+  opacity: 0.9;
+  margin: 0 6px;
+  color: var(--kinder-red-dark);
+}
+.kinder-swap .kinder-new {
+  font-weight: 800;
+  color: var(--kinder-red);
+}
+
+/* maple chip – inline pill */
+.kinder-chip {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(173, 111, 78, 0.9);
+  background: rgba(255, 248, 240, 0.96);
+  color: #5c2c17;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.9),
+    0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.kinder-chip--maple {
+  border-color: var(--kinder-red);
+}
+
+/* time – fixed 90px, centered */
+.kinder-time {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New",
+    monospace;
+  font-weight: 700;
+  font-size: 13px;
+  width: 90px;       /* fixed width */
+  flex: 0 0 90px;
+  text-align: center;
+  white-space: nowrap;
+
+  color: var(--kinder-ink-light);
+  background:
+    radial-gradient(circle at 30% 0, #ffb596, transparent 70%),
+    linear-gradient(145deg, #ff684a, #d62622);
+  border-radius: 12px;
+  border: 1px solid rgba(145, 38, 26, 0.95);
+  padding: 5px 6px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.8),
+    0 6px 14px rgba(120, 46, 26, 0.6);
+}
+
+/* slightly larger screens */
+@media (min-width: 481px) {
+  .kinder-card {
+    padding: 12px 14px;
+  }
+  .kinder-time {
+    font-size: 13px;
+  }
+}
