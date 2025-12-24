@@ -1,7 +1,7 @@
 // TimberlandSchedule.jsx
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/TimberlandSchedule.css";
-import schedule from "../Schedule";
+import schedule from "../RhSchedule";
 
 export default function TimberlandSchedule({
   day,

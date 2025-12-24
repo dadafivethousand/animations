@@ -86,7 +86,7 @@ import KinderSurpriseSchedule from "./Components/KinderSurpriseSchedule";
     function App() {
   return (
     <>
-  < ChickFilaSchedule day="Wednesday"/>
+  < TimberlandSchedule day="Wednesday"/>
        {/* You can toggle others like this */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
