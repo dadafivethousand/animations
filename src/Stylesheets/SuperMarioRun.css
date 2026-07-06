@@ -1,0 +1,268 @@
+/* SuperMarioRun.css — endless Super Mario Bros. runner.
+   All art is pure CSS gradients; the only asset is the transparent ninja PNG. */
+
+:root {
+  --smb-sky-1: #5c94fc;   /* classic SMB sky */
+  --smb-sky-2: #8fb6ff;
+  --smb-green: #3aa93a;
+  --smb-green-d: #1f7a20;
+  --smb-brick: #c8551b;
+  --smb-brick-d: #8a3a12;
+  --smb-block: #f8b800;
+  --smb-block-d: #c07b00;
+  --smb-ground-1: #d07a2c;
+  --smb-ground-2: #a45416;
+  --smb-ground-h: 100px;   /* ground height */
+}
+
+* { box-sizing: border-box; }
+
+.smb-stage {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--smb-sky-1) 0%, var(--smb-sky-2) 78%);
+  font-family: "Press Start 2P", system-ui, sans-serif;
+}
+
+/* ===================== Clouds ===================== */
+.smb-cloud {
+  position: absolute;
+  width: 92px; height: 34px;
+  background: #fff;
+  border-radius: 22px;
+  box-shadow: 26px 0 #fff, -26px 0 #fff, 0 -14px 0 -4px #fff;
+  animation: smb-drift linear infinite;
+}
+.smb-cloud::after {
+  content: "";
+  position: absolute;
+  left: -30px; right: -30px; bottom: 0; height: 18px;
+  background: #fff; border-radius: 22px;
+}
+.smb-cloud--1 { top: 12%; left: 10%; transform: scale(1.1);  animation-duration: 38s; }
+.smb-cloud--2 { top: 26%; left: 60%; transform: scale(0.8);  animation-duration: 52s; }
+.smb-cloud--3 { top: 8%;  left: 82%; transform: scale(1.35); animation-duration: 44s; }
+@keyframes smb-drift { to { transform: translateX(-120vw) scale(1); } }
+
+/* ===================== Hills (slow parallax) ===================== */
+.smb-hills {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: calc(var(--smb-ground-h) - 6px);
+  height: 190px;
+  background:
+    radial-gradient(circle at 50% 100%, var(--smb-green) 0 92px, transparent 94px) repeat-x;
+  background-size: 360px 190px;
+  opacity: .95;
+  animation: smb-scroll-x 26s linear infinite;
+}
+
+/* ===================== Bushes (medium parallax) ===================== */
+.smb-bushes {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: calc(var(--smb-ground-h) - 4px);
+  height: 60px;
+  background:
+    radial-gradient(circle at 50% 100%, var(--smb-green-d) 0 44px, transparent 46px) repeat-x;
+  background-size: 210px 60px;
+  animation: smb-scroll-x 14s linear infinite;
+}
+@keyframes smb-scroll-x { to { background-position-x: -1080px; } }
+
+/* ===================== Coins (fast track, behind hero) ===================== */
+.smb-coins {
+  position: absolute;
+  left: 0; bottom: calc(var(--smb-ground-h) + 120px);
+  width: 200vw; height: 40px;
+  display: flex;
+  animation: smb-track 5.5s linear infinite;
+}
+.smb-coinset { position: relative; flex: 0 0 100vw; height: 100%; }
+.smb-coin {
+  position: absolute; top: 0;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffe680, var(--smb-block) 62%, var(--smb-block-d));
+  border: 3px solid #fff6cf;
+  box-shadow: 0 0 10px rgba(248,184,0,.6);
+  animation: smb-spin 0.9s linear infinite;
+}
+@keyframes smb-spin {
+  0%   { transform: rotateY(0deg)   scaleX(1); }
+  50%  { transform: rotateY(180deg) scaleX(.25); }
+  100% { transform: rotateY(360deg) scaleX(1); }
+}
+
+/* ===================== Obstacles: pipes + ? blocks ===================== */
+.smb-obstacles {
+  position: absolute;
+  left: 0; bottom: var(--smb-ground-h);
+  width: 200vw; height: 200px;
+  display: flex;
+  animation: smb-track 7s linear infinite;
+}
+.smb-set { position: relative; flex: 0 0 100vw; height: 100%; }
+
+/* whole track shifts one screen and loops seamlessly (two identical sets) */
+@keyframes smb-track { to { transform: translateX(-100vw); } }
+
+/* floating ? / brick row */
+.smb-qrow {
+  position: absolute;
+  bottom: 150px;
+  display: flex; gap: 6px;
+}
+.smb-brick, .smb-qblock {
+  width: 40px; height: 40px;
+  border-radius: 4px;
+  display: grid; place-items: center;
+  color: #fff; font-size: 18px;
+  box-shadow: inset 0 -5px 0 rgba(0,0,0,.28), inset 0 4px 0 rgba(255,255,255,.35);
+}
+.smb-brick {
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.18) 2px, transparent 2px) 0 0/20px 20px,
+    linear-gradient(0deg,  rgba(0,0,0,.18) 2px, transparent 2px) 0 0/20px 20px,
+    var(--smb-brick);
+  border: 2px solid var(--smb-brick-d);
+}
+.smb-qblock {
+  background: var(--smb-block);
+  border: 3px solid var(--smb-block-d);
+  color: #7a4d00;
+  animation: smb-qpulse 1.1s steps(2, jump-none) infinite;
+}
+@keyframes smb-qpulse { 50% { filter: brightness(1.28); } }
+
+/* green warp pipes */
+.smb-pipe {
+  position: absolute; bottom: 0;
+  width: 74px;
+  background: linear-gradient(90deg, #2f8f2f 0 14%, #6ee06e 14% 42%, #2f8f2f 62% 100%);
+  border: 3px solid var(--smb-green-d);
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+}
+.smb-pipe::before {
+  content: "";
+  position: absolute; top: -18px; left: -10px; right: -10px; height: 22px;
+  background: linear-gradient(90deg, #2f8f2f 0 14%, #6ee06e 14% 42%, #2f8f2f 62% 100%);
+  border: 3px solid var(--smb-green-d);
+  border-radius: 5px;
+}
+.smb-pipe--short { height: 84px; }
+.smb-pipe--tall  { height: 128px; }
+
+/* ===================== Brick ground ===================== */
+.smb-ground {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: var(--smb-ground-h);
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.25) 3px, transparent 3px) 0 0/34px 34px,
+    linear-gradient(0deg,  rgba(0,0,0,.25) 3px, transparent 3px) 0 0/34px 34px,
+    linear-gradient(180deg, var(--smb-ground-1), var(--smb-ground-2));
+  border-top: 6px solid #6b3410;
+  box-shadow: inset 0 7px 0 rgba(255,255,255,.18);
+  animation: smb-groundscroll 1.6s linear infinite;
+}
+@keyframes smb-groundscroll { to { background-position-x: -34px, 0, 0; } }
+
+/* ===================== Hero: run + jump ===================== */
+.smb-hero {
+  position: absolute;
+  left: 20vw;
+  bottom: var(--smb-ground-h);
+  width: 150px;
+  height: 150px;
+  z-index: 5;
+}
+/* vertical jump arc — big Mario hop with anticipation + landing squash */
+.smb-hop {
+  position: relative;
+  width: 100%; height: 100%;
+  transform-origin: 50% 100%;
+  animation: smb-jump 1.4s cubic-bezier(.32,.02,.35,1) infinite;
+}
+@keyframes smb-jump {
+  0%   { transform: translateY(0)     scale(1.06, .9); }  /* crouch / take-off */
+  14%  { transform: translateY(-70px) scale(.95, 1.08); }
+  46%  { transform: translateY(-165px) scale(1, 1.04); }  /* apex */
+  50%  { transform: translateY(-168px) scale(1, 1.03); }
+  84%  { transform: translateY(-40px) scale(1.02, 1); }
+  95%  { transform: translateY(0)     scale(1.16, .82); } /* landing squash */
+  100% { transform: translateY(0)     scale(1.06, .9); }
+}
+/* forward lean/roll through the jump */
+.smb-tilt {
+  width: 100%; height: 100%;
+  animation: smb-tilt 1.4s ease-in-out infinite;
+}
+@keyframes smb-tilt {
+  0%   { transform: rotate(-6deg); }
+  46%  { transform: rotate(10deg); }
+  95%  { transform: rotate(-10deg); }
+  100% { transform: rotate(-6deg); }
+}
+.smb-ninja {
+  width: 100%; height: auto; display: block;
+  filter: drop-shadow(3px 6px 6px rgba(0,0,0,.35));
+}
+
+/* ground shadow shrinks as he rises */
+.smb-shadow {
+  position: absolute;
+  left: 50%; bottom: -10px;
+  width: 90px; height: 18px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at center, rgba(0,0,0,.42), transparent 70%);
+  animation: smb-shadow 1.4s cubic-bezier(.32,.02,.35,1) infinite;
+}
+@keyframes smb-shadow {
+  0%,100% { transform: translateX(-50%) scale(1);   opacity: .5; }
+  48%     { transform: translateX(-50%) scale(.42); opacity: .16; }
+}
+
+/* dust puff on each landing */
+.smb-dust {
+  position: absolute;
+  left: 6px; bottom: -6px;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.9), rgba(255,255,255,0) 70%);
+  opacity: 0;
+  animation: smb-dust 1.4s linear infinite;
+}
+@keyframes smb-dust {
+  0%   { opacity: .85; transform: translateX(0) scale(.4); }
+  12%  { opacity: 0;   transform: translateX(-46px) scale(1.5); }
+  100% { opacity: 0; }
+}
+
+/* speed streaks behind the hero */
+.smb-streaks {
+  position: absolute;
+  right: 96px; bottom: 40px;
+  width: 90px; height: 70px;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.85), rgba(255,255,255,0)) 0 6px/70px 5px no-repeat,
+    linear-gradient(90deg, rgba(255,255,255,.7),  rgba(255,255,255,0)) 12px 30px/56px 5px no-repeat,
+    linear-gradient(90deg, rgba(255,255,255,.8),  rgba(255,255,255,0)) 4px 54px/64px 5px no-repeat;
+  animation: smb-streaks .38s linear infinite;
+}
+@keyframes smb-streaks {
+  0%   { opacity: .0;  transform: translateX(10px); }
+  40%  { opacity: .95; }
+  100% { opacity: .0;  transform: translateX(-30px); }
+}
+
+@media (max-width: 560px) {
+  .smb-hero { width: 108px; height: 108px; left: 12vw; }
+  @keyframes smb-jump {
+    0%,100% { transform: translateY(0) scale(1.06,.9); }
+    46%     { transform: translateY(-130px) scale(1,1.04); }
+    95%     { transform: translateY(0) scale(1.16,.82); }
+  }
+}

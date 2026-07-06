@@ -81,13 +81,15 @@ import TimberlandSchedule from "./Components/TimberlandSchedule";
 import JimmyNeutronSchedule from "./Components/JimmyNeutronSchedule";
 import ChickFilaSchedule from "./Components/ChickFilaSchedule";
 import KinderSurpriseSchedule from "./Components/KinderSurpriseSchedule";
+import SuperMarioRun from "./Components/SuperMarioRun";
 
 
     function App() {
   return (
     <>
-  < TimberlandSchedule day="Wednesday"/>
+  < SuperMarioRun />
        {/* You can toggle others like this */}
+      {/* < TimberlandSchedule day="Wednesday"/> */}
       {/* <GladiatorSchedule day="Sunday" /> */}
     </>
   );
