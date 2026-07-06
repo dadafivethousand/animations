@@ -1,0 +1,312 @@
+/* NinjaParty.css — a full nightclub scene. Beat tempo ~120 BPM (0.5s/beat);
+   most loops are multiples of that so everything moves together.
+   Pure CSS lighting: sweeping beams, a rotating disco ball, a 3D light-up
+   dance floor, confetti, an equalizer and a subtle strobe. */
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+:root {
+  --np-beat: 0.5s;
+  --np-n1: #ff2fb9;   /* neon magenta */
+  --np-n2: #22d3ff;   /* neon cyan */
+  --np-n3: #a855ff;   /* neon purple */
+  --np-n4: #f7ff2f;   /* neon yellow */
+  --np-n5: #29ff8f;   /* neon green */
+}
+
+* { box-sizing: border-box; }
+
+.np-stage {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 50% -10%, #2a0b4a 0%, #150726 45%, #070311 100%);
+  font-family: "Press Start 2P", system-ui, sans-serif;
+  isolation: isolate;                 /* contain blend modes */
+}
+
+/* ===================== Ambient pulsing room glow ===================== */
+.np-ambient {
+  position: absolute; inset: -20%;
+  background:
+    radial-gradient(40% 40% at 20% 30%, rgba(255,47,185,.35), transparent 70%),
+    radial-gradient(40% 40% at 80% 25%, rgba(34,211,255,.30), transparent 70%),
+    radial-gradient(50% 45% at 50% 90%, rgba(168,85,255,.35), transparent 70%);
+  mix-blend-mode: screen;
+  animation: np-ambient calc(var(--np-beat) * 4) ease-in-out infinite;
+}
+@keyframes np-ambient {
+  0%, 100% { opacity: .75; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.06); }
+}
+
+/* ===================== Sweeping spotlight beams ===================== */
+.np-lights { position: absolute; inset: 0; mix-blend-mode: screen; }
+.np-beam {
+  position: absolute;
+  top: -12%;
+  left: 50%;
+  width: 42vw;
+  height: 130vh;
+  transform-origin: 50% 0;
+  clip-path: polygon(48% 0, 52% 0, 100% 100%, 0 100%);
+  filter: blur(6px);
+  opacity: .55;
+  animation: np-sweep 3.4s ease-in-out infinite alternate;
+}
+.np-beam--1 { background: linear-gradient(180deg, var(--np-n1), transparent 72%); animation-delay: 0s;    }
+.np-beam--2 { background: linear-gradient(180deg, var(--np-n2), transparent 72%); animation-delay: -0.8s; animation-duration: 3.9s; }
+.np-beam--3 { background: linear-gradient(180deg, var(--np-n4), transparent 72%); animation-delay: -1.6s; animation-duration: 4.4s; }
+.np-beam--4 { background: linear-gradient(180deg, var(--np-n5), transparent 72%); animation-delay: -2.2s; animation-duration: 3.1s; }
+@keyframes np-sweep {
+  0%   { transform: translateX(-50%) rotate(-34deg); }
+  100% { transform: translateX(-50%) rotate(34deg); }
+}
+
+/* ===================== Disco ball ===================== */
+.np-disco {
+  position: absolute; top: 0; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center;
+  z-index: 3;
+}
+.np-disco-string { order: -1; width: 3px; height: 46px; background: linear-gradient(#bbb, #555); }
+.np-disco-ball {
+  position: relative;
+  width: 96px; height: 96px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex; flex-wrap: wrap;
+  background: #0b1030;
+  box-shadow: 0 0 26px rgba(180,225,255,.5), inset 0 0 18px rgba(0,0,0,.7);
+  animation: np-ball-spin 6s linear infinite, np-ball-sway 3s ease-in-out infinite alternate;
+}
+.np-facet {
+  width: 12px; height: 12px;
+  background: hsl(calc(var(--i) * 37) 70% 60%);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.35);
+  animation: np-facet-glint calc(var(--np-beat) * 2) linear infinite;
+  animation-delay: calc(var(--i) * -0.07s);
+}
+@keyframes np-facet-glint {
+  0%, 100% { filter: brightness(.6); }
+  50%      { filter: brightness(1.8); }
+}
+.np-disco-shine {
+  position: absolute; top: 12%; left: 14%;
+  width: 34px; height: 26px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.9), transparent 70%);
+  filter: blur(2px);
+}
+@keyframes np-ball-spin { to { filter: hue-rotate(360deg); } }
+@keyframes np-ball-sway { from { transform: rotate(-7deg); } to { transform: rotate(7deg); } }
+
+/* rotating light rays projected from the ball */
+.np-disco-rays {
+  position: absolute; top: -80px; left: 50%;
+  width: 220vw; height: 220vh;
+  transform: translate(-50%, -30%);
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(255,255,255,.10) 0deg 4deg,
+    transparent 4deg 12deg
+  );
+  mix-blend-mode: screen;
+  opacity: .5;
+  animation: np-rays 22s linear infinite;
+}
+@keyframes np-rays { to { transform: translate(-50%, -30%) rotate(360deg); } }
+
+/* ===================== Confetti ===================== */
+.np-confetti { position: absolute; inset: 0; pointer-events: none; z-index: 6; }
+.np-confetti-piece {
+  position: absolute; top: -6%;
+  border-radius: 2px;
+  opacity: .9;
+  animation-name: np-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+.np-confetti-piece.np-round { border-radius: 50%; }
+@keyframes np-fall {
+  0%   { transform: translate(0, -10vh) rotate(0deg);   opacity: 0; }
+  8%   { opacity: .95; }
+  100% { transform: translate(var(--drift), 112vh) rotate(720deg); opacity: .9; }
+}
+
+/* ===================== Title ===================== */
+.np-title {
+  position: absolute; top: 6%; left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  z-index: 7;
+  font-size: clamp(14px, 3.4vw, 30px);
+  letter-spacing: .12em;
+  text-align: center;
+  white-space: nowrap;
+  color: #fff;
+  text-shadow:
+    0 0 6px #fff,
+    0 0 14px var(--np-n2),
+    0 0 26px var(--np-n1),
+    0 0 42px var(--np-n1);
+  animation: np-flicker 4s steps(1) infinite, np-hue calc(var(--np-beat) * 8) linear infinite;
+}
+@keyframes np-flicker {
+  0%, 4%, 8%, 100% { opacity: 1; }
+  6%   { opacity: .35; }
+  42%  { opacity: 1; }
+  43%  { opacity: .5; }
+  44%  { opacity: 1; }
+}
+@keyframes np-hue { to { filter: hue-rotate(360deg); } }
+
+/* ===================== 3D dance floor ===================== */
+.np-floor-wrap {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 46%;
+  perspective: 520px;
+  perspective-origin: 50% 0%;
+  z-index: 1;
+  overflow: hidden;
+}
+.np-floor {
+  position: absolute;
+  left: -50%; bottom: -60%;
+  width: 200%; height: 200%;
+  transform: rotateX(66deg);
+  transform-origin: 50% 100%;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 6px;
+  filter: saturate(1.3);
+}
+.np-tile {
+  border-radius: 3px;
+  background: hsl(calc(var(--i) * 24) 90% 58%);
+  box-shadow: 0 0 12px hsl(calc(var(--i) * 24) 90% 58%);
+  animation: np-tile calc(var(--np-beat) * 4) linear infinite;
+  animation-delay: calc(var(--i) * -0.06s);
+}
+@keyframes np-tile {
+  0%   { filter: hue-rotate(0deg)   brightness(.5); }
+  50%  { filter: hue-rotate(180deg) brightness(1.5); }
+  100% { filter: hue-rotate(360deg) brightness(.5); }
+}
+
+/* ===================== Dancers ===================== */
+.np-dancers { position: absolute; left: 0; right: 0; bottom: 16%; height: 220px; z-index: 4; }
+.np-dancer {
+  position: absolute; bottom: 0;
+  width: 150px; height: 200px;
+  transform: translateX(-50%);
+  transform-origin: 50% 100%;
+}
+.np-ninja {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  object-position: bottom;
+  display: block;
+  filter: drop-shadow(0 10px 10px rgba(0,0,0,.5))
+          drop-shadow(0 0 14px rgba(120,220,255,.35));
+  /* every dancer pulses on the beat (offset per-dancer via --beat) */
+  animation: np-beat var(--np-beat) ease-in-out infinite;
+  animation-delay: var(--beat);
+  transform: scale(var(--scale));
+}
+@keyframes np-beat {
+  0%, 100% { transform: scale(calc(var(--scale) * 1))    translateY(0); }
+  50%      { transform: scale(calc(var(--scale) * 1.06)) translateY(-6px); }
+}
+.np-dancer-shadow {
+  position: absolute; left: 50%; bottom: -14px;
+  width: 96px; height: 20px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse, rgba(0,0,0,.5), transparent 70%);
+  animation: np-shadow var(--np-beat) ease-in-out infinite;
+  animation-delay: var(--beat);
+}
+@keyframes np-shadow {
+  0%,100% { transform: translateX(-50%) scale(1);   opacity: .5; }
+  50%     { transform: translateX(-50%) scale(.8);  opacity: .3; }
+}
+
+/* --- individual choreography (on the wrapper, 2 beats each) --- */
+.np-groove { animation: np-groove calc(var(--np-beat) * 2) ease-in-out infinite; }
+@keyframes np-groove {
+  0%,100% { transform: translateX(-50%) rotate(-6deg) translateY(0); }
+  25%     { transform: translateX(-42%) rotate(4deg)  translateY(-4px); }
+  50%     { transform: translateX(-50%) rotate(6deg)  translateY(0); }
+  75%     { transform: translateX(-58%) rotate(-4deg) translateY(-4px); }
+}
+.np-jump { animation: np-jump calc(var(--np-beat) * 2) cubic-bezier(.3,.05,.3,1) infinite; }
+@keyframes np-jump {
+  0%,100% { transform: translateX(-50%) translateY(0)    scaleY(.94) rotate(0deg); }
+  30%     { transform: translateX(-50%) translateY(-70px) scaleY(1.06) rotate(6deg); }
+  60%     { transform: translateX(-50%) translateY(0)    scaleY(.9)  rotate(-4deg); }
+}
+.np-kick { animation: np-kick calc(var(--np-beat) * 2) ease-in-out infinite; }
+@keyframes np-kick {
+  0%,100% { transform: translateX(-50%) rotate(-8deg) scaleX(1); }
+  50%     { transform: translateX(-50%) rotate(8deg)  scaleX(-1); }  /* flip = kick other side */
+}
+.np-spin { animation: np-spin calc(var(--np-beat) * 4) ease-in-out infinite; }
+@keyframes np-spin {
+  0%   { transform: translateX(-50%) rotateY(0deg)   translateY(0); }
+  25%  { transform: translateX(-50%) rotateY(180deg) translateY(-24px); }
+  50%  { transform: translateX(-50%) rotateY(360deg) translateY(0); }
+  75%  { transform: translateX(-50%) rotateY(540deg) translateY(-24px); }
+  100% { transform: translateX(-50%) rotateY(720deg) translateY(0); }
+}
+
+/* ===================== Equalizer ===================== */
+.np-eq {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 90px;
+  display: flex; align-items: flex-end; justify-content: center;
+  gap: 5px;
+  z-index: 5;
+  padding: 0 10px;
+  mix-blend-mode: screen;
+}
+.np-eq-bar {
+  width: 14px;
+  height: 100%;
+  border-radius: 4px 4px 0 0;
+  background: linear-gradient(180deg, var(--np-n4), var(--np-n1) 55%, var(--np-n3));
+  transform-origin: bottom;
+  transform: scaleY(.2);
+  animation: np-eq calc(var(--np-beat) * 2) ease-in-out infinite;
+  animation-delay: calc(var(--i) * -0.09s);
+  box-shadow: 0 0 10px rgba(255,47,185,.5);
+}
+@keyframes np-eq {
+  0%,100% { transform: scaleY(.18); }
+  20%     { transform: scaleY(.9); }
+  40%     { transform: scaleY(.45); }
+  60%     { transform: scaleY(1); }
+  80%     { transform: scaleY(.35); }
+}
+
+/* ===================== Strobe (subtle) ===================== */
+.np-strobe {
+  position: absolute; inset: 0; z-index: 8;
+  background: #fff;
+  mix-blend-mode: screen;
+  opacity: 0;
+  pointer-events: none;
+  animation: np-strobe calc(var(--np-beat) * 8) steps(1) infinite;
+}
+@keyframes np-strobe {
+  0%, 100% { opacity: 0; }
+  90%, 92%, 94% { opacity: .18; }
+  91%, 93% { opacity: 0; }
+}
+
+@media (max-width: 640px) {
+  .np-dancer { width: 92px; height: 130px; }
+  .np-dancers { height: 150px; bottom: 20%; }
+  .np-title { font-size: 13px; }
+}
