@@ -16,7 +16,7 @@ const LABELS = {
   adventure: "ADVENTURE",
   racing: "RACING",
 };
-const SCENE_MS = 4600;
+const SCENE_MS = 6000;
 
 export default function GameShowcase() {
   const [active, setActive] = useState(0);
@@ -102,6 +102,18 @@ function Piece({ type, className = "", style = {} }) {
   );
 }
 
+// Faint outline of where a piece lands.
+function GhostPiece({ type, left, top }) {
+  const t = TET[type];
+  return (
+    <div className="tet-ghost" style={{ left, top }}>
+      {t.cells.map(([x, y], i) => (
+        <span key={i} style={{ left: x * CELL, top: y * CELL }} />
+      ))}
+    </div>
+  );
+}
+
 // Pieces fall one at a time onto an empty field and STAY (build a stack).
 // Each drop is a bespoke keyframe on the same scene-length timeline, so the
 // field is empty when the scene appears and fills up before it flips away.
@@ -121,6 +133,13 @@ function Tetris() {
       {/* playfield */}
       <div className="tet-well">
         <div className="tet-grid" />
+        <div className="tet-scanline" />
+        {/* ghost outlines showing where each piece lands */}
+        <GhostPiece type="I" left={0 * CELL} top={338} />
+        <GhostPiece type="O" left={4 * CELL} top={312} />
+        <GhostPiece type="L" left={6 * CELL} top={286} />
+        <GhostPiece type="T" left={0 * CELL} top={286} />
+        <GhostPiece type="S" left={3 * CELL} top={286} />
         {/* row 0 (floor) */}
         <Piece type="I" className="tet-drop p1" style={{ left: 0 * CELL }} />
         <Piece type="O" className="tet-drop p2" style={{ left: 4 * CELL }} />
@@ -145,9 +164,12 @@ function FPS() {
   return (
     <div className="fps-shake">
       <div className="fps-sky" />
+      <div className="fps-searchlight" />
       <div className="fps-skyline" />
+      <div className="fps-windows" />
       <div className="fps-grid" />
       <div className="fps-ground" />
+      <div className="fps-rain" />
       <div className="fps-smoke" />
 
       {/* distant battle: explosions on the horizon */}
@@ -246,21 +268,26 @@ function Fighting() {
           <div className="gs-hp gs-hp--r"><i /></div>
         </div>
       </div>
+      <div className="gs-arena-beams"><i /><i /><i /></div>
       <div className="gs-shake">
         <div className="gs-fighter gs-fighter--l">
           <span className="gs-aura gs-aura--blue" />
+          <span className="gs-fdust" />
           <img src={cheer} alt="" />
           <span className="gs-fshadow" />
         </div>
-        <div className="gs-blast" />
-        <div className="gs-impact"><i /><i /><i /><i /></div>
+        <div className="gs-blast"><span className="gs-blast-trail" /></div>
+        <div className="gs-impact"><i /><i /><i /><i /><i /><i /></div>
         <div className="gs-fighter gs-fighter--r">
           <span className="gs-aura gs-aura--red" />
+          <span className="gs-fdust" />
           <img src={kick} alt="" />
           <span className="gs-fshadow" />
         </div>
       </div>
+      <div className="gs-hitflash" />
       <div className="gs-combo">4 HIT COMBO</div>
+      <div className="gs-round">ROUND 1</div>
       <div className="gs-fight-word">FIGHT!</div>
     </>
   );
@@ -275,18 +302,25 @@ function Adventure() {
       <div className="gs-adv-mtn" />
       <span className="gs-adv-cloud c1" />
       <span className="gs-adv-cloud c2" />
+      <span className="gs-adv-bird b1" />
+      <span className="gs-adv-bird b2" />
       <div className="gs-adv-hills" />
       <div className="gs-adv-blocks">
         <span className="q">?</span><span className="b" /><span className="q">?</span>
       </div>
       <div className="gs-adv-coins"><span /><span /><span /><span /><span /><span /></div>
       <div className="gs-adv-bushes" />
+      {/* goal flag on the right */}
+      <div className="gs-adv-goal"><span className="pole" /><span className="flag" /></div>
       <div className="gs-adv-ground" />
+      {/* walking goomba to jump over */}
+      <div className="gs-adv-goomba"><span className="body" /><span className="foot l" /><span className="foot r" /></div>
       <div className="gs-adv-hero">
         <span className="gs-adv-trail" />
         <img src={leap} alt="" />
         <span className="gs-adv-hshadow" />
         <span className="gs-adv-dust" />
+        <span className="gs-adv-pop">+100</span>
       </div>
     </>
   );
@@ -305,17 +339,25 @@ function Racing() {
         <div className="gs-race-rumble l" />
         <div className="gs-race-rumble r" />
       </div>
+      {/* roadside palms rushing past */}
+      <div className="gs-race-palms">
+        <span className="p l1" /><span className="p r1" />
+        <span className="p l2" /><span className="p r2" />
+      </div>
       <div className="gs-race-lines"><i /><i /><i /><i /><i /></div>
 
       {/* rear-view car */}
       <div className="gs-racer">
         <span className="gs-racer-shadow" />
+        <span className="gs-car-exhaust l" />
+        <span className="gs-car-exhaust r" />
         <span className="gs-car-tire l" />
         <span className="gs-car-tire r" />
         <div className="gs-car-body">
           <span className="gs-car-window" />
           <span className="gs-car-light l" />
           <span className="gs-car-light r" />
+          <span className="gs-car-number">07</span>
           <span className="gs-car-plate" />
         </div>
         <div className="gs-car-spoiler"><i className="l" /><i className="r" /><b /></div>

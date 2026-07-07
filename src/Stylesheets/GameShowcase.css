@@ -329,29 +329,71 @@
     repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 1px, transparent 1px 26px),
     repeating-linear-gradient(0deg,  rgba(255,255,255,.05) 0 1px, transparent 1px 26px);
 }
-.tet-piece { position: absolute; }
+.tet-piece { position: absolute; filter: drop-shadow(0 3px 4px rgba(0,0,0,.4)); }
 .tet-cell {
   position: absolute;
-  width: 24px; height: 24px; border-radius: 3px;
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,.4), inset 3px 3px 0 rgba(255,255,255,.4), inset -3px -3px 0 rgba(0,0,0,.28);
+  width: 24px; height: 24px; border-radius: 4px;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.45), inset 4px 4px 0 rgba(255,255,255,.5), inset -4px -4px 0 rgba(0,0,0,.34);
 }
+.tet-cell::after {   /* glossy diagonal highlight */
+  content: ""; position: absolute; inset: 3px; border-radius: 2px;
+  background: linear-gradient(135deg, rgba(255,255,255,.6), rgba(255,255,255,0) 55%);
+}
+/* ghost landing outline */
+.tet-ghost { position: absolute; }
+.tet-ghost span { position: absolute; width: 24px; height: 24px; border-radius: 4px; box-sizing: border-box; border: 2px dashed rgba(150,200,255,.22); }
+/* moving scanline in the well */
+.tet-scanline { position: absolute; left: 0; right: 0; height: 46px; pointer-events: none; background: linear-gradient(180deg, rgba(120,200,255,0), rgba(120,200,255,.16), rgba(120,200,255,0)); animation: tet-scan 3.2s linear infinite; }
+@keyframes tet-scan { 0% { top: -46px; } 100% { top: 100%; } }
 /* Each piece drops once onto the stack and holds. Duration == SCENE_MS
    (4600ms), and 5 scenes * 4600 = 23000 loops evenly, so the field is empty
    when the scene appears, then fills. Pieces start above the well and are
    clipped by its overflow — no opacity needed. */
-.tet-drop { top: 0; transform: translateY(-120px); animation-duration: 4600ms; animation-iteration-count: infinite; animation-timing-function: ease-in; }
+/* Pieces drop ONE AT A TIME (each waits for the previous to land) and more
+   slowly. Duration == SCENE_MS (6000ms); the 5-scene cycle (30000ms) is an
+   exact multiple so the well starts empty on every appearance. Each piece
+   squashes on impact. */
+.tet-drop { top: 0; transform: translateY(-130px); transform-origin: 50% 100%; animation-duration: 6000ms; animation-iteration-count: infinite; animation-timing-function: ease-in; }
 .tet-drop.p1 { animation-name: tet-p1; }
 .tet-drop.p2 { animation-name: tet-p2; }
 .tet-drop.p3 { animation-name: tet-p3; }
 .tet-drop.p4 { animation-name: tet-p4; }
 .tet-drop.p5 { animation-name: tet-p5; }
-/* every piece starts falling at 0% (no start plateau) and lands at a
-   staggered time, so the well fills in sequence, then all hold. */
-@keyframes tet-p1 { 0% { transform: translateY(-120px); }  8% { transform: translateY(338px); } 100% { transform: translateY(338px); } }
-@keyframes tet-p2 { 0% { transform: translateY(-120px); } 16% { transform: translateY(312px); } 100% { transform: translateY(312px); } }
-@keyframes tet-p3 { 0% { transform: translateY(-120px); } 24% { transform: translateY(286px); } 100% { transform: translateY(286px); } }
-@keyframes tet-p4 { 0% { transform: translateY(-120px); } 32% { transform: translateY(286px); } 100% { transform: translateY(286px); } }
-@keyframes tet-p5 { 0% { transform: translateY(-120px); } 40% { transform: translateY(286px); } 100% { transform: translateY(286px); } }
+@keyframes tet-p1 {
+  0% { transform: translateY(-130px); }
+  12% { transform: translateY(338px); animation-timing-function: ease-out; }
+  15% { transform: translateY(338px) scaleY(.82); }
+  18% { transform: translateY(338px) scaleY(1); }
+  100% { transform: translateY(338px); }
+}
+@keyframes tet-p2 {
+  0%,17% { transform: translateY(-130px); }
+  29% { transform: translateY(312px); animation-timing-function: ease-out; }
+  32% { transform: translateY(312px) scaleY(.82); }
+  35% { transform: translateY(312px) scaleY(1); }
+  100% { transform: translateY(312px); }
+}
+@keyframes tet-p3 {
+  0%,34% { transform: translateY(-130px); }
+  46% { transform: translateY(286px); animation-timing-function: ease-out; }
+  49% { transform: translateY(286px) scaleY(.82); }
+  52% { transform: translateY(286px) scaleY(1); }
+  100% { transform: translateY(286px); }
+}
+@keyframes tet-p4 {
+  0%,51% { transform: translateY(-130px); }
+  63% { transform: translateY(286px); animation-timing-function: ease-out; }
+  66% { transform: translateY(286px) scaleY(.82); }
+  69% { transform: translateY(286px) scaleY(1); }
+  100% { transform: translateY(286px); }
+}
+@keyframes tet-p5 {
+  0%,68% { transform: translateY(-130px); }
+  80% { transform: translateY(286px); animation-timing-function: ease-out; }
+  83% { transform: translateY(286px) scaleY(.82); }
+  86% { transform: translateY(286px) scaleY(1); }
+  100% { transform: translateY(286px); }
+}
 
 /* ninja on the side holding the NEXT piece */
 .tet-side { position: absolute; left: 8%; bottom: 12%; width: 230px; height: 320px; }
@@ -506,6 +548,72 @@
 .fps-mini-cone { position: absolute; top: 50%; left: 50%; width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-bottom: 26px solid rgba(107,255,143,.28); transform: translate(-50%,-92%); }
 .fps-mini-enemy { position: absolute; top: 30%; left: 64%; width: 7px; height: 7px; background: #ff3a2f; border-radius: 50%; box-shadow: 0 0 6px #ff3a2f; animation: fps-blink 1s steps(2) infinite; }
 @keyframes fps-blink { 50% { opacity: .3; } }
+
+/* ===== extra polish: FIGHTING ===== */
+.gs-arena-beams { position: absolute; inset: 0; mix-blend-mode: screen; overflow: hidden; }
+.gs-arena-beams i { position: absolute; top: -10%; left: 50%; width: 22vw; height: 82vh; transform-origin: 50% 0; clip-path: polygon(46% 0,54% 0,100% 100%,0 100%); filter: blur(9px); opacity: .5; animation: gs-fbeam 4s ease-in-out infinite alternate; }
+.gs-arena-beams i:nth-child(1){ background: linear-gradient(#7fd0ff,transparent 70%); }
+.gs-arena-beams i:nth-child(2){ background: linear-gradient(#ff7fc0,transparent 70%); animation-delay: -1.3s; animation-duration: 4.6s; }
+.gs-arena-beams i:nth-child(3){ background: linear-gradient(#ffe27f,transparent 70%); animation-delay: -2.6s; animation-duration: 5.2s; }
+@keyframes gs-fbeam { 0%{ transform: translateX(-50%) rotate(-26deg);} 100%{ transform: translateX(-50%) rotate(26deg);} }
+.gs-fdust { position: absolute; left: 50%; bottom: -6px; width: 74px; height: 20px; transform: translateX(-50%); background: radial-gradient(ellipse, rgba(255,220,180,.5), transparent 70%); opacity: 0; animation: gs-fdust 5s ease-out infinite; }
+@keyframes gs-fdust { 0%,36%{opacity:0; transform: translateX(-50%) scale(.5);} 42%{opacity:.7; transform: translateX(-50%) scale(1.3);} 52%{opacity:0; transform: translateX(-50%) scale(1.6);} 100%{opacity:0;} }
+.gs-blast-trail { position: absolute; right: 100%; top: 50%; width: 90px; height: 10px; transform: translateY(-50%); background: linear-gradient(90deg, transparent, #7fd8ff); border-radius: 8px; filter: blur(2px); }
+.gs-impact i:nth-child(5){ transform: rotate(22deg); } .gs-impact i:nth-child(6){ transform: rotate(112deg); }
+.gs-hitflash { position: absolute; inset: 0; z-index: 9; pointer-events: none; background: radial-gradient(circle at 50% 44%, rgba(255,255,255,.5), transparent 55%); opacity: 0; mix-blend-mode: screen; animation: gs-hitflash 5s steps(1) infinite; }
+@keyframes gs-hitflash { 0%,43%{opacity:0;} 45%{opacity:1;} 50%{opacity:0;} 100%{opacity:0;} }
+.gs-round { position: absolute; top: 45%; left: 50%; transform: translate(-50%,-50%); z-index: 8; font-size: clamp(16px,3vw,28px); color: #fff; letter-spacing: .1em; text-shadow: 0 0 12px #ff8a2f, 3px 3px 0 #7a0010; opacity: 0; animation: gs-round 5s ease-out infinite; }
+@keyframes gs-round { 0%{opacity:0; transform: translate(-50%,-50%) scale(2.2);} 4%{opacity:1; transform: translate(-50%,-50%) scale(1);} 13%{opacity:1;} 17%{opacity:0;} 100%{opacity:0;} }
+
+/* ===== extra polish: ADVENTURE ===== */
+.gs-adv-bird { position: absolute; width: 20px; height: 10px; }
+.gs-adv-bird::before, .gs-adv-bird::after { content: ""; position: absolute; top: 0; width: 11px; height: 10px; border-top: 3px solid rgba(40,55,80,.55); border-radius: 60%; }
+.gs-adv-bird::before { left: 0; transform: rotate(14deg); } .gs-adv-bird::after { right: 0; transform: rotate(-14deg); }
+.gs-adv-bird.b1 { top: 17%; left: 70%; animation: gs-drift 13s linear infinite; }
+.gs-adv-bird.b2 { top: 23%; left: 92%; animation: gs-drift 17s linear infinite; }
+.gs-adv-goal { position: absolute; right: 7%; bottom: 22%; width: 60px; height: 230px; z-index: 2; }
+.gs-adv-goal .pole { position: absolute; right: 0; bottom: 0; width: 8px; height: 100%; background: linear-gradient(90deg,#dfe7f0,#8b98a8); border-radius: 4px; box-shadow: 0 0 8px rgba(255,255,255,.3); }
+.gs-adv-goal .pole::before { content: ""; position: absolute; top: -10px; right: -3px; width: 14px; height: 14px; border-radius: 50%; background: #ffd42f; box-shadow: 0 0 10px #ffd42f; }
+.gs-adv-goal .flag { position: absolute; right: 8px; top: 8px; width: 46px; height: 30px; background: repeating-linear-gradient(45deg,#e8404f 0 8px,#fff 8px 16px); clip-path: polygon(0 0,100% 0,100% 100%,34% 100%,0 55%); animation: gs-flagwave 1.4s ease-in-out infinite; transform-origin: right center; }
+@keyframes gs-flagwave { 50% { transform: skewY(4deg) scaleX(.94); } }
+.gs-adv-goomba { position: absolute; bottom: 22%; left: 64%; width: 46px; height: 42px; z-index: 3; animation: gs-goomba-walk 6.5s linear infinite; }
+.gs-adv-goomba .body { position: absolute; bottom: 10px; left: 0; width: 46px; height: 32px; background: radial-gradient(circle at 40% 30%,#b06a34,#7a4420); border-radius: 23px 23px 8px 8px; box-shadow: inset -4px -5px 0 rgba(0,0,0,.22); }
+.gs-adv-goomba .body::before, .gs-adv-goomba .body::after { content: ""; position: absolute; top: 12px; width: 9px; height: 12px; background: #fff; border-radius: 50%; box-shadow: inset 0 -3px 0 #111; }
+.gs-adv-goomba .body::before { left: 10px; } .gs-adv-goomba .body::after { right: 10px; }
+.gs-adv-goomba .foot { position: absolute; bottom: 0; width: 16px; height: 10px; background: #3a2412; border-radius: 6px; animation: gs-goomba-foot .28s steps(2) infinite; }
+.gs-adv-goomba .foot.l { left: 3px; } .gs-adv-goomba .foot.r { right: 3px; animation-delay: -.14s; }
+@keyframes gs-goomba-walk { 0%{ transform: translateX(50vw);} 100%{ transform: translateX(-80vw);} }
+@keyframes gs-goomba-foot { 50% { transform: translateY(-2px); } }
+.gs-adv-pop { position: absolute; left: 50%; top: 6px; transform: translateX(-50%); font-size: 11px; color: #ffd42f; text-shadow: 1px 1px 0 #7a4d00; opacity: 0; animation: gs-advpop 1.4s ease-out infinite; }
+@keyframes gs-advpop { 0%{opacity:0; transform: translate(-50%,0) scale(.6);} 18%{opacity:1; transform: translate(-50%,-18px) scale(1);} 60%{opacity:1; transform: translate(-50%,-32px);} 80%{opacity:0; transform: translate(-50%,-44px);} 100%{opacity:0;} }
+
+/* ===== extra polish: RACING ===== */
+.gs-race-palms { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.gs-race-palms .p { position: absolute; bottom: 36%; width: 9px; height: 12px; background: linear-gradient(90deg,#3a2410,#1c1206); transform-origin: bottom center; animation: gs-palm 1.5s linear infinite; }
+.gs-race-palms .p::before { content: ""; position: absolute; top: -16px; left: -11px; width: 30px; height: 22px; background: radial-gradient(circle at 50% 100%,#2fae3f 0 60%,transparent 62%); border-radius: 50% 50% 0 0; }
+.gs-race-palms .l1 { left: 27%; } .gs-race-palms .r1 { right: 27%; }
+.gs-race-palms .l2 { left: 27%; animation-delay: -.75s; } .gs-race-palms .r2 { right: 27%; animation-delay: -.75s; }
+.gs-race-palms .l1, .gs-race-palms .l2 { --px: -34px; } .gs-race-palms .r1, .gs-race-palms .r2 { --px: 34px; }
+@keyframes gs-palm { 0%{ bottom: 36%; transform: translateX(0) scale(.3); opacity: 0; } 14%{ opacity: 1; } 100%{ bottom: 2%; transform: translateX(var(--px,0)) scale(3.2); opacity: 1; } }
+.gs-car-exhaust { position: absolute; bottom: 8px; width: 22px; height: 15px; border-radius: 50%; background: radial-gradient(circle at 50% 100%,#fff,#ffb23a 45%,#ff4d2f 75%,transparent 80%); z-index: 1; animation: gs-exhaust .14s linear infinite; }
+.gs-car-exhaust.l { left: 98px; } .gs-car-exhaust.r { right: 98px; }
+@keyframes gs-exhaust { 50% { transform: scaleY(.55); opacity: .7; } }
+.gs-car-number { position: absolute; left: 50%; top: 54px; transform: translateX(-50%); width: 42px; height: 42px; border-radius: 50%; background: #fff; color: #c8102e; font-size: 15px; display: grid; place-items: center; box-shadow: inset 0 0 0 3px #c8102e; }
+
+/* ===== extra polish: FPS ===== */
+.fps-searchlight { position: absolute; top: -10%; left: 32%; width: 20vw; height: 82vh; transform-origin: 50% 0; clip-path: polygon(48% 0,52% 0,100% 100%,0 100%); background: linear-gradient(#cfe6ff, transparent 62%); filter: blur(9px); opacity: .35; mix-blend-mode: screen; animation: fps-search 6s ease-in-out infinite alternate; }
+@keyframes fps-search { 0%{ transform: translateX(-50%) rotate(-28deg);} 100%{ transform: translateX(-50%) rotate(28deg);} }
+.fps-windows { position: absolute; left: 0; right: 0; bottom: 34%; height: 180px; opacity: .8; -webkit-mask-image: linear-gradient(180deg, transparent, #000 45%); mask-image: linear-gradient(180deg, transparent, #000 45%);
+  background-image:
+    radial-gradient(2px 3px at 14px 22px, rgba(255,220,120,.7) 50%, transparent 51%),
+    radial-gradient(2px 3px at 42px 46px, rgba(255,220,120,.5) 50%, transparent 51%),
+    radial-gradient(2px 3px at 70px 30px, rgba(150,200,255,.5) 50%, transparent 51%);
+  background-size: 88px 70px, 120px 90px, 100px 80px;
+  animation: fps-windowsflick 4s steps(2) infinite;
+}
+@keyframes fps-windowsflick { 50% { opacity: .5; } }
+.fps-rain { position: absolute; inset: -20%; pointer-events: none; opacity: .45; background-image: repeating-linear-gradient(76deg, rgba(180,210,255,.16) 0 1px, transparent 1px 10px); animation: fps-rain .5s linear infinite; }
+@keyframes fps-rain { to { transform: translate(-24px, 80px); } }
 
 @media (max-width: 640px) {
   .gs-fighter { width: 130px; height: 175px; }
