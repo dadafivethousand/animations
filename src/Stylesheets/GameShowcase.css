@@ -1,6 +1,6 @@
 /* GameShowcase.css — three high-fidelity genre scenes that flip in 3D.
    Pure CSS art + the ninja PNGs. */
-@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Press+Start+2P&display=swap");
 
 .gs-stage {
   position: fixed;
@@ -127,25 +127,39 @@
 .gs-fbar-side--r { text-align: right; }
 .gs-hp { height: 20px; border: 3px solid #fff; background: #360012; box-shadow: 0 0 0 3px #000, 0 3px 8px rgba(0,0,0,.6); overflow: hidden; }
 .gs-hp i { display: block; height: 100%; background: linear-gradient(90deg,#8bff5a,#ffe23a 55%,#ff5a2f); }
-.gs-hp--l i { width: 76%; margin-left: auto; animation: gs-hp-l 5s steps(1) infinite; }
-.gs-hp--r i { width: 82%; animation: gs-hp-r 5s steps(1) infinite; }
-@keyframes gs-hp-l { 30% { width: 64%; } 60% { width: 52%; } }
-@keyframes gs-hp-r { 45% { width: 60%; } 80% { width: 40%; } }
+.gs-hp--l i { width: 76%; margin-left: auto; animation: gs-hp-l 2.8s steps(1) 1 both; }
+.gs-hp--r i { width: 82%; animation: gs-hp-r 2.8s steps(1) 1 both; }
+@keyframes gs-hp-l { 0%,40% { width: 76%; } 46% { width: 70%; } 100% { width: 70%; } }
+@keyframes gs-hp-r { 0%,49% { width: 82%; } 50% { width: 34%; } 55% { width: 10%; } 60%,100% { width: 0%; } }
 .gs-timer { font-size: 26px; color: #ffd42f; text-shadow: 3px 3px 0 #7a0010, 0 0 14px #ff8a2f; padding-top: 4px; }
 
-/* fighters */
-.gs-shake { position: absolute; inset: 0; animation: gs-shake 5s ease-in-out infinite; }
-@keyframes gs-shake { 0%,38%,52%,100% { transform: translate(0,0); } 42% { transform: translate(-6px,3px); } 46% { transform: translate(6px,-3px); } 49% { transform: translate(-3px,2px); } }
-.gs-fighter { position: absolute; bottom: 20%; width: 220px; height: 270px; }
+/* fighters — a single round per scene: face off, left lands a blow, the
+   right fighter is KO'd and topples over (plays once, holds the KO). */
+.gs-shake { position: absolute; inset: 0; animation: gs-shake 2.8s ease-in-out 1 both; }
+@keyframes gs-shake { 0%,48%,100% { transform: translate(0,0); } 50% { transform: translate(-7px,4px); } 53% { transform: translate(7px,-4px); } 57% { transform: translate(-3px,2px); } 61% { transform: translate(0,0); } }
+.gs-fighter { position: absolute; bottom: 20%; width: 220px; height: 270px; transform-origin: 50% 100%; }
 .gs-fighter img { position: relative; z-index: 2; width: 100%; height: 100%; object-fit: contain; object-position: bottom; filter: drop-shadow(0 12px 12px rgba(0,0,0,.55)); }
-.gs-fighter--l { left: 9%; animation: gs-lunge-l 5s cubic-bezier(.5,0,.5,1) infinite; }
-.gs-fighter--r { right: 9%; transform: scaleX(-1); animation: gs-lunge-r 5s cubic-bezier(.5,0,.5,1) infinite; }
-@keyframes gs-lunge-l { 0%,30%,60%,100%{ transform: translateY(0) rotate(-3deg);} 40%{ transform: translateX(40px) translateY(-6px) rotate(4deg);} 46%{ transform: translateX(10px);} }
-@keyframes gs-lunge-r { 0%,55%,72%,100%{ transform: scaleX(-1) translateY(0) rotate(-3deg);} 47%{ transform: scaleX(-1) translateX(30px) translateY(-14px) rotate(10deg);} 52%{ transform: scaleX(-1) translateX(6px);} }
+.gs-fighter--l { left: 9%; animation: gs-fight-l 2.8s cubic-bezier(.5,0,.5,1) 1 both; }
+.gs-fighter--r { right: 9%; animation: gs-ko-r 2.8s cubic-bezier(.3,0,.35,1) 1 both; }
+@keyframes gs-fight-l {
+  0%,38% { transform: translateX(0) translateY(0) rotate(-3deg); }
+  46%    { transform: translateX(54px) translateY(-8px) rotate(7deg); }  /* lunge / strike */
+  54%    { transform: translateX(12px) rotate(-2deg); }
+  100%   { transform: translateX(0) rotate(-3deg); }                     /* victory stance */
+}
+/* right fighter is flipped (scaleX -1); topples backward at the feet */
+@keyframes gs-ko-r {
+  0%,44% { transform: scaleX(-1) translateY(0) rotate(0); }
+  50%    { transform: scaleX(-1) translateY(0) rotate(0); }              /* impact */
+  56%    { transform: scaleX(-1) translateY(-6px) rotate(-14deg); }      /* knocked back */
+  72%    { transform: scaleX(-1) translateY(14px) rotate(-58deg); }      /* toppling */
+  84%,100%{ transform: scaleX(-1) translateY(30px) rotate(-90deg); }     /* flat out, stays down */
+}
 .gs-aura { position: absolute; left: 50%; bottom: 4%; width: 180px; height: 180px; transform: translateX(-50%); border-radius: 50%; filter: blur(16px); animation: gs-aura .8s ease-in-out infinite; }
 .gs-aura--blue { background: radial-gradient(circle, rgba(60,180,255,.85), transparent 70%); }
-.gs-aura--red  { background: radial-gradient(circle, rgba(255,80,80,.85), transparent 70%); }
+.gs-aura--red  { background: radial-gradient(circle, rgba(255,80,80,.85), transparent 70%); animation: gs-aura-red 2.8s ease-in-out 1 both; }
 @keyframes gs-aura { 0%,100%{ transform: translateX(-50%) scale(.85); opacity:.55;} 50%{ transform: translateX(-50%) scale(1.12); opacity:.95;} }
+@keyframes gs-aura-red { 0%,50%{ opacity:.8; transform: translateX(-50%) scale(1);} 62%,100%{ opacity:0; transform: translateX(-50%) scale(.6);} }  /* red aura dies with the fighter */
 
 /* energy blast travelling L->R + impact */
 .gs-blast {
@@ -153,35 +167,38 @@
   width: 46px; height: 22px; border-radius: 50%;
   background: radial-gradient(circle at 30% 50%, #fff, #7fd8ff 40%, #2f7bff 75%, transparent 80%);
   box-shadow: 0 0 22px #46a6ff, 0 0 44px #2f7bff;
-  animation: gs-blast 5s cubic-bezier(.4,0,.9,1) infinite;
+  animation: gs-blast 2.8s cubic-bezier(.4,0,.9,1) 1 both;
 }
 @keyframes gs-blast {
-  0%,30% { opacity: 0; transform: translateX(0) scale(.5); }
-  32% { opacity: 1; transform: translateX(0) scale(1); }
-  40% { opacity: 1; transform: translateX(46vw) scale(1.15); }
-  43% { opacity: 0; transform: translateX(50vw) scale(1.6); }
+  0%,38% { opacity: 0; transform: translateX(0) scale(.5); }
+  40% { opacity: 1; transform: translateX(0) scale(1); }
+  48% { opacity: 1; transform: translateX(46vw) scale(1.15); }
+  50% { opacity: 0; transform: translateX(50vw) scale(1.6); }
   100% { opacity: 0; }
 }
 .gs-impact { position: absolute; bottom: 44%; right: 24%; width: 0; height: 0; }
 .gs-impact i {
   position: absolute; width: 60px; height: 10px; border-radius: 6px;
   background: linear-gradient(90deg, #fff, #ffd42f); transform-origin: 0 50%;
-  opacity: 0; animation: gs-impact 5s ease-out infinite;
+  opacity: 0; animation: gs-impact 2.8s ease-out 1 both;
 }
 .gs-impact i:nth-child(1){ transform: rotate(0deg); } .gs-impact i:nth-child(2){ transform: rotate(90deg); } .gs-impact i:nth-child(3){ transform: rotate(45deg); } .gs-impact i:nth-child(4){ transform: rotate(135deg); }
-@keyframes gs-impact { 0%,41%{opacity:0; scale:.2;} 44%{opacity:1; scale:1.3;} 52%{opacity:0; scale:1.6;} 100%{opacity:0;} }
-.gs-combo {
-  position: absolute; top: 30%; right: 16%; font-size: 13px; color: #ffd42f;
-  text-shadow: 2px 2px 0 #a3001b, 0 0 12px #ff8a2f; opacity: 0;
-  animation: gs-comboshow 5s ease-out infinite;
+@keyframes gs-impact { 0%,48%{opacity:0; scale:.2;} 51%{opacity:1; scale:1.3;} 60%{opacity:0; scale:1.6;} 100%{opacity:0;} }
+.gs-ko-word {
+  position: absolute; top: 24%; left: 50%; transform: translateX(-50%);
+  font-family: "Montserrat", sans-serif; font-weight: 900;
+  font-size: clamp(34px,8vw,72px); color: #ffd42f;
+  text-shadow: 0 0 20px #ff2f2f, 5px 5px 0 #7a0010; opacity: 0; z-index: 8;
+  animation: gs-ko-word 2.8s ease-out 1 both;
 }
-@keyframes gs-comboshow { 0%,44%{opacity:0; transform: scale(.6);} 48%{opacity:1; transform: scale(1.2);} 70%{opacity:1; transform: scale(1);} 82%{opacity:0;} 100%{opacity:0;} }
+@keyframes gs-ko-word { 0%,52%{opacity:0; transform: translateX(-50%) scale(2.3) rotate(-8deg);} 58%{opacity:1; transform: translateX(-50%) scale(1) rotate(-8deg);} 94%{opacity:1;} 100%{opacity:0;} }
 .gs-fight-word {
   position: absolute; top: 22%; left: 50%; transform: translateX(-50%);
+  font-family: "Montserrat", sans-serif; font-weight: 900;
   font-size: clamp(24px,5.5vw,50px); color: #fff; text-shadow: 0 0 14px #ff2f2f, 4px 4px 0 #7a0010;
-  animation: gs-fightword 5s ease-out infinite;
+  animation: gs-fightword 2.8s ease-out 1 both;
 }
-@keyframes gs-fightword { 0%{opacity:0; transform: translateX(-50%) scale(2.4);} 8%{opacity:1; transform: translateX(-50%) scale(1);} 24%{opacity:1;} 30%{opacity:0;} 100%{opacity:0;} }
+@keyframes gs-fightword { 0%{opacity:0; transform: translateX(-50%) scale(2.4);} 8%{opacity:1; transform: translateX(-50%) scale(1);} 30%{opacity:1;} 36%{opacity:0;} 100%{opacity:0;} }
 
 /* ==================================================================
    ADVENTURE — parallax platformer
@@ -563,12 +580,12 @@
 .gs-arena-beams i:nth-child(2){ background: linear-gradient(#ff7fc0,transparent 70%); animation-delay: -1.3s; animation-duration: 4.6s; }
 .gs-arena-beams i:nth-child(3){ background: linear-gradient(#ffe27f,transparent 70%); animation-delay: -2.6s; animation-duration: 5.2s; }
 @keyframes gs-fbeam { 0%{ transform: translateX(-50%) rotate(-26deg);} 100%{ transform: translateX(-50%) rotate(26deg);} }
-.gs-fdust { position: absolute; left: 50%; bottom: -6px; width: 74px; height: 20px; transform: translateX(-50%); background: radial-gradient(ellipse, rgba(255,220,180,.5), transparent 70%); opacity: 0; animation: gs-fdust 5s ease-out infinite; }
-@keyframes gs-fdust { 0%,36%{opacity:0; transform: translateX(-50%) scale(.5);} 42%{opacity:.7; transform: translateX(-50%) scale(1.3);} 52%{opacity:0; transform: translateX(-50%) scale(1.6);} 100%{opacity:0;} }
+.gs-fdust { position: absolute; left: 50%; bottom: -6px; width: 74px; height: 20px; transform: translateX(-50%); background: radial-gradient(ellipse, rgba(255,220,180,.5), transparent 70%); opacity: 0; animation: gs-fdust 2.8s ease-out 1 both; }
+@keyframes gs-fdust { 0%,48%{opacity:0; transform: translateX(-50%) scale(.5);} 53%{opacity:.7; transform: translateX(-50%) scale(1.3);} 64%{opacity:0; transform: translateX(-50%) scale(1.6);} 100%{opacity:0;} }
 .gs-blast-trail { position: absolute; right: 100%; top: 50%; width: 90px; height: 10px; transform: translateY(-50%); background: linear-gradient(90deg, transparent, #7fd8ff); border-radius: 8px; filter: blur(2px); }
 .gs-impact i:nth-child(5){ transform: rotate(22deg); } .gs-impact i:nth-child(6){ transform: rotate(112deg); }
-.gs-hitflash { position: absolute; inset: 0; z-index: 9; pointer-events: none; background: radial-gradient(circle at 50% 44%, rgba(255,255,255,.5), transparent 55%); opacity: 0; mix-blend-mode: screen; animation: gs-hitflash 5s steps(1) infinite; }
-@keyframes gs-hitflash { 0%,43%{opacity:0;} 45%{opacity:1;} 50%{opacity:0;} 100%{opacity:0;} }
+.gs-hitflash { position: absolute; inset: 0; z-index: 9; pointer-events: none; background: radial-gradient(circle at 66% 44%, rgba(255,255,255,.55), transparent 55%); opacity: 0; mix-blend-mode: screen; animation: gs-hitflash 2.8s steps(1) 1 both; }
+@keyframes gs-hitflash { 0%,49%{opacity:0;} 51%{opacity:1;} 57%{opacity:0;} 100%{opacity:0;} }
 .gs-round { position: absolute; top: 45%; left: 50%; transform: translate(-50%,-50%); z-index: 8; font-size: clamp(16px,3vw,28px); color: #fff; letter-spacing: .1em; text-shadow: 0 0 12px #ff8a2f, 3px 3px 0 #7a0010; opacity: 0; animation: gs-round 5s ease-out infinite; }
 @keyframes gs-round { 0%{opacity:0; transform: translate(-50%,-50%) scale(2.2);} 4%{opacity:1; transform: translate(-50%,-50%) scale(1);} 13%{opacity:1;} 17%{opacity:0;} 100%{opacity:0;} }
 
@@ -638,40 +655,40 @@
 .gs-outro-confetti span { position: absolute; top: -6%; width: 9px; height: 9px; border-radius: 2px; opacity: .9; animation-name: gs-outro-fall; animation-timing-function: linear; animation-iteration-count: infinite; }
 @keyframes gs-outro-fall { 0%{ transform: translateY(-10vh) rotate(0); } 100%{ transform: translateY(120vh) rotate(560deg); } }
 
-.gs-outro-content { position: absolute; inset: 0; z-index: 5; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 12px 20px; }
+.gs-outro-content { position: absolute; inset: 0; z-index: 5; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; text-align: center; padding: 24px; font-family: "Montserrat", system-ui, sans-serif; }
 
 /* brand wordmark with a shine sweep */
-.gs-outro-brand { position: relative; font-family: "Trebuchet MS", Arial, sans-serif; font-weight: 800; font-size: clamp(30px, 6.4vw, 60px); letter-spacing: .01em; line-height: 1; overflow: hidden; animation: gs-outro-drop .55s cubic-bezier(.2,1.5,.3,1) both; }
+.gs-outro-brand { position: relative; display: inline-block; font-family: "Montserrat", "Trebuchet MS", sans-serif; font-weight: 900; font-size: clamp(34px, 6.8vw, 66px); letter-spacing: -.01em; line-height: 1; overflow: hidden; animation: gs-outro-drop .55s cubic-bezier(.2,1.5,.3,1) both; }
 .gs-outro-code { color: #3D8EBD; } .gs-outro-ninjas { color: #fff; }
-.gs-outro-brand sup { font-size: .28em; color: #fff; vertical-align: super; }
-.gs-outro-shine { position: absolute; top: 0; left: -60%; width: 40%; height: 100%; background: linear-gradient(105deg, transparent, rgba(255,255,255,.75), transparent); transform: skewX(-18deg); animation: gs-outro-shine 2.6s ease-in-out .8s infinite; }
-@keyframes gs-outro-shine { 0%{ left: -60%; } 55%,100%{ left: 130%; } }
-.gs-outro-place { margin-top: 5px; font-family: "Trebuchet MS", Arial, sans-serif; font-weight: 800; font-size: clamp(15px, 3.1vw, 27px); color: #fff; letter-spacing: .16em; animation: gs-outro-drop .55s cubic-bezier(.2,1.5,.3,1) .1s both; }
+.gs-outro-brand sup { font-size: .26em; color: #fff; vertical-align: super; margin-left: 2px; }
+.gs-outro-shine { position: absolute; top: 0; left: -60%; width: 40%; height: 100%; background: linear-gradient(105deg, transparent, rgba(255,255,255,.7), transparent); transform: skewX(-18deg); animation: gs-outro-shine 2.8s ease-in-out .8s infinite; }
+@keyframes gs-outro-shine { 0%{ left: -60%; } 55%,100%{ left: 140%; } }
+.gs-outro-place { margin-top: 2px; font-family: "Montserrat", sans-serif; font-weight: 800; font-size: clamp(15px, 3vw, 24px); color: #fff; letter-spacing: .34em; text-indent: .34em; animation: gs-outro-drop .55s cubic-bezier(.2,1.5,.3,1) .1s both; }
 
-.gs-outro-head { margin: 20px 0 0; display: flex; flex-direction: column; gap: 9px; }
-.gs-outro-head .l1 { font-size: clamp(11px, 2.1vw, 17px); color: #bfe0ff; letter-spacing: .16em; animation: gs-outro-slide .5s ease-out .24s both; }
-.gs-outro-head .l2 { font-family: "Trebuchet MS", Arial, sans-serif; font-weight: 800; font-size: clamp(22px, 5vw, 44px); color: #ffd42f; letter-spacing: .02em; line-height: 1; text-shadow: 0 0 22px rgba(255,212,47,.55), 4px 4px 0 #7a5b00; animation: gs-outro-punch .5s cubic-bezier(.2,1.6,.3,1) .36s both; }
+.gs-outro-head { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.gs-outro-head .l1 { font-family: "Montserrat", sans-serif; font-weight: 700; font-size: clamp(13px, 2.3vw, 21px); color: #cfe6ff; letter-spacing: .04em; white-space: nowrap; animation: gs-outro-slide .5s ease-out .24s both; }
+.gs-outro-head .l2 { font-family: "Montserrat", sans-serif; font-weight: 900; font-size: clamp(28px, 6vw, 58px); color: #ffd42f; letter-spacing: -.01em; line-height: 1; white-space: nowrap; text-shadow: 0 0 26px rgba(255,212,47,.5), 4px 4px 0 #6e5200; animation: gs-outro-punch .5s cubic-bezier(.2,1.6,.3,1) .36s both; }
 
 /* genre callback chips */
-.gs-outro-genres { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 16px; }
-.gs-outro-chip { display: inline-flex; align-items: center; gap: 6px; font-family: "Trebuchet MS", Arial, sans-serif; font-weight: 700; font-size: clamp(9px, 1.5vw, 12px); letter-spacing: .08em; color: #eaf4ff; padding: 6px 12px; border-radius: 999px; background: rgba(61,142,189,.18); border: 1px solid rgba(120,200,255,.35); box-shadow: inset 0 0 12px rgba(61,142,189,.25); animation: gs-outro-chip .45s cubic-bezier(.2,1.5,.3,1) both; }
-.gs-outro-chip b { font-size: 1.15em; }
+.gs-outro-genres { display: flex; flex-wrap: wrap; justify-content: center; gap: 9px; max-width: 92%; }
+.gs-outro-chip { display: inline-flex; align-items: center; gap: 6px; font-family: "Montserrat", sans-serif; font-weight: 700; font-size: clamp(10px, 1.5vw, 13px); letter-spacing: .06em; color: #eaf4ff; padding: 7px 14px; border-radius: 999px; background: rgba(61,142,189,.2); border: 1px solid rgba(120,200,255,.4); box-shadow: inset 0 0 12px rgba(61,142,189,.25); white-space: nowrap; animation: gs-outro-chip .45s cubic-bezier(.2,1.5,.3,1) both; }
+.gs-outro-chip b { font-size: 1.15em; line-height: 1; }
 @keyframes gs-outro-chip { 0%{ opacity:0; transform: translateY(10px) scale(.8);} 100%{ opacity:1; transform: none;} }
 
 /* stage + celebrating crew */
-.gs-outro-stage { position: relative; margin: 14px 0 2px; animation: gs-outro-riseup .6s cubic-bezier(.2,1.4,.3,1) .46s both; }
-.gs-outro-stage::before { content: ""; position: absolute; left: 50%; bottom: -6px; width: 380px; height: 26px; transform: translateX(-50%); background: radial-gradient(ellipse, rgba(0,0,0,.5), transparent 70%); }
-.gs-outro-crew { display: flex; align-items: flex-end; justify-content: center; gap: 4px; }
-.gs-outro-crew img { width: clamp(58px, 12vw, 104px); height: auto; filter: drop-shadow(0 8px 10px rgba(0,0,0,.55)) drop-shadow(0 0 14px rgba(120,200,255,.3)); animation: gs-outro-bob 1.2s ease-in-out infinite; }
+.gs-outro-stage { position: relative; animation: gs-outro-riseup .6s cubic-bezier(.2,1.4,.3,1) .46s both; }
+.gs-outro-stage::before { content: ""; position: absolute; left: 50%; bottom: -6px; width: 92%; height: 26px; transform: translateX(-50%); background: radial-gradient(ellipse, rgba(0,0,0,.5), transparent 70%); }
+.gs-outro-crew { display: flex; align-items: flex-end; justify-content: center; gap: 6px; }
+.gs-outro-crew img { width: clamp(62px, 11vw, 108px); height: auto; filter: drop-shadow(0 8px 10px rgba(0,0,0,.55)) drop-shadow(0 0 14px rgba(120,200,255,.3)); animation: gs-outro-bob 1.2s ease-in-out infinite; }
 @keyframes gs-outro-riseup { 0%{ opacity: 0; transform: translateY(40px) scale(.9);} 100%{ opacity: 1; transform: none;} }
 @keyframes gs-outro-bob { 50% { transform: translateY(-9px); } }
 
 /* CTA */
-.gs-outro-cta { display: flex; flex-direction: column; align-items: center; gap: 9px; margin-top: 16px; animation: gs-outro-slide .5s ease-out .6s both; }
-.gs-outro-btn { position: relative; overflow: hidden; font-family: "Trebuchet MS", Arial, sans-serif; font-weight: 800; font-size: clamp(13px, 2.5vw, 19px); color: #04080d; background: linear-gradient(180deg, #ffe27a, #ffd42f 55%, #f5b400); padding: 13px 30px; border-radius: 999px; letter-spacing: .04em; box-shadow: 0 6px 0 #b58f00, 0 12px 26px rgba(0,0,0,.45); animation: gs-outro-btnpulse 1.2s ease-in-out infinite; }
-.gs-outro-btn-shine { position: absolute; top: 0; left: -60%; width: 45%; height: 100%; background: linear-gradient(105deg, transparent, rgba(255,255,255,.8), transparent); transform: skewX(-18deg); animation: gs-outro-shine 2.6s ease-in-out 1.2s infinite; }
+.gs-outro-cta { display: flex; flex-direction: column; align-items: center; gap: 11px; }
+.gs-outro-btn { position: relative; overflow: hidden; font-family: "Montserrat", sans-serif; font-weight: 800; font-size: clamp(14px, 2.4vw, 20px); color: #04080d; background: linear-gradient(180deg, #ffe27a, #ffd42f 55%, #f5b400); padding: 14px 34px; border-radius: 999px; letter-spacing: .02em; white-space: nowrap; box-shadow: 0 6px 0 #b58f00, 0 12px 26px rgba(0,0,0,.45); animation: gs-outro-btnpulse 1.2s ease-in-out infinite, gs-outro-slide .5s ease-out .6s both; }
+.gs-outro-btn-shine { position: absolute; top: 0; left: -60%; width: 45%; height: 100%; background: linear-gradient(105deg, transparent, rgba(255,255,255,.8), transparent); transform: skewX(-18deg); animation: gs-outro-shine 2.8s ease-in-out 1.2s infinite; }
 @keyframes gs-outro-btnpulse { 50% { transform: scale(1.06); box-shadow: 0 6px 0 #b58f00, 0 0 30px rgba(255,212,47,.7); } }
-.gs-outro-contact { font-family: "Press Start 2P", monospace; font-size: clamp(9px, 1.7vw, 13px); color: #7fd0ff; letter-spacing: .05em; text-shadow: 0 0 10px rgba(61,142,189,.5); }
+.gs-outro-contact { font-family: "Montserrat", sans-serif; font-weight: 700; font-size: clamp(12px, 1.8vw, 16px); color: #7fd0ff; letter-spacing: .04em; text-shadow: 0 0 10px rgba(61,142,189,.5); animation: gs-outro-slide .5s ease-out .7s both; }
 
 @keyframes gs-outro-drop { 0%{ opacity:0; transform: translateY(-24px) scale(.85);} 100%{ opacity:1; transform: none;} }
 @keyframes gs-outro-slide { 0%{ opacity:0; transform: translateY(14px);} 100%{ opacity:1; transform: translateY(0);} }

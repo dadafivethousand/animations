@@ -14,12 +14,12 @@ import tetrisNinja from "../Images/cn-tetris.png";
 const SCENES = ["tetris", "fps", "fighting", "adventure", "racing", "outro"];
 // Per-scene durations — punchy games, a longer beat on the closing ad.
 const SCENE_MS = {
-  tetris: 3000,
-  fps: 3200,
-  fighting: 3000,
-  adventure: 3000,
-  racing: 3000,
-  outro: 5400,
+  tetris: 2600,
+  fps: 2800,
+  fighting: 2800,
+  adventure: 2300,
+  racing: 2300,
+  outro: 4800,
 };
 
 function SceneBody({ name }) {
@@ -254,7 +254,7 @@ function Fighting() {
         </div>
         <div className="gs-blast"><span className="gs-blast-trail" /></div>
         <div className="gs-impact"><i /><i /><i /><i /><i /><i /></div>
-        <div className="gs-fighter gs-fighter--r">
+        <div className="gs-fighter gs-fighter--r gs-fighter--ko">
           <span className="gs-aura gs-aura--red" />
           <span className="gs-fdust" />
           <img src={kick} alt="" />
@@ -262,8 +262,7 @@ function Fighting() {
         </div>
       </div>
       <div className="gs-hitflash" />
-      <div className="gs-combo">4 HIT COMBO</div>
-      <div className="gs-round">ROUND 1</div>
+      <div className="gs-ko-word">K.O.</div>
       <div className="gs-fight-word">FIGHT!</div>
     </>
   );
