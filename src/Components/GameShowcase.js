@@ -102,18 +102,6 @@ function Piece({ type, className = "", style = {} }) {
   );
 }
 
-// Faint outline of where a piece lands.
-function GhostPiece({ type, left, top }) {
-  const t = TET[type];
-  return (
-    <div className="tet-ghost" style={{ left, top }}>
-      {t.cells.map(([x, y], i) => (
-        <span key={i} style={{ left: x * CELL, top: y * CELL }} />
-      ))}
-    </div>
-  );
-}
-
 // Pieces fall one at a time onto an empty field and STAY (build a stack).
 // Each drop is a bespoke keyframe on the same scene-length timeline, so the
 // field is empty when the scene appears and fills up before it flips away.
@@ -134,12 +122,6 @@ function Tetris() {
       <div className="tet-well">
         <div className="tet-grid" />
         <div className="tet-scanline" />
-        {/* ghost outlines showing where each piece lands */}
-        <GhostPiece type="I" left={0 * CELL} top={338} />
-        <GhostPiece type="O" left={4 * CELL} top={312} />
-        <GhostPiece type="L" left={6 * CELL} top={286} />
-        <GhostPiece type="T" left={0 * CELL} top={286} />
-        <GhostPiece type="S" left={3 * CELL} top={286} />
         {/* row 0 (floor) */}
         <Piece type="I" className="tet-drop p1" style={{ left: 0 * CELL }} />
         <Piece type="O" className="tet-drop p2" style={{ left: 4 * CELL }} />
@@ -147,13 +129,6 @@ function Tetris() {
         {/* row 1 (on top) */}
         <Piece type="T" className="tet-drop p4" style={{ left: 0 * CELL }} />
         <Piece type="S" className="tet-drop p5" style={{ left: 3 * CELL }} />
-      </div>
-
-      {/* stats */}
-      <div className="tet-stats">
-        <div><span>SCORE</span><b>0148200</b></div>
-        <div><span>LINES</span><b>042</b></div>
-        <div><span>LEVEL</span><b>07</b></div>
       </div>
     </>
   );
@@ -192,29 +167,21 @@ function FPS() {
         ))}
       </div>
 
+      {/* outgoing fire */}
       <div className="fps-tracers"><i /><i /><i /></div>
       <div className="fps-incoming"><i /><i /></div>
+      <span className="fps-shotflash" />
 
-      {/* crosshair + hitmarker + damage number */}
-      <div className="fps-cross"><span /><span /><span /><span /><em /></div>
+      {/* sniper scope + reticle */}
+      <div className="fps-scope">
+        <span className="fps-reticle-dot" />
+        <span className="fps-mil m1" /><span className="fps-mil m2" /><span className="fps-mil m3" />
+        <span className="fps-mil mL" /><span className="fps-mil mR" />
+      </div>
       <div className="fps-hitmarker"><i /><i /><i /><i /></div>
       <div className="fps-dmg">120</div>
 
-      {/* first-person weapon */}
-      <div className="fps-weapon">
-        <div className="fps-gun">
-          <span className="fps-muzzle" />
-          <span className="fps-barrel" />
-          <span className="fps-sight" />
-          <span className="fps-body" />
-          <span className="fps-mag" />
-          <span className="fps-stock" />
-          <span className="fps-grip" />
-        </div>
-      </div>
-
       <div className="fps-flash" />
-      <div className="fps-vignette" />
 
       {/* HUD */}
       <div className="fps-hud">
@@ -313,8 +280,6 @@ function Adventure() {
       {/* goal flag on the right */}
       <div className="gs-adv-goal"><span className="pole" /><span className="flag" /></div>
       <div className="gs-adv-ground" />
-      {/* walking goomba to jump over */}
-      <div className="gs-adv-goomba"><span className="body" /><span className="foot l" /><span className="foot r" /></div>
       <div className="gs-adv-hero">
         <span className="gs-adv-trail" />
         <img src={leap} alt="" />
@@ -357,7 +322,6 @@ function Racing() {
           <span className="gs-car-window" />
           <span className="gs-car-light l" />
           <span className="gs-car-light r" />
-          <span className="gs-car-number">07</span>
           <span className="gs-car-plate" />
         </div>
         <div className="gs-car-spoiler"><i className="l" /><i className="r" /><b /></div>

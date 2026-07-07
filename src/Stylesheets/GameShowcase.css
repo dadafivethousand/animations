@@ -454,38 +454,38 @@
 .fps-enemy-hit { position: absolute; left: 40%; top: 30%; width: 22px; height: 22px; border-radius: 50%; background: radial-gradient(circle,#ffd9a0,#ff5a2f 60%,transparent 70%); opacity: 0; animation: fps-enemyhit 1.15s ease-out infinite; }
 @keyframes fps-enemyhit { 0%,64%{opacity:0; transform: scale(.4);} 70%{opacity:1; transform: scale(1.3);} 82%{opacity:0; transform: scale(1.8);} 100%{opacity:0;} }
 
-.fps-tracers { position: absolute; inset: 0; }
-.fps-tracers i { position: absolute; left: 46%; bottom: 22%; width: 3px; height: 90px; border-radius: 3px; background: linear-gradient(#fff, #ffd042, transparent); box-shadow: 0 0 8px #ffce3a; transform-origin: bottom; transform: rotate(28deg); opacity: 0; animation: fps-tracer 1.15s linear infinite; }
-.fps-tracers i:nth-child(2){ animation-delay: -.4s; } .fps-tracers i:nth-child(3){ animation-delay: -.75s; }
-@keyframes fps-tracer { 0%,60%{opacity:0; transform: rotate(28deg) translateY(0) scaleY(.2);} 66%{opacity:1; transform: rotate(28deg) translateY(-120px) scaleY(1);} 74%{opacity:0; transform: rotate(28deg) translateY(-260px) scaleY(1.2);} 100%{opacity:0;} }
+/* outgoing tracers, fired from the bottom of the scope toward the target */
+.fps-tracers { position: absolute; inset: 0; z-index: 14; }
+.fps-tracers i { position: absolute; bottom: 0; width: 4px; height: 130px; border-radius: 3px; background: linear-gradient(#fff, #ffd042, transparent); box-shadow: 0 0 12px #ffce3a; transform-origin: bottom; opacity: 0; animation: fps-tracer 1.15s linear infinite; }
+.fps-tracers i:nth-child(1){ left: 48%; } .fps-tracers i:nth-child(2){ left: 50%; animation-delay: -.38s; } .fps-tracers i:nth-child(3){ left: 52%; animation-delay: -.74s; }
+@keyframes fps-tracer { 0%,56%{opacity:0; transform: translateY(0) scaleY(.15);} 62%{opacity:1; transform: translateY(-34vh) scaleY(1);} 70%{opacity:0; transform: translateY(-62vh) scaleY(1.3);} 100%{opacity:0;} }
 
-.fps-cross { position: absolute; top: 42%; left: 50%; transform: translate(-50%,-50%); width: 40px; height: 40px; }
-.fps-cross span { position: absolute; background: rgba(255,255,255,.85); box-shadow: 0 0 4px rgba(0,0,0,.8); }
-.fps-cross span:nth-child(1){ left:50%; top:0; width:2px; height:12px; transform:translateX(-50%);} .fps-cross span:nth-child(2){ left:50%; bottom:0; width:2px; height:12px; transform:translateX(-50%);} .fps-cross span:nth-child(3){ top:50%; left:0; height:2px; width:12px; transform:translateY(-50%);} .fps-cross span:nth-child(4){ top:50%; right:0; height:2px; width:12px; transform:translateY(-50%);}
-.fps-cross em { position: absolute; top:50%; left:50%; width:3px; height:3px; background:#ff4d4d; border-radius:50%; transform:translate(-50%,-50%); }
-.fps-hitmarker { position: absolute; top: 42%; left: 50%; transform: translate(-50%,-50%); width: 28px; height: 28px; opacity: 0; animation: fps-hit 1.15s ease-out infinite; }
-.fps-hitmarker i { position: absolute; top:50%; left:50%; width:12px; height:3px; background:#fff; transform-origin:center; }
-.fps-hitmarker i:nth-child(1){transform:translate(-50%,-50%) rotate(45deg) translateX(8px);} .fps-hitmarker i:nth-child(2){transform:translate(-50%,-50%) rotate(-45deg) translateX(8px);} .fps-hitmarker i:nth-child(3){transform:translate(-50%,-50%) rotate(45deg) translateX(-8px);} .fps-hitmarker i:nth-child(4){transform:translate(-50%,-50%) rotate(-45deg) translateX(-8px);}
-@keyframes fps-hit { 0%,66%{opacity:0;} 70%{opacity:1; transform: translate(-50%,-50%) scale(1.3);} 80%{opacity:0; transform: translate(-50%,-50%) scale(1);} 100%{opacity:0;} }
+/* muzzle flash from the unseen weapon, at the bottom of the scope */
+.fps-shotflash { position: absolute; bottom: -14px; left: 50%; width: 260px; height: 160px; transform: translateX(-50%); z-index: 17; pointer-events: none; background: radial-gradient(ellipse at 50% 100%, rgba(255,228,150,.75), rgba(255,150,60,.35) 42%, transparent 70%); opacity: 0; animation: fps-shotflash 1.15s steps(1) infinite; }
+@keyframes fps-shotflash { 0%,60%{opacity:0;} 63%{opacity:1;} 68%{opacity:.35;} 72%{opacity:0;} 100%{opacity:0;} }
 
-/* first-person weapon — parts laid out horizontally in .fps-gun, then the
-   whole rifle is rotated as one unit so it points toward the crosshair */
-.fps-weapon { position: absolute; right: 14%; bottom: 6px; width: 420px; height: 250px; z-index: 6; transform-origin: 80% 100%; animation: fps-recoil 1.15s cubic-bezier(.2,.9,.3,1) infinite; }
-@keyframes fps-recoil { 0%,60%{ transform: translate(0,0) rotate(0);} 66%{ transform: translate(16px,20px) rotate(-4deg);} 82%{ transform: translate(0,0) rotate(0);} }
-.fps-gun { position: absolute; right: 20px; bottom: 0; width: 380px; height: 180px; transform: rotate(-16deg); transform-origin: 78% 92%; filter: drop-shadow(0 8px 14px rgba(0,0,0,.55)); }
-.fps-barrel { position: absolute; left: 6px; bottom: 92px; width: 128px; height: 15px; background: linear-gradient(180deg,#4a505c,#14171d); border-radius: 3px; }
-.fps-body { position: absolute; left: 96px; bottom: 74px; width: 206px; height: 42px; background: linear-gradient(180deg,#4a505c,#20242c); border-radius: 6px; box-shadow: inset 0 -6px 0 rgba(0,0,0,.4); }
-.fps-sight { position: absolute; left: 236px; bottom: 116px; width: 16px; height: 22px; background: #14171d; border-radius: 2px; }
-.fps-mag { position: absolute; left: 150px; bottom: 6px; width: 46px; height: 74px; background: linear-gradient(180deg,#2b2f38,#15181f); border-radius: 4px 4px 8px 8px; transform: skewX(-10deg); box-shadow: inset -4px 0 0 rgba(0,0,0,.4); }
-.fps-grip { position: absolute; left: 226px; bottom: 8px; width: 34px; height: 60px; background: linear-gradient(180deg,#20242c,#111318); border-radius: 8px; transform: rotate(11deg); }
-.fps-stock { position: absolute; left: 286px; bottom: 60px; width: 96px; height: 46px; background: linear-gradient(180deg,#4a505c,#1c2026); border-radius: 4px; clip-path: polygon(0 0, 100% 24%, 100% 100%, 0 82%); }
-.fps-muzzle { position: absolute; left: -34px; bottom: 74px; width: 72px; height: 72px; border-radius: 50%; background: radial-gradient(circle,#fff 0 20%,#ffd23a 35%,#ff7a2f 55%,transparent 70%); opacity: 0; animation: fps-muzzle 1.15s steps(1) infinite; z-index: 3; }
-@keyframes fps-muzzle { 0%,62%{opacity:0; transform: scale(.4);} 65%{opacity:1; transform: scale(1.15);} 70%{opacity:0;} 100%{opacity:0;} }
-.fps-flash { position: absolute; inset: 0; background: radial-gradient(circle at 62% 55%, rgba(255,200,120,.4), transparent 45%); opacity: 0; mix-blend-mode: screen; animation: fps-screenflash 1.15s steps(1) infinite; }
-@keyframes fps-screenflash { 0%,62%{opacity:0;} 65%{opacity:1;} 72%{opacity:0;} 100%{opacity:0;} }
+.fps-hitmarker { position: absolute; top: 44%; left: 50%; transform: translate(-50%,-50%); width: 30px; height: 30px; z-index: 18; opacity: 0; animation: fps-hit 1.15s ease-out infinite; }
+.fps-hitmarker i { position: absolute; top:50%; left:50%; width:13px; height:3px; background:#fff; box-shadow: 0 0 4px rgba(0,0,0,.8); transform-origin:center; }
+.fps-hitmarker i:nth-child(1){transform:translate(-50%,-50%) rotate(45deg) translateX(9px);} .fps-hitmarker i:nth-child(2){transform:translate(-50%,-50%) rotate(-45deg) translateX(9px);} .fps-hitmarker i:nth-child(3){transform:translate(-50%,-50%) rotate(45deg) translateX(-9px);} .fps-hitmarker i:nth-child(4){transform:translate(-50%,-50%) rotate(-45deg) translateX(-9px);}
+@keyframes fps-hit { 0%,64%{opacity:0;} 68%{opacity:1; transform: translate(-50%,-50%) scale(1.4);} 80%{opacity:0; transform: translate(-50%,-50%) scale(1);} 100%{opacity:0;} }
+
+/* sniper scope: clear circle, dark tunnel outside, glowing edge + reticle */
+.fps-scope { position: absolute; top: 44%; left: 50%; width: 470px; height: 470px; transform: translate(-50%,-50%); border-radius: 50%; z-index: 16; pointer-events: none;
+  box-shadow: 0 0 0 9999px rgba(2,4,10,.9), inset 0 0 80px rgba(0,0,0,.8), inset 0 0 0 4px rgba(160,210,255,.55), inset 0 0 0 13px rgba(0,0,0,.55);
+  animation: fps-scopebreath 4.5s ease-in-out infinite; }
+@keyframes fps-scopebreath { 50% { transform: translate(-50%,-51%) scale(1.012); } }
+.fps-scope::before { content: ""; position: absolute; top: 50%; left: 5%; right: 5%; height: 2px; transform: translateY(-50%); background: linear-gradient(90deg, transparent, rgba(210,235,255,.85) 10% 44%, transparent 46% 54%, rgba(210,235,255,.85) 56% 90%, transparent); }
+.fps-scope::after { content: ""; position: absolute; left: 50%; top: 5%; bottom: 5%; width: 2px; transform: translateX(-50%); background: linear-gradient(180deg, transparent, rgba(210,235,255,.85) 10% 44%, transparent 46% 54%, rgba(210,235,255,.85) 56% 90%, transparent); }
+.fps-reticle-dot { position: absolute; top: 50%; left: 50%; width: 6px; height: 6px; transform: translate(-50%,-50%); background: #ff3b30; border-radius: 50%; box-shadow: 0 0 8px #ff3b30; }
+.fps-mil { position: absolute; width: 7px; height: 7px; background: rgba(210,235,255,.9); border-radius: 50%; }
+.fps-mil.m1 { top: 60%; left: 50%; transform: translateX(-50%); } .fps-mil.m2 { top: 68%; left: 50%; transform: translateX(-50%); } .fps-mil.m3 { top: 76%; left: 50%; transform: translateX(-50%); }
+.fps-mil.mL { top: 50%; left: 33%; transform: translateY(-50%); } .fps-mil.mR { top: 50%; left: 67%; transform: translateY(-50%); }
+
+.fps-flash { position: absolute; inset: 0; z-index: 15; background: radial-gradient(circle at 50% 46%, rgba(255,220,150,.32), transparent 42%); opacity: 0; mix-blend-mode: screen; animation: fps-screenflash 1.15s steps(1) infinite; }
+@keyframes fps-screenflash { 0%,60%{opacity:0;} 63%{opacity:1;} 70%{opacity:0;} 100%{opacity:0;} }
 
 /* FPS HUD */
-.fps-hud { position: absolute; inset: 0; }
+.fps-hud { position: absolute; inset: 0; z-index: 20; }
 .fps-mode { position: absolute; top: 96px; left: 50%; transform: translateX(-50%); font-size: 10px; color: #cfe6ff; letter-spacing: .12em; text-shadow: 0 2px 6px rgba(0,0,0,.9); }
 .fps-health { position: absolute; left: 26px; bottom: 70px; width: 200px; }
 .fps-health-label { font-size: 12px; color: #6bff8f; text-shadow: 0 0 8px rgba(0,0,0,.9); }
