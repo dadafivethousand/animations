@@ -7,6 +7,9 @@ import leap from "../Images/ninja-leap.png";
 import thumbs from "../Images/ninja-thumbs.png";
 import cheer from "../Images/ninja-cheer.png";
 import kick from "../Images/ninja-kick.png";
+import fighterLeft from "../Images/cn-fighter-left.png";
+import marioHero from "../Images/cn-mario.png";
+import tetrisNinja from "../Images/cn-tetris.png";
 
 const SCENES = ["tetris", "fps", "fighting", "adventure", "racing", "outro"];
 // Per-scene durations — punchy games, a longer beat on the closing ad.
@@ -121,7 +124,7 @@ function Tetris() {
           <span className="tet-next-label">NEXT</span>
           <div className="tet-next-box"><Piece type="T" /></div>
         </div>
-        <img className="tet-ninja" src={thumbs} alt="" />
+        <img className="tet-ninja" src={tetrisNinja} alt="" />
       </div>
 
       {/* playfield */}
@@ -246,7 +249,7 @@ function Fighting() {
         <div className="gs-fighter gs-fighter--l">
           <span className="gs-aura gs-aura--blue" />
           <span className="gs-fdust" />
-          <img src={cheer} alt="" />
+          <img src={fighterLeft} alt="" />
           <span className="gs-fshadow" />
         </div>
         <div className="gs-blast"><span className="gs-blast-trail" /></div>
@@ -288,7 +291,7 @@ function Adventure() {
       <div className="gs-adv-ground" />
       <div className="gs-adv-hero">
         <span className="gs-adv-trail" />
-        <img src={leap} alt="" />
+        <img src={marioHero} alt="" />
         <span className="gs-adv-hshadow" />
         <span className="gs-adv-dust" />
         <span className="gs-adv-pop">+100</span>
