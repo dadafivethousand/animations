@@ -52,6 +52,7 @@
   text-shadow: 0 2px 8px rgba(0,0,0,.9);
 }
 .gs-brand-code { color: #29a3dd; } .gs-brand-ninjas { color: #fff; }
+.gs-brand-place { color: #fff; font-weight: 700; letter-spacing: .1em; }
 .gs-brand-studio { font-size: 8px; color: #9fb3c8; border-left: 2px solid #29a3dd; padding-left: 8px; letter-spacing: .12em; }
 .gs-genre { position: absolute; top: 20px; right: 26px; text-align: right; }
 .gs-genre-kicker { display: block; font-size: 8px; color: #7fe3ff; letter-spacing: .2em; margin-bottom: 9px; }
@@ -625,6 +626,65 @@
 @keyframes fps-windowsflick { 50% { opacity: .5; } }
 .fps-rain { position: absolute; inset: -20%; pointer-events: none; opacity: .45; background-image: repeating-linear-gradient(76deg, rgba(180,210,255,.16) 0 1px, transparent 1px 10px); animation: fps-rain .5s linear infinite; }
 @keyframes fps-rain { to { transform: translate(-24px, 80px); } }
+
+/* ==================================================================
+   INTRO — the attention hook
+   ================================================================== */
+.gs-intro { overflow: hidden; }
+.gs-intro-bg { position: absolute; inset: 0; background: radial-gradient(130% 100% at 50% 12%, #1b5a80 0%, #0d3350 34%, #061a2b 66%, #030c15 100%); }
+.gs-intro-rays { position: absolute; top: -40%; left: 50%; width: 220vw; height: 220vh; transform: translateX(-50%); background: repeating-conic-gradient(from 0deg at 50% 30%, rgba(61,142,189,.14) 0deg 5deg, transparent 5deg 15deg); mix-blend-mode: screen; animation: gs-intro-rays 34s linear infinite; }
+@keyframes gs-intro-rays { to { transform: translateX(-50%) rotate(360deg); } }
+.gs-intro-vig { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(120% 120% at 50% 45%, transparent 48%, rgba(0,0,0,.72) 100%); }
+
+/* floating game icons rising */
+.gs-intro-icons { position: absolute; inset: 0; pointer-events: none; }
+.gs-intro-icons span { position: absolute; bottom: -8%; opacity: 0; filter: drop-shadow(0 0 8px rgba(120,200,255,.4)); animation-name: gs-intro-rise; animation-timing-function: linear; animation-iteration-count: infinite; }
+@keyframes gs-intro-rise {
+  0% { opacity: 0; transform: translateY(0) rotate(0); }
+  12% { opacity: .85; }
+  85% { opacity: .85; }
+  100% { opacity: 0; transform: translateY(-108vh) rotate(40deg); }
+}
+
+/* giant pulsing question mark behind */
+.gs-intro-qmark {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-52%);
+  font-family: "Montserrat", sans-serif; font-weight: 900;
+  font-size: clamp(320px, 62vh, 620px); line-height: 1;
+  color: rgba(61,142,189,.12);
+  text-shadow: 0 0 60px rgba(61,142,189,.25);
+  animation: gs-intro-qpulse 3.6s ease-in-out infinite;
+}
+@keyframes gs-intro-qpulse { 0%,100%{ opacity: .5; transform: translate(-50%,-52%) scale(1);} 50%{ opacity: .9; transform: translate(-50%,-52%) scale(1.06);} }
+
+.gs-intro-content { position: absolute; inset: 0; z-index: 5; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; text-align: center; padding: 24px; font-family: "Montserrat", system-ui, sans-serif; }
+.gs-intro-kicker {
+  font-weight: 800; font-size: clamp(11px, 1.9vw, 16px); letter-spacing: .28em; text-indent: .28em;
+  color: #7fd0ff; text-shadow: 0 0 14px rgba(61,142,189,.6);
+  animation: gs-intro-kick .5s ease-out both;
+}
+@keyframes gs-intro-kick { 0%{ opacity:0; letter-spacing:.6em; } 100%{ opacity:1; letter-spacing:.28em; } }
+
+.gs-intro-hook { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; line-height: .98; }
+.gs-intro-w {
+  font-family: "Montserrat", sans-serif; font-weight: 900;
+  font-size: clamp(30px, 7.4vw, 88px); letter-spacing: -.01em; color: #fff;
+  text-shadow: 0 4px 0 rgba(0,0,0,.35), 0 0 30px rgba(120,200,255,.25);
+  white-space: nowrap;
+}
+.gs-intro-w.w1 { animation: gs-intro-word .55s cubic-bezier(.2,1.5,.3,1) .35s both; }
+.gs-intro-w.w2 { animation: gs-intro-word .55s cubic-bezier(.2,1.5,.3,1) .62s both; }
+.gs-intro-w em {
+  font-style: normal; color: #ffd42f;
+  text-shadow: 0 0 26px rgba(255,212,47,.6), 0 4px 0 #6e5200;
+}
+@keyframes gs-intro-word { 0%{ opacity:0; transform: translateY(26px) scale(.8); } 100%{ opacity:1; transform: none; } }
+
+.gs-intro-sub {
+  margin-top: 8px; font-weight: 700; font-size: clamp(12px, 2vw, 19px);
+  letter-spacing: .08em; color: #cfe6ff; text-shadow: 0 2px 10px rgba(0,0,0,.7);
+  animation: gs-outro-slide .5s ease-out .95s both;
+}
 
 /* ==================================================================
    OUTRO — the Code Ninjas ad (cinematic close)

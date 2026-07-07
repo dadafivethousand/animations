@@ -10,9 +10,10 @@ import tetrisNinja from "../Images/cn-tetris.png";
 import carDriver from "../Images/cn-car.png";
 import finalCrew from "../Images/cn-final.png";
 
-const SCENES = ["tetris", "fps", "adventure", "racing", "fighting", "outro"];
-// Per-scene durations — punchy games, a longer beat on the closing ad.
+const SCENES = ["intro", "tetris", "fps", "adventure", "racing", "fighting", "outro"];
+// Per-scene durations — a strong hook, punchy games, a longer beat on the ad.
 const SCENE_MS = {
+  intro: 3800,
   tetris: 2200,
   fps: 2500,
   adventure: 1900,
@@ -23,6 +24,7 @@ const SCENE_MS = {
 
 function SceneBody({ name }) {
   switch (name) {
+    case "intro": return <Intro />;
     case "tetris": return <Tetris />;
     case "fps": return <FPS />;
     case "fighting": return <Fighting />;
@@ -65,9 +67,51 @@ export default function GameShowcase() {
         <div className="gs-brand">
           <span className="gs-brand-code">CODE</span>
           <span className="gs-brand-ninjas">NINJAS</span>
+          <span className="gs-brand-place">WOODBRIDGE</span>
         </div>
        </div>
     </div>
+  );
+}
+
+/* ============================ INTRO (the hook) ============================ */
+function Intro() {
+  const icons = ["🎮", "🏎️", "🚀", "🧩", "🕹️", "🤖", "🔫", "🌟", "🎯", "👾", "🏆", "💡"];
+  return (
+    <>
+      <div className="gs-intro-bg" />
+      <div className="gs-intro-rays" />
+      <div className="gs-intro-vig" />
+
+      {/* floating game icons drifting up */}
+      <div className="gs-intro-icons">
+        {icons.map((ic, i) => (
+          <span
+            key={i}
+            style={{
+              left: `${(i * 79 + 6) % 96}%`,
+              animationDelay: `${(i * 0.37) % 3.6 - 3.6}s`,
+              animationDuration: `${5 + (i % 5)}s`,
+              fontSize: `${20 + (i % 4) * 10}px`,
+            }}
+          >
+            {ic}
+          </span>
+        ))}
+      </div>
+
+      {/* giant pulsing question mark behind the text */}
+      <div className="gs-intro-qmark">?</div>
+
+      <div className="gs-intro-content">
+        <div className="gs-intro-kicker">CODE&nbsp;NINJAS&nbsp;·&nbsp;WOODBRIDGE</div>
+        <h1 className="gs-intro-hook">
+          <span className="gs-intro-w w1">WHAT&nbsp;WILL&nbsp;YOUR</span>
+          <span className="gs-intro-w w2">CHILD&nbsp;<em>BUILD</em>?</span>
+        </h1>
+        <div className="gs-intro-sub">Coding&nbsp;·&nbsp;Robotics&nbsp;·&nbsp;Game&nbsp;Design</div>
+      </div>
+    </>
   );
 }
 
@@ -373,7 +417,7 @@ function Outro() {
         </div>
 
         <h2 className="gs-outro-head">
-          <span className="l1">WHATEVER GAME YOU CAN DREAM UP&hellip;</span>
+          <span className="l1">ANY GAME YOU CAN DREAM UP&hellip;</span>
           <span className="l2">OUR&nbsp;STUDENTS&nbsp;BUILD&nbsp;IT.</span>
         </h2>
 
