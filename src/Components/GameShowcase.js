@@ -9,7 +9,7 @@ import cheer from "../Images/ninja-cheer.png";
 import kick from "../Images/ninja-kick.png";
 
 const SCENES = ["tetris", "fps", "fighting", "adventure", "racing"];
-const SCENE_MS = 6000;
+const SCENE_MS = 4600;
 
 export default function GameShowcase() {
   const [active, setActive] = useState(0);
