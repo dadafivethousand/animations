@@ -10,16 +10,17 @@ import kick from "../Images/ninja-kick.png";
 import fighterLeft from "../Images/cn-fighter-left.png";
 import marioHero from "../Images/cn-mario.png";
 import tetrisNinja from "../Images/cn-tetris.png";
+import carDriver from "../Images/cn-car.png";
 
 const SCENES = ["tetris", "fps", "fighting", "adventure", "racing", "outro"];
 // Per-scene durations — punchy games, a longer beat on the closing ad.
 const SCENE_MS = {
-  tetris: 2600,
-  fps: 2800,
-  fighting: 2800,
-  adventure: 2300,
-  racing: 2300,
-  outro: 4800,
+  tetris: 2200,
+  fps: 2500,
+  fighting: 2600,
+  adventure: 1900,
+  racing: 1900,
+  outro: 6800,
 };
 
 function SceneBody({ name }) {
@@ -252,7 +253,6 @@ function Fighting() {
           <img src={fighterLeft} alt="" />
           <span className="gs-fshadow" />
         </div>
-        <div className="gs-blast"><span className="gs-blast-trail" /></div>
         <div className="gs-impact"><i /><i /><i /><i /><i /><i /></div>
         <div className="gs-fighter gs-fighter--r gs-fighter--ko">
           <span className="gs-aura gs-aura--red" />
@@ -334,7 +334,7 @@ function Racing() {
           <span className="gs-car-plate" />
         </div>
         <div className="gs-car-spoiler"><i className="l" /><i className="r" /><b /></div>
-        <img src={thumbs} alt="" />
+        <img src={carDriver} alt="" />
       </div>
       <div className="gs-race-hud">
         <div className="gs-lap">LAP&nbsp;1/3</div>
@@ -347,25 +347,18 @@ function Racing() {
 
 /* ============================ OUTRO (the ad) ============================ */
 function Outro() {
-  const genres = [
-    ["🧩", "PUZZLE"],
-    ["🔫", "SHOOTER"],
-    ["🏎️", "RACING"],
-    ["🥊", "FIGHTING"],
-    ["🍄", "ADVENTURE"],
-  ];
   return (
     <>
       <div className="gs-outro-bg" />
       <div className="gs-outro-rays" />
       <div className="gs-outro-spot" />
       <div className="gs-outro-sparkles">
-        {Array.from({ length: 18 }, (_, i) => (
+        {Array.from({ length: 10 }, (_, i) => (
           <span key={i} style={{ left: `${(i * 61) % 100}%`, top: `${(i * 37) % 90}%`, animationDelay: `${(i % 6) * -0.5}s` }} />
         ))}
       </div>
       <div className="gs-outro-confetti">
-        {Array.from({ length: 46 }, (_, i) => (
+        {Array.from({ length: 24 }, (_, i) => (
           <span
             key={i}
             style={{
@@ -391,14 +384,6 @@ function Outro() {
           <span className="l1">WHATEVER GAME YOU CAN DREAM UP&hellip;</span>
           <span className="l2">OUR&nbsp;STUDENTS&nbsp;BUILD&nbsp;IT.</span>
         </h2>
-
-        <div className="gs-outro-genres">
-          {genres.map(([icon, label], i) => (
-            <span className="gs-outro-chip" key={label} style={{ animationDelay: `${0.5 + i * 0.09}s` }}>
-              <b>{icon}</b> {label}
-            </span>
-          ))}
-        </div>
 
         <div className="gs-outro-stage">
           <div className="gs-outro-crew">
