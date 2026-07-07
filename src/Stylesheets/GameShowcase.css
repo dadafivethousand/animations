@@ -402,9 +402,8 @@
 /* NEXT-piece preview on the left */
 .tet-side { position: absolute; left: 9%; top: 44%; transform: translateY(-50%); width: 120px; height: 110px; }
 /* the tetris.png mascot — featured on the right */
-/* anchored to the right edge so it's always fully on-screen; small enough
-   to clear the centred board on normal recording sizes */
-.tet-ninja-right { position: absolute; right: 2%; left: auto; bottom: 11%; width: 165px; height: 200px; object-fit: contain; object-position: bottom right; filter: drop-shadow(0 12px 14px rgba(0,0,0,.55)); animation: tet-bob 1.4s ease-in-out infinite .2s; }
+/* upper-right, fully on-screen; ~1.3x bigger than before */
+.tet-ninja-right { position: absolute; right: 2%; left: auto; top: 6%; bottom: auto; width: 215px; height: 260px; object-fit: contain; object-position: top right; filter: drop-shadow(0 12px 14px rgba(0,0,0,.55)); animation: tet-bob 1.4s ease-in-out infinite .2s; }
 @keyframes tet-bob { 50% { transform: translateY(-6px); } }
 .tet-next { position: absolute; left: 0; top: 0; text-align: center; animation: tet-bob 1.4s ease-in-out infinite; }
 .tet-next-label { display: block; font-size: 9px; color: #7fe3ff; letter-spacing: .18em; margin-bottom: 8px; }
