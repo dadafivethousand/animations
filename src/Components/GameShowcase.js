@@ -1,6 +1,5 @@
-// GameShowcase.jsx — a Code Ninjas "we build every kind of game" promo reel.
-// Flips through game genres (Fighting / Adventure / Racing / Space / Rhythm),
-// each a mini animated scene starring the ninja mascots as the characters.
+// GameShowcase.jsx — Code Ninjas "we build every kind of game" promo reel.
+// Three polished genre scenes that flip in 3D, ninja mascots as the characters.
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/GameShowcase.css";
 
@@ -9,15 +8,9 @@ import thumbs from "../Images/ninja-thumbs.png";
 import cheer from "../Images/ninja-cheer.png";
 import kick from "../Images/ninja-kick.png";
 
-const SCENES = ["fighting", "adventure", "racing", "space", "rhythm"];
-const LABELS = {
-  fighting: "FIGHTING",
-  adventure: "ADVENTURE",
-  racing: "RACING",
-  space: "SPACE SHOOTER",
-  rhythm: "RHYTHM",
-};
-const SCENE_MS = 3600;
+const SCENES = ["fighting", "adventure", "racing"];
+const LABELS = { fighting: "FIGHTING", adventure: "ADVENTURE", racing: "RACING" };
+const SCENE_MS = 5000;
 
 export default function GameShowcase() {
   const [active, setActive] = useState(0);
@@ -32,7 +25,6 @@ export default function GameShowcase() {
 
   return (
     <div className="gs-stage">
-      {/* ---- genre scenes (all mounted; active one flips in) ---- */}
       <div className="gs-screen">
         {SCENES.map((key, i) => (
           <section
@@ -42,18 +34,14 @@ export default function GameShowcase() {
             {key === "fighting" && <Fighting />}
             {key === "adventure" && <Adventure />}
             {key === "racing" && <Racing />}
-            {key === "space" && <Space />}
-            {key === "rhythm" && <Rhythm />}
           </section>
         ))}
 
-        {/* transition flash — remounts each switch to replay the swipe */}
         <div key={active} className="gs-swipe" />
-        {/* CRT scanlines + vignette */}
         <div className="gs-crt" />
       </div>
 
-      {/* ---- HUD overlay ---- */}
+      {/* HUD */}
       <div className="gs-hud">
         <div className="gs-brand">
           <span className="gs-brand-code">CODE</span>
@@ -84,21 +72,42 @@ export default function GameShowcase() {
 function Fighting() {
   return (
     <>
-      <div className="gs-fx-stage" />
-      <div className="gs-hpbars">
-        <div className="gs-hp gs-hp--l"><i /></div>
-        <div className="gs-hp gs-hp--r"><i /></div>
+      <div className="gs-arena-sky" />
+      <div className="gs-arena-lights" />
+      <div className="gs-crowd" />
+      <div className="gs-arena-stage" />
+
+      {/* top HUD: health + timer */}
+      <div className="gs-fbar">
+        <div className="gs-fbar-side gs-fbar-side--l">
+          <span className="gs-fname">NINJA&nbsp;01</span>
+          <div className="gs-hp gs-hp--l"><i /></div>
+        </div>
+        <div className="gs-timer">99</div>
+        <div className="gs-fbar-side gs-fbar-side--r">
+          <span className="gs-fname">NINJA&nbsp;02</span>
+          <div className="gs-hp gs-hp--r"><i /></div>
+        </div>
       </div>
-      <div className="gs-floor gs-floor--fight" />
-      <div className="gs-fighter gs-fighter--l">
-        <span className="gs-aura gs-aura--blue" />
-        <img src={cheer} alt="" />
+
+      <div className="gs-shake">
+        <div className="gs-fighter gs-fighter--l">
+          <span className="gs-aura gs-aura--blue" />
+          <img src={cheer} alt="" />
+          <span className="gs-fshadow" />
+        </div>
+
+        <div className="gs-blast" />
+        <div className="gs-impact"><i /><i /><i /><i /></div>
+
+        <div className="gs-fighter gs-fighter--r">
+          <span className="gs-aura gs-aura--red" />
+          <img src={kick} alt="" />
+          <span className="gs-fshadow" />
+        </div>
       </div>
-      <div className="gs-fighter gs-fighter--r">
-        <span className="gs-aura gs-aura--red" />
-        <img src={kick} alt="" />
-      </div>
-      <div className="gs-vs">VS</div>
+
+      <div className="gs-combo">4 HIT COMBO</div>
       <div className="gs-fight-word">FIGHT!</div>
     </>
   );
@@ -109,16 +118,25 @@ function Adventure() {
   return (
     <>
       <div className="gs-adv-sky" />
+      <div className="gs-adv-sun" />
+      <div className="gs-adv-mtn" />
       <span className="gs-adv-cloud c1" />
       <span className="gs-adv-cloud c2" />
       <div className="gs-adv-hills" />
-      <div className="gs-adv-coins">
-        <span /><span /><span /><span /><span />
+      <div className="gs-adv-blocks">
+        <span className="q">?</span>
+        <span className="b" />
+        <span className="q">?</span>
       </div>
-      <div className="gs-adv-pipes"><span /><span /></div>
+      <div className="gs-adv-coins">
+        <span /><span /><span /><span /><span /><span />
+      </div>
+      <div className="gs-adv-bushes" />
       <div className="gs-adv-ground" />
       <div className="gs-adv-hero">
+        <span className="gs-adv-trail" />
         <img src={leap} alt="" />
+        <span className="gs-adv-hshadow" />
         <span className="gs-adv-dust" />
       </div>
     </>
@@ -131,59 +149,31 @@ function Racing() {
     <>
       <div className="gs-race-sky" />
       <div className="gs-race-sun" />
+      <div className="gs-race-mtn" />
+      <div className="gs-race-ground" />
       <div className="gs-race-road">
         <div className="gs-race-dashes" />
       </div>
-      <div className="gs-flag gs-flag--l" />
-      <div className="gs-flag gs-flag--r" />
-      <div className="gs-race-lines"><i /><i /><i /><i /></div>
+      {/* roadside markers rushing past */}
+      <div className="gs-race-side gs-race-side--l"><i /><i /><i /></div>
+      <div className="gs-race-side gs-race-side--r"><i /><i /><i /></div>
+      <div className="gs-race-lines"><i /><i /><i /><i /><i /></div>
+
       <div className="gs-racer">
-        <img src={leap} alt="" />
-        <div className="gs-kart" />
-      </div>
-      <div className="gs-lap">LAP 1/3</div>
-    </>
-  );
-}
-
-/* ============================ SPACE ============================ */
-function Space() {
-  return (
-    <>
-      <div className="gs-space-bg" />
-      <div className="gs-stars s1" />
-      <div className="gs-stars s2" />
-      <div className="gs-asteroid a1" />
-      <div className="gs-asteroid a2" />
-      <div className="gs-asteroid a3" />
-      <div className="gs-lasers"><i /><i /><i /></div>
-      <div className="gs-ship">
-        <div className="gs-ship-body" />
         <img src={thumbs} alt="" />
-        <span className="gs-thruster" />
+        <div className="gs-kart">
+          <span className="gs-kart-wheel l" />
+          <span className="gs-kart-wheel r" />
+          <span className="gs-kart-exhaust" />
+        </div>
+        <span className="gs-racer-shadow" />
       </div>
-      <div className="gs-score">SCORE 9450</div>
-    </>
-  );
-}
 
-/* ============================ RHYTHM ============================ */
-function Rhythm() {
-  return (
-    <>
-      <div className="gs-rhythm-bg" />
-      <div className="gs-notes">
-        <span className="n1">◀</span>
-        <span className="n2">▲</span>
-        <span className="n3">▼</span>
-        <span className="n4">▶</span>
+      <div className="gs-race-hud">
+        <div className="gs-lap">LAP&nbsp;1/3</div>
+        <div className="gs-pos"><b>1</b><small>ST</small></div>
+        <div className="gs-speed"><b>180</b><small>KM/H</small></div>
       </div>
-      <div className="gs-targets"><span>◀</span><span>▲</span><span>▼</span><span>▶</span></div>
-      <div className="gs-rhythm-floor" />
-      <div className="gs-rhythm-dancer">
-        <img src={thumbs} alt="" />
-      </div>
-      <div className="gs-combo">128&nbsp;COMBO</div>
     </>
   );
 }
