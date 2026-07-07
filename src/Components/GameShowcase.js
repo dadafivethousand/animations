@@ -9,13 +9,6 @@ import cheer from "../Images/ninja-cheer.png";
 import kick from "../Images/ninja-kick.png";
 
 const SCENES = ["tetris", "fps", "fighting", "adventure", "racing"];
-const LABELS = {
-  tetris: "PUZZLE",
-  fps: "FIRST-PERSON SHOOTER",
-  fighting: "FIGHTING",
-  adventure: "ADVENTURE",
-  racing: "RACING",
-};
 const SCENE_MS = 6000;
 
 export default function GameShowcase() {
@@ -54,10 +47,6 @@ export default function GameShowcase() {
           <span className="gs-brand-code">CODE</span>
           <span className="gs-brand-ninjas">NINJAS</span>
           <span className="gs-brand-studio">GAME&nbsp;STUDIO</span>
-        </div>
-        <div className="gs-genre">
-          <span className="gs-genre-kicker">NOW BUILDING</span>
-          <span key={active} className="gs-genre-label">{LABELS[SCENES[active]]}</span>
         </div>
         <div className="gs-dots">
           {SCENES.map((k, i) => (
@@ -130,6 +119,9 @@ function Tetris() {
         <Piece type="T" className="tet-drop p4" style={{ left: 0 * CELL }} />
         <Piece type="S" className="tet-drop p5" style={{ left: 3 * CELL }} />
       </div>
+
+      {/* ninja mascot on the right */}
+      <img className="tet-ninja-right" src={cheer} alt="" />
     </>
   );
 }
@@ -322,6 +314,7 @@ function Racing() {
           <span className="gs-car-window" />
           <span className="gs-car-light l" />
           <span className="gs-car-light r" />
+          <span className="gs-car-number">07</span>
           <span className="gs-car-plate" />
         </div>
         <div className="gs-car-spoiler"><i className="l" /><i className="r" /><b /></div>
