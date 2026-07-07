@@ -119,13 +119,12 @@ function Tetris() {
   return (
     <>
       <div className="tet-bg" />
-      {/* ninja on the side holding the NEXT piece */}
+      {/* NEXT-piece preview on the left */}
       <div className="tet-side">
         <div className="tet-next">
           <span className="tet-next-label">NEXT</span>
           <div className="tet-next-box"><Piece type="T" /></div>
         </div>
-        <img className="tet-ninja" src={tetrisNinja} alt="" />
       </div>
 
       {/* playfield */}
@@ -141,8 +140,8 @@ function Tetris() {
         <Piece type="S" className="tet-drop p5" style={{ left: 3 * CELL }} />
       </div>
 
-      {/* ninja mascot on the right */}
-      <img className="tet-ninja-right" src={cheer} alt="" />
+      {/* the tetris.png mascot — featured on the right */}
+      <img className="tet-ninja-right" src={tetrisNinja} alt="" />
     </>
   );
 }
