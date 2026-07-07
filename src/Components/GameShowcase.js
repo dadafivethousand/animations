@@ -67,7 +67,6 @@ export default function GameShowcase() {
         <div className="gs-brand">
           <span className="gs-brand-code">CODE</span>
           <span className="gs-brand-ninjas">NINJAS</span>
-          <span className="gs-brand-studio">GAME&nbsp;STUDIO</span>
         </div>
         <div className="gs-dots">
           {SCENES.map((k, i) => (
