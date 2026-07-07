@@ -3,14 +3,12 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/GameShowcase.css";
 
-import leap from "../Images/ninja-leap.png";
-import thumbs from "../Images/ninja-thumbs.png";
-import cheer from "../Images/ninja-cheer.png";
 import kick from "../Images/ninja-kick.png";
 import fighterLeft from "../Images/cn-fighter-left.png";
 import marioHero from "../Images/cn-mario.png";
 import tetrisNinja from "../Images/cn-tetris.png";
 import carDriver from "../Images/cn-car.png";
+import finalCrew from "../Images/cn-final.png";
 
 const SCENES = ["tetris", "fps", "adventure", "racing", "fighting", "outro"];
 // Per-scene durations — punchy games, a longer beat on the closing ad.
@@ -386,12 +384,7 @@ function Outro() {
         </h2>
 
         <div className="gs-outro-stage">
-          <div className="gs-outro-crew">
-            <img src={thumbs} alt="" style={{ animationDelay: "-0.0s" }} />
-            <img src={cheer} alt="" style={{ animationDelay: "-0.3s" }} />
-            <img src={kick} alt="" style={{ animationDelay: "-0.6s" }} />
-            <img src={leap} alt="" style={{ animationDelay: "-0.9s" }} />
-          </div>
+          <img className="gs-outro-final" src={finalCrew} alt="" />
         </div>
 
         <div className="gs-outro-cta">

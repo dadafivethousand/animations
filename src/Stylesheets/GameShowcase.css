@@ -643,7 +643,7 @@
 .gs-outro-confetti span { position: absolute; top: -6%; width: 9px; height: 9px; border-radius: 2px; opacity: .9; animation-name: gs-outro-fall; animation-timing-function: linear; animation-iteration-count: infinite; }
 @keyframes gs-outro-fall { 0%{ transform: translateY(-10vh) rotate(0); } 100%{ transform: translateY(120vh) rotate(560deg); } }
 
-.gs-outro-content { position: absolute; inset: 0; z-index: 5; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 30px; text-align: center; padding: 24px; font-family: "Montserrat", system-ui, sans-serif; }
+.gs-outro-content { position: absolute; inset: 0; z-index: 5; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; text-align: center; padding: 20px; font-family: "Montserrat", system-ui, sans-serif; }
 
 /* brand wordmark with a shine sweep */
 .gs-outro-brand { position: relative; display: inline-block; font-family: "Montserrat", "Trebuchet MS", sans-serif; font-weight: 900; font-size: clamp(34px, 6.8vw, 66px); letter-spacing: -.01em; line-height: 1; overflow: hidden; animation: gs-outro-drop .55s cubic-bezier(.2,1.5,.3,1) both; }
@@ -663,8 +663,7 @@
 .gs-outro-stage::before { content: ""; position: absolute; left: 50%; bottom: -6px; width: 92%; height: 26px; transform: translateX(-50%); background: radial-gradient(ellipse, rgba(0,0,0,.5), transparent 70%); }
 /* glowing podium line the crew stands on */
 .gs-outro-stage::after { content: ""; position: absolute; left: 50%; bottom: -2px; width: 116%; height: 3px; transform: translateX(-50%); background: linear-gradient(90deg, transparent, rgba(122,208,255,.85) 25%, #fff 50%, rgba(122,208,255,.85) 75%, transparent); box-shadow: 0 0 16px rgba(122,208,255,.6); border-radius: 3px; }
-.gs-outro-crew { display: flex; align-items: flex-end; justify-content: center; gap: 6px; }
-.gs-outro-crew img { width: clamp(76px, 13vw, 132px); height: auto; filter: drop-shadow(0 8px 10px rgba(0,0,0,.55)) drop-shadow(0 0 14px rgba(120,200,255,.3)); animation: gs-outro-bob 1.2s ease-in-out infinite; }
+.gs-outro-final { display: block; width: clamp(160px, 22vw, 250px); height: auto; filter: drop-shadow(0 12px 14px rgba(0,0,0,.55)) drop-shadow(0 0 18px rgba(120,200,255,.3)); animation: gs-outro-bob 1.6s ease-in-out infinite; }
 @keyframes gs-outro-riseup { 0%{ opacity: 0; transform: translateY(40px) scale(.9);} 100%{ opacity: 1; transform: none;} }
 @keyframes gs-outro-bob { 50% { transform: translateY(-9px); } }
 
