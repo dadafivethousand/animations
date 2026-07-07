@@ -12,14 +12,14 @@ import marioHero from "../Images/cn-mario.png";
 import tetrisNinja from "../Images/cn-tetris.png";
 import carDriver from "../Images/cn-car.png";
 
-const SCENES = ["tetris", "fps", "fighting", "adventure", "racing", "outro"];
+const SCENES = ["tetris", "fps", "adventure", "racing", "fighting", "outro"];
 // Per-scene durations — punchy games, a longer beat on the closing ad.
 const SCENE_MS = {
   tetris: 2200,
   fps: 2500,
-  fighting: 2600,
   adventure: 1900,
   racing: 1900,
+  fighting: 2600,
   outro: 6800,
 };
 
@@ -372,13 +372,15 @@ function Outro() {
       </div>
 
       <div className="gs-outro-content">
-        <div className="gs-outro-brand">
-          <span className="gs-outro-code">CODE</span>
-          <span className="gs-outro-ninjas">NINJAS</span>
-          <sup>®</sup>
-          <span className="gs-outro-shine" />
+        <div className="gs-outro-brandwrap">
+          <div className="gs-outro-brand">
+            <span className="gs-outro-code">CODE</span>
+            <span className="gs-outro-ninjas">NINJAS</span>
+            <sup>®</sup>
+            <span className="gs-outro-shine" />
+          </div>
+          <div className="gs-outro-place">WOODBRIDGE</div>
         </div>
-        <div className="gs-outro-place">WOODBRIDGE</div>
 
         <h2 className="gs-outro-head">
           <span className="l1">WHATEVER GAME YOU CAN DREAM UP&hellip;</span>
@@ -397,6 +399,7 @@ function Outro() {
         <div className="gs-outro-cta">
           <span className="gs-outro-btn">BOOK A FREE TRIAL&nbsp;→<span className="gs-outro-btn-shine" /></span>
           <span className="gs-outro-contact">cnwoodbridge.com&nbsp;&nbsp;·&nbsp;&nbsp;(647) 887-9940</span>
+          <span className="gs-outro-addr">6175 Hwy 7, Woodbridge, ON</span>
         </div>
       </div>
     </>
