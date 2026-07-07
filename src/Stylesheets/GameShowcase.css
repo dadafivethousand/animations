@@ -21,7 +21,7 @@
   backface-visibility: hidden;
   pointer-events: none;
 }
-.gs-scene.gs-on { opacity: 1; animation: gs-flip-in .6s cubic-bezier(.2,.8,.25,1) both; }
+.gs-scene.gs-on { opacity: 1; animation: gs-flip-in .38s cubic-bezier(.2,.8,.25,1) both; }
 @keyframes gs-flip-in {
   0%   { opacity: 0; transform: rotateY(-92deg) scale(.92); filter: brightness(2); }
   55%  { opacity: 1; transform: rotateY(7deg) scale(1.015); filter: brightness(1.15); }
@@ -31,7 +31,7 @@
   position: absolute; inset: 0; z-index: 40; pointer-events: none;
   background: linear-gradient(115deg, transparent 42%, rgba(255,255,255,.9) 50%, transparent 58%);
   transform: translateX(-110%);
-  animation: gs-swipe .6s ease-out both;
+  animation: gs-swipe .38s ease-out both;
 }
 @keyframes gs-swipe { to { transform: translateX(110%); } }
 .gs-crt {
@@ -361,38 +361,38 @@
 .tet-drop.p5 { animation-name: tet-p5; }
 @keyframes tet-p1 {
   0% { transform: translateY(-130px); }
-  12% { transform: translateY(338px); animation-timing-function: ease-out; }
-  15% { transform: translateY(338px) scaleY(.82); }
-  18% { transform: translateY(338px) scaleY(1); }
-  100% { transform: translateY(338px); }
+  12% { transform: translateY(330px); animation-timing-function: ease-out; }
+  15% { transform: translateY(330px) scaleY(.82); }
+  18% { transform: translateY(330px) scaleY(1); }
+  100% { transform: translateY(330px); }
 }
 @keyframes tet-p2 {
   0%,17% { transform: translateY(-130px); }
-  29% { transform: translateY(312px); animation-timing-function: ease-out; }
-  32% { transform: translateY(312px) scaleY(.82); }
-  35% { transform: translateY(312px) scaleY(1); }
-  100% { transform: translateY(312px); }
+  29% { transform: translateY(304px); animation-timing-function: ease-out; }
+  32% { transform: translateY(304px) scaleY(.82); }
+  35% { transform: translateY(304px) scaleY(1); }
+  100% { transform: translateY(304px); }
 }
 @keyframes tet-p3 {
   0%,34% { transform: translateY(-130px); }
-  46% { transform: translateY(286px); animation-timing-function: ease-out; }
-  49% { transform: translateY(286px) scaleY(.82); }
-  52% { transform: translateY(286px) scaleY(1); }
-  100% { transform: translateY(286px); }
+  46% { transform: translateY(278px); animation-timing-function: ease-out; }
+  49% { transform: translateY(278px) scaleY(.82); }
+  52% { transform: translateY(278px) scaleY(1); }
+  100% { transform: translateY(278px); }
 }
 @keyframes tet-p4 {
   0%,51% { transform: translateY(-130px); }
-  63% { transform: translateY(286px); animation-timing-function: ease-out; }
-  66% { transform: translateY(286px) scaleY(.82); }
-  69% { transform: translateY(286px) scaleY(1); }
-  100% { transform: translateY(286px); }
+  63% { transform: translateY(278px); animation-timing-function: ease-out; }
+  66% { transform: translateY(278px) scaleY(.82); }
+  69% { transform: translateY(278px) scaleY(1); }
+  100% { transform: translateY(278px); }
 }
 @keyframes tet-p5 {
   0%,68% { transform: translateY(-130px); }
-  80% { transform: translateY(286px); animation-timing-function: ease-out; }
-  83% { transform: translateY(286px) scaleY(.82); }
-  86% { transform: translateY(286px) scaleY(1); }
-  100% { transform: translateY(286px); }
+  80% { transform: translateY(278px); animation-timing-function: ease-out; }
+  83% { transform: translateY(278px) scaleY(.82); }
+  86% { transform: translateY(278px) scaleY(1); }
+  100% { transform: translateY(278px); }
 }
 
 /* ninja on the side holding the NEXT piece */
@@ -450,35 +450,35 @@
    STAYS DOWN until the scene cuts (animation runs once over the scene). */
 .fps-enemy { position: absolute; left: 50%; bottom: 33%; width: 220px; height: 250px; transform: translateX(-50%); z-index: 2; animation: fps-enemy 4.6s linear infinite; }
 .fps-enemy::before { content:""; position: absolute; left: 50%; bottom: 4%; width: 210px; height: 240px; transform: translateX(-50%); background: radial-gradient(circle at 50% 42%, rgba(255,90,60,.65), rgba(120,160,255,.22) 45%, transparent 70%); filter: blur(7px); animation: fps-lockglow 4.6s ease-in-out infinite; }
-@keyframes fps-lockglow { 0%,10%{ opacity:0; transform: translateX(-50%) scale(.8);} 18%,52%{ opacity:.8; transform: translateX(-50%) scale(1);} 56%{ opacity:1; transform: translateX(-50%) scale(1.15);} 64%,100%{ opacity:0; transform: translateX(-50%) scale(.9);} }
+@keyframes fps-lockglow { 0%,10%{ opacity:0; transform: translateX(-50%) scale(.8);} 20%,60%{ opacity:.8; transform: translateX(-50%) scale(1);} 64%{ opacity:1; transform: translateX(-50%) scale(1.15);} 72%,100%{ opacity:0; transform: translateX(-50%) scale(.9);} }
 .fps-enemy img { position: relative; width: 100%; height: 100%; object-fit: contain; object-position: bottom; filter: drop-shadow(0 0 3px rgba(255,255,255,1)) drop-shadow(0 0 20px rgba(255,90,60,1)) drop-shadow(0 8px 10px rgba(0,0,0,.7)) brightness(1.5) contrast(1.15); animation: fps-flinch 4.6s ease-out infinite; }
 @keyframes fps-enemy {
   0%,8%    { transform: translateX(-50%) translateY(150px) rotate(0); opacity: .12; }   /* behind cover */
-  16%,54%  { transform: translateX(-50%) translateY(0)     rotate(0); opacity: 1; }      /* up, taking fire */
-  57%      { transform: translateX(-50%) translateY(-8px)  rotate(3deg); opacity: 1; }   /* hit knockback */
-  64%      { transform: translateX(-50%) translateY(70px)  rotate(16deg); opacity: .8; } /* falling */
-  71%,100% { transform: translateX(-50%) translateY(190px) rotate(26deg); opacity: 0; }  /* dead — stays down */
+  16%,62%  { transform: translateX(-50%) translateY(0)     rotate(0); opacity: 1; }      /* up, taking fire */
+  65%      { transform: translateX(-50%) translateY(-8px)  rotate(3deg); opacity: 1; }   /* hit knockback */
+  72%      { transform: translateX(-50%) translateY(70px)  rotate(16deg); opacity: .8; } /* falling */
+  79%,100% { transform: translateX(-50%) translateY(190px) rotate(26deg); opacity: 0; }  /* dead — stays down */
 }
-@keyframes fps-flinch { 0%,37%{ transform: translateX(0) rotate(0);} 39%{ transform: translateX(6px) rotate(2deg);} 42%{ transform: translateX(0);} 46%{ transform: translateX(6px) rotate(2deg);} 49%{ transform: translateX(0);} 55%{ transform: translateX(8px) rotate(3deg);} 58%,100%{ transform: translateX(0) rotate(0);} }
+@keyframes fps-flinch { 0%,45%{ transform: translateX(0) rotate(0);} 48%{ transform: translateX(6px) rotate(2deg);} 51%{ transform: translateX(0);} 55%{ transform: translateX(6px) rotate(2deg);} 58%{ transform: translateX(0);} 63%{ transform: translateX(8px) rotate(3deg);} 66%,100%{ transform: translateX(0) rotate(0);} }
 .fps-enemy-hit { position: absolute; left: 50%; top: 44%; width: 34px; height: 34px; border-radius: 50%; transform: translate(-50%,-50%); background: radial-gradient(circle,#fff,#ffd9a0 40%,#ff5a2f 65%,transparent 72%); opacity: 0; z-index: 4; animation: fps-enemyhit 4.6s ease-out infinite; }
-@keyframes fps-enemyhit { 0%,55%{opacity:0; transform: translate(-50%,-50%) scale(.3);} 57%{opacity:1; transform: translate(-50%,-50%) scale(1.4);} 65%{opacity:0; transform: translate(-50%,-50%) scale(2.1);} 100%{opacity:0;} }
+@keyframes fps-enemyhit { 0%,63%{opacity:0; transform: translate(-50%,-50%) scale(.3);} 65%{opacity:1; transform: translate(-50%,-50%) scale(1.4);} 73%{opacity:0; transform: translate(-50%,-50%) scale(2.1);} 100%{opacity:0;} }
 
 /* outgoing tracers — a 3-shot burst that ends on the kill, then silent */
 .fps-tracers { position: absolute; inset: 0; z-index: 14; }
 .fps-tracers i { position: absolute; bottom: 0; width: 4px; height: 130px; border-radius: 3px; background: linear-gradient(#fff, #ffd042, transparent); box-shadow: 0 0 12px #ffce3a; transform-origin: bottom; opacity: 0; animation-duration: 4.6s; animation-timing-function: linear; animation-iteration-count: infinite; }
 .fps-tracers i:nth-child(1){ left: 48%; animation-name: fps-tr1; } .fps-tracers i:nth-child(2){ left: 50%; animation-name: fps-tr2; } .fps-tracers i:nth-child(3){ left: 52%; animation-name: fps-tr3; }
-@keyframes fps-tr1 { 0%,37%{opacity:0; transform: translateY(0) scaleY(.2);} 39%{opacity:1; transform: translateY(-6vh) scaleY(.8);} 43%{opacity:1; transform: translateY(-30vh) scaleY(1);} 45%{opacity:0; transform: translateY(-40vh);} 100%{opacity:0;} }
-@keyframes fps-tr2 { 0%,45%{opacity:0; transform: translateY(0) scaleY(.2);} 47%{opacity:1; transform: translateY(-6vh) scaleY(.8);} 51%{opacity:1; transform: translateY(-30vh) scaleY(1);} 53%{opacity:0; transform: translateY(-40vh);} 100%{opacity:0;} }
-@keyframes fps-tr3 { 0%,54%{opacity:0; transform: translateY(0) scaleY(.2);} 56%{opacity:1; transform: translateY(-6vh) scaleY(.8);} 60%{opacity:1; transform: translateY(-30vh) scaleY(1);} 62%{opacity:0; transform: translateY(-40vh);} 100%{opacity:0;} }
+@keyframes fps-tr1 { 0%,46%{opacity:0; transform: translateY(0) scaleY(.2);} 48%{opacity:1; transform: translateY(-6vh) scaleY(.8);} 52%{opacity:1; transform: translateY(-30vh) scaleY(1);} 54%{opacity:0; transform: translateY(-40vh);} 100%{opacity:0;} }
+@keyframes fps-tr2 { 0%,53%{opacity:0; transform: translateY(0) scaleY(.2);} 55%{opacity:1; transform: translateY(-6vh) scaleY(.8);} 59%{opacity:1; transform: translateY(-30vh) scaleY(1);} 61%{opacity:0; transform: translateY(-40vh);} 100%{opacity:0;} }
+@keyframes fps-tr3 { 0%,62%{opacity:0; transform: translateY(0) scaleY(.2);} 64%{opacity:1; transform: translateY(-6vh) scaleY(.8);} 68%{opacity:1; transform: translateY(-30vh) scaleY(1);} 70%{opacity:0; transform: translateY(-40vh);} 100%{opacity:0;} }
 
 /* muzzle flash — blips on each of the 3 shots */
 .fps-shotflash { position: absolute; bottom: -14px; left: 50%; width: 260px; height: 160px; transform: translateX(-50%); z-index: 17; pointer-events: none; background: radial-gradient(ellipse at 50% 100%, rgba(255,228,150,.75), rgba(255,150,60,.35) 42%, transparent 70%); opacity: 0; animation: fps-shotflash 4.6s steps(1) infinite; }
-@keyframes fps-shotflash { 0%,37%{opacity:0;} 39%{opacity:1;} 42%{opacity:.2;} 45%{opacity:0;} 47%{opacity:1;} 50%{opacity:.2;} 53%{opacity:0;} 56%{opacity:1;} 60%{opacity:0;} 100%{opacity:0;} }
+@keyframes fps-shotflash { 0%,46%{opacity:0;} 48%{opacity:1;} 51%{opacity:.2;} 54%{opacity:0;} 55%{opacity:1;} 58%{opacity:.2;} 61%{opacity:0;} 64%{opacity:1;} 68%{opacity:0;} 100%{opacity:0;} }
 
 .fps-hitmarker { position: absolute; top: 44%; left: 50%; transform: translate(-50%,-50%); width: 30px; height: 30px; z-index: 18; opacity: 0; animation: fps-hit 4.6s ease-out infinite; }
 .fps-hitmarker i { position: absolute; top:50%; left:50%; width:13px; height:3px; background:#fff; box-shadow: 0 0 4px rgba(0,0,0,.8); transform-origin:center; }
 .fps-hitmarker i:nth-child(1){transform:translate(-50%,-50%) rotate(45deg) translateX(9px);} .fps-hitmarker i:nth-child(2){transform:translate(-50%,-50%) rotate(-45deg) translateX(9px);} .fps-hitmarker i:nth-child(3){transform:translate(-50%,-50%) rotate(45deg) translateX(-9px);} .fps-hitmarker i:nth-child(4){transform:translate(-50%,-50%) rotate(-45deg) translateX(-9px);}
-@keyframes fps-hit { 0%,55%{opacity:0;} 57%{opacity:1; transform: translate(-50%,-50%) scale(1.4);} 66%{opacity:0; transform: translate(-50%,-50%) scale(1);} 100%{opacity:0;} }
+@keyframes fps-hit { 0%,63%{opacity:0;} 65%{opacity:1; transform: translate(-50%,-50%) scale(1.4);} 74%{opacity:0; transform: translate(-50%,-50%) scale(1);} 100%{opacity:0;} }
 
 /* sniper scope: clear circle, dark tunnel outside, glowing edge + reticle */
 .fps-scope { position: absolute; top: 44%; left: 50%; width: 470px; height: 470px; transform: translate(-50%,-50%); border-radius: 50%; z-index: 16; pointer-events: none;
@@ -493,7 +493,7 @@
 .fps-mil.mL { top: 50%; left: 33%; transform: translateY(-50%); } .fps-mil.mR { top: 50%; left: 67%; transform: translateY(-50%); }
 
 .fps-flash { position: absolute; inset: 0; z-index: 15; background: radial-gradient(circle at 50% 46%, rgba(255,220,150,.3), transparent 42%); opacity: 0; mix-blend-mode: screen; animation: fps-screenflash 4.6s steps(1) infinite; }
-@keyframes fps-screenflash { 0%,37%{opacity:0;} 39%{opacity:.75;} 43%{opacity:0;} 47%{opacity:.75;} 51%{opacity:0;} 56%{opacity:1;} 61%{opacity:0;} 100%{opacity:0;} }
+@keyframes fps-screenflash { 0%,46%{opacity:0;} 48%{opacity:.75;} 52%{opacity:0;} 55%{opacity:.75;} 59%{opacity:0;} 64%{opacity:1;} 69%{opacity:0;} 100%{opacity:0;} }
 
 /* FPS HUD */
 .fps-hud { position: absolute; inset: 0; z-index: 20; }
@@ -513,7 +513,7 @@
 
 /* ---- FPS extras (more game-like) ---- */
 .fps-shake { position: absolute; inset: 0; animation: fps-shake 4.6s ease-in-out infinite; }
-@keyframes fps-shake { 0%,37%{ transform: translate(0,0);} 39%{ transform: translate(-4px,3px);} 42%{ transform: translate(0,0);} 47%{ transform: translate(-4px,3px);} 50%{ transform: translate(0,0);} 56%{ transform: translate(6px,-4px);} 60%,100%{ transform: translate(0,0);} }
+@keyframes fps-shake { 0%,46%{ transform: translate(0,0);} 48%{ transform: translate(-4px,3px);} 51%{ transform: translate(0,0);} 55%{ transform: translate(-4px,3px);} 58%{ transform: translate(0,0);} 64%{ transform: translate(6px,-4px);} 68%,100%{ transform: translate(0,0);} }
 .fps-grid {
   position: absolute; left: -20%; right: -20%; bottom: 0; height: 34%;
   background-image:
@@ -528,10 +528,6 @@
 .fps-explosions i:nth-child(1){ left: 18%; animation: fps-explode 3.4s ease-out infinite; }
 .fps-explosions i:nth-child(2){ right: 14%; animation: fps-explode 4.2s ease-out infinite 1.6s; }
 @keyframes fps-explode { 0%{opacity:0; transform:scale(.2);} 5%{opacity:1; transform:scale(1);} 16%{opacity:0; transform:scale(1.5);} 100%{opacity:0;} }
-.fps-farenemy { position: absolute; left: 22%; bottom: 35%; width: 78px; height: 100px; z-index: 2; }
-.fps-farenemy img { width: 100%; height: 100%; object-fit: contain; object-position: bottom; filter: brightness(.55) drop-shadow(0 0 8px rgba(255,80,60,.6)); }
-.fps-farmuzzle { position: absolute; top: 22%; right: -8px; width: 26px; height: 26px; border-radius: 50%; background: radial-gradient(circle,#fff,#ffd23a 40%,transparent 70%); opacity: 0; animation: fps-farmuzzle 1.7s steps(1) infinite; }
-@keyframes fps-farmuzzle { 0%,40%{opacity:0;} 44%{opacity:1;} 50%{opacity:0;} 100%{opacity:0;} }
 .fps-embers span { position: absolute; bottom: 8%; width: 4px; height: 4px; border-radius: 50%; background: #ffb14a; box-shadow: 0 0 6px #ff8a2f; opacity: 0; animation: fps-ember linear infinite; animation-duration: calc(4s + var(--i) * .25s); animation-delay: calc(var(--i) * -.55s); }
 @keyframes fps-ember { 0%{opacity:0; transform: translateY(0);} 12%{opacity:.9;} 100%{opacity:0; transform: translateY(-58vh) translateX(28px);} }
 .fps-incoming i { position: absolute; width: 4px; height: 70px; background: linear-gradient(#ff5a4a, transparent); box-shadow: 0 0 8px #ff3a2f; transform-origin: top; opacity: 0; animation: fps-incoming 1.7s ease-in infinite; }
@@ -539,7 +535,7 @@
 .fps-incoming i:nth-child(2){ top: 42%; left: 62%; transform: rotate(158deg); animation-delay: -.85s; }
 @keyframes fps-incoming { 0%,46%{opacity:0; scale:.2;} 52%{opacity:1; scale:1;} 60%{opacity:0; scale:2.2;} 100%{opacity:0;} }
 .fps-dmg { position: absolute; top: 36%; left: 53%; font-size: 20px; color: #fff; text-shadow: 0 0 6px #ff2f2f, 2px 2px 0 #7a0010; opacity: 0; z-index: 20; animation: fps-dmg 4.6s ease-out infinite; }
-@keyframes fps-dmg { 0%,55%{opacity:0; transform: translateY(0) scale(.6);} 57%{opacity:1; transform: translateY(-8px) scale(1.2);} 74%{opacity:.9; transform: translateY(-30px) scale(1);} 82%{opacity:0; transform: translateY(-46px);} 100%{opacity:0;} }
+@keyframes fps-dmg { 0%,63%{opacity:0; transform: translateY(0) scale(.6);} 65%{opacity:1; transform: translateY(-8px) scale(1.2);} 80%{opacity:.9; transform: translateY(-30px) scale(1);} 88%{opacity:0; transform: translateY(-46px);} 100%{opacity:0;} }
 .fps-vignette { position: absolute; inset: 0; pointer-events: none; z-index: 15; background: radial-gradient(120% 120% at 50% 44%, transparent 52%, rgba(0,0,0,.6) 100%); }
 
 .fps-compass { position: absolute; top: 92px; left: 50%; transform: translateX(-50%); width: 320px; height: 24px; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 22%, #000 78%, transparent); mask-image: linear-gradient(90deg, transparent, #000 22%, #000 78%, transparent); }
@@ -549,9 +545,9 @@
 .fps-compass-obj { position: absolute; top: -2px; left: 50%; width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent; border-top: 10px solid #ffd42f; transform: translateX(-50%); }
 .fps-killfeed { position: absolute; top: 118px; right: 26px; font-size: 9px; color: #cfe6ff; background: rgba(0,0,0,.45); padding: 6px 10px; border-left: 3px solid #ff3a2f; opacity: 0; animation: fps-killfeed 4.6s ease-out infinite; }
 .fps-kf-you { color: #6bff8f; } .fps-kf-them { color: #ff6a5a; }
-@keyframes fps-killfeed { 0%,64%{opacity:0; transform: translateX(18px);} 70%{opacity:1; transform: translateX(0);} 92%{opacity:1;} 96%{opacity:0;} 100%{opacity:0;} }
+@keyframes fps-killfeed { 0%,66%{opacity:0; transform: translateX(18px);} 72%{opacity:1; transform: translateX(0);} 94%{opacity:1;} 98%{opacity:0;} 100%{opacity:0;} }
 .fps-elim { position: absolute; top: 28%; left: 50%; transform: translateX(-50%); font-size: 16px; color: #ff5a4a; letter-spacing: .1em; text-shadow: 0 0 12px #ff2f2f, 2px 2px 0 #3a0000; opacity: 0; animation: fps-elim 4.6s ease-out infinite; }
-@keyframes fps-elim { 0%,66%{opacity:0; transform: translateX(-50%) scale(.7);} 71%{opacity:1; transform: translateX(-50%) scale(1.12);} 84%{opacity:1; transform: translateX(-50%) scale(1);} 92%{opacity:0;} 100%{opacity:0;} }
+@keyframes fps-elim { 0%,67%{opacity:0; transform: translateX(-50%) scale(.7);} 72%{opacity:1; transform: translateX(-50%) scale(1.12);} 88%{opacity:1; transform: translateX(-50%) scale(1);} 96%{opacity:0;} 100%{opacity:0;} }
 .fps-gadgets { position: absolute; left: 26px; bottom: 40px; display: flex; gap: 8px; }
 .fps-gadgets span { width: 26px; height: 26px; border: 2px solid rgba(255,255,255,.5); border-radius: 5px; background: rgba(0,0,0,.45); }
 .fps-gadgets .g1 { box-shadow: inset 0 0 10px rgba(107,255,143,.6); }
@@ -625,6 +621,36 @@
 @keyframes fps-windowsflick { 50% { opacity: .5; } }
 .fps-rain { position: absolute; inset: -20%; pointer-events: none; opacity: .45; background-image: repeating-linear-gradient(76deg, rgba(180,210,255,.16) 0 1px, transparent 1px 10px); animation: fps-rain .5s linear infinite; }
 @keyframes fps-rain { to { transform: translate(-24px, 80px); } }
+
+/* ==================================================================
+   OUTRO — the Code Ninjas ad
+   ================================================================== */
+.gs-outro { overflow: hidden; }
+.gs-outro-bg { position: absolute; inset: 0; background: radial-gradient(120% 100% at 50% 15%, #0f2b3f 0%, #08131d 55%, #04080d 100%); }
+.gs-outro-rays { position: absolute; top: -30%; left: 50%; width: 200vw; height: 200vh; transform: translateX(-50%); background: repeating-conic-gradient(from 0deg at 50% 30%, rgba(61,142,189,.10) 0deg 6deg, transparent 6deg 16deg); mix-blend-mode: screen; animation: gs-outro-rays 26s linear infinite; }
+@keyframes gs-outro-rays { to { transform: translateX(-50%) rotate(360deg); } }
+.gs-outro-confetti { position: absolute; inset: 0; pointer-events: none; }
+.gs-outro-confetti span { position: absolute; top: -6%; width: 9px; height: 9px; border-radius: 2px; opacity: .9; animation-name: gs-outro-fall; animation-timing-function: linear; animation-iteration-count: infinite; }
+@keyframes gs-outro-fall { 0%{ transform: translateY(-10vh) rotate(0); } 100%{ transform: translateY(115vh) rotate(540deg); } }
+
+.gs-outro-content { position: absolute; inset: 0; z-index: 5; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 20px; }
+.gs-outro-brand { font-family: "Trebuchet MS", Arial, sans-serif; font-weight: 800; font-size: clamp(28px, 6vw, 56px); letter-spacing: .01em; line-height: 1; animation: gs-outro-pop .5s cubic-bezier(.2,1.5,.3,1) both; }
+.gs-outro-code { color: #3D8EBD; } .gs-outro-ninjas { color: #fff; }
+.gs-outro-brand sup { font-size: .3em; color: #fff; vertical-align: super; }
+.gs-outro-place { margin-top: 4px; font-family: "Trebuchet MS", Arial, sans-serif; font-weight: 800; font-size: clamp(14px, 3vw, 26px); color: #fff; letter-spacing: .12em; animation: gs-outro-pop .5s cubic-bezier(.2,1.5,.3,1) .08s both; }
+.gs-outro-head { margin: 22px 0 0; display: flex; flex-direction: column; gap: 8px; }
+.gs-outro-head .l1 { font-size: clamp(11px, 2.1vw, 17px); color: #cfe6ff; letter-spacing: .14em; animation: gs-outro-slide .5s ease-out .2s both; }
+.gs-outro-head .l2 { font-size: clamp(16px, 3.6vw, 32px); color: #ffd42f; letter-spacing: .05em; text-shadow: 0 0 16px rgba(255,212,47,.5), 3px 3px 0 #7a5b00; animation: gs-outro-slide .5s ease-out .32s both; }
+.gs-outro-crew { display: flex; align-items: flex-end; justify-content: center; gap: 6px; margin: 20px 0 6px; }
+.gs-outro-crew img { width: clamp(64px, 13vw, 118px); height: auto; filter: drop-shadow(0 8px 10px rgba(0,0,0,.5)); animation: gs-outro-bob 1.2s ease-in-out infinite; }
+.gs-outro-crew img:nth-child(2){ animation-delay: -.3s; } .gs-outro-crew img:nth-child(3){ animation-delay: -.6s; } .gs-outro-crew img:nth-child(4){ animation-delay: -.9s; }
+@keyframes gs-outro-bob { 50% { transform: translateY(-10px); } }
+.gs-outro-cta { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 8px; animation: gs-outro-slide .5s ease-out .5s both; }
+.gs-outro-btn { font-family: "Trebuchet MS", Arial, sans-serif; font-weight: 800; font-size: clamp(12px, 2.4vw, 18px); color: #04080d; background: #ffd42f; padding: 12px 26px; border-radius: 999px; letter-spacing: .04em; box-shadow: 0 6px 0 #b58f00, 0 10px 22px rgba(0,0,0,.4); animation: gs-outro-btnpulse 1.3s ease-in-out infinite; }
+@keyframes gs-outro-btnpulse { 50% { transform: scale(1.05); box-shadow: 0 6px 0 #b58f00, 0 0 26px rgba(255,212,47,.6); } }
+.gs-outro-url { font-family: "Press Start 2P", monospace; font-size: clamp(10px, 1.8vw, 14px); color: #3D8EBD; letter-spacing: .06em; }
+@keyframes gs-outro-pop { 0%{ opacity:0; transform: scale(.6); } 100%{ opacity:1; transform: scale(1); } }
+@keyframes gs-outro-slide { 0%{ opacity:0; transform: translateY(14px); } 100%{ opacity:1; transform: translateY(0); } }
 
 @media (max-width: 640px) {
   .gs-fighter { width: 130px; height: 175px; }

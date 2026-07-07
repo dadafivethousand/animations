@@ -8,7 +8,7 @@ import thumbs from "../Images/ninja-thumbs.png";
 import cheer from "../Images/ninja-cheer.png";
 import kick from "../Images/ninja-kick.png";
 
-const SCENES = ["tetris", "fps", "fighting", "adventure", "racing"];
+const SCENES = ["tetris", "fps", "fighting", "adventure", "racing", "outro"];
 const SCENE_MS = 4600;
 
 export default function GameShowcase() {
@@ -35,6 +35,7 @@ export default function GameShowcase() {
             {key === "fighting" && <Fighting />}
             {key === "adventure" && <Adventure />}
             {key === "racing" && <Racing />}
+            {key === "outro" && <Outro />}
           </section>
         ))}
 
@@ -141,9 +142,6 @@ function FPS() {
 
       {/* distant battle: explosions on the horizon */}
       <div className="fps-explosions"><i /><i /></div>
-
-      {/* far enemy taking pot-shots */}
-      <div className="fps-farenemy"><img src={cheer} alt="" /><span className="fps-farmuzzle" /></div>
 
       {/* main downrange enemy popping from cover, flinches when hit */}
       <div className="fps-enemy">
@@ -324,6 +322,55 @@ function Racing() {
         <div className="gs-lap">LAP&nbsp;1/3</div>
         <div className="gs-pos"><b>1</b><small>ST</small></div>
         <div className="gs-speed"><b>180</b><small>KM/H</small></div>
+      </div>
+    </>
+  );
+}
+
+/* ============================ OUTRO (the ad) ============================ */
+function Outro() {
+  return (
+    <>
+      <div className="gs-outro-bg" />
+      <div className="gs-outro-rays" />
+      <div className="gs-outro-confetti">
+        {Array.from({ length: 40 }, (_, i) => (
+          <span
+            key={i}
+            style={{
+              left: `${(i * 83) % 100}%`,
+              background: i % 2 ? "#3D8EBD" : (i % 3 ? "#ffd42f" : "#fff"),
+              animationDelay: `${((i * 137) % 100) / 100 * -3}s`,
+              animationDuration: `${2.6 + ((i * 53) % 30) / 10}s`,
+            }}
+          />
+        ))}
+      </div>
+
+      <div className="gs-outro-content">
+        <div className="gs-outro-brand">
+          <span className="gs-outro-code">CODE</span>
+          <span className="gs-outro-ninjas">NINJAS</span>
+          <sup>®</sup>
+        </div>
+        <div className="gs-outro-place">WOODBRIDGE</div>
+
+        <h2 className="gs-outro-head">
+          <span className="l1">WHATEVER GAMES YOU LIKE</span>
+          <span className="l2">OUR STUDENTS MAKE THEM</span>
+        </h2>
+
+        <div className="gs-outro-crew">
+          <img src={thumbs} alt="" />
+          <img src={cheer} alt="" />
+          <img src={kick} alt="" />
+          <img src={leap} alt="" />
+        </div>
+
+        <div className="gs-outro-cta">
+          <span className="gs-outro-btn">BOOK A FREE SESSION</span>
+          <span className="gs-outro-url">cnwoodbridge.com</span>
+        </div>
       </div>
     </>
   );
