@@ -66,8 +66,7 @@ export default function GameShowcase() {
           <span className="gs-brand-code">CODE</span>
           <span className="gs-brand-ninjas">NINJAS</span>
         </div>
-        <div className="gs-tag">ONE ACADEMY&nbsp;•&nbsp;EVERY KIND OF GAME</div>
-      </div>
+       </div>
     </div>
   );
 }
