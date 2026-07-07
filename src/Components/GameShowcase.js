@@ -61,7 +61,7 @@ export default function GameShowcase() {
         <div className="gs-crt" />
       </div>
 
-      <div className="gs-hud">
+      <div className={`gs-hud${name === "outro" ? " gs-hud--outro" : ""}`}>
         <div className="gs-brand">
           <span className="gs-brand-code">CODE</span>
           <span className="gs-brand-ninjas">NINJAS</span>
