@@ -66,11 +66,6 @@ export default function GameShowcase() {
           <span className="gs-brand-code">CODE</span>
           <span className="gs-brand-ninjas">NINJAS</span>
         </div>
-        <div className="gs-dots">
-          {SCENES.map((k, i) => (
-            <span key={k} className={`gs-dot ${i === active ? "on" : ""}`} />
-          ))}
-        </div>
         <div className="gs-tag">ONE ACADEMY&nbsp;•&nbsp;EVERY KIND OF GAME</div>
       </div>
     </div>

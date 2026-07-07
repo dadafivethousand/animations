@@ -61,9 +61,6 @@
   animation: gs-label-pop .5s cubic-bezier(.2,1.4,.3,1) both;
 }
 @keyframes gs-label-pop { 0% { opacity: 0; transform: translateY(-8px) scale(.6); } 100% { opacity: 1; transform: none; } }
-.gs-dots { position: absolute; bottom: 56px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; }
-.gs-dot { width: 11px; height: 11px; border-radius: 50%; background: rgba(255,255,255,.28); box-shadow: inset 0 0 0 2px rgba(0,0,0,.4); transition: all .3s; }
-.gs-dot.on { background: #ffd42f; box-shadow: 0 0 12px #ffd42f; transform: scale(1.15); }
 .gs-tag {
   position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
   font-size: clamp(8px, 1.4vw, 12px); color: #cfe6ff; letter-spacing: .18em;
@@ -404,7 +401,9 @@
 /* NEXT-piece preview on the left */
 .tet-side { position: absolute; left: 9%; top: 44%; transform: translateY(-50%); width: 120px; height: 110px; }
 /* the tetris.png mascot — featured on the right */
-.tet-ninja-right { position: absolute; right: -5%; bottom: 12%; width: 224px; height: 270px; object-fit: contain; object-position: bottom; filter: drop-shadow(0 12px 14px rgba(0,0,0,.55)); animation: tet-bob 1.4s ease-in-out infinite .2s; }
+/* anchored a fixed distance right of the board centre → constant gap from
+   the (centred, fixed-width) well on any viewport, never overlaps */
+.tet-ninja-right { position: absolute; left: calc(50% + 190px); right: auto; bottom: 11%; width: 170px; height: 205px; object-fit: contain; object-position: bottom left; filter: drop-shadow(0 12px 14px rgba(0,0,0,.55)); animation: tet-bob 1.4s ease-in-out infinite .2s; }
 @keyframes tet-bob { 50% { transform: translateY(-6px); } }
 .tet-next { position: absolute; left: 0; top: 0; text-align: center; animation: tet-bob 1.4s ease-in-out infinite; }
 .tet-next-label { display: block; font-size: 9px; color: #7fe3ff; letter-spacing: .18em; margin-bottom: 8px; }
