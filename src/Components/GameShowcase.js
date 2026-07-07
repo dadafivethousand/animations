@@ -9,37 +9,53 @@ import cheer from "../Images/ninja-cheer.png";
 import kick from "../Images/ninja-kick.png";
 
 const SCENES = ["tetris", "fps", "fighting", "adventure", "racing", "outro"];
-const SCENE_MS = 4600;
+// Per-scene durations — punchy games, a longer beat on the closing ad.
+const SCENE_MS = {
+  tetris: 3000,
+  fps: 3200,
+  fighting: 3000,
+  adventure: 3000,
+  racing: 3000,
+  outro: 5400,
+};
+
+function SceneBody({ name }) {
+  switch (name) {
+    case "tetris": return <Tetris />;
+    case "fps": return <FPS />;
+    case "fighting": return <Fighting />;
+    case "adventure": return <Adventure />;
+    case "racing": return <Racing />;
+    case "outro": return <Outro />;
+    default: return null;
+  }
+}
 
 export default function GameShowcase() {
   const [active, setActive] = useState(0);
 
+  // recursive timer so each scene can hold for its own duration
   useEffect(() => {
-    const id = setInterval(
+    const name = SCENES[active];
+    const t = setTimeout(
       () => setActive((a) => (a + 1) % SCENES.length),
-      SCENE_MS
+      SCENE_MS[name] || 3000
     );
-    return () => clearInterval(id);
-  }, []);
+    return () => clearTimeout(t);
+  }, [active]);
+
+  const name = SCENES[active];
 
   return (
     <div className="gs-stage">
       <div className="gs-screen">
-        {SCENES.map((key, i) => (
-          <section
-            key={key}
-            className={`gs-scene gs-${key} ${i === active ? "gs-on" : ""}`}
-          >
-            {key === "tetris" && <Tetris />}
-            {key === "fps" && <FPS />}
-            {key === "fighting" && <Fighting />}
-            {key === "adventure" && <Adventure />}
-            {key === "racing" && <Racing />}
-            {key === "outro" && <Outro />}
-          </section>
-        ))}
+        {/* only the active scene is mounted — it remounts on every change so
+            its animations (Tetris drops, the FPS kill) restart cleanly */}
+        <section key={active} className={`gs-scene gs-${name} gs-on`}>
+          <SceneBody name={name} />
+        </section>
 
-        <div key={active} className="gs-swipe" />
+        <div key={`sw-${active}`} className="gs-swipe" />
         <div className="gs-crt" />
       </div>
 
@@ -329,19 +345,32 @@ function Racing() {
 
 /* ============================ OUTRO (the ad) ============================ */
 function Outro() {
+  const genres = [
+    ["🧩", "PUZZLE"],
+    ["🔫", "SHOOTER"],
+    ["🏎️", "RACING"],
+    ["🥊", "FIGHTING"],
+    ["🍄", "ADVENTURE"],
+  ];
   return (
     <>
       <div className="gs-outro-bg" />
       <div className="gs-outro-rays" />
+      <div className="gs-outro-spot" />
+      <div className="gs-outro-sparkles">
+        {Array.from({ length: 18 }, (_, i) => (
+          <span key={i} style={{ left: `${(i * 61) % 100}%`, top: `${(i * 37) % 90}%`, animationDelay: `${(i % 6) * -0.5}s` }} />
+        ))}
+      </div>
       <div className="gs-outro-confetti">
-        {Array.from({ length: 40 }, (_, i) => (
+        {Array.from({ length: 46 }, (_, i) => (
           <span
             key={i}
             style={{
               left: `${(i * 83) % 100}%`,
               background: i % 2 ? "#3D8EBD" : (i % 3 ? "#ffd42f" : "#fff"),
               animationDelay: `${((i * 137) % 100) / 100 * -3}s`,
-              animationDuration: `${2.6 + ((i * 53) % 30) / 10}s`,
+              animationDuration: `${2.4 + ((i * 53) % 30) / 10}s`,
             }}
           />
         ))}
@@ -352,24 +381,35 @@ function Outro() {
           <span className="gs-outro-code">CODE</span>
           <span className="gs-outro-ninjas">NINJAS</span>
           <sup>®</sup>
+          <span className="gs-outro-shine" />
         </div>
         <div className="gs-outro-place">WOODBRIDGE</div>
 
         <h2 className="gs-outro-head">
-          <span className="l1">WHATEVER GAMES YOU LIKE</span>
-          <span className="l2">OUR STUDENTS MAKE THEM</span>
+          <span className="l1">WHATEVER GAME YOU CAN DREAM UP&hellip;</span>
+          <span className="l2">OUR&nbsp;STUDENTS&nbsp;BUILD&nbsp;IT.</span>
         </h2>
 
-        <div className="gs-outro-crew">
-          <img src={thumbs} alt="" />
-          <img src={cheer} alt="" />
-          <img src={kick} alt="" />
-          <img src={leap} alt="" />
+        <div className="gs-outro-genres">
+          {genres.map(([icon, label], i) => (
+            <span className="gs-outro-chip" key={label} style={{ animationDelay: `${0.5 + i * 0.09}s` }}>
+              <b>{icon}</b> {label}
+            </span>
+          ))}
+        </div>
+
+        <div className="gs-outro-stage">
+          <div className="gs-outro-crew">
+            <img src={thumbs} alt="" style={{ animationDelay: "-0.0s" }} />
+            <img src={cheer} alt="" style={{ animationDelay: "-0.3s" }} />
+            <img src={kick} alt="" style={{ animationDelay: "-0.6s" }} />
+            <img src={leap} alt="" style={{ animationDelay: "-0.9s" }} />
+          </div>
         </div>
 
         <div className="gs-outro-cta">
-          <span className="gs-outro-btn">BOOK A FREE SESSION</span>
-          <span className="gs-outro-url">cnwoodbridge.com</span>
+          <span className="gs-outro-btn">BOOK A FREE TRIAL&nbsp;→<span className="gs-outro-btn-shine" /></span>
+          <span className="gs-outro-contact">cnwoodbridge.com&nbsp;&nbsp;·&nbsp;&nbsp;(647) 887-9940</span>
         </div>
       </div>
     </>
