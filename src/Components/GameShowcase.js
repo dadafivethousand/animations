@@ -102,16 +102,10 @@ function Piece({ type, className = "", style = {} }) {
   );
 }
 
-// pre-settled stack near the bottom of the well (8 wide); null = empty
-const STACK = [
-  [null, null, "L", null, null, "Z", "Z", null],
-  ["I", null, "L", "L", "S", "S", "Z", "Z"],
-  ["I", "T", "T", "T", "O", "O", "S", "S"],
-  ["I", "J", "T", "J", "O", "O", "L", "L"],
-];
-
+// Pieces fall one at a time onto an empty field and STAY (build a stack).
+// Each drop is a bespoke keyframe on the same scene-length timeline, so the
+// field is empty when the scene appears and fills up before it flips away.
 function Tetris() {
-  const cols = 8;
   return (
     <>
       <div className="tet-bg" />
@@ -127,31 +121,13 @@ function Tetris() {
       {/* playfield */}
       <div className="tet-well">
         <div className="tet-grid" />
-
-        {/* falling pieces */}
-        <Piece type="I" className="tet-fall f1" style={{ left: 1 * CELL }} />
-        <Piece type="L" className="tet-fall f2" style={{ left: 5 * CELL }} />
-        <Piece type="S" className="tet-fall f3" style={{ left: 3 * CELL }} />
-
-        {/* settled stack */}
-        <div className="tet-stack">
-          {STACK.map((row, r) =>
-            row.map((c, x) =>
-              c ? (
-                <span
-                  key={`${r}-${x}`}
-                  className="tet-cell"
-                  style={{
-                    left: x * CELL,
-                    bottom: (STACK.length - 1 - r) * CELL,
-                    background: TET[c].c,
-                  }}
-                />
-              ) : null
-            )
-          )}
-          <span className="tet-clear" style={{ width: cols * CELL }} />
-        </div>
+        {/* row 0 (floor) */}
+        <Piece type="I" className="tet-drop p1" style={{ left: 0 * CELL }} />
+        <Piece type="O" className="tet-drop p2" style={{ left: 4 * CELL }} />
+        <Piece type="L" className="tet-drop p3" style={{ left: 6 * CELL }} />
+        {/* row 1 (on top) */}
+        <Piece type="T" className="tet-drop p4" style={{ left: 0 * CELL }} />
+        <Piece type="S" className="tet-drop p5" style={{ left: 3 * CELL }} />
       </div>
 
       {/* stats */}
@@ -167,24 +143,40 @@ function Tetris() {
 /* ============================ FPS ============================ */
 function FPS() {
   return (
-    <>
+    <div className="fps-shake">
       <div className="fps-sky" />
       <div className="fps-skyline" />
-      <div className="fps-smoke" />
+      <div className="fps-grid" />
       <div className="fps-ground" />
+      <div className="fps-smoke" />
 
-      {/* downrange enemy popping from cover, flinches when hit */}
+      {/* distant battle: explosions on the horizon */}
+      <div className="fps-explosions"><i /><i /></div>
+
+      {/* far enemy taking pot-shots */}
+      <div className="fps-farenemy"><img src={cheer} alt="" /><span className="fps-farmuzzle" /></div>
+
+      {/* main downrange enemy popping from cover, flinches when hit */}
       <div className="fps-enemy">
         <img src={kick} alt="" />
         <span className="fps-enemy-hit" />
       </div>
       <div className="fps-crate" />
 
-      <div className="fps-tracers"><i /><i /><i /></div>
+      {/* floating embers */}
+      <div className="fps-embers">
+        {Array.from({ length: 14 }, (_, i) => (
+          <span key={i} style={{ "--i": i, left: `${(i * 71) % 100}%` }} />
+        ))}
+      </div>
 
-      {/* crosshair + hitmarker */}
+      <div className="fps-tracers"><i /><i /><i /></div>
+      <div className="fps-incoming"><i /><i /></div>
+
+      {/* crosshair + hitmarker + damage number */}
       <div className="fps-cross"><span /><span /><span /><span /><em /></div>
       <div className="fps-hitmarker"><i /><i /><i /><i /></div>
+      <div className="fps-dmg">120</div>
 
       {/* first-person weapon */}
       <div className="fps-weapon">
@@ -200,18 +192,38 @@ function FPS() {
       </div>
 
       <div className="fps-flash" />
+      <div className="fps-vignette" />
 
       {/* HUD */}
       <div className="fps-hud">
-        <div className="fps-mode">TEAM&nbsp;DEATHMATCH&nbsp;·&nbsp;42–18</div>
+        {/* compass strip */}
+        <div className="fps-compass">
+          <div className="fps-compass-track">
+            <span>N</span><span>·</span><span>NE</span><span>·</span><span>E</span><span>·</span>
+            <span>SE</span><span>·</span><span>S</span><span>·</span><span>SW</span><span>·</span>
+            <span>W</span><span>·</span><span>NW</span><span>·</span><span>N</span>
+          </div>
+          <span className="fps-compass-obj" />
+        </div>
+        <div className="fps-killfeed">
+          <span className="fps-kf-you">YOU</span> ⟶ <span className="fps-kf-them">NINJA_07</span>
+        </div>
+        <div className="fps-elim">ENEMY&nbsp;ELIMINATED</div>
+
         <div className="fps-health">
           <span className="fps-health-label">100</span>
           <div className="fps-health-bar"><i /></div>
         </div>
+        <div className="fps-gadgets"><span className="g1" /><span className="g2" /></div>
         <div className="fps-ammo"><b>27</b><span>/&nbsp;120</span></div>
-        <div className="fps-mini"><span className="fps-mini-dot" /><span className="fps-mini-ping" /></div>
+        <div className="fps-mini">
+          <span className="fps-mini-cone" />
+          <span className="fps-mini-dot" />
+          <span className="fps-mini-ping" />
+          <span className="fps-mini-enemy" />
+        </div>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -288,18 +300,26 @@ function Racing() {
       <div className="gs-race-sun" />
       <div className="gs-race-mtn" />
       <div className="gs-race-ground" />
-      <div className="gs-race-road"><div className="gs-race-dashes" /></div>
-      <div className="gs-race-side gs-race-side--l"><i /><i /><i /></div>
-      <div className="gs-race-side gs-race-side--r"><i /><i /><i /></div>
+      <div className="gs-race-road">
+        <div className="gs-race-dashes" />
+        <div className="gs-race-rumble l" />
+        <div className="gs-race-rumble r" />
+      </div>
       <div className="gs-race-lines"><i /><i /><i /><i /><i /></div>
+
+      {/* rear-view car */}
       <div className="gs-racer">
-        <img src={thumbs} alt="" />
-        <div className="gs-kart">
-          <span className="gs-kart-wheel l" />
-          <span className="gs-kart-wheel r" />
-          <span className="gs-kart-exhaust" />
-        </div>
         <span className="gs-racer-shadow" />
+        <span className="gs-car-tire l" />
+        <span className="gs-car-tire r" />
+        <div className="gs-car-body">
+          <span className="gs-car-window" />
+          <span className="gs-car-light l" />
+          <span className="gs-car-light r" />
+          <span className="gs-car-plate" />
+        </div>
+        <div className="gs-car-spoiler"><i className="l" /><i className="r" /><b /></div>
+        <img src={thumbs} alt="" />
       </div>
       <div className="gs-race-hud">
         <div className="gs-lap">LAP&nbsp;1/3</div>

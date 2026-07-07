@@ -243,38 +243,55 @@
 @keyframes gs-sunbob { 50% { transform: translateX(-50%) translateY(-6px); } }
 .gs-race-mtn { position: absolute; left: 0; right: 0; bottom: 36%; height: 120px; background: radial-gradient(circle at 50% 100%, #3a2a66 0 100px, transparent 102px) repeat-x; background-size: 380px 120px; opacity: .8; }
 .gs-race-ground { position: absolute; left: 0; right: 0; bottom: 0; height: 36%; background: linear-gradient(180deg,#2c8f3a,#1c5f28); }
+/* full-length perspective road (wide at the bottom, vanishing at horizon) */
 .gs-race-road {
-  position: absolute; left: 50%; bottom: 0; width: 62%; height: 40%;
-  transform: translateX(-50%) perspective(340px) rotateX(56deg); transform-origin: bottom;
-  background: linear-gradient(180deg,#3a3a46,#2a2a34);
-  border-left: 44px solid; border-right: 44px solid;
-  border-image: repeating-linear-gradient(180deg,#e8404f 0 34px,#f2f2f2 34px 68px) 44;
+  position: absolute; left: 0; right: 0; bottom: 0; height: 40%;
+  clip-path: polygon(37% 0, 63% 0, 100% 100%, 0 100%);
+  background: repeating-linear-gradient(180deg, #e8404f 0 34px, #f4f4f4 34px 68px); /* rumble base */
+  background-size: 100% 68px;
+  animation: gs-rumblescroll .34s linear infinite;
   overflow: hidden;
 }
-.gs-race-dashes { position: absolute; left: 50%; top: -60%; width: 16px; height: 320%; transform: translateX(-50%); background: repeating-linear-gradient(180deg,#ffd42f 0 44px, transparent 44px 96px); animation: gs-dash .32s linear infinite; }
-@keyframes gs-dash { to { transform: translateX(-50%) translateY(96px); } }
-/* roadside markers that scale up as they rush the camera */
-.gs-race-side { position: absolute; bottom: 36%; width: 40%; height: 40%; }
-.gs-race-side--l { left: 4%; } .gs-race-side--r { right: 4%; }
-.gs-race-side i { position: absolute; bottom: 0; width: 16px; background: linear-gradient(180deg,#ff2f4d,#a3001b); border-radius: 4px; box-shadow: 0 0 8px rgba(255,47,77,.5); animation: gs-marker 1.2s linear infinite; }
-.gs-race-side--l i { left: 30%; } .gs-race-side--r i { right: 30%; }
-.gs-race-side i:nth-child(2){ animation-delay: -.4s; } .gs-race-side i:nth-child(3){ animation-delay: -.8s; }
-@keyframes gs-marker { 0%{ height: 6px; opacity: 0; transform: translateX(0) scale(.4);} 20%{opacity:1;} 100%{ height: 120px; opacity: 1; transform: translateX(var(--mx, -60px)) scale(1.2);} }
-.gs-race-side--l i { --mx: -80px; } .gs-race-side--r i { --mx: 80px; }
-.gs-race-lines { position: absolute; inset: 0; }
+.gs-race-road::after {          /* asphalt inset, leaves rumble strips at the edges */
+  content: ""; position: absolute; inset: 0;
+  clip-path: polygon(40.5% 0, 59.5% 0, 90% 100%, 10% 100%);
+  background: linear-gradient(180deg, #40404c 0%, #2a2a32 100%);
+}
+@keyframes gs-rumblescroll { to { background-position-y: 68px; } }
+.gs-race-dashes {
+  position: absolute; left: 50%; top: 0; width: 40%; height: 100%;
+  transform: translateX(-50%);
+  clip-path: polygon(48.5% 0, 51.5% 0, 58% 100%, 42% 100%);
+  background: repeating-linear-gradient(180deg, #ffd42f 0 7%, transparent 7% 18%);
+  animation: gs-dash .3s linear infinite; z-index: 2;
+}
+@keyframes gs-dash { to { background-position-y: 18%; } }
+.gs-race-rumble { display: none; }   /* edges handled by ::after inset */
+
+.gs-race-lines { position: absolute; inset: 0; z-index: 3; }
 .gs-race-lines i { position: absolute; left: 100%; height: 4px; width: 150px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.9)); animation: gs-speedline .5s linear infinite; }
 .gs-race-lines i:nth-child(1){ top: 52%; } .gs-race-lines i:nth-child(2){ top: 60%; animation-delay:.1s; } .gs-race-lines i:nth-child(3){ top: 68%; animation-delay:.2s; } .gs-race-lines i:nth-child(4){ top: 74%; animation-delay:.3s; } .gs-race-lines i:nth-child(5){ top: 64%; animation-delay:.15s; }
 @keyframes gs-speedline { to { transform: translateX(-170vw); } }
-.gs-racer { position: absolute; left: 50%; bottom: 9%; width: 230px; height: 250px; transform: translateX(-50%); animation: gs-swerve 2.2s ease-in-out infinite; }
-.gs-racer img { position: relative; z-index: 3; width: 100%; height: 78%; object-fit: contain; object-position: bottom; filter: drop-shadow(0 12px 14px rgba(0,0,0,.5)); animation: gs-rumble .1s linear infinite; }
-.gs-kart { position: absolute; left: 50%; bottom: 6px; width: 210px; height: 66px; transform: translateX(-50%); background: linear-gradient(180deg,#ff3350,#a3001b); border-radius: 44px 44px 16px 16px; box-shadow: 0 10px 0 #5c0010, 0 0 30px rgba(255,47,77,.6), inset 0 6px 0 rgba(255,255,255,.25); z-index: 2; }
-.gs-kart::before { content:""; position:absolute; top:10px; left:50%; transform:translateX(-50%); width:120px; height:22px; background:#20222b; border-radius:12px; }
-.gs-kart-wheel { position: absolute; bottom: -16px; width: 44px; height: 44px; border-radius: 50%; background: radial-gradient(circle,#444 0 30%,#111 32%); border: 5px solid #222; box-shadow: 0 0 0 2px #000; }
-.gs-kart-wheel.l { left: 2px; } .gs-kart-wheel.r { right: 2px; }
-.gs-kart-exhaust { position: absolute; bottom: 10px; left: -26px; width: 34px; height: 20px; border-radius: 50%; background: radial-gradient(circle at 80% 50%, #fff, #ffb23a 45%, #ff4d2f 75%, transparent 80%); animation: gs-exhaust .16s linear infinite; }
-@keyframes gs-exhaust { 50% { transform: scaleX(.7); opacity: .7; } }
-@keyframes gs-swerve { 0%,100%{ transform: translateX(-58%) rotate(-1deg);} 50%{ transform: translateX(-42%) rotate(1deg);} }
-@keyframes gs-rumble { 50% { transform: translateY(-2px); } }
+
+/* ---- rear-view car ---- */
+.gs-racer { position: absolute; left: 50%; bottom: 3%; width: 320px; height: 220px; transform: translateX(-50%); z-index: 5; animation: gs-swerve 2.6s ease-in-out infinite; }
+.gs-racer-shadow { bottom: -4px; width: 270px; height: 26px; }
+.gs-car-tire { position: absolute; bottom: 0; width: 56px; height: 60px; background: linear-gradient(90deg,#0a0a0a,#3a3a3a 50%,#0a0a0a); border-radius: 10px; box-shadow: inset 0 0 0 7px #171717, 0 6px 10px rgba(0,0,0,.6); z-index: 1; }
+.gs-car-tire.l { left: 8px; } .gs-car-tire.r { right: 8px; }
+.gs-car-tire::after { content: ""; position: absolute; inset: 36% 22%; background: #555; border-radius: 50%; }
+.gs-car-body { position: absolute; left: 50%; bottom: 20px; width: 224px; height: 122px; transform: translateX(-50%); background: linear-gradient(180deg,#ff4a5f 0%,#d0102e 55%,#8a0015 100%); clip-path: polygon(8% 0, 92% 0, 100% 100%, 0 100%); border-radius: 16px 16px 0 0; box-shadow: inset 0 -12px 0 rgba(0,0,0,.28), inset 0 6px 0 rgba(255,255,255,.25); z-index: 2; }
+.gs-car-window { position: absolute; left: 50%; top: 8px; width: 150px; height: 48px; transform: translateX(-50%); background: linear-gradient(180deg,#20232e,#3d4353); clip-path: polygon(16% 0, 84% 0, 100% 100%, 0 100%); border-radius: 8px 8px 0 0; box-shadow: inset 0 3px 0 rgba(255,255,255,.18); }
+.gs-car-light { position: absolute; bottom: 16px; width: 42px; height: 18px; background: linear-gradient(180deg,#ff6a6a,#c00); border-radius: 4px; box-shadow: 0 0 16px #ff2b2b; animation: gs-taillight 1s ease-in-out infinite; }
+.gs-car-light.l { left: 12px; } .gs-car-light.r { right: 12px; }
+@keyframes gs-taillight { 50% { filter: brightness(1.5); } }
+.gs-car-plate { position: absolute; left: 50%; bottom: 14px; width: 60px; height: 20px; transform: translateX(-50%); background: #f2e28a; border-radius: 3px; box-shadow: inset 0 0 0 2px #111; }
+.gs-car-spoiler { position: absolute; left: 50%; bottom: 132px; width: 214px; height: 30px; transform: translateX(-50%); z-index: 2; }
+.gs-car-spoiler b { position: absolute; left: 0; right: 0; top: 0; height: 12px; background: linear-gradient(180deg,#2a2a2a,#111); border-radius: 6px; box-shadow: 0 5px 12px rgba(0,0,0,.5); }
+.gs-car-spoiler i { position: absolute; top: 8px; width: 14px; height: 26px; background: #1c1c1c; }
+.gs-car-spoiler i.l { left: 36px; } .gs-car-spoiler i.r { right: 36px; }
+.gs-racer img { position: absolute; left: 50%; bottom: 78px; width: 130px; height: 160px; transform: translateX(-50%); object-fit: contain; object-position: bottom; z-index: 3; filter: drop-shadow(0 8px 10px rgba(0,0,0,.5)); animation: gs-rumble .1s linear infinite; }
+@keyframes gs-swerve { 0%,100%{ transform: translateX(-53%) rotate(-1.5deg);} 50%{ transform: translateX(-47%) rotate(1.5deg);} }
+@keyframes gs-rumble { 50% { transform: translateX(-50%) translateY(-2px); } }
 .gs-race-hud { position: absolute; inset: 0; }
 .gs-lap { position: absolute; top: 60px; left: 26px; font-size: 13px; color: #fff; text-shadow: 3px 3px 0 #a3001b; }
 .gs-pos, .gs-speed { text-shadow: 2px 2px 0 rgba(0,0,0,.6); }
@@ -318,25 +335,23 @@
   width: 24px; height: 24px; border-radius: 3px;
   box-shadow: inset 0 0 0 1px rgba(0,0,0,.4), inset 3px 3px 0 rgba(255,255,255,.4), inset -3px -3px 0 rgba(0,0,0,.28);
 }
-.tet-fall { top: 0; animation: tet-fall 2.4s steps(11) infinite; }
-.tet-fall.f1 { animation-delay: 0s;    }
-.tet-fall.f2 { animation-delay: -0.9s; animation-duration: 2.7s; }
-.tet-fall.f3 { animation-delay: -1.7s; animation-duration: 2.1s; }
-@keyframes tet-fall {
-  0%   { transform: translateY(-60px); opacity: 0; }
-  8%   { opacity: 1; }
-  86%  { opacity: 1; }
-  92%  { transform: translateY(240px); opacity: 1; }
-  93%  { opacity: 0; }
-  100% { transform: translateY(240px); opacity: 0; }
-}
-.tet-stack { position: absolute; left: 0; bottom: 0; width: 100%; height: 100%; }
-.tet-clear {
-  position: absolute; left: 0; bottom: 78px; height: 26px;
-  background: #fff; opacity: 0; mix-blend-mode: overlay;
-  animation: tet-clear 3.6s ease-out infinite;
-}
-@keyframes tet-clear { 0%,70%{opacity:0;} 74%{opacity:.9;} 80%{opacity:0;} 100%{opacity:0;} }
+/* Each piece drops once onto the stack and holds. Duration == SCENE_MS
+   (4600ms), and 5 scenes * 4600 = 23000 loops evenly, so the field is empty
+   when the scene appears, then fills. Pieces start above the well and are
+   clipped by its overflow — no opacity needed. */
+.tet-drop { top: 0; transform: translateY(-120px); animation-duration: 4600ms; animation-iteration-count: infinite; animation-timing-function: ease-in; }
+.tet-drop.p1 { animation-name: tet-p1; }
+.tet-drop.p2 { animation-name: tet-p2; }
+.tet-drop.p3 { animation-name: tet-p3; }
+.tet-drop.p4 { animation-name: tet-p4; }
+.tet-drop.p5 { animation-name: tet-p5; }
+/* every piece starts falling at 0% (no start plateau) and lands at a
+   staggered time, so the well fills in sequence, then all hold. */
+@keyframes tet-p1 { 0% { transform: translateY(-120px); }  8% { transform: translateY(338px); } 100% { transform: translateY(338px); } }
+@keyframes tet-p2 { 0% { transform: translateY(-120px); } 16% { transform: translateY(312px); } 100% { transform: translateY(312px); } }
+@keyframes tet-p3 { 0% { transform: translateY(-120px); } 24% { transform: translateY(286px); } 100% { transform: translateY(286px); } }
+@keyframes tet-p4 { 0% { transform: translateY(-120px); } 32% { transform: translateY(286px); } 100% { transform: translateY(286px); } }
+@keyframes tet-p5 { 0% { transform: translateY(-120px); } 40% { transform: translateY(286px); } 100% { transform: translateY(286px); } }
 
 /* ninja on the side holding the NEXT piece */
 .tet-side { position: absolute; left: 8%; bottom: 12%; width: 230px; height: 320px; }
@@ -443,9 +458,58 @@
 .fps-mini-ping { position: absolute; top: 50%; left: 50%; width: 8px; height: 8px; border: 2px solid #6bff8f; border-radius: 50%; transform: translate(-50%,-50%); animation: fps-ping 2s ease-out infinite; }
 @keyframes fps-ping { 0%{opacity:.9; transform: translate(-50%,-50%) scale(.4);} 100%{opacity:0; transform: translate(-50%,-50%) scale(5);} }
 
+/* ---- FPS extras (more game-like) ---- */
+.fps-shake { position: absolute; inset: 0; animation: fps-shake 1.15s ease-in-out infinite; }
+@keyframes fps-shake { 0%,60%,100%{ transform: translate(0,0);} 65%{ transform: translate(-4px,3px);} 68%{ transform: translate(4px,-2px);} 72%{ transform: translate(0,0);} }
+.fps-grid {
+  position: absolute; left: -20%; right: -20%; bottom: 0; height: 34%;
+  background-image:
+    linear-gradient(90deg, rgba(120,190,255,.14) 1px, transparent 1px),
+    linear-gradient(0deg,  rgba(120,190,255,.14) 1px, transparent 1px);
+  background-size: 64px 64px;
+  transform: perspective(300px) rotateX(72deg); transform-origin: bottom;
+  opacity: .5; animation: fps-grid 1s linear infinite;
+}
+@keyframes fps-grid { to { background-position-y: 64px; } }
+.fps-explosions i { position: absolute; bottom: 33%; width: 96px; height: 96px; border-radius: 50%; background: radial-gradient(circle,#fff,#ffd23a 30%,#ff6a2f 55%,transparent 72%); opacity: 0; filter: blur(1px); }
+.fps-explosions i:nth-child(1){ left: 18%; animation: fps-explode 3.4s ease-out infinite; }
+.fps-explosions i:nth-child(2){ right: 14%; animation: fps-explode 4.2s ease-out infinite 1.6s; }
+@keyframes fps-explode { 0%{opacity:0; transform:scale(.2);} 5%{opacity:1; transform:scale(1);} 16%{opacity:0; transform:scale(1.5);} 100%{opacity:0;} }
+.fps-farenemy { position: absolute; left: 22%; bottom: 35%; width: 78px; height: 100px; z-index: 2; }
+.fps-farenemy img { width: 100%; height: 100%; object-fit: contain; object-position: bottom; filter: brightness(.55) drop-shadow(0 0 8px rgba(255,80,60,.6)); }
+.fps-farmuzzle { position: absolute; top: 22%; right: -8px; width: 26px; height: 26px; border-radius: 50%; background: radial-gradient(circle,#fff,#ffd23a 40%,transparent 70%); opacity: 0; animation: fps-farmuzzle 1.7s steps(1) infinite; }
+@keyframes fps-farmuzzle { 0%,40%{opacity:0;} 44%{opacity:1;} 50%{opacity:0;} 100%{opacity:0;} }
+.fps-embers span { position: absolute; bottom: 8%; width: 4px; height: 4px; border-radius: 50%; background: #ffb14a; box-shadow: 0 0 6px #ff8a2f; opacity: 0; animation: fps-ember linear infinite; animation-duration: calc(4s + var(--i) * .25s); animation-delay: calc(var(--i) * -.55s); }
+@keyframes fps-ember { 0%{opacity:0; transform: translateY(0);} 12%{opacity:.9;} 100%{opacity:0; transform: translateY(-58vh) translateX(28px);} }
+.fps-incoming i { position: absolute; width: 4px; height: 70px; background: linear-gradient(#ff5a4a, transparent); box-shadow: 0 0 8px #ff3a2f; transform-origin: top; opacity: 0; animation: fps-incoming 1.7s ease-in infinite; }
+.fps-incoming i:nth-child(1){ top: 40%; left: 30%; transform: rotate(202deg); }
+.fps-incoming i:nth-child(2){ top: 42%; left: 62%; transform: rotate(158deg); animation-delay: -.85s; }
+@keyframes fps-incoming { 0%,46%{opacity:0; scale:.2;} 52%{opacity:1; scale:1;} 60%{opacity:0; scale:2.2;} 100%{opacity:0;} }
+.fps-dmg { position: absolute; top: 36%; left: 53%; font-size: 20px; color: #fff; text-shadow: 0 0 6px #ff2f2f, 2px 2px 0 #7a0010; opacity: 0; z-index: 20; animation: fps-dmg 1.15s ease-out infinite; }
+@keyframes fps-dmg { 0%,66%{opacity:0; transform: translateY(0) scale(.6);} 70%{opacity:1; transform: translateY(-8px) scale(1.2);} 85%{opacity:.9; transform: translateY(-30px) scale(1);} 92%{opacity:0; transform: translateY(-46px);} 100%{opacity:0;} }
+.fps-vignette { position: absolute; inset: 0; pointer-events: none; z-index: 15; background: radial-gradient(120% 120% at 50% 44%, transparent 52%, rgba(0,0,0,.6) 100%); }
+
+.fps-compass { position: absolute; top: 92px; left: 50%; transform: translateX(-50%); width: 320px; height: 24px; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 22%, #000 78%, transparent); mask-image: linear-gradient(90deg, transparent, #000 22%, #000 78%, transparent); }
+.fps-compass-track { display: flex; gap: 24px; font-size: 11px; color: #cfe6ff; white-space: nowrap; padding-left: 40px; animation: fps-compass 9s linear infinite; }
+@keyframes fps-compass { to { transform: translateX(-168px); } }
+.fps-compass::after { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: #fff; transform: translateX(-50%); opacity: .8; }
+.fps-compass-obj { position: absolute; top: -2px; left: 50%; width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent; border-top: 10px solid #ffd42f; transform: translateX(-50%); }
+.fps-killfeed { position: absolute; top: 118px; right: 26px; font-size: 9px; color: #cfe6ff; background: rgba(0,0,0,.45); padding: 6px 10px; border-left: 3px solid #ff3a2f; opacity: 0; animation: fps-killfeed 4.6s ease-out infinite; }
+.fps-kf-you { color: #6bff8f; } .fps-kf-them { color: #ff6a5a; }
+@keyframes fps-killfeed { 0%,64%{opacity:0; transform: translateX(18px);} 70%{opacity:1; transform: translateX(0);} 92%{opacity:1;} 96%{opacity:0;} 100%{opacity:0;} }
+.fps-elim { position: absolute; top: 28%; left: 50%; transform: translateX(-50%); font-size: 16px; color: #ff5a4a; letter-spacing: .1em; text-shadow: 0 0 12px #ff2f2f, 2px 2px 0 #3a0000; opacity: 0; animation: fps-elim 4.6s ease-out infinite; }
+@keyframes fps-elim { 0%,66%{opacity:0; transform: translateX(-50%) scale(.7);} 71%{opacity:1; transform: translateX(-50%) scale(1.12);} 84%{opacity:1; transform: translateX(-50%) scale(1);} 92%{opacity:0;} 100%{opacity:0;} }
+.fps-gadgets { position: absolute; left: 26px; bottom: 40px; display: flex; gap: 8px; }
+.fps-gadgets span { width: 26px; height: 26px; border: 2px solid rgba(255,255,255,.5); border-radius: 5px; background: rgba(0,0,0,.45); }
+.fps-gadgets .g1 { box-shadow: inset 0 0 10px rgba(107,255,143,.6); }
+.fps-gadgets .g2 { box-shadow: inset 0 0 10px rgba(255,210,47,.6); }
+.fps-mini-cone { position: absolute; top: 50%; left: 50%; width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-bottom: 26px solid rgba(107,255,143,.28); transform: translate(-50%,-92%); }
+.fps-mini-enemy { position: absolute; top: 30%; left: 64%; width: 7px; height: 7px; background: #ff3a2f; border-radius: 50%; box-shadow: 0 0 6px #ff3a2f; animation: fps-blink 1s steps(2) infinite; }
+@keyframes fps-blink { 50% { opacity: .3; } }
+
 @media (max-width: 640px) {
   .gs-fighter { width: 130px; height: 175px; }
-  .gs-racer { width: 150px; }
+  .gs-racer { width: 220px; }
   .gs-adv-hero { width: 104px; height: 132px; }
   .gs-brand { font-size: 12px; }
   .tet-side { display: none; }
