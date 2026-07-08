@@ -93,6 +93,7 @@ export default function BeltJourney() {
             <span className="bj-knot" />
             <span className="bj-tail bj-tail--l" />
             <span className="bj-tail bj-tail--r" />
+            <img className="bj-knot-icon" src={beltIcon} alt="" />
           </div>
           <blockquote className="bj-final-head">
             <span className="bj-final-line">A black belt is a white belt</span>
