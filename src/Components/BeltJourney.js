@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/BeltJourney.css";
 import ninja from "../Images/ninja-cheer.png";
+import logo from "../Images/cn-wb-logo.png";
 
 const BELTS = [
   { name: "WHITE",  color: "#eef1f4", ink: "#12314a", skill: "Build your very first game" },
@@ -37,32 +38,28 @@ export default function BeltJourney() {
   return (
     <div className={`bj-stage${isFinale ? " bj-finale-on" : ""}`}>
       <div className="bj-bg" />
-      <div className="bj-sun" />
-      <div className="bj-rays2" />
-      {/* drifting embers */}
-      <div className="bj-embers" aria-hidden>
-        {Array.from({ length: 20 }, (_, i) => (
+      <div className="bj-blob bj-blob--1" />
+      <div className="bj-blob bj-blob--2" />
+      <div className="bj-blob bj-blob--3" />
+      {/* drifting soft shapes */}
+      <div className="bj-shapes" aria-hidden>
+        {Array.from({ length: 14 }, (_, i) => (
           <span
             key={i}
+            className={i % 3 === 0 ? "sq" : ""}
             style={{
-              left: `${(i * 47 + 5) % 97}%`,
-              animationDelay: `${(i * 0.6) % 7 - 7}s`,
-              animationDuration: `${6 + (i % 5)}s`,
-              width: `${3 + (i % 3)}px`,
-              height: `${3 + (i % 3)}px`,
+              left: `${(i * 47 + 5) % 96}%`,
+              animationDelay: `${(i * 0.7) % 8 - 8}s`,
+              animationDuration: `${8 + (i % 5)}s`,
+              width: `${8 + (i % 3) * 6}px`,
+              height: `${8 + (i % 3) * 6}px`,
             }}
           />
         ))}
       </div>
-      <div className="bj-ink" />
-      <div className="bj-vig" />
 
-      {/* HUD brand */}
-      <div className="bj-brand">
-        <span className="bj-brand-code">CODE</span>
-        <span className="bj-brand-ninjas">NINJAS</span>
-        <span className="bj-brand-place">WOODBRIDGE</span>
-      </div>
+      {/* logo */}
+      <img className="bj-logo" src={logo} alt="Code Ninjas Woodbridge" />
 
       {!isFinale ? (
         <>
