@@ -91,7 +91,7 @@ export default function BeltJourney() {
             <span className="bj-tail bj-tail--r" />
           </div>
           <h1 className="bj-final-head">
-            EVERY KID CAN EARN THEIR <em>BLACK&nbsp;BELT</em>
+            A BLACK BELT IS A WHITE BELT<br />WHO <em>NEVER&nbsp;QUIT</em>
           </h1>
           <div className="bj-final-sub">Ages 5&ndash;14&nbsp;·&nbsp;Coding · Robotics · Game Design</div>
           <div className="bj-cta">
