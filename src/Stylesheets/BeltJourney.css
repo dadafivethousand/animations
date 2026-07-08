@@ -3,35 +3,35 @@
 
 .bj-stage {
   position: fixed; inset: 0; overflow: hidden;
-  background: #0b0406;
+  background: #050d16;
   font-family: "Barlow Semi Condensed", system-ui, sans-serif;
-  color: #f4ece0;
+  color: #eaf4fb;
 }
 
-/* ---- dojo / rising-sun background (crimson + black + gold) ---- */
+/* ---- Code Ninjas blue: dark navy + brand-blue glow disc ---- */
 .bj-bg { position: absolute; inset: 0; background:
-  radial-gradient(120% 120% at 50% 58%, #4a0810 0%, #2a0308 42%, #14030a 70%, #0b0406 100%); }
-/* the rising sun disc */
+  radial-gradient(120% 120% at 50% 58%, #135078 0%, #0b2f49 42%, #071b2c 70%, #050d16 100%); }
+/* brand-blue glow disc */
 .bj-sun { position: absolute; top: 50%; left: 50%; width: 78vh; height: 78vh; transform: translate(-50%,-50%);
   border-radius: 50%;
-  background: radial-gradient(circle, #ff5a45 0%, #e01030 42%, #a30018 68%, transparent 72%);
-  box-shadow: 0 0 120px rgba(224,16,48,.55);
+  background: radial-gradient(circle, #7fc4ec 0%, #3D8EBD 42%, #1f5f8a 68%, transparent 72%);
+  box-shadow: 0 0 120px rgba(61,142,189,.55);
   animation: bj-sun 5s ease-in-out infinite; }
 @keyframes bj-sun { 50% { transform: translate(-50%,-50%) scale(1.04); filter: brightness(1.12); } }
-/* radiating sun rays behind (kept subtle, crimson) */
+/* radiating rays behind (subtle, brand blue) */
 .bj-rays2 { position: absolute; top: 50%; left: 50%; width: 240vh; height: 240vh; transform: translate(-50%,-50%);
-  background: repeating-conic-gradient(from 0deg at 50% 50%, rgba(255,120,90,.10) 0deg 5deg, transparent 5deg 13deg);
+  background: repeating-conic-gradient(from 0deg at 50% 50%, rgba(150,210,245,.10) 0deg 5deg, transparent 5deg 13deg);
   mix-blend-mode: screen; animation: bj-rays2 44s linear infinite; }
 @keyframes bj-rays2 { to { transform: translate(-50%,-50%) rotate(360deg); } }
-/* drifting golden embers */
+/* drifting light-blue sparks */
 .bj-embers { position: absolute; inset: 0; pointer-events: none; }
-.bj-embers span { position: absolute; bottom: -4%; border-radius: 50%; background: #ffcf6a; box-shadow: 0 0 8px #ff9a3a, 0 0 16px rgba(255,120,40,.6); opacity: 0; animation-name: bj-ember; animation-timing-function: linear; animation-iteration-count: infinite; }
+.bj-embers span { position: absolute; bottom: -4%; border-radius: 50%; background: #cdeefc; box-shadow: 0 0 8px #7fc4ec, 0 0 16px rgba(61,142,189,.6); opacity: 0; animation-name: bj-ember; animation-timing-function: linear; animation-iteration-count: infinite; }
 @keyframes bj-ember { 0%{ opacity: 0; transform: translateY(0); } 14%{ opacity: .9; } 100%{ opacity: 0; transform: translateY(-108vh) translateX(30px); } }
-/* ink brush ground stroke */
+/* ground shadow stroke */
 .bj-ink { position: absolute; left: 0; right: 0; bottom: 6%; height: 60px;
-  background: radial-gradient(60% 100% at 50% 50%, rgba(10,2,4,.9), transparent 72%);
+  background: radial-gradient(60% 100% at 50% 50%, rgba(3,8,14,.9), transparent 72%);
   filter: blur(2px); pointer-events: none; }
-.bj-vig { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(120% 120% at 50% 50%, transparent 40%, rgba(5,1,2,.85) 100%); }
+.bj-vig { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(120% 120% at 50% 50%, transparent 40%, rgba(3,8,14,.85) 100%); }
 .bj-crt { position: absolute; inset: 0; z-index: 20; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(0,0,0,.10) 0 1px, transparent 1px 3px); mix-blend-mode: multiply; }
 
 /* brand — CODE / NINJAS / WOODBRIDGE all share one weight + shadow */
@@ -39,7 +39,7 @@
 .bj-brand span { text-shadow: 0 2px 8px rgba(0,0,0,.95); }
 .bj-brand-code { color: #29a3dd; } .bj-brand-ninjas { color: #fff; } .bj-brand-place { color: #fff; }
 
-.bj-kicker { position: absolute; top: 11%; left: 50%; transform: translateX(-50%); z-index: 5; font-family: "Bebas Neue", sans-serif; font-size: clamp(15px, 2.4vw, 24px); letter-spacing: .42em; text-indent: .42em; color: #ffce3a; text-shadow: 0 0 16px rgba(255,150,40,.6); }
+.bj-kicker { position: absolute; top: 11%; left: 50%; transform: translateX(-50%); z-index: 5; font-family: "Bebas Neue", sans-serif; font-size: clamp(15px, 2.4vw, 24px); letter-spacing: .42em; text-indent: .42em; color: #7fc4ec; text-shadow: 0 0 16px rgba(61,142,189,.7); }
 
 /* ---- center: belt name + graphic + skill ---- */
 .bj-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-52%); z-index: 5; display: flex; flex-direction: column; align-items: center; gap: 22px; text-align: center; }
@@ -64,7 +64,7 @@
 @keyframes bj-skill { 0%{ opacity:0; transform: translateY(12px);} 100%{ opacity:1; transform:none; } }
 
 /* celebrating ninja */
-.bj-ninja { position: absolute; right: 4%; bottom: 12%; z-index: 4; width: clamp(120px, 17vw, 230px); height: auto; filter: drop-shadow(0 10px 12px rgba(0,0,0,.6)) drop-shadow(0 0 18px rgba(255,140,50,.35)); animation: bj-pump .5s cubic-bezier(.2,1.5,.3,1) both, bj-bob 1.3s ease-in-out .5s infinite; }
+.bj-ninja { position: absolute; right: 4%; bottom: 12%; z-index: 4; width: clamp(120px, 17vw, 230px); height: auto; filter: drop-shadow(0 10px 12px rgba(0,0,0,.6)) drop-shadow(0 0 18px rgba(120,200,255,.4)); animation: bj-pump .5s cubic-bezier(.2,1.5,.3,1) both, bj-bob 1.3s ease-in-out .5s infinite; }
 @keyframes bj-pump { 0%{ transform: translateY(20px) scale(.85);} 100%{ transform: none; } }
 @keyframes bj-bob { 50% { transform: translateY(-10px); } }
 
@@ -76,19 +76,19 @@
 
 /* ---- finale ---- */
 .bj-final { position: absolute; inset: 0; z-index: 5; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; text-align: center; padding: 24px; }
-.bj-finale-on .bj-bg { background: radial-gradient(120% 120% at 50% 55%, #3a0510 0%, #1c0308 44%, #0b0406 100%); }
-.bj-final-belt { position: relative; width: clamp(300px, 46vw, 520px); height: 170px; --belt: #171717; --ink: #ffd42f; animation: bj-belt-in .6s cubic-bezier(.2,1.5,.3,1) both; }
-.bj-final-belt .bj-band, .bj-final-belt .bj-knot, .bj-final-belt .bj-tail { box-shadow: 0 8px 22px rgba(0,0,0,.6), 0 0 30px rgba(255,212,47,.35), inset 0 0 0 2px rgba(255,212,47,.5); }
-.bj-final-belt::after { content: ""; position: absolute; top: 40%; left: 50%; width: 520px; height: 520px; transform: translate(-50%,-50%); border-radius: 50%; background: radial-gradient(circle, rgba(255,212,47,.28), transparent 62%); mix-blend-mode: screen; pointer-events: none; animation: bj-glow 2.4s ease-in-out infinite; }
+.bj-finale-on .bj-bg { background: radial-gradient(120% 120% at 50% 55%, #103a58 0%, #0a2438 44%, #050d16 100%); }
+.bj-final-belt { position: relative; width: clamp(300px, 46vw, 520px); height: 170px; --belt: #171717; --ink: #fff; animation: bj-belt-in .6s cubic-bezier(.2,1.5,.3,1) both; }
+.bj-final-belt .bj-band, .bj-final-belt .bj-knot, .bj-final-belt .bj-tail { box-shadow: 0 8px 22px rgba(0,0,0,.6), 0 0 30px rgba(120,200,255,.4), inset 0 0 0 2px rgba(180,225,255,.55); }
+.bj-final-belt::after { content: ""; position: absolute; top: 40%; left: 50%; width: 520px; height: 520px; transform: translate(-50%,-50%); border-radius: 50%; background: radial-gradient(circle, rgba(61,142,189,.32), transparent 62%); mix-blend-mode: screen; pointer-events: none; animation: bj-glow 2.4s ease-in-out infinite; }
 @keyframes bj-glow { 50% { opacity: .6; } }
 .bj-final-head { margin: 0; font-family: "Bebas Neue", sans-serif; font-size: clamp(34px, 6.4vw, 74px); line-height: .95; letter-spacing: .03em; text-shadow: 0 4px 0 rgba(0,0,0,.5); animation: bj-final-head .5s cubic-bezier(.2,1.5,.3,1) .2s both; }
-.bj-final-head em { font-style: normal; color: #ffce3a; text-shadow: 0 0 28px rgba(255,180,60,.7), 0 4px 0 #6e4400; }
+.bj-final-head em { font-style: normal; color: #7fc4ec; text-shadow: 0 0 28px rgba(61,142,189,.8), 0 4px 0 #0a3350; }
 @keyframes bj-final-head { 0%{ opacity:0; transform: translateY(16px) scale(.9);} 100%{ opacity:1; transform:none; } }
-.bj-final-sub { font-weight: 700; font-size: clamp(13px, 2.1vw, 20px); letter-spacing: .06em; color: #f0d9c0; text-shadow: 0 2px 10px rgba(0,0,0,.7); animation: bj-fade .5s ease-out .4s both; }
+.bj-final-sub { font-weight: 700; font-size: clamp(13px, 2.1vw, 20px); letter-spacing: .06em; color: #cfe6ff; text-shadow: 0 2px 10px rgba(0,0,0,.7); animation: bj-fade .5s ease-out .4s both; }
 .bj-cta { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 4px; animation: bj-fade .5s ease-out .55s both; }
-.bj-btn { position: relative; font-family: "Bebas Neue", sans-serif; font-size: clamp(18px, 2.9vw, 26px); color: #1a0206; background: linear-gradient(180deg,#ffe27a,#ffce3a 55%,#f0a000); padding: 12px 34px; border-radius: 6px; letter-spacing: .08em; white-space: nowrap; box-shadow: 0 6px 0 #a8600a, 0 12px 26px rgba(0,0,0,.5); animation: bj-btn 1.2s ease-in-out infinite; }
-@keyframes bj-btn { 50% { transform: scale(1.05); box-shadow: 0 6px 0 #a8600a, 0 0 28px rgba(255,180,60,.7); } }
-.bj-contact { font-family: "Bebas Neue", sans-serif; font-size: clamp(16px, 2.4vw, 22px); color: #ffce3a; letter-spacing: .08em; text-shadow: 0 0 10px rgba(255,150,40,.4); }
+.bj-btn { position: relative; font-family: "Bebas Neue", sans-serif; font-size: clamp(18px, 2.9vw, 26px); color: #fff; background: linear-gradient(180deg,#59aede,#3D8EBD 55%,#2b6e97); padding: 12px 36px; border-radius: 6px; letter-spacing: .08em; white-space: nowrap; box-shadow: 0 6px 0 #1f5578, 0 12px 26px rgba(0,0,0,.5); animation: bj-btn 1.2s ease-in-out infinite; }
+@keyframes bj-btn { 50% { transform: scale(1.05); box-shadow: 0 6px 0 #1f5578, 0 0 28px rgba(61,142,189,.75); } }
+.bj-contact { font-family: "Bebas Neue", sans-serif; font-size: clamp(16px, 2.4vw, 22px); color: #7fc4ec; letter-spacing: .08em; text-shadow: 0 0 10px rgba(61,142,189,.5); }
 @keyframes bj-fade { 0%{ opacity:0; transform: translateY(12px);} 100%{ opacity:1; transform:none; } }
 
 @media (max-width: 640px) {
