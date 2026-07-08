@@ -7,9 +7,11 @@ import mapleLogo from "../Images/maple-bjj-logo.png";
 export default function MapleBeltJourney() {
   return (
     <BjjBeltJourney
-      academy="Maple Jiu-Jitsu"
+      academy="MAPLE JIU-JITSU"
       logo={mapleLogo}
-      contact="20 Cranston Park Ave  ·  maplebjj.com  ·  (647) 887-9940"
+      address="20 Cranston Park Ave"
+      website="maplebjj.com"
+      phone="(647) 887-9940"
     />
   );
 }

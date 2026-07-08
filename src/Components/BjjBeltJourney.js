@@ -17,7 +17,9 @@ const DUR = [1600, 1450, 1450, 1450, 2200, 4600];
 export default function BjjBeltJourney({
   academy = "JIU-JITSU",
   academySub = "ACADEMY",
-  contact = "YOUR ACADEMY  ·  yourgym.com",
+  address = "",
+  website = "yourgym.com",
+  phone = "",
   logo = null,
 }) {
   const [step, setStep] = useState(0);
@@ -40,18 +42,18 @@ export default function BjjBeltJourney({
       <div className="jj-tex" />
       <div className="jj-vig" />
 
-      {/* logo or wordmark */}
-      {logo ? (
-        <img className="jj-logo" src={logo} alt={academy} />
-      ) : (
-        <div className="jj-mark">
-          <span className="jj-mark-main">{academy}</span>
-          <span className="jj-mark-sub">{academySub}</span>
-        </div>
-      )}
-
       {!isFinale ? (
         <>
+          {/* logo or wordmark (belt scenes only) */}
+          {logo ? (
+            <img className="jj-logo" src={logo} alt={academy} />
+          ) : (
+            <div className="jj-mark">
+              <span className="jj-mark-main">{academy}</span>
+              <span className="jj-mark-sub">{academySub}</span>
+            </div>
+          )}
+
           <div className="jj-kicker">THE&nbsp;JOURNEY</div>
           <div key={step} className="jj-center" style={{ "--belt": belt.color, "--pink": belt.ink }}>
             <div className="jj-flash" />
@@ -63,6 +65,16 @@ export default function BjjBeltJourney({
               <span className="jj-tail jj-tail--r" />
             </div>
             <div className="jj-skill">{belt.skill}</div>
+          </div>
+
+          <div className="jj-track">
+            {BELTS.map((b, i) => (
+              <span
+                key={b.name}
+                className={`jj-pip${i <= step ? " on" : ""}${i === step ? " cur" : ""}`}
+                style={{ background: b.color }}
+              />
+            ))}
           </div>
         </>
       ) : (
@@ -77,22 +89,26 @@ export default function BjjBeltJourney({
             <span className="jj-line">A black belt is a white belt</span>
             <span className="jj-line">who <em>never&nbsp;quit</em>.</span>
           </blockquote>
-          <div className="jj-cta">
-            <span className="jj-btn">START YOUR JOURNEY</span>
-            <span className="jj-contact">{contact}</span>
+
+          <div className="jj-btn">START YOUR JOURNEY</div>
+
+          {/* branded contact footer */}
+          <div className="jj-footer">
+            <div className="jj-brandline">{academy}</div>
+            <div className="jj-contacts">
+              {address && (
+                <span className="jj-cinfo"><span className="jj-cico" aria-hidden>📍</span>{address}</span>
+              )}
+              {website && (
+                <span className="jj-cinfo"><span className="jj-cico" aria-hidden>🌐</span>{website}</span>
+              )}
+              {phone && (
+                <span className="jj-cinfo"><span className="jj-cico" aria-hidden>📞</span>{phone}</span>
+              )}
+            </div>
           </div>
         </div>
       )}
-
-      <div className="jj-track">
-        {BELTS.map((b, i) => (
-          <span
-            key={b.name}
-            className={`jj-pip${i <= step || isFinale ? " on" : ""}${i === step && !isFinale ? " cur" : ""}`}
-            style={{ background: b.color }}
-          />
-        ))}
-      </div>
     </div>
   );
 }
