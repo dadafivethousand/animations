@@ -34,35 +34,27 @@ export default function BeltJourney() {
   const isFinale = step >= BELTS.length;
   const belt = BELTS[Math.min(step, BELTS.length - 1)];
 
-  const codeBits = ["<>", "{ }", "0 1", "( )", "//", "[ ]", "=>", "01", "def", "if", "++", "&&", "10", "js", "( )", "==", ";;", "/*"];
   return (
     <div className={`bj-stage${isFinale ? " bj-finale-on" : ""}`}>
       <div className="bj-bg" />
-      <div className="bj-grid" />
-      <div className="bj-scan" />
-      {/* drifting code fragments */}
-      <div className="bj-code" aria-hidden>
-        {codeBits.map((c, i) => (
+      <div className="bj-sun" />
+      <div className="bj-rays2" />
+      {/* drifting embers */}
+      <div className="bj-embers" aria-hidden>
+        {Array.from({ length: 20 }, (_, i) => (
           <span
             key={i}
             style={{
-              left: `${(i * 53 + 4) % 96}%`,
-              top: `${(i * 71) % 92}%`,
-              animationDelay: `${(i * 0.5) % 6 - 6}s`,
-              animationDuration: `${7 + (i % 5)}s`,
-              fontSize: `${13 + (i % 4) * 6}px`,
+              left: `${(i * 47 + 5) % 97}%`,
+              animationDelay: `${(i * 0.6) % 7 - 7}s`,
+              animationDuration: `${6 + (i % 5)}s`,
+              width: `${3 + (i % 3)}px`,
+              height: `${3 + (i % 3)}px`,
             }}
-          >
-            {c}
-          </span>
+          />
         ))}
       </div>
-      {/* twinkling circuit nodes */}
-      <div className="bj-nodes" aria-hidden>
-        {Array.from({ length: 16 }, (_, i) => (
-          <span key={i} style={{ left: `${(i * 61 + 7) % 97}%`, top: `${(i * 43 + 11) % 94}%`, animationDelay: `${(i % 8) * -0.4}s` }} />
-        ))}
-      </div>
+      <div className="bj-ink" />
       <div className="bj-vig" />
 
       {/* HUD brand */}
