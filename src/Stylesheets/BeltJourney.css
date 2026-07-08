@@ -43,7 +43,7 @@
 @keyframes bj-flash { 0%{ opacity: .35; transform: translate(-50%,-50%) scale(.4);} 100%{ opacity: 0; transform: translate(-50%,-50%) scale(1.35);} }
 
 /* the name is a filled pill in the belt colour → always readable, no shadow */
-.bj-name { display: inline-block; white-space: nowrap; font-weight: 700; font-size: clamp(28px, 5.6vw, 62px); line-height: 1; letter-spacing: .01em; color: var(--ink); background: var(--belt); padding: 10px 26px 12px; border-radius: 16px; box-shadow: 0 12px 26px rgba(14,47,67,.28), inset 0 0 0 3px rgba(14,47,67,.22); animation: bj-name .5s cubic-bezier(.2,1.6,.3,1) both; }
+.bj-name { display: inline-block; white-space: nowrap; font-weight: 700; font-size: clamp(28px, 5.6vw, 62px); line-height: 1; letter-spacing: .01em; color: var(--pink); background: var(--belt); padding: 10px 26px 12px; border-radius: 16px; box-shadow: 0 12px 26px rgba(14,47,67,.28), inset 0 0 0 3px rgba(14,47,67,.22); animation: bj-name .5s cubic-bezier(.2,1.6,.3,1) both; }
 @keyframes bj-name { 0%{ opacity:0; transform: translateY(-14px) scale(.8);} 100%{ opacity:1; transform:none; } }
 
 /* belt graphic */
@@ -78,7 +78,7 @@
 
 /* ---- finale ---- */
 .bj-final { position: absolute; inset: 0; z-index: 5; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; text-align: center; padding: 24px 24px 60px; }
-.bj-final-belt { position: relative; width: clamp(280px, 44vw, 480px); height: 160px; --belt: #171717; --ink: #fff; animation: bj-belt-in .6s cubic-bezier(.2,1.5,.3,1) both; }
+.bj-final-belt { position: relative; width: clamp(280px, 44vw, 480px); height: 160px; --belt: #171717; --pink: #fff; animation: bj-belt-in .6s cubic-bezier(.2,1.5,.3,1) both; }
 .bj-final-belt::after { content: ""; position: absolute; top: 38%; left: 50%; width: 480px; height: 480px; transform: translate(-50%,-50%); border-radius: 50%; background: radial-gradient(circle, rgba(48,144,184,.28), transparent 62%); pointer-events: none; animation: bj-glow 2.4s ease-in-out infinite; }
 @keyframes bj-glow { 50% { opacity: .55; } }
 .bj-final-head { position: relative; margin: 10px 0 0; padding: 6px 0; font-weight: 600; font-size: clamp(20px, 3.7vw, 42px); line-height: 1.18; color: var(--ink); animation: bj-final-head .5s cubic-bezier(.2,1.5,.3,1) .2s both; }

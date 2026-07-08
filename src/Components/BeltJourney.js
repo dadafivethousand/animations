@@ -67,7 +67,7 @@ export default function BeltJourney() {
           <div className="bj-kicker">THE&nbsp;NINJA&nbsp;JOURNEY</div>
 
           {/* belt name + belt graphic + skill, replays on each step */}
-          <div key={step} className="bj-center" style={{ "--belt": belt.color, "--ink": belt.ink }}>
+          <div key={step} className="bj-center" style={{ "--belt": belt.color, "--pink": belt.ink }}>
             <div className="bj-flash" />
             <div className="bj-name">{belt.name} BELT</div>
             <div className="bj-belt">
