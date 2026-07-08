@@ -90,9 +90,10 @@ export default function BeltJourney() {
             <span className="bj-tail bj-tail--l" />
             <span className="bj-tail bj-tail--r" />
           </div>
-          <h1 className="bj-final-head">
-            A BLACK BELT IS A WHITE BELT<br />WHO <em>NEVER&nbsp;QUIT</em>
-          </h1>
+          <blockquote className="bj-final-head">
+            <span className="bj-final-line">A black belt is a white belt</span>
+            <span className="bj-final-line">who <em>never&nbsp;quit</em>.</span>
+          </blockquote>
           <div className="bj-final-sub">Ages 5&ndash;14&nbsp;·&nbsp;Coding · Robotics · Game Design</div>
           <div className="bj-cta">
             <span className="bj-btn">START YOUR JOURNEY&nbsp;→</span>
