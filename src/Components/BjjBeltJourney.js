@@ -21,6 +21,7 @@ export default function BjjBeltJourney({
   website = "yourgym.com",
   phone = "",
   logo = null,
+  lightTop = false,   // brighter top gradient so a dark/black logo reads
 }) {
   const [step, setStep] = useState(0);
 
@@ -36,7 +37,7 @@ export default function BjjBeltJourney({
   const belt = BELTS[Math.min(step, BELTS.length - 1)];
 
   return (
-    <div className={`jj-stage${isFinale ? " jj-finale-on" : ""}`}>
+    <div className={`jj-stage${isFinale ? " jj-finale-on" : ""}${lightTop ? " jj-lighttop" : ""}`}>
       <div className="jj-bg" />
       <div className="jj-spot" />
       <div className="jj-tex" />

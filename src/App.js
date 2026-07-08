@@ -87,15 +87,16 @@ import GameShowcase from "./Components/GameShowcase";
 import BeltJourney from "./Components/BeltJourney";
 import BjjBeltJourney from "./Components/BjjBeltJourney";
 import MapleBeltJourney from "./Components/MapleBeltJourney";
+import RichmondHillBeltJourney from "./Components/RichmondHillBeltJourney";
 
 
     function App() {
   return (
     <>
-  < MapleBeltJourney />
+  < RichmondHillBeltJourney />
        {/* You can toggle others like this */}
+      {/* < MapleBeltJourney /> */}
       {/* < BjjBeltJourney /> */}
-      {/* < BeltJourney /> */}
     </>
   );
 }
