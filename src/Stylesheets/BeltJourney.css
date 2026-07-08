@@ -55,6 +55,11 @@
 .bj-tail::after { content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 14px; clip-path: polygon(0 0, 100% 0, 50% 100%); background: inherit; }
 .bj-tail--l { left: calc(50% - 38px); transform: rotate(8deg); transform-origin: top center; }
 .bj-tail--r { left: calc(50% + 6px); transform: rotate(-8deg); transform-origin: top center; }
+/* Code Ninjas head badge on the knot (white ring so it reads on any belt) */
+.bj-knot-icon { position: absolute; top: 25px; left: 50%; width: 56px; height: 56px; transform: translateX(-50%); z-index: 4; object-fit: contain; border-radius: 50%; background: #fff; box-shadow: 0 3px 8px rgba(14,47,67,.4), 0 0 0 3px #fff; }
+/* CODE / NINJAS embroidery on the (black) belt band */
+.bj-belt-text { position: absolute; top: 44px; z-index: 3; font-family: "Fredoka", sans-serif; font-weight: 700; font-size: clamp(13px, 1.9vw, 20px); letter-spacing: .06em; color: #fff; }
+.bj-belt-text--l { right: 58%; } .bj-belt-text--r { left: 58%; }
 
 .bj-skill { font-weight: 600; font-size: clamp(16px, 2.7vw, 30px); color: var(--ink); animation: bj-skill .5s ease-out .18s both; }
 .bj-skill .bj-check { display: inline-grid; place-items: center; width: 1.1em; height: 1.1em; border-radius: 50%; background: #22b366; color: #fff; font-size: .82em; margin-right: 8px; vertical-align: -.06em; box-shadow: 0 3px 8px rgba(34,179,102,.4); }

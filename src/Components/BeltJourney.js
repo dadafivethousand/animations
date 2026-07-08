@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import "../Stylesheets/BeltJourney.css";
 import ninja from "../Images/ninja-cheer.png";
 import logo from "../Images/cn-wb-logo.png";
+import beltIcon from "../Images/cn-ninja-icon.png";
 
 const BELTS = [
   { name: "WHITE",  color: "#eef1f4", ink: "#12314a", skill: "Build your very first game" },
@@ -74,6 +75,7 @@ export default function BeltJourney() {
               <span className="bj-knot" />
               <span className="bj-tail bj-tail--l" />
               <span className="bj-tail bj-tail--r" />
+              <img className="bj-knot-icon" src={beltIcon} alt="" />
             </div>
             <div className="bj-skill">
               <span className="bj-check">✓</span> {belt.skill}
@@ -86,9 +88,12 @@ export default function BeltJourney() {
         <div className="bj-final">
           <div className="bj-final-belt">
             <span className="bj-band" />
+            <span className="bj-belt-text bj-belt-text--l">CODE</span>
+            <span className="bj-belt-text bj-belt-text--r">NINJAS</span>
             <span className="bj-knot" />
             <span className="bj-tail bj-tail--l" />
             <span className="bj-tail bj-tail--r" />
+            <img className="bj-knot-icon" src={beltIcon} alt="" />
           </div>
           <blockquote className="bj-final-head">
             <span className="bj-final-line">A black belt is a white belt</span>
