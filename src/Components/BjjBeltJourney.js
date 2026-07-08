@@ -3,11 +3,6 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/BjjBeltJourney.css";
 
-// ---- EDIT THESE for your academy ----
-const ACADEMY = "JIU-JITSU";      // top wordmark (line 1)
-const ACADEMY_SUB = "ACADEMY";    // top wordmark (line 2)
-const CONTACT = "YOUR ACADEMY  ·  yourgym.com";
-
 const BELTS = [
   { name: "WHITE",  color: "#eef1f4", ink: "#1c2129", skill: "Learn the fundamentals" },
   { name: "BLUE",   color: "#2f6fd6", ink: "#eaf1ff", skill: "Build your game" },
@@ -19,7 +14,11 @@ const BELTS = [
 // steps 0..4 = belts, 5 = finale
 const DUR = [1600, 1450, 1450, 1450, 2200, 4600];
 
-export default function BjjBeltJourney() {
+export default function BjjBeltJourney({
+  academy = "JIU-JITSU",
+  academySub = "ACADEMY",
+  contact = "YOUR ACADEMY  ·  yourgym.com",
+}) {
   const [step, setStep] = useState(0);
 
   useEffect(() => {
@@ -42,8 +41,8 @@ export default function BjjBeltJourney() {
 
       {/* wordmark (replaceable) */}
       <div className="jj-mark">
-        <span className="jj-mark-main">{ACADEMY}</span>
-        <span className="jj-mark-sub">{ACADEMY_SUB}</span>
+        <span className="jj-mark-main">{academy}</span>
+        <span className="jj-mark-sub">{academySub}</span>
       </div>
 
       {!isFinale ? (
@@ -77,7 +76,7 @@ export default function BjjBeltJourney() {
           </blockquote>
           <div className="jj-cta">
             <span className="jj-btn">START YOUR JOURNEY</span>
-            <span className="jj-contact">{CONTACT}</span>
+            <span className="jj-contact">{contact}</span>
           </div>
         </div>
       )}
