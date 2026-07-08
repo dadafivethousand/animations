@@ -8,15 +8,41 @@
   color: #fff;
 }
 
-.bj-bg { position: absolute; inset: 0; background: radial-gradient(130% 100% at 50% 14%, #1b5a80 0%, #0d3350 34%, #061a2b 66%, #030c15 100%); }
-.bj-rays { position: absolute; top: -40%; left: 50%; width: 220vw; height: 220vh; transform: translateX(-50%); background: repeating-conic-gradient(from 0deg at 50% 32%, rgba(61,142,189,.13) 0deg 5deg, transparent 5deg 15deg); mix-blend-mode: screen; animation: bj-rays 36s linear infinite; }
-@keyframes bj-rays { to { transform: translateX(-50%) rotate(360deg); } }
-.bj-vig { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(120% 120% at 50% 46%, transparent 46%, rgba(0,0,0,.72) 100%); }
+/* ---- digital circuit / code-grid background (different from the ray look) ---- */
+.bj-bg { position: absolute; inset: 0; background:
+  radial-gradient(120% 90% at 50% 0%, #0a2233 0%, #071726 40%, #030b13 72%, #01060b 100%); }
+/* perspective tech grid receding into the distance */
+.bj-grid { position: absolute; left: -30%; right: -30%; bottom: 0; height: 130%; transform: perspective(520px) rotateX(64deg); transform-origin: 50% 100%;
+  background-image:
+    linear-gradient(90deg, rgba(45,190,230,.28) 1px, transparent 1px),
+    linear-gradient(0deg,  rgba(45,190,230,.20) 1px, transparent 1px);
+  background-size: 60px 60px, 60px 60px;
+  -webkit-mask-image: linear-gradient(0deg, #000 0%, rgba(0,0,0,.5) 45%, transparent 78%);
+          mask-image: linear-gradient(0deg, #000 0%, rgba(0,0,0,.5) 45%, transparent 78%);
+  animation: bj-grid 2.4s linear infinite; }
+@keyframes bj-grid { to { background-position: 0 60px, 0 60px; } }
+/* slow horizontal scan glow */
+.bj-scan { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: screen;
+  background: linear-gradient(180deg, transparent 30%, rgba(45,190,230,.10) 50%, transparent 70%);
+  background-size: 100% 42%; background-repeat: no-repeat;
+  animation: bj-scan 6s ease-in-out infinite; }
+@keyframes bj-scan { 0%{ background-position: 0 -40%; } 100%{ background-position: 0 140%; } }
+/* drifting code fragments */
+.bj-code { position: absolute; inset: 0; pointer-events: none; font-family: "Courier New", monospace; font-weight: 700; }
+.bj-code span { position: absolute; color: rgba(90,210,245,.34); text-shadow: 0 0 10px rgba(45,190,230,.4); opacity: 0; animation-name: bj-code; animation-timing-function: ease-in-out; animation-iteration-count: infinite; }
+@keyframes bj-code { 0%{ opacity: 0; transform: translateY(14px); } 20%,75%{ opacity: 1; } 100%{ opacity: 0; transform: translateY(-24px); } }
+/* twinkling circuit nodes */
+.bj-nodes { position: absolute; inset: 0; pointer-events: none; }
+.bj-nodes span { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: #5cd2f5; box-shadow: 0 0 10px #2dbee6, 0 0 20px rgba(45,190,230,.6); animation: bj-node 2.6s ease-in-out infinite; }
+@keyframes bj-node { 0%,100%{ opacity: .2; transform: scale(.6);} 50%{ opacity: 1; transform: scale(1.15);} }
+
+.bj-vig { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(115% 115% at 50% 44%, transparent 42%, rgba(0,3,8,.82) 100%); }
 .bj-crt { position: absolute; inset: 0; z-index: 20; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(0,0,0,.10) 0 1px, transparent 1px 3px); mix-blend-mode: multiply; }
 
-/* brand */
-.bj-brand { position: absolute; top: 20px; left: 24px; z-index: 10; display: flex; align-items: center; gap: 8px; font-size: 16px; letter-spacing: .04em; text-shadow: 0 2px 8px rgba(0,0,0,.9); }
-.bj-brand-code { color: #29a3dd; } .bj-brand-ninjas { color: #fff; } .bj-brand-place { color: #fff; font-weight: 700; letter-spacing: .1em; }
+/* brand — CODE / NINJAS / WOODBRIDGE all share one weight + shadow */
+.bj-brand { position: absolute; top: 20px; left: 24px; z-index: 10; display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 800; letter-spacing: .06em; text-shadow: 0 2px 8px rgba(0,0,0,.9); }
+.bj-brand span { font-weight: 800; text-shadow: 0 2px 8px rgba(0,0,0,.9); }
+.bj-brand-code { color: #29a3dd; } .bj-brand-ninjas { color: #fff; } .bj-brand-place { color: #fff; }
 
 .bj-kicker { position: absolute; top: 12%; left: 50%; transform: translateX(-50%); z-index: 5; font-weight: 800; font-size: clamp(11px, 1.9vw, 16px); letter-spacing: .3em; text-indent: .3em; color: #7fd0ff; text-shadow: 0 0 14px rgba(61,142,189,.6); }
 
