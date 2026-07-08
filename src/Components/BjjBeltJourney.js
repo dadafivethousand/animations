@@ -18,6 +18,7 @@ export default function BjjBeltJourney({
   academy = "JIU-JITSU",
   academySub = "ACADEMY",
   contact = "YOUR ACADEMY  ·  yourgym.com",
+  logo = null,
 }) {
   const [step, setStep] = useState(0);
 
@@ -39,11 +40,15 @@ export default function BjjBeltJourney({
       <div className="jj-tex" />
       <div className="jj-vig" />
 
-      {/* wordmark (replaceable) */}
-      <div className="jj-mark">
-        <span className="jj-mark-main">{academy}</span>
-        <span className="jj-mark-sub">{academySub}</span>
-      </div>
+      {/* logo or wordmark */}
+      {logo ? (
+        <img className="jj-logo" src={logo} alt={academy} />
+      ) : (
+        <div className="jj-mark">
+          <span className="jj-mark-main">{academy}</span>
+          <span className="jj-mark-sub">{academySub}</span>
+        </div>
+      )}
 
       {!isFinale ? (
         <>
@@ -53,7 +58,6 @@ export default function BjjBeltJourney({
             <div className="jj-name">{belt.name} BELT</div>
             <div className="jj-belt">
               <span className="jj-band" />
-              <span className={`jj-bar${belt.name === "BLACK" ? " jj-bar--red" : ""}`}><i /><i /><i /><i /></span>
               <span className="jj-knot" />
               <span className="jj-tail jj-tail--l" />
               <span className="jj-tail jj-tail--r" />
@@ -65,7 +69,6 @@ export default function BjjBeltJourney({
         <div className="jj-final">
           <div className="jj-final-belt">
             <span className="jj-band" />
-            <span className="jj-bar jj-bar--red"><i /><i /><i /><i /></span>
             <span className="jj-knot" />
             <span className="jj-tail jj-tail--l" />
             <span className="jj-tail jj-tail--r" />
