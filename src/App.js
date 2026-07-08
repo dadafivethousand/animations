@@ -84,15 +84,16 @@ import KinderSurpriseSchedule from "./Components/KinderSurpriseSchedule";
 import SuperMarioRun from "./Components/SuperMarioRun";
 import NinjaParty from "./Components/NinjaParty";
 import GameShowcase from "./Components/GameShowcase";
+import BeltJourney from "./Components/BeltJourney";
 
 
     function App() {
   return (
     <>
-  < GameShowcase />
+  < BeltJourney />
        {/* You can toggle others like this */}
+      {/* < GameShowcase /> */}
       {/* < NinjaParty /> */}
-      {/* < SuperMarioRun /> */}
     </>
   );
 }
