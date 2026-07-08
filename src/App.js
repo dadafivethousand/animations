@@ -85,15 +85,16 @@ import SuperMarioRun from "./Components/SuperMarioRun";
 import NinjaParty from "./Components/NinjaParty";
 import GameShowcase from "./Components/GameShowcase";
 import BeltJourney from "./Components/BeltJourney";
+import BjjBeltJourney from "./Components/BjjBeltJourney";
 
 
     function App() {
   return (
     <>
-  < BeltJourney />
+  < BjjBeltJourney />
        {/* You can toggle others like this */}
+      {/* < BeltJourney /> */}
       {/* < GameShowcase /> */}
-      {/* < NinjaParty /> */}
     </>
   );
 }
