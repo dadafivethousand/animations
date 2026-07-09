@@ -94,9 +94,9 @@ import ChessJourney from "./Components/ChessJourney";
     function App() {
   return (
     <>
-  < RichmondHillBeltJourney />
+  < ChessJourney />
        {/* You can toggle others like this */}
-      {/* < ChessJourney /> */}
+      {/* < RichmondHillBeltJourney /> */}
       {/* < MapleBeltJourney /> */}
       {/* < BjjBeltJourney /> */}
     </>
