@@ -12,7 +12,7 @@ const BELTS = [
 ];
 
 // steps 0..4 = belts, 5 = finale
-const DUR = [5000, 5000, 5000, 5000, 5000, 5200];
+const DUR = [4000, 4000, 4000, 4000, 4000, 5200];
 
 export default function BjjBeltJourney({
   academy = "JIU-JITSU",
