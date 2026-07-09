@@ -8,7 +8,7 @@ export default function RichmondHillBeltJourney() {
     <BjjBeltJourney
       academy="RICHMOND HILL JIU-JITSU"
       logo={rhLogo}
-      lightTop
+      wideLogo
       address="132 King Road"
       website="rhbjj.ca"
       phone="(416) 992-1169"

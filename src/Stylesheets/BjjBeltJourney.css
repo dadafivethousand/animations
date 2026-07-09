@@ -37,6 +37,9 @@
 /* ---- wordmark (replaceable) ---- */
 /* logo (navy leaf) — sits on a soft light disc so it reads on the dark bg */
 .jj-logo { position: absolute; top: 7%; left: 50%; transform: translateX(-50%); z-index: 10; width: clamp(96px, 13vw, 156px); height: auto; padding: 10px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,.92) 58%, rgba(255,255,255,.75) 68%, transparent 74%); filter: drop-shadow(0 6px 16px rgba(0,0,0,.5)); animation: jj-drop .5s ease-out both; }
+/* wide (non-square) logo → rounded white pill instead of a circular disc */
+.jj-logo--wide { width: clamp(210px, 27vw, 340px); padding: 14px 24px; border-radius: 18px; background: linear-gradient(180deg, #ffffff, #eaf0f6); box-shadow: 0 8px 22px rgba(0,0,0,.5), inset 0 0 0 1px rgba(255,255,255,.65); }
+
 .jj-mark { position: absolute; top: 11%; left: 50%; transform: translateX(-50%); z-index: 10; text-align: center; animation: jj-drop .5s ease-out both; }
 .jj-mark-main { display: block; font-family: "Bebas Neue", sans-serif; font-size: clamp(28px, 5vw, 54px); letter-spacing: .1em; line-height: .9; color: #fff; }
 .jj-mark-sub { display: block; font-weight: 700; font-size: clamp(11px, 1.7vw, 16px); letter-spacing: .5em; text-indent: .5em; color: var(--gold); margin-top: 4px; }

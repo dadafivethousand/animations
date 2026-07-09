@@ -22,6 +22,7 @@ export default function BjjBeltJourney({
   phone = "",
   logo = null,
   lightTop = false,   // brighter top gradient so a dark/black logo reads
+  wideLogo = false,   // wide (non-square) logo → sits on a rounded pill instead of a disc
 }) {
   const [step, setStep] = useState(0);
 
@@ -47,7 +48,7 @@ export default function BjjBeltJourney({
         <>
           {/* logo or wordmark (belt scenes only) */}
           {logo ? (
-            <img className="jj-logo" src={logo} alt={academy} />
+            <img className={`jj-logo${wideLogo ? " jj-logo--wide" : ""}`} src={logo} alt={academy} />
           ) : (
             <div className="jj-mark">
               <span className="jj-mark-main">{academy}</span>
