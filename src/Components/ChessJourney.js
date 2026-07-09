@@ -1,30 +1,23 @@
-// ChessJourney.jsx — cinematic promo for a chess academy.
-// A tilted wood chessboard "floor", drifting pieces, and a marble medallion
-// whose piece levels up Pawn -> King through the ranks, then a golden-king
-// finale with a quote + CTA. Self-contained, loops cleanly.
+// ChessJourney.jsx — "Chess at Code Ninjas Woodbridge" promo clip.
+// A cinematic wood chessboard, the CN Woodbridge logo, a bobbing chess set,
+// a rotating benefits tagline, and a CTA + contact. Self-contained, loops.
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/ChessJourney.css";
+import cnLogo from "../Images/cn-wb-logo.png";
 
-// Branding placeholders — swap these in Prompt 2.
-const ACADEMY = {
-  name: "GRANDMASTER CHESS ACADEMY",
-  address: "123 Chess St, Your City",
-  website: "yourchessacademy.com",
-  phone: "(555) 123-4567",
+const CONTACT = {
+  website: "cnwoodbridge.com",
+  phone: "(647) 887-9940",
 };
 
-// filled (dark) glyphs read boldly on the ivory medallion
-const RANKS = [
-  { name: "BEGINNER",    piece: "♟", milestone: "Learn how every piece moves" },
-  { name: "CLUB PLAYER", piece: "♞", milestone: "Openings & principles" },
-  { name: "ADVANCED",    piece: "♝", milestone: "Tactics & combinations" },
-  { name: "EXPERT",      piece: "♜", milestone: "Positional play" },
-  { name: "MASTER",      piece: "♛", milestone: "Endgame mastery" },
-  { name: "GRANDMASTER", piece: "♚", milestone: "Think like a Grandmaster" },
+const TAGLINES = [
+  "Strategy, focus & critical thinking",
+  "For all ages & every skill level",
+  "Openings, tactics & endgames",
+  "Play, compete & level up",
 ];
 
-// steps 0..5 = ranks (~2.6s), 6 = finale (longer hold)
-const DUR = [2600, 2600, 2600, 2600, 2600, 2600, 5600];
+const HERO_PIECES = ["♚", "♛", "♜", "♝", "♞", "♟"];
 
 // 64 squares, built once
 const SQUARES = Array.from({ length: 64 }, (_, i) => {
@@ -34,21 +27,16 @@ const SQUARES = Array.from({ length: 64 }, (_, i) => {
 const FLOATERS = ["♟", "♞", "♝", "♜", "♛", "♚", "♟", "♞"];
 
 export default function ChessJourney() {
-  const [step, setStep] = useState(0);
+  const [ti, setTi] = useState(0);
 
+  // cycle the benefit tagline for a little life (not a rank machine)
   useEffect(() => {
-    const t = setTimeout(
-      () => setStep((s) => (s + 1) % (RANKS.length + 1)),
-      DUR[step] ?? 2600
-    );
+    const t = setTimeout(() => setTi((v) => (v + 1) % TAGLINES.length), 2600);
     return () => clearTimeout(t);
-  }, [step]);
-
-  const isFinale = step >= RANKS.length;
-  const rank = RANKS[Math.min(step, RANKS.length - 1)];
+  }, [ti]);
 
   return (
-    <div className={`cj-stage${isFinale ? " cj-finale-on" : ""}`}>
+    <div className="cj-stage">
       {/* layered chess-wood background */}
       <div className="cj-bg" aria-hidden />
       <div className="cj-boardwrap" aria-hidden>
@@ -77,49 +65,29 @@ export default function ChessJourney() {
       </div>
       <div className="cj-vignette" aria-hidden />
 
-      {!isFinale ? (
-        <>
-          <div className="cj-kicker">THE&nbsp;ROAD&nbsp;TO&nbsp;MASTERY</div>
+      {/* brand */}
+      <img className="cj-logo" src={cnLogo} alt="Code Ninjas Woodbridge" />
 
-          {/* medallion piece + rank + milestone, replays each step */}
-          <div key={step} className="cj-hero">
-            <div className="cj-medallion">
-              <span className="cj-flash" />
-              <span className="cj-piece">{rank.piece}</span>
-            </div>
-            <div className="cj-rank">{rank.name}</div>
-            <div className="cj-milestone">{rank.milestone}</div>
-          </div>
-
-          {/* piece-row progress — lights up gold as you advance */}
-          <div className="cj-progress">
-            {RANKS.map((r, i) => (
-              <span
-                key={r.name}
-                className={`cj-pp${i < step ? " done" : ""}${i === step ? " cur" : ""}`}
-              >
-                {r.piece}
-              </span>
-            ))}
-          </div>
-        </>
-      ) : (
-        <div className="cj-final">
-          <div className="cj-crown">♚</div>
-          <blockquote className="cj-quote">
-            Every <em>master</em> was once a beginner.
-          </blockquote>
-          <span className="cj-cta">START YOUR JOURNEY</span>
-          <div className="cj-footer">
-            <div className="cj-academy">{ACADEMY.name}</div>
-            <div className="cj-chips">
-              <span className="cj-chip">📍 {ACADEMY.address}</span>
-              <span className="cj-chip">🌐 {ACADEMY.website}</span>
-              <span className="cj-chip">📞 {ACADEMY.phone}</span>
-            </div>
-          </div>
+      {/* hero */}
+      <div className="cj-hero">
+        <div className="cj-kicker">NOW&nbsp;AT&nbsp;CODE&nbsp;NINJAS&nbsp;WOODBRIDGE</div>
+        <div className="cj-pieces">
+          {HERO_PIECES.map((p, i) => (
+            <span key={i} className="cj-pc" style={{ "--d": `${i * 0.16}s` }}>{p}</span>
+          ))}
         </div>
-      )}
+        <h1 className="cj-title">CHESS <span>CLUB</span></h1>
+        <div key={ti} className="cj-tag">{TAGLINES[ti]}</div>
+      </div>
+
+      {/* footer */}
+      <div className="cj-footer">
+        <span className="cj-cta">JOIN THE CHESS CLUB</span>
+        <div className="cj-chips">
+          <span className="cj-chip">🌐 {CONTACT.website}</span>
+          <span className="cj-chip">📞 {CONTACT.phone}</span>
+        </div>
+      </div>
     </div>
   );
 }

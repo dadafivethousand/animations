@@ -1,11 +1,11 @@
-/* ChessJourney.css — cinematic chess-academy promo.
+/* ChessJourney.css — "Chess at Code Ninjas Woodbridge" promo.
    Authentic board colours (ivory + walnut), Playfair Display serif, gold accent. */
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@500;600;700&display=swap");
 
 :root {
-  --light: #ecd3a4;      /* light board square */
-  --dark: #9c6b43;       /* dark board square (walnut) */
-  --ivory: #f6edd9;      /* piece / heading ivory */
+  --light: #ecd3a4;
+  --dark: #9c6b43;
+  --ivory: #f6edd9;
   --gold: #d8b24a;
   --gold-br: #f2d074;
   --walnut: #241812;
@@ -22,10 +22,7 @@
 .cj-bg { position: absolute; inset: 0; background: radial-gradient(125% 105% at 50% 30%, #2c1f15 0%, #180f0a 52%, #0c0705 82%, #070403 100%); }
 
 /* ---- tilted chessboard floor in perspective ---- */
-.cj-boardwrap {
-  position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center;
-  perspective: 900px; perspective-origin: 50% 34%; pointer-events: none;
-}
+.cj-boardwrap { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; perspective: 900px; perspective-origin: 50% 34%; pointer-events: none; }
 .cj-board {
   width: 158vw; max-width: 1600px; aspect-ratio: 1;
   display: grid; grid-template-columns: repeat(8, 1fr); grid-template-rows: repeat(8, 1fr);
@@ -48,67 +45,39 @@
 .cj-float { position: absolute; bottom: -12%; color: rgba(246, 237, 217, .06); line-height: 1; animation-name: cj-rise; animation-timing-function: linear; animation-iteration-count: infinite; }
 @keyframes cj-rise { 0% { opacity: 0; transform: translateY(0) rotate(0); } 12% { opacity: 1; } 100% { opacity: 0; transform: translateY(-122vh) rotate(40deg); } }
 .cj-vignette { position: absolute; inset: 0; pointer-events: none; background:
-  linear-gradient(180deg, rgba(9, 5, 3, .62) 0%, rgba(9, 5, 3, .18) 14%, transparent 24%),
+  linear-gradient(180deg, rgba(9, 5, 3, .62) 0%, rgba(9, 5, 3, .18) 15%, transparent 26%),
   radial-gradient(120% 110% at 50% 46%, transparent 46%, rgba(0, 0, 0, .72) 100%); }
 
-/* ---- kicker ---- */
-.cj-kicker {
-  position: absolute; top: 11%; left: 50%; transform: translateX(-50%); z-index: 5;
-  font-weight: 700; font-size: clamp(16px, 2.4vw, 28px);
-  letter-spacing: .34em; text-indent: .34em; color: var(--gold-br);
-  text-shadow: 0 2px 12px rgba(0, 0, 0, .7);
+/* ---- brand logo (square CN mark on a soft light disc) ---- */
+.cj-logo {
+  position: absolute; top: 4.5%; left: 50%; transform: translateX(-50%); z-index: 10;
+  width: clamp(92px, 11vw, 140px); height: auto; padding: 12px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, .96) 60%, rgba(255, 255, 255, .72) 70%, transparent 76%);
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, .55));
+  animation: cj-drop .6s ease-out both;
 }
+@keyframes cj-drop { 0% { opacity: 0; transform: translateX(-50%) translateY(-12px); } 100% { opacity: 1; transform: translateX(-50%); } }
 
-/* ---- hero: medallion + rank + milestone ---- */
+/* ---- hero ---- */
 .cj-hero {
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 6;
-  display: flex; flex-direction: column; align-items: center; gap: clamp(16px, 2.6vh, 32px);
-  text-align: center; width: min(92vw, 940px);
+  position: absolute; top: 48%; left: 50%; transform: translate(-50%, -50%); z-index: 6;
+  display: flex; flex-direction: column; align-items: center; gap: clamp(12px, 2vh, 24px);
+  text-align: center; width: min(96vw, 1100px); animation: cj-fade .8s ease both;
 }
-.cj-medallion {
-  position: relative; display: grid; place-items: center;
-  width: clamp(230px, 30vw, 360px); height: clamp(230px, 30vw, 360px); border-radius: 50%;
-  background: radial-gradient(circle at 50% 36%, #faf3e1, #ecd6ab 54%, #c99b60 100%);
-  box-shadow: 0 26px 64px rgba(0, 0, 0, .6),
-    inset 0 0 0 6px rgba(36, 24, 18, .9),
-    inset 0 0 0 11px rgba(216, 178, 74, .65),
-    inset 0 -20px 44px rgba(120, 78, 38, .45);
-  animation: cj-med-in .6s cubic-bezier(.2, 1.5, .3, 1) both;
-}
-@keyframes cj-med-in { 0% { opacity: 0; transform: scale(.7) rotate(-6deg); } 100% { opacity: 1; transform: none; } }
-.cj-flash { position: absolute; inset: -12%; border-radius: 50%; background: radial-gradient(circle, rgba(242, 208, 116, .85), transparent 60%); opacity: 0; animation: cj-flash .6s ease-out both; }
-@keyframes cj-flash { 0% { opacity: .55; transform: scale(.4); } 100% { opacity: 0; transform: scale(1.35); } }
-.cj-piece {
-  position: relative; font-size: clamp(150px, 20vw, 250px); line-height: 1; color: #23150c;
-  text-shadow: 0 2px 0 rgba(255, 255, 255, .45), 0 10px 20px rgba(0, 0, 0, .35);
-  animation: cj-piece-in .55s cubic-bezier(.2, 1.5, .3, 1) both;
-}
-@keyframes cj-piece-in { 0% { opacity: 0; transform: translateY(20px) scale(.6) rotate(-8deg); } 100% { opacity: 1; transform: none; } }
+.cj-kicker { font-weight: 700; font-size: clamp(15px, 2.3vw, 27px); letter-spacing: .3em; text-indent: .3em; color: var(--gold-br); text-shadow: 0 2px 12px rgba(0, 0, 0, .7); }
 
-/* rank — big serif, gold underline flourish (no pill) */
-.cj-rank {
-  font-weight: 900; font-size: clamp(46px, 8.4vw, 108px); line-height: .95; letter-spacing: .01em;
-  color: var(--ivory); text-shadow: 0 4px 26px rgba(0, 0, 0, .55);
-  animation: cj-rise-t .5s ease-out .08s both;
-}
-.cj-rank::after { content: ""; display: block; width: clamp(120px, 20vw, 260px); height: 4px; margin: 16px auto 0; border-radius: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
-.cj-milestone { font-style: italic; font-weight: 700; font-size: clamp(20px, 3.2vw, 40px); color: #efe3c6; text-shadow: 0 2px 14px rgba(0, 0, 0, .5); animation: cj-rise-t .5s ease-out .18s both; }
-@keyframes cj-rise-t { 0% { opacity: 0; transform: translateY(14px); } 100% { opacity: 1; transform: none; } }
+.cj-pieces { display: flex; gap: clamp(6px, 1.6vw, 22px); }
+.cj-pc { display: inline-block; font-size: clamp(44px, 7vw, 96px); line-height: 1; color: var(--ivory); text-shadow: 0 3px 0 rgba(0, 0, 0, .22), 0 14px 24px rgba(0, 0, 0, .55); animation: cj-bob 2.4s ease-in-out infinite; animation-delay: var(--d); }
+@keyframes cj-bob { 50% { transform: translateY(-16px); } }
 
-/* ---- piece-row progress ---- */
-.cj-progress { position: absolute; bottom: 6.5%; left: 50%; transform: translateX(-50%); z-index: 6; display: flex; align-items: flex-end; gap: clamp(10px, 2.4vw, 30px); }
-.cj-pp { font-size: clamp(24px, 3.4vw, 42px); line-height: 1; color: rgba(246, 237, 217, .22); transition: all .4s ease; }
-.cj-pp.done { color: var(--gold); }
-.cj-pp.cur { color: var(--ivory); transform: translateY(-6px) scale(1.35); text-shadow: 0 0 20px rgba(242, 208, 116, .85); }
+.cj-title { margin: 0; white-space: nowrap; font-weight: 900; font-size: clamp(54px, 10.5vw, 148px); line-height: .9; letter-spacing: .02em; color: var(--ivory); text-shadow: 0 6px 30px rgba(0, 0, 0, .6); }
+.cj-title span { color: var(--gold-br); }
 
-/* ---- finale ---- */
-.cj-finale-on .cj-board { opacity: .45; }
-.cj-final { position: absolute; inset: 0; z-index: 7; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(14px, 2.4vh, 28px); text-align: center; padding: 5vh 5vw; }
-.cj-crown { font-size: clamp(120px, 18vw, 220px); line-height: 1; color: var(--gold-br); text-shadow: 0 0 54px rgba(242, 208, 116, .7), 0 14px 40px rgba(0, 0, 0, .6); animation: cj-crown .7s cubic-bezier(.2, 1.5, .3, 1) both, cj-bob 3.6s ease-in-out .7s infinite; }
-@keyframes cj-crown { 0% { opacity: 0; transform: translateY(28px) scale(.6); } 100% { opacity: 1; transform: none; } }
-@keyframes cj-bob { 50% { transform: translateY(-14px); } }
-.cj-quote { margin: 0; font-weight: 900; font-size: clamp(38px, 6.4vw, 90px); line-height: 1.02; color: var(--ivory); text-shadow: 0 4px 26px rgba(0, 0, 0, .55); animation: cj-rise-t .6s ease-out .2s both; }
-.cj-quote em { font-style: italic; color: var(--gold-br); }
+.cj-tag { font-style: italic; font-weight: 700; font-size: clamp(20px, 3.2vw, 40px); color: #efe3c6; text-shadow: 0 2px 14px rgba(0, 0, 0, .5); animation: cj-tag-in .5s ease both; }
+@keyframes cj-tag-in { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: none; } }
+
+/* ---- footer: CTA + contact ---- */
+.cj-footer { position: absolute; bottom: 6.5%; left: 50%; transform: translateX(-50%); z-index: 6; display: flex; flex-direction: column; align-items: center; gap: 16px; animation: cj-fade .8s ease .2s both; }
 .cj-cta {
   font-weight: 700; font-size: clamp(20px, 3vw, 34px); letter-spacing: .14em; text-indent: .14em; color: #241812;
   background: linear-gradient(180deg, var(--gold-br), var(--gold) 55%, #b58a2e);
@@ -117,8 +86,7 @@
   animation: cj-cta 1.6s ease-in-out infinite;
 }
 @keyframes cj-cta { 50% { transform: scale(1.05); box-shadow: 0 0 34px rgba(242, 208, 116, .7); } }
-.cj-footer { margin-top: clamp(6px, 2vh, 18px); display: flex; flex-direction: column; align-items: center; gap: 14px; animation: cj-rise-t .6s ease-out .5s both; }
-.cj-academy { font-weight: 900; font-size: clamp(24px, 4vw, 46px); letter-spacing: .05em; color: var(--ivory); }
-.cj-academy::after { content: ""; display: block; width: 72px; height: 3px; margin: 12px auto 0; border-radius: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
 .cj-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
 .cj-chip { font-family: "Inter", sans-serif; font-weight: 600; font-size: clamp(14px, 1.9vw, 20px); color: var(--ivory); background: rgba(246, 237, 217, .06); border: 1px solid rgba(216, 178, 74, .45); padding: 10px 20px; border-radius: 999px; }
+
+@keyframes cj-fade { from { opacity: 0; } to { opacity: 1; } }
