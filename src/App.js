@@ -93,9 +93,9 @@ import RichmondHillBeltJourney from "./Components/RichmondHillBeltJourney";
     function App() {
   return (
     <>
-  < RichmondHillBeltJourney />
+  < MapleBeltJourney />
        {/* You can toggle others like this */}
-      {/* < MapleBeltJourney /> */}
+      {/* < RichmondHillBeltJourney /> */}
       {/* < BjjBeltJourney /> */}
     </>
   );
