@@ -1,92 +1,75 @@
-/* ChessJourney.css — "Chess at Code Ninjas Woodbridge" promo.
-   Authentic board colours (ivory + walnut), Playfair Display serif, gold accent. */
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@500;600;700&display=swap");
+/* ChessJourney.css — black & white chess promo for Code Ninjas Woodbridge.
+   Light backdrop (dark logo reads with no pill) + a spinning B&W board. */
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap");
 
 :root {
-  --light: #ecd3a4;
-  --dark: #9c6b43;
-  --ivory: #f6edd9;
-  --gold: #d8b24a;
-  --gold-br: #f2d074;
-  --walnut: #241812;
+  --ink: #141414;
+  --paper: #f7f6f3;
+  --muted: #6d6a64;
 }
 
 .cj-stage {
   position: fixed; inset: 0; overflow: hidden;
-  background: #120c08;
-  font-family: "Playfair Display", Georgia, serif;
-  color: var(--ivory);
+  background: linear-gradient(180deg, #fbfaf8 0%, #f2f0ec 58%, #e7e4dd 100%);
+  font-family: "Inter", system-ui, sans-serif;
+  color: var(--ink);
 }
 
-/* ---- warm walnut backdrop ---- */
-.cj-bg { position: absolute; inset: 0; background: radial-gradient(125% 105% at 50% 30%, #2c1f15 0%, #180f0a 52%, #0c0705 82%, #070403 100%); }
-
-/* ---- tilted chessboard floor in perspective ---- */
-.cj-boardwrap { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; perspective: 900px; perspective-origin: 50% 34%; pointer-events: none; }
+/* ---- spinning perspective chessboard floor ---- */
+.cj-boardwrap { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; perspective: 1000px; perspective-origin: 50% 36%; pointer-events: none; }
 .cj-board {
-  width: 158vw; max-width: 1600px; aspect-ratio: 1;
+  width: 172vw; max-width: 1750px; aspect-ratio: 1;
   display: grid; grid-template-columns: repeat(8, 1fr); grid-template-rows: repeat(8, 1fr);
-  transform: rotateX(64deg) translateY(20%) rotate(0deg); transform-origin: center;
-  box-shadow: 0 0 140px rgba(0, 0, 0, .7);
-  -webkit-mask-image: radial-gradient(58% 60% at 50% 42%, #000 0%, transparent 76%);
-          mask-image: radial-gradient(58% 60% at 50% 42%, #000 0%, transparent 76%);
-  animation: cj-board-spin 90s linear infinite;
+  transform: rotateX(66deg) translateY(30%) rotate(0deg); transform-origin: center;
+  -webkit-mask-image: radial-gradient(60% 62% at 50% 46%, #000 0%, rgba(0,0,0,.85) 40%, transparent 78%);
+          mask-image: radial-gradient(60% 62% at 50% 46%, #000 0%, rgba(0,0,0,.85) 40%, transparent 78%);
+  animation: cj-board-spin 80s linear infinite;
 }
-@keyframes cj-board-spin { to { transform: rotateX(64deg) translateY(20%) rotate(360deg); } }
-.cj-sq { width: 100%; height: 100%; animation: cj-sq-in .5s ease both; animation-delay: calc(var(--i) * 7ms); }
-.cj-sq--l { background: linear-gradient(150deg, #f0d9ac, #e3c489); }
-.cj-sq--d { background: linear-gradient(150deg, #a5744a, #8a5c39); box-shadow: inset 0 0 22px rgba(0,0,0,.28); }
-@keyframes cj-sq-in { 0% { opacity: 0; transform: translateY(-10px); } 100% { opacity: 1; transform: none; } }
+@keyframes cj-board-spin { to { transform: rotateX(66deg) translateY(30%) rotate(360deg); } }
+.cj-sq { width: 100%; height: 100%; animation: cj-sq-in .5s ease both; animation-delay: calc(var(--i) * 6ms); }
+.cj-sq--l { background: #efece4; }
+.cj-sq--d { background: #16161a; box-shadow: inset 0 0 18px rgba(0,0,0,.35); }
+@keyframes cj-sq-in { 0% { opacity: 0; transform: translateY(-8px); } 100% { opacity: 1; transform: none; } }
 
-/* ---- spotlight + drifting pieces + vignette ---- */
-.cj-spot { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(42% 44% at 50% 40%, rgba(242, 208, 116, .20), transparent 66%); mix-blend-mode: screen; animation: cj-spot 5s ease-in-out infinite; }
-@keyframes cj-spot { 50% { opacity: .6; } }
-.cj-floaters { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
-.cj-float { position: absolute; bottom: -12%; color: rgba(246, 237, 217, .06); line-height: 1; animation-name: cj-rise; animation-timing-function: linear; animation-iteration-count: infinite; }
-@keyframes cj-rise { 0% { opacity: 0; transform: translateY(0) rotate(0); } 12% { opacity: 1; } 100% { opacity: 0; transform: translateY(-122vh) rotate(40deg); } }
-.cj-vignette { position: absolute; inset: 0; pointer-events: none; background:
-  linear-gradient(180deg, rgba(9, 5, 3, .62) 0%, rgba(9, 5, 3, .18) 15%, transparent 26%),
-  radial-gradient(120% 110% at 50% 46%, transparent 46%, rgba(0, 0, 0, .72) 100%); }
+/* soft light haze so the board reads as a floor and text stays clean */
+.cj-haze { position: absolute; inset: 0; pointer-events: none; background:
+  radial-gradient(70% 52% at 50% 40%, rgba(251, 250, 248, .92) 0%, rgba(251, 250, 248, .55) 34%, transparent 62%),
+  linear-gradient(180deg, rgba(251, 250, 248, .9) 0%, transparent 22%); }
 
-/* ---- brand logo (square CN mark on a soft light disc) ---- */
+/* ---- brand logo (no pill) ---- */
 .cj-logo {
-  position: absolute; top: 4.5%; left: 50%; transform: translateX(-50%); z-index: 10;
-  width: clamp(92px, 11vw, 140px); height: auto; padding: 12px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 255, 255, .96) 60%, rgba(255, 255, 255, .72) 70%, transparent 76%);
-  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, .55));
+  position: absolute; top: 5.5%; left: 50%; transform: translateX(-50%); z-index: 10;
+  width: clamp(112px, 13vw, 176px); height: auto;
+  filter: drop-shadow(0 6px 16px rgba(20, 20, 20, .18));
   animation: cj-drop .6s ease-out both;
 }
 @keyframes cj-drop { 0% { opacity: 0; transform: translateX(-50%) translateY(-12px); } 100% { opacity: 1; transform: translateX(-50%); } }
 
 /* ---- hero ---- */
 .cj-hero {
-  position: absolute; top: 48%; left: 50%; transform: translate(-50%, -50%); z-index: 6;
+  position: absolute; top: 47%; left: 50%; transform: translate(-50%, -50%); z-index: 6;
   display: flex; flex-direction: column; align-items: center; gap: clamp(12px, 2vh, 24px);
   text-align: center; width: min(96vw, 1100px); animation: cj-fade .8s ease both;
 }
-.cj-kicker { font-weight: 700; font-size: clamp(15px, 2.3vw, 27px); letter-spacing: .3em; text-indent: .3em; color: var(--gold-br); text-shadow: 0 2px 12px rgba(0, 0, 0, .7); }
-
-.cj-pieces { display: flex; gap: clamp(6px, 1.6vw, 22px); }
-.cj-pc { display: inline-block; font-size: clamp(44px, 7vw, 96px); line-height: 1; color: var(--ivory); text-shadow: 0 3px 0 rgba(0, 0, 0, .22), 0 14px 24px rgba(0, 0, 0, .55); animation: cj-bob 2.4s ease-in-out infinite; animation-delay: var(--d); }
-@keyframes cj-bob { 50% { transform: translateY(-16px); } }
-
-.cj-title { margin: 0; white-space: nowrap; font-weight: 900; font-size: clamp(54px, 10.5vw, 148px); line-height: .9; letter-spacing: .02em; color: var(--ivory); text-shadow: 0 6px 30px rgba(0, 0, 0, .6); }
-.cj-title span { color: var(--gold-br); }
-
-.cj-tag { font-style: italic; font-weight: 700; font-size: clamp(20px, 3.2vw, 40px); color: #efe3c6; text-shadow: 0 2px 14px rgba(0, 0, 0, .5); animation: cj-tag-in .5s ease both; }
+.cj-eyebrow { font-weight: 600; font-size: clamp(13px, 1.8vw, 21px); letter-spacing: .32em; text-indent: .32em; color: var(--muted); }
+.cj-title {
+  margin: 0; white-space: nowrap; font-family: "Bebas Neue", sans-serif; font-weight: 400;
+  font-size: clamp(76px, 16vw, 240px); line-height: .84; letter-spacing: .015em; color: var(--ink);
+  text-shadow: 0 2px 40px rgba(251, 250, 248, .95), 0 1px 0 rgba(251, 250, 248, .9);
+}
+.cj-rule { width: clamp(120px, 22vw, 300px); height: 2px; background: var(--ink); opacity: .85; }
+.cj-tag { font-style: italic; font-weight: 500; font-size: clamp(18px, 2.9vw, 34px); color: #2a2a2a; text-shadow: 0 1px 18px rgba(251, 250, 248, .95); animation: cj-tag-in .5s ease both; }
 @keyframes cj-tag-in { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: none; } }
 
 /* ---- footer: CTA + contact ---- */
-.cj-footer { position: absolute; bottom: 6.5%; left: 50%; transform: translateX(-50%); z-index: 6; display: flex; flex-direction: column; align-items: center; gap: 16px; animation: cj-fade .8s ease .2s both; }
+.cj-footer { position: absolute; bottom: 6.5%; left: 50%; transform: translateX(-50%); z-index: 6; display: flex; flex-direction: column; align-items: center; gap: 15px; animation: cj-fade .8s ease .2s both; }
 .cj-cta {
-  font-weight: 700; font-size: clamp(20px, 3vw, 34px); letter-spacing: .14em; text-indent: .14em; color: #241812;
-  background: linear-gradient(180deg, var(--gold-br), var(--gold) 55%, #b58a2e);
-  padding: 15px 48px; border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(216, 178, 74, .4), inset 0 0 0 2px rgba(255, 255, 255, .25);
-  animation: cj-cta 1.6s ease-in-out infinite;
+  font-family: "Bebas Neue", sans-serif; font-size: clamp(22px, 3.2vw, 38px); letter-spacing: .1em; text-indent: .1em;
+  color: #fff; background: var(--ink); padding: 13px 46px; border-radius: 4px;
+  box-shadow: 0 12px 30px rgba(20, 20, 20, .3); animation: cj-cta 1.8s ease-in-out infinite;
 }
-@keyframes cj-cta { 50% { transform: scale(1.05); box-shadow: 0 0 34px rgba(242, 208, 116, .7); } }
+@keyframes cj-cta { 50% { transform: translateY(-3px); box-shadow: 0 18px 36px rgba(20, 20, 20, .38); } }
 .cj-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
-.cj-chip { font-family: "Inter", sans-serif; font-weight: 600; font-size: clamp(14px, 1.9vw, 20px); color: var(--ivory); background: rgba(246, 237, 217, .06); border: 1px solid rgba(216, 178, 74, .45); padding: 10px 20px; border-radius: 999px; }
+.cj-chip { font-family: "Inter", sans-serif; font-weight: 600; font-size: clamp(14px, 1.9vw, 20px); color: var(--ink); background: rgba(255, 255, 255, .82); border: 1.5px solid var(--ink); padding: 9px 20px; border-radius: 999px; }
 
 @keyframes cj-fade { from { opacity: 0; } to { opacity: 1; } }

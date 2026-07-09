@@ -1,6 +1,7 @@
-// ChessJourney.jsx — "Chess at Code Ninjas Woodbridge" promo clip.
-// A cinematic wood chessboard, the CN Woodbridge logo, a bobbing chess set,
-// a rotating benefits tagline, and a CTA + contact. Self-contained, loops.
+// ChessJourney.jsx — "Chess at Code Ninjas Woodbridge" promo.
+// Clean black & white: a slowly spinning perspective chessboard, the CN
+// Woodbridge logo (no pill needed on the light backdrop), a bold headline,
+// a rotating tagline, and a CTA + contact. Self-contained, loops.
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/ChessJourney.css";
 import cnLogo from "../Images/cn-wb-logo.png";
@@ -17,19 +18,15 @@ const TAGLINES = [
   "Play, compete & level up",
 ];
 
-const HERO_PIECES = ["♚", "♛", "♜", "♝", "♞", "♟"];
-
 // 64 squares, built once
 const SQUARES = Array.from({ length: 64 }, (_, i) => {
   const r = Math.floor(i / 8), c = i % 8;
   return (r + c) % 2 === 0 ? "l" : "d";
 });
-const FLOATERS = ["♟", "♞", "♝", "♜", "♛", "♚", "♟", "♞"];
 
 export default function ChessJourney() {
   const [ti, setTi] = useState(0);
 
-  // cycle the benefit tagline for a little life (not a rank machine)
   useEffect(() => {
     const t = setTimeout(() => setTi((v) => (v + 1) % TAGLINES.length), 2600);
     return () => clearTimeout(t);
@@ -37,8 +34,7 @@ export default function ChessJourney() {
 
   return (
     <div className="cj-stage">
-      {/* layered chess-wood background */}
-      <div className="cj-bg" aria-hidden />
+      {/* spinning perspective chessboard floor */}
       <div className="cj-boardwrap" aria-hidden>
         <div className="cj-board">
           {SQUARES.map((s, i) => (
@@ -46,37 +42,16 @@ export default function ChessJourney() {
           ))}
         </div>
       </div>
-      <div className="cj-spot" aria-hidden />
-      <div className="cj-floaters" aria-hidden>
-        {FLOATERS.map((g, i) => (
-          <span
-            key={i}
-            className="cj-float"
-            style={{
-              left: `${(i * 37 + 6) % 92}%`,
-              animationDelay: `${((i * 1.3) % 9) - 9}s`,
-              animationDuration: `${13 + (i % 5) * 2}s`,
-              fontSize: `${40 + (i % 3) * 24}px`,
-            }}
-          >
-            {g}
-          </span>
-        ))}
-      </div>
-      <div className="cj-vignette" aria-hidden />
+      <div className="cj-haze" aria-hidden />
 
-      {/* brand */}
+      {/* brand — dark logo sits directly on the light backdrop, no pill */}
       <img className="cj-logo" src={cnLogo} alt="Code Ninjas Woodbridge" />
 
       {/* hero */}
       <div className="cj-hero">
-        <div className="cj-kicker">NOW&nbsp;AT&nbsp;CODE&nbsp;NINJAS&nbsp;WOODBRIDGE</div>
-        <div className="cj-pieces">
-          {HERO_PIECES.map((p, i) => (
-            <span key={i} className="cj-pc" style={{ "--d": `${i * 0.16}s` }}>{p}</span>
-          ))}
-        </div>
-        <h1 className="cj-title">CHESS <span>CLUB</span></h1>
+        <div className="cj-eyebrow">CODE&nbsp;NINJAS&nbsp;WOODBRIDGE&nbsp;&nbsp;·&nbsp;&nbsp;PRESENTS</div>
+        <h1 className="cj-title">CHESS CLUB</h1>
+        <div className="cj-rule" aria-hidden />
         <div key={ti} className="cj-tag">{TAGLINES[ti]}</div>
       </div>
 
