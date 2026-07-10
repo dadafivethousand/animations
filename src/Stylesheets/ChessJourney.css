@@ -13,8 +13,8 @@
 .cj-stage {
   position: fixed; inset: 0; overflow: hidden;
   background: linear-gradient(180deg,
-    #f1e4c8 0%, #e6cd9f 13%, #c39a64 25%, #8a6640 37%,
-    #4c351f 50%, #2a1c12 66%, #180f09 85%, #120c07 100%);
+    #f4e9d0 0%, #eeddb6 20%, #cca471 30%, #6d4f30 42%,
+    #33230f 56%, #241812 72%, #160f0a 100%);
   font-family: "Playfair Display", Georgia, serif;
   color: var(--ivory);
 }
@@ -26,8 +26,8 @@
   display: grid; grid-template-columns: repeat(8, 1fr); grid-template-rows: repeat(8, 1fr);
   transform: rotateX(66deg) translateY(28%) rotate(0deg); transform-origin: center;
   box-shadow: 0 0 140px rgba(0, 0, 0, .6);
-  -webkit-mask-image: radial-gradient(78% 66% at 50% 80%, #000 0%, #000 44%, transparent 78%);
-          mask-image: radial-gradient(78% 66% at 50% 80%, #000 0%, #000 44%, transparent 78%);
+  -webkit-mask-image: radial-gradient(135% 100% at 50% 98%, #000 0%, #000 52%, transparent 82%);
+          mask-image: radial-gradient(135% 100% at 50% 98%, #000 0%, #000 52%, transparent 82%);
   animation: cj-board-spin 82s linear infinite;
 }
 @keyframes cj-board-spin { to { transform: rotateX(66deg) translateY(28%) rotate(360deg); } }
@@ -38,6 +38,7 @@
 
 /* ---- soft warm glow + gentle vignette (smooth, no bands) ---- */
 .cj-haze { position: absolute; inset: 0; pointer-events: none; background:
+  radial-gradient(66% 22% at 50% 8%, rgba(248, 240, 218, .82), transparent 78%),
   radial-gradient(54% 24% at 50% 50%, rgba(18, 12, 7, .55), transparent 72%),
   radial-gradient(50% 36% at 50% 48%, rgba(242, 208, 116, .12), transparent 70%),
   radial-gradient(125% 100% at 50% 40%, transparent 58%, rgba(9, 6, 3, .45) 100%); }
@@ -51,8 +52,11 @@
 }
 @keyframes cj-drop { 0% { opacity: 0; transform: translateX(-50%) translateY(-12px); } 100% { opacity: 1; transform: translateX(-50%); } }
 .cj-contact {
-  position: absolute; top: 20.5%; left: 50%; transform: translateX(-50%); z-index: 10;
-  display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+  position: absolute; top: 19.5%; left: 50%; transform: translateX(-50%); z-index: 10;
+  display: flex; align-items: stretch; flex-wrap: wrap; justify-content: center;
+  background: rgba(255, 252, 246, .62); border: 1px solid rgba(120, 85, 50, .28);
+  border-radius: 999px; padding: 4px 6px; box-shadow: 0 8px 22px rgba(60, 40, 20, .14);
+  -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
   animation: cj-fade .8s ease .15s both;
 }
 
@@ -81,7 +85,8 @@
 }
 @keyframes cj-cta { 50% { transform: scale(1.05); box-shadow: 0 0 34px rgba(242, 208, 116, .7); } }
 
-/* contact chips — dark ink for the light top band */
-.cj-chip { font-family: "Inter", sans-serif; font-weight: 600; font-size: clamp(13px, 1.7vw, 19px); color: #2c1d10; background: rgba(255, 251, 242, .5); border: 1px solid rgba(90, 63, 40, .45); padding: 9px 18px; border-radius: 999px; }
+/* contact items — one bar, dark ink, thin gold dividers */
+.cj-chip { display: inline-flex; align-items: center; gap: 8px; position: relative; font-family: "Inter", sans-serif; font-weight: 600; font-size: clamp(13px, 1.55vw, 18px); color: #2c1d10; padding: 7px 22px; white-space: nowrap; }
+.cj-chip + .cj-chip::before { content: ""; position: absolute; left: 0; top: 18%; height: 64%; width: 1px; background: rgba(120, 85, 50, .4); }
 
 @keyframes cj-fade { from { opacity: 0; } to { opacity: 1; } }
