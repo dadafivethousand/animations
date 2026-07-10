@@ -6,12 +6,6 @@ import React, { useEffect, useState } from "react";
 import "../Stylesheets/ChessJourney.css";
 import cnLogo from "../Images/cn-wb-logo.png";
 
-const CONTACT = {
-  address: "6175 Hwy 7",
-  website: "cnwoodbridge.com",
-  phone: "(647) 887-9940",
-};
-
 const TAGLINES = [
   "An ongoing program for all skill levels",
   "Weekly classes · beginner to advanced",
@@ -31,15 +25,20 @@ const SQUARES = Array.from({ length: 64 }, (_, i) => {
 // on the board with a touch of depth blur.
 const FLOATERS = [
   // near / foreground (big)
-  { g: "♞", w: true,  x: 17, y: 82, s: 152, dur: 5.5, delay: 0,    dx0: -60, dy0: 24,  dx2: 44,  dy2: -32, r0: -14, r2: 10,  blur: 0,   op: 1 },
-  { g: "♞", w: false, x: 83, y: 80, s: 150, dur: 6,   delay: -2.5, dx0: 60,  dy0: 24,  dx2: -44, dy2: -32, r0: 14,  r2: -10, blur: 0,   op: 1 },
-  { g: "♛", w: true,  x: 50, y: 87, s: 122, dur: 6.5, delay: -1.2, dx0: 0,   dy0: 52,  dx2: 0,   dy2: -42, r0: -8,  r2: 8,   blur: 0,   op: 1 },
+  { g: "♞", w: true,  x: 14, y: 83, s: 152, dur: 6,   delay: 0,    dx0: -58, dy0: 26,  dx2: 40,  dy2: -34, r0: -12, r2: 9,   blur: 0,   op: 1 },
+  { g: "♞", w: false, x: 86, y: 81, s: 150, dur: 6.4, delay: -2.4, dx0: 58,  dy0: 26,  dx2: -40, dy2: -34, r0: 12,  r2: -9,  blur: 0,   op: 1 },
+  { g: "♚", w: true,  x: 50, y: 88, s: 128, dur: 6.8, delay: -1.2, dx0: 0,   dy0: 54,  dx2: 0,   dy2: -44, r0: -7,  r2: 7,   blur: 0,   op: 1 },
+  { g: "♛", w: false, x: 31, y: 86, s: 112, dur: 6.2, delay: -4.1, dx0: -40, dy0: 34,  dx2: 44,  dy2: -28, r0: 10,  r2: -10, blur: 0,   op: 1 },
+  { g: "♜", w: true,  x: 71, y: 85, s: 104, dur: 6.6, delay: -5.3, dx0: 44,  dy0: 34,  dx2: -42, dy2: -28, r0: -10, r2: 10,  blur: 0,   op: 1 },
   // mid
-  { g: "♟", w: false, x: 33, y: 71, s: 86,  dur: 5,   delay: -3.6, dx0: -46, dy0: 30,  dx2: 46,  dy2: -26, r0: 13,  r2: -13, blur: 0,   op: .96 },
-  { g: "♝", w: true,  x: 67, y: 72, s: 92,  dur: 5.8, delay: -4.4, dx0: 46,  dy0: 30,  dx2: -46, dy2: -26, r0: -13, r2: 13,  blur: 0,   op: .96 },
-  // far (smaller, gentle depth-of-field)
-  { g: "♜", w: false, x: 41, y: 61, s: 60,  dur: 7,   delay: -2,   dx0: -32, dy0: -30, dx2: 32,  dy2: 30,  r0: -16, r2: 14,  blur: 1.5, op: .6 },
-  { g: "♟", w: true,  x: 60, y: 62, s: 58,  dur: 7.5, delay: -5,   dx0: 32,  dy0: -30, dx2: -32, dy2: 30,  r0: 16,  r2: -14, blur: 1.5, op: .6 },
+  { g: "♟", w: false, x: 23, y: 72, s: 80,  dur: 5.6, delay: -3,   dx0: -42, dy0: 28,  dx2: 42,  dy2: -24, r0: 12,  r2: -12, blur: 0,   op: .96 },
+  { g: "♝", w: true,  x: 43, y: 70, s: 84,  dur: 5.9, delay: -4.7, dx0: 36,  dy0: 28,  dx2: -40, dy2: -24, r0: -11, r2: 11,  blur: .6,  op: .96 },
+  { g: "♞", w: false, x: 59, y: 71, s: 82,  dur: 6.1, delay: -2,   dx0: 40,  dy0: 28,  dx2: -38, dy2: -24, r0: 11,  r2: -11, blur: .6,  op: .96 },
+  { g: "♟", w: true,  x: 79, y: 70, s: 78,  dur: 5.7, delay: -6,   dx0: 44,  dy0: 28,  dx2: -40, dy2: -24, r0: -10, r2: 10,  blur: .6,  op: .96 },
+  // far (smaller, depth-of-field)
+  { g: "♜", w: false, x: 36, y: 61, s: 58,  dur: 7.2, delay: -1.8, dx0: -30, dy0: -28, dx2: 30,  dy2: 28,  r0: -15, r2: 13,  blur: 1.6, op: .6 },
+  { g: "♝", w: true,  x: 54, y: 60, s: 56,  dur: 7.6, delay: -5,   dx0: 28,  dy0: -28, dx2: -28, dy2: 28,  r0: 15,  r2: -13, blur: 1.6, op: .6 },
+  { g: "♛", w: false, x: 66, y: 62, s: 60,  dur: 7,   delay: -3.4, dx0: 30,  dy0: -26, dx2: -30, dy2: 26,  r0: -14, r2: 12,  blur: 1.6, op: .55 },
 ];
 
 export default function ChessJourney() {
@@ -62,14 +61,9 @@ export default function ChessJourney() {
       </div>
       <div className="cj-haze" aria-hidden />
 
-      {/* brand — logo + contact grouped, on the clean light top, no pill */}
+      {/* brand — logo only, on the clean light top, no pill */}
       <div className="cj-head">
         <img className="cj-logo" src={cnLogo} alt="Code Ninjas Woodbridge" />
-        <div className="cj-contact">
-          <span className="cj-chip">📍 {CONTACT.address}</span>
-          <span className="cj-chip">🌐 {CONTACT.website}</span>
-          <span className="cj-chip">📞 {CONTACT.phone}</span>
-        </div>
       </div>
 
       {/* hero */}
