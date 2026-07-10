@@ -7,7 +7,8 @@ import "../Stylesheets/ChessJourney.css";
 import cnLogo from "../Images/cn-wb-logo-2025.png";
 
 const TAGLINES = [
-  "Learn from a coach with real competitive experience",
+  "Expert coaching",
+  "Sharpen your game",
   "An ongoing program for all skill levels",
   "Weekly classes · beginner to advanced",
   "From first moves to tournament play",
