@@ -60,9 +60,23 @@ export default function ChessJourney() {
         <div key={ti} className="cj-tag">{TAGLINES[ti]}</div>
       </div>
 
-      {/* footer */}
-      <div className="cj-footer">
-        <span className="cj-cta">ENROLL NOW</span>
+      {/* cinematic piece battle — pieces charge in and get captured, on loop */}
+      <div className="cj-battle" aria-hidden>
+        <div className="cj-duel cj-duel--main">
+          <span className="cj-clash" />
+          <span className="cj-atk">♞</span>
+          <span className="cj-vic">♟</span>
+        </div>
+        <div className="cj-duel cj-duel--left">
+          <span className="cj-clash" />
+          <span className="cj-atk">♜</span>
+          <span className="cj-vic">♞</span>
+        </div>
+        <div className="cj-duel cj-duel--right">
+          <span className="cj-clash" />
+          <span className="cj-atk">♝</span>
+          <span className="cj-vic">♟</span>
+        </div>
       </div>
     </div>
   );
