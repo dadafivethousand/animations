@@ -91,21 +91,17 @@
   80%  { opacity: 1; }
   100% { opacity: 0; transform: translate(var(--dx2), var(--dy2)) rotate(var(--r2)) scale(1.07); }
 }
-/* pieces: subtle lit-from-above sheen + soft grounding shadow (no heavy 3D) */
-.cj-fp {
-  display: inline-block; transform: translate(-50%, -50%);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-}
-/* white army — bright white, flipped so knights/bishops face the black pieces */
+.cj-fp { display: inline-block; transform: translate(-50%, -50%); }
+/* white army — pure white with a dark outline so it reads on light squares;
+   flipped so knights/bishops face the black pieces */
 .cj-fp--w {
-  transform: translate(-50%, -50%) scaleX(-1);
-  background-image: linear-gradient(175deg, #ffffff 0%, #f6f4ee 54%, #e7e3d8 100%);
-  text-shadow: 0 0 1.5px rgba(40, 28, 14, .5), 0 2px 2px rgba(40, 28, 14, .34), 0 14px 26px rgba(0, 0, 0, .42);
+  transform: translate(-50%, -50%) scaleX(-1); color: #ffffff;
+  text-shadow: 0 0 2px rgba(30, 20, 10, .65), 0 2px 3px rgba(30, 20, 10, .45), 0 14px 26px rgba(0, 0, 0, .4);
 }
-/* black army — charcoal sheen */
+/* black army — solid dark */
 .cj-fp--b {
-  background-image: linear-gradient(172deg, #4a4036 0%, #201811 55%, #070402 100%);
-  text-shadow: 0 1px 1px rgba(255, 255, 255, .14), 0 3px 4px rgba(0, 0, 0, .35), 0 14px 24px rgba(0, 0, 0, .5);
+  color: #100b06;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, .16), 0 2px 3px rgba(0, 0, 0, .4), 0 14px 24px rgba(0, 0, 0, .5);
 }
 
 @keyframes cj-fade { from { opacity: 0; } to { opacity: 1; } }
