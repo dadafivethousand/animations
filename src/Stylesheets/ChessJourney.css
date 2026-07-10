@@ -13,8 +13,8 @@
 .cj-stage {
   position: fixed; inset: 0; overflow: hidden;
   background: linear-gradient(180deg,
-    #f0e2c6 0%, #e7cfa2 8%, #b78a55 19%, #5a3f28 34%,
-    #2c1e13 54%, #1c130c 78%, #130c07 100%);
+    #f1e4c8 0%, #e6cd9f 13%, #c39a64 25%, #8a6640 37%,
+    #4c351f 50%, #2a1c12 66%, #180f09 85%, #120c07 100%);
   font-family: "Playfair Display", Georgia, serif;
   color: var(--ivory);
 }
@@ -26,8 +26,8 @@
   display: grid; grid-template-columns: repeat(8, 1fr); grid-template-rows: repeat(8, 1fr);
   transform: rotateX(66deg) translateY(28%) rotate(0deg); transform-origin: center;
   box-shadow: 0 0 140px rgba(0, 0, 0, .6);
-  -webkit-mask-image: radial-gradient(60% 62% at 50% 46%, #000 0%, rgba(0,0,0,.85) 40%, transparent 78%);
-          mask-image: radial-gradient(60% 62% at 50% 46%, #000 0%, rgba(0,0,0,.85) 40%, transparent 78%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 32%, #000 56%, #000 85%, transparent 100%);
+          mask-image: linear-gradient(180deg, transparent 32%, #000 56%, #000 85%, transparent 100%);
   animation: cj-board-spin 82s linear infinite;
 }
 @keyframes cj-board-spin { to { transform: rotateX(66deg) translateY(28%) rotate(360deg); } }
@@ -36,48 +36,42 @@
 .cj-sq--d { background: linear-gradient(150deg, #a5744a, #8a5c39); box-shadow: inset 0 0 20px rgba(0,0,0,.3); }
 @keyframes cj-sq-in { 0% { opacity: 0; transform: translateY(-8px); } 100% { opacity: 1; transform: none; } }
 
-/* ---- zoning: light top for the logo, dark middle for the ivory title,
-       board revealed only as a floor band, dark bottom for the footer ---- */
+/* ---- soft warm glow + gentle vignette (smooth, no bands) ---- */
 .cj-haze { position: absolute; inset: 0; pointer-events: none; background:
-  radial-gradient(46% 30% at 50% 40%, rgba(242, 208, 116, .14), transparent 70%),
-  linear-gradient(180deg,
-    rgba(239, 225, 196, 1) 0%,
-    rgba(236, 220, 182, 1) 16%,
-    rgba(150, 110, 66, .9) 24%,
-    rgba(42, 28, 17, 1) 32%,
-    rgba(36, 24, 18, 1) 40%,
-    rgba(36, 24, 18, 1) 55%,
-    rgba(36, 24, 18, .35) 61%,
-    rgba(36, 24, 18, 0) 66%,
-    rgba(36, 24, 18, 0) 84%,
-    rgba(20, 13, 8, .74) 91%,
-    rgba(19, 12, 7, 1) 100%); }
+  radial-gradient(54% 24% at 50% 50%, rgba(18, 12, 7, .55), transparent 72%),
+  radial-gradient(50% 36% at 50% 48%, rgba(242, 208, 116, .12), transparent 70%),
+  radial-gradient(125% 100% at 50% 40%, transparent 58%, rgba(9, 6, 3, .45) 100%); }
 
-/* ---- brand logo (no pill — sits on the light warm top) ---- */
+/* ---- brand logo + contact (no pill — on the clean light top) ---- */
 .cj-logo {
-  position: absolute; top: 4.5%; left: 50%; transform: translateX(-50%); z-index: 10;
-  width: clamp(104px, 12vw, 162px); height: auto;
-  filter: drop-shadow(0 6px 16px rgba(40, 26, 12, .28));
+  position: absolute; top: 4%; left: 50%; transform: translateX(-50%); z-index: 10;
+  width: clamp(92px, 10.5vw, 140px); height: auto;
+  filter: drop-shadow(0 6px 16px rgba(40, 26, 12, .26));
   animation: cj-drop .6s ease-out both;
 }
 @keyframes cj-drop { 0% { opacity: 0; transform: translateX(-50%) translateY(-12px); } 100% { opacity: 1; transform: translateX(-50%); } }
+.cj-contact {
+  position: absolute; top: 20.5%; left: 50%; transform: translateX(-50%); z-index: 10;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+  animation: cj-fade .8s ease .15s both;
+}
 
 /* ---- hero ---- */
 .cj-hero {
-  position: absolute; top: 43%; left: 50%; transform: translate(-50%, -50%); z-index: 6;
+  position: absolute; top: 49%; left: 50%; transform: translate(-50%, -50%); z-index: 6;
   display: flex; flex-direction: column; align-items: center; gap: clamp(12px, 2vh, 26px);
   text-align: center; width: min(97vw, 1250px); animation: cj-fade .8s ease both;
 }
 .cj-title {
-  margin: 0; white-space: nowrap; font-weight: 900; font-size: clamp(50px, 10vw, 148px);
-  line-height: .9; letter-spacing: .01em; color: var(--ivory); text-shadow: 0 6px 34px rgba(0, 0, 0, .6);
+  margin: 0; white-space: nowrap; font-weight: 900; font-size: clamp(42px, 8vw, 116px);
+  line-height: .9; letter-spacing: .01em; color: var(--ivory); text-shadow: 0 4px 30px rgba(0, 0, 0, .7), 0 2px 6px rgba(0, 0, 0, .5);
 }
 .cj-rule { width: clamp(120px, 22vw, 320px); height: 3px; border-radius: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
 .cj-tag { font-style: italic; font-weight: 600; font-size: clamp(19px, 3vw, 38px); color: #efe3c6; text-shadow: 0 2px 16px rgba(0, 0, 0, .55); animation: cj-tag-in .5s ease both; }
 @keyframes cj-tag-in { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: none; } }
 
-/* ---- footer: CTA + contact ---- */
-.cj-footer { position: absolute; bottom: 6.5%; left: 50%; transform: translateX(-50%); z-index: 6; display: flex; flex-direction: column; align-items: center; gap: 15px; animation: cj-fade .8s ease .2s both; }
+/* ---- footer: CTA ---- */
+.cj-footer { position: absolute; bottom: 7%; left: 50%; transform: translateX(-50%); z-index: 6; display: flex; flex-direction: column; align-items: center; animation: cj-fade .8s ease .2s both; }
 .cj-cta {
   font-weight: 700; font-size: clamp(20px, 3vw, 34px); letter-spacing: .13em; text-indent: .13em; color: #241812;
   background: linear-gradient(180deg, var(--gold-br), var(--gold) 55%, #b58a2e);
@@ -86,7 +80,8 @@
   animation: cj-cta 1.7s ease-in-out infinite;
 }
 @keyframes cj-cta { 50% { transform: scale(1.05); box-shadow: 0 0 34px rgba(242, 208, 116, .7); } }
-.cj-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
-.cj-chip { font-family: "Inter", sans-serif; font-weight: 600; font-size: clamp(14px, 1.9vw, 20px); color: var(--ivory); background: rgba(246, 237, 217, .07); border: 1px solid rgba(216, 178, 74, .5); padding: 10px 20px; border-radius: 999px; }
+
+/* contact chips — dark ink for the light top band */
+.cj-chip { font-family: "Inter", sans-serif; font-weight: 600; font-size: clamp(13px, 1.7vw, 19px); color: #2c1d10; background: rgba(255, 251, 242, .5); border: 1px solid rgba(90, 63, 40, .45); padding: 9px 18px; border-radius: 999px; }
 
 @keyframes cj-fade { from { opacity: 0; } to { opacity: 1; } }

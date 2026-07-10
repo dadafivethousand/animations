@@ -45,8 +45,13 @@ export default function ChessJourney() {
       </div>
       <div className="cj-haze" aria-hidden />
 
-      {/* brand — dark logo sits directly on the light backdrop, no pill */}
+      {/* brand — dark logo + contact sit on the clean light top, no pill */}
       <img className="cj-logo" src={cnLogo} alt="Code Ninjas Woodbridge" />
+      <div className="cj-contact">
+        <span className="cj-chip">📍 {CONTACT.address}</span>
+        <span className="cj-chip">🌐 {CONTACT.website}</span>
+        <span className="cj-chip">📞 {CONTACT.phone}</span>
+      </div>
 
       {/* hero */}
       <div className="cj-hero">
@@ -58,11 +63,6 @@ export default function ChessJourney() {
       {/* footer */}
       <div className="cj-footer">
         <span className="cj-cta">ENROLL NOW</span>
-        <div className="cj-chips">
-          <span className="cj-chip">📍 {CONTACT.address}</span>
-          <span className="cj-chip">🌐 {CONTACT.website}</span>
-          <span className="cj-chip">📞 {CONTACT.phone}</span>
-        </div>
       </div>
     </div>
   );
