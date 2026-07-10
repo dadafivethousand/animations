@@ -25,16 +25,21 @@ const SQUARES = Array.from({ length: 64 }, (_, i) => {
   return (r + c) % 2 === 0 ? "l" : "d";
 });
 
-// cinematic floating pieces — white army flipped so knights face the black ones.
-// w = white (ivory), else black; blur/op give depth-of-field.
+// cinematic floating pieces — all kept on the board (lower floor), spaced in
+// their own lanes so they gently float in place without bumping. White army is
+// flipped so its knights face the black knights. Far pieces sit higher/smaller
+// on the board with a touch of depth blur.
 const FLOATERS = [
-  { g: "♞", w: true,  x: 14, y: 60, s: 150, dur: 11, delay: 0,  dx: 14, dy: -22, r0: -6, r1: 5,  blur: 0,   op: 1 },
-  { g: "♞", w: false, x: 85, y: 56, s: 138, dur: 12, delay: -4, dx: -14, dy: -18, r0: 6,  r1: -4, blur: 0,   op: 1 },
-  { g: "♛", w: true,  x: 50, y: 77, s: 110, dur: 15, delay: -6, dx: 8,  dy: -15, r0: -3, r1: 4,  blur: 0,   op: .98 },
-  { g: "♟", w: false, x: 30, y: 83, s: 82,  dur: 13, delay: -2, dx: 12, dy: -13, r0: 4,  r1: -6, blur: 0,   op: .95 },
-  { g: "♝", w: true,  x: 70, y: 84, s: 92,  dur: 14, delay: -8, dx: -9, dy: -14, r0: 5,  r1: -3, blur: 0,   op: .95 },
-  { g: "♜", w: false, x: 19, y: 34, s: 66,  dur: 17, delay: -5, dx: 16, dy: 18,  r0: -8, r1: 6,  blur: 3,   op: .38 },
-  { g: "♟", w: true,  x: 87, y: 31, s: 62,  dur: 18, delay: -10, dx: -13, dy: 20, r0: 7,  r1: -5, blur: 3,   op: .38 },
+  // near / foreground (big)
+  { g: "♞", w: true,  x: 17, y: 82, s: 152, dur: 12, delay: 0,   dx: 8,  dy: -12, r0: -5, r1: 4,  blur: 0,   op: 1 },
+  { g: "♞", w: false, x: 83, y: 80, s: 150, dur: 13, delay: -5,  dx: -8, dy: -12, r0: 5,  r1: -4, blur: 0,   op: 1 },
+  { g: "♛", w: true,  x: 50, y: 87, s: 122, dur: 15, delay: -3,  dx: 6,  dy: -10, r0: -3, r1: 3,  blur: 0,   op: 1 },
+  // mid
+  { g: "♟", w: false, x: 33, y: 71, s: 86,  dur: 14, delay: -7,  dx: 7,  dy: -10, r0: 4,  r1: -4, blur: 0,   op: .95 },
+  { g: "♝", w: true,  x: 67, y: 72, s: 92,  dur: 14, delay: -9,  dx: -7, dy: -10, r0: 5,  r1: -3, blur: 0,   op: .95 },
+  // far (smaller, gentle depth-of-field)
+  { g: "♜", w: false, x: 41, y: 61, s: 60,  dur: 17, delay: -4,  dx: 6,  dy: -8,  r0: -6, r1: 4,  blur: 1.5, op: .6 },
+  { g: "♟", w: true,  x: 60, y: 62, s: 58,  dur: 18, delay: -11, dx: -6, dy: -8,  r0: 6,  r1: -4, blur: 1.5, op: .6 },
 ];
 
 export default function ChessJourney() {
