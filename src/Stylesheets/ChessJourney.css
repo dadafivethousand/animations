@@ -36,8 +36,8 @@
 
 /* ---- soft warm glow + gentle vignette (smooth, no bands) ---- */
 .cj-haze { position: absolute; inset: 0; pointer-events: none; background:
-  linear-gradient(180deg, rgba(245, 234, 210, .98) 0%, rgba(245, 234, 210, .8) 20%, rgba(245, 234, 210, 0) 41%),
-  radial-gradient(56% 26% at 50% 54%, rgba(18, 12, 7, .58), transparent 72%),
+  linear-gradient(180deg, rgba(245, 234, 210, .98) 0%, rgba(245, 234, 210, .82) 24%, rgba(245, 234, 210, 0) 45%),
+  radial-gradient(56% 24% at 50% 56%, rgba(18, 12, 7, .58), transparent 72%),
   radial-gradient(50% 36% at 50% 52%, rgba(242, 208, 116, .1), transparent 70%),
   radial-gradient(130% 105% at 50% 44%, transparent 55%, rgba(9, 6, 3, .5) 100%); }
 
@@ -48,8 +48,8 @@
   animation: cj-fade .8s ease both;
 }
 .cj-logo {
-  width: clamp(184px, 19.5vw, 288px); height: auto;
-  filter: drop-shadow(0 6px 16px rgba(40, 26, 12, .26));
+  width: clamp(210px, 22vw, 324px); height: auto;
+  filter: drop-shadow(0 6px 16px rgba(40, 26, 12, .22));
 }
 
 /* ---- hero ---- */
