@@ -13,10 +13,10 @@ const CONTACT = {
 };
 
 const TAGLINES = [
-  "Strategy, focus & critical thinking",
-  "For all ages & every skill level",
-  "Openings, tactics & endgames",
-  "Play, compete & level up",
+  "An ongoing program for all skill levels",
+  "Weekly classes · beginner to advanced",
+  "Structured curriculum & real coaching",
+  "From first moves to tournament play",
 ];
 
 // 64 squares, built once
@@ -50,15 +50,15 @@ export default function ChessJourney() {
 
       {/* hero */}
       <div className="cj-hero">
-        <div className="cj-eyebrow">CODE&nbsp;NINJAS&nbsp;WOODBRIDGE&nbsp;&nbsp;·&nbsp;&nbsp;PRESENTS</div>
-        <h1 className="cj-title">CHESS CLUB</h1>
+        <div className="cj-eyebrow">NOW&nbsp;ENROLLING&nbsp;&nbsp;·&nbsp;&nbsp;CODE&nbsp;NINJAS&nbsp;WOODBRIDGE</div>
+        <h1 className="cj-title">CHESS PROGRAM</h1>
         <div className="cj-rule" aria-hidden />
         <div key={ti} className="cj-tag">{TAGLINES[ti]}</div>
       </div>
 
       {/* footer */}
       <div className="cj-footer">
-        <span className="cj-cta">JOIN THE CHESS CLUB</span>
+        <span className="cj-cta">ENROLL NOW</span>
         <div className="cj-chips">
           <span className="cj-chip">📍 {CONTACT.address}</span>
           <span className="cj-chip">🌐 {CONTACT.website}</span>
