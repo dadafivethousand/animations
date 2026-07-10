@@ -26,8 +26,6 @@
   display: grid; grid-template-columns: repeat(8, 1fr); grid-template-rows: repeat(8, 1fr);
   transform: rotateX(66deg) translateY(28%) rotate(0deg); transform-origin: center;
   box-shadow: 0 0 140px rgba(0, 0, 0, .6);
-  -webkit-mask-image: radial-gradient(135% 100% at 50% 98%, #000 0%, #000 52%, transparent 82%);
-          mask-image: radial-gradient(135% 100% at 50% 98%, #000 0%, #000 52%, transparent 82%);
   animation: cj-board-spin 82s linear infinite;
 }
 @keyframes cj-board-spin { to { transform: rotateX(66deg) translateY(28%) rotate(360deg); } }
@@ -38,19 +36,19 @@
 
 /* ---- soft warm glow + gentle vignette (smooth, no bands) ---- */
 .cj-haze { position: absolute; inset: 0; pointer-events: none; background:
-  radial-gradient(74% 30% at 50% 10%, rgba(248, 240, 218, .84), transparent 78%),
-  radial-gradient(54% 24% at 50% 52%, rgba(18, 12, 7, .55), transparent 72%),
-  radial-gradient(50% 36% at 50% 48%, rgba(242, 208, 116, .12), transparent 70%),
-  radial-gradient(125% 100% at 50% 40%, transparent 58%, rgba(9, 6, 3, .45) 100%); }
+  linear-gradient(180deg, rgba(245, 234, 210, .97) 0%, rgba(245, 234, 210, .72) 13%, rgba(245, 234, 210, 0) 33%),
+  radial-gradient(54% 26% at 50% 52%, rgba(18, 12, 7, .58), transparent 72%),
+  radial-gradient(50% 36% at 50% 50%, rgba(242, 208, 116, .1), transparent 70%),
+  radial-gradient(130% 105% at 50% 42%, transparent 55%, rgba(9, 6, 3, .5) 100%); }
 
 /* ---- brand header: logo + contact grouped (no pill), on the light top ---- */
 .cj-head {
-  position: absolute; top: 6%; left: 50%; transform: translateX(-50%); z-index: 10;
+  position: absolute; top: 5%; left: 50%; transform: translateX(-50%); z-index: 10;
   display: flex; flex-direction: column; align-items: center; gap: clamp(6px, 1vh, 12px);
   animation: cj-fade .8s ease both;
 }
 .cj-logo {
-  width: clamp(120px, 13.4vw, 184px); height: auto;
+  width: clamp(150px, 16.5vw, 232px); height: auto;
   filter: drop-shadow(0 6px 16px rgba(40, 26, 12, .26));
 }
 .cj-contact { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; }
@@ -94,10 +92,21 @@
   82%  { opacity: 1; }
   100% { opacity: 0; transform: translate(var(--dx2), var(--dy2)) rotate(var(--r2)) scale(.85); }
 }
-.cj-fp { display: inline-block; transform: translate(-50%, -50%); }
-/* white army — ivory, flipped so knights/bishops face the black pieces */
-.cj-fp--w { transform: translate(-50%, -50%) scaleX(-1); color: #f7efdb; text-shadow: 0 0 3px rgba(0,0,0,.4), 0 3px 0 rgba(120,90,50,.35), 0 16px 28px rgba(0,0,0,.5); }
-/* black army — dark */
-.cj-fp--b { color: #14100a; text-shadow: 0 2px 0 rgba(255,255,255,.12), 0 14px 24px rgba(0,0,0,.55); }
+/* pieces: subtle lit-from-above sheen + soft grounding shadow (no heavy 3D) */
+.cj-fp {
+  display: inline-block; transform: translate(-50%, -50%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+/* white army — ivory sheen, flipped so knights/bishops face the black pieces */
+.cj-fp--w {
+  transform: translate(-50%, -50%) scaleX(-1);
+  background-image: linear-gradient(172deg, #fffdf7 0%, #f2e0bd 58%, #e2c898 100%);
+  text-shadow: 0 1px 1px rgba(70, 45, 20, .55), 0 3px 4px rgba(70, 45, 20, .28), 0 14px 24px rgba(0, 0, 0, .45);
+}
+/* black army — charcoal sheen */
+.cj-fp--b {
+  background-image: linear-gradient(172deg, #4a4036 0%, #201811 55%, #070402 100%);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, .14), 0 3px 4px rgba(0, 0, 0, .35), 0 14px 24px rgba(0, 0, 0, .5);
+}
 
 @keyframes cj-fade { from { opacity: 0; } to { opacity: 1; } }

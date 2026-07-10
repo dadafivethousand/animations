@@ -7,7 +7,7 @@ import "../Stylesheets/ChessJourney.css";
 import cnLogo from "../Images/cn-wb-logo.png";
 
 const CONTACT = {
-  address: "6175 Hwy 7, Woodbridge",
+  address: "6175 Hwy 7",
   website: "cnwoodbridge.com",
   phone: "(647) 887-9940",
 };
