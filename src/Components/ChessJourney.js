@@ -50,7 +50,6 @@ export default function ChessJourney() {
 
       {/* hero */}
       <div className="cj-hero">
-        <div className="cj-eyebrow">NOW&nbsp;ENROLLING&nbsp;&nbsp;·&nbsp;&nbsp;CODE&nbsp;NINJAS&nbsp;WOODBRIDGE</div>
         <h1 className="cj-title">CHESS PROGRAM</h1>
         <div className="cj-rule" aria-hidden />
         <div key={ti} className="cj-tag">{TAGLINES[ti]}</div>

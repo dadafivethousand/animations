@@ -1,80 +1,92 @@
-/* ChessJourney.css — black & white chess promo for Code Ninjas Woodbridge.
-   Light backdrop (dark logo reads with no pill) + a spinning B&W board. */
-@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap");
+/* ChessJourney.css — warm chess promo for Code Ninjas Woodbridge.
+   Walnut + ivory + gold, Playfair Display serif, spinning wood board.
+   Light warm top band lets the dark logo read with no pill. */
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,600&family=Inter:ital,wght@0,500;0,600;0,700;1,500&display=swap");
 
 :root {
-  --ink: #141414;
-  --paper: #f7f6f3;
-  --muted: #6d6a64;
+  --ivory: #f6edd9;
+  --gold: #d8b24a;
+  --gold-br: #f2d074;
+  --walnut: #241812;
 }
 
 .cj-stage {
   position: fixed; inset: 0; overflow: hidden;
-  background: linear-gradient(180deg, #fbfaf8 0%, #f2f0ec 58%, #e7e4dd 100%);
-  font-family: "Inter", system-ui, sans-serif;
-  color: var(--ink);
+  background: linear-gradient(180deg,
+    #f0e2c6 0%, #e7cfa2 8%, #b78a55 19%, #5a3f28 34%,
+    #2c1e13 54%, #1c130c 78%, #130c07 100%);
+  font-family: "Playfair Display", Georgia, serif;
+  color: var(--ivory);
 }
 
-/* ---- spinning perspective chessboard floor ---- */
+/* ---- spinning perspective wood chessboard floor ---- */
 .cj-boardwrap { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; perspective: 1000px; perspective-origin: 50% 36%; pointer-events: none; }
 .cj-board {
-  width: 172vw; max-width: 1750px; aspect-ratio: 1;
+  width: 168vw; max-width: 1720px; aspect-ratio: 1;
   display: grid; grid-template-columns: repeat(8, 1fr); grid-template-rows: repeat(8, 1fr);
-  transform: rotateX(66deg) translateY(30%) rotate(0deg); transform-origin: center;
+  transform: rotateX(66deg) translateY(28%) rotate(0deg); transform-origin: center;
+  box-shadow: 0 0 140px rgba(0, 0, 0, .6);
   -webkit-mask-image: radial-gradient(60% 62% at 50% 46%, #000 0%, rgba(0,0,0,.85) 40%, transparent 78%);
           mask-image: radial-gradient(60% 62% at 50% 46%, #000 0%, rgba(0,0,0,.85) 40%, transparent 78%);
-  animation: cj-board-spin 80s linear infinite;
+  animation: cj-board-spin 82s linear infinite;
 }
-@keyframes cj-board-spin { to { transform: rotateX(66deg) translateY(30%) rotate(360deg); } }
+@keyframes cj-board-spin { to { transform: rotateX(66deg) translateY(28%) rotate(360deg); } }
 .cj-sq { width: 100%; height: 100%; animation: cj-sq-in .5s ease both; animation-delay: calc(var(--i) * 6ms); }
-.cj-sq--l { background: #efece4; }
-.cj-sq--d { background: #16161a; box-shadow: inset 0 0 18px rgba(0,0,0,.35); }
+.cj-sq--l { background: linear-gradient(150deg, #f0d9ac, #e3c489); }
+.cj-sq--d { background: linear-gradient(150deg, #a5744a, #8a5c39); box-shadow: inset 0 0 20px rgba(0,0,0,.3); }
 @keyframes cj-sq-in { 0% { opacity: 0; transform: translateY(-8px); } 100% { opacity: 1; transform: none; } }
 
-/* clean paper top + bottom, board revealed only as a floor band in between */
+/* ---- zoning: light top for the logo, dark middle for the ivory title,
+       board revealed only as a floor band, dark bottom for the footer ---- */
 .cj-haze { position: absolute; inset: 0; pointer-events: none; background:
+  radial-gradient(46% 30% at 50% 40%, rgba(242, 208, 116, .14), transparent 70%),
   linear-gradient(180deg,
-    #f7f6f3 0%,
-    #f7f6f3 40%,
-    rgba(247, 246, 243, .30) 58%,
-    transparent 72%,
-    rgba(247, 246, 243, .58) 90%,
-    #f7f6f3 100%); }
+    rgba(239, 225, 196, 1) 0%,
+    rgba(236, 220, 182, 1) 16%,
+    rgba(150, 110, 66, .9) 24%,
+    rgba(42, 28, 17, 1) 32%,
+    rgba(36, 24, 18, 1) 40%,
+    rgba(36, 24, 18, 1) 55%,
+    rgba(36, 24, 18, .35) 61%,
+    rgba(36, 24, 18, 0) 66%,
+    rgba(36, 24, 18, 0) 84%,
+    rgba(20, 13, 8, .74) 91%,
+    rgba(19, 12, 7, 1) 100%); }
 
-/* ---- brand logo (no pill) ---- */
+/* ---- brand logo (no pill — sits on the light warm top) ---- */
 .cj-logo {
-  position: absolute; top: 5.5%; left: 50%; transform: translateX(-50%); z-index: 10;
-  width: clamp(122px, 14vw, 194px); height: auto;
-  filter: drop-shadow(0 6px 16px rgba(20, 20, 20, .18));
+  position: absolute; top: 4.5%; left: 50%; transform: translateX(-50%); z-index: 10;
+  width: clamp(104px, 12vw, 162px); height: auto;
+  filter: drop-shadow(0 6px 16px rgba(40, 26, 12, .28));
   animation: cj-drop .6s ease-out both;
 }
 @keyframes cj-drop { 0% { opacity: 0; transform: translateX(-50%) translateY(-12px); } 100% { opacity: 1; transform: translateX(-50%); } }
 
 /* ---- hero ---- */
 .cj-hero {
-  position: absolute; top: 38%; left: 50%; transform: translate(-50%, -50%); z-index: 6;
-  display: flex; flex-direction: column; align-items: center; gap: clamp(12px, 2vh, 24px);
-  text-align: center; width: min(96vw, 1150px); animation: cj-fade .8s ease both;
+  position: absolute; top: 43%; left: 50%; transform: translate(-50%, -50%); z-index: 6;
+  display: flex; flex-direction: column; align-items: center; gap: clamp(12px, 2vh, 26px);
+  text-align: center; width: min(97vw, 1250px); animation: cj-fade .8s ease both;
 }
-.cj-eyebrow { font-weight: 600; font-size: clamp(13px, 1.8vw, 21px); letter-spacing: .32em; text-indent: .32em; color: var(--muted); }
 .cj-title {
-  margin: 0; white-space: nowrap; font-family: "Bebas Neue", sans-serif; font-weight: 400;
-  font-size: clamp(58px, 11vw, 172px); line-height: .84; letter-spacing: .015em; color: var(--ink);
-  text-shadow: 0 2px 40px rgba(251, 250, 248, .95), 0 1px 0 rgba(251, 250, 248, .9);
+  margin: 0; white-space: nowrap; font-weight: 900; font-size: clamp(50px, 10vw, 148px);
+  line-height: .9; letter-spacing: .01em; color: var(--ivory); text-shadow: 0 6px 34px rgba(0, 0, 0, .6);
 }
-.cj-rule { width: clamp(120px, 22vw, 300px); height: 2px; background: var(--ink); opacity: .85; }
-.cj-tag { font-style: italic; font-weight: 500; font-size: clamp(18px, 2.9vw, 34px); color: #2a2a2a; text-shadow: 0 1px 18px rgba(251, 250, 248, .95); animation: cj-tag-in .5s ease both; }
+.cj-rule { width: clamp(120px, 22vw, 320px); height: 3px; border-radius: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.cj-tag { font-style: italic; font-weight: 600; font-size: clamp(19px, 3vw, 38px); color: #efe3c6; text-shadow: 0 2px 16px rgba(0, 0, 0, .55); animation: cj-tag-in .5s ease both; }
 @keyframes cj-tag-in { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: none; } }
 
 /* ---- footer: CTA + contact ---- */
 .cj-footer { position: absolute; bottom: 6.5%; left: 50%; transform: translateX(-50%); z-index: 6; display: flex; flex-direction: column; align-items: center; gap: 15px; animation: cj-fade .8s ease .2s both; }
 .cj-cta {
-  font-family: "Bebas Neue", sans-serif; font-size: clamp(22px, 3.2vw, 38px); letter-spacing: .1em; text-indent: .1em;
-  color: #fff; background: var(--ink); padding: 13px 46px; border-radius: 4px;
-  box-shadow: 0 12px 30px rgba(20, 20, 20, .3); animation: cj-cta 1.8s ease-in-out infinite;
+  font-weight: 700; font-size: clamp(20px, 3vw, 34px); letter-spacing: .13em; text-indent: .13em; color: #241812;
+  background: linear-gradient(180deg, var(--gold-br), var(--gold) 55%, #b58a2e);
+  padding: 15px 50px; border-radius: 8px;
+  box-shadow: 0 12px 30px rgba(216, 178, 74, .4), inset 0 0 0 2px rgba(255, 255, 255, .25);
+  animation: cj-cta 1.7s ease-in-out infinite;
 }
-@keyframes cj-cta { 50% { transform: translateY(-3px); box-shadow: 0 18px 36px rgba(20, 20, 20, .38); } }
+@keyframes cj-cta { 50% { transform: scale(1.05); box-shadow: 0 0 34px rgba(242, 208, 116, .7); } }
 .cj-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
-.cj-chip { font-family: "Inter", sans-serif; font-weight: 600; font-size: clamp(14px, 1.9vw, 20px); color: var(--ink); background: rgba(255, 255, 255, .82); border: 1.5px solid var(--ink); padding: 9px 20px; border-radius: 999px; }
+.cj-chip { font-family: "Inter", sans-serif; font-weight: 600; font-size: clamp(14px, 1.9vw, 20px); color: var(--ivory); background: rgba(246, 237, 217, .07); border: 1px solid rgba(216, 178, 74, .5); padding: 10px 20px; border-radius: 999px; }
 
 @keyframes cj-fade { from { opacity: 0; } to { opacity: 1; } }
