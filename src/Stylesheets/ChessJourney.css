@@ -94,35 +94,10 @@
   50%  { transform: translate(var(--dx), var(--dy)) rotate(var(--r1)); }
   100% { transform: translate(0, 0) rotate(var(--r0)); }
 }
-/* pieces get a 3D look: gradient (lit-from-above) fill, a downward extrusion
-   for thickness, and a soft cast shadow grounding them on the board */
-.cj-fp {
-  display: inline-block; position: relative; transform: translate(-50%, -50%);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-}
-/* soft cast shadow on the board */
-.cj-fp::after {
-  content: ""; position: absolute; left: 50%; bottom: .02em; z-index: -1;
-  width: .74em; height: .2em; transform: translateX(-50%);
-  background: radial-gradient(50% 50% at 50% 50%, rgba(0, 0, 0, .5), transparent 72%);
-  filter: blur(3px);
-}
+.cj-fp { display: inline-block; transform: translate(-50%, -50%); }
 /* white army — ivory, flipped so knights/bishops face the black pieces */
-.cj-fp--w {
-  transform: translate(-50%, -50%) scaleX(-1);
-  background-image: linear-gradient(180deg, #fffaf0 0%, #f3e4c2 44%, #d7ba86 100%);
-  text-shadow:
-    0 .012em 0 #d3b47f, 0 .024em 0 #c5a56c, 0 .036em 0 #b5945a,
-    0 .05em 0 #a5834a, 0 .064em 0 #8d6d3a,
-    0 .09em .13em rgba(0, 0, 0, .45), .02em .12em .18em rgba(0, 0, 0, .38);
-}
-/* black army — dark, glossy top */
-.cj-fp--b {
-  background-image: linear-gradient(180deg, #514639 0%, #2a2019 46%, #0a0704 100%);
-  text-shadow:
-    0 .012em 0 #34261a, 0 .024em 0 #261b11, 0 .036em 0 #1a120b,
-    0 .05em 0 #100b06, 0 .064em 0 #070503,
-    0 .09em .13em rgba(0, 0, 0, .55), .02em .12em .18em rgba(0, 0, 0, .48);
-}
+.cj-fp--w { transform: translate(-50%, -50%) scaleX(-1); color: #f7efdb; text-shadow: 0 0 3px rgba(0,0,0,.4), 0 3px 0 rgba(120,90,50,.35), 0 16px 28px rgba(0,0,0,.5); }
+/* black army — dark */
+.cj-fp--b { color: #14100a; text-shadow: 0 2px 0 rgba(255,255,255,.12), 0 14px 24px rgba(0,0,0,.55); }
 
 @keyframes cj-fade { from { opacity: 0; } to { opacity: 1; } }
