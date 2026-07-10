@@ -43,28 +43,26 @@
   radial-gradient(50% 36% at 50% 48%, rgba(242, 208, 116, .12), transparent 70%),
   radial-gradient(125% 100% at 50% 40%, transparent 58%, rgba(9, 6, 3, .45) 100%); }
 
-/* ---- brand logo + contact (no pill — on the clean light top) ---- */
+/* ---- brand header: logo + contact grouped (no pill), on the light top ---- */
+.cj-head {
+  position: absolute; top: 6%; left: 50%; transform: translateX(-50%); z-index: 10;
+  display: flex; flex-direction: column; align-items: center; gap: clamp(6px, 1vh, 12px);
+  animation: cj-fade .8s ease both;
+}
 .cj-logo {
-  position: absolute; top: 7%; left: 50%; transform: translateX(-50%); z-index: 10;
-  width: clamp(112px, 12.4vw, 168px); height: auto;
+  width: clamp(120px, 13.4vw, 184px); height: auto;
   filter: drop-shadow(0 6px 16px rgba(40, 26, 12, .26));
-  animation: cj-drop .6s ease-out both;
 }
-@keyframes cj-drop { 0% { opacity: 0; transform: translateX(-50%) translateY(-12px); } 100% { opacity: 1; transform: translateX(-50%); } }
-.cj-contact {
-  position: absolute; top: 27%; left: 50%; transform: translateX(-50%); z-index: 10;
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
-  animation: cj-fade .8s ease .15s both;
-}
+.cj-contact { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; }
 
 /* ---- hero ---- */
 .cj-hero {
-  position: absolute; top: 44%; left: 50%; transform: translate(-50%, -50%); z-index: 6;
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 6;
   display: flex; flex-direction: column; align-items: center; gap: clamp(10px, 1.6vh, 20px);
   text-align: center; width: min(97vw, 1250px); animation: cj-fade .8s ease both;
 }
 .cj-title {
-  margin: 0; white-space: nowrap; font-weight: 900; font-size: clamp(42px, 8vw, 116px);
+  margin: 0; white-space: nowrap; font-weight: 900; font-size: clamp(38px, 6.8vw, 98px);
   line-height: .9; letter-spacing: .01em; color: var(--ivory); text-shadow: 0 4px 30px rgba(0, 0, 0, .7), 0 2px 6px rgba(0, 0, 0, .5);
 }
 .cj-rule { width: clamp(120px, 22vw, 320px); height: 3px; border-radius: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
@@ -83,16 +81,18 @@
   background: linear-gradient(180deg, transparent, rgba(160, 120, 66, .65), transparent);
 }
 
-/* ---- cinematic floating pieces ---- */
+/* ---- cinematic pieces: appear, glide, disappear (no collisions) ---- */
 .cj-floats { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
 .cj-float {
-  position: absolute; line-height: 1; will-change: transform;
-  animation-name: cj-drift; animation-timing-function: ease-in-out; animation-iteration-count: infinite;
+  position: absolute; line-height: 1; will-change: transform, opacity;
+  animation-name: cj-inout; animation-timing-function: ease-in-out; animation-iteration-count: infinite;
 }
-@keyframes cj-drift {
-  0%   { transform: translate(0, 0) rotate(var(--r0)); }
-  50%  { transform: translate(var(--dx), var(--dy)) rotate(var(--r1)); }
-  100% { transform: translate(0, 0) rotate(var(--r0)); }
+@keyframes cj-inout {
+  0%   { opacity: 0; transform: translate(var(--dx0), var(--dy0)) rotate(var(--r0)) scale(.8); }
+  15%  { opacity: 1; }
+  50%  { transform: translate(0px, 0px) rotate(0deg) scale(1.03); }
+  82%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--dx2), var(--dy2)) rotate(var(--r2)) scale(.85); }
 }
 .cj-fp { display: inline-block; transform: translate(-50%, -50%); }
 /* white army — ivory, flipped so knights/bishops face the black pieces */
