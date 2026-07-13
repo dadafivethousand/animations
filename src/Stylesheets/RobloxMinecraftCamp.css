@@ -22,25 +22,37 @@
 }
 @keyframes mc-sun { 50% { box-shadow: 0 0 0 14px rgba(255, 219, 61, .28), 0 0 80px 16px rgba(255, 219, 61, .65); } }
 
-/* ---- drifting blocky clouds ---- */
-.mc-clouds { position: absolute; inset: 0; pointer-events: none; }
-.mc-cloud { position: absolute; left: 0; background: #ffffff; border-radius: 12px; box-shadow: 0 6px 0 rgba(120, 170, 210, .25); animation: mc-drift linear infinite; }
-.mc-cloud::before, .mc-cloud::after { content: ""; position: absolute; background: #ffffff; border-radius: 12px; }
+/* ---- drifting blocky clouds (kept in the upper sky, softened) ---- */
+.mc-clouds { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.mc-cloud { position: absolute; left: 0; background: rgba(255, 255, 255, .9); border-radius: 12px; box-shadow: 0 8px 0 rgba(90, 150, 200, .18); animation: mc-drift linear infinite; }
+.mc-cloud::before, .mc-cloud::after { content: ""; position: absolute; background: inherit; border-radius: 12px; }
 .mc-cloud::before { width: 46%; height: 96%; top: -46%; left: 14%; }
 .mc-cloud::after { width: 38%; height: 84%; top: -30%; right: 12%; }
 @keyframes mc-drift { from { transform: translateX(-32vw); } to { transform: translateX(132vw); } }
 
+/* ---- rising pixel particles ---- */
+.mc-particles { position: absolute; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+.mc-particle { position: absolute; bottom: -4%; border-radius: 1px; opacity: 0; box-shadow: 0 0 6px rgba(255, 255, 255, .4); animation: mc-rise linear infinite; }
+@keyframes mc-rise { 0% { opacity: 0; transform: translateY(0) rotate(0); } 12% { opacity: .85; } 100% { opacity: 0; transform: translateY(-108vh) rotate(90deg); } }
+
 /* ---- floating voxel blocks (isometric cubes) ---- */
-.mc-blocks { position: absolute; inset: 0; pointer-events: none; }
+.mc-blocks { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
 .mc-cube {
   position: absolute; filter: drop-shadow(0 12px 12px rgba(0, 0, 0, .22));
   animation: mc-bob ease-in-out infinite;
 }
+.mc-cube--far { filter: blur(1.4px) saturate(.9) drop-shadow(0 8px 8px rgba(0, 0, 0, .15)); opacity: .72; z-index: 0; }
 @keyframes mc-bob { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(calc(-1 * var(--d))) rotate(1deg); } }
-.mc-face { position: absolute; inset: 0; }
-.mc-top   { clip-path: polygon(50% 0, 100% 25%, 50% 50%, 0 25%); background: var(--top); }
-.mc-left  { clip-path: polygon(0 25%, 50% 50%, 50% 100%, 0 75%); background: var(--left); }
-.mc-right { clip-path: polygon(50% 50%, 100% 25%, 100% 75%, 50% 100%); background: var(--right); }
+/* dark outline behind the cube for crisp block edges */
+.mc-cube::before {
+  content: ""; position: absolute; inset: 0; transform: scale(1.07);
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  background: rgba(28, 20, 10, .42);
+}
+.mc-face { position: absolute; inset: 0; background-image: repeating-linear-gradient(90deg, rgba(0,0,0,.05) 0 2px, transparent 2px 9px), repeating-linear-gradient(0deg, rgba(0,0,0,.05) 0 2px, transparent 2px 9px); }
+.mc-top   { clip-path: polygon(50% 0, 100% 25%, 50% 50%, 0 25%); background-color: var(--top); }
+.mc-left  { clip-path: polygon(0 25%, 50% 50%, 50% 100%, 0 75%); background-color: var(--left); }
+.mc-right { clip-path: polygon(50% 50%, 100% 25%, 100% 75%, 50% 100%); background-color: var(--right); }
 /* block palettes */
 .mc-cube--grass   { --top: #8ed24f; --left: #9c6b43; --right: #7d5334; }
 .mc-cube--diamond { --top: #9af3ea; --left: #4fd4c8; --right: #34ada2; }
@@ -85,16 +97,26 @@
   display: flex; flex-direction: column; align-items: center; gap: clamp(10px, 1.8vh, 22px);
   text-align: center; width: min(94vw, 1000px);
 }
-.mc-sub { font-family: "Press Start 2P", monospace; font-size: clamp(9px, 1.5vw, 15px); letter-spacing: .12em; color: #10476e; text-shadow: 2px 2px 0 rgba(255, 255, 255, .5); }
-.mc-title {
-  margin: 0; display: flex; flex-direction: column; gap: clamp(4px, 1vh, 12px);
-  font-family: "Press Start 2P", monospace; font-size: clamp(30px, 7vw, 92px); line-height: 1; color: #fff;
-  text-shadow: 4px 4px 0 #1f2a44, 8px 8px 0 rgba(20, 30, 60, .22);
+.mc-sub { font-family: "Press Start 2P", monospace; font-size: clamp(9px, 1.5vw, 15px); letter-spacing: .12em; color: #0c3a5c; text-shadow: 0 2px 0 rgba(255, 255, 255, .55), 2px 2px 0 rgba(255, 255, 255, .35); }
+
+/* wood sign behind the title — always readable, thematic */
+.mc-sign {
+  position: relative; padding: clamp(10px, 1.6vh, 20px) clamp(22px, 3.4vw, 52px) clamp(14px, 2vh, 26px);
+  border-radius: 8px; border: 5px solid #5e3c1d;
+  background:
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, .1) 0 2px, transparent 2px 28px),
+    linear-gradient(180deg, #b98045 0%, #9c6531 55%, #86532a 100%);
+  box-shadow: 0 10px 0 rgba(58, 36, 16, .4), 0 18px 28px rgba(0, 0, 0, .32), inset 0 3px 0 rgba(255, 224, 168, .28), inset 0 -4px 0 rgba(40, 24, 10, .3);
   animation: mc-pop .55s cubic-bezier(.2, 1.6, .3, 1) both;
 }
-.mc-title span:last-child { color: #ffe14d; }
-@keyframes mc-pop { 0% { opacity: 0; transform: translateY(-14px) scale(.8); } 100% { opacity: 1; transform: none; } }
-.mc-tag { font-weight: 800; font-size: clamp(17px, 2.7vw, 32px); color: #0e3a5a; text-shadow: 0 2px 0 rgba(255, 255, 255, .5); animation: mc-tag .45s ease both; }
+.mc-title {
+  margin: 0; display: flex; flex-direction: column; gap: clamp(4px, 1vh, 12px);
+  font-family: "Press Start 2P", monospace; font-size: clamp(28px, 6.4vw, 84px); line-height: 1; color: #fff5db;
+  text-shadow: 3px 3px 0 #5e3c1d, 5px 5px 0 rgba(40, 24, 10, .35);
+}
+.mc-title span:last-child { color: #ffd93d; }
+@keyframes mc-pop { 0% { opacity: 0; transform: translateY(-14px) scale(.85); } 100% { opacity: 1; transform: none; } }
+.mc-tag { font-weight: 800; font-size: clamp(17px, 2.7vw, 32px); color: #0c3350; text-shadow: 0 2px 0 rgba(255, 255, 255, .6), 0 0 10px rgba(255, 255, 255, .4); animation: mc-tag .45s ease both; }
 @keyframes mc-tag { 0% { opacity: 0; transform: translateY(8px); } 100% { opacity: 1; transform: none; } }
 
 .mc-cta {
