@@ -1,0 +1,107 @@
+/* RobloxMinecraftCamp.css — blocky pixel summer-camp promo.
+   Bright sky, voxel blocks, grass ground, pixel type. */
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@700;800;900&display=swap");
+
+.mc-stage {
+  position: fixed; inset: 0; overflow: hidden;
+  background: #7fc9ff;
+  font-family: "Nunito", system-ui, sans-serif;
+  color: #0f3a5a;
+  image-rendering: pixelated;
+}
+
+/* ---- sky ---- */
+.mc-sky { position: absolute; inset: 0; background: linear-gradient(180deg, #3aa0ff 0%, #77c6ff 48%, #bfe9ff 100%); }
+
+/* ---- blocky sun ---- */
+.mc-sun {
+  position: absolute; top: 7%; left: 50%; transform: translateX(-50%); width: clamp(64px, 7vw, 104px); height: clamp(64px, 7vw, 104px);
+  background: #ffdb3d; border-radius: 8px;
+  box-shadow: 0 0 0 8px rgba(255, 219, 61, .3), 0 0 60px 10px rgba(255, 219, 61, .5);
+  animation: mc-sun 5s ease-in-out infinite;
+}
+@keyframes mc-sun { 50% { box-shadow: 0 0 0 14px rgba(255, 219, 61, .28), 0 0 80px 16px rgba(255, 219, 61, .65); } }
+
+/* ---- drifting blocky clouds ---- */
+.mc-clouds { position: absolute; inset: 0; pointer-events: none; }
+.mc-cloud { position: absolute; left: 0; background: #ffffff; border-radius: 12px; box-shadow: 0 6px 0 rgba(120, 170, 210, .25); animation: mc-drift linear infinite; }
+.mc-cloud::before, .mc-cloud::after { content: ""; position: absolute; background: #ffffff; border-radius: 12px; }
+.mc-cloud::before { width: 46%; height: 96%; top: -46%; left: 14%; }
+.mc-cloud::after { width: 38%; height: 84%; top: -30%; right: 12%; }
+@keyframes mc-drift { from { transform: translateX(-32vw); } to { transform: translateX(132vw); } }
+
+/* ---- floating voxel blocks (isometric cubes) ---- */
+.mc-blocks { position: absolute; inset: 0; pointer-events: none; }
+.mc-cube {
+  position: absolute; filter: drop-shadow(0 12px 12px rgba(0, 0, 0, .22));
+  animation: mc-bob ease-in-out infinite;
+}
+@keyframes mc-bob { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(calc(-1 * var(--d))) rotate(1deg); } }
+.mc-face { position: absolute; inset: 0; }
+.mc-top   { clip-path: polygon(50% 0, 100% 25%, 50% 50%, 0 25%); background: var(--top); }
+.mc-left  { clip-path: polygon(0 25%, 50% 50%, 50% 100%, 0 75%); background: var(--left); }
+.mc-right { clip-path: polygon(50% 50%, 100% 25%, 100% 75%, 50% 100%); background: var(--right); }
+/* block palettes */
+.mc-cube--grass   { --top: #8ed24f; --left: #9c6b43; --right: #7d5334; }
+.mc-cube--diamond { --top: #9af3ea; --left: #4fd4c8; --right: #34ada2; }
+.mc-cube--gold    { --top: #ffe488; --left: #f2b53a; --right: #cf8f28; }
+.mc-cube--tnt     { --top: #ec7361; --left: #cf3d2d; --right: #a52c20; }
+.mc-cube--emerald { --top: #78ecad; --left: #33c072; --right: #259a5a; }
+
+/* ---- grass / dirt ground ---- */
+.mc-ground {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 13%; z-index: 2;
+  background:
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, .07) 0 2px, transparent 2px 68px),
+    linear-gradient(180deg, #7cbe3c 0 20%, #5f9a2e 20% 30%, #9c6b43 30% 62%, #855a38 62% 100%);
+  box-shadow: inset 0 5px 0 rgba(255, 255, 255, .18), 0 -6px 16px rgba(0, 0, 0, .12);
+}
+
+/* ---- brand ---- */
+.mc-logo {
+  position: absolute; top: 5%; left: 4.5%; z-index: 6; width: clamp(116px, 13vw, 178px); height: auto;
+  filter: drop-shadow(0 4px 8px rgba(0, 40, 70, .2));
+  animation: mc-pop .5s ease-out both;
+}
+
+/* ---- 20% OFF starburst ---- */
+.mc-badge {
+  position: absolute; top: 8%; right: 6%; z-index: 6;
+  width: clamp(104px, 13vw, 158px); height: clamp(104px, 13vw, 158px);
+  display: grid; place-content: center; text-align: center; gap: 2px;
+  background: radial-gradient(circle at 50% 40%, #ff6a5a, #e23b2c);
+  color: #fff; transform: rotate(-11deg);
+  clip-path: polygon(50% 0%, 63% 25%, 90% 15%, 78% 42%, 100% 50%, 78% 58%, 90% 85%, 63% 75%, 50% 100%, 37% 75%, 10% 85%, 22% 58%, 0% 50%, 22% 42%, 10% 15%, 37% 25%);
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, .3));
+  animation: mc-badge 1.6s ease-in-out infinite;
+}
+@keyframes mc-badge { 50% { transform: rotate(-7deg) scale(1.06); } }
+.mc-badge-big { font-family: "Press Start 2P", monospace; font-size: clamp(18px, 2.4vw, 30px); text-shadow: 2px 2px 0 #9c2418; }
+.mc-badge-off { font-family: "Press Start 2P", monospace; font-size: clamp(10px, 1.3vw, 15px); letter-spacing: .1em; text-shadow: 2px 2px 0 #9c2418; }
+
+/* ---- hero ---- */
+.mc-hero {
+  position: absolute; top: 47%; left: 50%; transform: translate(-50%, -50%); z-index: 5;
+  display: flex; flex-direction: column; align-items: center; gap: clamp(10px, 1.8vh, 22px);
+  text-align: center; width: min(94vw, 1000px);
+}
+.mc-sub { font-family: "Press Start 2P", monospace; font-size: clamp(9px, 1.5vw, 15px); letter-spacing: .12em; color: #10476e; text-shadow: 2px 2px 0 rgba(255, 255, 255, .5); }
+.mc-title {
+  margin: 0; display: flex; flex-direction: column; gap: clamp(4px, 1vh, 12px);
+  font-family: "Press Start 2P", monospace; font-size: clamp(30px, 7vw, 92px); line-height: 1; color: #fff;
+  text-shadow: 4px 4px 0 #1f2a44, 8px 8px 0 rgba(20, 30, 60, .22);
+  animation: mc-pop .55s cubic-bezier(.2, 1.6, .3, 1) both;
+}
+.mc-title span:last-child { color: #ffe14d; }
+@keyframes mc-pop { 0% { opacity: 0; transform: translateY(-14px) scale(.8); } 100% { opacity: 1; transform: none; } }
+.mc-tag { font-weight: 800; font-size: clamp(17px, 2.7vw, 32px); color: #0e3a5a; text-shadow: 0 2px 0 rgba(255, 255, 255, .5); animation: mc-tag .45s ease both; }
+@keyframes mc-tag { 0% { opacity: 0; transform: translateY(8px); } 100% { opacity: 1; transform: none; } }
+
+.mc-cta {
+  font-family: "Press Start 2P", monospace; font-size: clamp(13px, 2.1vw, 24px); color: #fff;
+  background: linear-gradient(180deg, #6cc24a, #4f9e33); padding: 16px 34px 14px; border-radius: 6px;
+  border: 4px solid #35701f; box-shadow: 0 7px 0 #2f6a1f, 0 12px 20px rgba(0, 0, 0, .28);
+  text-shadow: 2px 2px 0 #2f6a1f; margin-top: 4px; animation: mc-cta 1.5s ease-in-out infinite;
+}
+@keyframes mc-cta { 50% { transform: translateY(-3px); box-shadow: 0 10px 0 #2f6a1f, 0 16px 24px rgba(0, 0, 0, .3); } }
+.mc-web { font-weight: 800; font-size: clamp(13px, 1.8vw, 20px); color: #0f4067; text-shadow: 0 1px 0 rgba(255, 255, 255, .5); }
