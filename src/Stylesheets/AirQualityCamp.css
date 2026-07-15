@@ -1,0 +1,259 @@
+/* AirQualityCamp.css — "Escape the smog" → clean indoor coding room.
+   Scene machine driven by .aq-out / .aq-zoom / .aq-in on the stage.
+   Outdoor scene scales through the Code Ninjas window; indoor room is
+   revealed beneath it, then brand + offer slide in. */
+@import url("https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@700;800;900&family=Fira+Code:wght@500&display=swap");
+
+.aq-stage {
+  position: fixed; inset: 0; overflow: hidden;
+  background: #1a1512;
+  font-family: "Nunito", system-ui, sans-serif;
+  color: #fff;
+}
+
+/* ======================================================= SCENE SWAP */
+.aq-outside, .aq-inside { position: absolute; inset: 0; }
+
+/* outdoor scales up & fades through the CN window */
+.aq-outside {
+  z-index: 2; transform-origin: 50% 58%;
+  transition: transform 1.3s cubic-bezier(.55, 0, .8, .3), opacity 1.3s ease-in;
+}
+.aq-zoom .aq-outside, .aq-in .aq-outside { transform: scale(12); opacity: 0; }
+
+/* indoor is revealed underneath as the outdoor flies past */
+.aq-inside {
+  z-index: 1; opacity: 0; transform: scale(1.14);
+  transition: opacity .9s ease .25s, transform 1.3s ease;
+  pointer-events: none;
+}
+.aq-zoom .aq-inside, .aq-in .aq-inside { opacity: 1; transform: scale(1); }
+
+/* ======================================================= OUTDOOR : SMOG */
+.aq-smogsky {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(120% 80% at 50% 12%, rgba(214, 170, 92, .55), transparent 60%),
+    linear-gradient(180deg, #b79a5e 0%, #a08a5a 26%, #8a7d5a 52%, #6f6a54 100%);
+}
+.aq-sun {
+  position: absolute; top: 12%; left: 50%; transform: translateX(-50%);
+  width: clamp(70px, 8vw, 120px); height: clamp(70px, 8vw, 120px); border-radius: 50%;
+  background: radial-gradient(circle, #f4d98a 0%, #e0b95c 55%, rgba(200,160,80,0) 72%);
+  filter: blur(2px); opacity: .8;
+}
+
+/* drifting smog bands */
+.aq-smog { position: absolute; inset: 0; pointer-events: none; }
+.aq-smog--1 {
+  background: radial-gradient(60% 40% at 20% 60%, rgba(120,110,90,.5), transparent 70%),
+             radial-gradient(50% 35% at 80% 68%, rgba(90,84,70,.5), transparent 70%);
+  animation: aq-drift 26s ease-in-out infinite;
+}
+.aq-smog--2 {
+  background: radial-gradient(55% 40% at 55% 78%, rgba(70,66,56,.55), transparent 72%),
+             radial-gradient(45% 30% at 30% 85%, rgba(60,56,48,.5), transparent 70%);
+  animation: aq-drift 34s ease-in-out infinite reverse;
+}
+@keyframes aq-drift { 50% { transform: translateX(4%) translateY(-2%); } }
+
+/* soot specks */
+.aq-soot { position: absolute; inset: 0; pointer-events: none; }
+.aq-soot span {
+  position: absolute; border-radius: 50%; background: rgba(40, 36, 30, .55);
+  box-shadow: 0 0 6px rgba(30, 26, 20, .5); opacity: 0;
+  animation: aq-float linear infinite;
+}
+@keyframes aq-float {
+  0% { opacity: 0; transform: translate(0, 0); }
+  15% { opacity: .8; }
+  100% { opacity: 0; transform: translate(40px, -60px); }
+}
+
+/* city skyline silhouettes */
+.aq-skyline { position: absolute; left: 0; right: 0; bottom: 0; height: 60%; }
+.aq-building {
+  position: absolute; bottom: 0; background: linear-gradient(180deg, #4a4437, #2c281f);
+  box-shadow: inset 0 6px 0 rgba(255,255,255,.05);
+  background-image:
+    repeating-linear-gradient(90deg, transparent 0 8px, rgba(210,190,120,.10) 8px 12px),
+    repeating-linear-gradient(0deg, transparent 0 10px, rgba(0,0,0,.35) 10px 13px),
+    linear-gradient(180deg, #4a4437, #2c281f);
+}
+
+/* smoke stacks */
+.aq-stack { position: absolute; bottom: 6%; width: 30px; height: 22%; background: linear-gradient(180deg,#3a352b,#241f18); border-radius: 3px 3px 0 0; }
+.aq-stack::after { content: ""; position: absolute; top: -6px; left: -4px; right: -4px; height: 8px; background: #241f18; border-radius: 3px; }
+.aq-puff {
+  position: absolute; top: -6px; left: 50%; width: 34px; height: 34px; margin-left: -17px;
+  background: radial-gradient(circle, rgba(150,142,124,.85), rgba(120,112,96,0) 70%);
+  border-radius: 50%; opacity: 0;
+  animation: aq-smoke 5s linear infinite;
+}
+@keyframes aq-smoke {
+  0% { opacity: 0; transform: translateY(0) scale(.4); }
+  20% { opacity: .8; }
+  100% { opacity: 0; transform: translateY(-220px) scale(2.6); }
+}
+
+/* Code Ninjas building — the zoom target */
+.aq-cn-building {
+  position: absolute; left: 50%; bottom: 5%; transform: translateX(-50%);
+  width: clamp(150px, 17vw, 240px); height: 40%;
+  background: linear-gradient(180deg, #b6202a 0%, #8f1820 100%);
+  border-radius: 8px 8px 0 0; z-index: 2;
+  box-shadow: 0 0 40px rgba(0,0,0,.5), inset 0 0 0 3px rgba(0,0,0,.25);
+}
+.aq-cn-roof { position: absolute; top: -12px; left: -6%; width: 112%; height: 16px; background: #23262b; border-radius: 5px; }
+.aq-cn-window {
+  position: absolute; top: 30%; left: 50%; transform: translateX(-50%);
+  width: 58%; height: 40%; border-radius: 6px;
+  background: linear-gradient(180deg, #d6fbff, #66e6ff);
+  box-shadow: 0 0 26px 6px rgba(120, 240, 255, .8), inset 0 0 0 4px rgba(255,255,255,.5);
+  overflow: hidden;
+}
+.aq-cn-glow { position: absolute; inset: -40%; background: radial-gradient(circle, rgba(255,255,255,.9), transparent 60%); animation: aq-pulse 2.4s ease-in-out infinite; }
+@keyframes aq-pulse { 50% { opacity: .5; transform: scale(1.15); } }
+.aq-cn-sign {
+  position: absolute; bottom: 8%; left: 50%; transform: translateX(-50%);
+  font-family: "Bangers", cursive; letter-spacing: .06em; white-space: nowrap;
+  font-size: clamp(11px, 1.5vw, 18px); color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,.6);
+}
+
+/* AQI warning banner */
+.aq-aqi {
+  position: absolute; top: 8%; left: 50%; transform: translateX(-50%); z-index: 4;
+  display: flex; align-items: center; gap: 9px;
+  padding: 10px 20px; border-radius: 40px;
+  background: rgba(30, 24, 18, .78); border: 2px solid #d64b3a;
+  font-weight: 800; letter-spacing: .06em; font-size: clamp(12px, 1.7vw, 19px);
+  color: #ffd9cf; box-shadow: 0 8px 26px rgba(0,0,0,.4);
+  animation: aq-fadein .8s ease both;
+}
+.aq-aqi b { color: #ff6a52; }
+.aq-aqi-dot { width: 12px; height: 12px; border-radius: 50%; background: #ff5638; box-shadow: 0 0 0 0 rgba(255,86,56,.7); animation: aq-ping 1.6s ease-out infinite; }
+@keyframes aq-ping { 70%, 100% { box-shadow: 0 0 0 12px rgba(255,86,56,0); } }
+.aq-aqi-num { background: #ff5638; color: #2a0f08; padding: 2px 9px; border-radius: 20px; font-weight: 900; }
+
+/* outdoor headline */
+.aq-out-copy { position: absolute; left: 50%; top: 40%; transform: translate(-50%,-50%); z-index: 4; text-align: center; width: min(92vw, 900px); animation: aq-fadein 1s ease .2s both; }
+.aq-out-sub { font-weight: 900; letter-spacing: .14em; font-size: clamp(12px, 2vw, 22px); color: #ffe1b0; text-shadow: 0 2px 8px rgba(0,0,0,.6); }
+.aq-out-title {
+  margin: 8px 0 0; font-family: "Bangers", cursive; letter-spacing: .04em; line-height: .92;
+  font-size: clamp(40px, 9vw, 116px); color: #fff;
+  text-shadow: 0 4px 0 #7a1218, 0 10px 30px rgba(0,0,0,.55);
+}
+.aq-out-title span { display: block; color: #ffd93d; }
+@keyframes aq-fadein { from { opacity: 0; transform: translate(-50%,-50%) translateY(14px); } }
+
+/* ======================================================= INDOOR : CLEAN ROOM */
+.aq-room-wall {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(90% 70% at 50% 8%, rgba(255,255,255,.55), transparent 60%),
+    linear-gradient(180deg, #eaf6ff 0%, #d3ecff 55%, #bfe2fb 100%);
+}
+/* back window: smog is stuck outside the glass */
+.aq-room-window {
+  position: absolute; top: 12%; left: 50%; transform: translateX(-50%);
+  width: 34%; height: 40%; border-radius: 10px;
+  background: linear-gradient(180deg, #cdbb8f, #a89a76);
+  border: 8px solid #f4f8fb; box-shadow: 0 14px 34px rgba(60,90,120,.28), inset 0 0 0 2px rgba(0,0,0,.06);
+  overflow: hidden;
+}
+.aq-room-window::before, .aq-room-window::after { content: ""; position: absolute; background: #f4f8fb; }
+.aq-room-window::before { top: 0; bottom: 0; left: 50%; width: 6px; margin-left: -3px; }
+.aq-room-window::after { left: 0; right: 0; top: 50%; height: 6px; margin-top: -3px; }
+.aq-room-window-haze { position: absolute; inset: 0; background: radial-gradient(60% 50% at 30% 70%, rgba(120,110,90,.6), transparent 70%); animation: aq-drift 22s ease-in-out infinite; }
+
+/* fresh-air pulse rings by the window */
+.aq-freshair { position: absolute; top: 16%; left: 68%; width: 60px; height: 60px; }
+.aq-freshair span { position: absolute; inset: 0; border-radius: 50%; border: 2px solid rgba(52, 199, 120, .6); opacity: 0; animation: aq-rings 3s ease-out infinite; }
+.aq-freshair span:nth-child(2) { animation-delay: 1s; }
+.aq-freshair span:nth-child(3) { animation-delay: 2s; }
+@keyframes aq-rings { 0% { opacity: .8; transform: scale(.3); } 100% { opacity: 0; transform: scale(2.4); } }
+
+.aq-room-floor {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 26%;
+  background:
+    repeating-linear-gradient(90deg, rgba(0,0,0,.05) 0 2px, transparent 2px 90px),
+    linear-gradient(180deg, #7d5a3c 0%, #5f4229 100%);
+  box-shadow: inset 0 6px 14px rgba(0,0,0,.18);
+}
+
+/* desks + monitors */
+.aq-desks { position: absolute; left: 0; right: 0; bottom: 15%; height: 44%; z-index: 2; }
+.aq-desk { position: absolute; bottom: 0; width: clamp(150px, 20vw, 260px); }
+.aq-desk--0 { left: 7%; transform: scale(.92); }
+.aq-desk--1 { left: 50%; transform: translateX(-50%) scale(1.06); z-index: 2; }
+.aq-desk--2 { right: 7%; transform: scale(.92); }
+.aq-monitor { position: relative; margin: 0 auto; width: 80%; }
+.aq-screen {
+  position: relative; padding: 12% 9%; border-radius: 10px;
+  background: linear-gradient(180deg, #10151d, #0b0f16);
+  border: 5px solid #1d2733; box-shadow: 0 0 22px rgba(90,200,255,.35), 0 10px 22px rgba(0,0,0,.3);
+  display: flex; flex-direction: column; gap: 12%;
+}
+.aq-code { height: 8px; border-radius: 4px; opacity: 0; transform-origin: left; animation: aq-type 3.4s steps(1) infinite; }
+@keyframes aq-type { 0% { opacity: 0; transform: scaleX(0); } 8% { opacity: 1; transform: scaleX(1); } 78% { opacity: 1; transform: scaleX(1); } 90%, 100% { opacity: 0; transform: scaleX(0); } }
+.aq-stand { width: 12%; height: 16px; margin: 0 auto; background: #2a333f; }
+.aq-deskbar { height: 16px; border-radius: 4px; background: linear-gradient(180deg, #b98a5c, #8a6038); box-shadow: 0 8px 16px rgba(0,0,0,.25); margin-top: 4px; }
+
+/* cheering ninja */
+.aq-ninja {
+  position: absolute; bottom: 13%; left: 50%; transform: translateX(-50%); z-index: 3;
+  height: clamp(150px, 30vh, 300px); width: auto;
+  filter: drop-shadow(0 14px 18px rgba(0,0,0,.35));
+  animation: aq-bounce 2s ease-in-out infinite;
+}
+@keyframes aq-bounce { 50% { transform: translateX(-50%) translateY(-12px); } }
+
+/* fresh-air badge */
+.aq-fresh-badge {
+  position: absolute; top: 10%; right: 6%; z-index: 4; text-align: center;
+  display: grid; gap: 2px; padding: 12px 20px; border-radius: 16px;
+  background: linear-gradient(180deg, #34c778, #1ea55f); color: #fff;
+  box-shadow: 0 10px 24px rgba(30,140,80,.4); border: 2px solid rgba(255,255,255,.5);
+}
+.aq-fresh-badge b { font-family: "Bangers", cursive; letter-spacing: .06em; font-size: clamp(18px, 2.4vw, 30px); }
+.aq-fresh-badge span { font-weight: 800; font-size: clamp(10px, 1.2vw, 14px); letter-spacing: .05em; }
+
+/* ======================================================= BRAND / OFFER OVERLAY */
+.aq-logo { position: absolute; top: 4.5%; left: 4.5%; z-index: 8; width: clamp(120px, 13vw, 180px); height: auto; filter: drop-shadow(0 4px 10px rgba(0,0,0,.5)); }
+
+.aq-badge {
+  position: absolute; top: 40%; left: 6%; z-index: 8;
+  width: clamp(96px, 12vw, 150px); height: clamp(96px, 12vw, 150px);
+  display: grid; place-content: center; text-align: center; gap: 2px;
+  background: radial-gradient(circle at 50% 40%, #ff6a5a, #e23b2c); color: #fff; transform: rotate(-12deg) scale(.6);
+  clip-path: polygon(50% 0%, 63% 25%, 90% 15%, 78% 42%, 100% 50%, 78% 58%, 90% 85%, 63% 75%, 50% 100%, 37% 75%, 10% 85%, 22% 58%, 0% 50%, 22% 42%, 10% 15%, 37% 25%);
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,.35));
+  opacity: 0; transition: opacity .5s ease, transform .5s cubic-bezier(.2,1.6,.3,1);
+}
+.aq-in .aq-badge { opacity: 1; transform: rotate(-8deg) scale(1); animation: aq-badge-wob 1.8s ease-in-out infinite .6s; }
+@keyframes aq-badge-wob { 50% { transform: rotate(-4deg) scale(1.05); } }
+.aq-badge-big { font-family: "Bangers", cursive; font-size: clamp(26px, 3.4vw, 44px); text-shadow: 2px 2px 0 #9c2418; }
+.aq-badge-off { font-weight: 900; font-size: clamp(12px, 1.5vw, 18px); letter-spacing: .12em; text-shadow: 2px 2px 0 #9c2418; }
+
+/* hero (offer) — slides in on the indoor scene */
+.aq-hero {
+  position: absolute; left: 50%; bottom: 5%; transform: translate(-50%, 24px); z-index: 8;
+  width: min(94vw, 960px); text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: clamp(8px, 1.6vh, 16px);
+  opacity: 0; transition: opacity .5s ease .2s, transform .5s ease .2s;
+}
+.aq-in .aq-hero { opacity: 1; transform: translate(-50%, 0); }
+.aq-hero-title {
+  margin: 0; font-family: "Bangers", cursive; letter-spacing: .03em; line-height: .9;
+  font-size: clamp(30px, 6vw, 74px); color: #123;
+  text-shadow: 0 3px 0 rgba(255,255,255,.6);
+}
+.aq-hero-title span { color: #e23b2c; }
+.aq-hero-tag { font-weight: 800; font-size: clamp(14px, 2.1vw, 24px); color: #1b3a52; }
+.aq-cta {
+  font-family: "Bangers", cursive; letter-spacing: .04em; font-size: clamp(18px, 2.6vw, 32px); color: #fff;
+  background: linear-gradient(180deg, #ff5a45, #d8321f); padding: 12px 40px 10px; border-radius: 40px;
+  box-shadow: 0 8px 0 #9c2418, 0 14px 22px rgba(0,0,0,.28); animation: aq-cta 1.5s ease-in-out infinite;
+}
+@keyframes aq-cta { 50% { transform: translateY(-3px); box-shadow: 0 11px 0 #9c2418, 0 18px 26px rgba(0,0,0,.3); } }
+.aq-web { font-weight: 900; font-size: clamp(14px, 1.9vw, 22px); color: #123; text-shadow: 0 1px 0 rgba(255,255,255,.5); }
