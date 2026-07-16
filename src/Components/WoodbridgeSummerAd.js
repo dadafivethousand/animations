@@ -86,9 +86,12 @@ export default function WoodbridgeSummerAd() {
         {/* 1) logo */}
         <img className="wb-logo" src={cnLogo} alt="Code Ninjas Woodbridge" />
 
-        {/* 2) typewriter word */}
+        {/* 2) typewriter word — right-aligned under the logo, types left→right */}
         <div className={`wb-word ${phase >= 1 ? "is-on" : ""}`}>
-          <span className="wb-word-text">{WORD.slice(0, typed)}</span>
+          <span className="wb-word-inner">
+            <span className="wb-word-sizer" aria-hidden>{WORD}</span>
+            <span className="wb-word-text">{WORD.slice(0, typed)}</span>
+          </span>
         </div>
 
         <div className={`wb-kicker ${phase >= 2 ? "is-in" : ""}`}>

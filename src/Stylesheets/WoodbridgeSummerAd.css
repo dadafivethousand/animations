@@ -61,16 +61,24 @@
 }
 @keyframes wb-logo-float { 50% { transform: translateY(-6px); } }
 
-/* 2) typewriter word — BLACK, smaller, tucked close to the logo */
+/* 2) typewriter word — BLACK, right-aligned under the logo, raised up.
+   Block is as wide as the logo and pushed to its right edge; a hidden
+   sizer reserves the full word width so the right edge stays fixed while
+   the visible text fills in left → right. */
 .wb-word {
-  display: flex; align-items: center; justify-content: center;
-  min-height: 1.1em; margin-top: clamp(-22px, -2.2vw, -10px);
+  width: clamp(230px, 34vw, 470px);          /* == logo width */
+  display: flex; justify-content: flex-end;
+  margin-top: clamp(-46px, -4vw, -20px);      /* raise it up close to the logo */
   font-family: "Baloo 2", sans-serif; font-weight: 800; letter-spacing: .01em;
-  font-size: clamp(26px, 4.4vw, 58px); line-height: 1;
+  font-size: clamp(24px, 4vw, 52px); line-height: 1;
   opacity: 0;
 }
 .wb-word.is-on { opacity: 1; }
-.wb-word-text { position: relative; color: #000; }
+.wb-word-inner { position: relative; display: inline-block; }
+.wb-word-sizer { visibility: hidden; white-space: nowrap; }
+.wb-word-text {
+  position: absolute; left: 0; top: 0; white-space: nowrap; text-align: left; color: #000;
+}
 
 /* kicker */
 .wb-kicker {
