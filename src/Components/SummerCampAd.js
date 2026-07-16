@@ -55,7 +55,6 @@ export default function SummerCampAd() {
         {/* ---------- top bar ---------- */}
         <header className="sc-top">
           <img className="sc-logo" src={cnLogo} alt="Code Ninjas Woodbridge" />
-          <span className="sc-eyebrow">WOODBRIDGE&nbsp;·&nbsp;2026</span>
         </header>
 
         {/* ---------- hero ---------- */}

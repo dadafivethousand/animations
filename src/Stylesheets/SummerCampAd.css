@@ -1,7 +1,9 @@
 /* SummerCampAd.css — Code Ninjas Woodbridge summer-camp poster.
    The .sc-poster is a 4:5 container; everything inside is sized in `cqw`
    (1cqw = 1% of poster width) so the whole layout scales perfectly to any
-   screen. Palette: Code Ninjas red + summer sun (gold/orange) on deep navy. */
+   screen. Sizes are budgeted so all content fits inside the 4:5 box (no
+   clipping); the column uses space-between to distribute the slack.
+   Palette: Code Ninjas red + summer sun (gold/orange) on deep navy. */
 @import url("https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Fredoka:wght@500;600;700&family=Nunito:wght@700;800;900&display=swap");
 
 .sc-stage {
@@ -25,9 +27,12 @@
   container-type: inline-size;
   overflow: hidden;
   border-radius: 4cqw;
-  padding: 5cqw 5.5cqw 4.5cqw;
+  padding: 4.5cqw 8cqw; /* more breathing room left/right */
   display: flex;
   flex-direction: column;
+  justify-content: space-between; /* distribute vertical slack evenly */
+  align-items: center;
+  text-align: center;
   color: #fff;
   background:
     radial-gradient(120% 70% at 50% -8%, rgba(255, 176, 60, 0.28), transparent 55%),
@@ -90,46 +95,35 @@
   animation-iteration-count: infinite;
 }
 
-/* every direct child above the ambient layers */
-.sc-top, .sc-hero, .sc-coupon, .sc-tracks, .sc-foot { position: relative; z-index: 2; }
+/* every direct child sits above the ambient layers */
+.sc-top, .sc-hero, .sc-coupon, .sc-tracks, .sc-foot {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
 
 /* ------------------------------------------------------------- TOP BAR */
 .sc-top {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 2cqw;
+  justify-content: center;
 }
 .sc-logo {
-  height: 9cqw;
+  height: 14cqw; /* bigger logo */
   width: auto;
   object-fit: contain;
-  filter: drop-shadow(0 0.5cqw 1cqw rgba(0, 0, 0, 0.5));
-}
-.sc-eyebrow {
-  font-family: "Fredoka", sans-serif;
-  font-weight: 700;
-  font-size: 2.7cqw;
-  letter-spacing: 0.25cqw;
-  color: #ffce4d;
-  padding: 1cqw 2.2cqw;
-  border: 0.25cqw solid rgba(255, 206, 77, 0.5);
-  border-radius: 100px;
-  white-space: nowrap;
+  filter: drop-shadow(0 0.6cqw 1.2cqw rgba(0, 0, 0, 0.5));
 }
 
 /* ---------------------------------------------------------------- HERO */
-.sc-hero {
-  margin-top: 3cqw;
-  text-align: center;
-}
+.sc-hero { text-align: center; }
 .sc-kicker {
   display: inline-flex;
   align-items: center;
   gap: 1.5cqw;
   font-family: "Fredoka", sans-serif;
   font-weight: 700;
-  font-size: 3cqw;
+  font-size: 2.6cqw;
   letter-spacing: 0.6cqw;
   color: #ff5f74;
   text-shadow: 0 0 2cqw rgba(255, 46, 77, 0.5);
@@ -137,7 +131,7 @@
 .sc-spark { color: #ffce4d; animation: sc-twinkle 2.2s ease-in-out infinite; }
 
 .sc-title {
-  margin: 1cqw 0 0;
+  margin: 0.5cqw 0 0;
   font-family: "Luckiest Guy", "Nunito", cursive;
   line-height: 0.86;
   letter-spacing: 0.3cqw;
@@ -150,29 +144,29 @@
   background-clip: text;
   color: transparent;
   -webkit-text-stroke: 0.35cqw rgba(10, 15, 34, 0.65);
-  filter: drop-shadow(0 1.2cqw 1.4cqw rgba(0, 0, 0, 0.45));
+  filter: drop-shadow(0 1cqw 1.2cqw rgba(0, 0, 0, 0.45));
 }
-.sc-title-a { font-size: 16cqw; }
+.sc-title-a { font-size: 11.5cqw; }
 .sc-title-b {
-  font-size: 21cqw;
+  font-size: 15cqw;
   background: linear-gradient(180deg, #ff8f66 0%, #ff2e4d 55%, #c2143a 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  margin-top: -1.5cqw;
+  margin-top: -1cqw;
 }
 .sc-tagline {
-  margin: 1.6cqw 0 0;
+  margin: 1cqw 0 0;
   font-family: "Fredoka", sans-serif;
   font-weight: 600;
-  font-size: 3.4cqw;
+  font-size: 2.9cqw;
   color: #d8e2ff;
 }
 .sc-ninja {
   position: absolute;
-  right: 1cqw;
-  top: 8cqw;
-  width: 20cqw;
+  right: 0.5cqw;
+  top: 4.5cqw;
+  width: 15cqw;
   height: auto;
   filter: drop-shadow(0 1.5cqw 2cqw rgba(0, 0, 0, 0.55));
   animation: sc-bob 3.4s ease-in-out infinite;
@@ -182,8 +176,6 @@
 /* -------------------------------------------------------------- COUPON */
 .sc-coupon {
   position: relative;
-  margin: 4cqw auto 0;
-  width: 100%;
   display: flex;
   align-items: stretch;
   border-radius: 3cqw;
@@ -200,21 +192,22 @@
 .sc-coupon-left {
   display: flex;
   align-items: baseline;
+  justify-content: center;
   gap: 1cqw;
-  padding: 3cqw 4cqw;
+  padding: 2cqw 3.5cqw;
   flex: 0 0 auto;
 }
 .sc-coupon-num {
   font-family: "Luckiest Guy", cursive;
-  font-size: 13cqw;
+  font-size: 10cqw;
   line-height: 0.8;
   color: #fff;
   text-shadow: 0 0.6cqw 0 rgba(0, 0, 0, 0.18);
 }
-.sc-coupon-pct { font-size: 7cqw; }
+.sc-coupon-pct { font-size: 5.5cqw; }
 .sc-coupon-off {
   font-family: "Luckiest Guy", cursive;
-  font-size: 7cqw;
+  font-size: 5.5cqw;
   color: #fff3c9;
   align-self: center;
 }
@@ -223,39 +216,38 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
-  padding: 3cqw 4cqw;
+  align-items: center;
+  padding: 2cqw 3.5cqw;
   border-left: 0.4cqw dashed rgba(255, 255, 255, 0.55);
   background: rgba(0, 0, 0, 0.12);
 }
 .sc-coupon-lbl {
   font-family: "Fredoka", sans-serif;
   font-weight: 700;
-  font-size: 2.8cqw;
+  font-size: 2.5cqw;
   letter-spacing: 0.4cqw;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.9);
 }
 .sc-coupon-code {
   font-family: "Luckiest Guy", cursive;
-  font-size: 8cqw;
+  font-size: 6.6cqw;
   letter-spacing: 0.5cqw;
   color: #fff;
 }
 
 /* -------------------------------------------------------------- TRACKS */
 .sc-tracks {
-  margin-top: 4.5cqw;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 3cqw;
+  gap: 2.2cqw;
 }
 .sc-track {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.4cqw;
-  padding: 3.4cqw 1cqw 3cqw;
-  border-radius: 2.6cqw;
+  gap: 1cqw;
+  padding: 2.2cqw 1cqw 2cqw;
+  border-radius: 2.4cqw;
   background:
     linear-gradient(160deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
     color-mix(in srgb, var(--c1) 22%, #0e1430);
@@ -267,11 +259,11 @@
   animation: sc-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 .sc-track-icon {
-  width: 12cqw;
-  height: 12cqw;
+  width: 8.5cqw;
+  height: 8.5cqw;
   display: grid;
   place-items: center;
-  font-size: 7cqw;
+  font-size: 5cqw;
   border-radius: 50%;
   background: linear-gradient(150deg, var(--c1), var(--c2));
   box-shadow: 0 1cqw 2.4cqw color-mix(in srgb, var(--c1) 55%, transparent);
@@ -279,21 +271,25 @@
 .sc-track-label {
   font-family: "Fredoka", sans-serif;
   font-weight: 700;
-  font-size: 3.4cqw;
+  font-size: 2.9cqw;
   color: #fff;
 }
 
 /* -------------------------------------------------------------- FOOTER */
 .sc-foot {
-  margin-top: auto;
-  padding-top: 4cqw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.2cqw;
   text-align: center;
 }
 .sc-foot-cta {
   display: inline-flex;
-  align-items: baseline;
-  gap: 2cqw;
-  padding: 2.2cqw 5cqw;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3cqw;
+  padding: 1.6cqw 6cqw;
   border-radius: 100px;
   background: linear-gradient(100deg, #ffce4d, #ff9d2e);
   box-shadow: 0 1.2cqw 3cqw rgba(255, 157, 46, 0.4);
@@ -301,27 +297,27 @@
 .sc-foot-lbl {
   font-family: "Fredoka", sans-serif;
   font-weight: 700;
-  font-size: 2.7cqw;
-  letter-spacing: 0.3cqw;
+  font-size: 2.4cqw;
+  letter-spacing: 0.35cqw;
   color: #7a3a00;
 }
 .sc-foot-web {
   font-family: "Luckiest Guy", cursive;
-  font-size: 5.2cqw;
+  font-size: 4.6cqw;
+  line-height: 1;
   color: #1a1206;
 }
 .sc-foot-meta {
-  margin-top: 3cqw;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2.6cqw;
+  gap: 2.4cqw;
   font-family: "Fredoka", sans-serif;
   font-weight: 600;
-  font-size: 3.4cqw;
+  font-size: 3cqw;
   color: #e6ecff;
 }
-.sc-foot-item b { margin-right: 1cqw; font-size: 3cqw; }
+.sc-foot-item b { margin-right: 1cqw; font-size: 2.7cqw; }
 .sc-foot-dot {
   width: 1cqw; height: 1cqw; border-radius: 50%;
   background: #ff5f74;
