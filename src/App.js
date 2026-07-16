@@ -1,10 +1,10 @@
 import React from "react";
 import "./Stylesheets/App.css";
 
-import SummerCampAd from "./Components/SummerCampAd";
+import WoodbridgeSummerAd from "./Components/WoodbridgeSummerAd";
 
 function App() {
-  return <SummerCampAd />;
+  return <WoodbridgeSummerAd />;
 }
 
 export default App;

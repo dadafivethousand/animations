@@ -1,0 +1,166 @@
+/* WoodbridgeSummerAd.css — clean white summer-camp ad.
+   Sequenced reveal driven by phase classes toggled in the component.
+   Body is ~80% of the viewport width. */
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Baloo+2:wght@600;700;800&family=JetBrains+Mono:wght@600;700&display=swap");
+
+.wb-stage {
+  position: fixed; inset: 0; overflow: hidden;
+  background: #ffffff;
+  font-family: "Fredoka", system-ui, sans-serif;
+  color: #17202b;
+  display: grid; place-items: center;
+}
+
+/* faint floating code symbols */
+.wb-particles { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.wb-particles span {
+  position: absolute; top: 100%; font-family: "JetBrains Mono", monospace; font-weight: 700;
+  opacity: 0; animation: wb-float linear infinite;
+}
+@keyframes wb-float {
+  0% { opacity: 0; transform: translateY(0) rotate(0); }
+  10% { opacity: .14; }
+  90% { opacity: .14; }
+  100% { opacity: 0; transform: translateY(-108vh) rotate(40deg); }
+}
+
+/* ---- body : ~80% of screen width ---- */
+.wb-body {
+  position: relative; z-index: 1;
+  width: 80vw; max-width: 1180px;
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; gap: clamp(14px, 2.4vh, 30px);
+}
+
+/* 1) logo */
+.wb-logo {
+  width: clamp(230px, 34vw, 470px); height: auto;
+  filter: drop-shadow(0 12px 26px rgba(20, 40, 70, .14));
+  animation: wb-logo-in 0.9s cubic-bezier(.2, 1.5, .35, 1) both, wb-logo-float 5s ease-in-out 1s infinite;
+}
+@keyframes wb-logo-in {
+  0% { opacity: 0; transform: translateY(-40px) scale(.86); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes wb-logo-float { 50% { transform: translateY(-8px); } }
+
+/* 2) typewriter word */
+.wb-word {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 1.15em; margin-top: -4px;
+  font-family: "Baloo 2", sans-serif; font-weight: 800; letter-spacing: .01em;
+  font-size: clamp(38px, 7vw, 96px); line-height: 1;
+  opacity: 0;
+}
+.wb-word.is-on { opacity: 1; }
+.wb-word-text {
+  background: linear-gradient(90deg, #2ea3d8 0%, #1f8fc4 50%, #17202b 50%, #17202b 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  background-size: 200% 100%;
+}
+.wb-caret {
+  display: inline-block; width: .07em; height: .92em; margin-left: .06em;
+  background: #2ea3d8; border-radius: 2px; animation: wb-blink 1s steps(1) infinite;
+}
+.wb-caret.is-done { animation: wb-blink 1s steps(1) 4; }
+@keyframes wb-blink { 50% { opacity: 0; } }
+
+/* kicker */
+.wb-kicker {
+  font-weight: 600; letter-spacing: .16em; font-size: clamp(11px, 1.5vw, 17px);
+  color: #ff5a45; text-transform: uppercase;
+  opacity: 0; transform: translateY(8px); transition: opacity .5s ease, transform .5s ease;
+}
+.wb-kicker.is-in { opacity: 1; transform: none; }
+.wb-kicker span { color: #f4b400; }
+
+/* 3) camp tracks — 3 x 2 grid */
+.wb-tracks {
+  width: 100%;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(12px, 1.6vw, 24px);
+  perspective: 1200px;
+}
+.wb-track {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: clamp(8px, 1vw, 14px);
+  padding: clamp(16px, 2.4vw, 34px) clamp(10px, 1.6vw, 22px);
+  border-radius: 20px; background: #fff;
+  border: 2px solid rgba(20, 40, 70, .06);
+  box-shadow: 0 10px 26px rgba(20, 40, 70, .09);
+  opacity: 0; transform: rotateY(65deg) translateY(28px) scale(.9); transform-origin: center;
+}
+.wb-tracks.is-in .wb-track {
+  animation: wb-flip .7s cubic-bezier(.2, 1.3, .3, 1) both;
+  animation-delay: calc(var(--i) * .12s);
+}
+@keyframes wb-flip {
+  0% { opacity: 0; transform: rotateY(65deg) translateY(28px) scale(.9); }
+  60% { opacity: 1; }
+  100% { opacity: 1; transform: none; }
+}
+.wb-track-icon {
+  display: grid; place-items: center;
+  width: clamp(52px, 6vw, 84px); height: clamp(52px, 6vw, 84px); border-radius: 50%;
+  font-size: clamp(24px, 3vw, 42px);
+  background: linear-gradient(140deg, var(--c1), var(--c2));
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--c2) 45%, transparent);
+  animation: wb-icon-bob 3s ease-in-out infinite; animation-delay: calc(var(--i) * .2s);
+}
+@keyframes wb-icon-bob { 50% { transform: translateY(-5px); } }
+.wb-track-label {
+  font-family: "Baloo 2", sans-serif; font-weight: 700;
+  font-size: clamp(15px, 1.9vw, 25px); color: #17202b;
+}
+
+/* 4) promo + contact */
+.wb-reveal {
+  width: 100%; display: flex; flex-direction: column; align-items: center; gap: clamp(12px, 2vh, 22px);
+  opacity: 0; transform: translateY(22px); transition: opacity .6s ease, transform .6s cubic-bezier(.2,1.3,.3,1);
+}
+.wb-reveal.is-in { opacity: 1; transform: none; }
+
+.wb-coupon {
+  position: relative; overflow: hidden;
+  display: flex; align-items: stretch; gap: 0;
+  border-radius: 18px; background: linear-gradient(135deg, #ff6b3d, #ff2e63);
+  box-shadow: 0 14px 30px rgba(255, 60, 90, .32);
+  color: #fff;
+}
+.wb-coupon-shine {
+  position: absolute; top: 0; left: -60%; width: 40%; height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.5), transparent);
+  animation: wb-shine 3.2s ease-in-out infinite;
+}
+@keyframes wb-shine { 0% { left: -60%; } 55%, 100% { left: 130%; } }
+.wb-coupon-left {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: clamp(12px, 1.6vw, 22px) clamp(20px, 2.6vw, 40px);
+}
+.wb-coupon-num { font-family: "Baloo 2", sans-serif; font-weight: 800; font-size: clamp(38px, 6vw, 76px); line-height: .9; }
+.wb-coupon-pct { font-size: .55em; vertical-align: super; }
+.wb-coupon-off { font-weight: 700; letter-spacing: .28em; font-size: clamp(14px, 1.8vw, 22px); }
+.wb-coupon-right {
+  display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 4px;
+  padding: clamp(12px, 1.6vw, 22px) clamp(20px, 2.6vw, 40px);
+  border-left: 3px dashed rgba(255, 255, 255, .55);
+}
+.wb-coupon-lbl { font-weight: 600; letter-spacing: .14em; font-size: clamp(11px, 1.3vw, 16px); opacity: .95; }
+.wb-coupon-code {
+  font-family: "JetBrains Mono", monospace; font-weight: 700; letter-spacing: .06em;
+  font-size: clamp(24px, 3.6vw, 46px);
+  background: #fff; color: #e11d48; padding: 2px 14px; border-radius: 10px;
+}
+
+.wb-contact {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: clamp(10px, 1.6vw, 22px);
+  font-weight: 600; font-size: clamp(15px, 1.9vw, 24px); color: #24333f;
+}
+.wb-contact-item { display: inline-flex; align-items: center; gap: .4em; }
+.wb-contact-item b { font-size: 1.05em; }
+.wb-web { color: #1f8fc4; }
+.wb-dot { width: 7px; height: 7px; border-radius: 50%; background: #c7d2dc; }
+
+@media (max-width: 720px) {
+  .wb-tracks { grid-template-columns: repeat(2, 1fr); }
+  .wb-body { width: 88vw; }
+}
