@@ -24,19 +24,6 @@
   100% { opacity: 0; transform: translateY(-108vh) rotate(40deg); }
 }
 
-/* one-time scanline sweep on boot */
-.wb-scan {
-  position: absolute; inset: 0; z-index: 2; pointer-events: none;
-  background: linear-gradient(180deg, transparent 46%, rgba(46, 163, 216, .55) 50%, transparent 54%);
-  mix-blend-mode: multiply; opacity: 0;
-  animation: wb-scan 1.3s steps(24) 1 both;
-}
-@keyframes wb-scan {
-  0% { opacity: .9; transform: translateY(-100%); }
-  95% { opacity: .9; }
-  100% { opacity: 0; transform: translateY(100%); }
-}
-
 /* ---- body : ~80% of screen width ---- */
 .wb-body {
   position: relative; z-index: 1;
@@ -84,18 +71,7 @@
   opacity: 0;
 }
 .wb-word.is-on { opacity: 1; }
-.wb-word-text { position: relative; color: #0d1218; }
-/* one-shot RGB-split glitch once the word is complete */
-.wb-word.is-glitch .wb-word-text { animation: wb-glitch 0.45s steps(2) 2; }
-.wb-word.is-glitch .wb-word-text::before,
-.wb-word.is-glitch .wb-word-text::after {
-  content: attr(data-text); position: absolute; left: 0; top: 0; width: 100%; overflow: hidden;
-}
-.wb-word.is-glitch .wb-word-text::before { color: #2ea3d8; animation: wb-glitch-a 0.45s steps(2) 2; }
-.wb-word.is-glitch .wb-word-text::after  { color: #ff2e63; animation: wb-glitch-b 0.45s steps(2) 2; }
-@keyframes wb-glitch   { 0%,100% { transform: none; } 50% { transform: translateX(1px); } }
-@keyframes wb-glitch-a { 0%,100% { transform: none; opacity: 0; } 50% { transform: translate(-3px,-1px); opacity: .8; } }
-@keyframes wb-glitch-b { 0%,100% { transform: none; opacity: 0; } 50% { transform: translate(3px,1px); opacity: .8; } }
+.wb-word-text { position: relative; color: #000; }
 .wb-caret {
   display: inline-block; width: .09em; height: .9em; margin-left: .06em;
   background: #2ea3d8; animation: wb-blink 0.7s steps(1) infinite;
@@ -116,7 +92,8 @@
 /* 3) camp tracks — fixed 3 columns x 2 rows */
 .wb-tracks {
   width: 100%;
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(10px, 1.4vw, 20px);
+  display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr);
+  gap: clamp(10px, 1.4vw, 20px);
 }
 .wb-track {
   position: relative; overflow: hidden;
@@ -224,6 +201,5 @@
 .wb-dot { width: 7px; height: 7px; border-radius: 50%; background: #c7d2dc; }
 
 @media (max-width: 720px) {
-  .wb-tracks { grid-template-columns: repeat(2, 1fr); }
   .wb-body { width: 88vw; }
 }
