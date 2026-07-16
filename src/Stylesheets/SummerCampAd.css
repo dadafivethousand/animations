@@ -1,0 +1,351 @@
+/* SummerCampAd.css — Code Ninjas Woodbridge summer-camp poster.
+   The .sc-poster is a 4:5 container; everything inside is sized in `cqw`
+   (1cqw = 1% of poster width) so the whole layout scales perfectly to any
+   screen. Palette: Code Ninjas red + summer sun (gold/orange) on deep navy. */
+@import url("https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Fredoka:wght@500;600;700&family=Nunito:wght@700;800;900&display=swap");
+
+.sc-stage {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(70% 55% at 50% 0%, rgba(255, 122, 24, 0.22), transparent 60%),
+    radial-gradient(60% 50% at 85% 100%, rgba(255, 46, 77, 0.18), transparent 60%),
+    linear-gradient(160deg, #0a0f22 0%, #0b1226 55%, #070b18 100%);
+  font-family: "Nunito", system-ui, sans-serif;
+}
+
+/* ============================================================ POSTER */
+.sc-poster {
+  position: relative;
+  width: min(94vw, calc(96vh * 0.8)); /* 4:5 fit */
+  aspect-ratio: 4 / 5;
+  container-type: inline-size;
+  overflow: hidden;
+  border-radius: 4cqw;
+  padding: 5cqw 5.5cqw 4.5cqw;
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  background:
+    radial-gradient(120% 70% at 50% -8%, rgba(255, 176, 60, 0.28), transparent 55%),
+    linear-gradient(165deg, #141b38 0%, #1a2247 48%, #10152e 100%);
+  box-shadow:
+    0 3cqw 8cqw rgba(0, 0, 0, 0.55),
+    inset 0 0 0 0.35cqw rgba(255, 255, 255, 0.06);
+  isolation: isolate;
+}
+
+/* ---------------------------------------------------- ambient sun/rays */
+.sc-sun {
+  position: absolute;
+  top: -22cqw; left: 50%;
+  width: 62cqw; height: 62cqw;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffd24a 0%, #ff9d2e 38%, rgba(255, 122, 24, 0) 68%);
+  filter: blur(0.5cqw);
+  opacity: 0.55;
+  z-index: 0;
+  animation: sc-pulse 6s ease-in-out infinite;
+}
+.sc-rays {
+  position: absolute;
+  top: -40cqw; left: 50%;
+  width: 130cqw; height: 130cqw;
+  transform: translateX(-50%);
+  z-index: 0;
+  background: repeating-conic-gradient(
+    from 0deg at 50% 50%,
+    rgba(255, 205, 90, 0.14) 0deg 6deg,
+    transparent 6deg 18deg
+  );
+  -webkit-mask-image: radial-gradient(circle, #000 0 34%, transparent 60%);
+  mask-image: radial-gradient(circle, #000 0 34%, transparent 60%);
+  animation: sc-spin 60s linear infinite;
+}
+.sc-grid {
+  position: absolute; inset: 0; z-index: 0; opacity: 0.5;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 0.15cqw, transparent 0.15cqw),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 0.15cqw, transparent 0.15cqw);
+  background-size: 6cqw 6cqw;
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 30% 70%, transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 30% 70%, transparent);
+}
+
+/* floating code particles */
+.sc-particles { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.sc-particles span {
+  position: absolute;
+  bottom: -8cqw;
+  font-family: "Fira Code", "Nunito", monospace;
+  font-weight: 700;
+  color: rgba(120, 200, 255, 0.5);
+  text-shadow: 0 0 1.2cqw rgba(90, 170, 255, 0.5);
+  animation-name: sc-float;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+/* every direct child above the ambient layers */
+.sc-top, .sc-hero, .sc-coupon, .sc-tracks, .sc-foot { position: relative; z-index: 2; }
+
+/* ------------------------------------------------------------- TOP BAR */
+.sc-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2cqw;
+}
+.sc-logo {
+  height: 9cqw;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0.5cqw 1cqw rgba(0, 0, 0, 0.5));
+}
+.sc-eyebrow {
+  font-family: "Fredoka", sans-serif;
+  font-weight: 700;
+  font-size: 2.7cqw;
+  letter-spacing: 0.25cqw;
+  color: #ffce4d;
+  padding: 1cqw 2.2cqw;
+  border: 0.25cqw solid rgba(255, 206, 77, 0.5);
+  border-radius: 100px;
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------- HERO */
+.sc-hero {
+  margin-top: 3cqw;
+  text-align: center;
+}
+.sc-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5cqw;
+  font-family: "Fredoka", sans-serif;
+  font-weight: 700;
+  font-size: 3cqw;
+  letter-spacing: 0.6cqw;
+  color: #ff5f74;
+  text-shadow: 0 0 2cqw rgba(255, 46, 77, 0.5);
+}
+.sc-spark { color: #ffce4d; animation: sc-twinkle 2.2s ease-in-out infinite; }
+
+.sc-title {
+  margin: 1cqw 0 0;
+  font-family: "Luckiest Guy", "Nunito", cursive;
+  line-height: 0.86;
+  letter-spacing: 0.3cqw;
+  text-transform: uppercase;
+}
+.sc-title-a, .sc-title-b {
+  display: block;
+  background: linear-gradient(180deg, #fff3c9 0%, #ffd24a 46%, #ff8a1e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-stroke: 0.35cqw rgba(10, 15, 34, 0.65);
+  filter: drop-shadow(0 1.2cqw 1.4cqw rgba(0, 0, 0, 0.45));
+}
+.sc-title-a { font-size: 16cqw; }
+.sc-title-b {
+  font-size: 21cqw;
+  background: linear-gradient(180deg, #ff8f66 0%, #ff2e4d 55%, #c2143a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-top: -1.5cqw;
+}
+.sc-tagline {
+  margin: 1.6cqw 0 0;
+  font-family: "Fredoka", sans-serif;
+  font-weight: 600;
+  font-size: 3.4cqw;
+  color: #d8e2ff;
+}
+.sc-ninja {
+  position: absolute;
+  right: 1cqw;
+  top: 8cqw;
+  width: 20cqw;
+  height: auto;
+  filter: drop-shadow(0 1.5cqw 2cqw rgba(0, 0, 0, 0.55));
+  animation: sc-bob 3.4s ease-in-out infinite;
+  z-index: 3;
+}
+
+/* -------------------------------------------------------------- COUPON */
+.sc-coupon {
+  position: relative;
+  margin: 4cqw auto 0;
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+  border-radius: 3cqw;
+  overflow: hidden;
+  background: linear-gradient(100deg, #ff2e4d 0%, #ff5a2c 60%, #ff8a1e 100%);
+  box-shadow: 0 1.5cqw 4cqw rgba(255, 46, 77, 0.35), inset 0 0 0 0.3cqw rgba(255, 255, 255, 0.25);
+}
+.sc-coupon-shine {
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, 0.55) 47%, transparent 62%);
+  transform: translateX(-120%);
+  animation: sc-sweep 3.6s ease-in-out infinite;
+}
+.sc-coupon-left {
+  display: flex;
+  align-items: baseline;
+  gap: 1cqw;
+  padding: 3cqw 4cqw;
+  flex: 0 0 auto;
+}
+.sc-coupon-num {
+  font-family: "Luckiest Guy", cursive;
+  font-size: 13cqw;
+  line-height: 0.8;
+  color: #fff;
+  text-shadow: 0 0.6cqw 0 rgba(0, 0, 0, 0.18);
+}
+.sc-coupon-pct { font-size: 7cqw; }
+.sc-coupon-off {
+  font-family: "Luckiest Guy", cursive;
+  font-size: 7cqw;
+  color: #fff3c9;
+  align-self: center;
+}
+.sc-coupon-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 3cqw 4cqw;
+  border-left: 0.4cqw dashed rgba(255, 255, 255, 0.55);
+  background: rgba(0, 0, 0, 0.12);
+}
+.sc-coupon-lbl {
+  font-family: "Fredoka", sans-serif;
+  font-weight: 700;
+  font-size: 2.8cqw;
+  letter-spacing: 0.4cqw;
+  color: rgba(255, 255, 255, 0.85);
+}
+.sc-coupon-code {
+  font-family: "Luckiest Guy", cursive;
+  font-size: 8cqw;
+  letter-spacing: 0.5cqw;
+  color: #fff;
+}
+
+/* -------------------------------------------------------------- TRACKS */
+.sc-tracks {
+  margin-top: 4.5cqw;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3cqw;
+}
+.sc-track {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.4cqw;
+  padding: 3.4cqw 1cqw 3cqw;
+  border-radius: 2.6cqw;
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
+    color-mix(in srgb, var(--c1) 22%, #0e1430);
+  box-shadow:
+    inset 0 0 0 0.3cqw rgba(255, 255, 255, 0.1),
+    0 1.4cqw 3cqw rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  transform: translateY(3cqw) scale(0.9);
+  animation: sc-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+.sc-track-icon {
+  width: 12cqw;
+  height: 12cqw;
+  display: grid;
+  place-items: center;
+  font-size: 7cqw;
+  border-radius: 50%;
+  background: linear-gradient(150deg, var(--c1), var(--c2));
+  box-shadow: 0 1cqw 2.4cqw color-mix(in srgb, var(--c1) 55%, transparent);
+}
+.sc-track-label {
+  font-family: "Fredoka", sans-serif;
+  font-weight: 700;
+  font-size: 3.4cqw;
+  color: #fff;
+}
+
+/* -------------------------------------------------------------- FOOTER */
+.sc-foot {
+  margin-top: auto;
+  padding-top: 4cqw;
+  text-align: center;
+}
+.sc-foot-cta {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2cqw;
+  padding: 2.2cqw 5cqw;
+  border-radius: 100px;
+  background: linear-gradient(100deg, #ffce4d, #ff9d2e);
+  box-shadow: 0 1.2cqw 3cqw rgba(255, 157, 46, 0.4);
+}
+.sc-foot-lbl {
+  font-family: "Fredoka", sans-serif;
+  font-weight: 700;
+  font-size: 2.7cqw;
+  letter-spacing: 0.3cqw;
+  color: #7a3a00;
+}
+.sc-foot-web {
+  font-family: "Luckiest Guy", cursive;
+  font-size: 5.2cqw;
+  color: #1a1206;
+}
+.sc-foot-meta {
+  margin-top: 3cqw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.6cqw;
+  font-family: "Fredoka", sans-serif;
+  font-weight: 600;
+  font-size: 3.4cqw;
+  color: #e6ecff;
+}
+.sc-foot-item b { margin-right: 1cqw; font-size: 3cqw; }
+.sc-foot-dot {
+  width: 1cqw; height: 1cqw; border-radius: 50%;
+  background: #ff5f74;
+}
+
+/* ============================================================ KEYFRAMES */
+@keyframes sc-float {
+  from { transform: translateY(0); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  to   { transform: translateY(-135cqw); opacity: 0; }
+}
+@keyframes sc-spin { to { transform: translateX(-50%) rotate(360deg); } }
+@keyframes sc-pulse { 50% { opacity: 0.75; transform: translateX(-50%) scale(1.05); } }
+@keyframes sc-twinkle { 50% { opacity: 0.35; transform: scale(0.8) rotate(15deg); } }
+@keyframes sc-bob { 50% { transform: translateY(-2.5cqw) rotate(-3deg); } }
+@keyframes sc-sweep {
+  0%, 55% { transform: translateX(-120%); }
+  80%, 100% { transform: translateX(320%); }
+}
+@keyframes sc-pop { to { opacity: 1; transform: translateY(0) scale(1); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .sc-sun, .sc-rays, .sc-spark, .sc-ninja, .sc-coupon-shine,
+  .sc-particles span, .sc-track { animation: none; }
+  .sc-track { opacity: 1; transform: none; }
+}
