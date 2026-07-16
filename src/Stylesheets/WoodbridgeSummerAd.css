@@ -47,7 +47,6 @@
 /* 1) logo — robotic scan-reveal + flicker power-on */
 .wb-logo {
   width: clamp(230px, 34vw, 470px); height: auto;
-  filter: drop-shadow(0 12px 26px rgba(20, 40, 70, .14));
   animation: wb-logo-boot 0.85s steps(1) both, wb-logo-float 5s ease-in-out 1s infinite;
 }
 @keyframes wb-logo-boot {
@@ -72,12 +71,6 @@
 }
 .wb-word.is-on { opacity: 1; }
 .wb-word-text { position: relative; color: #000; }
-.wb-caret {
-  display: inline-block; width: .09em; height: .9em; margin-left: .06em;
-  background: #2ea3d8; animation: wb-blink 0.7s steps(1) infinite;
-}
-.wb-caret.is-done { animation: wb-blink 0.7s steps(1) 4; }
-@keyframes wb-blink { 50% { opacity: 0; } }
 
 /* kicker */
 .wb-kicker {

@@ -89,7 +89,6 @@ export default function WoodbridgeSummerAd() {
         {/* 2) typewriter word */}
         <div className={`wb-word ${phase >= 1 ? "is-on" : ""}`}>
           <span className="wb-word-text">{WORD.slice(0, typed)}</span>
-          <span className={`wb-caret ${phase >= 2 ? "is-done" : ""}`} aria-hidden />
         </div>
 
         <div className={`wb-kicker ${phase >= 2 ? "is-in" : ""}`}>
