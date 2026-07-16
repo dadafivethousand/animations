@@ -79,13 +79,19 @@ export default function WoodbridgeSummerAd() {
         ))}
       </div>
 
+      {/* one-time scanline sweep on boot */}
+      <div className="wb-scan" aria-hidden />
+
       <div className="wb-body">
+        {/* HUD corner brackets */}
+        <div className="wb-hud" aria-hidden><i /><i /><i /><i /></div>
+
         {/* 1) logo */}
         <img className="wb-logo" src={cnLogo} alt="Code Ninjas Woodbridge" />
 
         {/* 2) typewriter word */}
-        <div className={`wb-word ${phase >= 1 ? "is-on" : ""}`}>
-          <span className="wb-word-text">{WORD.slice(0, typed)}</span>
+        <div className={`wb-word ${phase >= 1 ? "is-on" : ""} ${phase >= 2 ? "is-glitch" : ""}`}>
+          <span className="wb-word-text" data-text={WORD.slice(0, typed)}>{WORD.slice(0, typed)}</span>
           <span className={`wb-caret ${phase >= 2 ? "is-done" : ""}`} aria-hidden />
         </div>
 
