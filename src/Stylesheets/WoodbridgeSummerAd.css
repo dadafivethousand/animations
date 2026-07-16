@@ -98,9 +98,9 @@
 .wb-track {
   position: relative; overflow: hidden;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: clamp(6px, .8vw, 12px);
-  padding: clamp(12px, 1.8vw, 26px) clamp(10px, 1.4vw, 20px);
-  border-radius: 14px; background: #fff;
+  gap: clamp(5px, .6vw, 9px);
+  padding: clamp(8px, 1.2vw, 16px) clamp(8px, 1vw, 14px);
+  border-radius: 12px; background: #fff;
   border: 2px solid rgba(46, 163, 216, .18);
   box-shadow: 0 8px 20px rgba(20, 40, 70, .08);
   opacity: 0;
@@ -133,16 +133,16 @@
 @keyframes wb-card-scan { 0% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }
 .wb-track-icon {
   display: grid; place-items: center;
-  width: clamp(46px, 5.2vw, 74px); height: clamp(46px, 5.2vw, 74px); border-radius: 14px;
-  font-size: clamp(22px, 2.7vw, 38px);
+  width: clamp(38px, 4.2vw, 58px); height: clamp(38px, 4.2vw, 58px); border-radius: 12px;
+  font-size: clamp(18px, 2.2vw, 30px);
   background: linear-gradient(140deg, var(--c1), var(--c2));
-  box-shadow: 0 8px 18px color-mix(in srgb, var(--c2) 45%, transparent);
+  box-shadow: 0 6px 14px color-mix(in srgb, var(--c2) 45%, transparent);
   animation: wb-icon-bob 3s ease-in-out infinite; animation-delay: calc(var(--i) * .2s);
 }
 @keyframes wb-icon-bob { 50% { transform: translateY(-4px); } }
 .wb-track-label {
   font-family: "Baloo 2", sans-serif; font-weight: 700;
-  font-size: clamp(14px, 1.7vw, 23px); color: #17202b;
+  font-size: clamp(12px, 1.4vw, 19px); color: #17202b;
 }
 
 /* 4) promo + contact */
