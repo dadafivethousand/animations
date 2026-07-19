@@ -1,10 +1,10 @@
 import React from "react";
 import "./Stylesheets/App.css";
 
-import AfterSchoolPickupAd from "./Components/AfterSchoolPickupAd";
+import CodeBuildsGame from "./Components/CodeBuildsGame";
 
 function App() {
-  return <AfterSchoolPickupAd />;
+  return <CodeBuildsGame />;
 }
 
 export default App;
