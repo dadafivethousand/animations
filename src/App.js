@@ -1,10 +1,10 @@
 import React from "react";
 import "./Stylesheets/App.css";
 
-import RoboticsProgramAd from "./Components/RoboticsProgramAd";
+import AfterSchoolPickupAd from "./Components/AfterSchoolPickupAd";
 
 function App() {
-  return <RoboticsProgramAd />;
+  return <AfterSchoolPickupAd />;
 }
 
 export default App;
