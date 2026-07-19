@@ -1,10 +1,10 @@
 import React from "react";
 import "./Stylesheets/App.css";
 
-import CodeBuildsGame from "./Components/CodeBuildsGame";
+import ScreenTimeSplit from "./Components/ScreenTimeSplit";
 
 function App() {
-  return <CodeBuildsGame />;
+  return <ScreenTimeSplit />;
 }
 
 export default App;

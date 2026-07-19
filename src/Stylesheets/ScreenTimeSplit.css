@@ -1,0 +1,187 @@
+/* ScreenTimeSplit.css — Code Ninjas Woodbridge.
+   PORTRAIT / iPhone-first. Two columns (scrolling vs building) with the SAME kid.
+   Both phone feeds scroll continuously and every animation is `infinite`, so the
+   whole scene loops with no visible seam. */
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Fredoka:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap");
+
+* { box-sizing: border-box; }
+
+.st-stage {
+  --red: #e4002b;
+  --good: #22e07a;
+  position: fixed; inset: 0;
+  height: 100vh; height: 100dvh;
+  display: flex; flex-direction: column;
+  font-family: "Fredoka", system-ui, sans-serif;
+  background: #0a0f18; color: #eaf2ff; overflow: hidden;
+}
+
+/* ---------------- overline hook ---------------- */
+.st-over {
+  flex: 0 0 auto; text-align: center;
+  padding: max(2.4vh, env(safe-area-inset-top)) 4vw 1.4vh;
+  font-family: "JetBrains Mono", monospace; font-weight: 600;
+  letter-spacing: .06em; text-transform: uppercase;
+  font-size: clamp(9px, 2.9vw, 13px); color: #8a99b5;
+}
+.st-over b { color: #fff; }
+
+/* ---------------- split ---------------- */
+.st-split { flex: 1 1 auto; min-height: 0; display: flex; align-items: stretch; }
+.st-col {
+  position: relative; flex: 1 1 0; min-width: 0;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 1.4vh 3vw 2vh; overflow: hidden;
+}
+.st-col--bad  { background: linear-gradient(#141a24, #0c111a); }
+.st-col--good { background: linear-gradient(#171018, #14090d); }
+.st-col--good::before { /* warm energy wash */
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(120% 60% at 50% 40%, rgba(228,0,43,.16), transparent 70%);
+}
+
+.st-label {
+  flex: 0 0 auto; z-index: 2; margin-bottom: 1.2vh;
+  font-family: "JetBrains Mono", monospace; font-weight: 700;
+  letter-spacing: .12em; font-size: clamp(10px, 3vw, 14px);
+  padding: .4em .7em; border-radius: 999px;
+}
+.st-label--bad  { color: #aab6cc; background: rgba(255,255,255,.06); }
+.st-label--good { color: #fff; background: var(--red); box-shadow: 0 0 16px rgba(228,0,43,.5); }
+
+/* ---------------- phones ---------------- */
+.st-phone {
+  position: relative; z-index: 2;
+  width: min(40vw, 168px); aspect-ratio: 9 / 15;
+  border-radius: 22px; overflow: hidden;
+  background: #05070c; border: 3px solid #232c3b;
+  box-shadow: 0 14px 34px rgba(0,0,0,.5);
+}
+.st-phone--bad  { filter: grayscale(.65) brightness(.82); }
+.st-phone--good { border-color: #4a2230; box-shadow: 0 14px 34px rgba(228,0,43,.28); }
+.st-notch {
+  position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
+  width: 34%; height: 8px; border-radius: 0 0 8px 8px; background: #232c3b; z-index: 5;
+}
+
+/* the scrolling feeds (duplicated content, translateY -50% = seamless loop) */
+.st-feed { position: absolute; inset: 0; padding: 16px 8px 0; display: flex; flex-direction: column; gap: 8px; }
+.st-feed--junk { animation: st-scroll 6s linear infinite; }
+.st-feed--code { animation: st-scroll 7.5s linear infinite; }
+@keyframes st-scroll { from { transform: translateY(0); } to { transform: translateY(-50%); } }
+
+.st-card--junk {
+  flex: 0 0 auto; height: 46px; border-radius: 8px;
+  background: #1b2330; display: flex; align-items: center; justify-content: center; position: relative;
+}
+.st-card-play { font-size: 18px; color: #5c6a82; }
+.st-card-bar { position: absolute; left: 8px; right: 8px; bottom: 6px; height: 3px; border-radius: 2px;
+  background: #3a4658; }
+
+.st-codeline {
+  flex: 0 0 auto; display: flex; gap: 6px; align-items: baseline;
+  font-family: "JetBrains Mono", monospace; font-size: 9.5px; line-height: 1.4;
+  color: #d7e3f7; white-space: nowrap;
+}
+.st-cl-n { color: #5a4a55; width: 1em; text-align: right; flex: none; }
+.st-codeline code { color: #ffb3c2; }
+
+.st-mini { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 34px; z-index: 4;
+  background: linear-gradient(transparent, rgba(0,0,0,.4)); }
+.st-mini-coin { transform-box: fill-box; transform-origin: center; animation: st-spin 1s linear infinite; }
+@keyframes st-spin { 0%{transform:scaleX(1)} 50%{transform:scaleX(.15)} 100%{transform:scaleX(1)} }
+.st-mini-ninja { animation: st-run 2.4s linear infinite; }
+@keyframes st-run {
+  0%   { transform: translate(6px, 30px); }
+  45%  { transform: translate(60px, 30px); }
+  52%  { transform: translate(70px, 16px); }   /* hop the coin */
+  60%  { transform: translate(84px, 30px); }
+  100% { transform: translate(120px, 30px); }
+}
+
+/* ---------------- floating XP ---------------- */
+.st-xp {
+  position: absolute; top: 58%; z-index: 3;
+  font-family: "Baloo 2", sans-serif; font-weight: 800; font-size: clamp(13px, 3.6vw, 18px);
+  opacity: 0; animation: st-float 3.3s ease-out infinite; animation-delay: var(--d);
+}
+.st-xp--bad  { color: #ff6f83; }
+.st-xp--good { color: var(--good); }
+@keyframes st-float {
+  0%   { opacity: 0; transform: translateY(0) scale(.8); }
+  15%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-52px) scale(1.1); }
+}
+/* the "bad" side drains DOWNward instead of rising */
+.st-xp--bad { animation-name: st-drain; }
+@keyframes st-drain {
+  0%   { opacity: 0; transform: translateY(-10px) scale(.8); }
+  15%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(44px) scale(1); }
+}
+
+/* ---------------- the kid ---------------- */
+.st-kid { width: clamp(58px, 17vw, 84px); height: auto; margin-top: auto; z-index: 2; }
+.st-band { fill: #e4002b; }
+.st-band--dk { fill: #c00020; }
+
+.st-kid--slump { filter: grayscale(.6) brightness(.72); }
+.st-kid--slump .st-kid-body { transform-box: fill-box; transform-origin: bottom center;
+  transform: rotate(6deg) translateY(4px) scale(.96); animation: st-sink 3.6s ease-in-out infinite; }
+.st-kid--slump .st-pupil { transform: translateY(1.5px); }        /* glazed, looking down */
+@keyframes st-sink { 0%,100%{ transform: rotate(6deg) translateY(4px) scale(.96);} 50%{ transform: rotate(7deg) translateY(6px) scale(.955);} }
+
+.st-kid--up { filter: drop-shadow(0 0 10px rgba(228,0,43,.35)); }
+.st-kid--up .st-kid-body { transform-box: fill-box; transform-origin: bottom center; animation: st-hype 1.1s ease-in-out infinite; }
+@keyframes st-hype { 0%,100%{ transform: translateY(0) scale(1);} 50%{ transform: translateY(-3px) scale(1.02);} }
+.st-kid--up .st-band { animation: st-glow 1.6s ease-in-out infinite; }
+@keyframes st-glow { 0%,100%{ filter: drop-shadow(0 0 0 rgba(228,0,43,0)); } 50%{ filter: drop-shadow(0 0 5px rgba(228,0,43,.9)); } }
+
+/* ---------------- stat chips ---------------- */
+.st-chip {
+  z-index: 2; margin-top: 1.2vh; white-space: nowrap;
+  font-family: "Fredoka", sans-serif; font-weight: 600; font-size: clamp(11px, 3vw, 14px);
+  padding: .4em .8em; border-radius: 999px;
+}
+.st-chip--bad  { color: #ff9aa9; background: rgba(255,111,131,.12); }
+.st-chip--good { color: #7fffb4; background: rgba(34,224,122,.14); }
+
+/* ---------------- VS divider ---------------- */
+.st-vs {
+  flex: 0 0 auto; align-self: center; z-index: 4;
+  display: flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; margin: 0 -20px; border-radius: 50%;
+  font-family: "Baloo 2", sans-serif; font-weight: 800; font-size: 15px; color: #fff;
+  background: #0a0f18; border: 2px solid var(--red);
+  box-shadow: 0 0 18px rgba(228,0,43,.6); animation: st-vspulse 1.8s ease-in-out infinite;
+}
+@keyframes st-vspulse { 0%,100%{ box-shadow: 0 0 12px rgba(228,0,43,.4);} 50%{ box-shadow: 0 0 22px rgba(228,0,43,.85);} }
+
+/* ---------------- tagline ---------------- */
+.st-tagline {
+  flex: 0 0 auto; text-align: center; padding: 1.8vh 5vw 1.4vh;
+  font-family: "Baloo 2", sans-serif; font-weight: 800; line-height: 1.05;
+  font-size: clamp(19px, 6vw, 32px); color: #9fb0cc;
+}
+.st-tagline b { color: #fff; }
+.st-tagline b::after { content: ""; }
+
+/* ---------------- footer ---------------- */
+.st-foot {
+  flex: 0 0 auto; display: flex; align-items: center; gap: 3.5vw;
+  padding: 1.6vh 6vw max(2vh, env(safe-area-inset-bottom));
+  background: #05080f; border-top: 1px solid #18202f;
+}
+.st-foot-logo { width: clamp(46px, 14vw, 74px); height: auto; flex: none;
+  filter: drop-shadow(0 0 8px rgba(255,255,255,.15)); }
+.st-foot-rows { display: flex; flex-direction: column; gap: .3vh; min-width: 0; }
+.st-foot-row { font-family: "JetBrains Mono", monospace; font-weight: 600;
+  font-size: clamp(11px, 3.2vw, 15px); color: #eaf2ff; white-space: nowrap; }
+.st-foot-web { color: #62d0ff; }
+
+/* ---------------- reduced motion ---------------- */
+@media (prefers-reduced-motion: reduce) {
+  .st-feed--junk, .st-feed--code, .st-mini-coin, .st-mini-ninja, .st-xp,
+  .st-kid-body, .st-band, .st-vs { animation: none !important; }
+  .st-xp { opacity: 1; }
+}
