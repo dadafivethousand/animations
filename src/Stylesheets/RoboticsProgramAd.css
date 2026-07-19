@@ -1,0 +1,211 @@
+/* RoboticsProgramAd.css — Code Ninjas Woodbridge robotics program ad.
+   Dark robotics-lab scene: articulated SVG robot arms, turning gears, circuit
+   grid, scanlines and weld sparks. Copy is typed in sequence by the component;
+   this file styles the slots, the caret, and every animated element. */
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Rajdhani:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap");
+
+.rb-stage {
+  position: fixed; inset: 0; overflow: hidden;
+  display: grid; place-items: center;
+  background:
+    radial-gradient(80% 60% at 50% 8%, rgba(34, 211, 238, 0.16), transparent 60%),
+    radial-gradient(70% 60% at 50% 108%, rgba(8, 145, 178, 0.20), transparent 60%),
+    linear-gradient(180deg, #060b16 0%, #081327 55%, #05080f 100%);
+  color: #e7f6fb;
+  font-family: "Rajdhani", system-ui, sans-serif;
+}
+
+/* ---------------- ambient background ---------------- */
+.rb-grid {
+  position: absolute; inset: -2px; z-index: 0; opacity: 0.5;
+  background-image:
+    linear-gradient(rgba(45, 212, 238, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(45, 212, 238, 0.09) 1px, transparent 1px);
+  background-size: 46px 46px;
+  -webkit-mask-image: radial-gradient(120% 90% at 50% 45%, #000 40%, transparent 82%);
+  mask-image: radial-gradient(120% 90% at 50% 45%, #000 40%, transparent 82%);
+  animation: rb-grid-pan 22s linear infinite;
+}
+@keyframes rb-grid-pan { to { background-position: 46px 46px; } }
+
+.rb-scan {
+  position: absolute; inset: 0; z-index: 4; pointer-events: none; opacity: 0.5;
+  background: repeating-linear-gradient(180deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 4px);
+  mix-blend-mode: overlay;
+  animation: rb-scan-move 7s linear infinite;
+}
+@keyframes rb-scan-move { to { background-position: 0 400px; } }
+
+.rb-glow {
+  position: absolute; left: 50%; top: 50%; z-index: 0;
+  width: 62vw; height: 62vw; transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(34,211,238,0.10), transparent 65%);
+  animation: rb-pulse 5s ease-in-out infinite;
+}
+@keyframes rb-pulse { 50% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.08); } }
+
+.rb-particles { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.rb-particles span {
+  position: absolute; top: 100%;
+  font-family: "JetBrains Mono", monospace; font-weight: 600;
+  color: rgba(56, 208, 240, 0.55);
+  text-shadow: 0 0 10px rgba(45, 212, 238, 0.5);
+  opacity: 0; animation: rb-float linear infinite;
+}
+@keyframes rb-float {
+  0% { opacity: 0; transform: translateY(0); }
+  12% { opacity: 0.5; } 88% { opacity: 0.5; }
+  100% { opacity: 0; transform: translateY(-112vh); }
+}
+
+/* ---------------- gears ---------------- */
+.rb-gear { position: absolute; z-index: 1; opacity: 0.16; }
+.rb-gear--1 { width: 20vw; color: #2dd4ee; left: -5vw; bottom: -5vw; animation: rb-spin 18s linear infinite; }
+.rb-gear--2 { width: 13vw; color: #38bdf8; right: -3vw; top: -3vw; animation: rb-spin 14s linear infinite reverse; }
+@keyframes rb-spin { to { transform: rotate(360deg); } }
+
+/* ================= ROBOT ARMS ================= */
+.rb-arm {
+  position: absolute; bottom: -2vh; z-index: 2;
+  height: 78vh; width: auto;
+  filter: drop-shadow(0 10px 26px rgba(0,0,0,0.55)) drop-shadow(0 0 14px rgba(34,211,238,0.18));
+}
+.rb-arm--left  { left: -2vw;  transform-origin: 50% 92%; animation: rb-arm-in-l 1.5s cubic-bezier(.2,.8,.25,1) both; }
+.rb-arm--right { right: -2vw; transform: scaleX(-1); transform-origin: 50% 92%; animation: rb-arm-in-r 1.5s cubic-bezier(.2,.8,.25,1) both; }
+@keyframes rb-arm-in-l {
+  0% { opacity: 0; transform: translateY(24vh) rotate(24deg); }
+  100% { opacity: 1; transform: translateY(0) rotate(0); }
+}
+@keyframes rb-arm-in-r {
+  0% { opacity: 0; transform: scaleX(-1) translateY(24vh) rotate(24deg); }
+  100% { opacity: 1; transform: scaleX(-1) translateY(0) rotate(0); }
+}
+
+/* joint articulation — pivots use the group's own bbox */
+.rb-shoulder, .rb-elbow, .rb-wrist, .rb-claw { transform-box: fill-box; }
+.rb-shoulder { transform-origin: 50% 100%; animation: rb-shoulder 6s ease-in-out 1.6s infinite; }
+.rb-elbow    { transform-origin: 50% 100%; animation: rb-elbow 5s ease-in-out 1.6s infinite; }
+.rb-wrist    { transform-origin: 50% 100%; animation: rb-wrist 3.2s ease-in-out 1.6s infinite; }
+@keyframes rb-shoulder { 0%,100% { transform: rotate(-7deg); } 50% { transform: rotate(4deg); } }
+@keyframes rb-elbow    { 0%,100% { transform: rotate(10deg); } 50% { transform: rotate(-8deg); } }
+@keyframes rb-wrist    { 0%,100% { transform: rotate(-6deg); } 50% { transform: rotate(9deg); } }
+
+.rb-claw--a { transform-origin: 50% 100%; animation: rb-claw-a 3.2s ease-in-out 1.6s infinite; }
+.rb-claw--b { transform-origin: 50% 100%; animation: rb-claw-b 3.2s ease-in-out 1.6s infinite; }
+@keyframes rb-claw-a { 0%,100% { transform: rotate(0deg); } 45% { transform: rotate(-11deg); } }
+@keyframes rb-claw-b { 0%,100% { transform: rotate(0deg); } 45% { transform: rotate(11deg); } }
+
+.rb-piston { stroke: #22d3ee; stroke-width: 4; stroke-linecap: round; opacity: 0.7;
+  filter: drop-shadow(0 0 4px #22d3ee); }
+.rb-led { animation: rb-blink 1.4s steps(1) infinite; }
+@keyframes rb-blink { 50% { opacity: 0.25; } }
+
+/* weld sparks fire while the arm works */
+.rb-spark { stroke: #ffd76a; stroke-width: 2.4; stroke-linecap: round; opacity: 0;
+  filter: drop-shadow(0 0 6px #ffb020); animation: rb-spark 3.2s ease-in-out 1.9s infinite; }
+.rb-spark circle { filter: drop-shadow(0 0 8px #ffdf8a); }
+@keyframes rb-spark {
+  0%, 40%, 100% { opacity: 0; transform: scale(0.4); }
+  46% { opacity: 1; transform: scale(1.15); }
+  52% { opacity: 0.4; transform: scale(0.8); }
+  58% { opacity: 1; transform: scale(1.05); }
+}
+
+/* ================= CONTENT ================= */
+.rb-body {
+  position: relative; z-index: 3;
+  width: min(80vw, 1120px);
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; gap: clamp(8px, 1.5vh, 20px);
+}
+
+/* typewriter slot + caret */
+.rb-slot { position: relative; white-space: pre-wrap; }
+.rb-caret {
+  display: inline-block; width: 0.6ch; height: 1em; margin-left: 2px;
+  background: #22d3ee; box-shadow: 0 0 10px #22d3ee; vertical-align: -0.12em;
+  opacity: 0;
+}
+.rb-slot[data-on="true"] .rb-caret { opacity: 1; animation: rb-caret 0.9s steps(1) infinite; }
+@keyframes rb-caret { 50% { opacity: 0; } }
+
+.rb-kicker {
+  font-family: "JetBrains Mono", monospace; font-weight: 600;
+  letter-spacing: 0.28em; font-size: clamp(11px, 1.5vw, 17px);
+  color: #5fe0f2; text-transform: uppercase; margin: 0;
+}
+.rb-logo {
+  width: clamp(200px, 26vw, 380px); height: auto; margin: 0.3vh 0;
+  filter: drop-shadow(0 6px 20px rgba(0,0,0,0.5)) drop-shadow(0 0 18px rgba(34,211,238,0.25));
+  animation: rb-logo-boot 0.9s steps(1) both, rb-logo-float 5s ease-in-out 1s infinite;
+}
+@keyframes rb-logo-boot {
+  0% { opacity: 0; clip-path: inset(0 0 100% 0); }
+  30% { opacity: 1; clip-path: inset(0 0 45% 0); }
+  55% { clip-path: inset(0 0 0 0); }
+  62% { opacity: 0.25; } 68% { opacity: 1; } 80% { opacity: 0.5; } 100% { opacity: 1; }
+}
+@keyframes rb-logo-float { 50% { transform: translateY(-6px); } }
+
+.rb-head {
+  font-family: "Orbitron", sans-serif; font-weight: 900;
+  font-size: clamp(34px, 6.4vw, 96px); line-height: 1; margin: 0;
+  letter-spacing: 0.03em;
+  background: linear-gradient(180deg, #eafcff 0%, #67e8f9 48%, #22a7c2 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 0 22px rgba(34, 211, 238, 0.45));
+}
+.rb-head .rb-caret { height: 0.82em; width: 0.5ch; vertical-align: 0.02em; }
+
+.rb-underline {
+  width: clamp(120px, 20vw, 320px); height: 4px; border-radius: 4px;
+  background: linear-gradient(90deg, transparent, #22d3ee, transparent);
+  box-shadow: 0 0 16px #22d3ee; opacity: 0;
+}
+.is-typing .rb-underline { animation: rb-line-in 0.8s ease 2.6s both; }
+@keyframes rb-line-in { from { opacity: 0; transform: scaleX(0.2); } to { opacity: 1; transform: scaleX(1); } }
+
+.rb-tag {
+  font-family: "Rajdhani", sans-serif; font-weight: 700;
+  font-size: clamp(16px, 2.5vw, 32px); letter-spacing: 0.16em;
+  text-transform: uppercase; color: #bfefff; margin: 0;
+}
+
+.rb-feats {
+  list-style: none; margin: 0.6vh 0 0; padding: 0;
+  display: flex; flex-direction: column; align-items: flex-start; gap: clamp(4px, 1vh, 12px);
+}
+.rb-feats li {
+  display: flex; align-items: center;
+  padding: 0.5em 1em; border-radius: 10px;
+  background: linear-gradient(120deg, rgba(34,211,238,0.10), rgba(8,145,178,0.04));
+  box-shadow: inset 0 0 0 1px rgba(45, 212, 238, 0.22);
+}
+.rb-feat {
+  font-family: "JetBrains Mono", monospace; font-weight: 500;
+  font-size: clamp(13px, 1.9vw, 24px); color: #d8f4fb; min-height: 1.2em;
+}
+
+.rb-console {
+  margin-top: clamp(10px, 2vh, 26px);
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+  gap: clamp(10px, 1.6vw, 22px);
+  padding: 0.7em 1.4em; border-radius: 12px;
+  background: rgba(4, 12, 24, 0.6);
+  box-shadow: inset 0 0 0 1px rgba(45,212,238,0.3), 0 8px 30px rgba(0,0,0,0.4);
+  font-family: "JetBrains Mono", monospace;
+}
+.rb-c-web { font-weight: 700; font-size: clamp(15px, 2.1vw, 27px); color: #7dffd4;
+  text-shadow: 0 0 12px rgba(45, 240, 190, 0.5); }
+.rb-c-item { font-weight: 600; font-size: clamp(13px, 1.8vw, 23px); color: #e7f6fb; }
+.rb-c-sep { color: #1f8ba6; font-size: 0.8em; }
+
+/* keep slots from collapsing before they're typed */
+.rb-kicker, .rb-tag, .rb-head, .rb-c-web, .rb-c-item { min-height: 1em; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rb-arm, .rb-shoulder, .rb-elbow, .rb-wrist, .rb-claw--a, .rb-claw--b,
+  .rb-spark, .rb-gear, .rb-particles span, .rb-scan, .rb-glow, .rb-logo, .rb-led {
+    animation-duration: 0.001s !important; animation-iteration-count: 1 !important;
+  }
+}

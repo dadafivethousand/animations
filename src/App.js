@@ -1,10 +1,10 @@
 import React from "react";
 import "./Stylesheets/App.css";
 
-import WoodbridgeSummerAd from "./Components/WoodbridgeSummerAd";
+import RoboticsProgramAd from "./Components/RoboticsProgramAd";
 
 function App() {
-  return <WoodbridgeSummerAd />;
+  return <RoboticsProgramAd />;
 }
 
 export default App;
