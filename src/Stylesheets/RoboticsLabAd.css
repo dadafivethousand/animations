@@ -1,0 +1,200 @@
+/* RoboticsLabAd.css — Code Ninjas Woodbridge ROBOTICS.
+   PORTRAIT / iPhone-first. A neon HUD over a 3D grid: hovering mech-ninja,
+   energized CPU chip, circuit traces, weld sparks, glassmorphism panels.
+   Heavy on transforms/filters/gradients; copy is typed from JS. */
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800;900&family=Fredoka:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&family=Orbitron:wght@600;800;900&display=swap");
+
+* { box-sizing: border-box; }
+
+.rb-stage {
+  --red: #e4002b;
+  --red-hot: #ff3b57;
+  --cyan: #22e0ff;
+  --ink: #050912;
+  position: fixed; inset: 0;
+  height: 100vh; height: 100dvh;
+  display: flex; flex-direction: column;
+  padding: max(2.4vh, env(safe-area-inset-top)) 0 max(1.6vh, env(safe-area-inset-bottom));
+  font-family: "Fredoka", system-ui, sans-serif;
+  color: #eaf6ff; overflow: hidden;
+  background:
+    radial-gradient(120% 80% at 50% -10%, #142033 0, transparent 60%),
+    radial-gradient(90% 60% at 50% 120%, #1a0710 0, transparent 60%),
+    #050912;
+  perspective: 800px;
+}
+
+/* ---------------- background field ---------------- */
+.rb-vignette { position: absolute; inset: 0; pointer-events: none; z-index: 6;
+  background: radial-gradient(120% 100% at 50% 45%, transparent 55%, rgba(0,0,0,.6) 100%); }
+
+/* 3D neon grid scrolling toward the viewer */
+.rb-grid {
+  position: absolute; left: 50%; bottom: -8%; z-index: 0;
+  width: 240%; height: 62%;
+  transform: translateX(-50%) rotateX(76deg); transform-origin: bottom center;
+  background-image:
+    linear-gradient(rgba(34,224,255,.32) 1.4px, transparent 1.4px),
+    linear-gradient(90deg, rgba(34,224,255,.22) 1.4px, transparent 1.4px);
+  background-size: 34px 34px, 34px 34px;
+  animation: rb-grid 1.05s linear infinite;
+  -webkit-mask: radial-gradient(120% 92% at 50% 100%, #000 22%, transparent 74%);
+          mask: radial-gradient(120% 92% at 50% 100%, #000 22%, transparent 74%);
+}
+@keyframes rb-grid { to { background-position: 0 34px, 0 0; } }
+
+/* HUD scan-line sweeping the whole frame */
+.rb-scan { position: absolute; left: 0; right: 0; z-index: 5; height: 140px; pointer-events: none;
+  background: linear-gradient(transparent, rgba(34,224,255,.10) 45%, rgba(34,224,255,.16) 50%, transparent);
+  animation: rb-scan 5s linear infinite; }
+@keyframes rb-scan { 0% { transform: translateY(-160px); } 100% { transform: translateY(102vh); } }
+
+/* glowing corner brackets */
+.rb-corner { position: absolute; width: 26px; height: 26px; z-index: 6;
+  border: 2px solid var(--cyan); filter: drop-shadow(0 0 5px rgba(34,224,255,.7)); opacity: .8; }
+.rb-corner--tl { top: 10px; left: 10px; border-right: 0; border-bottom: 0; }
+.rb-corner--tr { top: 10px; right: 10px; border-left: 0; border-bottom: 0; }
+.rb-corner--bl { bottom: 10px; left: 10px; border-right: 0; border-top: 0; }
+.rb-corner--br { bottom: 10px; right: 10px; border-left: 0; border-top: 0; }
+
+/* ---------------- typewriter primitives ---------------- */
+.rb-slot { position: relative; white-space: pre-wrap; z-index: 4; }
+.rb-caret { display: inline-block; width: .5ch; height: 1.05em; margin-left: 1px; vertical-align: -.15em;
+  background: var(--cyan); box-shadow: 0 0 6px var(--cyan); opacity: 0; }
+.rb-slot[data-on="true"] .rb-caret { opacity: 1; animation: rb-blink .85s steps(1) infinite; }
+@keyframes rb-blink { 50% { opacity: 0; } }
+
+/* ---------------- top HUD ---------------- */
+.rb-top { position: relative; z-index: 4; flex: 0 0 auto;
+  display: flex; align-items: center; justify-content: space-between; gap: 2vw;
+  padding: 0 5vw 1.4vh; }
+.rb-kicker { min-height: 1em; font-family: "JetBrains Mono", monospace; font-weight: 600;
+  letter-spacing: .1em; font-size: clamp(9px, 2.9vw, 13px); color: var(--cyan);
+  text-shadow: 0 0 8px rgba(34,224,255,.5); }
+.rb-online { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+  font-family: "JetBrains Mono", monospace; font-weight: 700; letter-spacing: .12em;
+  font-size: clamp(8px, 2.6vw, 11px); color: #7fffc4;
+  padding: .3em .6em; border-radius: 999px;
+  background: rgba(34,224,255,.06); border: 1px solid rgba(34,224,255,.25);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.rb-online-dot { width: 7px; height: 7px; border-radius: 50%; background: #22e07a;
+  box-shadow: 0 0 8px #22e07a; animation: rb-blink 1.2s ease-in-out infinite; }
+
+/* ---------------- headline ---------------- */
+.rb-headline { position: relative; z-index: 4; flex: 0 0 auto; text-align: center; padding: 0 6vw 1vh; }
+.rb-h1, .rb-h2 { margin: 0; min-height: 1em; font-family: "Orbitron", "Baloo 2", sans-serif; font-weight: 900;
+  line-height: 1.02; letter-spacing: .01em; font-size: clamp(24px, 8vw, 40px); }
+.rb-h1 { color: #fff; text-shadow: 0 0 10px rgba(255,59,87,.5), 0 2px 0 rgba(0,0,0,.4); }
+.rb-h1 .rb-caret { background: var(--red-hot); box-shadow: 0 0 6px var(--red-hot); }
+.rb-h2 { color: #fff;
+  text-shadow: 0 0 6px var(--cyan), 0 0 16px var(--cyan), 0 0 34px rgba(34,224,255,.6);
+  animation: rb-flicker 6s infinite; }
+@keyframes rb-flicker { 0%,96%,100% { opacity: 1; } 97% { opacity: .55; } 98.5% { opacity: 1; } 99% { opacity: .7; } }
+.rb-sub { margin: 1.2vh 0 0; min-height: 1em; font-family: "Fredoka", sans-serif; font-weight: 500;
+  font-size: clamp(12px, 3.6vw, 17px); color: #9fc6dd; }
+
+/* ---------------- 3D scene ---------------- */
+.rb-scene { position: relative; z-index: 3; flex: 1 1 auto; min-height: 0; }
+.rb-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* circuit traces flow toward the chip */
+.rb-trace { stroke-dasharray: 6 10; animation: rb-flow 1.1s linear infinite; filter: drop-shadow(0 0 3px rgba(34,224,255,.5)); }
+.rb-trace:nth-child(2) { animation-delay: -.4s; }
+.rb-trace:nth-child(3) { animation-delay: -.8s; }
+@keyframes rb-flow { to { stroke-dashoffset: -16; } }
+.rb-trace-nodes circle { filter: drop-shadow(0 0 4px var(--cyan)); animation: rb-node 1.6s ease-in-out infinite; }
+@keyframes rb-node { 50% { opacity: .35; } }
+
+/* CPU chip pulses as it's energized */
+.rb-chip-glow { fill: rgba(34,224,255,.18); stroke: var(--cyan); stroke-width: 1.5;
+  transform-box: fill-box; transform-origin: center; animation: rb-chippulse 1.5s ease-in-out infinite; }
+@keyframes rb-chippulse { 0%,100% { fill: rgba(34,224,255,.10); filter: drop-shadow(0 0 2px rgba(34,224,255,.4)); }
+  50% { fill: rgba(34,224,255,.30); filter: drop-shadow(0 0 10px rgba(34,224,255,.9)); } }
+.rb-chip-tx { font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 11px; fill: #bff6ff; }
+
+/* energy beam */
+.rb-beam { transform-box: fill-box; transform-origin: top center; mix-blend-mode: screen;
+  animation: rb-beamflk .18s steps(2) infinite; }
+@keyframes rb-beamflk { 0% { opacity: .5; transform: scaleX(1); } 100% { opacity: .9; transform: scaleX(.7); } }
+
+/* ---- mech-ninja ---- */
+.rb-mech { transform-box: fill-box; transform-origin: center; animation: rb-hover 3.4s ease-in-out infinite; }
+@keyframes rb-hover { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+.rb-mech-shadow { fill: rgba(0,0,0,.35); animation: rb-shadow 3.4s ease-in-out infinite; }
+@keyframes rb-shadow { 0%,100% { opacity: .5; transform: scale(1); } 50% { opacity: .3; transform: scale(.86); } }
+.rb-mech rect, .rb-mech path { filter: drop-shadow(0 3px 5px rgba(0,0,0,.4)); }
+
+.rb-band { fill: var(--red); }
+.rb-band--dk { fill: #b3001f; }
+.rb-visor { fill: rgba(34,224,255,.14); stroke: var(--cyan); stroke-width: 1;
+  filter: drop-shadow(0 0 6px rgba(34,224,255,.7)); }
+.rb-eye { fill: #baf6ff; filter: drop-shadow(0 0 5px var(--cyan)); animation: rb-eye 2.6s ease-in-out infinite; }
+@keyframes rb-eye { 0%,100% { transform: translateX(0); } 40% { transform: translateX(22px); } 60% { transform: translateX(22px); } }
+.rb-antenna { fill: var(--red-hot); filter: drop-shadow(0 0 6px var(--red-hot)); animation: rb-node 1s ease-in-out infinite; }
+.rb-hand { fill: var(--cyan); filter: drop-shadow(0 0 6px var(--cyan)); animation: rb-node 1s ease-in-out infinite; }
+.rb-gear-p { fill: #1a2636; stroke: var(--cyan); stroke-width: 1.2; }
+.rb-arm-l { transform-box: fill-box; transform-origin: top center; animation: rb-wave 3s ease-in-out infinite; }
+@keyframes rb-wave { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(-12deg); } }
+.rb-thruster { transform-box: fill-box; transform-origin: top center; mix-blend-mode: screen;
+  animation: rb-thrust .2s steps(2) infinite; }
+@keyframes rb-thrust { 0% { opacity: .55; transform: scaleY(1); } 100% { opacity: .95; transform: scaleY(.8); } }
+
+/* weld sparks */
+.rb-spark { fill: #ffd76a; filter: drop-shadow(0 0 4px #ffb020);
+  transform-box: fill-box; transform-origin: center; opacity: 0;
+  animation: rb-spark .9s ease-out infinite; animation-delay: var(--sd); }
+@keyframes rb-spark { 0% { opacity: 0; transform: translate(0,0) scale(1); }
+  10% { opacity: 1; } 100% { opacity: 0; transform: translate(var(--sx), var(--sy)) scale(.3); } }
+
+/* live gauges (glassmorphism) */
+.rb-gauges { position: absolute; top: 4%; right: 4%; z-index: 4; display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+.rb-gauge { position: relative; width: 52px; height: 52px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 12px; background: rgba(10,18,30,.5); border: 1px solid rgba(34,224,255,.22);
+  -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px); }
+.rb-dial { position: absolute; inset: 3px; transform: rotate(-90deg); }
+.rb-dial-track { fill: none; stroke: rgba(255,255,255,.08); stroke-width: 4; }
+.rb-dial-fill { fill: none; stroke: var(--cyan); stroke-width: 4; stroke-linecap: round;
+  stroke-dasharray: 113; filter: drop-shadow(0 0 4px rgba(34,224,255,.7)); transition: stroke-dashoffset .1s linear; }
+.rb-gauge-v { font-family: "Orbitron", monospace; font-weight: 800; font-size: 13px; color: #eaf6ff; }
+.rb-gauge-v i { font-size: 8px; opacity: .7; font-style: normal; }
+.rb-gauge-ico { position: absolute; bottom: 2px; right: 4px; font-size: 9px; opacity: .5; }
+.rb-bars { display: flex; flex-direction: column; gap: 4px; width: 52px;
+  padding: 7px; border-radius: 10px; background: rgba(10,18,30,.5); border: 1px solid rgba(34,224,255,.18);
+  -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px); }
+.rb-bar { height: 4px; border-radius: 2px; background: rgba(255,255,255,.08); overflow: hidden; }
+.rb-bar i { display: block; height: 100%; border-radius: 2px;
+  background: linear-gradient(90deg, var(--cyan), #7fffc4); box-shadow: 0 0 5px rgba(34,224,255,.7);
+  transition: width .12s linear; }
+
+/* ---------------- features ---------------- */
+.rb-feats { position: relative; z-index: 4; flex: 0 0 auto; list-style: none; margin: 0; padding: .6vh 7vw;
+  display: flex; flex-direction: column; gap: .5vh; }
+.rb-feat { min-height: 1em; font-family: "JetBrains Mono", monospace; font-weight: 500;
+  font-size: clamp(11px, 3.3vw, 15px); color: #cfe6f4; }
+
+/* ---------------- CTA ---------------- */
+.rb-cta-wrap { position: relative; z-index: 4; flex: 0 0 auto; text-align: center; padding: 1vh 6vw 1.4vh; }
+.rb-cta { display: inline-block; min-height: 1em; min-width: 2ch;
+  font-family: "Baloo 2", sans-serif; font-weight: 800; font-size: clamp(14px, 4.4vw, 20px); color: #fff;
+  padding: .5em 1.1em; border-radius: 12px;
+  background: linear-gradient(180deg, var(--red-hot), var(--red));
+  box-shadow: 0 0 22px rgba(228,0,43,.55), inset 0 1px 0 rgba(255,255,255,.25);
+  animation: rb-ctapulse 1.8s ease-in-out infinite; }
+@keyframes rb-ctapulse { 50% { box-shadow: 0 0 34px rgba(228,0,43,.85), inset 0 1px 0 rgba(255,255,255,.25); } }
+
+/* ---------------- footer ---------------- */
+.rb-foot { position: relative; z-index: 4; flex: 0 0 auto;
+  display: flex; align-items: center; gap: 3vw; padding: 1vh 6vw 0; }
+.rb-foot-logo { width: clamp(40px, 12vw, 64px); height: auto; flex: none;
+  filter: drop-shadow(0 0 8px rgba(255,255,255,.2)); }
+.rb-contact { min-height: 1em; font-family: "JetBrains Mono", monospace; font-weight: 600;
+  font-size: clamp(9px, 2.7vw, 12.5px); color: #9fc6dd; letter-spacing: .01em; }
+
+/* ---------------- reduced motion ---------------- */
+@media (prefers-reduced-motion: reduce) {
+  .rb-grid, .rb-scan, .rb-trace, .rb-trace-nodes circle, .rb-chip-glow, .rb-beam, .rb-mech,
+  .rb-mech-shadow, .rb-eye, .rb-antenna, .rb-hand, .rb-arm-l, .rb-thruster, .rb-spark,
+  .rb-h2, .rb-cta, .rb-online-dot { animation: none !important; }
+  .rb-spark, .rb-beam, .rb-thruster { opacity: 0; }
+}
