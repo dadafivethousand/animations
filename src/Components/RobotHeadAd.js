@@ -87,6 +87,8 @@ export default function RobotHeadAd() {
       <header className="rh-top">
         <span className={`rh-logo-wrap ${logoIn ? "rh-in" : ""}`} key={"logo" + cycle}>
           <img className="rh-logo" src={cnLogo} alt="Code Ninjas" />
+          <span className="rh-logo-scan" />
+          <span className="rh-logo-noise" />
         </span>
         <Slot id="woodbridge" tag="h2" className="rh-woodbridge" />
         <Slot id="prog" tag="h1" className="rh-prog" />
