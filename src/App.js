@@ -1,10 +1,10 @@
 import React from "react";
 import "./Stylesheets/App.css";
 
-import RobotBuilderAd from "./Components/RobotBuilderAd";
+import RobotHeadAd from "./Components/RobotHeadAd";
 
 function App() {
-  return <RobotBuilderAd />;
+  return <RobotHeadAd />;
 }
 
 export default App;

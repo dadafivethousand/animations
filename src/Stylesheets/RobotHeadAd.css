@@ -1,0 +1,114 @@
+/* RobotHeadAd.css — Code Ninjas Woodbridge ROBOTICS.
+   PORTRAIT / iPhone-first. Dark stage so the holographic logo reads.
+   The 🤖 head floats up from the bottom (~80% width), reaches center and
+   shrinks 2x; then the logo flickers in and all copy types under/around it. */
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800;900&family=Fredoka:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&family=Orbitron:wght@600;800;900&display=swap");
+
+* { box-sizing: border-box; }
+
+.rh-stage {
+  --red: #e4002b;
+  --cyan: #22e0ff;
+  position: fixed; inset: 0;
+  height: 100vh; height: 100dvh;
+  display: flex; flex-direction: column; align-items: center;
+  padding: max(3vh, env(safe-area-inset-top)) 5vw max(2.4vh, env(safe-area-inset-bottom));
+  font-family: "Fredoka", system-ui, sans-serif; color: #eaf6ff; overflow: hidden;
+  background:
+    radial-gradient(120% 80% at 50% 0%, #16233a 0, transparent 55%),
+    radial-gradient(90% 70% at 50% 120%, #24070f 0, transparent 55%),
+    #060a14;
+}
+
+.rh-grid { position: absolute; inset: 0; z-index: 0; opacity: .6;
+  background-image:
+    linear-gradient(rgba(34,224,255,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34,224,255,.06) 1px, transparent 1px);
+  background-size: 32px 32px, 32px 32px;
+  -webkit-mask: radial-gradient(90% 80% at 50% 45%, #000, transparent 80%);
+          mask: radial-gradient(90% 80% at 50% 45%, #000, transparent 80%); }
+
+/* ---------------- robot head layer ---------------- */
+.rh-robot-layer { position: absolute; inset: 0; z-index: 1;
+  display: flex; align-items: center; justify-content: center; pointer-events: none; }
+.rh-halo { position: absolute; width: min(56vw, 320px); height: min(56vw, 320px); border-radius: 50%;
+  background: radial-gradient(circle, rgba(228,0,43,.30), rgba(228,0,43,0) 66%);
+  animation: rh-halo 4s ease-in-out infinite; }
+.rh-halo--2 { width: min(72vw, 400px); height: min(72vw, 400px);
+  background: radial-gradient(circle, rgba(34,224,255,.24), rgba(34,224,255,0) 66%);
+  animation-delay: -2s; }
+@keyframes rh-halo { 0%,100% { transform: scale(.85); opacity: .55; } 50% { transform: scale(1.05); opacity: .9; } }
+
+.rh-robot-hover { animation: rh-bob 3.6s ease-in-out infinite; }
+@keyframes rh-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+/* the head: floats up from the bottom big, arrives at center, shrinks 2x.
+   Replayed every cycle because React remounts it via key={cycle}. */
+.rh-robot { display: block; line-height: 1; font-size: min(82vw, 440px);
+  filter: drop-shadow(0 18px 26px rgba(0,0,0,.5));
+  transform-origin: center center;
+  animation: rh-enter 2.6s cubic-bezier(.2,.7,.2,1) forwards; }
+@keyframes rh-enter {
+  0%   { transform: translateY(120%) scale(1);  opacity: 0; }
+  14%  { opacity: 1; }
+  52%  { transform: translateY(0) scale(1); }      /* arrived at center, full ~80% width */
+  66%  { transform: translateY(0) scale(1); }      /* brief hold */
+  100% { transform: translateY(0) scale(.5); }     /* shrink 2x */
+}
+
+/* ---------------- typewriter primitives ---------------- */
+.rh-slot { position: relative; z-index: 3; white-space: pre-wrap; }
+.rh-caret { display: inline-block; width: .5ch; height: 1.05em; margin-left: 1px; vertical-align: -.15em;
+  background: var(--cyan); box-shadow: 0 0 6px var(--cyan); opacity: 0; }
+.rh-slot[data-on="true"] .rh-caret { opacity: 1; animation: rh-blink .85s steps(1) infinite; }
+@keyframes rh-blink { 50% { opacity: 0; } }
+
+/* ---------------- ABOVE the robot ---------------- */
+.rh-top { position: relative; z-index: 3; flex: 0 0 auto; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: .4vh; }
+
+/* holographic logo */
+.rh-logo-wrap { position: relative; display: inline-block; opacity: 0; }
+.rh-logo { display: block; width: clamp(84px, 28vw, 148px); height: auto; }
+.rh-logo-wrap.rh-in { animation: rh-holoin 1s steps(1, end) forwards; }
+.rh-logo-wrap.rh-in .rh-logo {
+  filter: drop-shadow(0 0 8px rgba(34,224,255,.9)) drop-shadow(0 0 20px rgba(34,224,255,.5))
+          brightness(1.12) contrast(1.08);
+  animation: rh-holoflk 3s ease-in-out 1s infinite; }
+.rh-logo-wrap.rh-in::after { /* scanlines */
+  content: ""; position: absolute; inset: -4% -8%;
+  background: repeating-linear-gradient(0deg, rgba(34,224,255,.22) 0 1px, transparent 1px 3px);
+  mix-blend-mode: screen; pointer-events: none;
+  animation: rh-scan 1.4s linear infinite; }
+@keyframes rh-holoin {
+  0% { opacity: 0; } 8% { opacity: .35; } 12% { opacity: 0; } 22% { opacity: .7; }
+  28% { opacity: .15; } 42% { opacity: .9; } 48% { opacity: .3; } 64% { opacity: 1; }
+  70% { opacity: .45; } 100% { opacity: .95; } }
+@keyframes rh-holoflk { 0%,100% { opacity: .95; } 47% { opacity: .82; } 50% { opacity: 1; } 53% { opacity: .78; } }
+@keyframes rh-scan { to { background-position: 0 6px; } }
+
+.rh-woodbridge { min-height: 1em; margin: .2vh 0 0; font-family: "Orbitron", "Baloo 2", sans-serif; font-weight: 900;
+  letter-spacing: .14em; font-size: clamp(18px, 6.2vw, 32px); color: #fff;
+  text-shadow: 0 0 8px var(--cyan), 0 0 22px rgba(34,224,255,.6); }
+.rh-prog { min-height: 1em; margin: .3vh 0 0; font-family: "Baloo 2", sans-serif; font-weight: 800;
+  letter-spacing: .04em; font-size: clamp(14px, 4.4vw, 22px); color: var(--red);
+  text-shadow: 0 0 10px rgba(228,0,43,.5); }
+.rh-tag { min-height: 1em; margin: .3vh 0 0; font-family: "Fredoka", sans-serif; font-weight: 500;
+  font-size: clamp(11px, 3.4vw, 15px); color: #93b6cc; }
+
+.rh-spacer { flex: 1 1 auto; min-height: 0; }
+
+/* ---------------- BELOW the robot ---------------- */
+.rh-bottom { position: relative; z-index: 3; flex: 0 0 auto; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: .5vh; }
+.rh-info { min-height: 1em; font-family: "JetBrains Mono", monospace; font-weight: 600;
+  font-size: clamp(12px, 3.6vw, 16px); color: #cfe6f4; }
+.rh-info--web { color: var(--cyan); text-shadow: 0 0 8px rgba(34,224,255,.4); }
+
+/* ---------------- reduced motion ---------------- */
+@media (prefers-reduced-motion: reduce) {
+  .rh-halo, .rh-robot-hover, .rh-robot, .rh-logo-wrap.rh-in, .rh-logo-wrap.rh-in .rh-logo,
+  .rh-logo-wrap.rh-in::after { animation: none !important; }
+  .rh-robot { transform: scale(.5); opacity: 1; }
+  .rh-logo-wrap { opacity: .95; }
+}
