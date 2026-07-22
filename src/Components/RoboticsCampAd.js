@@ -16,25 +16,34 @@ const LINES = [
   { t: "STATUS   : NOW ENROLLING",     cls: "term status" },
 ];
 
-// copper traces (viewBox 1600x900) routed with 45° bends in the margins
+// copper traces (viewBox 1600x900) with 45° bends. Kept OUT of the plaque
+// (top-left) and the info panel (lower-left) — routed dense elsewhere.
 const TRACES = [
-  "M0 250 H70 L120 300 H250 L300 250 H430",
-  "M40 470 H150 L200 520 H360",
-  "M30 690 H180 L230 640 H420 L470 690 H560",
-  "M60 850 H240 L300 790 H470",
-  "M1600 210 H1470 L1410 150 H1250 L1200 210 H1080",
-  "M1600 430 H1500 L1450 370 H1320",
-  "M1600 610 H1460 L1400 670 H1250",
+  // top band
+  "M600 40 H760 L810 100 H960 L1010 60 H1180",
+  "M840 30 H980 L1040 90 H1180 L1240 60 H1440",
+  "M1330 30 H1180 L1130 90 H1010",
+  "M1600 130 H1470 L1410 70 H1280",
+  "M980 300 H1120 L1170 360 H1330 L1380 320 H1520",
+  // right side
+  "M1600 240 H1470 L1410 180 H1250 L1200 240 H1090",
+  "M1600 440 H1500 L1450 380 H1320 L1270 440 H1160",
+  "M1600 620 H1460 L1400 680 H1250 L1200 620 H1120",
   "M1560 850 H1360 L1300 790 H1180",
-  "M840 30 H980 L1040 90 H1180",
-  "M1330 30 H1180 L1130 90",
-  "M260 40 H150 L110 90",
+  // bottom-center / right
+  "M980 770 H1140 L1200 830 H1360",
+  "M900 880 H1080 L1140 820 H1300 L1350 880 H1520",
+  "M1040 620 H1180 L1230 690 H1400",
+  // left edge
+  "M0 250 H60 L100 290", "M0 470 H50", "M0 690 H70 L110 650",
 ];
-const VIAS = [ [4.5,28],[7.5,33],[16,33],[19,29],[9,52],[22,58],[3,77],[28,72],[92,23],[78,23],[75,17],[97,48],[82,41],[91,68],[78,74],[74,88] ];
-const SOLDER = [ [26,52],[15,77],[36,29],[66,10],[72,17],[95,68],[8,58],[62,73] ];
-const CAPS = [ {x:76,y:15,r:34}, {x:90,y:52,r:26}, {x:64,y:68,r:22} ];
-const SILK = [ {x:9,y:24,t:"R7"},{x:25,y:47,t:"C11"},{x:18,y:73,t:"J2"},{x:70,y:9,t:"C1"},{x:96,y:41,t:"L4"},{x:59,y:64,t:"U3"},{x:73,y:70,t:"D2"},{x:83,y:80,t:"Q8"} ];
-const SMD = [ {x:34,y:29,w:26,h:11},{x:12,y:60,w:11,h:26},{x:56,y:82,w:24,h:10} ];
+const VIAS = [ [92,23],[78,23],[75,17],[97,48],[82,41],[91,68],[78,74],[74,90],[63,12],[72,20],[86,10],[55,7],[66,80],[72,93],[89,84],[2,28],[2,52],[2,77],[68,40],[95,34] ];
+const SOLDER = [ [66,10],[72,17],[95,68],[62,73],[88,44],[70,34],[97,78],[60,86] ];
+const CAPS = [ {x:76,y:15,r:34}, {x:91,y:53,r:26}, {x:65,y:66,r:22}, {x:70,y:30,r:20} ];
+const SILK = [ {x:70,y:9,t:"C1"},{x:96,y:41,t:"L4"},{x:59,y:63,t:"U3"},{x:73,y:70,t:"D2"},{x:83,y:80,t:"Q8"},{x:63,y:36,t:"R7"},{x:90,y:19,t:"C4"},{x:52,y:6,t:"J2"} ];
+const SMD = [ {x:88,y:47,w:26,h:11},{x:62,y:88,w:24,h:10},{x:97,y:20,w:11,h:26},{x:47,y:6,w:24,h:10},{x:68,y:52,w:22,h:10} ];
+// glowing activity LEDs at trace ends (green, staggered pulse)
+const LEDS = [ [63,12],[97,48],[66,80],[55,7],[89,84],[68,40],[95,34],[72,93] ];
 
 export default function RoboticsCampAd() {
   const [phase, setPhase] = useState(BOOT);
@@ -93,6 +102,9 @@ export default function RoboticsCampAd() {
           </span>
         ))}
         {SILK.map((l, i) => <span key={"l" + i} className="rb-silk" style={{ left: `${l.x}%`, top: `${l.y}%` }}>{l.t}</span>)}
+        {LEDS.map(([x, y], i) => <span key={"e" + i} className="rb-led" style={{ left: `${x}%`, top: `${y}%`, animationDelay: `${-(i * 0.5)}s` }} />)}
+        {/* small SOIC chip */}
+        <span className="rb-soic"><b /><b /></span>
         {/* gold edge-connector fingers */}
         <span className="rb-fingers">{Array.from({ length: 12 }).map((_, i) => <i key={i} />)}</span>
       </div>
