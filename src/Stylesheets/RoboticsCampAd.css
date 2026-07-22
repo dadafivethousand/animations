@@ -207,7 +207,18 @@ width:80%;
   60%  { opacity: 1; filter: blur(0); }
   100% { opacity: 1; }
 }
-.rb-caret { display: inline-block; width: .55em; height: 1.05em; margin-left: .1em; background: var(--acc); box-shadow: 0 0 10px rgba(56,200,255,.95); animation: rb-blink .55s steps(1) infinite; }
+/* Zero-height box centred on the line, with the visible bar drawn by ::before.
+   A sized caret is taller than the text ascent, so it grew the line box while
+   present and nudged the text when it moved to the next line. */
+.rb-caret {
+  position: relative; display: inline-block; align-self: center;
+  width: .55em; height: 0; margin-left: .1em;
+}
+.rb-caret::before {
+  content: ""; position: absolute; left: 0; top: -.52em; width: 100%; height: 1.05em;
+  background: var(--acc); box-shadow: 0 0 10px rgba(56,200,255,.95);
+  animation: rb-blink .55s steps(1) infinite;
+}
 @keyframes rb-blink { 50% { opacity: 0; } }
 
 /* fonts are capped by BOTH width (vw) and height (vh) so the text can never
