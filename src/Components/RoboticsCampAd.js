@@ -1,150 +1,124 @@
 // RoboticsCampAd.jsx — Code Ninjas Woodbridge robotics summer-camp ad.
-// High-tech, detailed sequence:
-//   0) BOOT  — the circuit-board background energizes, HUD frame + logo boot in
-//   1) TYPE  — camp info decodes in with a per-character glitch/typewriter
-//   2) BADGE — a 20% OFF badge powers up with a shockwave + energy ring + orbiters
-//   3) GREET — the open-arms robot materializes (teleport scan-in) and hovers
-// Fixed zones keep text (left), badge (upper-right) and greeter (lower-right) apart.
+// Green printed-circuit-board (motherboard) theme. The camp info is the hero:
+// it decodes in like a silkscreen / terminal readout printed on the board.
+//   0) BOOT  — the board powers up (copper traces energize, chip core glows)
+//   1) TYPE  — camp info decodes in (terminal readout)
+//   2) GREET — the open-arms robot materializes over the board and hovers
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/RoboticsCampAd.css";
 import cnLogo from "../Images/cn-woodbridge-logo.png";
 import greeterImg from "../Images/robot-openarms.png";
 
-const BOOT = 0, TYPE = 1, BADGE = 2, GREET = 3;
+const BOOT = 0, TYPE = 1, GREET = 2;
 
 const LINES = [
-  { t: "CODE NINJAS WOODBRIDGE", cls: "title" },
-  { t: "Robotics Summer Camp",   cls: "subtitle" },
-  { t: "6175 Hwy 7",             cls: "info", icon: "📍" },
-  { t: "cnwoodbridge.com",       cls: "info", icon: "🌐" },
-  { t: "647-887-9940",           cls: "info", icon: "📞" },
+  { t: "CODE NINJAS WOODBRIDGE",       cls: "title" },
+  { t: "ROBOTICS SUMMER CAMP",         cls: "subtitle" },
+  { t: "LOCATION : 6175 Hwy 7",        cls: "term" },
+  { t: "WEBSITE  : cnwoodbridge.com",  cls: "term" },
+  { t: "CONTACT  : 647-887-9940",      cls: "term" },
+  { t: "STATUS   : NOW ENROLLING",     cls: "term status" },
 ];
 
-// circuit-board traces (viewBox 1600x900) kept in the margins around the content
+// copper traces (viewBox 1600x900) routed in the margins around the content
 const TRACES = [
-  "M10 70 H230 V150 H340",
-  "M0 230 H110 V310 H250 V370",
-  "M40 780 H210 V700 H360",
-  "M60 870 H250 V820 H430 V750",
-  "M1590 70 H1360 V170 H1180",
-  "M1600 320 H1500 V240 H1360",
-  "M1560 850 H1380 V890",
-  "M820 30 H980 V110 H1140",
-  "M1320 30 H1170 V100 H1050",
-  "M300 40 H150 V120",
+  "M10 70 H230 V150 L300 220 H430",
+  "M0 250 H90 V330 H240 L300 390 H420",
+  "M40 800 H210 V720 L270 660 H400",
+  "M60 870 H250 V820 H430 V760",
+  "M1590 70 H1360 V170 L1300 230 H1180",
+  "M1600 330 H1500 V250 H1360 L1300 190",
+  "M1560 860 H1380 V890",
+  "M820 30 H980 V110 L1050 180 H1160",
+  "M1330 30 H1170 V100 H1050",
+  "M300 40 H150 V120 L210 180",
+  "M1600 620 H1470 V560 H1360",
 ];
-// node dots at trace junctions
-const NODES = [
-  [230, 70], [340, 150], [110, 230], [250, 310], [210, 780], [360, 700],
-  [1360, 170], [1180, 170], [1500, 320], [1360, 240], [980, 110], [1140, 110],
-  [1170, 100], [1050, 100], [150, 120], [430, 750],
-];
+const VIAS = [ [15,10],[22,17],[7,28],[15,36],[13,88],[22,80],[85,19],[74,19],[94,36],[85,28],[61,12],[72,20],[73,11],[97,69],[92,62],[27,72] ];
+const PADS = [ [34,17],[26,43],[19,74],[66,20],[81,10],[97,20],[47,4],[95,97],[4,58] ];
+const SMD  = [ {x:30,y:24,w:26,h:11},{x:20,y:63,w:11,h:26},{x:88,y:44,w:26,h:11},{x:64,y:86,w:24,h:10},{x:8,y:47,w:10,h:24} ];
+const LABELS = [ {x:33,y:14,t:"R12"},{x:24,y:40,t:"C4"},{x:17,y:70,t:"J1"},{x:69,y:16,t:"U2"},{x:90,y:40,t:"L3"},{x:6,y:52,t:"D1"},{x:62,y:82,t:"Q5"} ];
 
-// floating data particles
-const PARTICLES = Array.from({ length: 30 }, (_, i) => ({
-  x: (i * 53 + 9) % 100,
-  s: 3 + (i % 4) * 2,
-  dur: 9 + (i % 6) * 2.2,
-  delay: -((i * 1.3) % 12),
-  glyph: ["1", "0", "·", "+", "×"][i % 5],
-  data: i % 3 === 0,
-}));
-
+// glowing current pulses that travel down the traces
 export default function RoboticsCampAd() {
   const [phase, setPhase] = useState(BOOT);
   const [li, setLi] = useState(0);
   const [ci, setCi] = useState(0);
 
-  // typewriter (only while in TYPE phase)
   useEffect(() => {
     if (phase !== TYPE) return;
-    if (li >= LINES.length) { setPhase(BADGE); return; }
+    if (li >= LINES.length) { setPhase(GREET); return; }
     const line = LINES[li].t;
     if (ci < line.length) {
-      const t = setTimeout(() => setCi((v) => v + 1), 34);
+      const t = setTimeout(() => setCi((v) => v + 1), 30);
       return () => clearTimeout(t);
     }
     const t = setTimeout(() => { setLi((v) => v + 1); setCi(0); }, 240);
     return () => clearTimeout(t);
   }, [phase, li, ci]);
 
-  // choreography timeline
   useEffect(() => {
-    let t;
-    if (phase === BOOT)       t = setTimeout(() => setPhase(TYPE), 1300);
-    else if (phase === BADGE) t = setTimeout(() => setPhase(GREET), 1000);
-    return () => t && clearTimeout(t);
+    if (phase !== BOOT) return;
+    const t = setTimeout(() => setPhase(TYPE), 1300);
+    return () => clearTimeout(t);
   }, [phase]);
 
   return (
     <div className={`rb-stage rb-p${phase}`}>
-      {/* ---- energized background ---- */}
+      {/* ---- green PCB ---- */}
       <div className="rb-bg" aria-hidden />
-      <div className="rb-aurora" aria-hidden />
+      <div className="rb-mask" aria-hidden />
       <svg className="rb-circuits" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden>
-        <g className="rb-trace-base">
-          {TRACES.map((d, i) => <path key={i} d={d} />)}
-        </g>
+        <g className="rb-trace-base">{TRACES.map((d, i) => <path key={i} d={d} />)}</g>
         <g className="rb-trace-pulse">
           {TRACES.map((d, i) => (
-            <path key={i} d={d} pathLength="240" style={{ animationDelay: `${-(i * 0.9)}s`, animationDuration: `${3.6 + (i % 4) * 0.8}s` }} />
+            <path key={i} d={d} pathLength="240" style={{ animationDelay: `${-(i * 0.8)}s`, animationDuration: `${3.4 + (i % 4) * 0.7}s` }} />
           ))}
         </g>
-        <g className="rb-nodes">
-          {NODES.map(([x, y], i) => <circle key={i} cx={x} cy={y} r="4" style={{ animationDelay: `${-(i * 0.4)}s` }} />)}
-        </g>
       </svg>
-      <div className="rb-particles" aria-hidden>
-        {PARTICLES.map((p, i) => (
-          <span key={i} className={p.data ? "rb-pt rb-pt--data" : "rb-pt"} style={{ left: `${p.x}%`, width: `${p.s}px`, height: `${p.s}px`, animationDuration: `${p.dur}s`, animationDelay: `${p.delay}s` }}>{p.data ? p.glyph : ""}</span>
-        ))}
+
+      <div className="rb-parts" aria-hidden>
+        {VIAS.map(([x, y], i) => <span key={"v" + i} className="rb-via" style={{ left: `${x}%`, top: `${y}%` }} />)}
+        {PADS.map(([x, y], i) => <span key={"p" + i} className="rb-pad" style={{ left: `${x}%`, top: `${y}%` }} />)}
+        {SMD.map((s, i) => <span key={"s" + i} className="rb-smd" style={{ left: `${s.x}%`, top: `${s.y}%`, width: `${s.w}px`, height: `${s.h}px` }} />)}
+        {LABELS.map((l, i) => <span key={"l" + i} className="rb-silk" style={{ left: `${l.x}%`, top: `${l.y}%` }}>{l.t}</span>)}
       </div>
-      <div className="rb-scan" aria-hidden />
+
       <div className="rb-hud" aria-hidden><i /><i /><i /><i /></div>
 
-      {/* ---- brand ---- */}
-      <div className="rb-logo-wrap">
-        <img className="rb-logo" src={cnLogo} alt="Code Ninjas Woodbridge" />
-        <span className="rb-logo-scan" style={{ WebkitMaskImage: `url(${cnLogo})`, maskImage: `url(${cnLogo})` }} aria-hidden />
+      {/* ---- CPU chip (upper-right) ---- */}
+      <div className="rb-chip" aria-hidden>
+        <span className="rb-pins rb-pins--t" /><span className="rb-pins rb-pins--b" />
+        <span className="rb-pins rb-pins--l" /><span className="rb-pins rb-pins--r" />
+        <div className="rb-chip-body">
+          <span className="rb-chip-notch" />
+          <div className="rb-chip-core" />
+          <span className="rb-chip-label">CN·ROBOTICS</span>
+        </div>
       </div>
 
-      {/* ---- text block (left zone) ---- */}
+      {/* ---- brand on an IC label plate ---- */}
+      <div className="rb-logo-wrap">
+        <span className="rb-hole" /><span className="rb-hole" /><span className="rb-hole" /><span className="rb-hole" />
+        <img className="rb-logo" src={cnLogo} alt="Code Ninjas Woodbridge" />
+      </div>
+
+      {/* ---- text (hero, left) ---- */}
       {phase >= TYPE && (
         <div className="rb-text">
           {LINES.map((ln, i) => {
             const done = i < li;
             const active = i === li;
             const chars = done ? ln.t : active ? ln.t.slice(0, ci) : "";
-            const started = done || (active && ci > 0);
             return (
-              <div key={i} className={`rb-line rb-${ln.cls}`}>
-                {ln.icon && <span className="rb-ic" style={{ opacity: started ? 1 : 0 }}>{ln.icon}</span>}
+              <div key={i} className={`rb-line rb-${ln.cls.split(" ").join(" rb-")}`}>
                 <span className="rb-tx">
-                  {[...chars].map((ch, k) => (
-                    <span key={k} className="rb-ch">{ch === " " ? " " : ch}</span>
-                  ))}
+                  {[...chars].map((ch, k) => <span key={k} className="rb-ch">{ch === " " ? " " : ch}</span>)}
                 </span>
                 {phase === TYPE && active && <span className="rb-caret" />}
               </div>
             );
           })}
-        </div>
-      )}
-
-      {/* ---- discount badge (upper-right) ---- */}
-      {phase >= BADGE && (
-        <div className="rb-badge-zone">
-          <span className="rb-shock" aria-hidden />
-          <svg className="rb-ring" viewBox="0 0 260 260" aria-hidden>
-            <circle className="rb-ring-track" cx="130" cy="130" r="120" />
-            <circle className="rb-ring-draw" cx="130" cy="130" r="120" pathLength="100" />
-          </svg>
-          <div className="rb-orbit" aria-hidden><i /><i /><i /></div>
-          <div className="rb-badge">
-            <span className="rb-badge-big">20<span className="rb-badge-pct">%</span></span>
-            <span className="rb-badge-off">OFF</span>
-            <span className="rb-badge-sub">SUMMER CAMPS</span>
-          </div>
         </div>
       )}
 
