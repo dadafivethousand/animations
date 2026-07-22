@@ -1,108 +1,160 @@
-/* RoboticsCampAd.css — green printed-circuit-board (motherboard) theme.
-   Dark solder-mask green, copper traces with flowing current, vias / pads /
-   SMD parts / silkscreen labels, a glowing CPU chip, and a hero terminal
-   readout of the camp info. Open-arms greeter materializes at the end. */
-@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Share+Tech+Mono&family=JetBrains+Mono:wght@500;700&display=swap");
+/* RoboticsCampAd.css — realistic green PCB + brushed-metal brand plaque.
+   Copper traces with real depth, plated vias, shiny solder, electrolytic
+   caps, a QFP chip with gold leads, gold edge-connector fingers, and a
+   brushed-aluminium plaque holding the logo. Camp details are a terminal
+   readout. No robot graphic. */
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Share+Tech+Mono&display=swap");
 
 :root {
-  --grn: #37ffa0;        /* bright current / glow */
-  --grn-dim: #1f8f5a;
-  --copper: #c98a3a;     /* traces */
-  --copper-lt: #e6b46a;
-  --silk: rgba(214,255,230,.82);
-  --board: #0c3626;
+  --grn: #37ffa0; --copper: #c98a3a; --copper-lt: #f0c27a; --copper-dk: #7a4e1a;
+  --silk: rgba(206,224,210,.7);
 }
 
-.rb-stage {
-  position: fixed; inset: 0; overflow: hidden;
-  font-family: "Share Tech Mono", "JetBrains Mono", monospace; color: #d9ffe9;
-}
+.rb-stage { position: fixed; inset: 0; overflow: hidden; font-family: "Share Tech Mono", monospace; color: #d9ffe9; }
 
 /* ---------------- green board ---------------- */
 .rb-bg {
   position: absolute; inset: 0;
   background:
-    radial-gradient(120% 100% at 30% 20%, #0f4630 0%, #0b3524 45%, #072619 100%);
+    radial-gradient(120% 100% at 30% 25%, #10492f 0%, #0b3421 48%, #06251a 100%);
 }
-/* solder-mask sheen + fine fibreglass weave */
 .rb-mask {
   position: absolute; inset: 0; pointer-events: none;
   background:
-    repeating-linear-gradient(90deg, rgba(255,255,255,.015) 0 2px, transparent 2px 6px),
-    repeating-linear-gradient(0deg, rgba(0,0,0,.05) 0 2px, transparent 2px 6px),
-    radial-gradient(80% 60% at 60% 40%, rgba(80,255,170,.05), transparent 70%);
+    repeating-linear-gradient(90deg, rgba(255,255,255,.012) 0 3px, transparent 3px 7px),
+    repeating-linear-gradient(0deg, rgba(0,0,0,.06) 0 3px, transparent 3px 7px),
+    radial-gradient(70% 60% at 62% 42%, rgba(90,255,175,.045), transparent 72%);
 }
 
-/* copper traces */
+/* ---------------- copper traces (raised look) ---------------- */
 .rb-circuits { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; animation: rb-fade 1.1s ease .1s forwards; }
 @keyframes rb-fade { to { opacity: 1; } }
-.rb-trace-base path { fill: none; stroke: var(--copper); stroke-width: 3; opacity: .55; filter: drop-shadow(0 1px 0 rgba(0,0,0,.4)); }
-.rb-trace-pulse path {
+.rb-tr-shadow path { fill: none; stroke: rgba(0,0,0,.5); stroke-width: 8; stroke-linecap: round; stroke-linejoin: round; }
+.rb-tr-cu path { fill: none; stroke: url(#rb-cu); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+.rb-tr-hi path { fill: none; stroke: rgba(255,236,190,.5); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; transform: translateY(-1.4px); }
+.rb-tr-pulse path {
   fill: none; stroke: var(--grn); stroke-width: 3; stroke-linecap: round;
-  filter: drop-shadow(0 0 5px rgba(55,255,160,.95));
-  stroke-dasharray: 10 230; stroke-dashoffset: 240; animation: rb-pulse linear infinite;
+  filter: drop-shadow(0 0 6px rgba(55,255,160,.95));
+  stroke-dasharray: 8 232; stroke-dashoffset: 240; animation: rb-pulse linear infinite;
 }
 @keyframes rb-pulse { to { stroke-dashoffset: 0; } }
 
-/* discrete parts: vias, pads, SMD components, silkscreen refs */
+/* ---------------- discrete parts ---------------- */
 .rb-parts { position: absolute; inset: 0; pointer-events: none; opacity: 0; animation: rb-fade 1.1s ease .2s forwards; }
-.rb-via { position: absolute; width: 11px; height: 11px; margin: -5.5px; border-radius: 50%; background: #071c14; box-shadow: 0 0 0 3px var(--copper), 0 0 0 4px rgba(0,0,0,.4); }
-.rb-pad { position: absolute; width: 14px; height: 9px; margin: -4.5px -7px; border-radius: 2px; background: linear-gradient(180deg, var(--copper-lt), var(--copper)); box-shadow: inset 0 1px 0 rgba(255,255,255,.4); }
-.rb-smd { position: absolute; border-radius: 1px; background: #0e0f10; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); }
-.rb-smd::before, .rb-smd::after { content: ""; position: absolute; top: 0; bottom: 0; width: 22%; background: linear-gradient(180deg, #d8dde2, #9aa2a8); }
+/* plated through-hole via */
+.rb-via {
+  position: absolute; width: 16px; height: 16px; margin: -8px; border-radius: 50%;
+  background: radial-gradient(circle at 50% 42%, #051610 0 30%, #b9843a 42% 74%, #f0c27a 78%, #6b4318 100%);
+  box-shadow: 0 1px 2px rgba(0,0,0,.6), inset 0 1px 1px rgba(255,255,255,.25);
+}
+/* shiny solder joint */
+.rb-solder {
+  position: absolute; width: 20px; height: 16px; margin: -8px -10px; border-radius: 50%;
+  background: radial-gradient(circle at 38% 32%, #ffffff 0 8%, #cdd5db 20%, #8b949b 55%, #565d63 100%);
+  box-shadow: 0 2px 3px rgba(0,0,0,.5);
+}
+.rb-smd { position: absolute; border-radius: 1px; background: linear-gradient(180deg,#16181a,#050607); box-shadow: 0 2px 3px rgba(0,0,0,.5); }
+.rb-smd::before, .rb-smd::after { content: ""; position: absolute; top: 0; bottom: 0; width: 22%; background: linear-gradient(180deg,#e2e7ec,#9aa2a8); }
 .rb-smd::before { left: 0; } .rb-smd::after { right: 0; }
-.rb-silk { position: absolute; font: 11px "Share Tech Mono", monospace; color: var(--silk); letter-spacing: .5px; text-shadow: 0 0 4px rgba(0,0,0,.5); }
+/* electrolytic capacitor (top-down) */
+.rb-cap {
+  position: absolute; margin: 0; border-radius: 50%; transform: translate(-50%,-50%);
+  background:
+    radial-gradient(circle at 42% 34%, #6b7178 0 8%, #3a3f45 34%, #1c2024 62%, #0c0f12 100%);
+  box-shadow: 0 4px 8px rgba(0,0,0,.55), inset 0 0 0 3px #0b1a2c, inset 0 0 0 6px #123a63, 0 0 0 2px rgba(0,0,0,.4);
+}
+.rb-cap-vent { position: absolute; inset: 22%; border-radius: 50%;
+  background:
+    linear-gradient(90deg, transparent 46%, rgba(20,24,28,.9) 46% 54%, transparent 54%),
+    linear-gradient(0deg, transparent 46%, rgba(20,24,28,.9) 46% 54%, transparent 54%),
+    radial-gradient(circle at 40% 34%, #9aa1a8, #4a5157 70%);
+}
+.rb-silk { position: absolute; font: 11px "Share Tech Mono", monospace; color: var(--silk); letter-spacing: .5px; text-shadow: 0 1px 1px rgba(0,0,0,.5); }
+/* gold edge-connector fingers */
+.rb-fingers { position: absolute; right: 3%; bottom: 0; display: flex; gap: 5px; align-items: flex-end; }
+.rb-fingers i { width: 12px; height: clamp(46px, 6vw, 78px); border-radius: 3px 3px 0 0;
+  background: linear-gradient(180deg, #ffe6a6 0%, #e6b45e 40%, #c98a3a 100%);
+  box-shadow: inset 1px 0 0 rgba(255,255,255,.4), inset -1px 0 0 rgba(0,0,0,.25), 0 -2px 4px rgba(0,0,0,.25);
+}
+.rb-fingers i:nth-child(odd) { height: clamp(38px, 5vw, 64px); }
 
-/* HUD corner brackets (silkscreen) */
+/* ---------------- QFP chip (realistic) ---------------- */
+.rb-qfp {
+  position: absolute; right: 8%; top: 27%; transform: translateY(-50%);
+  width: clamp(150px, 16vw, 220px); aspect-ratio: 1; z-index: 4;
+  animation: rb-qfp-in .7s ease-out both;
+}
+@keyframes rb-qfp-in { 0% { opacity: 0; transform: translateY(-50%) scale(.85); } 100% { opacity: 1; transform: translateY(-50%) scale(1); } }
+.rb-qfp-pins { position: absolute; }
+.rb-qfp-pins--t, .rb-qfp-pins--b { left: 14%; right: 14%; height: 13%;
+  background: repeating-linear-gradient(90deg, #4a4d50 0 1px, #d7dde2 1px 4px, #8b9298 4px 6px, transparent 6px 8px); }
+.rb-qfp-pins--l, .rb-qfp-pins--r { top: 14%; bottom: 14%; width: 13%;
+  background: repeating-linear-gradient(0deg, #4a4d50 0 1px, #d7dde2 1px 4px, #8b9298 4px 6px, transparent 6px 8px); }
+.rb-qfp-pins--t { top: 3%; } .rb-qfp-pins--b { bottom: 3%; } .rb-qfp-pins--l { left: 3%; } .rb-qfp-pins--r { right: 3%; }
+.rb-qfp-body {
+  position: absolute; inset: 12%; border-radius: 7px; overflow: hidden;
+  background:
+    linear-gradient(150deg, #34383b 0%, #212427 26%, #141618 60%, #0a0b0c 100%);
+  box-shadow: 0 10px 26px rgba(0,0,0,.6), inset 0 2px 2px rgba(255,255,255,.09), inset 0 -3px 5px rgba(0,0,0,.6), 0 0 0 1px #000;
+}
+.rb-qfp-dot { position: absolute; top: 11%; left: 11%; width: 11%; height: 11%; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #52585d, #17191b); box-shadow: inset 0 0 3px rgba(0,0,0,.8); }
+.rb-qfp-etch { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; font: 700 clamp(10px,1.2vw,14px)/1.5 "Orbitron", sans-serif; letter-spacing: .12em; color: #7d8790; text-shadow: 0 1px 0 rgba(0,0,0,.8), 0 -1px 0 rgba(255,255,255,.06); }
+.rb-qfp-glint { position: absolute; top: -60%; left: -30%; width: 60%; height: 220%; transform: rotate(20deg); background: linear-gradient(90deg, transparent, rgba(255,255,255,.16), transparent); animation: rb-glint 5s ease-in-out 1s infinite; }
+@keyframes rb-glint { 0% { left: -40%; } 55%, 100% { left: 140%; } }
+
+/* HUD corner brackets */
 .rb-hud { position: absolute; inset: 24px; pointer-events: none; }
-.rb-hud i { position: absolute; width: 40px; height: 40px; border: 2px solid rgba(55,255,160,.5); box-shadow: 0 0 8px rgba(55,255,160,.3); opacity: 0; animation: rb-hud .5s ease both; }
+.rb-hud i { position: absolute; width: 38px; height: 38px; border: 2px solid rgba(55,255,160,.45); box-shadow: 0 0 8px rgba(55,255,160,.25); opacity: 0; animation: rb-hud .5s ease both; }
 .rb-hud i:nth-child(1){ top:0; left:0; border-right:0; border-bottom:0; animation-delay:.15s; }
 .rb-hud i:nth-child(2){ top:0; right:0; border-left:0; border-bottom:0; animation-delay:.25s; }
 .rb-hud i:nth-child(3){ bottom:0; left:0; border-right:0; border-top:0; animation-delay:.35s; }
 .rb-hud i:nth-child(4){ bottom:0; right:0; border-left:0; border-top:0; animation-delay:.45s; }
 @keyframes rb-hud { 0% { opacity:0; transform: scale(.4); } 100% { opacity:1; transform:none; } }
 
-/* ---------------- CPU chip (upper-right) ---------------- */
-.rb-chip { position: absolute; right: 7%; top: 25%; transform: translateY(-50%); width: clamp(140px, 15vw, 210px); aspect-ratio: 1; z-index: 4; animation: rb-chip-in .7s ease-out both; }
-@keyframes rb-chip-in { 0% { opacity: 0; transform: translateY(-50%) scale(.8); } 100% { opacity: 1; transform: translateY(-50%) scale(1); } }
-.rb-pins { position: absolute; background-repeat: repeat; }
-.rb-pins--t, .rb-pins--b { left: 16%; right: 16%; height: 12%; background: repeating-linear-gradient(90deg, var(--copper-lt) 0 5px, transparent 5px 11px); }
-.rb-pins--l, .rb-pins--r { top: 16%; bottom: 16%; width: 12%; background: repeating-linear-gradient(0deg, var(--copper-lt) 0 5px, transparent 5px 11px); }
-.rb-pins--t { top: 4%; } .rb-pins--b { bottom: 4%; } .rb-pins--l { left: 4%; } .rb-pins--r { right: 4%; }
-.rb-chip-body {
-  position: absolute; inset: 13%; border-radius: 8px;
-  background: linear-gradient(145deg, #191d1f, #05080a);
-  border: 1px solid #2c3238; box-shadow: 0 8px 24px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.06), 0 0 34px rgba(55,255,160,.22);
-  display: grid; place-items: center;
+/* ---------------- brushed-metal plaque ---------------- */
+.rb-plaque {
+  position: absolute; top: 6%; left: 5%; z-index: 6;
+  width: clamp(300px, 30vw, 430px); padding: clamp(16px, 2vw, 26px) clamp(22px, 2.6vw, 36px);
+  border-radius: 12px; overflow: hidden;
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 1px, transparent 1px 3px),
+    linear-gradient(158deg, #eef1f4 0%, #c6ced6 26%, #9aa3ac 52%, #d3dae1 70%, #aeb7c0 100%);
+  border: 1px solid #7d868f;
+  box-shadow:
+    0 14px 30px rgba(0,0,0,.55),
+    inset 0 2px 1px rgba(255,255,255,.85), inset 0 -3px 4px rgba(0,0,0,.35),
+    inset 3px 0 3px rgba(255,255,255,.4), inset -3px 0 3px rgba(0,0,0,.25);
+  animation: rb-plaque-in .8s cubic-bezier(.2,.9,.2,1) both;
 }
-.rb-chip-notch { position: absolute; top: 8%; left: 8%; width: 12%; height: 12%; border-radius: 50%; background: #0a0d0f; box-shadow: inset 0 0 4px rgba(255,255,255,.15); }
-.rb-chip-core {
-  width: 54%; height: 54%; border-radius: 6px;
-  background: radial-gradient(circle at 50% 42%, #7dffbf, #12a15c 60%, #0a6b3c 100%);
-  box-shadow: 0 0 26px rgba(55,255,160,.8), inset 0 0 14px rgba(0,0,0,.45), inset 0 0 0 2px rgba(255,255,255,.12);
-  animation: rb-core 2.2s ease-in-out infinite;
-}
-@keyframes rb-core { 50% { box-shadow: 0 0 40px rgba(55,255,160,1), inset 0 0 14px rgba(0,0,0,.45), inset 0 0 0 2px rgba(255,255,255,.2); } }
-.rb-chip-label { position: absolute; bottom: 12%; left: 0; right: 0; text-align: center; font: 700 clamp(9px,1.1vw,13px) "Orbitron", sans-serif; letter-spacing: .12em; color: #bfffdd; text-shadow: 0 0 8px rgba(55,255,160,.6); }
+@keyframes rb-plaque-in { 0% { opacity: 0; transform: translateY(-16px) scale(.95); } 100% { opacity: 1; transform: none; } }
+.rb-plaque-logo { display: block; width: 100%; height: auto; filter: drop-shadow(0 1px 0 rgba(255,255,255,.6)) drop-shadow(0 2px 2px rgba(0,0,0,.35)); }
+.rb-plaque-gloss { position: absolute; top: 0; left: -60%; width: 45%; height: 100%; background: linear-gradient(100deg, transparent, rgba(255,255,255,.6), transparent); animation: rb-gloss 5s ease-in-out 1.2s infinite; }
+@keyframes rb-gloss { 0% { left: -60%; } 55%, 100% { left: 140%; } }
+/* hex socket screws */
+.rb-screw { position: absolute; width: 15px; height: 15px; border-radius: 50%;
+  background: radial-gradient(circle at 38% 32%, #f2f5f8, #aab2ba 55%, #6c747c 100%);
+  box-shadow: 0 1px 2px rgba(0,0,0,.5), inset 0 0 0 1px rgba(0,0,0,.25); }
+.rb-screw::after { content: ""; position: absolute; inset: 30%; border-radius: 2px; background: #3c4248; clip-path: polygon(25% 6%,75% 6%,100% 50%,75% 94%,25% 94%,0 50%); }
+.rb-screw:nth-child(1){ top: 8px; left: 8px; } .rb-screw:nth-child(2){ top: 8px; right: 8px; }
+.rb-screw:nth-child(3){ bottom: 8px; left: 8px; } .rb-screw:nth-child(4){ bottom: 8px; right: 8px; }
 
-/* ---------------- brand on an IC label plate ---------------- */
-.rb-logo-wrap {
-  position: absolute; top: 5%; left: 5%; z-index: 6;
-  padding: 12px 18px; border-radius: 12px;
-  background: linear-gradient(180deg, #f3f7f1, #dbe4d7);
-  border: 1px solid #aeb8a8; box-shadow: 0 8px 20px rgba(0,0,0,.45), inset 0 1px 0 #fff;
-  animation: rb-logo-in .8s cubic-bezier(.2,.9,.2,1) both;
-}
-@keyframes rb-logo-in { 0% { opacity:0; transform: translateY(-14px) scale(.94); } 100% { opacity:1; transform:none; } }
-.rb-logo { display: block; width: clamp(140px, 14vw, 210px); height: auto; }
-.rb-hole { position: absolute; width: 7px; height: 7px; border-radius: 50%; background: #6b7566; box-shadow: inset 0 1px 2px rgba(0,0,0,.5); }
-.rb-hole:nth-child(1){ top:7px; left:7px; } .rb-hole:nth-child(2){ top:7px; right:7px; }
-.rb-hole:nth-child(3){ bottom:7px; left:7px; } .rb-hole:nth-child(4){ bottom:7px; right:7px; }
-
-/* ---------------- hero text (terminal readout) ---------------- */
+/* ---------------- hero details (terminal readout) ---------------- */
+/* camp-info seated in a defined solder-mask "keep-out" panel so no trace
+   or component ever runs under the text */
 .rb-text {
-  position: absolute; left: 6%; top: 50%; transform: translateY(-50%); z-index: 5;
-  width: min(56vw, 780px); display: flex; flex-direction: column; gap: clamp(6px, 1.3vh, 16px);
+  position: absolute; left: 5%; top: 43%; z-index: 5;
+  width: fit-content; max-width: 66vw;
+  display: flex; flex-direction: column; gap: clamp(6px, 1.4vh, 16px);
+  padding: clamp(20px, 2.6vw, 38px) clamp(24px, 3vw, 46px) clamp(18px, 2.2vw, 32px);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(7,34,23,.82), rgba(5,24,17,.86));
+  border: 1px solid rgba(55,255,160,.30);
+  box-shadow: 0 16px 40px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.05), 0 0 0 1px rgba(0,0,0,.4);
+}
+.rb-text::before {
+  content: "◧ CAMP.INFO"; position: absolute; top: -11px; left: 22px;
+  padding: 2px 10px; border-radius: 5px; background: #0b2f20; border: 1px solid rgba(55,255,160,.4);
+  font: 700 11px "Share Tech Mono", monospace; letter-spacing: .12em; color: var(--grn); text-shadow: 0 0 6px rgba(55,255,160,.7);
 }
 .rb-line { display: flex; align-items: center; min-height: 1.2em; }
 .rb-tx { display: inline-flex; }
@@ -110,49 +162,17 @@
 @keyframes rb-decode {
   0%   { opacity: 0; transform: translateY(-2px); color: #eafff4; text-shadow: 0 0 12px rgba(55,255,160,1); filter: blur(2px); }
   60%  { opacity: 1; filter: blur(0); }
-  100% { opacity: 1; text-shadow: inherit; }
+  100% { opacity: 1; }
 }
 .rb-caret { display: inline-block; width: .55em; height: 1.05em; margin-left: .1em; background: var(--grn); box-shadow: 0 0 10px rgba(55,255,160,.95); animation: rb-blink .55s steps(1) infinite; }
 @keyframes rb-blink { 50% { opacity: 0; } }
 
-.rb-title {
-  font-family: "Orbitron", sans-serif; font-weight: 800; letter-spacing: .02em;
-  font-size: clamp(30px, 5vw, 68px); line-height: 1.03; color: #eafff3;
-  text-shadow: 0 0 18px rgba(55,255,160,.5), 0 2px 0 rgba(0,0,0,.4); min-height: 1.1em;
+.rb-heading {
+  font-family: "Orbitron", sans-serif; font-weight: 800; letter-spacing: .1em;
+  font-size: clamp(26px, 4vw, 56px); color: #eafff3;
+  text-shadow: 0 0 20px rgba(55,255,160,.55), 0 2px 0 rgba(0,0,0,.5); min-height: 1.1em; margin-bottom: clamp(6px,1.4vh,16px);
 }
-.rb-subtitle {
-  font-family: "Orbitron", sans-serif; font-weight: 700; letter-spacing: .18em;
-  font-size: clamp(15px, 2.2vw, 30px); color: var(--grn);
-  text-shadow: 0 0 14px rgba(55,255,160,.7); min-height: 1.2em; margin: 2px 0 clamp(8px,1.6vh,18px);
-}
-.rb-term {
-  font-family: "Share Tech Mono", monospace; font-size: clamp(15px, 2vw, 28px);
-  color: #cbfbe0; white-space: pre; min-height: 1.2em;
-}
+.rb-term { font-family: "Share Tech Mono", monospace; font-size: clamp(16px, 2.1vw, 30px); color: #cdfbe2; white-space: pre; min-height: 1.2em; text-shadow: 0 1px 2px rgba(0,0,0,.5); }
 .rb-term .rb-tx::before { content: "> "; color: var(--grn); text-shadow: 0 0 8px rgba(55,255,160,.8); }
-.rb-status .rb-tx { color: var(--grn); text-shadow: 0 0 12px rgba(55,255,160,.9); animation: rb-status-blink 1.1s ease-in-out infinite; }
-@keyframes rb-status-blink { 50% { opacity: .55; } }
-
-/* ---------------- open-arms greeter (materialize + hover) ---------------- */
-.rb-greeter { position: absolute; right: 3%; bottom: 1%; z-index: 6; width: clamp(220px, 27vw, 380px); aspect-ratio: 1; animation: rb-greet-float 3.6s ease-in-out 1s infinite; }
-.rb-greeter img {
-  position: relative; z-index: 2; width: 100%; height: auto;
-  filter: drop-shadow(0 16px 24px rgba(0,0,0,.4));
-  animation: rb-materialize 1s cubic-bezier(.2,.8,.2,1) both;
-}
-@keyframes rb-materialize {
-  0%   { opacity: 0; clip-path: inset(100% 0 0 0); filter: brightness(2.2) drop-shadow(0 0 20px rgba(55,255,160,.9)); }
-  35%  { opacity: 1; }
-  60%  { clip-path: inset(0 0 0 0); }
-  62%  { opacity: .5; }
-  68%  { opacity: 1; }
-  80%  { filter: brightness(1.15) drop-shadow(0 0 12px rgba(55,255,160,.5)); }
-  100% { opacity: 1; clip-path: inset(0 0 0 0); filter: drop-shadow(0 16px 24px rgba(0,0,0,.4)); }
-}
-@keyframes rb-greet-float { 50% { transform: translateY(-8px); } }
-.rb-greet-aura { position: absolute; left: 50%; top: 46%; width: 96%; height: 96%; transform: translate(-50%,-50%); border-radius: 50%; z-index: 1; background: radial-gradient(circle, rgba(55,255,160,.26), transparent 62%); animation: rb-aura 3s ease-in-out infinite; }
-@keyframes rb-aura { 50% { opacity: .55; transform: translate(-50%,-50%) scale(1.06); } }
-.rb-greet-ring { position: absolute; left: 50%; bottom: 4%; width: 74%; height: 22%; transform: translateX(-50%); border-radius: 50%; border: 2px solid rgba(55,255,160,.6); box-shadow: 0 0 16px rgba(55,255,160,.4), inset 0 0 16px rgba(55,255,160,.25); z-index: 1; animation: rb-ringpulse 2.4s ease-in-out infinite; }
-@keyframes rb-ringpulse { 50% { border-color: rgba(55,255,160,.95); box-shadow: 0 0 26px rgba(55,255,160,.6), inset 0 0 20px rgba(55,255,160,.35); } }
-.rb-greet-scan { position: absolute; left: 0; right: 0; height: 8px; z-index: 3; background: linear-gradient(90deg, transparent, var(--grn), transparent); box-shadow: 0 0 16px 4px rgba(55,255,160,.8); animation: rb-greet-scan 1s ease-out forwards; }
-@keyframes rb-greet-scan { 0% { bottom: 0; opacity: 1; } 60% { bottom: 100%; opacity: 1; } 100% { bottom: 100%; opacity: 0; } }
+.rb-status .rb-tx { color: var(--grn); text-shadow: 0 0 12px rgba(55,255,160,.9); animation: rb-status 1.1s ease-in-out infinite; }
+@keyframes rb-status { 50% { opacity: .5; } }

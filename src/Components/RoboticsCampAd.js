@@ -1,45 +1,41 @@
 // RoboticsCampAd.jsx — Code Ninjas Woodbridge robotics summer-camp ad.
-// Green printed-circuit-board (motherboard) theme. The camp info is the hero:
-// it decodes in like a silkscreen / terminal readout printed on the board.
-//   0) BOOT  — the board powers up (copper traces energize, chip core glows)
-//   1) TYPE  — camp info decodes in (terminal readout)
-//   2) GREET — the open-arms robot materializes over the board and hovers
+// Realistic green PCB with a brushed-metal brand plaque. No robot graphic.
+//   0) BOOT — the board powers up (copper traces energize, chip glints)
+//   1) TYPE — camp details decode in as a terminal readout
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/RoboticsCampAd.css";
-import cnLogo from "../Images/cn-woodbridge-logo.png";
-import greeterImg from "../Images/robot-openarms.png";
+import plaqueLogo from "../Images/cn-plaque-logo.png";
 
-const BOOT = 0, TYPE = 1, GREET = 2;
+const BOOT = 0, TYPE = 1;
 
 const LINES = [
-  { t: "CODE NINJAS WOODBRIDGE",       cls: "title" },
-  { t: "ROBOTICS SUMMER CAMP",         cls: "subtitle" },
+  { t: "ROBOTICS SUMMER CAMP",         cls: "heading" },
   { t: "LOCATION : 6175 Hwy 7",        cls: "term" },
   { t: "WEBSITE  : cnwoodbridge.com",  cls: "term" },
   { t: "CONTACT  : 647-887-9940",      cls: "term" },
   { t: "STATUS   : NOW ENROLLING",     cls: "term status" },
 ];
 
-// copper traces (viewBox 1600x900) routed in the margins around the content
+// copper traces (viewBox 1600x900) routed with 45° bends in the margins
 const TRACES = [
-  "M10 70 H230 V150 L300 220 H430",
-  "M0 250 H90 V330 H240 L300 390 H420",
-  "M40 800 H210 V720 L270 660 H400",
-  "M60 870 H250 V820 H430 V760",
-  "M1590 70 H1360 V170 L1300 230 H1180",
-  "M1600 330 H1500 V250 H1360 L1300 190",
-  "M1560 860 H1380 V890",
-  "M820 30 H980 V110 L1050 180 H1160",
-  "M1330 30 H1170 V100 H1050",
-  "M300 40 H150 V120 L210 180",
-  "M1600 620 H1470 V560 H1360",
+  "M0 250 H70 L120 300 H250 L300 250 H430",
+  "M40 470 H150 L200 520 H360",
+  "M30 690 H180 L230 640 H420 L470 690 H560",
+  "M60 850 H240 L300 790 H470",
+  "M1600 210 H1470 L1410 150 H1250 L1200 210 H1080",
+  "M1600 430 H1500 L1450 370 H1320",
+  "M1600 610 H1460 L1400 670 H1250",
+  "M1560 850 H1360 L1300 790 H1180",
+  "M840 30 H980 L1040 90 H1180",
+  "M1330 30 H1180 L1130 90",
+  "M260 40 H150 L110 90",
 ];
-const VIAS = [ [15,10],[22,17],[7,28],[15,36],[13,88],[22,80],[85,19],[74,19],[94,36],[85,28],[61,12],[72,20],[73,11],[97,69],[92,62],[27,72] ];
-const PADS = [ [34,17],[26,43],[19,74],[66,20],[81,10],[97,20],[47,4],[95,97],[4,58] ];
-const SMD  = [ {x:30,y:24,w:26,h:11},{x:20,y:63,w:11,h:26},{x:88,y:44,w:26,h:11},{x:64,y:86,w:24,h:10},{x:8,y:47,w:10,h:24} ];
-const LABELS = [ {x:33,y:14,t:"R12"},{x:24,y:40,t:"C4"},{x:17,y:70,t:"J1"},{x:69,y:16,t:"U2"},{x:90,y:40,t:"L3"},{x:6,y:52,t:"D1"},{x:62,y:82,t:"Q5"} ];
+const VIAS = [ [4.5,28],[7.5,33],[16,33],[19,29],[9,52],[22,58],[3,77],[28,72],[92,23],[78,23],[75,17],[97,48],[82,41],[91,68],[78,74],[74,88] ];
+const SOLDER = [ [26,52],[15,77],[36,29],[66,10],[72,17],[95,68],[8,58],[62,73] ];
+const CAPS = [ {x:76,y:15,r:34}, {x:90,y:52,r:26}, {x:64,y:68,r:22} ];
+const SILK = [ {x:9,y:24,t:"R7"},{x:25,y:47,t:"C11"},{x:18,y:73,t:"J2"},{x:70,y:9,t:"C1"},{x:96,y:41,t:"L4"},{x:59,y:64,t:"U3"},{x:73,y:70,t:"D2"},{x:83,y:80,t:"Q8"} ];
+const SMD = [ {x:34,y:29,w:26,h:11},{x:12,y:60,w:11,h:26},{x:56,y:82,w:24,h:10} ];
 
-// glowing current pulses that travel down the traces
 export default function RoboticsCampAd() {
   const [phase, setPhase] = useState(BOOT);
   const [li, setLi] = useState(0);
@@ -47,7 +43,7 @@ export default function RoboticsCampAd() {
 
   useEffect(() => {
     if (phase !== TYPE) return;
-    if (li >= LINES.length) { setPhase(GREET); return; }
+    if (li >= LINES.length) return;
     const line = LINES[li].t;
     if (ci < line.length) {
       const t = setTimeout(() => setCi((v) => v + 1), 30);
@@ -59,51 +55,69 @@ export default function RoboticsCampAd() {
 
   useEffect(() => {
     if (phase !== BOOT) return;
-    const t = setTimeout(() => setPhase(TYPE), 1300);
+    const t = setTimeout(() => setPhase(TYPE), 1200);
     return () => clearTimeout(t);
   }, [phase]);
 
   return (
     <div className={`rb-stage rb-p${phase}`}>
-      {/* ---- green PCB ---- */}
+      {/* ---- green PCB substrate ---- */}
       <div className="rb-bg" aria-hidden />
       <div className="rb-mask" aria-hidden />
+
+      {/* copper traces with depth (shadow + copper + highlight) */}
       <svg className="rb-circuits" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden>
-        <g className="rb-trace-base">{TRACES.map((d, i) => <path key={i} d={d} />)}</g>
-        <g className="rb-trace-pulse">
+        <defs>
+          <linearGradient id="rb-cu" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#f0c27a" /><stop offset=".5" stopColor="#c98a3a" /><stop offset="1" stopColor="#8f5e22" />
+          </linearGradient>
+        </defs>
+        <g className="rb-tr-shadow">{TRACES.map((d, i) => <path key={i} d={d} />)}</g>
+        <g className="rb-tr-cu">{TRACES.map((d, i) => <path key={i} d={d} />)}</g>
+        <g className="rb-tr-hi">{TRACES.map((d, i) => <path key={i} d={d} />)}</g>
+        <g className="rb-tr-pulse">
           {TRACES.map((d, i) => (
-            <path key={i} d={d} pathLength="240" style={{ animationDelay: `${-(i * 0.8)}s`, animationDuration: `${3.4 + (i % 4) * 0.7}s` }} />
+            <path key={i} d={d} pathLength="240" style={{ animationDelay: `${-(i * 0.8)}s`, animationDuration: `${3.6 + (i % 4) * 0.7}s` }} />
           ))}
         </g>
       </svg>
 
+      {/* discrete parts */}
       <div className="rb-parts" aria-hidden>
         {VIAS.map(([x, y], i) => <span key={"v" + i} className="rb-via" style={{ left: `${x}%`, top: `${y}%` }} />)}
-        {PADS.map(([x, y], i) => <span key={"p" + i} className="rb-pad" style={{ left: `${x}%`, top: `${y}%` }} />)}
+        {SOLDER.map(([x, y], i) => <span key={"o" + i} className="rb-solder" style={{ left: `${x}%`, top: `${y}%` }} />)}
         {SMD.map((s, i) => <span key={"s" + i} className="rb-smd" style={{ left: `${s.x}%`, top: `${s.y}%`, width: `${s.w}px`, height: `${s.h}px` }} />)}
-        {LABELS.map((l, i) => <span key={"l" + i} className="rb-silk" style={{ left: `${l.x}%`, top: `${l.y}%` }}>{l.t}</span>)}
+        {CAPS.map((c, i) => (
+          <span key={"c" + i} className="rb-cap" style={{ left: `${c.x}%`, top: `${c.y}%`, width: `${c.r * 2}px`, height: `${c.r * 2}px` }}>
+            <span className="rb-cap-vent" />
+          </span>
+        ))}
+        {SILK.map((l, i) => <span key={"l" + i} className="rb-silk" style={{ left: `${l.x}%`, top: `${l.y}%` }}>{l.t}</span>)}
+        {/* gold edge-connector fingers */}
+        <span className="rb-fingers">{Array.from({ length: 12 }).map((_, i) => <i key={i} />)}</span>
+      </div>
+
+      {/* realistic QFP chip */}
+      <div className="rb-qfp" aria-hidden>
+        <span className="rb-qfp-pins rb-qfp-pins--t" /><span className="rb-qfp-pins rb-qfp-pins--b" />
+        <span className="rb-qfp-pins rb-qfp-pins--l" /><span className="rb-qfp-pins rb-qfp-pins--r" />
+        <div className="rb-qfp-body">
+          <span className="rb-qfp-dot" />
+          <span className="rb-qfp-glint" />
+          <span className="rb-qfp-etch">CN-2600<br />ROBOTICS</span>
+        </div>
       </div>
 
       <div className="rb-hud" aria-hidden><i /><i /><i /><i /></div>
 
-      {/* ---- CPU chip (upper-right) ---- */}
-      <div className="rb-chip" aria-hidden>
-        <span className="rb-pins rb-pins--t" /><span className="rb-pins rb-pins--b" />
-        <span className="rb-pins rb-pins--l" /><span className="rb-pins rb-pins--r" />
-        <div className="rb-chip-body">
-          <span className="rb-chip-notch" />
-          <div className="rb-chip-core" />
-          <span className="rb-chip-label">CN·ROBOTICS</span>
-        </div>
+      {/* ---- brushed-metal brand plaque ---- */}
+      <div className="rb-plaque">
+        <span className="rb-screw" /><span className="rb-screw" /><span className="rb-screw" /><span className="rb-screw" />
+        <span className="rb-plaque-gloss" aria-hidden />
+        <img className="rb-plaque-logo" src={plaqueLogo} alt="Code Ninjas Woodbridge" />
       </div>
 
-      {/* ---- brand on an IC label plate ---- */}
-      <div className="rb-logo-wrap">
-        <span className="rb-hole" /><span className="rb-hole" /><span className="rb-hole" /><span className="rb-hole" />
-        <img className="rb-logo" src={cnLogo} alt="Code Ninjas Woodbridge" />
-      </div>
-
-      {/* ---- text (hero, left) ---- */}
+      {/* ---- hero details (terminal readout) ---- */}
       {phase >= TYPE && (
         <div className="rb-text">
           {LINES.map((ln, i) => {
@@ -119,16 +133,6 @@ export default function RoboticsCampAd() {
               </div>
             );
           })}
-        </div>
-      )}
-
-      {/* ---- open-arms greeter — materializes and hovers ---- */}
-      {phase >= GREET && (
-        <div className="rb-greeter" aria-hidden>
-          <span className="rb-greet-aura" />
-          <span className="rb-greet-ring" />
-          <img src={greeterImg} alt="" />
-          <span className="rb-greet-scan" />
         </div>
       )}
     </div>
