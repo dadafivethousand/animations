@@ -102,22 +102,8 @@ export default function RoboticsCampAd() {
         ))}
         {SILK.map((l, i) => <span key={"l" + i} className="rb-silk" style={{ left: `${l.x}%`, top: `${l.y}%` }}>{l.t}</span>)}
         {LEDS.map(([x, y], i) => <span key={"e" + i} className="rb-led" style={{ left: `${x}%`, top: `${y}%`, animationDelay: `${-(i * 0.5)}s` }} />)}
-        {/* small SOIC chip */}
-        <span className="rb-soic"><b /><b /></span>
         {/* gold edge-connector fingers */}
         <span className="rb-fingers">{Array.from({ length: 12 }).map((_, i) => <i key={i} />)}</span>
-      </div>
-
-      {/* realistic QFP chip */}
-      <div className="rb-qfp" aria-hidden>
-        <span className="rb-qfp-silk" />
-        <span className="rb-qfp-pins rb-qfp-pins--t" /><span className="rb-qfp-pins rb-qfp-pins--b" />
-        <span className="rb-qfp-pins rb-qfp-pins--l" /><span className="rb-qfp-pins rb-qfp-pins--r" />
-        <div className="rb-qfp-body">
-          <span className="rb-qfp-dot" />
-          <span className="rb-qfp-glint" />
-          <span className="rb-qfp-etch">CN-2600<br />ROBOTICS</span>
-        </div>
       </div>
 
       <div className="rb-hud" aria-hidden><i /><i /><i /><i /></div>
