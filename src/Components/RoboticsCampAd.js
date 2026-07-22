@@ -122,7 +122,8 @@ export default function RoboticsCampAd() {
 
       <div className="rb-hud" aria-hidden><i /><i /><i /><i /></div>
 
-      {/* ---- brushed-metal brand plaque ---- */}
+      {/* ---- brand column: plaque + info panel share one fixed width ---- */}
+      <div className="rb-brand-col">
       <div className="rb-plaque">
         <span className="rb-screw" /><span className="rb-screw" /><span className="rb-screw" /><span className="rb-screw" />
         <span className="rb-plaque-gloss" aria-hidden />
@@ -145,6 +146,7 @@ export default function RoboticsCampAd() {
             </div>
           );
         })}
+      </div>
       </div>
     </div>
   );
