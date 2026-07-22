@@ -1,5 +1,5 @@
 // RoboticsCampAd.jsx — Code Ninjas Woodbridge robotics summer-camp ad.
-// Realistic green PCB with a brushed-metal brand plaque. No robot graphic.
+// Circuit-board footage with a brushed-metal brand plaque. No robot graphic.
 //   0) BOOT — the board powers up (copper traces energize, chip glints)
 //   1) TYPE — camp details decode in as a terminal readout
 import React, { useEffect, useState } from "react";
@@ -113,8 +113,6 @@ export default function RoboticsCampAd() {
         {/* gold edge-connector fingers */}
         <span className="rb-fingers">{Array.from({ length: 12 }).map((_, i) => <i key={i} />)}</span>
       </div>
-
-      <div className="rb-hud" aria-hidden><i /><i /><i /><i /></div>
 
       {/* ---- brand column: plaque + info panel share one fixed width ---- */}
       <div className="rb-brand-col">
