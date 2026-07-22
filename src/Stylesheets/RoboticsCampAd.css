@@ -1,37 +1,102 @@
-/* RoboticsCampAd.css — robotics summer-camp ad (real robot art).
-   Zones (no overlap): logo top-left · text left · badge right-center ·
-   rocket flies along the top · greeter robot bottom-right · vacuum/dust intro. */
-@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=JetBrains+Mono:wght@500;700&display=swap");
+/* RoboticsCampAd.css — high-tech robotics summer-camp ad.
+   Energized circuit background, decode text reveal, power-up discount badge,
+   and a materializing open-arms greeter. Light theme so the logo stays crisp.
+   Zones: logo top-left · text left · badge upper-right · greeter lower-right. */
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=JetBrains+Mono:wght@500;700&family=Orbitron:wght@600;800&display=swap");
+
+:root { --cyan: #00d4ff; --cyan-2: #0aa5d8; --teal: #17b3a3; }
 
 .rb-stage {
   position: fixed; inset: 0; overflow: hidden;
   font-family: "JetBrains Mono", monospace; color: #0f2233;
 }
-.rb-bg { position: absolute; inset: 0; background: linear-gradient(160deg, #eaf6ff 0%, #d5ecff 55%, #cfe6ff 100%); }
-.rb-grid {
-  position: absolute; inset: 0; opacity: .5;
-  background-image:
-    linear-gradient(rgba(46,163,216,.10) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(46,163,216,.10) 1px, transparent 1px);
-  background-size: 42px 42px;
-  -webkit-mask-image: radial-gradient(120% 120% at 50% 40%, #000 55%, transparent 100%);
-  mask-image: radial-gradient(120% 120% at 50% 40%, #000 55%, transparent 100%);
+
+/* ---------------- energized background ---------------- */
+.rb-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(120% 90% at 50% 12%, #f2fbff 0%, #e2f2ff 45%, #d3e9fb 100%);
+}
+.rb-aurora {
+  position: absolute; inset: -12%; pointer-events: none;
+  background:
+    radial-gradient(36% 40% at 12% 20%, rgba(0,212,255,.16), transparent 70%),
+    radial-gradient(38% 42% at 88% 24%, rgba(23,179,163,.15), transparent 70%),
+    radial-gradient(42% 46% at 82% 88%, rgba(80,120,255,.14), transparent 72%),
+    radial-gradient(40% 44% at 14% 90%, rgba(0,212,255,.12), transparent 72%);
+  filter: blur(8px); animation: rb-aurora 16s ease-in-out infinite alternate;
+}
+@keyframes rb-aurora { 100% { transform: scale(1.08) translate(1.5%, -1.5%); } }
+
+/* circuit board traces */
+.rb-circuits { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.rb-trace-base path { fill: none; stroke: rgba(10,120,170,.16); stroke-width: 2; }
+.rb-trace-pulse path {
+  fill: none; stroke: var(--cyan); stroke-width: 2.5; stroke-linecap: round;
+  filter: drop-shadow(0 0 4px rgba(0,212,255,.9));
+  stroke-dasharray: 12 228; stroke-dashoffset: 240;
+  animation: rb-pulse linear infinite;
+}
+@keyframes rb-pulse { to { stroke-dashoffset: 0; } }
+.rb-nodes circle { fill: var(--cyan); filter: drop-shadow(0 0 5px rgba(0,212,255,.9)); animation: rb-node 2.4s ease-in-out infinite; }
+@keyframes rb-node { 0%,100% { opacity: .35; } 50% { opacity: 1; } }
+/* whole circuit layer fades up on boot */
+.rb-circuits, .rb-particles { opacity: 0; animation: rb-fade 1.2s ease .1s forwards; }
+@keyframes rb-fade { to { opacity: 1; } }
+
+/* floating data particles */
+.rb-particles { position: absolute; inset: 0; pointer-events: none; }
+.rb-pt {
+  position: absolute; top: 100%; border-radius: 2px; background: var(--cyan);
+  box-shadow: 0 0 6px rgba(0,212,255,.8); opacity: 0; animation: rb-rise linear infinite;
+}
+.rb-pt--data { background: transparent; box-shadow: none; width: auto !important; height: auto !important; color: var(--cyan-2); font: 700 13px "JetBrains Mono", monospace; text-shadow: 0 0 6px rgba(0,212,255,.6); }
+@keyframes rb-rise { 0% { opacity: 0; transform: translateY(0); } 12% { opacity: .55; } 90% { opacity: .55; } 100% { opacity: 0; transform: translateY(-108vh); } }
+
+/* faint scanlines */
+.rb-scan {
+  position: absolute; inset: 0; pointer-events: none; opacity: .5;
+  background: repeating-linear-gradient(0deg, rgba(10,90,140,.05) 0 1px, transparent 1px 4px);
+  mix-blend-mode: multiply;
 }
 
-/* ---- brand ---- */
-.rb-logo {
-  position: absolute; top: 5%; left: 5%; z-index: 6; width: clamp(150px, 15vw, 230px); height: auto;
-  animation: rb-pop .5s ease-out both;
-}
+/* HUD corner brackets that draw in on boot */
+.rb-hud { position: absolute; inset: 26px; pointer-events: none; }
+.rb-hud i { position: absolute; width: 42px; height: 42px; border: 2px solid rgba(0,212,255,.55); box-shadow: 0 0 8px rgba(0,212,255,.3); opacity: 0; animation: rb-hud .5s ease both; }
+.rb-hud i:nth-child(1){ top:0; left:0; border-right:0; border-bottom:0; animation-delay:.15s; }
+.rb-hud i:nth-child(2){ top:0; right:0; border-left:0; border-bottom:0; animation-delay:.25s; }
+.rb-hud i:nth-child(3){ bottom:0; left:0; border-right:0; border-top:0; animation-delay:.35s; }
+.rb-hud i:nth-child(4){ bottom:0; right:0; border-left:0; border-top:0; animation-delay:.45s; }
+@keyframes rb-hud { 0% { opacity:0; transform: scale(.4); } 100% { opacity:1; transform:none; } }
 
-/* ---- text block (left zone) ---- */
+/* ---------------- brand ---------------- */
+.rb-logo-wrap { position: absolute; top: 5%; left: 5%; z-index: 6; width: clamp(150px, 15vw, 230px); line-height: 0; }
+.rb-logo { width: 100%; height: auto; animation: rb-logo-in .9s cubic-bezier(.2,.9,.2,1) both; }
+@keyframes rb-logo-in { 0% { opacity:0; transform: translateY(-16px) scale(.92); filter: blur(8px); } 60% { opacity:1; filter: blur(0); } 100% { opacity:1; transform:none; } }
+.rb-logo-scan {
+  position: absolute; inset: 0; -webkit-mask-size: contain; mask-size: contain;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center;
+  background: linear-gradient(105deg, transparent 40%, rgba(0,212,255,.85) 50%, transparent 60%);
+  background-size: 260% 100%; background-position: 200% 0;
+  animation: rb-logo-sweep 4.5s ease-in-out 1.4s infinite;
+}
+@keyframes rb-logo-sweep { 0% { background-position: 200% 0; } 55%,100% { background-position: -120% 0; } }
+
+/* ---------------- text block (left) ---------------- */
 .rb-text {
   position: absolute; left: 6%; top: 50%; transform: translateY(-50%); z-index: 5;
   width: min(50vw, 700px); display: flex; flex-direction: column; gap: clamp(6px, 1.2vh, 16px);
 }
 .rb-line { display: flex; align-items: center; gap: .5em; min-height: 1.25em; }
-.rb-ic { font-size: 1em; }
-.rb-caret { display: inline-block; width: .55em; height: 1.05em; margin-left: .1em; background: #17b3a3; animation: rb-blink .7s steps(1) infinite; }
+.rb-ic { font-size: 1em; filter: drop-shadow(0 0 4px rgba(0,212,255,.35)); }
+.rb-tx { display: inline-flex; }
+.rb-ch { display: inline-block; white-space: pre; animation: rb-decode .34s ease both; }
+@keyframes rb-decode {
+  0%   { opacity: 0; transform: translateY(-2px); color: var(--cyan); text-shadow: 0 0 10px rgba(0,212,255,.9); filter: blur(2px); }
+  60%  { opacity: 1; filter: blur(0); }
+  100% { opacity: 1; color: inherit; text-shadow: none; }
+}
+.rb-caret { display: inline-block; width: .5em; height: 1.05em; margin-left: .12em; background: var(--cyan); box-shadow: 0 0 10px rgba(0,212,255,.9); animation: rb-blink .6s steps(1) infinite; }
 @keyframes rb-blink { 50% { opacity: 0; } }
 
 .rb-title {
@@ -39,96 +104,79 @@
   font-size: clamp(26px, 4.2vw, 60px); line-height: 1.02; color: #0e2a44; min-height: 1.1em;
 }
 .rb-subtitle {
-  font-family: "Baloo 2", sans-serif; font-weight: 700;
-  font-size: clamp(18px, 2.7vw, 38px); color: #17b3a3; min-height: 1.15em; margin-bottom: clamp(4px, 1.2vh, 14px);
+  font-family: "Orbitron", sans-serif; font-weight: 700; letter-spacing: .04em;
+  font-size: clamp(16px, 2.4vw, 34px); color: var(--teal);
+  text-shadow: 0 0 12px rgba(23,179,163,.35); min-height: 1.15em; margin-bottom: clamp(4px, 1.2vh, 14px);
 }
 .rb-info { font-weight: 700; font-size: clamp(14px, 1.9vw, 26px); color: #0f3350; }
 
-/* ---- discount badge (right zone) ---- */
+/* ---------------- discount badge (upper-right) ---------------- */
+.rb-badge-zone {
+  position: absolute; right: 9%; top: 40%; transform: translateY(-50%); z-index: 5;
+  width: clamp(190px, 22vw, 270px); height: clamp(190px, 22vw, 270px);
+  display: grid; place-items: center;
+}
+/* power-up shockwave */
+.rb-shock { position: absolute; inset: 0; border-radius: 50%; border: 3px solid rgba(0,212,255,.7); animation: rb-shock .8s ease-out forwards; }
+@keyframes rb-shock { 0% { transform: scale(.4); opacity: .9; } 100% { transform: scale(1.7); opacity: 0; } }
+/* energy ring that draws + rotates */
+.rb-ring { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+.rb-ring-track { fill: none; stroke: rgba(0,212,255,.18); stroke-width: 4; }
+.rb-ring-draw {
+  fill: none; stroke: var(--cyan); stroke-width: 4; stroke-linecap: round;
+  filter: drop-shadow(0 0 6px rgba(0,212,255,.9));
+  stroke-dasharray: 100; stroke-dashoffset: 100; animation: rb-ring-draw 1s ease-out .15s forwards;
+}
+@keyframes rb-ring-draw { to { stroke-dashoffset: 0; } }
+/* orbiting particles */
+.rb-orbit { position: absolute; inset: -5%; animation: rb-spin 6s linear infinite; }
+.rb-orbit i { position: absolute; width: 9px; height: 9px; margin: -4.5px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 9px rgba(0,212,255,.95); }
+.rb-orbit i:nth-child(1){ top: 0;   left: 50%; }
+.rb-orbit i:nth-child(2){ top: 50%; left: 100%; }
+.rb-orbit i:nth-child(3){ top: 88%; left: 12%; }
+@keyframes rb-spin { to { transform: rotate(1turn); } }
 .rb-badge {
-  position: absolute; right: 9%; top: 38%; transform: translateY(-50%); z-index: 5;
-  width: clamp(150px, 18vw, 230px); height: clamp(150px, 18vw, 230px);
-  display: grid; place-content: center; text-align: center;
-  color: #fff; border-radius: 50%;
-  background: radial-gradient(circle at 50% 38%, #ff8a4c, #e2371f 82%);
-  box-shadow: 0 16px 34px rgba(226,55,31,.4), inset 0 3px 0 rgba(255,255,255,.35), inset 0 -6px 12px rgba(120,20,0,.35);
-  border: 5px dashed rgba(255,255,255,.7);
-  animation: rb-badge-pop .5s cubic-bezier(.2,1.6,.3,1) both, rb-badge-bob 2.4s ease-in-out .5s infinite;
+  position: relative; z-index: 2; width: 80%; height: 80%;
+  display: grid; place-content: center; text-align: center; color: #fff; border-radius: 50%;
+  background: radial-gradient(circle at 50% 36%, #ff8a4c, #e2371f 82%);
+  box-shadow: 0 16px 34px rgba(226,55,31,.4), inset 0 3px 0 rgba(255,255,255,.35), inset 0 -6px 12px rgba(120,20,0,.35), 0 0 40px rgba(255,90,40,.35);
+  border: 4px dashed rgba(255,255,255,.75);
+  animation: rb-badge-pop .55s cubic-bezier(.2,1.7,.35,1) both, rb-badge-bob 2.6s ease-in-out .6s infinite;
 }
-@keyframes rb-badge-pop { 0% { opacity: 0; transform: translateY(-50%) scale(.6); } 100% { opacity: 1; transform: translateY(-50%) scale(1); } }
-@keyframes rb-badge-bob { 50% { transform: translateY(-50%) scale(1.04); } }
-.rb-badge-big { font-family: "Baloo 2", sans-serif; font-weight: 800; font-size: clamp(46px, 6vw, 80px); line-height: .85; text-shadow: 0 2px 0 #a8280f; }
+@keyframes rb-badge-pop { 0% { opacity:0; transform: scale(.2); } 60% { opacity:1; } 100% { opacity:1; transform: scale(1); } }
+@keyframes rb-badge-bob { 50% { transform: scale(1.04); } }
+.rb-badge-big { font-family: "Baloo 2", sans-serif; font-weight: 800; font-size: clamp(44px, 5.6vw, 76px); line-height: .85; text-shadow: 0 2px 0 #a8280f; }
 .rb-badge-pct { font-size: .5em; vertical-align: super; }
-.rb-badge-off { font-family: "Baloo 2", sans-serif; font-weight: 800; letter-spacing: .18em; font-size: clamp(18px, 2.2vw, 30px); }
-.rb-badge-sub { font-weight: 700; letter-spacing: .08em; font-size: clamp(9px, 1.2vw, 14px); margin-top: 4px; }
+.rb-badge-off { font-family: "Orbitron", sans-serif; font-weight: 800; letter-spacing: .2em; font-size: clamp(17px, 2vw, 26px); }
+.rb-badge-sub { font-weight: 700; letter-spacing: .1em; font-size: clamp(9px, 1.1vw, 13px); margin-top: 3px; }
 
-/* hand-drawn circle around the badge */
-.rb-circle {
-  position: absolute; right: calc(9% - 24px); top: 38%; transform: translateY(-50%); z-index: 8;
-  width: clamp(190px, 22vw, 286px); height: auto; pointer-events: none; overflow: visible;
-}
-.rb-circle ellipse {
-  fill: none; stroke: #e11d2e; stroke-width: 6; stroke-linecap: round;
-  stroke-dasharray: 660; stroke-dashoffset: 660;
-  animation: rb-draw 1s ease-out .5s forwards;
-  filter: drop-shadow(0 2px 3px rgba(180,10,20,.25));
-}
-@keyframes rb-draw { to { stroke-dashoffset: 0; } }
-
-/* ---- robot hand (cut-out png) — slides up and points at the discount ---- */
-.rb-hand {
-  position: absolute; z-index: 7; right: 22%; bottom: 12%;
-  width: clamp(320px, 34vw, 540px);
-  animation: rb-hand-move 2.4s ease-in-out both;
-}
-.rb-hand img { width: 100%; height: auto; transform: scaleX(-1); filter: drop-shadow(0 14px 22px rgba(20,40,80,.28)); }
-@keyframes rb-hand-move {
-  0%   { transform: translate(30%, 80%); opacity: 0; }
-  24%  { transform: translate(0, 0);     opacity: 1; }
-  74%  { transform: translate(0, 0);     opacity: 1; }
-  100% { transform: translate(22%, 65%); opacity: 0; }
-}
-
-/* ---- rocket robot image (flies along the top, to the right) ---- */
-.rb-rocket {
-  position: absolute; z-index: 9; top: 2%; left: -20%;
-  width: clamp(150px, 17vw, 240px); height: auto;
-  filter: drop-shadow(0 12px 20px rgba(20,40,80,.25));
-  animation: rb-fly 1.7s ease-in-out both;
-}
-@keyframes rb-fly {
-  0%   { left: -20%; transform: translateY(0) rotate(-4deg); }
-  50%  { transform: translateY(-16px) rotate(-4deg); }
-  100% { left: 118%; transform: translateY(0) rotate(-4deg); }
-}
-
-/* ---- open-arms greeter robot image (bottom-right, stays) ---- */
+/* ---------------- open-arms greeter (materialize + hover) ---------------- */
 .rb-greeter {
-  position: absolute; z-index: 6; right: 2%; bottom: 1%;
-  width: clamp(230px, 28vw, 400px); height: auto;
+  position: absolute; right: 3%; bottom: 1%; z-index: 6;
+  width: clamp(230px, 28vw, 400px); aspect-ratio: 1;
+  animation: rb-greet-float 3.6s ease-in-out 1s infinite;
+}
+.rb-greeter img {
+  position: relative; z-index: 2; width: 100%; height: auto;
   filter: drop-shadow(0 16px 24px rgba(20,40,80,.22));
-  animation: rb-slide-in .8s cubic-bezier(.2,1.2,.3,1) both, rb-greet-float 3.4s ease-in-out .9s infinite;
+  animation: rb-materialize 1s cubic-bezier(.2,.8,.2,1) both;
 }
-@keyframes rb-slide-in { 0% { transform: translateX(130%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
+@keyframes rb-materialize {
+  0%   { opacity: 0; clip-path: inset(100% 0 0 0); filter: brightness(2.4) drop-shadow(0 0 20px rgba(0,212,255,.9)); }
+  35%  { opacity: 1; }
+  60%  { clip-path: inset(0 0 0 0); }
+  62%  { opacity: .5; }   /* materialize flicker */
+  68%  { opacity: 1; }
+  80%  { filter: brightness(1.15) drop-shadow(0 0 12px rgba(0,212,255,.5)); }
+  100% { opacity: 1; clip-path: inset(0 0 0 0); filter: drop-shadow(0 16px 24px rgba(20,40,80,.22)); }
+}
 @keyframes rb-greet-float { 50% { transform: translateY(-8px); } }
-
-/* ---- intro : dust + vacuum sweep ---- */
-.rb-dust {
-  position: absolute; inset: 0; z-index: 9;
-  background: linear-gradient(180deg, rgba(150,143,130,.82), rgba(120,113,102,.82));
-  clip-path: inset(0 0 0 0);
-  animation: rb-sweep 2.6s linear forwards;
-}
-@keyframes rb-sweep { 0% { clip-path: inset(0 0 0 0%); } 100% { clip-path: inset(0 0 0 100%); } }
-.rb-dust span { position: absolute; border-radius: 50%; background: rgba(90,84,74,.5); box-shadow: 0 0 4px rgba(70,64,56,.5); }
-
-.rb-vacuum {
-  position: absolute; z-index: 10; bottom: 7%; left: -14%;
-  width: clamp(120px, 13vw, 180px); height: auto;
-  filter: drop-shadow(0 10px 16px rgba(0,0,0,.3));
-  animation: rb-vac-move 2.6s linear forwards;
-}
-@keyframes rb-vac-move { 0% { left: -14%; } 100% { left: 110%; } }
-
-/* shared pop */
-@keyframes rb-pop { 0% { opacity: 0; transform: scale(.7); } 100% { opacity: 1; transform: none; } }
+/* glow aura */
+.rb-greet-aura { position: absolute; left: 50%; top: 46%; width: 96%; height: 96%; transform: translate(-50%,-50%); border-radius: 50%; z-index: 1; background: radial-gradient(circle, rgba(0,212,255,.28), transparent 62%); animation: rb-aura-pulse 3s ease-in-out infinite; }
+@keyframes rb-aura-pulse { 50% { opacity: .55; transform: translate(-50%,-50%) scale(1.06); } }
+/* HUD ring at the base */
+.rb-greet-ring { position: absolute; left: 50%; bottom: 4%; width: 74%; height: 22%; transform: translateX(-50%); border-radius: 50%; border: 2px solid rgba(0,212,255,.6); box-shadow: 0 0 16px rgba(0,212,255,.4), inset 0 0 16px rgba(0,212,255,.25); z-index: 1; animation: rb-ringpulse 2.4s ease-in-out infinite; }
+@keyframes rb-ringpulse { 50% { border-color: rgba(0,212,255,.95); box-shadow: 0 0 26px rgba(0,212,255,.6), inset 0 0 20px rgba(0,212,255,.35); } }
+/* scan line that sweeps up during the materialize */
+.rb-greet-scan { position: absolute; left: 0; right: 0; height: 8px; z-index: 3; background: linear-gradient(90deg, transparent, var(--cyan), transparent); box-shadow: 0 0 16px 4px rgba(0,212,255,.8); animation: rb-greet-scan 1s ease-out forwards; }
+@keyframes rb-greet-scan { 0% { bottom: 0; opacity: 1; } 60% { bottom: 100%; opacity: 1; } 100% { bottom: 100%; opacity: 0; } }
