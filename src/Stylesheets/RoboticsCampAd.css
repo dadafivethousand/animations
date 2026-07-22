@@ -1,4 +1,4 @@
-/* RoboticsCampAd.css — robotics summer-camp ad.
+/* RoboticsCampAd.css — robotics summer-camp ad (real robot art).
    Zones (no overlap): logo top-left · text left · badge right-center ·
    rocket flies along the top · greeter robot bottom-right · vacuum/dust intro. */
 @import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=JetBrains+Mono:wght@500;700&display=swap");
@@ -27,7 +27,7 @@
 /* ---- text block (left zone) ---- */
 .rb-text {
   position: absolute; left: 6%; top: 50%; transform: translateY(-50%); z-index: 5;
-  width: min(52vw, 720px); display: flex; flex-direction: column; gap: clamp(6px, 1.2vh, 16px);
+  width: min(50vw, 700px); display: flex; flex-direction: column; gap: clamp(6px, 1.2vh, 16px);
 }
 .rb-line { display: flex; align-items: center; gap: .5em; min-height: 1.25em; }
 .rb-ic { font-size: 1em; }
@@ -46,25 +46,26 @@
 
 /* ---- discount badge (right zone) ---- */
 .rb-badge {
-  position: absolute; right: 8%; top: 40%; transform: translateY(-50%); z-index: 5;
-  width: clamp(150px, 18vw, 236px); height: clamp(150px, 18vw, 236px);
-  display: grid; place-content: center; text-align: center; gap: 0;
+  position: absolute; right: 9%; top: 38%; transform: translateY(-50%); z-index: 5;
+  width: clamp(150px, 18vw, 230px); height: clamp(150px, 18vw, 230px);
+  display: grid; place-content: center; text-align: center;
   color: #fff; border-radius: 50%;
   background: radial-gradient(circle at 50% 38%, #ff8a4c, #e2371f 82%);
   box-shadow: 0 16px 34px rgba(226,55,31,.4), inset 0 3px 0 rgba(255,255,255,.35), inset 0 -6px 12px rgba(120,20,0,.35);
   border: 5px dashed rgba(255,255,255,.7);
-  animation: rb-pop .5s cubic-bezier(.2,1.6,.3,1) both, rb-badge-bob 2.4s ease-in-out .5s infinite;
+  animation: rb-badge-pop .5s cubic-bezier(.2,1.6,.3,1) both, rb-badge-bob 2.4s ease-in-out .5s infinite;
 }
+@keyframes rb-badge-pop { 0% { opacity: 0; transform: translateY(-50%) scale(.6); } 100% { opacity: 1; transform: translateY(-50%) scale(1); } }
 @keyframes rb-badge-bob { 50% { transform: translateY(-50%) scale(1.04); } }
-.rb-badge-big { font-family: "Baloo 2", sans-serif; font-weight: 800; font-size: clamp(46px, 6vw, 82px); line-height: .85; text-shadow: 0 2px 0 #a8280f; }
+.rb-badge-big { font-family: "Baloo 2", sans-serif; font-weight: 800; font-size: clamp(46px, 6vw, 80px); line-height: .85; text-shadow: 0 2px 0 #a8280f; }
 .rb-badge-pct { font-size: .5em; vertical-align: super; }
 .rb-badge-off { font-family: "Baloo 2", sans-serif; font-weight: 800; letter-spacing: .18em; font-size: clamp(18px, 2.2vw, 30px); }
 .rb-badge-sub { font-weight: 700; letter-spacing: .08em; font-size: clamp(9px, 1.2vw, 14px); margin-top: 4px; }
 
 /* hand-drawn circle around the badge */
 .rb-circle {
-  position: absolute; right: calc(8% - 22px); top: 40%; transform: translateY(-50%); z-index: 6;
-  width: clamp(190px, 22vw, 290px); height: auto; pointer-events: none; overflow: visible;
+  position: absolute; right: calc(9% - 24px); top: 38%; transform: translateY(-50%); z-index: 8;
+  width: clamp(190px, 22vw, 286px); height: auto; pointer-events: none; overflow: visible;
 }
 .rb-circle ellipse {
   fill: none; stroke: #e11d2e; stroke-width: 6; stroke-linecap: round;
@@ -74,48 +75,42 @@
 }
 @keyframes rb-draw { to { stroke-dashoffset: 0; } }
 
-/* ---- robot pointing hand ---- */
-.rb-hand { position: absolute; right: 10%; bottom: 0; z-index: 7; width: 120px; height: 60vh; transform-origin: bottom center; animation: rb-hand-move 2.3s ease-in-out both; }
-@keyframes rb-hand-move {
-  0%   { transform: translateY(60%); }
-  26%  { transform: translateY(0); }
-  74%  { transform: translateY(0); }
-  100% { transform: translateY(70%); }
+/* ---- robot hand (cut-out png) — slides up and points at the discount ---- */
+.rb-hand {
+  position: absolute; z-index: 7; right: 22%; bottom: 12%;
+  width: clamp(320px, 34vw, 540px);
+  animation: rb-hand-move 2.4s ease-in-out both;
 }
-.rb-hand-arm { position: absolute; left: 50%; bottom: 0; width: 46px; height: 100%; transform: translateX(-50%); border-radius: 24px 24px 0 0; background: linear-gradient(90deg, #9fb4c6, #cdd9e6 40%, #8ea3b6); box-shadow: inset -6px 0 8px rgba(0,0,0,.15); }
-.rb-hand-palm { position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: 70px; height: 70px; border-radius: 16px; background: linear-gradient(135deg, #d7e2ee, #a9bccd); box-shadow: 0 4px 8px rgba(0,0,0,.18); }
-.rb-finger { position: absolute; left: 50%; top: -34px; transform: translateX(-50%); width: 26px; height: 46px; border-radius: 13px; background: linear-gradient(135deg, #d7e2ee, #a9bccd); }
-.rb-thumb { position: absolute; right: -12px; top: 20px; width: 30px; height: 20px; border-radius: 12px; background: linear-gradient(135deg, #d7e2ee, #a9bccd); }
+.rb-hand img { width: 100%; height: auto; transform: scaleX(-1); filter: drop-shadow(0 14px 22px rgba(20,40,80,.28)); }
+@keyframes rb-hand-move {
+  0%   { transform: translate(30%, 80%); opacity: 0; }
+  24%  { transform: translate(0, 0);     opacity: 1; }
+  74%  { transform: translate(0, 0);     opacity: 1; }
+  100% { transform: translate(22%, 65%); opacity: 0; }
+}
 
-/* ---- rocket robot (flies along the top, to the right) ---- */
-.rb-rocket { position: absolute; top: 11%; left: -14%; z-index: 8; width: 150px; height: 66px; animation: rb-fly 1.5s ease-in both; }
-@keyframes rb-fly { 0% { left: -16%; transform: translateY(0) rotate(6deg); } 50% { transform: translateY(-12px) rotate(6deg); } 100% { left: 116%; transform: translateY(0) rotate(6deg); } }
-.rb-rocket-body { position: absolute; left: 30px; top: 8px; width: 96px; height: 50px; border-radius: 50% 46% 46% 50% / 50%; background: linear-gradient(180deg, #eef5fb 0 40%, #c9d8e6 100%); box-shadow: inset 0 -6px 10px rgba(0,0,0,.15); }
-.rb-rocket-body::after { content: ""; position: absolute; right: -18px; top: 12px; width: 26px; height: 26px; border-radius: 50%; background: #ff5a45; box-shadow: inset 0 -3px 5px rgba(0,0,0,.25); } /* nose cone */
-.rb-rocket-window { position: absolute; left: 20px; top: 12px; width: 26px; height: 26px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #bff0ff, #35a7d8); border: 3px solid #eef5fb; }
-.rb-rocket-fin { position: absolute; width: 30px; height: 22px; background: #ff5a45; }
-.rb-rocket-fin--t { left: 34px; top: -6px; clip-path: polygon(0 100%, 100% 100%, 20% 0); }
-.rb-rocket-fin--b { left: 34px; bottom: -6px; clip-path: polygon(0 0, 100% 0, 20% 100%); }
-.rb-rocket-flame { position: absolute; left: -6px; top: 20px; width: 46px; height: 26px; border-radius: 50% 0 0 50%; background: linear-gradient(90deg, rgba(255,120,40,0), #ff8a2a 40%, #ffd23d); animation: rb-flame .18s steps(2) infinite; transform-origin: right center; }
-@keyframes rb-flame { 50% { transform: scaleX(.7); } }
+/* ---- rocket robot image (flies along the top, to the right) ---- */
+.rb-rocket {
+  position: absolute; z-index: 9; top: 2%; left: -20%;
+  width: clamp(150px, 17vw, 240px); height: auto;
+  filter: drop-shadow(0 12px 20px rgba(20,40,80,.25));
+  animation: rb-fly 1.7s ease-in-out both;
+}
+@keyframes rb-fly {
+  0%   { left: -20%; transform: translateY(0) rotate(-4deg); }
+  50%  { transform: translateY(-16px) rotate(-4deg); }
+  100% { left: 118%; transform: translateY(0) rotate(-4deg); }
+}
 
-/* ---- open-arms greeter robot (bottom-right, stays) ---- */
-.rb-greeter { position: absolute; right: 4%; bottom: 0; z-index: 6; width: clamp(180px, 22vw, 300px); height: clamp(230px, 34vh, 370px); animation: rb-slide-in .8s cubic-bezier(.2,1.2,.3,1) both; }
-@keyframes rb-slide-in { 0% { transform: translateX(120%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
-.rb-g-antenna { position: absolute; left: 50%; top: -4%; width: 6px; height: 12%; transform: translateX(-50%); background: #8ea3b6; }
-.rb-g-antenna::before { content: ""; position: absolute; left: 50%; top: -10px; transform: translateX(-50%); width: 16px; height: 16px; border-radius: 50%; background: #ffd23d; box-shadow: 0 0 10px #ffd23d; animation: rb-blip 1.2s ease-in-out infinite; }
-@keyframes rb-blip { 50% { opacity: .5; } }
-.rb-g-head { position: absolute; left: 50%; top: 8%; transform: translateX(-50%); width: 56%; height: 30%; border-radius: 20px; background: linear-gradient(180deg, #eef5fb, #c9d8e6); box-shadow: inset 0 -6px 10px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.12); }
-.rb-g-eye { position: absolute; top: 34%; width: 20%; height: 26%; border-radius: 50%; background: radial-gradient(circle at 45% 40%, #7ff0ff, #159fd0); box-shadow: 0 0 8px rgba(30,180,220,.6); }
-.rb-g-eye--l { left: 20%; } .rb-g-eye--r { right: 20%; }
-.rb-g-smile { position: absolute; left: 50%; bottom: 16%; transform: translateX(-50%); width: 40%; height: 16%; border: 3px solid #17b3a3; border-top: 0; border-radius: 0 0 40px 40px; }
-.rb-g-body { position: absolute; left: 50%; top: 38%; transform: translateX(-50%); width: 64%; height: 50%; border-radius: 26px; background: linear-gradient(180deg, #dfe9f2, #aebfcf); box-shadow: inset 0 -8px 14px rgba(0,0,0,.12), 0 6px 12px rgba(0,0,0,.14); }
-.rb-g-panel { position: absolute; left: 50%; top: 22%; transform: translateX(-50%); width: 58%; height: 40%; border-radius: 10px; background: linear-gradient(180deg, #0e2a44, #123a5c); box-shadow: inset 0 0 0 3px rgba(255,255,255,.15); }
-.rb-g-panel::before { content: "◍ ◍ ◍"; position: absolute; inset: 0; display: grid; place-content: center; color: #17e0c6; font-size: 12px; letter-spacing: 3px; }
-.rb-g-arm { position: absolute; top: 42%; width: 16%; height: 34%; border-radius: 16px; background: linear-gradient(180deg, #cdd9e6, #9fb4c6); }
-.rb-g-arm--l { left: 2%; transform: rotate(24deg); transform-origin: top right; animation: rb-wave 1.8s ease-in-out infinite; }
-.rb-g-arm--r { right: 2%; transform: rotate(-24deg); transform-origin: top left; }
-@keyframes rb-wave { 50% { transform: rotate(38deg); } }
+/* ---- open-arms greeter robot image (bottom-right, stays) ---- */
+.rb-greeter {
+  position: absolute; z-index: 6; right: 2%; bottom: 1%;
+  width: clamp(230px, 28vw, 400px); height: auto;
+  filter: drop-shadow(0 16px 24px rgba(20,40,80,.22));
+  animation: rb-slide-in .8s cubic-bezier(.2,1.2,.3,1) both, rb-greet-float 3.4s ease-in-out .9s infinite;
+}
+@keyframes rb-slide-in { 0% { transform: translateX(130%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
+@keyframes rb-greet-float { 50% { transform: translateY(-8px); } }
 
 /* ---- intro : dust + vacuum sweep ---- */
 .rb-dust {
@@ -127,19 +122,13 @@
 @keyframes rb-sweep { 0% { clip-path: inset(0 0 0 0%); } 100% { clip-path: inset(0 0 0 100%); } }
 .rb-dust span { position: absolute; border-radius: 50%; background: rgba(90,84,74,.5); box-shadow: 0 0 4px rgba(70,64,56,.5); }
 
-.rb-vacuum { position: absolute; bottom: 8%; left: -12%; z-index: 10; width: 140px; height: 80px; animation: rb-vac-move 2.6s linear forwards; }
-@keyframes rb-vac-move { 0% { left: -12%; } 100% { left: 108%; } }
-.rb-vac-body { position: absolute; left: 0; bottom: 0; width: 130px; height: 58px; border-radius: 30px 30px 26px 26px; background: linear-gradient(180deg, #3a4a5a 0 45%, #24313e 100%); box-shadow: 0 8px 16px rgba(0,0,0,.3), inset 0 3px 0 rgba(255,255,255,.12); display: flex; align-items: center; justify-content: center; gap: 14px; }
-.rb-vac-body::before { content: ""; position: absolute; left: 50%; top: -12px; transform: translateX(-50%); width: 8px; height: 16px; background: #24313e; }
-.rb-vac-body::after { content: ""; position: absolute; left: 50%; top: -18px; transform: translateX(-50%); width: 10px; height: 10px; border-radius: 50%; background: #17e0c6; box-shadow: 0 0 8px #17e0c6; }
-.rb-vac-eye { width: 16px; height: 16px; border-radius: 50%; background: radial-gradient(circle at 40% 40%, #bff6ff, #17b3d0); box-shadow: 0 0 6px rgba(30,180,220,.7); }
-.rb-vac-brush { position: absolute; right: -8px; bottom: 0; width: 26px; height: 30px; border-radius: 0 12px 12px 0; background: repeating-linear-gradient(90deg, #b9c6d4 0 3px, #8ea3b6 3px 6px); animation: rb-brush .12s steps(2) infinite; transform-origin: bottom center; }
-@keyframes rb-brush { 50% { transform: skewX(-12deg); } }
-.rb-vac-spray { position: absolute; right: -6px; bottom: 6px; width: 60px; height: 44px; z-index: -1; background: radial-gradient(circle, rgba(150,143,130,.7), transparent 70%); border-radius: 50%; animation: rb-spray .3s steps(2) infinite; }
-@keyframes rb-spray { 50% { transform: scale(1.2) translateX(6px); opacity: .6; } }
+.rb-vacuum {
+  position: absolute; z-index: 10; bottom: 7%; left: -14%;
+  width: clamp(120px, 13vw, 180px); height: auto;
+  filter: drop-shadow(0 10px 16px rgba(0,0,0,.3));
+  animation: rb-vac-move 2.6s linear forwards;
+}
+@keyframes rb-vac-move { 0% { left: -14%; } 100% { left: 110%; } }
 
 /* shared pop */
 @keyframes rb-pop { 0% { opacity: 0; transform: scale(.7); } 100% { opacity: 1; transform: none; } }
-/* keep badge's own transform on pop */
-.rb-badge { animation-name: rb-badge-pop, rb-badge-bob; }
-@keyframes rb-badge-pop { 0% { opacity: 0; transform: translateY(-50%) scale(.6); } 100% { opacity: 1; transform: translateY(-50%) scale(1); } }

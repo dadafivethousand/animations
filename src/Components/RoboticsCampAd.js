@@ -1,16 +1,20 @@
 // RoboticsCampAd.jsx — Code Ninjas Woodbridge robotics summer-camp ad.
-// Choreographed sequence:
-//   0) a robot vacuum sweeps a layer of dust off the screen, revealing the scene
-//   1) a typewriter prints the camp info (title, address, site, phone)
+// Choreographed sequence (uses real robot art from /Images):
+//   0) a robot vacuum sweeps a layer of dust off the screen
+//   1) a typewriter prints the camp info
 //   2) a 20% OFF discount badge pops in
-//   3) a robot hand slides up and circles the discount to draw attention
+//   3) a robot hand slides up and circles the discount
 //   4) a rocket-robot flies across the screen to the right
 //   5) an open-arms robot slides in from the right and stays
-// Layout uses fixed zones so nothing overlaps (text lives on the left,
-// the badge/robots on the right, the rocket flies above the text).
+// Fixed zones keep text (left), badge (right), rocket (top) and robots
+// (bottom-right) from overlapping.
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/RoboticsCampAd.css";
 import cnLogo from "../Images/cn-woodbridge-logo.png";
+import vacuumImg from "../Images/robot-vacuum.png";
+import rocketImg from "../Images/robot-rocket.png";
+import greeterImg from "../Images/robot-openarms.png";
+import handImg from "../Images/robot-hand.png";
 
 // phase levels (monotonic — elements stay visible once shown)
 const SWEEP = 0, TYPE = 1, BADGE = 2, CIRCLE = 3, ROCKET = 4, GREET = 5;
@@ -53,8 +57,8 @@ export default function RoboticsCampAd() {
     let t;
     if (phase === SWEEP)       t = setTimeout(() => setPhase(TYPE), 2600);
     else if (phase === BADGE)  t = setTimeout(() => setPhase(CIRCLE), 550);
-    else if (phase === CIRCLE) t = setTimeout(() => setPhase(ROCKET), 2300);
-    else if (phase === ROCKET) t = setTimeout(() => setPhase(GREET), 1500);
+    else if (phase === CIRCLE) t = setTimeout(() => setPhase(ROCKET), 2400);
+    else if (phase === ROCKET) t = setTimeout(() => setPhase(GREET), 1700);
     return () => t && clearTimeout(t);
   }, [phase]);
 
@@ -99,44 +103,19 @@ export default function RoboticsCampAd() {
         </svg>
       )}
 
-      {/* ---- robot hand pointing + circling ---- */}
+      {/* ---- robot hand pointing at the discount ---- */}
       {phase === CIRCLE && (
-        <div className="rb-hand" aria-hidden>
-          <div className="rb-hand-arm" />
-          <div className="rb-hand-palm">
-            <div className="rb-finger" />
-            <div className="rb-thumb" />
-          </div>
-        </div>
+        <div className="rb-hand" aria-hidden><img src={handImg} alt="" /></div>
       )}
 
       {/* ---- rocket robot flying left → right (above the text) ---- */}
       {phase === ROCKET && (
-        <div className="rb-rocket" aria-hidden>
-          <div className="rb-rocket-flame" />
-          <div className="rb-rocket-body">
-            <div className="rb-rocket-window" />
-          </div>
-          <div className="rb-rocket-fin rb-rocket-fin--t" />
-          <div className="rb-rocket-fin rb-rocket-fin--b" />
-        </div>
+        <img className="rb-rocket" src={rocketImg} alt="" aria-hidden />
       )}
 
       {/* ---- open-arms greeter robot (slides in, stays) ---- */}
       {phase >= GREET && (
-        <div className="rb-greeter" aria-hidden>
-          <div className="rb-g-antenna" />
-          <div className="rb-g-head">
-            <div className="rb-g-eye rb-g-eye--l" />
-            <div className="rb-g-eye rb-g-eye--r" />
-            <div className="rb-g-smile" />
-          </div>
-          <div className="rb-g-body">
-            <div className="rb-g-panel" />
-          </div>
-          <div className="rb-g-arm rb-g-arm--l" />
-          <div className="rb-g-arm rb-g-arm--r" />
-        </div>
+        <img className="rb-greeter" src={greeterImg} alt="" aria-hidden />
       )}
 
       {/* ---- dust + vacuum (intro sweep) ---- */}
@@ -147,14 +126,7 @@ export default function RoboticsCampAd() {
               <span key={i} style={{ left: `${d.x}%`, top: `${d.y}%`, width: `${d.s}px`, height: `${d.s}px` }} />
             ))}
           </div>
-          <div className="rb-vacuum" aria-hidden>
-            <div className="rb-vac-spray" />
-            <div className="rb-vac-body">
-              <div className="rb-vac-eye" />
-              <div className="rb-vac-eye" />
-            </div>
-            <div className="rb-vac-brush" />
-          </div>
+          <img className="rb-vacuum" src={vacuumImg} alt="" aria-hidden />
         </>
       )}
     </div>
