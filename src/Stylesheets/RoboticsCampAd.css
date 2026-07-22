@@ -191,7 +191,7 @@ width:80%;
     radial-gradient(circle 5px at 100% 100%, transparent 3px, rgba(122,196,255,.5) 3px 4px, transparent 4px) no-repeat;
 }
 .rb-text::before {
-  content: "cnwoodbridge.com"; position: absolute; top: -12px; left: 20px; z-index: 1;
+  content: "CNWOODBRIDGE.COM"; position: absolute; top: -12px; left: 20px; z-index: 1;
   padding: 3px 11px; border-radius: 5px; background: #07253d; border: 1px solid rgba(56,200,255,.45);
   font: 700 11px "Share Tech Mono", monospace; letter-spacing: .12em; color: var(--acc); text-shadow: 0 0 6px rgba(56,200,255,.7);
   box-shadow: 0 0 10px rgba(56,200,255,.25);
