@@ -36,6 +36,10 @@ const TRACES = [
   "M1040 620 H1180 L1230 690 H1400",
   // left edge
   "M0 250 H60 L100 290", "M0 470 H50", "M0 690 H70 L110 650",
+  // parallel data bus (top-right)
+  "M1000 120 H1210 L1268 178 H1470", "M1000 133 H1203 L1261 191 H1463", "M1000 146 H1196 L1254 204 H1456",
+  // parallel data bus (bottom-right)
+  "M1050 700 H1250 L1308 760 H1510", "M1050 713 H1243 L1301 773 H1503", "M1050 726 H1236 L1294 786 H1496",
 ];
 const VIAS = [ [92,23],[78,23],[75,17],[97,48],[82,41],[91,68],[78,74],[74,90],[63,12],[72,20],[86,10],[55,7],[66,80],[72,93],[89,84],[2,28],[2,52],[2,77],[68,40],[95,34] ];
 const SOLDER = [ [66,10],[72,17],[95,68],[62,73],[88,44],[70,34],[97,78],[60,86] ];
@@ -77,18 +81,13 @@ export default function RoboticsCampAd() {
       {/* copper traces with depth (shadow + copper + highlight) */}
       <svg className="rb-circuits" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden>
         <defs>
-          <linearGradient id="rb-cu" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="#f0c27a" /><stop offset=".5" stopColor="#c98a3a" /><stop offset="1" stopColor="#8f5e22" />
+          <linearGradient id="rb-mask" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#3f9060" /><stop offset=".45" stopColor="#1f5e3c" /><stop offset="1" stopColor="#0c3823" />
           </linearGradient>
         </defs>
         <g className="rb-tr-shadow">{TRACES.map((d, i) => <path key={i} d={d} />)}</g>
         <g className="rb-tr-cu">{TRACES.map((d, i) => <path key={i} d={d} />)}</g>
         <g className="rb-tr-hi">{TRACES.map((d, i) => <path key={i} d={d} />)}</g>
-        <g className="rb-tr-pulse">
-          {TRACES.map((d, i) => (
-            <path key={i} d={d} pathLength="240" style={{ animationDelay: `${-(i * 0.8)}s`, animationDuration: `${3.6 + (i % 4) * 0.7}s` }} />
-          ))}
-        </g>
       </svg>
 
       {/* discrete parts */}
@@ -111,6 +110,7 @@ export default function RoboticsCampAd() {
 
       {/* realistic QFP chip */}
       <div className="rb-qfp" aria-hidden>
+        <span className="rb-qfp-silk" />
         <span className="rb-qfp-pins rb-qfp-pins--t" /><span className="rb-qfp-pins rb-qfp-pins--b" />
         <span className="rb-qfp-pins rb-qfp-pins--l" /><span className="rb-qfp-pins rb-qfp-pins--r" />
         <div className="rb-qfp-body">
@@ -129,24 +129,23 @@ export default function RoboticsCampAd() {
         <img className="rb-plaque-logo" src={plaqueLogo} alt="Code Ninjas Woodbridge" />
       </div>
 
-      {/* ---- hero details (terminal readout) ---- */}
-      {phase >= TYPE && (
-        <div className="rb-text">
-          {LINES.map((ln, i) => {
-            const done = i < li;
-            const active = i === li;
-            const chars = done ? ln.t : active ? ln.t.slice(0, ci) : "";
-            return (
-              <div key={i} className={`rb-line rb-${ln.cls.split(" ").join(" rb-")}`}>
-                <span className="rb-tx">
-                  {[...chars].map((ch, k) => <span key={k} className="rb-ch">{ch === " " ? " " : ch}</span>)}
-                </span>
-                {phase === TYPE && active && <span className="rb-caret" />}
-              </div>
-            );
-          })}
-        </div>
-      )}
+      {/* ---- hero details — the frame boots in first, text types in after ---- */}
+      <div className="rb-text">
+        {LINES.map((ln, i) => {
+          const started = phase >= TYPE;
+          const done = started && i < li;
+          const active = started && i === li;
+          const chars = done ? ln.t : active ? ln.t.slice(0, ci) : "";
+          return (
+            <div key={i} className={`rb-line rb-${ln.cls.split(" ").join(" rb-")}`}>
+              <span className="rb-tx">
+                {[...chars].map((ch, k) => <span key={k} className="rb-ch">{ch === " " ? " " : ch}</span>)}
+              </span>
+              {phase === TYPE && active && <span className="rb-caret" />}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
