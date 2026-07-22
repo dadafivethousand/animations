@@ -5,6 +5,7 @@
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/RoboticsCampAd.css";
 import plaqueLogo from "../Images/cn-plaque-logo.png";
+import circuitBg from "../Images/circuit-bg.mp4";
 
 const BOOT = 0, TYPE = 1;
 
@@ -74,7 +75,14 @@ export default function RoboticsCampAd() {
 
   return (
     <div className={`rb-stage rb-p${phase}`}>
-      {/* ---- green PCB substrate ---- */}
+      {/* ---- live circuit-board footage as the substrate ---- */}
+      {/* muted is set on the node too — autoplay is blocked if it lands late */}
+      <video
+        className="rb-video"
+        src={circuitBg}
+        ref={(el) => { if (el) el.muted = true; }}
+        autoPlay muted loop playsInline preload="auto" aria-hidden
+      />
       <div className="rb-bg" aria-hidden />
       <div className="rb-mask" aria-hidden />
 
