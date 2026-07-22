@@ -10,7 +10,7 @@ import circuitBg from "../Images/circuit-bg.mp4";
 const BOOT = 0, TYPE = 1;
 
 const LINES = [
-  { t: "ROBOTICS SUMMER CAMP",         cls: "heading" },
+  { t: "SUMMER CAMP",         cls: "heading" },
   { t: "LOCATION : 6175 Hwy 7",        cls: "term" },
   { t: "WEBSITE  : cnwoodbridge.com",  cls: "term" },
   { t: "CONTACT  : 647-887-9940",      cls: "term" },
