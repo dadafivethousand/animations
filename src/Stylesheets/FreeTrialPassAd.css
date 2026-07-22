@@ -1,8 +1,14 @@
-/* FreeTrialPassAd.css — laminated free-trial pass, treated as a physical card.
-   Phases are driven by .ft-p0 .. .ft-p3 on the stage; everything else is CSS.
-   PORTRAIT / iPhone first, but the card scales off min(vw, vh) so it survives
-   landscape and desktop without reflowing. */
-@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Fredoka:wght@500;600;700&family=JetBrains+Mono:wght@500;700&display=swap");
+/* FreeTrialPassAd.css — laminated free-trial pass, treated as a manufactured
+   object rather than a rectangle with text on it.
+
+   Material stack, bottom to top, on each face:
+     guilloche engraving -> printed content -> specular sheen -> film grain
+   The card lives inside a preserve-3d chain: .ft-card-wrap (perspective)
+   -> .ft-tilt (idle drift) -> .ft-card (the flip) -> .ft-face.
+
+   Phases are driven by .ft-p0 .. .ft-p3 on the stage. PORTRAIT first; the
+   card scales off a single --cw so it survives landscape untouched. */
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Fredoka:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap");
 
 * { box-sizing: border-box; }
 
@@ -14,39 +20,53 @@
   overflow: hidden;
   font-family: "Fredoka", system-ui, sans-serif;
   color: #131922;
+  background: #e9edf2;
+}
+/* studio backdrop: soft key light top-centre, vignette to the corners */
+.ft-room {
+  position: absolute; inset: 0; pointer-events: none;
   background:
-    radial-gradient(120% 90% at 50% 18%, #ffffff 0%, #eef1f5 46%, #dde3ea 100%);
+    radial-gradient(90% 60% at 50% 12%, rgba(255,255,255,.95) 0%, rgba(255,255,255,0) 60%),
+    radial-gradient(70% 50% at 50% 44%, rgba(228,0,43,.09) 0%, rgba(228,0,43,0) 70%),
+    radial-gradient(120% 100% at 50% 50%, rgba(255,255,255,0) 42%, rgba(28,38,52,.16) 100%),
+    linear-gradient(180deg, #f2f5f8 0%, #e4e9f0 55%, #d7dee7 100%);
 }
-/* warm pool of light the card sits in */
-.ft-glow {
-  position: absolute; left: 50%; top: 46%; transform: translate(-50%, -50%);
-  width: min(120vw, 900px); aspect-ratio: 1; pointer-events: none;
-  background: radial-gradient(circle, rgba(228,0,43,.10) 0%, rgba(228,0,43,0) 62%);
-}
+.ft-defs { position: absolute; width: 0; height: 0; }
 
 /* ---------------- card geometry ---------------- */
-/* one knob drives the whole card: --cw */
+/* one knob drives the whole card */
 .ft-card-wrap {
   --cw: min(86vw, 46vh, 520px);
+  --r: calc(var(--cw) * .052);          /* corner radius */
   position: relative; z-index: 2;
-  width: var(--cw); aspect-ratio: 1.586;   /* ID-1, real credit-card ratio */
-  perspective: 1400px;
-  animation: ft-drop .95s cubic-bezier(.18,.86,.24,1) both;
+  width: var(--cw); aspect-ratio: 1.586;  /* ID-1, real credit-card ratio */
+  perspective: 1500px;
+  animation: ft-drop 1.05s cubic-bezier(.18,.86,.24,1) both;
 }
 @keyframes ft-drop {
-  0%   { opacity: 0; transform: translate3d(18%, -46%, 0) rotate(13deg) scale(.86); }
+  0%   { opacity: 0; transform: translate3d(16%, -44%, 0) rotate(12deg) scale(.86); }
   60%  { opacity: 1; }
   100% { opacity: 1; transform: none; }
 }
 
-.ft-card {
-  position: relative; width: 100%; height: 100%;
+/* idle drift — the card is never quite still, so the light keeps moving */
+.ft-tilt {
+  position: absolute; inset: 0;
   transform-style: preserve-3d;
-  transform: rotateY(180deg);            /* lands back-first */
-  transition: transform .9s cubic-bezier(.32,.86,.28,1);
+  animation: ft-tilt 11s ease-in-out infinite;
+}
+@keyframes ft-tilt {
+  0%, 100% { transform: rotateX(5deg)  rotateY(-8deg); }
+  50%      { transform: rotateX(-4deg) rotateY(9deg); }
+}
+
+.ft-card {
+  position: absolute; inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateY(180deg);            /* lands foil-side up */
+  transition: transform 1s cubic-bezier(.32,.86,.28,1);
 }
 .ft-p1 .ft-card, .ft-p2 .ft-card, .ft-p3 .ft-card { transform: rotateY(0deg); }
-/* recoil when the stamp lands */
 .ft-p2 .ft-card, .ft-p3 .ft-card { animation: ft-recoil .42s cubic-bezier(.3,1.4,.5,1) .04s both; }
 @keyframes ft-recoil {
   0%   { transform: rotateY(0) scale(1); }
@@ -56,128 +76,237 @@
 
 .ft-face {
   position: absolute; inset: 0; overflow: hidden;
-  border-radius: calc(var(--cw) * .052);
+  border-radius: var(--r);
   backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  display: flex; flex-direction: column;
   box-shadow:
-    0 calc(var(--cw) * .045) calc(var(--cw) * .085) rgba(19,25,34,.28),
-    0 2px 3px rgba(19,25,34,.18),
-    inset 0 1px 0 rgba(255,255,255,.9);
+    0 calc(var(--cw) * .05) calc(var(--cw) * .09) rgba(15,22,33,.30),
+    0 calc(var(--cw) * .012) calc(var(--cw) * .022) rgba(15,22,33,.20),
+    inset 0 1px 0 rgba(255,255,255,.75);
+}
+/* Card stock thickness: a slightly oversized plate parked behind the front
+   face, so a sliver of edge shows as the tilt swings. It is culled on the
+   back half of the flip — a -Z offset becomes +Z once the card passes 90deg,
+   and without the cull it would sit in front of the foil side and hide it. */
+.ft-edge {
+  position: absolute; inset: -1.5px; border-radius: calc(var(--r) + 1.5px);
+  transform: translateZ(-3px);
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  background: linear-gradient(180deg, #d6dee7, #93a2b3);
+  box-shadow: 0 0 0 1px rgba(15,22,33,.20);
 }
 
-/* ground shadow — softens as the card settles */
+/* ground shadow */
 .ft-shadow {
-  position: absolute; left: 50%; bottom: calc(var(--cw) * -.10);
-  width: 78%; height: calc(var(--cw) * .07);
+  position: absolute; left: 50%; bottom: calc(var(--cw) * -.11);
+  width: 80%; height: calc(var(--cw) * .075);
   transform: translateX(-50%);
-  background: radial-gradient(ellipse, rgba(19,25,34,.30), rgba(19,25,34,0) 70%);
-  filter: blur(3px);
-  animation: ft-shadow-settle .95s cubic-bezier(.18,.86,.24,1) both;
+  background: radial-gradient(ellipse, rgba(15,22,33,.34), rgba(15,22,33,0) 70%);
+  filter: blur(4px);
+  animation: ft-shadow-settle 1.05s cubic-bezier(.18,.86,.24,1) both;
 }
 @keyframes ft-shadow-settle {
   0%   { opacity: 0; transform: translateX(-50%) scaleX(.6); }
   100% { opacity: 1; transform: translateX(-50%) scaleX(1); }
 }
 
-/* ---------------- back face ---------------- */
+/* ---------------- shared material layers ---------------- */
+/* engine-turned guilloche, sits under everything printed */
+.ft-guilloche { position: absolute; inset: -12%; width: 124%; height: 124%; pointer-events: none; }
+.ft-guilloche ellipse { fill: none; stroke-width: .35; vector-effect: non-scaling-stroke; }
+.ft-guilloche--light ellipse { stroke: rgba(24,44,74,.062); }
+.ft-guilloche--dark  ellipse { stroke: rgba(150,200,255,.075); }
+
+/* specular sheen that drifts against the tilt, so highlights feel lit */
+.ft-spec {
+  position: absolute; inset: -40%; pointer-events: none; mix-blend-mode: screen;
+  background: radial-gradient(42% 46% at 50% 50%, rgba(255,255,255,.22), rgba(255,255,255,0) 70%);
+  animation: ft-spec 11s ease-in-out infinite;
+}
+.ft-front .ft-spec { mix-blend-mode: soft-light; }
+@keyframes ft-spec {
+  0%, 100% { transform: translate3d(14%, -10%, 0); }
+  50%      { transform: translate3d(-16%, 12%, 0); }
+}
+
+/* film grain — breaks up the flat gradients so it reads as printed stock */
+.ft-grain {
+  position: absolute; inset: 0; pointer-events: none;
+  opacity: .16; mix-blend-mode: overlay;
+  filter: url(#ft-noise);
+  background: #808080;
+}
+
+/* ---------------- back face (foil side) ---------------- */
 .ft-back {
   transform: rotateY(180deg);
   padding: 6.5% 7%;
-  display: flex; flex-direction: column;
   background:
-    linear-gradient(152deg, #222c3a 0%, #151d28 46%, #0d131b 100%);
+    radial-gradient(120% 90% at 22% 10%, #2c384a 0%, #1a2331 45%, #0d131c 100%);
   color: #fff;
 }
-/* body clears the stripe, then centres the wordmark in what's left */
-.ft-back-body {
-  flex: 1 1 auto; min-height: 0; padding-top: 14%;
-  display: flex; align-items: center; justify-content: center;
+/* magnetic stripe with a sheen running along it */
+.ft-stripe {
+  position: absolute; left: 0; right: 0; top: 15%; height: 15.5%;
+  background: linear-gradient(180deg, #05080c, #232c39 48%, #05080c);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.10), 0 1px 0 rgba(255,255,255,.05);
+  overflow: hidden;
 }
+.ft-stripe i {
+  position: absolute; top: 0; bottom: 0; left: -30%; width: 26%;
+  background: linear-gradient(100deg, transparent, rgba(190,220,255,.20), transparent);
+  animation: ft-stripe-sheen 7s ease-in-out infinite;
+}
+@keyframes ft-stripe-sheen { 0% { left: -30%; } 60%, 100% { left: 120%; } }
+
+.ft-back-body {
+  flex: 1 1 auto; min-height: 0; padding-top: 13%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+/* the brand mark has no light-on-dark variant in the repo, so it's rendered
+   as silver foil: grayscale first (keeps the mask band and eye slits distinct
+   from the head) then inverted, so detail survives where a flat invert would
+   flatten the whole head to a white disc. */
+.ft-back-logo {
+  width: 46%; height: auto; display: block;
+  filter:
+    grayscale(1) invert(1) contrast(1.05)
+    drop-shadow(0 1px 0 rgba(255,255,255,.35))
+    drop-shadow(0 -1px 0 rgba(0,0,0,.55));
+  opacity: .95;
+}
+.ft-back-sub {
+  margin-top: .55em;
+  font-family: "JetBrains Mono", monospace; font-weight: 500;
+  font-size: calc(var(--cw) * .030); letter-spacing: .42em; text-indent: .42em;
+  background: linear-gradient(180deg, #eaf3ff, #9ec3e6 55%, #6f9bc4);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
 .ft-back-foot {
   flex: 0 0 auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 6%;
 }
 .ft-back-terms {
-  font-family: "JetBrains Mono", monospace; font-weight: 500; line-height: 1.5;
-  font-size: calc(var(--cw) * .020); letter-spacing: .16em; color: rgba(255,255,255,.38);
+  font-family: "JetBrains Mono", monospace; font-weight: 400; line-height: 1.5;
+  font-size: calc(var(--cw) * .020); letter-spacing: .16em; color: rgba(255,255,255,.36);
 }
-.ft-back-name {
-  text-align: center; line-height: 1.15;
-  font-family: "Baloo 2", system-ui, sans-serif; font-weight: 800;
-  font-size: calc(var(--cw) * .062); letter-spacing: .10em; color: rgba(255,255,255,.92);
-}
-.ft-back-name span {
-  display: block; font-family: "JetBrains Mono", monospace; font-weight: 500;
-  font-size: calc(var(--cw) * .035); letter-spacing: .34em; color: #7fb2d8; margin-top: .3em;
-}
-/* magnetic stripe */
-.ft-stripe {
-  position: absolute; left: 0; right: 0; top: 17%; height: 15%;
-  background: linear-gradient(180deg, #05080c, #1b232e 55%, #05080c);
-}
-/* holographic sheen, slow hue drift */
+/* holographic foil patch: conic spectrum + diffraction ruling, hue drifting */
 .ft-holo {
-  flex: 0 0 auto; width: 20%; aspect-ratio: 1.4;
-  border-radius: calc(var(--cw) * .018); opacity: .8; mix-blend-mode: screen;
-  background: conic-gradient(from 0deg,
-    #ff5f6d, #ffc371, #7ee8fa, #a06bfa, #ff5f6d);
-  animation: ft-holo 6s linear infinite;
+  position: relative; flex: 0 0 auto; width: 21%; aspect-ratio: 1.4;
+  border-radius: calc(var(--cw) * .014); overflow: hidden;
+  background: conic-gradient(from 210deg, #ff5f6d, #ffc371, #7ee8fa, #a06bfa, #ff5f6d);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.35), 0 1px 3px rgba(0,0,0,.45);
+  animation: ft-holo 7s linear infinite;
+  opacity: .92;
 }
 @keyframes ft-holo { to { filter: hue-rotate(360deg); } }
+/* diffraction ruling + a sweeping band so the foil catches the light */
+.ft-holo span {
+  position: absolute; inset: 0;
+  background:
+    repeating-linear-gradient(72deg, rgba(255,255,255,.30) 0 1px, rgba(255,255,255,0) 1px 4px),
+    linear-gradient(100deg, rgba(255,255,255,0) 30%, rgba(255,255,255,.55) 50%, rgba(255,255,255,0) 70%);
+  background-size: auto, 260% 100%;
+  animation: ft-holo-sweep 7s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+@keyframes ft-holo-sweep { 0%, 100% { background-position: 0 0, 130% 0; } 50% { background-position: 0 0, -30% 0; } }
 
-/* ---------------- front face ---------------- */
+/* security microtext along the bottom edge */
+.ft-micro {
+  position: absolute; left: 0; right: 0; bottom: 2.2%;
+  overflow: hidden; white-space: nowrap; text-align: center;
+  font-family: "JetBrains Mono", monospace; font-weight: 400;
+  font-size: calc(var(--cw) * .0092); letter-spacing: .04em;
+  color: rgba(255,255,255,.16);
+}
+
+/* ---------------- front face (offer side) ---------------- */
 .ft-front {
   padding: 6.5% 7%;
-  display: flex; flex-direction: column;
   background:
-    repeating-linear-gradient(112deg, rgba(255,255,255,.5) 0 2px, rgba(255,255,255,0) 2px 5px),
-    linear-gradient(158deg, #ffffff 0%, #f4f7fa 42%, #e7edf3 100%);
+    repeating-linear-gradient(112deg, rgba(255,255,255,.45) 0 2px, rgba(255,255,255,0) 2px 5px),
+    radial-gradient(110% 80% at 24% 8%, #ffffff 0%, #f3f6fa 44%, #e4eaf2 100%);
   border: 1px solid rgba(19,25,34,.10);
 }
-/* red spine down the left edge */
+/* foil spine down the left edge */
 .ft-front::before {
-  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3.4%;
-  background: linear-gradient(180deg, #ff2a4d, #e4002b 48%, #a80020);
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3.6%;
+  background: linear-gradient(180deg, #ff3d5c 0%, #e4002b 46%, #9d001e 100%);
+  box-shadow: inset -1px 0 0 rgba(0,0,0,.18), 1px 0 6px rgba(228,0,43,.35);
 }
-/* punch hole, top-right */
 .ft-punch {
   position: absolute; top: 7%; right: 6%;
   width: calc(var(--cw) * .052); height: calc(var(--cw) * .030);
-  border-radius: 999px; background: #dfe5ec;
-  box-shadow: inset 0 1px 2px rgba(19,25,34,.45), 0 1px 0 rgba(255,255,255,.9);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #c3ccd8, #e6ebf1);
+  box-shadow: inset 0 1.5px 3px rgba(15,22,33,.55), 0 1px 0 rgba(255,255,255,.95);
 }
-/* laminate sheen sweeping across */
+/* laminate sheen sweeping across after the flip lands */
 .ft-gloss {
   position: absolute; top: -30%; left: -55%; width: 40%; height: 190%;
   transform: rotate(18deg); pointer-events: none;
-  background: linear-gradient(100deg, transparent, rgba(255,255,255,.72), transparent);
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.42), transparent);
 }
-.ft-p1 .ft-gloss, .ft-p2 .ft-gloss, .ft-p3 .ft-gloss { animation: ft-gloss 4.4s ease-in-out .5s infinite; }
+.ft-p1 .ft-gloss, .ft-p2 .ft-gloss, .ft-p3 .ft-gloss { animation: ft-gloss 5s ease-in-out .5s infinite; }
 @keyframes ft-gloss { 0% { left: -55%; } 55%, 100% { left: 135%; } }
 
-.ft-head { flex: 0 0 auto; margin-bottom: 3%; display: flex; align-items: center; justify-content: space-between; gap: 4%; }
-.ft-logo { width: 40%; height: auto; display: block; }
+.ft-head { flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 4%; }
+.ft-logo { width: 38%; height: auto; display: block; filter: drop-shadow(0 1px 0 rgba(255,255,255,.9)); }
 .ft-serial {
   font-family: "JetBrains Mono", monospace; font-weight: 500;
-  font-size: calc(var(--cw) * .026); letter-spacing: .10em; color: #7c8899;
+  font-size: calc(var(--cw) * .025); letter-spacing: .10em; color: #7c8899;
   margin-right: calc(var(--cw) * .085);   /* clear of the punch hole */
 }
 
-/* title block takes the slack, so the foot always sits on the bottom edge */
-.ft-title { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; justify-content: center; line-height: .92; }
+/* chip + title share the middle band; the right third stays clear for the stamp */
+.ft-mid { flex: 1 1 auto; min-height: 0; display: flex; align-items: center; gap: 6%; padding-right: 30%; }
+
+/* EMV contact plate: gold blank, contact divisions, bevelled rim */
+.ft-chip {
+  position: relative; flex: 0 0 auto;
+  width: 13.5%; aspect-ratio: 1.32; border-radius: 12%;
+  background: linear-gradient(138deg, #fff3c4 0%, #e3c15c 30%, #b8860b 62%, #f2dd93 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(92,64,4,.45),
+    inset 0 1px 1px rgba(255,255,255,.75),
+    0 1px 2px rgba(15,22,33,.35);
+}
+/* contact divisions */
+.ft-chip i {
+  position: absolute; inset: 9%;
+  background:
+    linear-gradient(90deg, transparent calc(50% - .6px), rgba(92,64,4,.5) calc(50% - .6px) calc(50% + .6px), transparent calc(50% + .6px)),
+    linear-gradient(180deg, transparent calc(32% - .6px), rgba(92,64,4,.5) calc(32% - .6px) calc(32% + .6px), transparent calc(32% + .6px)),
+    linear-gradient(180deg, transparent calc(68% - .6px), rgba(92,64,4,.5) calc(68% - .6px) calc(68% + .6px), transparent calc(68% + .6px));
+}
+/* central contact pad */
+.ft-chip b {
+  position: absolute; left: 28%; right: 28%; top: 34%; bottom: 34%;
+  border: 1px solid rgba(92,64,4,.5); border-radius: 2px;
+  background: linear-gradient(160deg, rgba(255,255,255,.55), rgba(255,255,255,0));
+}
+
+.ft-title { flex: 1 1 auto; min-width: 0; line-height: .92; }
 .ft-title-sm {
   display: block; font-family: "JetBrains Mono", monospace; font-weight: 700;
-  font-size: calc(var(--cw) * .040); letter-spacing: .30em; color: #e4002b;
+  font-size: calc(var(--cw) * .038); letter-spacing: .30em; color: #e4002b;
+  text-shadow: 0 1px 0 rgba(255,255,255,.9);
 }
+/* letterpress: light from above, so the type sits into the card */
 .ft-title-lg {
   display: block; margin-top: .12em;
   font-family: "Baloo 2", system-ui, sans-serif; font-weight: 800;
-  font-size: calc(var(--cw) * .155); letter-spacing: -.01em; color: #131922;
+  font-size: calc(var(--cw) * .152); letter-spacing: -.015em;
+  background: linear-gradient(178deg, #2b3a4e 0%, #131922 48%, #303f54 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 1px 0 rgba(255,255,255,.95)) drop-shadow(0 -1px 1px rgba(15,22,33,.30));
 }
-.ft-admit {
-  display: block; margin-top: .62em;
-  font-family: "JetBrains Mono", monospace; font-weight: 500;
-  font-size: calc(var(--cw) * .028); letter-spacing: .18em; color: #56637a;
+.ft-foot {
+  flex: 0 0 auto; margin-top: 3.5%; padding-top: 3.5%;
+  border-top: 1px dashed rgba(19,25,34,.16);
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 5%;
 }
-
 .ft-field { flex: 1 1 auto; min-width: 0; max-width: 52%; }
 .ft-field span {
   display: block; font-family: "JetBrains Mono", monospace; font-weight: 500;
@@ -187,22 +316,14 @@
   display: block; margin-top: .55em; height: 1px;
   background: repeating-linear-gradient(90deg, #aab4c1 0 6px, transparent 6px 10px);
 }
-.ft-field b {
-  display: block; margin-top: .3em;
-  font-family: "Baloo 2", system-ui, sans-serif; font-weight: 700;
-  font-size: calc(var(--cw) * .034); letter-spacing: .02em; color: #131922;
-}
-
-.ft-foot {
-  flex: 0 0 auto; margin-top: 4%; padding-top: 4%;
-  border-top: 1px dashed rgba(19,25,34,.16);
-  display: flex; align-items: flex-end; justify-content: space-between; gap: 5%;
-}
 .ft-barcode {
   flex: 0 1 auto; overflow: hidden;
-  display: flex; align-items: flex-end; gap: 2px; height: calc(var(--cw) * .046);
+  display: flex; align-items: flex-end; gap: 2px; height: calc(var(--cw) * .044);
 }
-.ft-barcode i { display: block; flex: 0 0 auto; height: 100%; background: #131922; }
+.ft-barcode i {
+  display: block; flex: 0 0 auto; height: 100%;
+  background: #131922; box-shadow: 0 1px 0 rgba(255,255,255,.7);
+}
 .ft-barcode i:nth-child(4n) { height: 78%; }
 
 /* ---------------- the stamp ---------------- */
@@ -214,8 +335,7 @@
   border: calc(var(--cw) * .009) solid #c2113a;
   border-radius: calc(var(--cw) * .012);
   color: #c2113a; text-align: center; line-height: 1;
-  /* ink sits into the card rather than on top of it */
-  mix-blend-mode: multiply; opacity: 0;
+  mix-blend-mode: multiply; opacity: 0;      /* ink sits into the stock */
   transform: rotate(-14deg) scale(2.4);
   box-shadow: inset 0 0 0 2px rgba(194,17,58,.35);
 }
@@ -273,11 +393,12 @@
   background: linear-gradient(180deg, #ff2a4d, #e4002b);
   color: #fff; font-family: "Baloo 2", system-ui, sans-serif; font-weight: 800;
   font-size: clamp(14px, 2.2vh, 20px); letter-spacing: .01em;
-  box-shadow: 0 8px 20px rgba(228,0,43,.34), inset 0 1px 0 rgba(255,255,255,.35);
+  box-shadow: 0 10px 24px rgba(228,0,43,.34), inset 0 1px 0 rgba(255,255,255,.35);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ft-card-wrap, .ft-shadow, .ft-stamp, .ft-gloss, .ft-holo,
+  .ft-card-wrap, .ft-shadow, .ft-stamp, .ft-gloss, .ft-holo, .ft-holo span,
+  .ft-tilt, .ft-spec, .ft-stripe i,
   .ft-p2 .ft-card, .ft-p3 .ft-card { animation: none !important; }
   .ft-card { transition: none; }
   .ft-stamp { opacity: .92; transform: rotate(-14deg); }
