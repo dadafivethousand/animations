@@ -15,11 +15,8 @@ const SLIDE = 0, FLIP = 1, STAMP = 2, INFO = 3;
 // ms after mount that each phase begins
 const CUES = { [FLIP]: 1250, [STAMP]: 2400, [INFO]: 3000 };
 
-const DETAILS = [
-  { k: "WHERE", v: "6175 Hwy 7, Woodbridge" },
-  { k: "CALL",  v: "647-887-9940" },
-  { k: "BOOK",  v: "cnwoodbridge.com" },
-];
+// logistics only — the offer itself is already stated twice on the card
+const META = ["6175 Hwy 7, Woodbridge", "647-887-9940", "cnwoodbridge.com"];
 
 // irregular bar widths so the barcode doesn't read as a repeating gradient
 const BARS = [3,1,2,1,1,3,2,1,3,1,1,2,3,1,2,2,1,3,1,1,2,1,3,2,1,1,3,1,2,1,2,3,1,2,1,1,3,2,1,3];
@@ -132,15 +129,27 @@ export default function FreeTrialPassAd() {
         <div className="ft-shadow" aria-hidden />
       </div>
 
-      <div className="ft-details">
-        {DETAILS.map((d, i) => (
-          <div className="ft-detail" key={d.k} style={{ transitionDelay: `${i * 110}ms` }}>
-            <span className="ft-detail-k">{d.k}</span>
-            <span className="ft-detail-v">{d.v}</span>
-          </div>
-        ))}
-        <div className="ft-cta" style={{ transitionDelay: `${DETAILS.length * 110}ms` }}>
-          Claim your free session
+      <div className="ft-below">
+        <span className="ft-kicker" style={{ transitionDelay: "0ms" }}>
+          CODE<i />NINJAS<i />WOODBRIDGE
+        </span>
+
+        <div className="ft-cta" style={{ transitionDelay: "110ms" }}>
+          <span className="ft-cta-label">Claim your free session</span>
+          <svg className="ft-cta-arrow" viewBox="0 0 24 24" aria-hidden>
+            <path d="M4 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor"
+              strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          <span className="ft-cta-sheen" aria-hidden />
+        </div>
+
+        <div className="ft-meta" style={{ transitionDelay: "220ms" }}>
+          {META.map((m, i) => (
+            <React.Fragment key={m}>
+              {i > 0 && <i aria-hidden />}
+              <span>{m}</span>
+            </React.Fragment>
+          ))}
         </div>
       </div>
     </div>

@@ -365,36 +365,83 @@
   font-size: calc(var(--cw) * .020); letter-spacing: .22em;
 }
 
-/* ---------------- details under the card ---------------- */
-.ft-details {
+/* ---------------- block under the card ----------------
+   Hierarchy is kicker -> action -> fine print. The offer itself is
+   deliberately not repeated here; the card already says it twice. */
+.ft-below {
   position: relative; z-index: 2;
-  width: min(86vw, 520px);
-  display: flex; flex-direction: column; align-items: center; gap: clamp(6px, 1.2vh, 12px);
+  width: min(88vw, 560px);
+  display: flex; flex-direction: column; align-items: center;
+  gap: clamp(10px, 1.8vh, 20px);
 }
-.ft-detail, .ft-cta {
-  opacity: 0; transform: translateY(10px);
-  transition: opacity .5s ease, transform .5s cubic-bezier(.2,.9,.2,1);
+.ft-below > * {
+  opacity: 0; transform: translateY(12px);
+  transition: opacity .6s ease, transform .6s cubic-bezier(.2,.9,.2,1);
 }
-.ft-p3 .ft-detail, .ft-p3 .ft-cta { opacity: 1; transform: none; }
+.ft-p3 .ft-below > * { opacity: 1; transform: none; }
 
-.ft-detail { display: flex; align-items: baseline; gap: .7em; }
-.ft-detail-k {
+/* brand kicker — letterspaced, with hairlines instead of spaces */
+.ft-kicker {
+  display: flex; align-items: center; gap: .7em;
   font-family: "JetBrains Mono", monospace; font-weight: 700;
-  font-size: clamp(9px, 1.5vh, 12px); letter-spacing: .22em; color: #e4002b;
-  min-width: 4.6em; text-align: right;
+  font-size: clamp(9px, 1.42vh, 12px); letter-spacing: .34em; text-indent: .34em;
+  color: #78879a;
 }
-.ft-detail-v {
-  font-family: "Fredoka", system-ui, sans-serif; font-weight: 600;
-  font-size: clamp(14px, 2.3vh, 21px); color: #26313f;
-}
+.ft-kicker i { width: 3px; height: 3px; border-radius: 50%; background: #e4002b; opacity: .8; }
+
+/* ---- call to action ---- */
 .ft-cta {
-  margin-top: clamp(6px, 1.4vh, 14px);
-  padding: .62em 1.5em; border-radius: 999px;
-  background: linear-gradient(180deg, #ff2a4d, #e4002b);
-  color: #fff; font-family: "Baloo 2", system-ui, sans-serif; font-weight: 800;
-  font-size: clamp(14px, 2.2vh, 20px); letter-spacing: .01em;
-  box-shadow: 0 10px 24px rgba(228,0,43,.34), inset 0 1px 0 rgba(255,255,255,.35);
+  position: relative; overflow: hidden;
+  display: inline-flex; align-items: center; gap: .6em;
+  padding: clamp(12px, 1.7vh, 18px) clamp(24px, 3.4vh, 38px);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ff4a66 0%, #e4002b 52%, #b8001f 100%);
+  color: #fff;
+  font-family: "Baloo 2", system-ui, sans-serif; font-weight: 800;
+  font-size: clamp(15px, 2.3vh, 21px); letter-spacing: .005em;
+  /* rim light on top, occlusion at the base, coloured bloom on the floor */
+  box-shadow:
+    inset 0 1.5px 0 rgba(255,255,255,.55),
+    inset 0 -2px 6px rgba(90,0,16,.45),
+    0 2px 4px rgba(15,22,33,.20),
+    0 12px 26px rgba(228,0,43,.36),
+    0 22px 44px rgba(228,0,43,.20);
 }
+/* no scale-pulse here on purpose: an animation on .ft-cta would outrank the
+   entrance transition's transform and the button would fade without rising */
+.ft-cta-label { position: relative; z-index: 1; }
+.ft-cta-arrow {
+  position: relative; z-index: 1;
+  width: 1.05em; height: 1.05em; flex: 0 0 auto;
+  animation: ft-cta-nudge 2.4s ease-in-out infinite;
+}
+@keyframes ft-cta-nudge {
+  0%, 62%, 100% { transform: translateX(0); }
+  76%           { transform: translateX(3px); }
+}
+/* sheen travelling across the button face */
+.ft-cta-sheen {
+  position: absolute; top: -60%; left: -40%; width: 30%; height: 220%;
+  transform: rotate(18deg); pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.38), transparent);
+  animation: ft-cta-sheen 4.6s ease-in-out 1s infinite;
+}
+@keyframes ft-cta-sheen { 0% { left: -40%; } 55%, 100% { left: 130%; } }
+
+/* ---- fine print ---- */
+.ft-meta {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+  gap: clamp(8px, 1.2vh, 14px);
+  padding-top: clamp(8px, 1.4vh, 16px);
+  border-top: 1px solid rgba(19,25,34,.10);
+  width: 100%;
+}
+.ft-meta span {
+  font-family: "JetBrains Mono", monospace; font-weight: 500;
+  font-size: clamp(11px, 1.62vh, 14px); letter-spacing: .04em; color: #5d6b7d;
+  white-space: nowrap;
+}
+.ft-meta i { width: 4px; height: 4px; border-radius: 50%; background: rgba(19,25,34,.22); }
 
 @media (prefers-reduced-motion: reduce) {
   .ft-card-wrap, .ft-shadow, .ft-stamp, .ft-gloss, .ft-holo, .ft-holo span,
@@ -402,5 +449,6 @@
   .ft-p2 .ft-card, .ft-p3 .ft-card { animation: none !important; }
   .ft-card { transition: none; }
   .ft-stamp { opacity: .92; transform: rotate(-14deg); }
-  .ft-detail, .ft-cta { opacity: 1; transform: none; transition: none; }
+  .ft-cta-arrow, .ft-cta-sheen { animation: none !important; }
+  .ft-below > * { opacity: 1; transform: none; transition: none; }
 }
