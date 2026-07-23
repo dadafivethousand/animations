@@ -19,7 +19,7 @@ const SLIDE = 0, FLIP = 1, STAMP = 2, INFO = 3;
 const CUES = { [FLIP]: 1250, [STAMP]: 2400, [INFO]: 3000 };
 
 const BENEFITS = ["AGES 5–14", "NO COMMITMENT", "BOOK IN 60s"];
-const META = ["6175 Hwy 7, Woodbridge", "647-887-9940", "cnwoodbridge.com"];
+const META = ["6175 Hwy 7, Woodbridge", "647-887-9940"];
 
 // irregular bar widths so the barcode doesn't read as a repeating gradient
 const BARS = [3,1,2,1,1,3,2,1,3,1,1,2,3,1,2,2,1,3,1,1,2,1,3,2,1,1,3,1,2,1,2,3,1,2,1,1,3,2,1,3];
@@ -95,9 +95,8 @@ const Card = ({ phase }) => (
           </div>
         </div>
 
-        {/* NAME is left blank on purpose — it's a pass you fill in */}
         <div className="ft-foot">
-          <div className="ft-field"><span>ADMIT ONE — NAME</span><i /></div>
+          <div className="ft-field"><span>ADMIT ONE</span></div>
           <div className="ft-barcode" aria-hidden>
             {BARS.map((w, i) => <i key={i} style={{ width: `${w}px` }} />)}
           </div>
@@ -161,24 +160,16 @@ export default function FreeTrialPassAd() {
 
       {/* ---- pitch ---- */}
       <div className="ft-below">
-        <span className="ft-eyebrow" style={{ transitionDelay: "0ms" }}>
-          <i />NEW STUDENTS · LIMITED TIME<i />
-        </span>
-
-        <h1 className="ft-headline" style={{ transitionDelay: "90ms" }}>
+        <h1 className="ft-headline" style={{ transitionDelay: "0ms" }}>
           Your first session<br /><em>is on us.</em>
         </h1>
 
-        <p className="ft-sub" style={{ transitionDelay: "170ms" }}>
-          Real code. Real games. Zero cost to try the dojo.
-        </p>
-
-        <div className="ft-chips" style={{ transitionDelay: "250ms" }}>
+        <div className="ft-chips" style={{ transitionDelay: "90ms" }}>
           {BENEFITS.map((b) => <span className="ft-chip-pill" key={b}>{b}</span>)}
         </div>
 
-        <div className="ft-cta" style={{ transitionDelay: "340ms" }}>
-          <span className="ft-cta-label">Claim your free session</span>
+        <div className="ft-cta" style={{ transitionDelay: "180ms" }}>
+          <span className="ft-cta-label">cnwoodbridge.com</span>
           <svg className="ft-cta-arrow" viewBox="0 0 24 24" aria-hidden>
             <path d="M4 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor"
               strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
@@ -186,7 +177,7 @@ export default function FreeTrialPassAd() {
           <span className="ft-cta-sheen" aria-hidden />
         </div>
 
-        <div className="ft-meta" style={{ transitionDelay: "430ms" }}>
+        <div className="ft-meta" style={{ transitionDelay: "270ms" }}>
           {META.map((m, i) => (
             <React.Fragment key={m}>
               {i > 0 && <i aria-hidden />}
