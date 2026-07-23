@@ -276,20 +276,20 @@
     radial-gradient(50% 40% at 24% 66%, rgba(60,200,255,.08), transparent 60%),
     radial-gradient(120% 100% at 50% 50%, transparent 42%, rgba(3,6,10,.82) 100%);
 }
-.rob-stage { position: absolute; left: 50%; top: 61%; transform: translate(-50%, -50%); z-index: 3; width: min(84vw, 340px); }
+.rob-stage { position: absolute; left: 50%; top: 64%; transform: translate(-50%, -50%); z-index: 3; width: min(88vw, 360px); }
 
-.rob-botwrap { position: relative; display: grid; place-items: center; animation: rob-bob 3.2s ease-in-out 0.9s infinite; }
-@keyframes rob-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.rob-botwrap { position: relative; display: grid; place-items: center; animation: rob-bob 3.4s ease-in-out 0.9s infinite; }
+@keyframes rob-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
 .rob-bot {
-  position: relative; z-index: 1; display: block; width: clamp(150px, 42vw, 208px); height: auto;
-  filter: drop-shadow(0 8px 16px rgba(0,0,0,.5)) drop-shadow(0 0 24px rgba(90,170,255,.4));
-  animation: rob-bot-in .7s cubic-bezier(.2,1.5,.4,1) both;
+  position: relative; z-index: 1; display: block; width: clamp(220px, 92vw, 400px); height: auto;
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,.55)) drop-shadow(0 0 26px rgba(70,180,255,.4));
+  animation: rob-bot-in .7s cubic-bezier(.2,1.1,.3,1) both;
 }
-@keyframes rob-bot-in { 0% { opacity: 0; transform: scale(.4); } 100% { opacity: 1; transform: scale(1); } }
+@keyframes rob-bot-in { 0% { opacity: 0; transform: scale(.86); } 100% { opacity: 1; transform: scale(1); } }
 .rob-pulse {
-  position: absolute; width: 128%; aspect-ratio: 1; border-radius: 50%; z-index: 0;
-  background: radial-gradient(circle, rgba(255,176,32,.28), rgba(255,176,32,0) 62%);
-  filter: blur(10px);
+  position: absolute; width: 74%; aspect-ratio: 1.1; border-radius: 50%; z-index: 0;
+  background: radial-gradient(circle, rgba(255,176,32,.26), rgba(255,176,32,0) 64%);
+  filter: blur(12px);
   opacity: 0; animation: rob-pulse-in .8s ease .4s forwards, rob-pulse 3.4s ease-in-out 1s infinite;
 }
 @keyframes rob-pulse-in { to { opacity: .6; } }
@@ -305,9 +305,7 @@
 .rob-gears { display: block; width: 100%; height: auto; margin-top: -8%; overflow: visible; filter: drop-shadow(0 5px 9px rgba(0,0,0,.55)); }
 .rob-gear { transform-box: fill-box; transform-origin: center; animation-name: rob-spin; animation-timing-function: linear; animation-iteration-count: infinite; }
 @keyframes rob-spin { to { transform: rotate(360deg); } }
-.rob-teeth { fill: #93a0b2; stroke: #4b5566; stroke-width: 1; stroke-linejoin: round; }
-.rob-hub { fill: #5a6474; stroke: #38414e; stroke-width: 1; }
-.rob-hole { fill: #0b121b; }
+.rob-teeth { fill: url(#g-teeth); stroke: #3b434f; stroke-width: .9; stroke-linejoin: round; }
 .rob-trace { fill: none; stroke: #ffb020; stroke-width: 1.4; opacity: .55; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: rob-draw .6s ease var(--d) forwards; }
 @keyframes rob-draw { to { stroke-dashoffset: 0; } }
 .rob-bolt { fill: #ffc24a; opacity: 0; transform-box: fill-box; transform-origin: center; animation: rob-bolt-in .4s cubic-bezier(.2,1.5,.4,1) var(--d) both; }
