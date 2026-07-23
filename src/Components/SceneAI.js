@@ -5,18 +5,25 @@
 import React from "react";
 import "../Stylesheets/CodeNinjasReel.css";
 
-// wires converge at the brain base (100,8) and fan down to plugs
+// wires converge at the brain base (100,12) and fan down to plugs
 const WIRES = [
-  "M100 12 C100 44 62 74 30 138",
-  "M100 12 C100 62 100 100 100 144",
-  "M100 12 C100 44 138 74 170 138",
+  "M100 12 C100 50 42 88 22 138",
+  "M100 12 C100 56 72 96 60 138",
+  "M100 12 C100 62 100 102 100 144",
+  "M100 12 C100 56 128 96 140 138",
+  "M100 12 C100 50 158 88 178 138",
 ];
-const PLUGS = [[30, 138], [100, 144], [170, 138]];
-// pulse travels plug -> brain (bottom to top)
+const PLUGS = [[22, 138], [60, 138], [100, 144], [140, 138], [178, 138]];
+// a mid-wire node network (more nodes) with cross-links
+const NODES = [[52, 78], [76, 84], [100, 84], [124, 84], [148, 78]];
+const LINKS = [[0, 1], [1, 2], [2, 3], [3, 4]];
+// signals travel plug -> brain (bottom to top)
 const PULSES = [
-  "M30 138 C62 74 100 44 100 12",
-  "M100 144 C100 100 100 62 100 12",
-  "M170 138 C138 74 100 44 100 12",
+  "M22 138 C42 88 100 50 100 12",
+  "M100 144 C100 102 100 62 100 12",
+  "M178 138 C158 88 100 50 100 12",
+  "M60 138 C72 96 100 56 100 12",
+  "M140 138 C128 96 100 56 100 12",
 ];
 const BITS = Array.from({ length: 10 }, (_, i) => i);
 
@@ -56,10 +63,16 @@ export default function SceneAI() {
           </defs>
           <g filter="url(#ai-glow)">
             {WIRES.map((d, i) => (
-              <path key={`w${i}`} className="ai-wire" d={d} pathLength="1" style={{ "--d": `${0.7 + i * 0.12}s` }} />
+              <path key={`w${i}`} className="ai-wire" d={d} pathLength="1" style={{ "--d": `${0.7 + i * 0.1}s` }} />
+            ))}
+            {LINKS.map(([a, b], i) => (
+              <line key={`l${i}`} className="ai-link" x1={NODES[a][0]} y1={NODES[a][1]} x2={NODES[b][0]} y2={NODES[b][1]} pathLength="1" style={{ "--d": `${1.1 + i * 0.08}s` }} />
             ))}
             {PLUGS.map(([x, y], i) => (
-              <circle key={`p${i}`} className="ai-plug" cx={x} cy={y} r="5" style={{ "--d": `${0.7 + i * 0.12}s` }} />
+              <circle key={`p${i}`} className="ai-plug" cx={x} cy={y} r="5" style={{ "--d": `${0.7 + i * 0.1}s` }} />
+            ))}
+            {NODES.map(([x, y], i) => (
+              <circle key={`n${i}`} className="ai-node" cx={x} cy={y} r="3.4" style={{ "--d": `${1 + i * 0.08}s` }} />
             ))}
             {PULSES.map((d, i) => {
               const begin = `${(1.7 + i * 0.4).toFixed(2)}s`;

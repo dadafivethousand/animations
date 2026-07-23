@@ -223,7 +223,7 @@
 }
 @keyframes ai-rise { to { transform: translateY(-140vh); } }
 
-.ai-stage { position: absolute; left: 50%; top: 51%; transform: translate(-50%, -50%); z-index: 3; width: min(84vw, 340px); }
+.ai-stage { position: absolute; left: 50%; top: 60%; transform: translate(-50%, -50%); z-index: 3; width: min(84vw, 340px); }
 
 /* brain hero */
 .ai-brainpos { position: relative; display: grid; place-items: center; height: min(56vw, 230px); }
@@ -255,14 +255,20 @@
 @keyframes ai-draw { to { stroke-dashoffset: 0; } }
 @keyframes ai-pop { 0% { opacity: 0; transform: scale(.2); } 100% { opacity: 1; transform: scale(1); } }
 .ai-wire { fill: none; stroke: #7c5cff; stroke-width: 2.4; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: ai-draw .7s ease var(--d) forwards; }
+.ai-link { fill: none; stroke: #5ea0ff; stroke-width: 1.2; opacity: .45; stroke-dasharray: 1; stroke-dashoffset: 1; animation: ai-draw .6s ease var(--d) forwards; }
 .ai-plug { fill: #b78bff; opacity: 0; transform-box: fill-box; transform-origin: center; animation: ai-pop .4s cubic-bezier(.2,1.5,.4,1) var(--d) both; }
+.ai-node {
+  fill: #4be3ff; opacity: 0; transform-box: fill-box; transform-origin: center;
+  animation: ai-pop .45s cubic-bezier(.2,1.5,.4,1) var(--d) both, ai-node-glow 2.4s ease-in-out calc(var(--d) + .5s) infinite;
+}
+@keyframes ai-node-glow { 0%, 100% { opacity: .8; transform: scale(1); } 50% { opacity: 1; transform: scale(1.25); } }
 .ai-pulse { fill: #e8feff; opacity: 0; }
 
 @media (prefers-reduced-motion: reduce) {
   .reel-layer, .sc-head, .sc-rule, .cd-editor, .cd-rain span, .cd-line,
   .cd-caret, .ch-board, .ch-pi, .ch-mover, .ch-mover .ch-lift,
-  .ai-bits span, .ai-aura, .ai-ring, .ai-brain, .ai-wire, .ai-plug { animation: none !important; }
+  .ai-bits span, .ai-aura, .ai-ring, .ai-brain, .ai-wire, .ai-link, .ai-plug, .ai-node { animation: none !important; }
   .si-type > * { opacity: 1; transform: none; transition: none; }
   .ai-aura { opacity: .5; } .ai-ring { opacity: .5; } .ai-brain { opacity: 1; }
-  .ai-wire { stroke-dashoffset: 0; } .ai-plug { opacity: 1; }
+  .ai-wire, .ai-link { stroke-dashoffset: 0; } .ai-plug, .ai-node { opacity: 1; }
 }
