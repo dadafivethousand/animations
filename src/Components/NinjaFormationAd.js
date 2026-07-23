@@ -89,8 +89,8 @@ export default function NinjaFormationAd() {
     const starGeo = new THREE.BufferGeometry();
     starGeo.setAttribute("position", new THREE.Float32BufferAttribute(sp, 3));
     const starMat = new THREE.PointsMaterial({
-      color: 0xc98a3a, size: 0.06, sizeAttenuation: true,
-      transparent: true, opacity: 0.5, blending: THREE.AdditiveBlending, depthWrite: false,
+      color: 0x6a7280, size: 0.055, sizeAttenuation: true,
+      transparent: true, opacity: 0.45, blending: THREE.AdditiveBlending, depthWrite: false,
     });
     const stars = new THREE.Points(starGeo, starMat);
     scene.add(stars);
@@ -133,9 +133,8 @@ export default function NinjaFormationAd() {
       const aTarget = new Float32Array(COUNT * 3);
       const aColor = new Float32Array(COUNT * 3);
       const aSeed = new Float32Array(COUNT);
-      // warm "arcade ember" palette — gold / orange / magenta, with a few white
-      const GOLD = [1.0, 0.76, 0.26], ORANGE = [1.0, 0.44, 0.18];
-      const MAGENTA = [1.0, 0.28, 0.55], WARMWHITE = [1.0, 0.94, 0.82];
+      // corporate Code Ninjas identity — CN blue + white, with brand-red sparks
+      const CNBLUE = [0.16, 0.66, 0.88], WHITE = [0.92, 0.96, 1.0], RED = [1.0, 0.16, 0.24];
 
       for (let i = 0; i < COUNT; i++) {
         const p = ((Math.random() * nInk) | 0) * 2;
@@ -148,7 +147,7 @@ export default function NinjaFormationAd() {
         aStart[i * 3 + 1] = r * Math.sin(th);
         aStart[i * 3 + 2] = (Math.random() - 0.5) * 1.2;
         const roll = Math.random();
-        const c = roll < 0.14 ? MAGENTA : (roll < 0.34 ? ORANGE : (roll < 0.74 ? GOLD : WARMWHITE));
+        const c = roll < 0.09 ? RED : (roll < 0.5 ? CNBLUE : WHITE);
         const j = 0.9 + Math.random() * 0.1;            // brightness variance
         aColor[i * 3] = c[0] * j; aColor[i * 3 + 1] = c[1] * j; aColor[i * 3 + 2] = c[2] * j;
         aSeed[i] = Math.random();
