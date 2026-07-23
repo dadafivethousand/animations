@@ -16,22 +16,71 @@
   position: fixed; inset: 0;
   height: 100vh; height: 100dvh;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: clamp(18px, 4vh, 44px);
+  gap: clamp(20px, 4vh, 48px);
   overflow: hidden;
   font-family: "Fredoka", system-ui, sans-serif;
-  color: #131922;
-  background: #e9edf2;
-}
-/* studio backdrop: soft key light top-centre, vignette to the corners */
-.ft-room {
-  position: absolute; inset: 0; pointer-events: none;
+  color: #eaf0fa;
+  /* deep space, lit slightly warmer toward the middle where the card sits */
   background:
-    radial-gradient(90% 60% at 50% 12%, rgba(255,255,255,.95) 0%, rgba(255,255,255,0) 60%),
-    radial-gradient(70% 50% at 50% 44%, rgba(228,0,43,.09) 0%, rgba(228,0,43,0) 70%),
-    radial-gradient(120% 100% at 50% 50%, rgba(255,255,255,0) 42%, rgba(28,38,52,.16) 100%),
-    linear-gradient(180deg, #f2f5f8 0%, #e4e9f0 55%, #d7dee7 100%);
+    radial-gradient(130% 90% at 50% 38%, #14203a 0%, #0b1122 46%, #060a15 100%);
 }
 .ft-defs { position: absolute; width: 0; height: 0; }
+
+/* ---------------- environment ---------------- */
+/* two large, soft, slowly breathing colour fields — brand red and cyan —
+   so the dark isn't flat and the card catches coloured rim light */
+.ft-ambient { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.ft-ambient i {
+  position: absolute; width: 78vmax; height: 78vmax; border-radius: 50%;
+  filter: blur(30px); opacity: .5; mix-blend-mode: screen;
+}
+.ft-amb-red {
+  top: -32vmax; right: -26vmax;
+  background: radial-gradient(circle, rgba(255,40,80,.55), rgba(255,40,80,0) 62%);
+  animation: ft-amb-a 17s ease-in-out infinite;
+}
+.ft-amb-cyan {
+  bottom: -34vmax; left: -28vmax;
+  background: radial-gradient(circle, rgba(40,180,255,.42), rgba(40,180,255,0) 62%);
+  animation: ft-amb-b 21s ease-in-out infinite;
+}
+@keyframes ft-amb-a { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(-6vmax,5vmax,0) scale(1.12); } }
+@keyframes ft-amb-b { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(6vmax,-4vmax,0) scale(1.15); } }
+
+/* perspective "tron" floor — a grid receding to a horizon behind the card */
+.ft-floor {
+  position: absolute; left: 50%; bottom: -6%; width: 260%; height: 60%;
+  transform: translateX(-50%) perspective(52vh) rotateX(74deg);
+  transform-origin: 50% 100%; pointer-events: none;
+  background-image:
+    linear-gradient(90deg, rgba(80,160,255,.16) 1px, transparent 1px),
+    linear-gradient(0deg,  rgba(80,160,255,.16) 1px, transparent 1px);
+  background-size: 5.4% 12%;
+  -webkit-mask-image: linear-gradient(0deg, #000 0%, rgba(0,0,0,.5) 30%, transparent 72%);
+          mask-image: linear-gradient(0deg, #000 0%, rgba(0,0,0,.5) 30%, transparent 72%);
+  animation: ft-floor 6s linear infinite;
+}
+@keyframes ft-floor { to { background-position: 0 12%, 0 12%; } }
+
+/* code glyphs drifting upward far behind everything */
+.ft-glyphs { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.ft-glyphs span {
+  position: absolute; color: #8fd0ff;
+  font-family: "JetBrains Mono", monospace; font-weight: 500; line-height: 1;
+  text-shadow: 0 0 18px rgba(80,180,255,.5);
+  animation-name: ft-drift; animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+@keyframes ft-drift {
+  0%,100% { transform: translateY(0) rotate(0deg); }
+  50%     { transform: translateY(-26px) rotate(8deg); }
+}
+
+/* corner vignette to seat the whole composition */
+.ft-vignette {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(120% 100% at 50% 46%, transparent 40%, rgba(3,6,12,.72) 100%);
+}
 
 /* ---------------- card geometry ---------------- */
 /* one knob drives the whole card */
@@ -96,19 +145,34 @@
   box-shadow: 0 0 0 1px rgba(15,22,33,.20);
 }
 
-/* ground shadow */
-.ft-shadow {
-  position: absolute; left: 50%; bottom: calc(var(--cw) * -.11);
-  width: 80%; height: calc(var(--cw) * .075);
-  transform: translateX(-50%);
-  background: radial-gradient(ellipse, rgba(15,22,33,.34), rgba(15,22,33,0) 70%);
-  filter: blur(4px);
-  animation: ft-shadow-settle 1.05s cubic-bezier(.18,.86,.24,1) both;
+/* soft brand-lit halo bloom behind the card, so it glows against the dark */
+.ft-halo {
+  position: absolute; left: 50%; top: 50%; width: 132%; aspect-ratio: 1.4;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(closest-side, rgba(120,180,255,.30), rgba(120,180,255,0) 70%);
+  filter: blur(14px); pointer-events: none; z-index: -1;
+  animation: ft-halo 6s ease-in-out infinite;
 }
-@keyframes ft-shadow-settle {
-  0%   { opacity: 0; transform: translateX(-50%) scaleX(.6); }
-  100% { opacity: 1; transform: translateX(-50%) scaleX(1); }
+@keyframes ft-halo { 0%,100% { opacity: .8; } 50% { opacity: 1; } }
+
+/* floor reflection: a second card, mirrored, faded and pushed down */
+/* top:100% seats it directly below the card; default centre transform-origin
+   means scaleY(-1) mirrors in place (origin:top would flip it up over the
+   card). Mask fades the far end so only the near reflection reads. */
+.ft-reflection {
+  position: absolute; left: 0; top: 100%; width: 100%; height: 100%;
+  transform: scaleY(-1);
+  margin-top: calc(var(--cw) * .02);
+  opacity: .2; pointer-events: none;
+  /* element is mirrored, so its LOCAL bottom is the edge nearest the card;
+     confine the reflection to a short strip there so it dies before the
+     headline instead of washing out the text behind it */
+  -webkit-mask-image: linear-gradient(180deg, transparent 66%, rgba(0,0,0,.5) 86%, #000 100%);
+          mask-image: linear-gradient(180deg, transparent 66%, rgba(0,0,0,.5) 86%, #000 100%);
+  filter: blur(.6px);
 }
+/* the mirror shares the flip/idle timing but must not re-run the drop */
+.ft-reflection .ft-tilt { animation-delay: 0s; }
 
 /* ---------------- shared material layers ---------------- */
 /* engine-turned guilloche, sits under everything printed */
@@ -365,49 +429,85 @@
   font-size: calc(var(--cw) * .020); letter-spacing: .22em;
 }
 
-/* ---------------- block under the card ----------------
-   Hierarchy is kicker -> action -> fine print. The offer itself is
-   deliberately not repeated here; the card already says it twice. */
+/* ---------------- pitch under the card ----------------
+   Hierarchy: eyebrow -> headline -> subhead -> benefit chips -> CTA -> fine
+   print. Each rises in on its own delay once the card is stamped. */
 .ft-below {
-  position: relative; z-index: 2;
-  width: min(88vw, 560px);
+  position: relative; z-index: 3;
+  width: min(90vw, 600px);
   display: flex; flex-direction: column; align-items: center;
-  gap: clamp(10px, 1.8vh, 20px);
+  gap: clamp(8px, 1.5vh, 16px);
+  text-align: center;
 }
 .ft-below > * {
-  opacity: 0; transform: translateY(12px);
+  opacity: 0; transform: translateY(14px);
   transition: opacity .6s ease, transform .6s cubic-bezier(.2,.9,.2,1);
 }
 .ft-p3 .ft-below > * { opacity: 1; transform: none; }
 
-/* brand kicker — letterspaced, with hairlines instead of spaces */
-.ft-kicker {
-  display: flex; align-items: center; gap: .7em;
+/* eyebrow — cyan, letterspaced, flanked by hairline rules */
+.ft-eyebrow {
+  display: flex; align-items: center; gap: .8em;
   font-family: "JetBrains Mono", monospace; font-weight: 700;
-  font-size: clamp(9px, 1.42vh, 12px); letter-spacing: .34em; text-indent: .34em;
-  color: #78879a;
+  font-size: clamp(9px, 1.4vh, 12px); letter-spacing: .30em; text-indent: .30em;
+  color: #6fd0ff; text-shadow: 0 0 14px rgba(80,180,255,.4);
 }
-.ft-kicker i { width: 3px; height: 3px; border-radius: 50%; background: #e4002b; opacity: .8; }
+.ft-eyebrow i { width: clamp(18px, 4vw, 34px); height: 1px; background: linear-gradient(90deg, transparent, #6fd0ff); }
+.ft-eyebrow i:last-child { transform: scaleX(-1); }
+
+/* headline — the hero line, tight and large */
+.ft-headline {
+  margin: 0; font-family: "Baloo 2", system-ui, sans-serif; font-weight: 800;
+  font-size: clamp(28px, 6.4vh, 58px); line-height: .98; letter-spacing: -.015em;
+  color: #f4f8ff; text-shadow: 0 2px 20px rgba(0,0,0,.4);
+}
+.ft-headline em {
+  font-style: normal;
+  background: linear-gradient(100deg, #ff4a66 0%, #ff8aa0 50%, #ff4a66 100%);
+  background-size: 220% auto;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 0 22px rgba(255,74,102,.45));
+  animation: ft-hl-shine 5s linear infinite;
+}
+@keyframes ft-hl-shine { to { background-position: 220% center; } }
+
+.ft-sub {
+  margin: 0; font-family: "Fredoka", system-ui, sans-serif; font-weight: 500;
+  font-size: clamp(13px, 2vh, 18px); line-height: 1.4; color: #9fb0c8;
+  max-width: 28ch;
+}
+
+/* benefit chips */
+.ft-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(6px, 1.1vh, 10px); }
+.ft-chip-pill {
+  padding: .5em .95em; border-radius: 999px;
+  font-family: "JetBrains Mono", monospace; font-weight: 500;
+  font-size: clamp(9px, 1.35vh, 12px); letter-spacing: .10em; color: #cfe0f5;
+  background: rgba(120,170,240,.10);
+  border: 1px solid rgba(140,185,255,.22);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+}
 
 /* ---- call to action ---- */
 .ft-cta {
-  position: relative; overflow: hidden;
+  position: relative; overflow: hidden; margin-top: clamp(2px, .8vh, 8px);
   display: inline-flex; align-items: center; gap: .6em;
-  padding: clamp(12px, 1.7vh, 18px) clamp(24px, 3.4vh, 38px);
+  padding: clamp(13px, 1.9vh, 19px) clamp(26px, 3.6vh, 42px);
   border-radius: 999px;
   background: linear-gradient(180deg, #ff4a66 0%, #e4002b 52%, #b8001f 100%);
   color: #fff;
   font-family: "Baloo 2", system-ui, sans-serif; font-weight: 800;
-  font-size: clamp(15px, 2.3vh, 21px); letter-spacing: .005em;
-  /* rim light on top, occlusion at the base, coloured bloom on the floor */
+  font-size: clamp(15px, 2.4vh, 22px); letter-spacing: .005em;
+  /* rim light on top, occlusion at base, then wide coloured bloom into the dark */
   box-shadow:
     inset 0 1.5px 0 rgba(255,255,255,.55),
     inset 0 -2px 6px rgba(90,0,16,.45),
-    0 2px 4px rgba(15,22,33,.20),
-    0 12px 26px rgba(228,0,43,.36),
-    0 22px 44px rgba(228,0,43,.20);
+    0 2px 6px rgba(0,0,0,.35),
+    0 14px 30px rgba(255,40,80,.45),
+    0 26px 60px rgba(255,40,80,.28);
 }
-/* no scale-pulse here on purpose: an animation on .ft-cta would outrank the
+/* no scale-pulse on .ft-cta itself: an animation there would outrank the
    entrance transition's transform and the button would fade without rising */
 .ft-cta-label { position: relative; z-index: 1; }
 .ft-cta-arrow {
@@ -419,11 +519,10 @@
   0%, 62%, 100% { transform: translateX(0); }
   76%           { transform: translateX(3px); }
 }
-/* sheen travelling across the button face */
 .ft-cta-sheen {
   position: absolute; top: -60%; left: -40%; width: 30%; height: 220%;
   transform: rotate(18deg); pointer-events: none;
-  background: linear-gradient(100deg, transparent, rgba(255,255,255,.38), transparent);
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.42), transparent);
   animation: ft-cta-sheen 4.6s ease-in-out 1s infinite;
 }
 @keyframes ft-cta-sheen { 0% { left: -40%; } 55%, 100% { left: 130%; } }
@@ -432,21 +531,21 @@
 .ft-meta {
   display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
   gap: clamp(8px, 1.2vh, 14px);
-  padding-top: clamp(8px, 1.4vh, 16px);
-  border-top: 1px solid rgba(19,25,34,.10);
+  margin-top: clamp(4px, 1vh, 10px); padding-top: clamp(8px, 1.4vh, 16px);
+  border-top: 1px solid rgba(150,185,235,.14);
   width: 100%;
 }
 .ft-meta span {
   font-family: "JetBrains Mono", monospace; font-weight: 500;
-  font-size: clamp(11px, 1.62vh, 14px); letter-spacing: .04em; color: #5d6b7d;
+  font-size: clamp(11px, 1.55vh, 14px); letter-spacing: .04em; color: #7e90aa;
   white-space: nowrap;
 }
-.ft-meta i { width: 4px; height: 4px; border-radius: 50%; background: rgba(19,25,34,.22); }
+.ft-meta i { width: 4px; height: 4px; border-radius: 50%; background: rgba(150,185,235,.35); }
 
 @media (prefers-reduced-motion: reduce) {
-  .ft-card-wrap, .ft-shadow, .ft-stamp, .ft-gloss, .ft-holo, .ft-holo span,
-  .ft-tilt, .ft-spec, .ft-stripe i,
-  .ft-p2 .ft-card, .ft-p3 .ft-card { animation: none !important; }
+  .ft-card-wrap, .ft-halo, .ft-stamp, .ft-gloss, .ft-holo, .ft-holo span,
+  .ft-tilt, .ft-spec, .ft-stripe i, .ft-ambient i, .ft-floor, .ft-glyphs span,
+  .ft-headline em, .ft-p2 .ft-card, .ft-p3 .ft-card { animation: none !important; }
   .ft-card { transition: none; }
   .ft-stamp { opacity: .92; transform: rotate(-14deg); }
   .ft-cta-arrow, .ft-cta-sheen { animation: none !important; }
