@@ -2,8 +2,9 @@
 // black stage. Each scene plays for its duration, then the next crossfades in.
 // Loops. Mobile / portrait only.
 //
-// Scenes: Intro (particle mask + typewriter) -> Coding -> [Chess, AI,
-// Robotics, Games — added next]. New scenes drop straight into SCENES.
+// Roster (each its own themed mini-movie): Intro -> Coding -> Chess -> AI ->
+// Robotics -> Web Development -> Minecraft/Roblox. Scenes are built and
+// approved one at a time, then linked here by adding to SCENES.
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/CodeNinjasReel.css";
 import SceneIntro from "./SceneIntro";

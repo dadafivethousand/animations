@@ -53,24 +53,20 @@
   display: flex; flex-direction: column; align-items: center; gap: clamp(8px, 1.6vh, 16px);
   text-align: center;
 }
+.si-type > * { opacity: 0; transform: translateY(14px); transition: opacity .55s ease, transform .55s cubic-bezier(.2,.9,.2,1); }
+.si-type.is-in .si-l1 { opacity: 1; transform: none; }
+.si-type.is-in .si-l2 { opacity: 1; transform: none; transition-delay: .12s; }
 .si-l1 {
-  min-height: 1.1em;
-  font-family: "JetBrains Mono", monospace; font-weight: 700;
-  font-size: clamp(26px, 5.6vh, 46px); letter-spacing: .06em;
-  color: #ffffff; text-shadow: 0 0 26px rgba(41,169,224,.45);
+  font-family: "Baloo 2", system-ui, sans-serif; font-weight: 800;
+  font-size: clamp(30px, 6.4vh, 52px); letter-spacing: .01em; white-space: nowrap;
 }
+.si-code { color: #29a9e0; text-shadow: 0 0 26px rgba(41,169,224,.5); }
+.si-ninjas { color: #ffffff; text-shadow: 0 0 22px rgba(255,255,255,.3); }
 .si-l2 {
-  min-height: 1em;
   font-family: "JetBrains Mono", monospace; font-weight: 700;
-  font-size: clamp(13px, 2.2vh, 20px); letter-spacing: .42em; text-indent: .42em;
+  font-size: clamp(14px, 2.4vh, 21px); letter-spacing: .44em; text-indent: .44em;
   color: #29a9e0; text-shadow: 0 0 18px rgba(41,169,224,.4);
 }
-.si-caret {
-  display: inline-block; width: .09em; height: 1em; margin-left: .12em; vertical-align: -.12em;
-  background: #29a9e0; box-shadow: 0 0 10px rgba(41,169,224,.9);
-  animation: si-blink .8s steps(1) infinite;
-}
-@keyframes si-blink { 50% { opacity: 0; } }
 
 /* ============================================================= *
  *  SCENE 2 — CODING  (typing editor)
@@ -113,7 +109,8 @@
   font-size: clamp(10px, 1.4vh, 12px); color: #8b98a6; letter-spacing: .04em;
 }
 .cd-body { padding: clamp(12px, 2vh, 18px) clamp(12px, 2.4vw, 18px); }
-.cd-line { display: flex; align-items: flex-start; min-height: 1.55em; }
+.cd-line { display: flex; align-items: flex-start; min-height: 1.55em; opacity: 0; animation: cd-line-in .4s ease both; }
+@keyframes cd-line-in { from { opacity: 0; transform: translateX(-7px); } to { opacity: 1; transform: none; } }
 .cd-ln {
   flex: 0 0 auto; width: 1.8em; text-align: right; margin-right: 1em; user-select: none;
   font-family: "JetBrains Mono", monospace; font-weight: 400;
@@ -139,7 +136,76 @@
   animation: si-blink .7s steps(1) infinite;
 }
 
+/* ============================================================= *
+ *  SCENE — CHESS  (knight mates, king topples)
+ * ============================================================= */
+.sc-chess { --acc: #f5c451; }
+.sc-chess { background: radial-gradient(120% 90% at 50% 30%, #241a12 0%, #140d0a 46%, #080505 100%); }
+.ch-spot {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(46% 40% at 50% 52%, rgba(245,196,81,.16), transparent 62%),
+    radial-gradient(120% 100% at 50% 50%, transparent 40%, rgba(6,4,2,.82) 100%);
+}
+.ch-stage { position: absolute; left: 50%; top: 54%; transform: translate(-50%, -50%); z-index: 3; }
+
+.ch-board {
+  position: relative; width: min(84vw, 372px); aspect-ratio: 1;
+  display: grid; grid-template-columns: repeat(8, 1fr); grid-template-rows: repeat(8, 1fr);
+  border-radius: 6px; overflow: visible;
+  transform: perspective(1000px) rotateX(20deg);
+  box-shadow: 0 40px 70px rgba(0,0,0,.6), 0 0 0 6px #6a4b16, 0 0 0 8px #3a2a0d, 0 0 44px rgba(245,196,81,.14);
+  animation: ch-board-in .8s cubic-bezier(.2,.9,.2,1) .25s both;
+}
+@keyframes ch-board-in { from { opacity: 0; transform: perspective(1000px) rotateX(34deg) translateY(24px); } to { opacity: 1; transform: perspective(1000px) rotateX(20deg); } }
+.ch-sq.lt { background: linear-gradient(160deg, #efe7d4, #ddd0b6); }
+.ch-sq.dk { background: linear-gradient(160deg, #4b4038, #362c25); }
+
+.ch-piece {
+  position: absolute; transform: translate(-50%, -50%); z-index: 2;
+  font-size: clamp(28px, 8.6vw, 42px); line-height: 1;
+  opacity: 0; animation: ch-fadein .45s ease .5s both;
+}
+@keyframes ch-fadein { from { opacity: 0; } to { opacity: 1; } }
+.ch-pi { display: inline-block; }
+.side-gold .ch-pi { color: #f6c94e; text-shadow: 0 2px 0 #9c6b12, 0 4px 7px rgba(0,0,0,.55), 0 0 16px rgba(245,196,81,.5); }
+.side-black .ch-pi { color: #241d18; text-shadow: 0 1px 0 rgba(255,255,255,.28), 0 3px 5px rgba(0,0,0,.55); }
+
+/* the knight's L-move (2 up, 1 right) + a hop, after the board settles */
+.ch-mover { animation: ch-fadein .45s ease .5s both, ch-move .9s cubic-bezier(.4,.2,.2,1) 1.35s both; }
+@keyframes ch-move {
+  0%   { left: 68.75%; top: 56.25%; }
+  52%  { left: 68.75%; top: 31.25%; }   /* up two ranks */
+  100% { left: 81.25%; top: 31.25%; }   /* right one file — mate square */
+}
+.ch-mover .ch-pi { animation: ch-hop .9s ease 1.35s both; }
+@keyframes ch-hop { 0% { transform: translateY(0) scale(1); } 45% { transform: translateY(-24px) scale(1.06); } 100% { transform: translateY(0) scale(1.05); } }
+
+/* the black king topples once the knight lands */
+.ch-king .ch-pi { animation: ch-topple .6s cubic-bezier(.5,0,.7,1) 2.25s both; transform-origin: 50% 90%; }
+@keyframes ch-topple {
+  0%   { transform: rotate(0) translateY(0); }
+  30%  { transform: rotate(-8deg) translateY(0); }
+  100% { transform: rotate(82deg) translate(10px, 8px); opacity: .5; }
+}
+
+.ch-mate {
+  position: absolute; left: 50%; top: 44%; z-index: 5; white-space: nowrap;
+  font-family: "Baloo 2", system-ui, sans-serif; font-weight: 800;
+  font-size: clamp(28px, 8vw, 46px); letter-spacing: .06em; color: #f6c94e;
+  text-shadow: 0 2px 0 #7a4e05, 0 0 34px rgba(245,196,81,.75);
+  opacity: 0; transform: translate(-50%, -50%) scale(1.7) rotate(-8deg);
+  animation: ch-mate .55s cubic-bezier(.2,1.5,.4,1) 2.55s forwards;
+}
+@keyframes ch-mate {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(1.7) rotate(-8deg); }
+  60%  { opacity: 1; transform: translate(-50%, -50%) scale(.92) rotate(-8deg); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-8deg); }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .reel-layer, .sc-head, .sc-rule, .cd-editor, .cd-rain span,
-  .si-caret, .cd-caret { animation: none !important; }
+  .reel-layer, .sc-head, .sc-rule, .cd-editor, .cd-rain span, .cd-line,
+  .cd-caret, .ch-board, .ch-piece, .ch-mover, .ch-mover .ch-pi,
+  .ch-king .ch-pi, .ch-mate { animation: none !important; }
+  .si-type > * { opacity: 1; transform: none; transition: none; }
 }

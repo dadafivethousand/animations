@@ -1,12 +1,12 @@
 import React from "react";
 import "./Stylesheets/App.css";
 
-import CodeNinjasReel from "./Components/CodeNinjasReel";
-// import NinjaFormationAd from "./Components/NinjaFormationAd";
-// import FreeTrialPassAd from "./Components/FreeTrialPassAd";
+// Reviewing the Chess scene standalone; swap back to CodeNinjasReel to run the reel.
+import SceneChess from "./Components/SceneChess";
+// import CodeNinjasReel from "./Components/CodeNinjasReel";
 
 function App() {
-  return <CodeNinjasReel />;
+  return <div style={{ position: "fixed", inset: 0, background: "#000" }}><SceneChess /></div>;
 }
 
 export default App;

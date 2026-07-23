@@ -39,27 +39,14 @@ const FRAG = `
   }
 `;
 
-const LINE1 = "CODE NINJAS";
-const LINE2 = "WOODBRIDGE";
-
 export default function SceneIntro() {
   const mountRef = useRef(null);
-  const [n1, setN1] = useState(0);
-  const [n2, setN2] = useState(0);
-  const [typing, setTyping] = useState(0); // 0 none, 1 line1, 2 line2, 3 done
+  const [show, setShow] = useState(false);
 
-  // typewriter, kicked off after the mask forms (~2.6s)
+  // reveal the wordmark once the mask has formed (no slow typewriter)
   useEffect(() => {
-    const timers = [];
-    timers.push(setTimeout(() => {
-      setTyping(1);
-      for (let i = 1; i <= LINE1.length; i++) timers.push(setTimeout(() => setN1(i), i * 95));
-      const after1 = LINE1.length * 95 + 420;
-      timers.push(setTimeout(() => setTyping(2), after1));
-      for (let i = 1; i <= LINE2.length; i++) timers.push(setTimeout(() => setN2(i), after1 + i * 95));
-      timers.push(setTimeout(() => setTyping(3), after1 + LINE2.length * 95 + 300));
-    }, 2600));
-    return () => timers.forEach(clearTimeout);
+    const t = setTimeout(() => setShow(true), 2100);
+    return () => clearTimeout(t);
   }, []);
 
   useEffect(() => {
@@ -160,15 +147,9 @@ export default function SceneIntro() {
   return (
     <div className="sc sc-intro">
       <div className="nf-canvas" ref={mountRef} aria-hidden />
-      <div className="si-type">
-        <div className="si-l1">
-          {LINE1.slice(0, n1)}
-          {typing === 1 && <span className="si-caret" />}
-        </div>
-        <div className="si-l2">
-          {LINE2.slice(0, n2)}
-          {typing >= 2 && typing < 3 && <span className="si-caret" />}
-        </div>
+      <div className={`si-type ${show ? "is-in" : ""}`}>
+        <div className="si-l1"><span className="si-code">CODE</span>&nbsp;<span className="si-ninjas">NINJAS</span></div>
+        <div className="si-l2">WOODBRIDGE</div>
       </div>
     </div>
   );
