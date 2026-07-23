@@ -16,13 +16,12 @@ for (let c = 0; c < 8; c++) PIECES.push({ t: "pawn", s: "white", c, r: 6 });
 BACK.forEach((t, c) => PIECES.push({ t, s: "white", c, r: 7 }));
 
 // moves keyed by the piece's START square "c,r" -> { c,r: destination, d: delay(s) }
+// The line is 1.e4 e5 2.Nf3 Nc6 — the scene ends here, before the bishops move.
 const MOVES = {
   "4,6": { c: 4, r: 4, d: 1.5 }, // e2-e4
   "4,1": { c: 4, r: 3, d: 2.3 }, // e7-e5
   "6,7": { c: 5, r: 5, d: 3.1 }, // Ng1-f3
   "1,0": { c: 2, r: 2, d: 3.9 }, // Nb8-c6
-  "5,7": { c: 2, r: 4, d: 4.7 }, // Bf1-c4
-  "5,0": { c: 2, r: 3, d: 5.5 }, // Bf8-c5
 };
 
 const pc = (n) => `${((n + 0.5) / 8) * 100}%`;
@@ -44,8 +43,8 @@ const SHAPES = {
   ),
   knight: (
     <>
-      <path d="M23 8.5c2.5-.5 4.5 1 5 3.3c2.5 1.2 3.8 3.7 4 6.7L31 33H15c-.4-4 0-6 1.2-7.6c-2.4.6-4.6 0-5.6-2c-.8-1.6-.6-3.4.8-5l-1-2.2c1.2-.8 2.6-.2 3.2 1c1.8-3.6 4.4-5.8 7.4-7c-.4-1 0-1.6 1-1.7z" />
-      <circle cx="18.4" cy="15" r="1.15" className="ch-eye" />
+      <path d="M23 8.6c2.5-.5 4.4 1.1 5 3.4c2.5 1.4 3.6 3.8 4 6.4L31 33H15c-.4-4 0-6 1.3-7.6c-2.4.6-4.6 0-5.6-2c-.8-1.7-.5-3.4 1.1-5c2-3.9 4.8-6.5 8.2-7.8z" />
+      <circle cx="18.6" cy="15.2" r="1.15" className="ch-eye" />
       <rect x="11.5" y="32" width="22" height="4.6" rx="2" />
     </>
   ),
