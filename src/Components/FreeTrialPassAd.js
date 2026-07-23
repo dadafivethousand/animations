@@ -28,6 +28,19 @@ const BARS = [3,1,2,1,1,3,2,1,3,1,1,2,3,1,2,2,1,3,1,1,2,1,3,2,1,1,3,1,2,1,2,3,1,
 // security microtext, repeated along a hairline like real card stock
 const MICRO = "CODENINJASWOODBRIDGE".repeat(6);
 
+// dust motes drifting up through the light beam, suspended at depth
+// [left%, startTop%, size(px), dur(s), delay(s), z(px), opacity]
+const MOTES = [
+  [18, 62, 3, 13, 0, -60, 0.5], [30, 78, 2, 16, 2, -180, 0.4], [44, 55, 4, 11, 5, 40, 0.55],
+  [52, 84, 2, 18, 1, -260, 0.35], [63, 48, 3, 14, 3.5, -20, 0.5], [70, 72, 2, 17, 6, -320, 0.3],
+  [26, 40, 2, 15, 8, -120, 0.4], [80, 60, 3, 12, 4, 20, 0.45], [38, 90, 2, 19, 2.5, -220, 0.35],
+  [58, 34, 3, 13, 7, -80, 0.45], [12, 50, 2, 16, 3, -160, 0.4], [88, 46, 2, 14, 9, -300, 0.3],
+  [47, 68, 5, 10, 6.5, 60, 0.5], [34, 58, 2, 17, 1.5, -240, 0.35], [66, 82, 3, 15, 4.5, -40, 0.45],
+];
+
+// spark angles for the stamp-impact burst
+const SPARKS = [12, 58, 104, 150, 196, 242, 288, 334];
+
 // drifting code glyphs in the background — fixed layout for design control.
 // z (px) sets each glyph's depth in the perspective scene: nearer (bigger,
 // brighter) to far (small, dim), so they parallax as the camera drifts.
@@ -114,6 +127,15 @@ const Card = ({ phase }) => (
           <span className="ft-stamp-bot">NO CHARGE</span>
         </div>
 
+        {/* impact FX fired when the stamp lands — glued to the card face */}
+        <div className={`ft-impact ${phase >= STAMP ? "is-hit" : ""}`} aria-hidden>
+          <span className="ft-shock" />
+          <span className="ft-sparks">
+            {SPARKS.map((a, i) => <i key={i} style={{ "--a": `${a}deg` }} />)}
+          </span>
+        </div>
+
+        <span className="ft-glint" aria-hidden />
         <span className="ft-gloss" aria-hidden />
         <div className="ft-spec" aria-hidden />
         <div className="ft-grain" aria-hidden />
@@ -150,8 +172,20 @@ export default function FreeTrialPassAd() {
             }}>{ch}</span>
           ))}
         </div>
+        <div className="ft-motes">
+          {MOTES.map(([l, t, s, d, dl, z, o], i) => (
+            <span key={i} style={{
+              left: `${l}%`, top: `${t}%`, width: `${s}px`, height: `${s}px`,
+              animationDuration: `${d}s`, animationDelay: `${dl}s`,
+              "--z": `${z}px`, "--o": o,
+            }} />
+          ))}
+        </div>
       </div>
+      {/* volumetric key light from above, and the film grade on top */}
+      <div className="ft-spotlight" aria-hidden />
       <div className="ft-vignette" aria-hidden />
+      <div className="ft-stagegrain" aria-hidden />
 
       {/* shared filters */}
       <svg className="ft-defs" aria-hidden>
