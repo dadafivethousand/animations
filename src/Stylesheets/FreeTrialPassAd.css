@@ -32,23 +32,17 @@
 .ft-defs { position: absolute; width: 0; height: 0; }
 
 /* ---------------- environment ---------------- */
-/* everything sits inside a perspective scene, at different depths, so the
-   space reads as a 3D volume. A slow perspective-origin drift parallaxes the
-   layers against each other. */
+/* a static perspective scene, at different depths, so the space reads as a 3D
+   volume. No motion — the whole piece settles to a still after the card lands. */
 .ft-space {
   position: absolute; inset: 0; overflow: hidden;
-  perspective: 68vmax; perspective-origin: 50% 42%;
+  perspective: 68vmax; perspective-origin: 50% 40%;
   transform-style: preserve-3d;
-  animation: ft-parallax 26s ease-in-out infinite;
-}
-@keyframes ft-parallax {
-  0%, 100% { perspective-origin: 41% 37%; }
-  50%      { perspective-origin: 59% 49%; }
 }
 .ft-ambient, .ft-glyphs { transform-style: preserve-3d; }
 
-/* two large, soft, slowly breathing colour fields — brand red and cyan —
-   pushed deep so they read as far light sources */
+/* two large, soft colour fields — brand red and cyan — pushed deep so they
+   read as far light sources */
 .ft-ambient { position: absolute; inset: 0; pointer-events: none; overflow: hidden; transform: translateZ(-42vmax) scale(1.7); }
 .ft-ambient i {
   position: absolute; width: 78vmax; height: 78vmax; border-radius: 50%;
@@ -57,15 +51,11 @@
 .ft-amb-red {
   top: -32vmax; right: -26vmax;
   background: radial-gradient(circle, rgba(255,40,80,.55), rgba(255,40,80,0) 62%);
-  animation: ft-amb-a 17s ease-in-out infinite;
 }
 .ft-amb-cyan {
   bottom: -34vmax; left: -28vmax;
   background: radial-gradient(circle, rgba(40,180,255,.42), rgba(40,180,255,0) 62%);
-  animation: ft-amb-b 21s ease-in-out infinite;
 }
-@keyframes ft-amb-a { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(-6vmax,5vmax,0) scale(1.12); } }
-@keyframes ft-amb-b { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(6vmax,-4vmax,0) scale(1.15); } }
 
 /* perspective "tron" floor — a grid receding to a horizon behind the card */
 .ft-floor {
@@ -78,23 +68,15 @@
   background-size: 5.4% 12%;
   -webkit-mask-image: linear-gradient(0deg, #000 0%, rgba(0,0,0,.5) 30%, transparent 72%);
           mask-image: linear-gradient(0deg, #000 0%, rgba(0,0,0,.5) 30%, transparent 72%);
-  animation: ft-floor 6s linear infinite;
 }
-@keyframes ft-floor { to { background-position: 0 12%, 0 12%; } }
 
-/* code glyphs suspended at varying depths in the scene */
+/* code glyphs suspended, static, at varying depths in the scene */
 .ft-glyphs { position: absolute; inset: 0; pointer-events: none; }
 .ft-glyphs span {
   position: absolute; color: #8fd0ff;
   font-family: "JetBrains Mono", monospace; font-weight: 500; line-height: 1;
   text-shadow: 0 0 18px rgba(80,180,255,.5);
-  animation-name: ft-drift; animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-}
-/* keep each glyph's depth (--z) while it drifts */
-@keyframes ft-drift {
-  0%,100% { transform: translateZ(var(--z, 0px)) translateY(0) rotate(0deg); }
-  50%     { transform: translateZ(var(--z, 0px)) translateY(-26px) rotate(8deg); }
+  transform: translateZ(var(--z, 0px));
 }
 
 /* glowing horizon line where the floor recedes */
@@ -105,32 +87,15 @@
   box-shadow: 0 0 20px 4px rgba(90,190,255,.5);
 }
 
-/* dust motes drifting up through the beam, at depth in the scene */
-.ft-motes { position: absolute; inset: 0; pointer-events: none; transform-style: preserve-3d; }
-.ft-motes span {
-  position: absolute; border-radius: 50%;
-  background: radial-gradient(circle, rgba(220,240,255,.95), rgba(180,215,255,0) 70%);
-  opacity: 0;
-  animation-name: ft-rise; animation-timing-function: ease-in-out; animation-iteration-count: infinite;
-}
-@keyframes ft-rise {
-  0%   { opacity: 0; transform: translateZ(var(--z,0px)) translateY(10px) scale(.7); }
-  20%  { opacity: var(--o, .4); }
-  80%  { opacity: var(--o, .4); }
-  100% { opacity: 0; transform: translateZ(var(--z,0px)) translateY(-120px) scale(1.1); }
-}
-
-/* volumetric key light spilling from the top onto the card */
+/* volumetric key light spilling from the top onto the card (static) */
 .ft-spotlight {
   position: absolute; left: 50%; top: -18%; width: 120%; height: 96%;
-  transform: translateX(-50%); pointer-events: none; mix-blend-mode: screen;
+  transform: translateX(-50%); pointer-events: none; mix-blend-mode: screen; opacity: .9;
   background:
     radial-gradient(58% 62% at 50% 0%, rgba(150,190,255,.20), rgba(150,190,255,0) 62%),
     conic-gradient(from 180deg at 50% -6%,
       rgba(180,210,255,0) 74deg, rgba(180,210,255,.13) 90deg, rgba(180,210,255,0) 106deg);
-  animation: ft-beam 9s ease-in-out infinite;
 }
-@keyframes ft-beam { 0%,100% { opacity: .8; } 50% { opacity: 1; } }
 
 /* corner vignette to seat the whole composition */
 .ft-vignette {
@@ -160,16 +125,12 @@
   100% { opacity: 1; transform: none; }
 }
 
-/* idle drift — the card is never quite still, so the light keeps moving.
-   A touch of translateZ pops it toward the viewer at the extremes. */
+/* fixed 3D rest pose — angled for depth, but still (no idle drift) so the
+   card sits motionless once it has landed and been stamped */
 .ft-tilt {
   position: absolute; inset: 0;
   transform-style: preserve-3d;
-  animation: ft-tilt 12s ease-in-out infinite;
-}
-@keyframes ft-tilt {
-  0%, 100% { transform: rotateX(7deg)  rotateY(-12deg) translateZ(0); }
-  50%      { transform: rotateX(-6deg) rotateY(13deg)  translateZ(18px); }
+  transform: rotateX(6deg) rotateY(-10deg) translateZ(6px);
 }
 
 /* the flip: a multi-turn spin that overshoots then settles on the offer face.
@@ -224,10 +185,8 @@
   position: absolute; left: 50%; top: 50%; width: 132%; aspect-ratio: 1.4;
   transform: translate(-50%, -50%);
   background: radial-gradient(closest-side, rgba(120,180,255,.30), rgba(120,180,255,0) 70%);
-  filter: blur(14px); pointer-events: none; z-index: -1;
-  animation: ft-halo 6s ease-in-out infinite;
+  filter: blur(14px); pointer-events: none; z-index: -1; opacity: .9;
 }
-@keyframes ft-halo { 0%,100% { opacity: .8; } 50% { opacity: 1; } }
 
 /* floor reflection: a second card, mirrored, faded and pushed down */
 /* top:100% seats it directly below the card; default centre transform-origin
@@ -255,17 +214,12 @@
 .ft-guilloche--light ellipse { stroke: rgba(24,44,74,.062); }
 .ft-guilloche--dark  ellipse { stroke: rgba(150,200,255,.075); }
 
-/* specular sheen that drifts against the tilt, so highlights feel lit */
+/* static specular highlight (no drift — the piece settles still after landing) */
 .ft-spec {
   position: absolute; inset: -40%; pointer-events: none; mix-blend-mode: screen;
-  background: radial-gradient(42% 46% at 50% 50%, rgba(255,255,255,.22), rgba(255,255,255,0) 70%);
-  animation: ft-spec 11s ease-in-out infinite;
+  background: radial-gradient(42% 46% at 44% 40%, rgba(255,255,255,.22), rgba(255,255,255,0) 70%);
 }
 .ft-front .ft-spec { mix-blend-mode: soft-light; }
-@keyframes ft-spec {
-  0%, 100% { transform: translate3d(14%, -10%, 0); }
-  50%      { transform: translate3d(-16%, 12%, 0); }
-}
 
 /* film grain — breaks up the flat gradients so it reads as printed stock */
 .ft-grain {
@@ -291,11 +245,9 @@
   overflow: hidden;
 }
 .ft-stripe i {
-  position: absolute; top: 0; bottom: 0; left: -30%; width: 26%;
+  position: absolute; top: 0; bottom: 0; left: 30%; width: 26%;
   background: linear-gradient(100deg, transparent, rgba(190,220,255,.20), transparent);
-  animation: ft-stripe-sheen 7s ease-in-out infinite;
 }
-@keyframes ft-stripe-sheen { 0% { left: -30%; } 60%, 100% { left: 120%; } }
 
 .ft-back-body {
   flex: 1 1 auto; min-height: 0; padding-top: 13%;
@@ -334,21 +286,16 @@
   border-radius: calc(var(--cw) * .014); overflow: hidden;
   background: conic-gradient(from 210deg, #ff5f6d, #ffc371, #7ee8fa, #a06bfa, #ff5f6d);
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.35), 0 1px 3px rgba(0,0,0,.45);
-  animation: ft-holo 7s linear infinite;
   opacity: .92;
 }
-@keyframes ft-holo { to { filter: hue-rotate(360deg); } }
-/* diffraction ruling + a sweeping band so the foil catches the light */
+/* static diffraction ruling + a fixed catch-light band */
 .ft-holo span {
   position: absolute; inset: 0;
   background:
     repeating-linear-gradient(72deg, rgba(255,255,255,.30) 0 1px, rgba(255,255,255,0) 1px 4px),
     linear-gradient(100deg, rgba(255,255,255,0) 30%, rgba(255,255,255,.55) 50%, rgba(255,255,255,0) 70%);
-  background-size: auto, 260% 100%;
-  animation: ft-holo-sweep 7s ease-in-out infinite;
   mix-blend-mode: screen;
 }
-@keyframes ft-holo-sweep { 0%, 100% { background-position: 0 0, 130% 0; } 50% { background-position: 0 0, -30% 0; } }
 
 /* security microtext along the bottom edge */
 .ft-micro {
@@ -380,58 +327,22 @@
   background: linear-gradient(180deg, #c3ccd8, #e6ebf1);
   box-shadow: inset 0 1.5px 3px rgba(15,22,33,.55), 0 1px 0 rgba(255,255,255,.95);
 }
-/* laminate sheen sweeping across after the flip lands */
+/* static laminate sheen (no sweep — settles still after landing) */
 .ft-gloss {
-  position: absolute; top: -30%; left: -55%; width: 40%; height: 190%;
+  position: absolute; top: -30%; left: 8%; width: 26%; height: 190%;
   transform: rotate(18deg); pointer-events: none;
-  background: linear-gradient(100deg, transparent, rgba(255,255,255,.42), transparent);
-}
-.ft-p1 .ft-gloss, .ft-p2 .ft-gloss, .ft-p3 .ft-gloss { animation: ft-gloss 5s ease-in-out .5s infinite; }
-@keyframes ft-gloss { 0% { left: -55%; } 55%, 100% { left: 135%; } }
-
-/* sharp cinematic glint — a thin bright streak that rakes across on a loop */
-.ft-glint {
-  position: absolute; top: -40%; left: -30%; width: 14%; height: 200%;
-  transform: rotate(20deg); pointer-events: none; mix-blend-mode: screen;
-  background: linear-gradient(100deg, transparent, rgba(255,255,255,.95), rgba(200,230,255,.4) 60%, transparent);
-  filter: blur(1px); opacity: 0;
-}
-.ft-p1 .ft-glint, .ft-p2 .ft-glint, .ft-p3 .ft-glint { animation: ft-glint 5.6s ease-in-out 1.1s infinite; }
-@keyframes ft-glint {
-  0%      { left: -30%; opacity: 0; }
-  8%      { opacity: .9; }
-  26%     { left: 120%; opacity: 0; }
-  100%    { left: 120%; opacity: 0; }
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.28), transparent);
 }
 
-/* ---- stamp-impact FX (fired on .is-hit, glued to the card face) ---- */
-.ft-impact { position: absolute; left: 76%; top: 49%; width: 0; height: 0; pointer-events: none; z-index: 3; }
-.ft-shock {
-  position: absolute; left: 0; top: 0; width: calc(var(--cw) * .34); aspect-ratio: 1;
-  transform: translate(-50%, -50%) scale(0);
-  border: 2px solid rgba(255,90,120,.9); border-radius: 50%; opacity: 0;
-  box-shadow: 0 0 18px rgba(255,90,120,.6);
+.ft-head { flex: 0 0 auto; display: flex; align-items: flex-start; justify-content: space-between; gap: 4%; }
+/* brand lockup on the card: wordmark with WOODBRIDGE beneath it */
+.ft-brandmark { display: flex; flex-direction: column; align-items: center; width: 42%; gap: calc(var(--cw) * .008); }
+.ft-logo { width: 100%; height: auto; display: block; filter: drop-shadow(0 1px 0 rgba(255,255,255,.9)); }
+.ft-logo-sub {
+  font-family: "JetBrains Mono", monospace; font-weight: 700;
+  font-size: calc(var(--cw) * .028); letter-spacing: .30em; text-indent: .30em;
+  color: #2ea3d7;
 }
-.ft-impact.is-hit .ft-shock { animation: ft-shock .62s cubic-bezier(.2,.7,.3,1) .02s forwards; }
-@keyframes ft-shock {
-  0%   { transform: translate(-50%,-50%) scale(0);   opacity: .95; border-width: 3px; }
-  100% { transform: translate(-50%,-50%) scale(1.5); opacity: 0;   border-width: .5px; }
-}
-.ft-sparks { position: absolute; left: 0; top: 0; }
-.ft-sparks i {
-  position: absolute; left: 0; top: 0; width: calc(var(--cw) * .06); height: 2px; border-radius: 2px;
-  background: linear-gradient(90deg, #ffe07a, rgba(255,120,60,0));
-  transform-origin: 0 50%;
-  transform: rotate(var(--a)) translateX(calc(var(--cw) * .02)) scaleX(0); opacity: 0;
-}
-.ft-impact.is-hit .ft-sparks i { animation: ft-spark .5s ease-out .03s forwards; }
-@keyframes ft-spark {
-  0%   { transform: rotate(var(--a)) translateX(calc(var(--cw) * .02)) scaleX(.5); opacity: 1; }
-  100% { transform: rotate(var(--a)) translateX(calc(var(--cw) * .17)) scaleX(1); opacity: 0; }
-}
-
-.ft-head { flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 4%; }
-.ft-logo { width: 38%; height: auto; display: block; filter: drop-shadow(0 1px 0 rgba(255,255,255,.9)); }
 .ft-serial {
   font-family: "JetBrains Mono", monospace; font-weight: 500;
   font-size: calc(var(--cw) * .025); letter-spacing: .10em; color: #7c8899;
@@ -439,7 +350,7 @@
 }
 
 /* chip + title share the middle band; the right third stays clear for the stamp */
-.ft-mid { flex: 1 1 auto; min-height: 0; display: flex; align-items: center; gap: 6%; padding-right: 30%; }
+.ft-mid { flex: 1 1 auto; min-height: 0; display: flex; align-items: center; gap: 6%; padding-right: 34%; }
 
 /* EMV contact plate: gold blank, contact divisions, bevelled rim */
 .ft-chip {
@@ -466,17 +377,18 @@
   background: linear-gradient(160deg, rgba(255,255,255,.55), rgba(255,255,255,0));
 }
 
-.ft-title { flex: 1 1 auto; min-width: 0; line-height: .92; }
+.ft-title { flex: 1 1 auto; min-width: 0; line-height: .96; }
 .ft-title-sm {
   display: block; font-family: "JetBrains Mono", monospace; font-weight: 700;
-  font-size: calc(var(--cw) * .038); letter-spacing: .30em; color: #e4002b;
-  text-shadow: 0 1px 0 rgba(255,255,255,.9);
+  font-size: calc(var(--cw) * .034); letter-spacing: .16em; color: #e4002b;
+  text-shadow: 0 1px 0 rgba(255,255,255,.9); white-space: nowrap;
 }
-/* letterpress: light from above, so the type sits into the card */
+/* letterpress: light from above, so the type sits into the card. "SESSION" is
+   longer than the old "PASS", so it's sized to clear the stamp on the right. */
 .ft-title-lg {
-  display: block; margin-top: .12em;
+  display: block; margin-top: .14em;
   font-family: "Baloo 2", system-ui, sans-serif; font-weight: 800;
-  font-size: calc(var(--cw) * .152); letter-spacing: -.015em;
+  font-size: calc(var(--cw) * .097); letter-spacing: -.02em;
   background: linear-gradient(178deg, #2b3a4e 0%, #131922 48%, #303f54 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
   filter: drop-shadow(0 1px 0 rgba(255,255,255,.95)) drop-shadow(0 -1px 1px rgba(15,22,33,.30));
@@ -564,13 +476,10 @@
 }
 .ft-headline em {
   font-style: normal;
-  background: linear-gradient(100deg, #ff4a66 0%, #ff8aa0 50%, #ff4a66 100%);
-  background-size: 220% auto;
+  background: linear-gradient(100deg, #ff4a66 0%, #ff8aa0 52%, #ff5f79 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
   filter: drop-shadow(0 0 22px rgba(255,74,102,.45));
-  animation: ft-hl-shine 5s linear infinite;
 }
-@keyframes ft-hl-shine { to { background-position: 220% center; } }
 
 /* benefit chips */
 .ft-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(5px, 1vh, 9px); margin-top: clamp(2px, .6vh, 6px); }
@@ -601,33 +510,20 @@
     0 2px 6px rgba(0,0,0,.35),
     0 14px 30px rgba(255,40,80,.45),
     0 26px 60px rgba(255,40,80,.28);
-  /* breathing glow that blooms outside the pill (drop-shadow ignores the
-     button's own overflow:hidden, unlike a child halo) */
-  animation: ft-cta-pulse 2.8s ease-in-out infinite;
+  /* static bloom (no pulse — the whole piece is still after landing) */
+  filter: drop-shadow(0 7px 22px rgba(255,56,88,.6));
 }
-@keyframes ft-cta-pulse {
-  0%, 100% { filter: drop-shadow(0 6px 16px rgba(255,50,80,.4)); }
-  50%      { filter: drop-shadow(0 8px 30px rgba(255,64,96,.85)); }
-}
-/* animating filter (not transform) leaves the entrance transform transition
-   free, so the button still rises in on phase 3 */
 .ft-cta-label { position: relative; z-index: 1; }
 .ft-cta-arrow {
   position: relative; z-index: 1;
   width: 1.05em; height: 1.05em; flex: 0 0 auto;
-  animation: ft-cta-nudge 2.4s ease-in-out infinite;
 }
-@keyframes ft-cta-nudge {
-  0%, 62%, 100% { transform: translateX(0); }
-  76%           { transform: translateX(3px); }
-}
+/* static diagonal highlight across the pill */
 .ft-cta-sheen {
-  position: absolute; top: -60%; left: -40%; width: 30%; height: 220%;
+  position: absolute; top: -60%; left: 24%; width: 22%; height: 220%;
   transform: rotate(18deg); pointer-events: none;
-  background: linear-gradient(100deg, transparent, rgba(255,255,255,.42), transparent);
-  animation: ft-cta-sheen 4.6s ease-in-out 1s infinite;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.28), transparent);
 }
-@keyframes ft-cta-sheen { 0% { left: -40%; } 55%, 100% { left: 130%; } }
 
 /* ---- fine print ---- */
 .ft-meta {
