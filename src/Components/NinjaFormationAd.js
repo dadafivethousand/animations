@@ -89,8 +89,8 @@ export default function NinjaFormationAd() {
     const starGeo = new THREE.BufferGeometry();
     starGeo.setAttribute("position", new THREE.Float32BufferAttribute(sp, 3));
     const starMat = new THREE.PointsMaterial({
-      color: 0x2f6bb0, size: 0.06, sizeAttenuation: true,
-      transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending, depthWrite: false,
+      color: 0xc98a3a, size: 0.06, sizeAttenuation: true,
+      transparent: true, opacity: 0.5, blending: THREE.AdditiveBlending, depthWrite: false,
     });
     const stars = new THREE.Points(starGeo, starMat);
     scene.add(stars);
@@ -105,10 +105,10 @@ export default function NinjaFormationAd() {
       const dist = camera.position.z - group.position.z;
       const visH = 2 * Math.tan((camera.fov * Math.PI / 180) / 2) * dist;
       const visW = visH * camera.aspect;
-      // keep the mask in the upper area with clear space beneath it for the
+      // keep the mask small and high in the frame so it never overlaps the
       // CODE NINJAS / WOODBRIDGE wordmark that sits below (bottom-anchored)
-      group.scale.setScalar(Math.min(visW * 0.58, visH * 0.38));
-      group.position.y = visH * 0.24;
+      group.scale.setScalar(Math.min(visW * 0.50, visH * 0.33));
+      group.position.y = visH * 0.30;
     }
 
     // build the particle mask from the icon's dark pixels
@@ -133,7 +133,9 @@ export default function NinjaFormationAd() {
       const aTarget = new Float32Array(COUNT * 3);
       const aColor = new Float32Array(COUNT * 3);
       const aSeed = new Float32Array(COUNT);
-      const CYAN = [0.22, 0.78, 1.0], WHITE = [0.85, 0.93, 1.0], RED = [1.0, 0.18, 0.32];
+      // warm "arcade ember" palette — gold / orange / magenta, with a few white
+      const GOLD = [1.0, 0.76, 0.26], ORANGE = [1.0, 0.44, 0.18];
+      const MAGENTA = [1.0, 0.28, 0.55], WARMWHITE = [1.0, 0.94, 0.82];
 
       for (let i = 0; i < COUNT; i++) {
         const p = ((Math.random() * nInk) | 0) * 2;
@@ -146,7 +148,7 @@ export default function NinjaFormationAd() {
         aStart[i * 3 + 1] = r * Math.sin(th);
         aStart[i * 3 + 2] = (Math.random() - 0.5) * 1.2;
         const roll = Math.random();
-        const c = roll < 0.08 ? RED : (roll < 0.5 ? CYAN : WHITE);
+        const c = roll < 0.14 ? MAGENTA : (roll < 0.34 ? ORANGE : (roll < 0.74 ? GOLD : WARMWHITE));
         const j = 0.9 + Math.random() * 0.1;            // brightness variance
         aColor[i * 3] = c[0] * j; aColor[i * 3 + 1] = c[1] * j; aColor[i * 3 + 2] = c[2] * j;
         aSeed[i] = Math.random();

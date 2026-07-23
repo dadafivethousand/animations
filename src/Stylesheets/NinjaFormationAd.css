@@ -11,9 +11,9 @@
   height: 100vh; height: 100dvh;
   overflow: hidden;
   font-family: "Fredoka", system-ui, sans-serif;
-  color: #eaf0fa;
-  /* deep space, lit slightly warmer where the mask forms */
-  background: radial-gradient(130% 90% at 50% 34%, #14203a 0%, #0b1122 46%, #060a15 100%);
+  color: #fdeede;
+  /* warm ember palette — deep plum/maroon, glowing warmer where the mask forms */
+  background: radial-gradient(125% 90% at 50% 30%, #45152f 0%, #240d1e 44%, #0d0510 100%);
 }
 
 /* the three.js canvas mounts here and fills the stage */
@@ -23,7 +23,7 @@
 /* corner vignette to seat the composition over the particles */
 .nf-stage::after {
   content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
-  background: radial-gradient(120% 100% at 50% 40%, transparent 40%, rgba(3,6,12,.72) 100%);
+  background: radial-gradient(120% 100% at 50% 36%, transparent 40%, rgba(10,3,10,.74) 100%);
 }
 
 /* ---------------- overlay: wordmark, tagline, CTA ---------------- */
@@ -45,25 +45,26 @@
   font-family: "Baloo 2", system-ui, sans-serif; font-weight: 800;
   font-size: clamp(30px, 7vh, 56px); letter-spacing: -.01em;
 }
-.nf-code { color: #38c8ff; text-shadow: 0 0 26px rgba(56,200,255,.5); }
-.nf-ninjas { color: #f4f8ff; text-shadow: 0 0 22px rgba(190,215,255,.35); }
+.nf-code { color: #ffc247; text-shadow: 0 0 26px rgba(255,170,60,.55); }
+.nf-ninjas { color: #fff3e2; text-shadow: 0 0 22px rgba(255,220,180,.4); }
 
 .nf-sub {
+  margin-top: clamp(2px, .6vh, 6px);
   font-family: "JetBrains Mono", monospace; font-weight: 700;
-  font-size: clamp(10px, 1.5vh, 13px); letter-spacing: .5em; text-indent: .5em;
-  color: #7fb2d8;
+  font-size: clamp(13px, 2.1vh, 19px); letter-spacing: .42em; text-indent: .42em;
+  color: #ffb765; text-shadow: 0 0 18px rgba(255,150,60,.4);
 }
 
 .nf-tag {
-  margin: clamp(4px, 1vh, 10px) 0 0;
+  margin: clamp(6px, 1.3vh, 12px) 0 0;
   font-family: "Fredoka", system-ui, sans-serif; font-weight: 600;
-  font-size: clamp(17px, 2.8vh, 26px); line-height: 1.25; color: #cdd9ec;
+  font-size: clamp(17px, 2.8vh, 26px); line-height: 1.25; color: #f3dcc9;
 }
 .nf-tag em {
   font-style: normal; font-weight: 700;
-  background: linear-gradient(100deg, #ff4a66, #ff8aa0 55%, #ff5f79);
+  background: linear-gradient(100deg, #ffd24a, #ff8a3d 55%, #ff5f8f);
   -webkit-background-clip: text; background-clip: text; color: transparent;
-  filter: drop-shadow(0 0 20px rgba(255,74,102,.4));
+  filter: drop-shadow(0 0 20px rgba(255,150,60,.45));
 }
 
 .nf-cta {
@@ -83,13 +84,13 @@
 .nf-meta {
   margin-top: clamp(10px, 2vh, 18px); padding-top: clamp(8px, 1.4vh, 14px);
   display: flex; align-items: center; justify-content: center; gap: clamp(8px, 1.4vh, 14px);
-  border-top: 1px solid rgba(150,185,235,.14); width: 100%; max-width: 340px;
+  border-top: 1px solid rgba(235,180,140,.16); width: 100%; max-width: 340px;
 }
 .nf-meta span {
   font-family: "JetBrains Mono", monospace; font-weight: 500;
-  font-size: clamp(10px, 1.4vh, 12px); letter-spacing: .04em; color: #7e90aa; white-space: nowrap;
+  font-size: clamp(10px, 1.4vh, 12px); letter-spacing: .04em; color: #b79a86; white-space: nowrap;
 }
-.nf-meta i { width: 4px; height: 4px; border-radius: 50%; background: rgba(150,185,235,.35); }
+.nf-meta i { width: 4px; height: 4px; border-radius: 50%; background: rgba(235,180,140,.4); }
 
 @media (prefers-reduced-motion: reduce) {
   .nf-below > * { opacity: 1; transform: none; transition: none; }
