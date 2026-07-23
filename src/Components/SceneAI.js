@@ -1,30 +1,40 @@
 // SceneAI.jsx — reel scene: "AI".
-// A glowing brain (🧠 emoji, so it reads everywhere) powered by a rotating
-// energy aura, with cables plugging in from below and signals travelling up
-// into it. Violet + cyan palette.
+// A glowing brain (🧠 emoji) powered by a rotating energy aura, wired to a
+// multi-layer neural network below it. Nodes are generated on a grid and every
+// edge is drawn from those exact node coordinates, so dots always sit on the
+// lines; the top layer funnels into a trunk that plugs into the brain.
 import React from "react";
 import "../Stylesheets/CodeNinjasReel.css";
 
-// wires converge at the brain base (100,12) and fan down to plugs
-const WIRES = [
-  "M100 12 C100 50 42 88 22 138",
-  "M100 12 C100 56 72 96 60 138",
-  "M100 12 C100 62 100 102 100 144",
-  "M100 12 C100 56 128 96 140 138",
-  "M100 12 C100 50 158 88 178 138",
+// network layers, bottom -> top: [node count, y, half-width]
+const CFG = [
+  { n: 6, y: 168, hw: 94 },
+  { n: 8, y: 130, hw: 84 },
+  { n: 6, y: 92, hw: 60 },
+  { n: 4, y: 56, hw: 34 },
 ];
-const PLUGS = [[22, 138], [60, 138], [100, 144], [140, 138], [178, 138]];
-// a mid-wire node network (more nodes) with cross-links
-const NODES = [[52, 78], [76, 84], [100, 84], [124, 84], [148, 78]];
-const LINKS = [[0, 1], [1, 2], [2, 3], [3, 4]];
-// signals travel plug -> brain (bottom to top)
-const PULSES = [
-  "M22 138 C42 88 100 50 100 12",
-  "M100 144 C100 102 100 62 100 12",
-  "M178 138 C158 88 100 50 100 12",
-  "M60 138 C72 96 100 56 100 12",
-  "M140 138 C128 96 100 56 100 12",
-];
+const APEX = [110, 26];
+
+// node coordinates per layer
+const NET = CFG.map((L) =>
+  Array.from({ length: L.n }, (_, j) => [
+    L.n === 1 ? 110 : +(110 - L.hw + (j * 2 * L.hw) / (L.n - 1)).toFixed(1),
+    L.y,
+  ])
+);
+// flatten nodes with their layer index (for stagger + sizing)
+const NODES = [];
+NET.forEach((layer, li) => layer.forEach((p) => NODES.push({ p, li })));
+NODES.push({ p: APEX, li: CFG.length });
+
+// fully-connected edges between adjacent layers, then top layer -> apex
+const EDGES = [];
+for (let i = 0; i < NET.length - 1; i++)
+  NET[i].forEach((a) => NET[i + 1].forEach((b) => EDGES.push({ a, b, li: i })));
+NET[NET.length - 1].forEach((a) => EDGES.push({ a, b: APEX, li: NET.length - 1 }));
+
+// a handful of edges carry a travelling signal (bottom -> top)
+const PULSE_IDX = EDGES.map((_, i) => i).filter((i) => i % 11 === 4).slice(0, 10);
 const BITS = Array.from({ length: 10 }, (_, i) => i);
 
 export default function SceneAI() {
@@ -54,35 +64,48 @@ export default function SceneAI() {
           <span className="ai-brain" role="img" aria-label="brain">🧠</span>
         </div>
 
-        <svg className="ai-wires" viewBox="0 0 200 150" aria-hidden>
+        <svg className="ai-net" viewBox="0 0 220 180" aria-hidden>
           <defs>
-            <filter id="ai-glow" x="-40%" y="-40%" width="180%" height="180%">
-              <feGaussianBlur stdDeviation="2.2" result="b" />
+            <filter id="ai-glow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="1.6" result="b" />
               <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
             </filter>
           </defs>
+
+          {/* edges (faint, un-glowed for perf on ~100 lines) */}
+          <g>
+            {EDGES.map((e, i) => (
+              <line key={`e${i}`} className="ai-edge" x1={e.a[0]} y1={e.a[1]} x2={e.b[0]} y2={e.b[1]}
+                pathLength="1" style={{ "--d": `${(0.7 + e.li * 0.22).toFixed(2)}s` }} />
+            ))}
+          </g>
+
           <g filter="url(#ai-glow)">
-            {WIRES.map((d, i) => (
-              <path key={`w${i}`} className="ai-wire" d={d} pathLength="1" style={{ "--d": `${0.7 + i * 0.1}s` }} />
+            {/* trunk into the brain */}
+            <line className="ai-trunk" x1="110" y1="26" x2="110" y2="0" pathLength="1" />
+
+            {/* nodes */}
+            {NODES.map((nd, i) => (
+              <circle key={`n${i}`} className={`ai-node ${nd.li === 0 ? "ai-node--in" : ""} ${nd.li === CFG.length ? "ai-node--apex" : ""}`}
+                cx={nd.p[0]} cy={nd.p[1]} r={nd.li === 0 ? 3.8 : 3} style={{ "--d": `${(0.8 + nd.li * 0.22).toFixed(2)}s` }} />
             ))}
-            {LINKS.map(([a, b], i) => (
-              <line key={`l${i}`} className="ai-link" x1={NODES[a][0]} y1={NODES[a][1]} x2={NODES[b][0]} y2={NODES[b][1]} pathLength="1" style={{ "--d": `${1.1 + i * 0.08}s` }} />
-            ))}
-            {PLUGS.map(([x, y], i) => (
-              <circle key={`p${i}`} className="ai-plug" cx={x} cy={y} r="5" style={{ "--d": `${0.7 + i * 0.1}s` }} />
-            ))}
-            {NODES.map(([x, y], i) => (
-              <circle key={`n${i}`} className="ai-node" cx={x} cy={y} r="3.4" style={{ "--d": `${1 + i * 0.08}s` }} />
-            ))}
-            {PULSES.map((d, i) => {
-              const begin = `${(1.7 + i * 0.4).toFixed(2)}s`;
+
+            {/* travelling signals */}
+            {PULSE_IDX.map((ei, i) => {
+              const e = EDGES[ei];
+              const begin = `${(2 + i * 0.24).toFixed(2)}s`;
               return (
-                <circle key={`s${i}`} className="ai-pulse" r="3">
+                <circle key={`s${i}`} className="ai-pulse" r="2.4">
                   <set attributeName="opacity" to="1" begin={begin} />
-                  <animateMotion dur="1.3s" begin={begin} repeatCount="indefinite" path={d} />
+                  <animateMotion dur="1.1s" begin={begin} repeatCount="indefinite" path={`M${e.a[0]} ${e.a[1]} L${e.b[0]} ${e.b[1]}`} />
                 </circle>
               );
             })}
+            {/* signal up the trunk into the brain */}
+            <circle className="ai-pulse" r="2.8">
+              <set attributeName="opacity" to="1" begin="2.6s" />
+              <animateMotion dur="0.8s" begin="2.6s" repeatCount="indefinite" path="M110 26 L110 0" />
+            </circle>
           </g>
         </svg>
       </div>
