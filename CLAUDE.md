@@ -22,9 +22,11 @@ surrounding palette should change ad to ad.
 ## Safe margins (screen-recording crop)
 
 Because the ad is screen-recorded before it goes to IG, the very edges can get
-cropped. **Keep a dead-space safe margin: at least ~50px clear at the top and
-bottom, and ~30px on the left/right.** No meaningful content (headings, logos,
-CTAs, the board/subject) should sit inside that band — treat it as bleed.
+cropped. **Keep a dead-space safe margin that stays empty: at least 40px clear
+at the top and bottom, and 30px on the left and right.** No meaningful content
+(headings, logos, CTAs, the subject/graphic) may sit inside that band — treat
+it as bleed. On a 390px-wide phone that means content width ≤ ~330px
+(390 − 30 − 30), so cap hero widths around 80–84vw, not 90vw+.
 
 ## MOBILE ONLY
 
