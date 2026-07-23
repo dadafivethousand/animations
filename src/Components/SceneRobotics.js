@@ -3,6 +3,7 @@
 // and bolts. Amber + steel industrial palette.
 import React from "react";
 import "../Stylesheets/CodeNinjasReel.css";
+import robotImg from "../Images/robot-openarms.png";
 
 // build a gear outline (absolute coords) with flat-topped teeth
 function gear(teeth, rOut, rIn, cx, cy) {
@@ -45,7 +46,7 @@ export default function SceneRobotics() {
       <div className="rob-stage">
         <div className="rob-botwrap">
           <div className="rob-pulse" />
-          <span className="rob-bot" role="img" aria-label="robot">🤖</span>
+          <img className="rob-bot" src={robotImg} alt="Code Ninjas robot" />
           <div className="rob-scan" />
         </div>
 
@@ -56,9 +57,10 @@ export default function SceneRobotics() {
           ))}
           {BOLTS.map(([x, y], i) => <circle key={`b${i}`} className="rob-bolt" cx={x} cy={y} r="4.5" style={{ "--d": `${0.9 + i * 0.08}s` }} />)}
 
+          {/* adjacent gears must counter-rotate: A→cw, B→ccw, C (meshes A)→ccw */}
           <Gear cx={78} cy={112} teeth={12} rOut={40} rIn={31} rHub={13} dur={9} />
           <Gear cx={142} cy={92} teeth={10} rOut={31} rIn={24} rHub={10} dur={7} rev />
-          <Gear cx={116} cy={162} teeth={8} rOut={25} rIn={19} rHub={8} dur={6} />
+          <Gear cx={116} cy={162} teeth={8} rOut={25} rIn={19} rHub={8} dur={6} rev />
         </svg>
       </div>
     </div>
