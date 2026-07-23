@@ -1,21 +1,27 @@
 // SceneChess.jsx — reel scene: "CHESS".
-// A marble board under a spotlight; a gold knight hops an L-move to deliver
-// mate, the black king topples, and CHECKMATE flashes in. Royal gold palette.
+// The full starting position drops into place, then white plays e4 and black
+// replies e5 (the classic opening), with the moved squares highlighted and the
+// move logged as "1. e4 e5". Tournament board, ivory vs obsidian pieces.
 import React from "react";
 import "../Stylesheets/CodeNinjasReel.css";
 
 const GLYPH = { king: "♚", queen: "♛", rook: "♜", bishop: "♝", knight: "♞", pawn: "♟" };
+const BACK = ["rook", "knight", "bishop", "queen", "king", "bishop", "knight", "rook"];
 
-// [type, side, col, row] — col/row 0..7 (row 0 = top). Squares (c+r) even = light.
-const PIECES = [
-  ["king", "black", 7, 1],
-  ["queen", "gold", 2, 6],
-  ["rook", "black", 1, 5],
-  ["bishop", "black", 4, 6],
-  ["knight", "gold", 5, 4, true], // the mover
+// full starting position. row 0 = top (black back rank), row 7 = white back rank.
+const PIECES = [];
+BACK.forEach((t, c) => PIECES.push({ t, s: "black", c, r: 0 }));
+for (let c = 0; c < 8; c++) PIECES.push({ t: "pawn", s: "black", c, r: 1, mv: c === 4 ? "b" : null });
+for (let c = 0; c < 8; c++) PIECES.push({ t: "pawn", s: "white", c, r: 6, mv: c === 4 ? "w" : null });
+BACK.forEach((t, c) => PIECES.push({ t, s: "white", c, r: 7 }));
+
+// e2, e4 (white move) and e7, e5 (black move) squares to highlight
+const HILITE = [
+  { c: 4, r: 6, w: "w" }, { c: 4, r: 4, w: "w" },
+  { c: 4, r: 1, w: "b" }, { c: 4, r: 3, w: "b" },
 ];
 
-const pct = (n) => `${((n + 0.5) / 8) * 100}%`;
+const pc = (n) => `${((n + 0.5) / 8) * 100}%`;
 
 export default function SceneChess() {
   return (
@@ -36,18 +42,24 @@ export default function SceneChess() {
             return <span key={i} className={`ch-sq ${(c + r) % 2 ? "dk" : "lt"}`} />;
           })}
 
-          {PIECES.map(([type, side, c, r, mover], i) => (
+          {HILITE.map((h, i) => (
+            <span key={`h${i}`} className={`ch-hl ${h.w}`} style={{ left: pc(h.c), top: pc(h.r) }} />
+          ))}
+
+          {PIECES.map((p, i) => (
             <span
               key={i}
-              className={`ch-piece side-${side} ${mover ? "ch-mover" : ""} ${type === "king" && side === "black" ? "ch-king" : ""}`}
-              style={{ left: pct(c), top: pct(r) }}
+              className={`ch-piece side-${p.s} ${p.mv ? `ch-mv-${p.mv}` : ""}`}
+              style={{ left: pc(p.c), top: pc(p.r) }}
             >
-              <span className="ch-pi">{GLYPH[type]}</span>
+              <span className="ch-pi" style={{ animationDelay: `${(0.3 + p.r * 0.05 + p.c * 0.012).toFixed(3)}s` }}>
+                {GLYPH[p.t]}
+              </span>
             </span>
           ))}
         </div>
 
-        <div className="ch-mate" aria-hidden>CHECKMATE</div>
+        <div className="ch-log" aria-hidden><b>1.</b> e4 e5</div>
       </div>
     </div>
   );
