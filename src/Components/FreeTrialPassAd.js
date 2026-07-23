@@ -100,7 +100,7 @@ const Card = ({ phase }) => (
           <div className="ft-chip" aria-hidden><i /><b /></div>
           <div className="ft-title">
             <span className="ft-title-sm">FREE</span>
-            <span className="ft-title-lg">SESSION</span>
+            <span className="ft-title-lg">TRIAL</span>
           </div>
         </div>
 

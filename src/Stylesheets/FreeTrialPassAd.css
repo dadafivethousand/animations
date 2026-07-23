@@ -342,7 +342,7 @@
   font-family: "JetBrains Mono", monospace; font-weight: 700;
   font-size: calc(var(--cw) * .028); letter-spacing: .30em; text-indent: .30em;
   color: #000;
-  transform: translateY(-10px);
+  transform: translateY(-5px);
 }
 .ft-serial {
   font-family: "JetBrains Mono", monospace; font-weight: 500;
@@ -390,8 +390,7 @@
   display: block; margin-top: .14em;
   font-family: "Baloo 2", system-ui, sans-serif; font-weight: 800;
   font-size: calc(var(--cw) * .097); letter-spacing: -.02em;
-  background: linear-gradient(178deg, #2b3a4e 0%, #131922 48%, #303f54 100%);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
+  color: #e4002b;
   filter: drop-shadow(0 1px 0 rgba(255,255,255,.95)) drop-shadow(0 -1px 1px rgba(15,22,33,.30));
 }
 .ft-foot {
