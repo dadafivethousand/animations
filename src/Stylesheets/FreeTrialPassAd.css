@@ -341,7 +341,8 @@
 .ft-logo-sub {
   font-family: "JetBrains Mono", monospace; font-weight: 700;
   font-size: calc(var(--cw) * .028); letter-spacing: .30em; text-indent: .30em;
-  color: #2ea3d7;
+  color: #000;
+  transform: translateY(-10px);
 }
 .ft-serial {
   font-family: "JetBrains Mono", monospace; font-weight: 500;

@@ -99,7 +99,7 @@ const Card = ({ phase }) => (
         <div className="ft-mid">
           <div className="ft-chip" aria-hidden><i /><b /></div>
           <div className="ft-title">
-            <span className="ft-title-sm">GAME BUILDING</span>
+            <span className="ft-title-sm">FREE</span>
             <span className="ft-title-lg">SESSION</span>
           </div>
         </div>
