@@ -105,8 +105,10 @@ export default function NinjaFormationAd() {
       const dist = camera.position.z - group.position.z;
       const visH = 2 * Math.tan((camera.fov * Math.PI / 180) / 2) * dist;
       const visW = visH * camera.aspect;
-      group.scale.setScalar(Math.min(visW * 0.64, visH * 0.42));
-      group.position.y = visH * 0.15;                     // sit in the upper area
+      // keep the mask in the upper area with clear space beneath it for the
+      // CODE NINJAS / WOODBRIDGE wordmark that sits below (bottom-anchored)
+      group.scale.setScalar(Math.min(visW * 0.58, visH * 0.38));
+      group.position.y = visH * 0.24;
     }
 
     // build the particle mask from the icon's dark pixels

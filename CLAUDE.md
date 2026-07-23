@@ -5,6 +5,20 @@ Code Ninjas Woodbridge (a kids' learn-to-code-by-building-games franchise).
 Each ad is one full-screen animated composition — a trial-pass reveal, a camp
 promo, a schedule board, etc.
 
+## These are social-media (Instagram) videos — vary the palette per ad
+
+The workflow is: play the ad/animation full-screen, **screen-record it, and post
+it to Instagram.** So these ads live **next to each other on one IG feed/grid.**
+If every ad uses the same colour theme, the feed looks repetitive and cheap.
+
+**Give each new ad a distinct visual/colour identity.** Do not default to the
+same dark-navy + cyan "cinematic space" palette every time — that's just the
+look of a couple of existing ads, not a house style to clone. Pick a colour
+story that fits *that* ad's concept (warm/sunset, neon arcade, clean daylight,
+paper/print, retro CRT, etc.) so consecutive posts look intentionally varied.
+Brand red `#e4002b` and the Code Ninjas mark are the through-line; the
+surrounding palette should change ad to ad.
+
 ## MOBILE ONLY
 
 These ads are **only ever shown on mobile (portrait phone).** Do **not** build,
