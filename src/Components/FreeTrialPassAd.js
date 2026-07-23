@@ -15,8 +15,9 @@ import cnLogo from "../Images/cn-woodbridge-logo.png";
 
 const SLIDE = 0, FLIP = 1, STAMP = 2, INFO = 3;
 
-// ms after mount that each phase begins
-const CUES = { [FLIP]: 1250, [STAMP]: 2400, [INFO]: 3000 };
+// ms after mount that each phase begins. FLIP kicks off a ~1.4s multi-turn
+// spin, so STAMP waits for it to settle before slamming on.
+const CUES = { [FLIP]: 1150, [STAMP]: 2750, [INFO]: 3350 };
 
 const BENEFITS = ["AGES 5–14", "NO COMMITMENT", "BOOK IN 60s"];
 const META = ["6175 Hwy 7, Woodbridge", "647-887-9940"];
@@ -27,15 +28,17 @@ const BARS = [3,1,2,1,1,3,2,1,3,1,1,2,3,1,2,2,1,3,1,1,2,1,3,2,1,1,3,1,2,1,2,3,1,
 // security microtext, repeated along a hairline like real card stock
 const MICRO = "CODENINJASWOODBRIDGE".repeat(6);
 
-// drifting code glyphs in the background — fixed layout for design control
-// [char, left%, top%, size(em), driftDur(s), delay(s), opacity]
+// drifting code glyphs in the background — fixed layout for design control.
+// z (px) sets each glyph's depth in the perspective scene: nearer (bigger,
+// brighter) to far (small, dim), so they parallax as the camera drifts.
+// [char, left%, top%, size(em), driftDur(s), delay(s), opacity, z]
 const GLYPHS = [
-  ["{", 8, 22, 2.4, 15, 0, 0.10], ["}", 90, 30, 2.2, 18, 3, 0.09],
-  ["<", 15, 74, 1.9, 16, 6, 0.08], ["/", 82, 68, 2.6, 20, 1.5, 0.07],
-  [">", 72, 14, 1.6, 14, 4.5, 0.08], [";", 26, 44, 1.7, 17, 8, 0.07],
-  ["(", 4, 52, 2.0, 19, 2, 0.07], [")", 95, 55, 2.0, 15, 5.5, 0.06],
-  ["0", 40, 12, 1.5, 21, 7, 0.06], ["1", 60, 86, 1.5, 16, 3.5, 0.06],
-  ["=", 34, 88, 1.8, 18, 9, 0.06], ["[", 88, 84, 1.7, 20, 1, 0.06],
+  ["{", 8, 22, 2.4, 15, 0, 0.13, -120], ["}", 90, 30, 2.2, 18, 3, 0.11, -220],
+  ["<", 15, 74, 1.9, 16, 6, 0.09, -340], ["/", 82, 68, 2.6, 20, 1.5, 0.12, -80],
+  [">", 72, 14, 1.6, 14, 4.5, 0.08, -420], [";", 26, 44, 1.7, 17, 8, 0.07, -500],
+  ["(", 4, 52, 2.0, 19, 2, 0.10, -180], [")", 95, 55, 2.0, 15, 5.5, 0.07, -460],
+  ["0", 40, 12, 1.5, 21, 7, 0.07, -560], ["1", 60, 86, 1.5, 16, 3.5, 0.09, -260],
+  ["=", 34, 88, 1.8, 18, 9, 0.06, -600], ["[", 88, 84, 1.7, 20, 1, 0.11, -140],
 ];
 
 // guilloche rosette — overlapping rotated ellipses, the engine-turned pattern
@@ -53,9 +56,12 @@ const Guilloche = ({ className, rings = 30 }) => (
   </svg>
 );
 
-// the card itself — extracted so the stage can render it twice (hero + mirror)
+// the card itself — extracted so the stage can render it twice (hero + mirror).
+// Nesting gives each motion its own 3D layer: tilt (idle wobble) > flip (the
+// multi-turn spin) > card (the stamp recoil).
 const Card = ({ phase }) => (
   <div className="ft-tilt">
+   <div className="ft-flip">
     <div className="ft-card">
       {/* ---- back: foil side, what you see as it lands ---- */}
       <div className="ft-face ft-back">
@@ -115,6 +121,7 @@ const Card = ({ phase }) => (
 
       <div className="ft-edge" aria-hidden />
     </div>
+   </div>
   </div>
 );
 
@@ -130,16 +137,19 @@ export default function FreeTrialPassAd() {
 
   return (
     <div className={`ft-stage ft-p${phase}`}>
-      {/* ---- environment ---- */}
-      <div className="ft-ambient" aria-hidden><i className="ft-amb-red" /><i className="ft-amb-cyan" /></div>
-      <div className="ft-floor" aria-hidden />
-      <div className="ft-glyphs" aria-hidden>
-        {GLYPHS.map(([ch, l, t, s, d, dl, o], i) => (
-          <span key={i} style={{
-            left: `${l}%`, top: `${t}%`, fontSize: `${s}em`,
-            opacity: o, animationDuration: `${d}s`, animationDelay: `${dl}s`,
-          }}>{ch}</span>
-        ))}
+      {/* ---- environment, in a perspective scene so it has real depth ---- */}
+      <div className="ft-space" aria-hidden>
+        <div className="ft-ambient"><i className="ft-amb-red" /><i className="ft-amb-cyan" /></div>
+        <div className="ft-floor" />
+        <div className="ft-glyphs">
+          {GLYPHS.map(([ch, l, t, s, d, dl, o, z], i) => (
+            <span key={i} style={{
+              left: `${l}%`, top: `${t}%`, fontSize: `${s}em`,
+              opacity: o, animationDuration: `${d}s`, animationDelay: `${dl}s`,
+              "--z": `${z}px`,
+            }}>{ch}</span>
+          ))}
+        </div>
       </div>
       <div className="ft-vignette" aria-hidden />
 
