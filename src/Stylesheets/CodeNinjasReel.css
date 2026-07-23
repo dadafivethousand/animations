@@ -195,8 +195,53 @@
 .ch-knight .ch-lift { animation-name: ch-lift-k; }
 @keyframes ch-lift-k { 0%, 100% { transform: translateY(0); } 45% { transform: translateY(-18px); } }
 
+/* ============================================================= *
+ *  SCENE — AI  (neural-network brain)
+ * ============================================================= */
+.sc-ai { --acc: #b78bff; background: radial-gradient(120% 90% at 50% 34%, #1c1033 0%, #0e0720 46%, #05030f 100%); }
+.ai-amb {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(40% 34% at 50% 44%, rgba(150,90,255,.22), transparent 62%),
+    radial-gradient(46% 38% at 74% 24%, rgba(60,220,255,.12), transparent 60%),
+    radial-gradient(120% 100% at 50% 50%, transparent 42%, rgba(4,2,12,.82) 100%);
+}
+.ai-grid {
+  position: absolute; inset: 0; pointer-events: none; opacity: .13;
+  background-image: radial-gradient(rgba(150,120,255,.6) 1px, transparent 1px);
+  background-size: 26px 26px;
+  -webkit-mask-image: radial-gradient(68% 58% at 50% 46%, #000, transparent 76%);
+          mask-image: radial-gradient(68% 58% at 50% 46%, #000, transparent 76%);
+}
+.ai-stage { position: absolute; left: 50%; top: 53%; transform: translate(-50%, -50%); z-index: 3; width: min(78vw, 330px); }
+.ai-svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+.ai-core { opacity: 0; animation: ai-fade 1s ease .3s forwards; }
+@keyframes ai-fade { to { opacity: 1; } }
+
+@keyframes ai-draw { to { stroke-dashoffset: 0; } }
+@keyframes ai-pop { 0% { opacity: 0; transform: scale(.2); } 100% { opacity: 1; transform: scale(1); } }
+
+.ai-wire  { fill: none; stroke: #7c5cff; stroke-width: 2; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: ai-draw .7s ease var(--d) forwards; }
+.ai-plug  { fill: #b78bff; opacity: 0; transform-box: fill-box; transform-origin: center; animation: ai-pop .4s cubic-bezier(.2,1.5,.4,1) var(--d) both; }
+.ai-brain { fill: none; stroke: #b78bff; stroke-width: 2; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: ai-draw 1.4s ease .5s forwards; }
+.ai-fold  { fill: none; stroke: rgba(190,150,255,.55); stroke-width: 1.2; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: ai-draw .9s ease var(--d) forwards; }
+.ai-edge  { fill: none; stroke: #6a4dff; stroke-width: 1; opacity: .5; stroke-dasharray: 1; stroke-dashoffset: 1; animation: ai-draw .6s ease var(--d) forwards; }
+
+.ai-node {
+  fill: #4be3ff; opacity: 0; transform-box: fill-box; transform-origin: center;
+  animation: ai-pop .45s cubic-bezier(.2,1.5,.4,1) var(--d) both,
+             ai-node-glow 2.4s ease-in-out calc(var(--d) + .5s) infinite;
+}
+@keyframes ai-node-glow { 0%, 100% { opacity: .8; transform: scale(1); } 50% { opacity: 1; transform: scale(1.2); } }
+
+.ai-pulse { fill: #e8feff; opacity: 0; }
+
 @media (prefers-reduced-motion: reduce) {
   .reel-layer, .sc-head, .sc-rule, .cd-editor, .cd-rain span, .cd-line,
-  .cd-caret, .ch-board, .ch-pi, .ch-mover, .ch-mover .ch-lift { animation: none !important; }
+  .cd-caret, .ch-board, .ch-pi, .ch-mover, .ch-mover .ch-lift,
+  .ai-core, .ai-wire, .ai-plug, .ai-brain, .ai-fold, .ai-edge, .ai-node { animation: none !important; }
   .si-type > * { opacity: 1; transform: none; transition: none; }
+  .ai-wire, .ai-brain, .ai-fold, .ai-edge { stroke-dashoffset: 0; }
+  .ai-node, .ai-plug { opacity: 1; }
 }
