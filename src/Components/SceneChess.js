@@ -1,27 +1,84 @@
 // SceneChess.jsx — reel scene: "CHESS".
-// The full starting position drops into place, then white plays e4 and black
-// replies e5 (the classic opening), with the moved squares highlighted and the
-// move logged as "1. e4 e5". Tournament board, ivory vs obsidian pieces.
+// Full starting position drops into place, then the Italian Game plays out:
+//   1. e4 e5  2. Nf3 Nc6  3. Bc4 Bc5
+// Pieces are drawn as SVG (uniform size, real white/black colours — unicode
+// chess glyphs render inconsistently across devices).
 import React from "react";
 import "../Stylesheets/CodeNinjasReel.css";
 
-const GLYPH = { king: "♚", queen: "♛", rook: "♜", bishop: "♝", knight: "♞", pawn: "♟" };
 const BACK = ["rook", "knight", "bishop", "queen", "king", "bishop", "knight", "rook"];
 
 // full starting position. row 0 = top (black back rank), row 7 = white back rank.
 const PIECES = [];
 BACK.forEach((t, c) => PIECES.push({ t, s: "black", c, r: 0 }));
-for (let c = 0; c < 8; c++) PIECES.push({ t: "pawn", s: "black", c, r: 1, mv: c === 4 ? "b" : null });
-for (let c = 0; c < 8; c++) PIECES.push({ t: "pawn", s: "white", c, r: 6, mv: c === 4 ? "w" : null });
+for (let c = 0; c < 8; c++) PIECES.push({ t: "pawn", s: "black", c, r: 1 });
+for (let c = 0; c < 8; c++) PIECES.push({ t: "pawn", s: "white", c, r: 6 });
 BACK.forEach((t, c) => PIECES.push({ t, s: "white", c, r: 7 }));
 
-// e2, e4 (white move) and e7, e5 (black move) squares to highlight
-const HILITE = [
-  { c: 4, r: 6, w: "w" }, { c: 4, r: 4, w: "w" },
-  { c: 4, r: 1, w: "b" }, { c: 4, r: 3, w: "b" },
-];
+// moves keyed by the piece's START square "c,r" -> { c,r: destination, d: delay(s) }
+const MOVES = {
+  "4,6": { c: 4, r: 4, d: 1.5 }, // e2-e4
+  "4,1": { c: 4, r: 3, d: 2.3 }, // e7-e5
+  "6,7": { c: 5, r: 5, d: 3.1 }, // Ng1-f3
+  "1,0": { c: 2, r: 2, d: 3.9 }, // Nb8-c6
+  "5,7": { c: 2, r: 4, d: 4.7 }, // Bf1-c4
+  "5,0": { c: 2, r: 3, d: 5.5 }, // Bf8-c5
+};
 
 const pc = (n) => `${((n + 0.5) / 8) * 100}%`;
+
+// --- SVG piece shapes (viewBox 0 0 45 45) ---
+const SHAPES = {
+  pawn: (
+    <>
+      <circle cx="22.5" cy="13.5" r="5.4" />
+      <path d="M17 19c-1 5-3 9-4.6 12h20.2c-1.6-3-3.6-7-4.6-12z" />
+      <rect x="10.5" y="30.5" width="24" height="4" rx="2" />
+    </>
+  ),
+  rook: (
+    <>
+      <path d="M12 18v-5h4v3h3.6v-3h5.8v3H29v-3h4v5l-2.4 2.5v9l2.9 3v2.5H11.5V32l2.9-3v-9z" />
+      <rect x="10" y="34.5" width="25" height="4" rx="2" />
+    </>
+  ),
+  knight: (
+    <>
+      <path d="M21 10c3-1 6 .6 7.4 3.4C33 16 33 23 32 34H15c0-6 2.4-10.4 6-13.4-2 1.4-4.2 1.4-6.2-.3.2-3 3.2-4.9 5.4-4.9-1-2.8.7-5.6 2.8-6z" />
+      <circle cx="25.6" cy="16.4" r="1.15" className="ch-eye" />
+      <rect x="12" y="33.5" width="21" height="4" rx="2" />
+    </>
+  ),
+  bishop: (
+    <>
+      <circle cx="22.5" cy="8.6" r="2.3" />
+      <path d="M22.5 11c-7 4.2-8 14-5 19h10c3-5 2-14.8-5-19z" />
+      <rect x="13" y="29.5" width="19" height="3.4" rx="1.6" />
+      <rect x="10.5" y="33" width="24" height="4" rx="2" />
+    </>
+  ),
+  queen: (
+    <>
+      <circle cx="9" cy="12" r="2" /><circle cx="16.3" cy="9.6" r="2" />
+      <circle cx="22.5" cy="8.6" r="2.2" /><circle cx="28.7" cy="9.6" r="2" />
+      <circle cx="36" cy="12" r="2" />
+      <path d="M9 13l4 17h19l4-17-6 7-3.6-10-3.9 10-4-10-3.6 10z" />
+      <rect x="11" y="32.5" width="23" height="4" rx="2" />
+    </>
+  ),
+  king: (
+    <>
+      <rect x="21" y="4" width="3" height="8.5" rx="1.2" />
+      <rect x="18.4" y="6.6" width="8.2" height="3" rx="1.2" />
+      <path d="M12 18c0-5 5.2-6.8 10.5-2.8C27.8 11.2 33 13 33 18c0 5-4 8.2-5 13H17c-1-4.8-5-8-5-13z" />
+      <rect x="10.5" y="30.5" width="24" height="4" rx="2" />
+    </>
+  ),
+};
+
+const Piece = ({ type }) => (
+  <svg className="ch-svg" viewBox="0 0 45 45" aria-hidden>{SHAPES[type]}</svg>
+);
 
 export default function SceneChess() {
   return (
@@ -42,24 +99,25 @@ export default function SceneChess() {
             return <span key={i} className={`ch-sq ${(c + r) % 2 ? "dk" : "lt"}`} />;
           })}
 
-          {HILITE.map((h, i) => (
-            <span key={`h${i}`} className={`ch-hl ${h.w}`} style={{ left: pc(h.c), top: pc(h.r) }} />
-          ))}
-
-          {PIECES.map((p, i) => (
-            <span
-              key={i}
-              className={`ch-piece side-${p.s} ${p.mv ? `ch-mv-${p.mv}` : ""}`}
-              style={{ left: pc(p.c), top: pc(p.r) }}
-            >
-              <span className="ch-pi" style={{ animationDelay: `${(0.3 + p.r * 0.05 + p.c * 0.012).toFixed(3)}s` }}>
-                {GLYPH[p.t]}
+          {PIECES.map((p, i) => {
+            const mv = MOVES[`${p.c},${p.r}`];
+            const style = { left: pc(p.c), top: pc(p.r) };
+            let cls = `ch-piece side-${p.s}`;
+            if (mv) {
+              Object.assign(style, { "--fx": pc(p.c), "--fy": pc(p.r), "--tx": pc(mv.c), "--ty": pc(mv.r), "--d": `${mv.d}s` });
+              cls += p.t === "knight" ? " ch-mover ch-knight" : " ch-mover";
+            }
+            return (
+              <span key={i} className={cls} style={style}>
+                <span className="ch-lift">
+                  <span className="ch-pi" style={{ animationDelay: `${(0.3 + p.r * 0.05 + p.c * 0.012).toFixed(3)}s` }}>
+                    <Piece type={p.t} />
+                  </span>
+                </span>
               </span>
-            </span>
-          ))}
+            );
+          })}
         </div>
-
-        <div className="ch-log" aria-hidden><b>1.</b> e4 e5</div>
       </div>
     </div>
   );

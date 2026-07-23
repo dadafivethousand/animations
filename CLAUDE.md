@@ -19,6 +19,13 @@ paper/print, retro CRT, etc.) so consecutive posts look intentionally varied.
 Brand red `#e4002b` and the Code Ninjas mark are the through-line; the
 surrounding palette should change ad to ad.
 
+## Safe margins (screen-recording crop)
+
+Because the ad is screen-recorded before it goes to IG, the very edges can get
+cropped. **Keep a dead-space safe margin: at least ~50px clear at the top and
+bottom, and ~30px on the left/right.** No meaningful content (headings, logos,
+CTAs, the board/subject) should sit inside that band — treat it as bleed.
+
 ## MOBILE ONLY
 
 These ads are **only ever shown on mobile (portrait phone).** Do **not** build,
