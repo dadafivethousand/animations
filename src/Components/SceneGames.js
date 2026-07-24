@@ -66,7 +66,6 @@ export default function SceneGames() {
       <div className="sc-head">
         <span className="sc-num">06</span>
         <span className="sc-title">GAMES</span>
-        <span className="sc-rule" />
       </div>
 
       <div className="gm-stage">

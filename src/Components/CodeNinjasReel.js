@@ -14,7 +14,7 @@ import SceneGames from "./SceneGames";
 // duration each scene is fully on screen (ms) — short for social feeds
 const SCENES = [
   { Comp: SceneIntro, dur: 2800 },
-  { Comp: SceneCoding, dur: 2300 },
+  { Comp: SceneCoding, dur: 2900 },
   { Comp: SceneChess, dur: 3200 },
   { Comp: SceneAI, dur: 2500 },
   { Comp: SceneRobotics, dur: 2300 },

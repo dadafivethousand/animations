@@ -87,7 +87,6 @@ export default function SceneChess() {
       <div className="sc-head">
         <span className="sc-num">02</span>
         <span className="sc-title">CHESS</span>
-        <span className="sc-rule" />
       </div>
 
       <div className="ch-stage">

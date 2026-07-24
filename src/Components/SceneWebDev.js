@@ -15,7 +15,6 @@ export default function SceneWebDev() {
       <div className="sc-head">
         <span className="sc-num">05</span>
         <span className="sc-title">WEBSITES</span>
-        <span className="sc-rule" />
       </div>
 
       <div className="web-stage">

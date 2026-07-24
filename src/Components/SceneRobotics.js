@@ -65,7 +65,6 @@ export default function SceneRobotics() {
       <div className="sc-head">
         <span className="sc-num">04</span>
         <span className="sc-title">ROBOTICS</span>
-        <span className="sc-rule" />
       </div>
 
       <div className="rob-stage">
