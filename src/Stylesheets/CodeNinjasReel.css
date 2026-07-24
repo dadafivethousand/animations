@@ -327,7 +327,7 @@
     radial-gradient(44% 36% at 50% 48%, rgba(59,130,246,.16), transparent 62%),
     radial-gradient(120% 100% at 50% 50%, transparent 42%, rgba(3,6,12,.82) 100%);
 }
-.web-stage { position: absolute; left: 50%; top: 55%; transform: translate(-50%, -50%); z-index: 3; width: min(63vw, 255px); }
+.web-stage { position: absolute; left: 50%; top: 57%; transform: translate(-50%, -50%) scale(.75); z-index: 3; width: min(63vw, 255px); }
 
 .web-browser {
   position: relative; border-radius: 14px; overflow: hidden;

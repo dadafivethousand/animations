@@ -16,7 +16,6 @@ export default function SceneWebDev() {
         <span className="sc-num">05</span>
         <span className="sc-title">WEBSITES</span>
         <span className="sc-rule" />
-        <span className="sc-desc">Kids build websites.</span>
       </div>
 
       <div className="web-stage">

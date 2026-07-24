@@ -33,7 +33,6 @@ export default function SceneCoding() {
         <span className="sc-num">01</span>
         <span className="sc-title">CODING</span>
         <span className="sc-rule" />
-        <span className="sc-desc">Kids write real code.</span>
       </div>
 
       <div className="cd-editor">

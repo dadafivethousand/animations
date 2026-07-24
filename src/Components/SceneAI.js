@@ -54,7 +54,6 @@ export default function SceneAI() {
         <span className="sc-num">03</span>
         <span className="sc-title">AI</span>
         <span className="sc-rule" />
-        <span className="sc-desc">Kids teach machines to think.</span>
       </div>
 
       <div className="ai-stage">

@@ -67,7 +67,6 @@ export default function SceneGames() {
         <span className="sc-num">06</span>
         <span className="sc-title">GAMES</span>
         <span className="sc-rule" />
-        <span className="sc-desc">Minecraft &amp; Roblox.</span>
       </div>
 
       <div className="gm-stage">
