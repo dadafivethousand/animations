@@ -37,7 +37,7 @@ export default function SceneWebDev() {
 
             <div className="web-cards">
               {CARDS.map((c, i) => (
-                <div key={c} className={`web-card web-card--${c}`} style={{ animationDelay: `${1.2 + i * 0.12}s` }}>
+                <div key={c} className={`web-card web-card--${c}`} style={{ animationDelay: `${0.8 + i * 0.1}s` }}>
                   <span /><b />
                 </div>
               ))}
