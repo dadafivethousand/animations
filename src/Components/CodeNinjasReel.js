@@ -13,15 +13,15 @@ import SceneGames from "./SceneGames";
 
 // duration each scene is fully on screen (ms) — short for social feeds
 const SCENES = [
-  { Comp: SceneIntro, dur: 3600 },
-  { Comp: SceneCoding, dur: 2800 },
-  { Comp: SceneChess, dur: 3800 },
-  { Comp: SceneAI, dur: 3200 },
-  { Comp: SceneRobotics, dur: 3000 },
-  { Comp: SceneWebDev, dur: 3600 },
-  { Comp: SceneGames, dur: 3400 },
+  { Comp: SceneIntro, dur: 2800 },
+  { Comp: SceneCoding, dur: 2300 },
+  { Comp: SceneChess, dur: 3200 },
+  { Comp: SceneAI, dur: 2500 },
+  { Comp: SceneRobotics, dur: 2300 },
+  { Comp: SceneWebDev, dur: 3000 },
+  { Comp: SceneGames, dur: 2800 },
 ];
-const XFADE = 550; // cross-dissolve window (ms)
+const XFADE = 500; // cross-dissolve window (ms)
 
 export default function CodeNinjasReel() {
   const [stack, setStack] = useState([{ k: 0, i: 0, leaving: false }]);

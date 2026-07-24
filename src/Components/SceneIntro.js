@@ -45,7 +45,7 @@ export default function SceneIntro() {
 
   // reveal the wordmark once the mask has formed (no slow typewriter)
   useEffect(() => {
-    const t = setTimeout(() => setShow(true), 1500);
+    const t = setTimeout(() => setShow(true), 1200);
     return () => clearTimeout(t);
   }, []);
 
@@ -128,8 +128,8 @@ export default function SceneIntro() {
       raf = requestAnimationFrame(animate);
       const t = clock.getElapsedTime();
       uniforms.uTime.value = t;
-      uniforms.uProg.value = Math.min(1, Math.max(0, (t - 0.4) / 1.5));
-      camera.position.z = 9 - 1.6 * Math.min(1, t / 2.1);
+      uniforms.uProg.value = Math.min(1, Math.max(0, (t - 0.3) / 1.2));
+      camera.position.z = 9 - 1.6 * Math.min(1, t / 1.7);
       camera.position.x = Math.sin(t * 0.25) * 0.12; camera.position.y = Math.cos(t * 0.2) * 0.08;
       camera.lookAt(0, group.position.y * 0.5, 0);
       stars.rotation.z = t * 0.01;

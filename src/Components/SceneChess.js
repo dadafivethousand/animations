@@ -18,10 +18,10 @@ BACK.forEach((t, c) => PIECES.push({ t, s: "white", c, r: 7 }));
 // moves keyed by the piece's START square "c,r" -> { c,r: destination, d: delay(s) }
 // The line is 1.e4 e5 2.Nf3 Nc6 — the scene ends here, before the bishops move.
 const MOVES = {
-  "4,6": { c: 4, r: 4, d: 1.0 }, // e2-e4
-  "4,1": { c: 4, r: 3, d: 1.6 }, // e7-e5
-  "6,7": { c: 5, r: 5, d: 2.2 }, // Ng1-f3
-  "1,0": { c: 2, r: 2, d: 2.8 }, // Nb8-c6
+  "4,6": { c: 4, r: 4, d: 0.9 }, // e2-e4
+  "4,1": { c: 4, r: 3, d: 1.4 }, // e7-e5
+  "6,7": { c: 5, r: 5, d: 1.9 }, // Ng1-f3
+  "1,0": { c: 2, r: 2, d: 2.4 }, // Nb8-c6
 };
 
 const pc = (n) => `${((n + 0.5) / 8) * 100}%`;
@@ -109,7 +109,7 @@ export default function SceneChess() {
             return (
               <span key={i} className={cls} style={style}>
                 <span className="ch-lift">
-                  <span className="ch-pi" style={{ animationDelay: `${(0.3 + p.r * 0.05 + p.c * 0.012).toFixed(3)}s` }}>
+                  <span className="ch-pi" style={{ animationDelay: `${(0.15 + p.r * 0.035 + p.c * 0.008).toFixed(3)}s` }}>
                     <Piece type={p.t} />
                   </span>
                 </span>
