@@ -1,6 +1,6 @@
 // CodeNinjasReel.jsx — the full sequenced reel of themed mini-movie scenes on a
-// black stage. Each scene plays for its duration, then the next crossfades in.
-// Loops. Mobile / portrait only.
+// black stage. Scenes cross-dissolve (outgoing fades out as incoming fades in)
+// so the previous scene never lingers under the next. Loops. Mobile/portrait.
 import React, { useEffect, useState } from "react";
 import "../Stylesheets/CodeNinjasReel.css";
 import SceneIntro from "./SceneIntro";
@@ -11,21 +11,20 @@ import SceneRobotics from "./SceneRobotics";
 import SceneWebDev from "./SceneWebDev";
 import SceneGames from "./SceneGames";
 
-// duration each scene is fully on screen (ms) — kept short for social feeds
+// duration each scene is fully on screen (ms) — short for social feeds
 const SCENES = [
-  { Comp: SceneIntro, dur: 4200 },
-  { Comp: SceneCoding, dur: 3400 },
-  { Comp: SceneChess, dur: 4400 },
-  { Comp: SceneAI, dur: 3900 },
-  { Comp: SceneRobotics, dur: 3600 },
-  { Comp: SceneWebDev, dur: 4200 },
-  { Comp: SceneGames, dur: 3800 },
+  { Comp: SceneIntro, dur: 3600 },
+  { Comp: SceneCoding, dur: 2800 },
+  { Comp: SceneChess, dur: 3800 },
+  { Comp: SceneAI, dur: 3200 },
+  { Comp: SceneRobotics, dur: 3000 },
+  { Comp: SceneWebDev, dur: 3600 },
+  { Comp: SceneGames, dur: 3400 },
 ];
-const XFADE = 650; // crossfade window (ms)
+const XFADE = 550; // cross-dissolve window (ms)
 
 export default function CodeNinjasReel() {
-  // a small stack of mounted layers; the newest is on top, older ones crossfade out
-  const [stack, setStack] = useState([{ k: 0, i: 0 }]);
+  const [stack, setStack] = useState([{ k: 0, i: 0, leaving: false }]);
 
   useEffect(() => {
     let key = 1, i = 0, timers = [];
@@ -33,7 +32,8 @@ export default function CodeNinjasReel() {
       timers.push(setTimeout(() => {
         i = (i + 1) % SCENES.length;
         const k = key++;
-        setStack((s) => [...s, { k, i }]);
+        // mark existing layers as leaving (fade out) and add the new one (fades in)
+        setStack((s) => s.map((l) => ({ ...l, leaving: true })).concat({ k, i, leaving: false }));
         timers.push(setTimeout(() => setStack((s) => s.filter((l) => l.k === k)), XFADE));
         schedule();
       }, SCENES[i].dur));
@@ -44,9 +44,9 @@ export default function CodeNinjasReel() {
 
   return (
     <div className="reel">
-      {stack.map(({ k, i }) => {
+      {stack.map(({ k, i, leaving }) => {
         const Comp = SCENES[i].Comp;
-        return <div className="reel-layer" key={k}><Comp /></div>;
+        return <div className={`reel-layer${leaving ? " reel-out" : ""}`} key={k}><Comp /></div>;
       })}
     </div>
   );

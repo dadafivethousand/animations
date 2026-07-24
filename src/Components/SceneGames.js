@@ -1,6 +1,7 @@
 // SceneGames.jsx — reel scene: "GAMES" (Minecraft & Roblox).
-// An isometric voxel island builds itself block by block — grass/dirt terrain,
-// a tree, and a blocky Roblox-style character — over a twilight sky.
+// An isometric voxel island builds itself — grass/dirt terrain and a tree
+// (Minecraft) — then a blocky Roblox character (with the classic smiley face)
+// pops in and hops. Twilight sky.
 import React from "react";
 import "../Stylesheets/CodeNinjasReel.css";
 
@@ -21,7 +22,6 @@ const Cube = ({ gx, gy, gz, top, left, right, d }) => {
   );
 };
 
-// colours
 const GRASS = { top: "#7cc44e", left: "#7a5230", right: "#5f3f22" };
 const WOOD = { top: "#9a743e", left: "#6b4a22", right: "#523818" };
 const LEAF = { top: "#5cbf3f", left: "#479330", right: "#356f24" };
@@ -29,22 +29,26 @@ const R_LEG = { top: "#4fbf63", left: "#379049", right: "#2a7a3c" };
 const R_TOR = { top: "#3f86e6", left: "#2f6fd6", right: "#245bb0" };
 const R_HEAD = { top: "#ffd84a", left: "#e6b52e", right: "#c99a1f" };
 
-// scene cubes (grid coords). build order by (gx+gy) then gz.
-const CUBES = [];
-// 3x3 grass ground
-for (let gx = 0; gx < 3; gx++) for (let gy = 0; gy < 3; gy++) CUBES.push({ gx, gy, gz: 0, ...GRASS });
-// tree trunk + leaves at (1,2)
-CUBES.push({ gx: 1, gy: 2, gz: 1, ...WOOD }, { gx: 1, gy: 2, gz: 2, ...WOOD });
-[[0, 2], [1, 2], [2, 2], [1, 1]].forEach(([gx, gy]) => CUBES.push({ gx, gy, gz: 3, ...LEAF }));
-CUBES.push({ gx: 1, gy: 2, gz: 4, ...LEAF });
-// blocky character at (2,0)
-CUBES.push({ gx: 2, gy: 0, gz: 1, ...R_LEG }, { gx: 2, gy: 0, gz: 2, ...R_TOR }, { gx: 2, gy: 0, gz: 3, ...R_HEAD });
-
-// painter's order + staggered build delay
-const ORDERED = CUBES
+// terrain (ground + tree), painter-sorted
+const TERRAIN = [];
+for (let gx = 0; gx < 3; gx++) for (let gy = 0; gy < 3; gy++) TERRAIN.push({ gx, gy, gz: 0, ...GRASS });
+TERRAIN.push({ gx: 1, gy: 2, gz: 1, ...WOOD }, { gx: 1, gy: 2, gz: 2, ...WOOD });
+[[0, 2], [1, 2], [2, 2], [1, 1]].forEach(([gx, gy]) => TERRAIN.push({ gx, gy, gz: 3, ...LEAF }));
+TERRAIN.push({ gx: 1, gy: 2, gz: 4, ...LEAF });
+const TERR = TERRAIN
   .map((c) => ({ ...c, key: (c.gx + c.gy) * 10 + c.gz }))
   .sort((a, b) => a.key - b.key)
-  .map((c, i) => ({ ...c, d: 0.5 + i * 0.075 }));
+  .map((c, i) => ({ ...c, d: 0.4 + i * 0.05 }));
+
+// Roblox character at (2,0): legs -> torso -> head (drawn last, on top)
+const CHAR = [
+  { gx: 2, gy: 0, gz: 1, ...R_LEG, d: 1.0 },
+  { gx: 2, gy: 0, gz: 2, ...R_TOR, d: 1.1 },
+  { gx: 2, gy: 0, gz: 3, ...R_HEAD, d: 1.2 },
+];
+// face on the head's right (front) face — project onto the iso plane
+const HEAD = iso(2, 0, 3);
+const FACE_M = `matrix(${TW} ${-TH} 0 ${CH} ${HEAD[0]} ${HEAD[1] + 2 * TH})`;
 
 const STARS = Array.from({ length: 14 }, (_, i) => i);
 
@@ -68,7 +72,17 @@ export default function SceneGames() {
 
       <div className="gm-stage">
         <svg className="gm-svg" viewBox="48 -14 124 180" aria-hidden>
-          {ORDERED.map((c, i) => <Cube key={i} {...c} />)}
+          {TERR.map((c, i) => <Cube key={`t${i}`} {...c} />)}
+
+          {/* Roblox character — hops after it builds */}
+          <g className="gm-char">
+            {CHAR.map((c, i) => <Cube key={`c${i}`} {...c} />)}
+            <g className="gm-face" transform={FACE_M}>
+              <rect x="0.28" y="0.24" width="0.11" height="0.2" rx="0.05" fill="#2a2018" />
+              <rect x="0.55" y="0.22" width="0.11" height="0.2" rx="0.05" fill="#2a2018" />
+              <path d="M0.27 0.5 Q0.47 0.68 0.66 0.48" stroke="#2a2018" strokeWidth="0.05" fill="none" strokeLinecap="round" />
+            </g>
+          </g>
         </svg>
       </div>
     </div>

@@ -9,8 +9,11 @@
   overflow: hidden; background: #000; color: #eef2f6;
   font-family: "Fredoka", system-ui, sans-serif;
 }
-.reel-layer { position: absolute; inset: 0; animation: reel-in .85s cubic-bezier(.3,.7,.3,1) both; }
-@keyframes reel-in { from { opacity: 0; transform: scale(1.035); } to { opacity: 1; transform: none; } }
+.reel-layer { position: absolute; inset: 0; background: #000; animation: reel-in .5s ease both; }
+@keyframes reel-in { from { opacity: 0; transform: scale(1.03); } to { opacity: 1; transform: none; } }
+/* outgoing scene fades out under/beside the incoming one (true cross-dissolve) */
+.reel-layer.reel-out { animation: reel-out .5s ease forwards; }
+@keyframes reel-out { from { opacity: 1; } to { opacity: 0; } }
 
 .sc { position: absolute; inset: 0; overflow: hidden; }
 
@@ -62,7 +65,10 @@
 }
 .si-code { color: #29a9e0; text-shadow: 0 0 26px rgba(41,169,224,.5); }
 .si-ninjas { color: #ffffff; text-shadow: 0 0 22px rgba(255,255,255,.3); }
+.si-l1 { line-height: 1; }
 .si-l2 {
+  margin-top: -13px;   /* pull WOODBRIDGE up, closer under CODE NINJAS */
+  line-height: 1;
   font-family: "JetBrains Mono", monospace; font-weight: 700;
   font-size: clamp(14px, 2.4vh, 21px); letter-spacing: .44em; text-indent: .44em;
   color: #29a9e0; text-shadow: 0 0 18px rgba(41,169,224,.4);
@@ -411,6 +417,11 @@
 .gm-cube { opacity: 0; transform-box: fill-box; transform-origin: center; animation: gm-cube-in .42s cubic-bezier(.2,1.5,.5,1) var(--d) both; }
 @keyframes gm-cube-in { 0% { opacity: 0; transform: translateY(-16px) scale(.5); } 60% { opacity: 1; } 100% { opacity: 1; transform: none; } }
 .gm-cube polygon { stroke: rgba(0,0,0,.13); stroke-width: .5; stroke-linejoin: round; }
+/* the Roblox character hops once it has built */
+.gm-char { animation: gm-hop .95s ease 1.7s infinite; }
+@keyframes gm-hop { 0%, 100% { transform: translateY(0); } 42% { transform: translateY(-13px); } }
+.gm-face { opacity: 0; animation: gm-face-in .3s ease 1.4s forwards; }
+@keyframes gm-face-in { to { opacity: 1; } }
 
 @media (prefers-reduced-motion: reduce) {
   .reel-layer, .sc-head, .sc-rule, .cd-editor, .cd-rain span, .cd-line,
@@ -418,9 +429,9 @@
   .ai-bits span, .ai-aura, .ai-ring, .ai-brain, .ai-edge, .ai-trunk, .ai-node,
   .rob-botwrap, .rob-bot, .rob-pulse, .rob-scan, .rob-gear, .rob-trace, .rob-bolt,
   .web-browser, .web-hero, .web-nav, .web-card, .web-lines, .web-btn, .web-cursor, .web-toast,
-  .gm-stars span, .gm-cube { animation: none !important; }
+  .gm-stars span, .gm-cube, .gm-char, .gm-face { animation: none !important; }
   .web-hero, .web-nav, .web-card, .web-lines, .web-btn, .web-toast { opacity: 1; } .web-cursor { opacity: 0; }
-  .gm-cube { opacity: 1; }
+  .gm-cube, .gm-face { opacity: 1; }
   .si-type > * { opacity: 1; transform: none; transition: none; }
   .ai-aura { opacity: .5; } .ai-ring { opacity: .5; } .ai-brain { opacity: 1; }
   .ai-edge, .ai-trunk { stroke-dashoffset: 0; } .ai-node { opacity: 1; }
