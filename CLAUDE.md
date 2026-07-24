@@ -21,12 +21,13 @@ surrounding palette should change ad to ad.
 
 ## Safe margins (screen-recording crop)
 
-Because the ad is screen-recorded before it goes to IG, the very edges can get
-cropped. **Keep a dead-space safe margin that stays empty: at least 40px clear
-at the top and bottom, and 30px on the left and right.** No meaningful content
-(headings, logos, CTAs, the subject/graphic) may sit inside that band — treat
-it as bleed. On a 390px-wide phone that means content width ≤ ~330px
-(390 − 30 − 30), so cap hero widths around 80–84vw, not 90vw+.
+Because the ad is screen-recorded and then re-fit to the phone screen before it
+goes to IG, the edges get cropped more than you'd expect — especially the
+sides. **Keep generous dead-space: ~40px clear top/bottom and ~45px left/right.**
+No meaningful content (headings, TITLE text, logos, CTAs, the subject/graphic)
+may sit inside that band. In practice: **cap hero widths around 66–74vw (not
+80vw+)**, and keep big TITLE text small enough to fit — long words like
+"ROBOTICS"/"WEBSITES" must not run wide, so title font maxes ~44px.
 
 ## MOBILE ONLY
 
