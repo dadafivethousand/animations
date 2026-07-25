@@ -1,0 +1,116 @@
+/* CenterCube.css — 3D rotating box of real center footage on a branded stage.
+   Portrait / mobile only. Safe margins: ~40px top/bottom, ~45px sides. */
+
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=JetBrains+Mono:wght@600;700&display=swap");
+
+.cc-stage {
+  position: absolute; inset: 0; overflow: hidden;
+  background:
+    radial-gradient(120% 80% at 50% 12%, #241016, #0c0509 60%, #060305 100%);
+  font-family: "Baloo 2", system-ui, sans-serif;
+  --red: #e4002b; --red-lt: #ff2a4d;
+  /* box footprint side + face height (portrait ~4:5). --r = half side = depth */
+  --s: min(54vw, 208px);
+  --h: calc(var(--s) * 1.28);
+  --r: calc(var(--s) / 2);
+}
+
+/* ambient brand glow */
+.cc-amb {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(45% 30% at 50% 46%, rgba(228,0,43,.28), transparent 70%),
+    radial-gradient(120% 100% at 50% 50%, transparent 55%, rgba(0,0,0,.65) 100%);
+}
+
+/* ---------- header ---------- */
+.cc-head {
+  position: absolute; top: clamp(46px, 8vh, 84px); left: 0; right: 0; z-index: 4;
+  display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center;
+  animation: cc-fade .8s ease .1s both;
+}
+.cc-kicker {
+  font-family: "JetBrains Mono", monospace; font-weight: 700;
+  font-size: clamp(9px, 1.35vh, 12px); letter-spacing: .34em; text-indent: .34em;
+  color: var(--red-lt); opacity: .95;
+}
+.cc-title {
+  font-weight: 800; font-size: clamp(30px, 6.6vh, 52px); line-height: 1;
+  letter-spacing: .01em; color: #fff; text-shadow: 0 0 30px rgba(228,0,43,.35);
+}
+
+/* ---------- 3D scene ---------- */
+.cc-scene {
+  position: absolute; left: 50%; top: 53%; transform: translate(-50%, -50%);
+  z-index: 3; perspective: 1150px; perspective-origin: 50% 42%;
+}
+.cc-cube {
+  position: relative; width: var(--s); height: var(--h);
+  transform-style: preserve-3d;
+  transform: rotateX(-7deg) rotateY(var(--angle, 0deg));
+  transition: transform .85s cubic-bezier(.6, .02, .2, 1);
+  animation: cc-cube-in 1s cubic-bezier(.2, .9, .2, 1) both;
+}
+@keyframes cc-cube-in {
+  from { opacity: 0; transform: rotateX(-7deg) rotateY(-46deg) scale(.9); }
+  to   { opacity: 1; }
+}
+
+.cc-face {
+  position: absolute; top: 0; left: 0; width: var(--s); height: var(--h);
+  overflow: hidden; border-radius: 12px;
+  background: #0a0d12; backface-visibility: hidden;
+  border: 1px solid rgba(255,255,255,.10);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.4), 0 0 34px rgba(0,0,0,.5);
+}
+.cc-face video, .cc-face img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+/* face caption chip */
+.cc-facelabel {
+  position: absolute; left: 8px; bottom: 8px; z-index: 2;
+  font-family: "JetBrains Mono", monospace; font-weight: 600;
+  font-size: clamp(8px, 1.15vh, 10px); letter-spacing: .04em; color: #fff;
+  padding: 3px 8px; border-radius: 999px;
+  background: rgba(228,0,43,.85); box-shadow: 0 3px 12px rgba(0,0,0,.4);
+}
+/* subtle top-light + red rim on the front-ish faces */
+.cc-face::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,255,255,.08), transparent 30%, rgba(0,0,0,.28));
+}
+
+.cc-f0 { transform: rotateY(0deg)   translateZ(var(--r)); }
+.cc-f1 { transform: rotateY(90deg)  translateZ(var(--r)); }
+.cc-f2 { transform: rotateY(180deg) translateZ(var(--r)); }
+.cc-f3 { transform: rotateY(270deg) translateZ(var(--r)); }
+
+/* soft floor reflection / shadow under the box */
+.cc-floor {
+  position: absolute; left: 50%; top: calc(50% + var(--h) * .52);
+  width: calc(var(--s) * 1.25); height: 26px; transform: translate(-50%, -50%);
+  background: radial-gradient(50% 100% at 50% 50%, rgba(228,0,43,.35), transparent 72%);
+  filter: blur(3px); z-index: -1;
+}
+
+/* ---------- CTA ---------- */
+.cc-cta {
+  position: absolute; left: 0; right: 0; bottom: clamp(52px, 9vh, 92px); z-index: 4;
+  display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center;
+  animation: cc-fade .8s ease .3s both;
+}
+.cc-cta-main {
+  font-weight: 800; font-size: clamp(19px, 3.5vh, 28px); color: #fff;
+}
+.cc-cta-main b { color: var(--red-lt); }
+.cc-cta-sub {
+  font-family: "JetBrains Mono", monospace; font-weight: 600;
+  font-size: clamp(11px, 1.6vh, 14px); letter-spacing: .06em; color: #c9d2dd;
+}
+
+@keyframes cc-fade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .cc-cube { transition: none; animation: none; }
+  .cc-head, .cc-cta { animation: none; opacity: 1; }
+}
