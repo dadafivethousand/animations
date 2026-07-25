@@ -64,16 +64,23 @@ export default function CenterCube() {
         <div className="cc-cube" style={{ "--angle": `${angle}deg` }}>
           {FACES.map((f, i) => (
             <div className={`cc-face cc-f${i}`} key={i}>
-              {f.video ? (
-                <video
-                  ref={(el) => (media.current[i] = el)}
-                  src={f.video}
-                  muted loop playsInline preload="auto"
-                />
-              ) : (
-                <img ref={(el) => (media.current[i] = el)} src={f.image} alt="" />
-              )}
-              <span className="cc-facelabel">{f.label}</span>
+              <div className="cc-screen">
+                {f.video ? (
+                  <video
+                    ref={(el) => (media.current[i] = el)}
+                    src={f.video}
+                    muted loop playsInline preload="auto"
+                  />
+                ) : (
+                  <img ref={(el) => (media.current[i] = el)} src={f.image} alt="" />
+                )}
+                <span className="cc-glint" aria-hidden />
+                <span className="cc-facelabel">{f.label}</span>
+              </div>
+              <i className="cc-bolt bl-tl" aria-hidden />
+              <i className="cc-bolt bl-tr" aria-hidden />
+              <i className="cc-bolt bl-bl" aria-hidden />
+              <i className="cc-bolt bl-br" aria-hidden />
             </div>
           ))}
           <div className="cc-cap cc-cap-top" aria-hidden />
