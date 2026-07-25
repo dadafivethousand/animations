@@ -35,13 +35,17 @@ export default function CenterCube() {
     return () => clearInterval(id);
   }, []);
 
-  // play the front video, pause + rewind the rest
+  // Front face plays from the start; every other video sits paused on its
+  // opening frame (a still) so it's ready to play cleanly when its turn comes.
   useEffect(() => {
     const front = ((step % FACES.length) + FACES.length) % FACES.length;
     media.current.forEach((el, i) => {
       if (!el || el.tagName !== "VIDEO") return;
-      if (i === front) { try { el.currentTime = 0; el.play(); } catch (e) {} }
-      else el.pause();
+      if (i === front) {
+        try { el.currentTime = 0; el.play(); } catch (e) {}
+      } else {
+        try { el.pause(); el.currentTime = 0; } catch (e) {} // rewind to still frame
+      }
     });
   }, [step]);
 
