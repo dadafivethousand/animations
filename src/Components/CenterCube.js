@@ -76,6 +76,8 @@ export default function CenterCube() {
               <span className="cc-facelabel">{f.label}</span>
             </div>
           ))}
+          <div className="cc-cap cc-cap-top" aria-hidden />
+          <div className="cc-cap cc-cap-bot" aria-hidden />
         </div>
         <div className="cc-floor" aria-hidden />
       </div>

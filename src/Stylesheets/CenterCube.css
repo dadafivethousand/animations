@@ -10,8 +10,8 @@
   font-family: "Baloo 2", system-ui, sans-serif;
   --red: #e4002b; --red-lt: #ff2a4d;
   /* box footprint side + face height (portrait ~4:5). --r = half side = depth */
-  --s: min(54vw, 208px);
-  --h: calc(var(--s) * 1.28);
+  --s: min(50vw, 194px);
+  --h: calc(var(--s) * 1.3);
   --r: calc(var(--s) / 2);
 }
 
@@ -42,17 +42,20 @@
 /* ---------- 3D scene ---------- */
 .cc-scene {
   position: absolute; left: 50%; top: 53%; transform: translate(-50%, -50%);
-  z-index: 3; perspective: 1150px; perspective-origin: 50% 42%;
+  z-index: 3; perspective: 900px; perspective-origin: 50% 36%;
 }
+/* --tilt: downward pitch so the top cap shows.  --yaw: constant off-axis turn so
+   the featured face is never dead-flat — you always see face + side edge + top. */
 .cc-cube {
   position: relative; width: var(--s); height: var(--h);
+  --tilt: -17deg; --yaw: -28deg;
   transform-style: preserve-3d;
-  transform: rotateX(-7deg) rotateY(var(--angle, 0deg));
-  transition: transform .85s cubic-bezier(.6, .02, .2, 1);
+  transform: rotateX(var(--tilt)) rotateY(calc(var(--angle, 0deg) + var(--yaw)));
+  transition: transform .9s cubic-bezier(.5, .05, .2, 1);
   animation: cc-cube-in 1s cubic-bezier(.2, .9, .2, 1) both;
 }
 @keyframes cc-cube-in {
-  from { opacity: 0; transform: rotateX(-7deg) rotateY(-46deg) scale(.9); }
+  from { opacity: 0; transform: rotateX(var(--tilt)) rotateY(calc(var(--yaw) - 44deg)) scale(.9); }
   to   { opacity: 1; }
 }
 
@@ -84,6 +87,28 @@
 .cc-f1 { transform: rotateY(90deg)  translateZ(var(--r)); }
 .cc-f2 { transform: rotateY(180deg) translateZ(var(--r)); }
 .cc-f3 { transform: rotateY(270deg) translateZ(var(--r)); }
+
+/* top + bottom caps close the box so it reads as a solid 3D object when tilted.
+   caps are the square footprint (--s x --s), offset up/down by half the height. */
+.cc-cap {
+  position: absolute; left: 0; width: var(--s); height: var(--s);
+  top: calc((var(--h) - var(--s)) / 2);
+  border-radius: 12px; backface-visibility: hidden;
+  border: 1px solid rgba(255,255,255,.12);
+  background:
+    radial-gradient(120% 120% at 32% 22%, #45182a, #16090d 72%),
+    linear-gradient(135deg, rgba(255,255,255,.08), transparent 55%);
+  box-shadow: inset 0 0 30px rgba(0,0,0,.55);
+}
+.cc-cap-top { transform: rotateX(90deg)  translateZ(calc(var(--h) / 2)); }
+.cc-cap-bot { transform: rotateX(-90deg) translateZ(calc(var(--h) / 2)); }
+/* brand mark on the top cap */
+.cc-cap-top::after {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 42%; height: 42%;
+  transform: translate(-50%, -50%); border-radius: 50%;
+  background: radial-gradient(circle at 50% 42%, var(--red-lt), var(--red) 62%, transparent 68%);
+  box-shadow: 0 0 26px rgba(228,0,43,.6);
+}
 
 /* soft floor reflection / shadow under the box */
 .cc-floor {
