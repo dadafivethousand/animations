@@ -86,5 +86,9 @@ as final**, especially anything public-facing.
 
 ## Workflow
 
-Commit and push after each change (per user preference) on a branch, not
-straight commits to a shared default without asking.
+Commit and push after each change (per user preference) — **straight to
+`master`, no side branches.** This repo auto-deploys through Cloudflare Pages
+(the connection lives in the Cloudflare dashboard, not in any file here):
+`master` builds as **Production**, every other branch builds only as a
+**Preview**. Branching therefore hides the work from the URL the user actually
+looks at. Don't ask first; just push.
