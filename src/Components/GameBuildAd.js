@@ -1,10 +1,12 @@
-// GameBuildAd.jsx — "KIDS BUILD REAL GAMES" arcade build-out ad unit.
+// GameBuildAd.jsx — "KIDS BUILD ___" arcade build-out ad unit covering the
+// full program range: game dev, robotics, AI, chess and STEM.
 //
 // A bright cream/arcade-yellow stage (deliberately NOT the dark cinematic
-// palette of the recent ads). A tiny platformer level assembles itself block by
-// block inside a cartridge screen, the Code Ninjas mark runs and hops through
-// it popping coins, code lines type in underneath, then the logo lockup + CTA
-// land. Portrait / mobile only.
+// palette of the recent ads). The headline word rolls through what kids build,
+// a platformer level assembles itself inside a cartridge screen, the Code
+// Ninjas mark runs and hops through it popping a program token out of each
+// block, the program chips deal in, then the logo lockup + CTA land.
+// Portrait / mobile only.
 //
 // JS only advances the phase; every bit of motion is CSS keyed off .gb-p0..p5.
 import React from "react";
@@ -16,12 +18,28 @@ import ninja from "../Images/cn-ninja-icon.png";
 const COPY = {
   kicker: "CODE NINJAS",
   place: "WOODBRIDGE",
-  titleA: ["KIDS", "BUILD"],
-  titleB: ["REAL", "GAMES"],
+  lead: "KIDS BUILD",
+  // rolls in the red slot; last entry repeats the first for a seamless loop
+  roll: ["GAMES", "ROBOTS", "AI", "APPS", "GAMES"],
+  // Glyphs carry U+FE0E (text presentation) so Chrome/iOS render them as
+  // monochrome type, not colour emoji — colour emoji would break the palette.
+  // tokens popped out of the blocks as the ninja hops
+  tokens: [
+    { g: "▸", k: "k1" },        // ▸ game dev
+    { g: "⚙︎", k: "k2" },  // ⚙ robotics
+    { g: "♟︎", k: "k3" },  // ♟ chess
+  ],
+  progLabel: "PROGRAMS",
+  progs: [
+    { g: "▸", t: "GAME DEV" },
+    { g: "⚙︎", t: "ROBOTICS" },
+    { g: "✦", t: "AI" },
+    { g: "♟︎", t: "CHESS" },
+    { g: "⚛︎", t: "STEM" },
+  ],
   code: [
-    "const ninja = new Player();",
-    "ninja.jump();  // ↑",
-    "if (coin) score += 100;",
+    "const skills = [code, chess, ai];",
+    "ninja.build(robot);  // level up",
   ],
   cta: "BOOK A FREE SESSION",
   url: "cnwoodbridge.com",
@@ -53,14 +71,18 @@ export default function GameBuildAd() {
         </span>
         <h1 className="gb-title">
           <span className="gb-tline">
-            {COPY.titleA.map((w, i) => (
+            {COPY.lead.split(" ").map((w, i) => (
               <i key={w} className={`gb-w gb-w${i + 1}`}>{w}</i>
             ))}
           </span>
-          <span className="gb-tline">
-            {COPY.titleB.map((w, i) => (
-              <i key={w} className={`gb-w gb-w${i + 3} ${i ? "gb-hot" : ""}`}>{w}</i>
-            ))}
+          <span className="gb-tline gb-swapline">
+            <span className="gb-swap">
+              <b>
+                {COPY.roll.map((w, i) => (
+                  <em key={`${w}${i}`}>{w}</em>
+                ))}
+              </b>
+            </span>
           </span>
         </h1>
       </header>
@@ -88,9 +110,11 @@ export default function GameBuildAd() {
         <i className="gb-block gb-b2" aria-hidden />
         <i className="gb-block gb-b3" aria-hidden />
 
-        <i className="gb-coin gb-k1" aria-hidden />
-        <i className="gb-coin gb-k2" aria-hidden />
-        <i className="gb-coin gb-k3" aria-hidden />
+        {COPY.tokens.map((t) => (
+          <i key={t.k} className={`gb-coin gb-${t.k}`} aria-hidden>
+            <b>{t.g}</b>
+          </i>
+        ))}
 
         <div className="gb-flag" aria-hidden>
           <i />
@@ -108,6 +132,18 @@ export default function GameBuildAd() {
         </div>
 
         <div className="gb-shine" aria-hidden />
+      </div>
+
+      <div className="gb-progs">
+        <span className="gb-prog-label">{COPY.progLabel}</span>
+        <div className="gb-chips">
+          {COPY.progs.map((p, i) => (
+            <span key={p.t} className={`gb-chip gb-ch${i + 1}`}>
+              <b>{p.g}</b>
+              {p.t}
+            </span>
+          ))}
+        </div>
       </div>
 
       <div className="gb-code">

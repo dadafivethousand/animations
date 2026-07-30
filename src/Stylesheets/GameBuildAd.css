@@ -2,6 +2,7 @@
 
 /* ============================================================
    GameBuildAd — bright cream + arcade-yellow "build a game" ad
+   Covers the full program range: game dev, robotics, AI, chess, STEM.
    Portrait phone only (~390x844). Safe margins: 42px top/bottom,
    46px left/right — nothing meaningful outside that band.
    One knob: --gw sizes the cartridge screen (and most of the scene).
@@ -25,7 +26,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  gap: clamp(6px, 1.4vh, 14px);
+  gap: clamp(6px, 1.3vh, 12px);
   padding: 42px 46px 44px;
   box-sizing: border-box;
   color: var(--ink);
@@ -69,7 +70,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(6px, 1.2vh, 12px);
+  gap: clamp(5px, 1.1vh, 10px);
   position: relative;
   z-index: 2;
 }
@@ -103,7 +104,7 @@
   margin: 0;
   font-family: "Archivo Black", "Arial Black", sans-serif;
   font-size: clamp(26px, 8.6vw, 40px);
-  line-height: .96;
+  line-height: .98;
   letter-spacing: -.01em;
   text-align: center;
 }
@@ -116,22 +117,55 @@
   transform: translateY(16px) rotate(-4deg);
   text-shadow: 0 3px 0 rgba(255, 255, 255, .7);
 }
-.gb-hot {
-  color: var(--red);
-  text-shadow: 0 3px 0 rgba(255, 255, 255, .7), 0 0 18px rgba(228, 0, 43, .25);
-}
 
 .gb-p1 .gb-w, .gb-p2 .gb-w, .gb-p3 .gb-w, .gb-p4 .gb-w, .gb-p5 .gb-w {
   animation: gb-pop .46s cubic-bezier(.2, 1.5, .4, 1) forwards;
 }
 .gb-w1 { animation-delay: .10s; }
 .gb-w2 { animation-delay: .20s; }
-.gb-w3 { animation-delay: .30s; }
-.gb-w4 { animation-delay: .40s; }
 @keyframes gb-pop {
   0%   { opacity: 0; transform: translateY(18px) rotate(-5deg) scale(.85); }
   65%  { opacity: 1; transform: translateY(-3px) rotate(1.5deg) scale(1.05); }
   100% { opacity: 1; transform: translateY(0) rotate(0) scale(1); }
+}
+
+/* rolling headline word: GAMES → ROBOTS → AI → APPS (→ GAMES) */
+.gb-swapline { margin-top: .04em; }
+.gb-swap {
+  display: inline-block;
+  width: 5.6em;
+  height: 1em;
+  overflow: hidden;
+  vertical-align: bottom;
+  opacity: 0;
+  transform: translateY(14px);
+}
+.gb-swap > b {
+  display: block;
+  font-weight: inherit;
+  color: var(--red);
+  text-shadow: 0 3px 0 rgba(255, 255, 255, .7), 0 0 18px rgba(228, 0, 43, .22);
+}
+.gb-swap em {
+  display: block;
+  height: 1em;
+  line-height: 1;
+  font-style: normal;
+}
+.gb-p1 .gb-swap, .gb-p2 .gb-swap, .gb-p3 .gb-swap,
+.gb-p4 .gb-swap, .gb-p5 .gb-swap {
+  animation: gb-fade-up .5s ease .32s forwards;
+}
+.gb-p1 .gb-swap > b, .gb-p2 .gb-swap > b, .gb-p3 .gb-swap > b,
+.gb-p4 .gb-swap > b, .gb-p5 .gb-swap > b {
+  animation: gb-swap 8.8s cubic-bezier(.7, 0, .2, 1) .9s infinite;
+}
+@keyframes gb-swap {
+  0%, 17%   { transform: translateY(0); }
+  22%, 39%  { transform: translateY(-20%); }
+  44%, 61%  { transform: translateY(-40%); }
+  66%, 83%  { transform: translateY(-60%); }
+  88%, 100% { transform: translateY(-80%); }
 }
 
 /* ---------------- cartridge screen ---------------- */
@@ -139,7 +173,7 @@
 .gb-screen {
   position: relative;
   width: var(--gw);
-  aspect-ratio: 4 / 3.05;
+  height: clamp(146px, 23vh, 196px);
   border: 3px solid var(--ink);
   border-radius: 16px;
   overflow: hidden;
@@ -217,9 +251,9 @@
   opacity: 0;
   transform: translateY(-160px) rotate(-24deg);
 }
-.gb-b1 { left: 20%; bottom: 44%; }
-.gb-b2 { left: 44%; bottom: 58%; }
-.gb-b3 { left: 66%; bottom: 46%; }
+.gb-b1 { left: 20%; bottom: 42%; }
+.gb-b2 { left: 44%; bottom: 55%; }
+.gb-b3 { left: 66%; bottom: 44%; }
 
 .gb-p2 .gb-block, .gb-p3 .gb-block, .gb-p4 .gb-block, .gb-p5 .gb-block {
   animation: gb-drop .62s cubic-bezier(.24, 1.5, .38, 1) forwards;
@@ -233,19 +267,27 @@
   100% { opacity: 1; transform: translateY(0) rotate(0) scale(1); }
 }
 
-/* --- coins: pop as the ninja passes (synced to the 4.6s run cycle) --- */
+/* --- program tokens: pop out of each block as the ninja hits it --- */
 .gb-coin {
   position: absolute;
-  width: 8%;
+  width: 12%;
   aspect-ratio: 1;
   border-radius: 50%;
   border: 2px solid var(--ink);
   background: radial-gradient(circle at 36% 32%, #fff5c9, var(--sun) 62%, #e8a900);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   opacity: 0;
 }
-.gb-k1 { left: 23.5%; bottom: 62%; }
-.gb-k2 { left: 47.5%; bottom: 76%; }
-.gb-k3 { left: 69.5%; bottom: 64%; }
+.gb-coin b {
+  font-size: clamp(9px, 2.6vw, 11px);
+  line-height: 1;
+  color: var(--ink);
+}
+.gb-k1 { left: 21.5%; bottom: 60%; }
+.gb-k2 { left: 45.5%; bottom: 73%; }
+.gb-k3 { left: 67.5%; bottom: 62%; }
 
 .gb-p3 .gb-coin, .gb-p4 .gb-coin, .gb-p5 .gb-coin {
   animation: gb-coin 4.6s linear infinite;
@@ -364,10 +406,66 @@
   58%       { transform: translateY(-58px) scale(.9, 1.12) rotate(10deg); } /* onto the blocks */
   66%       { transform: translateY(0) scale(1.14, .84) rotate(0deg); }
   72%       { transform: translateY(0) scale(1, 1) rotate(0deg); }
-  78%       { transform: translateY(-28px) scale(.95, 1.06) rotate(-6deg); }
+  78%       { transform: translateY(-30px) scale(.95, 1.06) rotate(-6deg); }
   84%       { transform: translateY(0) scale(1.1, .9) rotate(0deg); }
   88%, 100% { transform: translateY(-4px) scale(1, 1) rotate(0deg); }      /* celebrate */
 }
+
+/* ---------------- program chips ---------------- */
+
+.gb-progs {
+  width: var(--gw);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  z-index: 2;
+  flex: none;
+}
+
+.gb-prog-label {
+  font-family: "Press Start 2P", monospace;
+  font-size: clamp(5px, 1.6vw, 6.5px);
+  letter-spacing: .18em;
+  color: var(--ink-soft);
+  opacity: 0;
+}
+.gb-p4 .gb-prog-label, .gb-p5 .gb-prog-label {
+  animation: gb-fade-up .4s ease forwards;
+}
+
+.gb-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+}
+.gb-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 9px;
+  font-size: clamp(8px, 2.4vw, 9.5px);
+  font-weight: 800;
+  letter-spacing: .04em;
+  white-space: nowrap;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 2.5px 0 var(--ink);
+  opacity: 0;
+  transform: translateY(10px) scale(.9);
+}
+.gb-chip b { color: var(--red); font-size: 1.05em; line-height: 1; }
+
+.gb-p4 .gb-chip, .gb-p5 .gb-chip {
+  animation: gb-pop-in .42s cubic-bezier(.2, 1.5, .4, 1) forwards;
+}
+.gb-ch1 { animation-delay: .06s; }
+.gb-ch2 { animation-delay: .14s; }
+.gb-ch3 { animation-delay: .22s; }
+.gb-ch4 { animation-delay: .30s; }
+.gb-ch5 { animation-delay: .38s; }
 
 /* ---------------- code strip ---------------- */
 
@@ -375,8 +473,8 @@
   width: var(--gw);
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  padding: 9px 11px;
+  gap: 2px;
+  padding: 8px 11px;
   box-sizing: border-box;
   border: 2px solid var(--ink);
   border-radius: 10px;
@@ -388,7 +486,7 @@
   flex: none;
 }
 .gb-p4 .gb-code, .gb-p5 .gb-code {
-  animation: gb-fade-up .45s ease forwards;
+  animation: gb-fade-up .45s ease .45s forwards;
 }
 @keyframes gb-fade-up {
   to { opacity: 1; transform: translateY(0); }
@@ -397,7 +495,7 @@
 .gb-line {
   margin: 0;
   font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: clamp(8px, 2.6vw, 10.5px);
+  font-size: clamp(7.5px, 2.4vw, 9.5px);
   line-height: 1.5;
   color: #ffe9a8;
   white-space: nowrap;
@@ -406,11 +504,10 @@
   border-right: 2px solid var(--red-lt);
 }
 .gb-p4 .gb-line, .gb-p5 .gb-line {
-  animation: gb-type .8s steps(28, end) forwards, gb-caret .7s step-end infinite;
+  animation: gb-type .8s steps(30, end) forwards, gb-caret .7s step-end infinite;
 }
-.gb-l1 { animation-delay: .10s, .10s; }
-.gb-l2 { animation-delay: .95s, .95s; }
-.gb-l3 { animation-delay: 1.8s, 1.8s; }
+.gb-l1 { animation-delay: .6s, .6s; }
+.gb-l2 { animation-delay: 1.45s, 1.45s; }
 @keyframes gb-type {
   from { width: 0; }
   to   { width: 100%; }
@@ -426,12 +523,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   z-index: 2;
 }
 
 .gb-logo {
-  width: min(48vw, 200px);
+  width: min(46vw, 192px);
   display: block;
   opacity: 0;
   transform: translateY(14px) scale(.9);
@@ -457,7 +554,7 @@
 .gb-p5 .gb-wb { animation: gb-fade-up .5s ease .18s forwards; }
 
 .gb-cta {
-  margin-top: 7px;
+  margin-top: 6px;
   padding: 10px 18px;
   font-size: clamp(11px, 3.4vw, 13.5px);
   font-weight: 800;
@@ -494,8 +591,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .gb-stage * { animation: none !important; transition: none !important; }
-  .gb-kicker, .gb-w, .gb-screen, .gb-block, .gb-logo, .gb-wb, .gb-cta, .gb-url,
-  .gb-code, .gb-ninja {
+  .gb-kicker, .gb-w, .gb-swap, .gb-screen, .gb-block, .gb-logo, .gb-wb,
+  .gb-cta, .gb-url, .gb-code, .gb-ninja, .gb-chip, .gb-prog-label {
     opacity: 1 !important;
     transform: none !important;
   }
