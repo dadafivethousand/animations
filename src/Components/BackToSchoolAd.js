@@ -9,7 +9,7 @@
 //   p1  the scene fades up, bus sits tiny on the crest of the hill
 //   p2  the bus bears down on camera — scale follows a 1/distance curve so it
 //       reads as closing at constant speed, flattening at the end as it brakes
-//       for the turn; zoom-lines bloom and the camera shake ramps
+//       for the turn, with a warm bloom on the crest and the shake ramping
 //   p3  the turn: the head-on view swings away and blurs out while the profile
 //       counter-rotates in behind it, on a shared perspective
 //   p4  it accelerates off frame right, trailing speed lines and dust
@@ -30,7 +30,7 @@ import busSide from "../Images/bus-side.png";
 
 const COPY = {
   lead: "BACK TO SCHOOL",
-  pill: "SPECIALS ON NOW",
+  lead2: "SPECIALS ON NOW",
   place: "WOODBRIDGE",
   cta: "BOOK A FREE SESSION",
   url: "cnwoodbridge.com",
@@ -68,7 +68,6 @@ export default function BackToSchoolAd() {
         <div className="rd-ground" aria-hidden />
 
         <div className="rd-beam" aria-hidden />
-        <div className="rd-zoom" aria-hidden />
 
         {/* zero-size anchor on the crest: both buses hang their bottom edge off
             this point, so they share a ground contact and a perspective origin */}
@@ -105,10 +104,10 @@ export default function BackToSchoolAd() {
         <div className="rd-card">
           <img className="rd-logo" src={logo} alt="Code Ninjas" />
           <span className="rd-place">{COPY.place}</span>
-          <h1 className="rd-lead">{COPY.lead}</h1>
-          <div className="rd-pill">
-            <span>{COPY.pill}</span>
-          </div>
+          <h1 className="rd-lead">
+            <span className="rd-l1">{COPY.lead}</span>
+            <span className="rd-l2">{COPY.lead2}</span>
+          </h1>
           <span className="rd-btn">
             {COPY.cta}
             <b>›</b>

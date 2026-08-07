@@ -5,7 +5,8 @@
    Bright daylight cartoon sky and open hill, chosen to sit with the flat
    vector bus art. No road: painted tarmac has to agree with the bus's
    path frame for frame, and any disagreement reads as the bus sliding
-   off it, so speed is carried by the zoom-lines, the shake and the bus.
+   off it, so speed is carried by the shake and the bus itself. The
+   approach is kept clean — the only drawn speed lines are on the exit.
    Portrait phone only (~390x844). Safe margins: 40px top/bottom,
    45px left/right — the promo respects them; the bus is allowed to blow
    past the frame on purpose.
@@ -111,33 +112,6 @@
   0%   { opacity: 0;   transform: scale(.12); }
   70%  { opacity: .35; transform: scale(.45); }
   100% { opacity: .95; transform: scale(1.15); }
-}
-
-/* anime zoom-lines radiating out of the crest */
-.rd-zoom {
-  position: absolute;
-  left: 50%; top: calc(var(--hz) - var(--crest));
-  width: 260vmax; height: 260vmax;
-  margin: -130vmax 0 0 -130vmax;
-  background: repeating-conic-gradient(
-    from 0deg,
-    rgba(255, 255, 255, .62) 0deg .55deg,
-    transparent .55deg 3.6deg
-  );
-  -webkit-mask-image: radial-gradient(circle, transparent 5%, #000 26%, transparent 58%);
-          mask-image: radial-gradient(circle, transparent 5%, #000 26%, transparent 58%);
-  opacity: 0;
-}
-.rd-stage.rd-p2 .rd-zoom { animation: rd-zoomin 4.2s ease-in both; }
-.rd-stage.rd-p3 .rd-zoom { animation: rd-zoomout .42s ease-out both; }
-@keyframes rd-zoomin {
-  0%   { opacity: 0;   transform: scale(.16) rotate(0deg); }
-  55%  { opacity: .18; transform: scale(.34) rotate(3deg); }
-  100% { opacity: .55; transform: scale(1)   rotate(7deg); }
-}
-@keyframes rd-zoomout {
-  0%   { opacity: .55; transform: scale(1) rotate(7deg); }
-  100% { opacity: 0;   transform: scale(1.5) rotate(11deg); }
 }
 
 /* ---------- the bus -------------------------------------------------- */
@@ -382,8 +356,10 @@
 }
 
 /* the card lands first, then its contents cascade in behind it */
-.rd-card > * { opacity: 0; }
-.rd-stage.rd-p5 .rd-card > * {
+.rd-logo, .rd-place, .rd-btn, .rd-url, .rd-l1, .rd-l2 { opacity: 0; }
+.rd-stage.rd-p5 .rd-logo,
+.rd-stage.rd-p5 .rd-place,
+.rd-stage.rd-p5 .rd-url {
   animation: rd-rise .46s cubic-bezier(.2, .9, .28, 1.06) both;
 }
 @keyframes rd-rise {
@@ -392,9 +368,7 @@
 }
 .rd-stage.rd-p5 .rd-logo  { animation-delay: .2s; }
 .rd-stage.rd-p5 .rd-place { animation-delay: .26s; }
-.rd-stage.rd-p5 .rd-lead  { animation-delay: .32s; }
-.rd-stage.rd-p5 .rd-btn   { animation-delay: .56s; }
-.rd-stage.rd-p5 .rd-url   { animation-delay: .64s; }
+.rd-stage.rd-p5 .rd-url   { animation-delay: .72s; }
 
 .rd-logo { width: clamp(64px, 20vw, 80px); display: block; }
 .rd-place {
@@ -415,69 +389,25 @@
   color: var(--ink);
 }
 
-/* The pill: school-bus yellow, so the payoff carries the colour of the thing
-   that just drove past. Built as an enamel badge rather than a flat chip — a
-   three-stop gradient with the light on top, a hard ink base edge so it reads
-   as a physical object, a hairline inner ring, and letterpressed type. */
-.rd-pill {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  padding: clamp(6px, 1.15vh, 9px) 8px;
-  background:
-    linear-gradient(180deg,
-      #ffef9e 0%,
-      var(--sun-lt) 26%,
-      var(--sun) 62%,
-      #eda200 100%);
-  border: 2px solid var(--ink);
-  border-radius: 999px;
-  box-shadow:
-    0 3px 0 var(--ink),
-    0 7px 12px rgba(9, 24, 44, .34),
-    inset 0 1.5px 0 rgba(255, 255, 255, .85),
-    inset 0 -2px 3px rgba(160, 100, 0, .3);
+/* the offer line lives in the headline now — no plaque. The payoff line is
+   set in brand red so it still separates from the lead without one. */
+.rd-l1, .rd-l2 { display: block; }
+.rd-l2 {
+  margin-top: .12em;
+  font-size: .84em;
+  color: var(--red);
 }
-/* hairline ring, the way an enamel badge is struck */
-.rd-pill::before {
-  content: "";
-  position: absolute;
-  inset: 2.5px;
-  border: 1px solid rgba(255, 255, 255, .5);
-  border-radius: 999px;
-  pointer-events: none;
+.rd-stage.rd-p5 .rd-l1 {
+  animation: rd-rise .46s .34s cubic-bezier(.2, .9, .28, 1.06) both;
 }
-.rd-pill span {
-  position: relative;
-  display: block;
-  font-size: clamp(9px, 3vw, 11.5px);
-  font-weight: 900;
-  letter-spacing: .16em;
-  text-indent: .16em;
-  color: var(--ink);
-  text-shadow: 0 1px 0 rgba(255, 255, 255, .6);
-}
-.rd-stage.rd-p5 .rd-pill {
-  animation: rd-pop .52s .4s cubic-bezier(.2, .9, .26, 1.1) both;
+.rd-stage.rd-p5 .rd-l2 {
+  animation: rd-pop .5s .46s cubic-bezier(.2, .9, .26, 1.1) both;
 }
 @keyframes rd-pop {
-  0%   { opacity: 0; transform: translateY(10px) scale(.84); }
-  60%  { opacity: 1; transform: translateY(0) scale(1.07); }
+  0%   { opacity: 0; transform: translateY(8px) scale(.88); }
+  60%  { opacity: 1; transform: translateY(0) scale(1.05); }
   100% { opacity: 1; transform: none; }
 }
-/* sheen sweeping across once it has landed */
-.rd-pill::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(104deg, transparent 34%, rgba(255, 255, 255, .9) 50%, transparent 66%);
-  transform: translateX(-135%);
-  pointer-events: none;
-}
-.rd-stage.rd-p5 .rd-pill::after {
-  animation: rd-sheen .75s .96s cubic-bezier(.3, .7, .3, 1) both;
-}
-@keyframes rd-sheen { to { transform: translateX(135%); } }
 
 .rd-btn {
   display: flex;
@@ -496,8 +426,8 @@
   box-shadow: 0 3px 0 #a80020, 0 8px 14px rgba(228, 0, 43, .4);
 }
 .rd-stage.rd-p5 .rd-btn {
-  animation: rd-rise .46s .56s cubic-bezier(.2, .9, .28, 1.06) both,
-             rd-pulse 1.9s 1.4s ease-in-out infinite;
+  animation: rd-rise .46s .64s cubic-bezier(.2, .9, .28, 1.06) both,
+             rd-pulse 1.9s 1.5s ease-in-out infinite;
 }
 .rd-btn b { font-size: 1.25em; line-height: 0; animation: rd-nudge 1.2s 1.4s ease-in-out infinite; }
 @keyframes rd-pulse {
@@ -511,7 +441,7 @@
 
 .rd-url {
   font-family: "Permanent Marker", cursive;
-  font-size: clamp(8px, 2.5vw, 10.5px);
+  font-size: clamp(11px, 3.6vw, 14.5px);
   color: var(--ink);
 }
 
@@ -548,7 +478,6 @@
   }
   .rd-cam { transform: none; }
   .rd-front, .rd-side { opacity: 0; }
-  .rd-zoom, .rd-beam, .rd-streaks, .rd-dust i { opacity: 0; }
-  .rd-card, .rd-card > * { opacity: 1; transform: none; filter: none; }
-  .rd-pill::after { opacity: 0; }
+  .rd-beam, .rd-streaks, .rd-dust i { opacity: 0; }
+  .rd-card, .rd-card > *, .rd-l1, .rd-l2 { opacity: 1; transform: none; filter: none; }
 }
