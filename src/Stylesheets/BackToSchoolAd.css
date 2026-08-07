@@ -227,9 +227,9 @@
 }
 @keyframes rd-turnout {
   0%   { opacity: 1; transform: translateX(-50%) translateY(33vh) scale(.7) rotateY(0deg) rotateZ(0deg); filter: blur(0); }
-  30%  { opacity: .92; transform: translateX(calc(-50% + 1.5vw)) translateY(33.4vh) scale(.7) rotateY(-17deg) rotateZ(.9deg); filter: blur(.6px); }
-  62%  { opacity: .38; transform: translateX(calc(-50% + 4vw)) translateY(33.8vh) scale(.69) rotateY(-40deg) rotateZ(1.7deg); filter: blur(2.4px); }
-  100% { opacity: 0; transform: translateX(calc(-50% + 7.5vw)) translateY(34.2vh) scale(.68) rotateY(-66deg) rotateZ(2.4deg); filter: blur(4.5px); }
+  30%  { opacity: .92; transform: translateX(calc(-50% + 1vw)) translateY(33.4vh) scale(.7) rotateY(17deg) rotateZ(-.9deg); filter: blur(.6px); }
+  62%  { opacity: .38; transform: translateX(calc(-50% + 2.6vw)) translateY(33.8vh) scale(.69) rotateY(40deg) rotateZ(-1.7deg); filter: blur(2.4px); }
+  100% { opacity: 0; transform: translateX(calc(-50% + 4.5vw)) translateY(34.2vh) scale(.68) rotateY(66deg) rotateZ(-2.4deg); filter: blur(4.5px); }
 }
 
 /* ...while the profile counter-rotates in on the same perspective */
@@ -237,9 +237,9 @@
   animation: rd-turnin .8s .22s cubic-bezier(.36, .06, .28, 1) both;
 }
 @keyframes rd-turnin {
-  0%   { opacity: 0; transform: translateX(calc(-50% + 11vw)) translateY(34.4vh) scale(.72) rotateY(64deg) rotateZ(2.4deg); filter: blur(4.5px); }
+  0%   { opacity: 0; transform: translateX(calc(-50% + 5vw)) translateY(34.4vh) scale(.72) rotateY(-64deg) rotateZ(-2.4deg); filter: blur(4.5px); }
   48%  { opacity: 1; }
-  60%  { transform: translateX(calc(-50% + 4.5vw)) translateY(33.4vh) scale(.66) rotateY(26deg) rotateZ(1.2deg); filter: blur(1.6px); }
+  60%  { transform: translateX(calc(-50% + 2vw)) translateY(33.4vh) scale(.66) rotateY(-26deg) rotateZ(-1.2deg); filter: blur(1.6px); }
   100% { opacity: 1; transform: translateX(-50%) translateY(32vh) scale(.62) rotateY(0deg) rotateZ(0deg); filter: blur(0); }
 }
 
@@ -249,8 +249,8 @@
 }
 @keyframes rd-driveoff {
   0%   { opacity: 1; transform: translateX(-50%) translateY(32vh) scale(.62) rotateY(0deg); }
-  25%  { transform: translateX(calc(-50% + 12vw)) translateY(31.2vh) scale(.57) rotateY(-3deg); }
-  100% { opacity: 1; transform: translateX(calc(-50% + 165vw)) translateY(28vh) scale(.44) rotateY(-10deg); }
+  25%  { transform: translateX(calc(-50% + 12vw)) translateY(31.2vh) scale(.57) rotateY(3deg); }
+  100% { opacity: 1; transform: translateX(calc(-50% + 165vw)) translateY(28vh) scale(.44) rotateY(9deg); }
 }
 
 /* horizontal speed lines during the exit */
