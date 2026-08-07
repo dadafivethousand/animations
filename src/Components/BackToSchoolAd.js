@@ -34,7 +34,64 @@ const COPY = {
   url: "cnwoodbridge.com",
 };
 
-const DASHES = 9;   // centre-line dashes, spaced by a fake perspective curve
+
+// ---- road geometry ---------------------------------------------------------
+// The bus turns right, so the road has to bend right underneath it or the turn
+// reads as driving into the grass. One centre curve drives everything: the
+// tarmac, the painted shoulder and the centre dashes are all offsets from it.
+// Straight until BEND_AT (the whole approach happens on that stretch), then it
+// sweeps right and toward camera, which is the bend the bus takes.
+const RW = 390;         // road-region viewBox, matches a 390x844 stage
+const RH = 473;
+const BEND_AT = 190;    // where the curve starts, in viewBox units
+// A big sweep on purpose. With a small one the road still ends at the bottom
+// of the frame while its inner edge curls back, which reads as a teardrop
+// rather than a bend; carrying it far enough that the road leaves through the
+// right of frame turns that same curl into the inside of a corner.
+const BEND_TO = 400;    // total lateral sweep
+
+const cx = (y) => {
+  const t = Math.max(0, (y - BEND_AT) / (RH - BEND_AT));
+  return RW / 2 + BEND_TO * t * t;
+};
+// half-width, opening linearly toward camera
+const hw = (y) => 14 + 296 * (y / RH);
+
+// a filled band around the centre curve, `pad` widening it (0 = tarmac)
+function band(pad) {
+  const n = 60;
+  const pts = [];
+  for (let i = 0; i <= n; i++) {
+    const y = (RH * i) / n;
+    pts.push([cx(y) - hw(y) - pad(y), y]);
+  }
+  for (let i = n; i >= 0; i--) {
+    const y = (RH * i) / n;
+    pts.push([cx(y) + hw(y) + pad(y), y]);
+  }
+  return "M" + pts.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(" L") + " Z";
+}
+
+const TARMAC = band(() => 0);
+const SHOULDER = band((y) => 2 + 9 * (y / RH));
+
+// centre dashes: bunched toward the horizon, scaled by the local road width
+// and rotated onto the tangent so they lie along the bend
+const DASHES = Array.from({ length: 12 }, (_, i) => {
+  const y = RH * Math.pow((i + 1) / 13, 2);
+  const w = Math.max(0.9, hw(y) * 0.05);
+  const ln = Math.max(1.5, hw(y) * 0.08);
+  const ang = Math.atan2(1, (cx(y + 2) - cx(y - 2)) / 4) - Math.PI / 2;
+  const ca = Math.cos(ang), sa = Math.sin(ang), x0 = cx(y);
+  return (
+    "M" +
+    [[-w, -ln], [w, -ln], [w, ln], [-w, ln]]
+      .map(([dx, dy]) =>
+        `${(x0 + dx * ca - dy * sa).toFixed(1)},${(y + dx * sa + dy * ca).toFixed(1)}`)
+      .join(" L") + " Z"
+  );
+});
+
 const CLOUDS = 3;
 const PUFFS = 7;    // dust kicked up as it leaves
 
@@ -65,26 +122,26 @@ export default function BackToSchoolAd() {
 
         <div className="rd-hills" aria-hidden />
         <div className="rd-ground" aria-hidden />
-        <div className="rd-verge" aria-hidden />
-        <div className="rd-road" aria-hidden />
 
-        {/* centre line: each dash is placed and sized off a t^2.1 curve, which
-            is a cheap stand-in for real perspective foreshortening */}
-        <div className="rd-dashes" aria-hidden>
-          {Array.from({ length: DASHES }, (_, i) => {
-            const p = Math.pow((i + 1) / (DASHES + 1), 2.1);
-            return (
-              <i
-                key={i}
-                style={{
-                  "--t": p,
-                  "--w": `${0.7 + p * 9}%`,
-                  "--h": `${0.4 + p * 6.5}%`,
-                }}
-              />
-            );
-          })}
-        </div>
+        <svg
+          className="rd-road"
+          viewBox={`0 0 ${RW} ${RH}`}
+          preserveAspectRatio="none"
+          aria-hidden
+        >
+          <defs>
+            <linearGradient id="rdTar" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#7b828d" />
+              <stop offset="44%" stopColor="#6a7078" />
+              <stop offset="100%" stopColor="#575d66" />
+            </linearGradient>
+          </defs>
+          <path className="rd-shoulder" d={SHOULDER} />
+          <path className="rd-tar" d={TARMAC} />
+          {DASHES.map((d, i) => (
+            <path key={i} className="rd-dash" d={d} />
+          ))}
+        </svg>
 
         <div className="rd-beam" aria-hidden />
         <div className="rd-zoom" aria-hidden />

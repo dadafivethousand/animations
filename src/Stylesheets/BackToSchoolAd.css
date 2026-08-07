@@ -93,38 +93,19 @@
   background: linear-gradient(180deg, var(--grass-2) 0%, var(--grass) 22%, #92dd7c 100%);
 }
 
-/* the painted shoulder is just a slightly wider trapezoid behind the tar */
-.rd-verge {
-  position: absolute;
-  left: 0; right: 0;
-  top: var(--hz); bottom: 0;
-  background: var(--paint);
-  clip-path: polygon(42.1% 0%, 57.9% 0%, 142% 100%, -42% 100%);
-}
+/* One SVG carries the whole road: tarmac, painted shoulder and centre dashes
+   are all offsets from a single centre curve computed in the component, so the
+   bend the bus takes is the bend the paint takes. */
 .rd-road {
   position: absolute;
   left: 0; right: 0;
   top: var(--hz); bottom: 0;
-  background: linear-gradient(180deg, var(--tar-1) 0%, #6a7078 44%, var(--tar-2) 100%);
-  clip-path: polygon(43% 0%, 57% 0%, 133% 100%, -33% 100%);
+  display: block;
+  overflow: visible;
 }
-
-.rd-dashes {
-  position: absolute;
-  left: 0; right: 0;
-  top: var(--hz); bottom: 0;
-}
-.rd-dashes i {
-  position: absolute;
-  left: 50%;
-  top: calc(var(--t) * 100%);
-  width: var(--w);
-  height: var(--h);
-  margin-left: calc(var(--w) / -2);
-  border-radius: 1px;
-  background: var(--dash);
-  opacity: .95;
-}
+.rd-shoulder { fill: var(--paint); }
+.rd-tar      { fill: url(#rdTar); }
+.rd-dash     { fill: var(--dash); opacity: .95; }
 
 /* ---------- approach light ----------------------------------------- */
 
@@ -249,8 +230,8 @@
 }
 @keyframes rd-driveoff {
   0%   { opacity: 1; transform: translateX(-50%) translateY(32vh) scale(.62) rotateY(0deg); }
-  25%  { transform: translateX(calc(-50% + 12vw)) translateY(31.2vh) scale(.57) rotateY(3deg); }
-  100% { opacity: 1; transform: translateX(calc(-50% + 165vw)) translateY(28vh) scale(.44) rotateY(9deg); }
+  25%  { transform: translateX(calc(-50% + 13vw)) translateY(33.2vh) scale(.65) rotateY(4deg); }
+  100% { opacity: 1; transform: translateX(calc(-50% + 150vw)) translateY(39vh) scale(.76) rotateY(13deg); }
 }
 
 /* horizontal speed lines during the exit */
