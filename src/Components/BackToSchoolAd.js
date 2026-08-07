@@ -1,73 +1,45 @@
-// BackToSchoolAd.jsx — "BACK TO SCHOOL SPECIALS ARE ON NOW" ad unit.
+// BackToSchoolAd.jsx — school bus drives at camera, turns, exits, promo lands.
 //
-// Deliberately NOT the dark navy/cyan cinematic palette: this one is a sheet of
-// ruled notebook paper on a school-bus-yellow desk — cream paper, blue rules, a
-// red margin line, marker/highlighter accents and a rubber stamp.
-//
-// Intentionally light on copy. It names no offer, no price and no deadline —
-// just "the specials are on" — so it stays true whatever the actual promo is
-// and doesn't need re-cutting when the offer changes. The details happen in the
-// DM/booking, not on the post.
+// A bright daylight cartoon road (flat sky, green verge, perspective asphalt)
+// picked to match the flat vector style of the bus art, and deliberately unlike
+// both the notebook-paper and dark-cinematic ads on the feed.
 //
 // Beat sheet (plays once, then holds the final frame):
-//   p1  paper drops in, blue rules draw left->right, red margin draws down
-//   p2  a fast ninja "cast flash" punches through 3 poses and lands on the
-//       leap, the title slams in letter by letter, paper scraps burst, the
-//       highlighter swipes and the marker underline draws
-//   p3  the SPECIALS plaque unfurls from its centre
-//   p4  the AGES rubber stamp thumps down with a shockwave
-//   p5  the CTA panel rises
+//   p1  the road scene fades up, bus sits tiny on the vanishing point
+//   p2  the bus bears down on camera — scale follows a 1/distance curve so it
+//       reads as closing at constant speed rather than a linear zoom; anime
+//       zoom-lines bloom out of the vanishing point and the camera shake ramps
+//   p3  the turn: the front view rotates away and blurs out while the profile
+//       counter-rotates in behind it, on a shared perspective, so it reads as
+//       one body swinging round rather than a cut
+//   p4  it accelerates off frame right, trailing speed lines and dust
+//   p5  the scene dims and the promo card punches in
 //
-// JS only advances the phase; every bit of motion is CSS keyed off .bs-p0..p5.
+// Each stage's keyframes open exactly where the previous stage's closed, so
+// swapping the phase class hands the bus off mid-flight with no visible seam.
+//
+// JS only advances the phase; every bit of motion is CSS keyed off .rd-p0..p5.
 import React from "react";
 import "../Stylesheets/BackToSchoolAd.css";
 
 import logo from "../Images/cn-woodbridge-logo.png";
-import nLeap from "../Images/b2s-ninja-leap.png";
-import nBlocks from "../Images/b2s-ninja-blocks.png";
-import nHandheld from "../Images/b2s-ninja-handheld.png";
-import nThumbs from "../Images/b2s-ninja-thumbs.png";
+import busFront from "../Images/bus-front.png";
+import busSide from "../Images/bus-side.png";
 
 const COPY = {
-  kicker: "CODE NINJAS",
+  lead: "BACK TO SCHOOL",
+  plate: "SPECIALS ON NOW",
   place: "WOODBRIDGE",
-  lead: "BACK TO",
-  hero: "SCHOOL",
-  ribbon: "SPECIALS",
-  ribbonSub: "ARE ON NOW",
-  stamp: ["AGES", "5–14"],
   cta: "BOOK A FREE SESSION",
   url: "cnwoodbridge.com",
 };
 
-// the poses the cast-flash punches through before it settles on the leap
-const CAST = [nBlocks, nHandheld, nThumbs];
-
-const RULES = 20;   // blue ruled lines
-const SCRAPS = 26;  // paper-scrap confetti
+const DASHES = 9;   // centre-line dashes, spaced by a fake perspective curve
+const CLOUDS = 3;
+const PUFFS = 7;    // dust kicked up as it leaves
 
 // phase cue sheet (ms from mount); index 1..5, index 0 is the initial state
-const CUES = [240, 1050, 3200, 4300, 5300];
-
-// deterministic per-letter jitter so the sticker slam doesn't look mechanical
-const jitter = (i) => `${(((i * 37) % 13) - 6)}deg`;
-
-function Word({ text, offset = 0 }) {
-  return (
-    <span className="bs-word">
-      {[...text].map((ch, i) => (
-        <span
-          key={`${ch}${i}`}
-          className="bs-ch"
-          style={{ "--i": offset + i, "--r": jitter(offset + i) }}
-        >
-          {/* a plain space inside an inline-block collapses — keep it hard */}
-          {ch === " " ? " " : ch}
-        </span>
-      ))}
-    </span>
-  );
-}
+const CUES = [180, 620, 3300, 3980, 5150];
 
 export default function BackToSchoolAd() {
   const [phase, setPhase] = React.useState(0);
@@ -78,104 +50,90 @@ export default function BackToSchoolAd() {
   }, []);
 
   return (
-    <div className={`bs-stage bs-p${phase}`}>
-      {/* ---- the sheet of paper ---- */}
-      <div className="bs-paper" aria-hidden>
-        <div className="bs-rules">
-          {Array.from({ length: RULES }, (_, i) => (
+    <div className={`rd-stage rd-p${phase}`}>
+      {/* everything inside the camera shakes; it is oversized so the shake
+          never drags an empty edge into frame */}
+      <div className="rd-cam">
+        <div className="rd-sky" aria-hidden />
+        <div className="rd-sun" aria-hidden />
+
+        <div className="rd-clouds" aria-hidden>
+          {Array.from({ length: CLOUDS }, (_, i) => (
             <i key={i} style={{ "--i": i }} />
           ))}
         </div>
-        <div className="bs-margin" />
-      </div>
 
-      <div className="bs-halftone" aria-hidden />
-      <div className="bs-glow" aria-hidden />
+        <div className="rd-hills" aria-hidden />
+        <div className="rd-ground" aria-hidden />
+        <div className="rd-verge" aria-hidden />
+        <div className="rd-road" aria-hidden />
 
-      {/* ---- paper-scrap confetti, flung out of the headline ---- */}
-      <div className="bs-scraps" aria-hidden>
-        {Array.from({ length: SCRAPS }, (_, i) => (
-          <i
-            key={i}
-            style={{
-              "--i": i,
-              "--x": `${(((i * 53) % 100) - 50) * 1.6}px`,
-              "--y": `${-34 - ((i * 29) % 130)}px`,
-              "--r": `${((i * 71) % 360) - 180}deg`,
-              "--s": `${0.55 + ((i * 17) % 60) / 100}`,
-              "--c": ["#e4002b", "#ffc21a", "#17342d", "#4a90d9", "#ff2a4d"][i % 5],
-            }}
-          />
-        ))}
-      </div>
-
-      {/* ---- headline ---- */}
-      <header className="bs-head">
-        <p className="bs-kicker">
-          <span>{COPY.kicker}</span>
-          <b>•</b>
-          <span>{COPY.place}</span>
-        </p>
-
-        <h1 className="bs-title">
-          <span className="bs-l1">
-            <Word text={COPY.lead} />
-          </span>
-
-          <span className="bs-l2">
-            <span className="bs-hl" aria-hidden />
-            <Word text={COPY.hero} offset={7} />
-            <svg className="bs-swoosh" viewBox="0 0 300 26" aria-hidden>
-              <path
-                d="M7 18 C 58 7, 118 25, 176 13 S 258 6, 293 16"
-                fill="none"
-                stroke="#e4002b"
-                strokeWidth="7"
-                strokeLinecap="round"
+        {/* centre line: each dash is placed and sized off a t^2.1 curve, which
+            is a cheap stand-in for real perspective foreshortening */}
+        <div className="rd-dashes" aria-hidden>
+          {Array.from({ length: DASHES }, (_, i) => {
+            const p = Math.pow((i + 1) / (DASHES + 1), 2.1);
+            return (
+              <i
+                key={i}
+                style={{
+                  "--t": p,
+                  "--w": `${0.7 + p * 9}%`,
+                  "--h": `${0.4 + p * 6.5}%`,
+                }}
               />
-            </svg>
-          </span>
-        </h1>
-
-        <div className="bs-ribbon">
-          <span>{COPY.ribbon}</span>
-          <em>{COPY.ribbonSub}</em>
+            );
+          })}
         </div>
-      </header>
 
-      {/* ---- ninja cast flash, landing on the leap and holding ---- */}
-      <div className="bs-cast" aria-hidden>
-        <div className="bs-streaks" />
-        {CAST.map((src, i) => (
-          <img key={i} className="bs-flash" style={{ "--i": i }} src={src} alt="" />
-        ))}
-        <img className="bs-lead" src={nLeap} alt="" />
+        <div className="rd-beam" aria-hidden />
+        <div className="rd-zoom" aria-hidden />
+
+        {/* zero-size anchor: both buses hang their bottom edge off this point,
+            so they share a ground contact and a perspective origin */}
+        <div className="rd-busbox" aria-hidden>
+          <img className="rd-front" src={busFront} alt="" />
+          <img className="rd-side" src={busSide} alt="" />
+        </div>
+
+        <div className="rd-streaks" aria-hidden />
+
+        <div className="rd-dust" aria-hidden>
+          {Array.from({ length: PUFFS }, (_, i) => (
+            <i
+              key={i}
+              style={{
+                "--i": i,
+                "--x": `${8 + i * 11}%`,
+                "--d": `${(i % 3) * 60}ms`,
+                "--s": `${0.7 + ((i * 13) % 40) / 50}`,
+              }}
+            />
+          ))}
+        </div>
       </div>
 
-      {/* ---- rubber stamp ---- */}
-      <div className="bs-band">
-        <div className="bs-stamp">
-          <span className="bs-ring" aria-hidden />
-          <b>{COPY.stamp[0]}</b>
-          <em>{COPY.stamp[1]}</em>
-        </div>
-      </div>
+      <div className="rd-scrim" aria-hidden />
 
-      {/* ---- CTA ---- */}
-      <footer className="bs-cta">
-        <div className="bs-panel">
-          <img className="bs-logo" src={logo} alt="Code Ninjas" />
-          <span className="bs-place">{COPY.place}</span>
-          <span className="bs-btn">
+      {/* ---- promo ---- */}
+      <div className="rd-promo">
+        <div className="rd-card">
+          <img className="rd-logo" src={logo} alt="Code Ninjas" />
+          <span className="rd-place">{COPY.place}</span>
+          <h1 className="rd-lead">{COPY.lead}</h1>
+          <div className="rd-plate">
+            <span>{COPY.plate}</span>
+          </div>
+          <span className="rd-btn">
             {COPY.cta}
             <b>›</b>
           </span>
-          <span className="bs-url">{COPY.url}</span>
+          <span className="rd-url">{COPY.url}</span>
         </div>
-      </footer>
+      </div>
 
-      <div className="bs-grain" aria-hidden />
-      <div className="bs-vignette" aria-hidden />
+      <div className="rd-grain" aria-hidden />
+      <div className="rd-vignette" aria-hidden />
     </div>
   );
 }
