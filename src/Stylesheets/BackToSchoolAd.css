@@ -2,29 +2,30 @@
 
 /* ============================================================
    BackToSchoolAd — school bus drives at camera, turns, exits, promo.
-   Bright daylight cartoon road, chosen to sit with the flat vector bus
-   art and to look nothing like the notebook-paper or dark-cinematic
-   ads next to it on the feed.
+   Bright daylight cartoon sky and open hill, chosen to sit with the flat
+   vector bus art. No road: painted tarmac has to agree with the bus's
+   path frame for frame, and any disagreement reads as the bus sliding
+   off it, so speed is carried by the zoom-lines, the shake and the bus.
    Portrait phone only (~390x844). Safe margins: 40px top/bottom,
-   45px left/right — the promo respects them; the bus is allowed to
-   blow past the frame on purpose.
-   --hz is the horizon: the road, the hills and the bus all hang off it.
+   45px left/right — the promo respects them; the bus is allowed to blow
+   past the frame on purpose.
+   --hz is the horizon; --crest is how far the hill tops out above it,
+   and the bus enters standing on that crest.
    ============================================================ */
 
 .rd-stage {
   --hz: 44%;
+  --crest: 4.6%;
   --sky-1:  #5cc0f2;
   --sky-2:  #cdeeff;
   --grass:  #7ece68;
   --grass-2:#5fb14c;
-  --tar-1:  #7b828d;
-  --tar-2:  #575d66;
-  --paint:  #f4f6f8;
-  --dash:   #ffd21f;
   --ink:    #16233f;
   --ink-2:  #5b6d8d;
   --red:    #e4002b;
   --red-lt: #ff2a4d;
+  --sun:    #ffc21a;
+  --sun-lt: #ffdf6b;
   --cream:  #fdfbf2;
 
   position: fixed;
@@ -75,12 +76,12 @@
 .rd-clouds i:nth-child(3) { top: 30%; left: -24%; width: 10vw; animation-duration: 36s; animation-delay: -26s; }
 @keyframes rd-cloud { to { transform: translateX(160vw); } }
 
-/* ---------- ground ------------------------------------------------- */
+/* ---------- ground -------------------------------------------------- */
 
 .rd-hills {
   position: absolute;
   left: -6%; right: -6%;
-  top: calc(var(--hz) - 4.6%);
+  top: calc(var(--hz) - var(--crest));
   height: 9vh;
   background: var(--grass-2);
   border-radius: 50% 50% 0 0 / 100% 100% 0 0;
@@ -93,26 +94,12 @@
   background: linear-gradient(180deg, var(--grass-2) 0%, var(--grass) 22%, #92dd7c 100%);
 }
 
-/* One SVG carries the whole road: tarmac, painted shoulder and centre dashes
-   are all offsets from a single centre curve computed in the component, so the
-   bend the bus takes is the bend the paint takes. */
-.rd-road {
-  position: absolute;
-  left: 0; right: 0;
-  top: var(--hz); bottom: 0;
-  display: block;
-  overflow: visible;
-}
-.rd-shoulder { fill: var(--paint); }
-.rd-tar      { fill: url(#rdTar); }
-.rd-dash     { fill: var(--dash); opacity: .95; }
+/* ---------- approach light ------------------------------------------ */
 
-/* ---------- approach light ----------------------------------------- */
-
-/* warm bloom sitting on the vanishing point, swelling as the bus nears */
+/* warm bloom on the crest, where the bus appears, swelling as it nears */
 .rd-beam {
   position: absolute;
-  left: 50%; top: calc(var(--hz) - 4.6%);
+  left: 50%; top: calc(var(--hz) - var(--crest));
   width: 90vw; height: 90vw;
   margin: -45vw 0 0 -45vw;
   border-radius: 50%;
@@ -126,10 +113,10 @@
   100% { opacity: .95; transform: scale(1.15); }
 }
 
-/* anime zoom-lines radiating out of the vanishing point */
+/* anime zoom-lines radiating out of the crest */
 .rd-zoom {
   position: absolute;
-  left: 50%; top: calc(var(--hz) - 4.6%);
+  left: 50%; top: calc(var(--hz) - var(--crest));
   width: 260vmax; height: 260vmax;
   margin: -130vmax 0 0 -130vmax;
   background: repeating-conic-gradient(
@@ -142,7 +129,7 @@
   opacity: 0;
 }
 .rd-stage.rd-p2 .rd-zoom { animation: rd-zoomin 4.2s ease-in both; }
-.rd-stage.rd-p3 .rd-zoom { animation: rd-zoomout .5s ease-out both; }
+.rd-stage.rd-p3 .rd-zoom { animation: rd-zoomout .42s ease-out both; }
 @keyframes rd-zoomin {
   0%   { opacity: 0;   transform: scale(.16) rotate(0deg); }
   55%  { opacity: .18; transform: scale(.34) rotate(3deg); }
@@ -150,10 +137,10 @@
 }
 @keyframes rd-zoomout {
   0%   { opacity: .55; transform: scale(1) rotate(7deg); }
-  100% { opacity: 0;  transform: scale(1.5) rotate(11deg); }
+  100% { opacity: 0;   transform: scale(1.5) rotate(11deg); }
 }
 
-/* ---------- the bus ------------------------------------------------- */
+/* ---------- the bus -------------------------------------------------- */
 
 .rd-busbox {
   position: absolute;
@@ -163,7 +150,10 @@
   perspective: 1000px;
   z-index: 5;
 }
-.rd-busbox img {
+/* The body takes the big move. The image inside takes a permanent
+   suspension jiggle — keeping them on separate elements means the ride
+   never has to be baked into the travel keyframes. */
+.rd-front, .rd-side {
   position: absolute;
   left: 50%;
   bottom: 0;
@@ -171,67 +161,85 @@
   opacity: 0;
   will-change: transform, opacity, filter;
 }
-.rd-front { width: 96vw; }
-/* The profile is ~3x the width of the head-on view, so matching it by height
-   put 644px of bus on a 390px screen. Instead it comes in oversized and the
-   turn scales it back — the camera reads as pulling out to follow the bus
-   round, and the whole vehicle is visible by the time it leaves. */
-.rd-side  { height: 82vw; width: auto; max-width: none; }
+.rd-front { width: 96vw; aspect-ratio: 902 / 980; }
+/* the profile is ~3x the width of the head-on view, so it is sized off a
+   smaller height and the turn scales it back — the camera reads as pulling
+   out to follow the bus round, and the whole vehicle is visible by the time
+   it leaves */
+.rd-side  { height: 82vw; width: auto; aspect-ratio: 1240 / 721; }
+
+.rd-front img, .rd-side img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 16px 24px rgba(60, 34, 0, .34));
+  animation: rd-ride .62s ease-in-out infinite;
+}
+.rd-side img { animation-duration: .54s; animation-delay: -.2s; }
+@keyframes rd-ride {
+  0%, 100% { transform: translateY(0)     rotate(0deg); }
+  22%      { transform: translateY(-1.1%) rotate(-.34deg); }
+  51%      { transform: translateY(.55%)  rotate(.2deg); }
+  76%      { transform: translateY(-.7%)  rotate(.4deg); }
+}
 
 /* Approach. Apparent size grows on a 1/distance curve for most of the run —
    so it reads as closing at speed rather than as a linear zoom — but the last
-   stretch flattens off: the bus is braking for the turn. Without that the
-   curve keeps accelerating right up to the frame edge and it reads as a crash
-   rather than an arrival. Peak scale is capped so the bus never outgrows the
-   frame; it stops with clear air either side. */
+   stretch flattens off: the bus is braking for the turn. It enters standing
+   on the crest, ~5vh above the horizon, and its base tracks down from there. */
 .rd-stage.rd-p2 .rd-front { animation: rd-approach 4.2s linear both; }
 @keyframes rd-approach {
   0%    { opacity: 0; transform: translateX(-50%) translateY(-5vh)   scale(.046); }
   4%    { opacity: 1; }
-  15%   { transform: translateX(calc(-50% + .5vw)) translateY(-4.3vh) scale(.065); }
-  30%   { transform: translateX(calc(-50% - .6vw)) translateY(-3.2vh) scale(.093); }
-  45%   { transform: translateX(calc(-50% + .6vw)) translateY(-1.3vh) scale(.135); }
-  58%   { transform: translateX(calc(-50% - .5vw)) translateY(1vh)    scale(.187); }
-  68%   { transform: translateX(calc(-50% + .3vw)) translateY(3.8vh)  scale(.252); }
-  76%   { transform: translateX(-50%) translateY(7.2vh)  scale(.327); }
+  15%   { transform: translateX(calc(-50% + .7vw)) translateY(-4.3vh) scale(.065); }
+  30%   { transform: translateX(calc(-50% - .8vw)) translateY(-3.2vh) scale(.093); }
+  45%   { transform: translateX(calc(-50% + .8vw)) translateY(-1.3vh) scale(.135); }
+  58%   { transform: translateX(calc(-50% - .6vw)) translateY(1vh)    scale(.187); }
+  68%   { transform: translateX(calc(-50% + .4vw)) translateY(3.8vh)  scale(.252); }
+  76%   { transform: translateX(calc(-50% - .2vw)) translateY(7.2vh)  scale(.327); }
   83%   { transform: translateX(-50%) translateY(11.6vh) scale(.411); }
   89%   { transform: translateX(-50%) translateY(17.6vh) scale(.523); }
   94%   { transform: translateX(-50%) translateY(23.3vh) scale(.616); }
   97%   { transform: translateX(-50%) translateY(27.9vh) scale(.672); }
-  100%  { opacity: 1; transform: translateX(-50%) translateY(33vh)   scale(.7); }
+  100%  { opacity: 1; transform: translateX(-50%) translateY(33vh)    scale(.7); }
 }
 
-/* The turn. Opens exactly where the approach closed, so the phase swap is
-   invisible; the front view swings away and blurs out... */
+/* The turn. The bus ends nose-right and travelling right, so the head-on
+   view's LEFT edge swings toward camera and its right edge swings away —
+   positive rotateY. A right-hand turn throws the body outward, top leaning
+   left, so the roll is negative rotateZ. */
 .rd-stage:is(.rd-p3, .rd-p4, .rd-p5) .rd-front {
-  animation: rd-turnout .46s cubic-bezier(.45, .05, .3, 1) both;
+  animation: rd-turnout .32s cubic-bezier(.5, .06, .32, 1) both;
 }
 @keyframes rd-turnout {
   0%   { opacity: 1; transform: translateX(-50%) translateY(33vh) scale(.7) rotateY(0deg) rotateZ(0deg); filter: blur(0); }
-  30%  { opacity: .92; transform: translateX(calc(-50% + 1vw)) translateY(33.4vh) scale(.7) rotateY(17deg) rotateZ(-.9deg); filter: blur(.6px); }
-  62%  { opacity: .38; transform: translateX(calc(-50% + 2.6vw)) translateY(33.8vh) scale(.69) rotateY(40deg) rotateZ(-1.7deg); filter: blur(2.4px); }
-  100% { opacity: 0; transform: translateX(calc(-50% + 4.5vw)) translateY(34.2vh) scale(.68) rotateY(66deg) rotateZ(-2.4deg); filter: blur(4.5px); }
+  30%  { opacity: .9; transform: translateX(calc(-50% + 1vw)) translateY(33.4vh) scale(.7) rotateY(19deg) rotateZ(-1deg); filter: blur(.6px); }
+  62%  { opacity: .35; transform: translateX(calc(-50% + 2.6vw)) translateY(33.8vh) scale(.69) rotateY(44deg) rotateZ(-1.9deg); filter: blur(2.4px); }
+  100% { opacity: 0; transform: translateX(calc(-50% + 4.5vw)) translateY(34.2vh) scale(.68) rotateY(70deg) rotateZ(-2.5deg); filter: blur(4.5px); }
 }
 
-/* ...while the profile counter-rotates in on the same perspective */
+/* the profile already represents 90deg of the turn, so it is drawn at
+   rotateY(angle - 90): negative, closing on zero */
 .rd-stage.rd-p3 .rd-side {
-  animation: rd-turnin .52s .14s cubic-bezier(.34, .06, .28, 1) both;
+  animation: rd-turnin .36s .09s cubic-bezier(.32, .06, .28, 1) both;
 }
 @keyframes rd-turnin {
-  0%   { opacity: 0; transform: translateX(calc(-50% + 5vw)) translateY(34.4vh) scale(.72) rotateY(-64deg) rotateZ(-2.4deg); filter: blur(4.5px); }
-  48%  { opacity: 1; }
-  60%  { transform: translateX(calc(-50% + 2vw)) translateY(33.4vh) scale(.66) rotateY(-26deg) rotateZ(-1.2deg); filter: blur(1.6px); }
+  0%   { opacity: 0; transform: translateX(calc(-50% + 5vw)) translateY(34.4vh) scale(.72) rotateY(-66deg) rotateZ(-2.5deg); filter: blur(4.5px); }
+  46%  { opacity: 1; }
+  62%  { transform: translateX(calc(-50% + 2vw)) translateY(33.4vh) scale(.66) rotateY(-24deg) rotateZ(-1.1deg); filter: blur(1.4px); }
   100% { opacity: 1; transform: translateX(-50%) translateY(32vh) scale(.62) rotateY(0deg) rotateZ(0deg); filter: blur(0); }
 }
 
-/* ...then it accelerates off frame right */
+/* squats on the rear as it picks up, then accelerates off frame right */
 .rd-stage:is(.rd-p4, .rd-p5) .rd-side {
-  animation: rd-driveoff 1.25s cubic-bezier(.36, 0, .7, .5) both;
+  animation: rd-driveoff 1.05s cubic-bezier(.4, 0, .72, .52) both;
 }
 @keyframes rd-driveoff {
-  0%   { opacity: 1; transform: translateX(-50%) translateY(32vh) scale(.62) rotateY(0deg); }
-  25%  { transform: translateX(calc(-50% + 13vw)) translateY(33.2vh) scale(.65) rotateY(4deg); }
-  100% { opacity: 1; transform: translateX(calc(-50% + 150vw)) translateY(39vh) scale(.76) rotateY(13deg); }
+  0%   { opacity: 1; transform: translateX(-50%) translateY(32vh) scale(.62) rotateY(0deg) rotateZ(0deg); }
+  14%  { transform: translateX(calc(-50% + 4vw)) translateY(32.4vh) scale(.63) rotateY(2deg) rotateZ(1.1deg); }
+  32%  { transform: translateX(calc(-50% + 18vw)) translateY(33.2vh) scale(.65) rotateY(5deg) rotateZ(.4deg); }
+  100% { opacity: 1; transform: translateX(calc(-50% + 155vw)) translateY(38vh) scale(.75) rotateY(13deg) rotateZ(0deg); }
 }
 
 /* horizontal speed lines during the exit */
@@ -245,21 +253,19 @@
     rgba(255, 255, 255, .55) 0 3px,
     transparent 3px 22px
   );
-  /* keep them in a band around the bus — full-width they read as scan lines
-     over the grass rather than as motion */
   -webkit-mask-image: radial-gradient(72% 52% at 50% 38%, #000 0%, #000 42%, transparent 84%);
           mask-image: radial-gradient(72% 52% at 50% 38%, #000 0%, #000 42%, transparent 84%);
   opacity: 0;
   z-index: 4;
 }
-.rd-stage.rd-p4 .rd-streaks { animation: rd-whoosh 1.25s ease-out both; }
+.rd-stage.rd-p4 .rd-streaks { animation: rd-whoosh 1.05s ease-out both; }
 @keyframes rd-whoosh {
   0%   { opacity: 0;   transform: translateX(-24%) scaleX(.6); }
   26%  { opacity: .62; }
   100% { opacity: 0;   transform: translateX(30%) scaleX(1.3); }
 }
 
-/* dust kicked up off the tar as it leaves */
+/* dust kicked up as it leaves */
 .rd-dust {
   position: absolute;
   left: 0; right: 0;
@@ -277,8 +283,8 @@
   opacity: 0;
 }
 .rd-stage:is(.rd-p4, .rd-p5) .rd-dust i {
-  animation: rd-puff 1.3s ease-out both;
-  animation-delay: calc(120ms + var(--d));
+  animation: rd-puff 1.2s ease-out both;
+  animation-delay: calc(90ms + var(--d));
 }
 @keyframes rd-puff {
   0%   { opacity: 0;   transform: translate3d(0, 0, 0) scale(.2); }
@@ -286,7 +292,7 @@
   100% { opacity: 0;   transform: translate3d(-16vw, -7vh, 0) scale(calc(var(--s) * 2.6)); }
 }
 
-/* ---------- camera shake -------------------------------------------- */
+/* ---------- camera shake ---------------------------------------------- */
 
 /* amplitude is baked into the keyframe stops so it ramps with proximity */
 .rd-stage.rd-p2 .rd-cam { animation: rd-shake 4.2s linear both; }
@@ -304,23 +310,23 @@
   98.5% { transform: translate3d( .38%, -.24%, 0); }
   100%  { transform: translate3d(.16%,  -.1%,  0); }
 }
-.rd-stage.rd-p3 .rd-cam { animation: rd-jolt .5s cubic-bezier(.25, .8, .3, 1) both; }
+.rd-stage.rd-p3 .rd-cam { animation: rd-jolt .42s cubic-bezier(.25, .8, .3, 1) both; }
 @keyframes rd-jolt {
   0%   { transform: translate3d(.16%, -.1%, 0); }
-  22%  { transform: translate3d(-.6%, .36%, 0); }
-  46%  { transform: translate3d(.42%, -.26%, 0); }
-  70%  { transform: translate3d(-.24%, .15%, 0); }
+  22%  { transform: translate3d(-.66%, .4%, 0); }
+  46%  { transform: translate3d(.46%, -.28%, 0); }
+  70%  { transform: translate3d(-.26%, .16%, 0); }
   100% { transform: translate3d(0, 0, 0); }
 }
 
-/* ---------- promo ---------------------------------------------------- */
+/* ---------- promo ------------------------------------------------------ */
 
 .rd-scrim {
   position: absolute;
   inset: 0;
-  background: radial-gradient(120% 80% at 50% 46%, rgba(9, 24, 44, .48) 0%, rgba(9, 24, 44, .78) 100%);
+  background: radial-gradient(120% 80% at 50% 46%, rgba(9, 24, 44, .5) 0%, rgba(9, 24, 44, .8) 100%);
   opacity: 0;
-  transition: opacity .6s ease;
+  transition: opacity .55s ease;
   z-index: 7;
 }
 .rd-stage.rd-p5 .rd-scrim { opacity: 1; }
@@ -338,34 +344,47 @@
 }
 
 .rd-card {
-  width: min(66vw, 268px);
+  width: min(68vw, 276px);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: clamp(4px, .8vh, 8px);
-  padding: clamp(12px, 2.2vh, 18px) clamp(12px, 3.6vw, 16px) clamp(13px, 2.4vh, 19px);
+  padding: clamp(13px, 2.3vh, 19px) clamp(12px, 3.6vw, 17px) clamp(14px, 2.5vh, 20px);
   background: linear-gradient(180deg, #fff, var(--cream));
   border: 2px solid var(--ink);
-  border-radius: 16px;
-  box-shadow: 0 6px 0 rgba(9, 24, 44, .22), 0 20px 40px rgba(9, 24, 44, .42);
+  border-radius: 18px;
+  box-shadow: 0 7px 0 rgba(9, 24, 44, .22), 0 22px 44px rgba(9, 24, 44, .45);
   text-align: center;
   opacity: 0;
-  transform: scale(1.18);
-  filter: blur(8px);
+  transform: scale(1.14);
 }
 .rd-stage.rd-p5 .rd-card {
-  animation: rd-punch .56s cubic-bezier(.18, .9, .26, 1.08) both;
+  animation: rd-punch .5s cubic-bezier(.18, .9, .26, 1.06) both;
 }
 @keyframes rd-punch {
-  0%   { opacity: 0; transform: scale(1.18); filter: blur(8px); }
-  58%  { opacity: 1; transform: scale(.96);  filter: blur(0); }
-  80%  { transform: scale(1.02); }
+  0%   { opacity: 0; transform: scale(1.14); filter: blur(7px); }
+  60%  { opacity: 1; transform: scale(.98);  filter: blur(0); }
   100% { opacity: 1; transform: scale(1); filter: blur(0); }
 }
 
-.rd-logo { width: clamp(78px, 24vw, 96px); display: block; }
+/* the card lands first, then its contents cascade in behind it */
+.rd-card > * { opacity: 0; }
+.rd-stage.rd-p5 .rd-card > * {
+  animation: rd-rise .46s cubic-bezier(.2, .9, .28, 1.06) both;
+}
+@keyframes rd-rise {
+  from { opacity: 0; transform: translateY(11px); }
+  to   { opacity: 1; transform: none; }
+}
+.rd-stage.rd-p5 .rd-logo  { animation-delay: .2s; }
+.rd-stage.rd-p5 .rd-place { animation-delay: .26s; }
+.rd-stage.rd-p5 .rd-lead  { animation-delay: .32s; }
+.rd-stage.rd-p5 .rd-btn   { animation-delay: .56s; }
+.rd-stage.rd-p5 .rd-url   { animation-delay: .64s; }
+
+.rd-logo { width: clamp(80px, 25vw, 100px); display: block; }
 .rd-place {
-  font-size: clamp(7px, 2vw, 8px);
+  font-size: clamp(7px, 2.1vw, 9px);
   font-weight: 900;
   letter-spacing: .42em;
   text-indent: .42em;
@@ -374,35 +393,55 @@
 }
 
 .rd-lead {
-  margin: clamp(4px, .8vh, 8px) 0 0;
+  margin: clamp(4px, .8vh, 8px) 0 clamp(2px, .4vh, 4px);
   font-family: "Archivo Black", "Inter", sans-serif;
-  font-size: clamp(18px, 6.2vw, 25px);
+  font-size: clamp(19px, 6.6vw, 27px);
   line-height: 1.02;
   letter-spacing: -.015em;
   color: var(--ink);
 }
 
-.rd-plate {
+/* the pill: school-bus yellow, so the payoff carries the colour of the
+   thing that just drove past */
+.rd-pill {
+  position: relative;
   width: 100%;
   overflow: hidden;
-  padding: clamp(5px, 1vh, 8px) 6px;
-  background: linear-gradient(180deg, #1d3f36, #12291f);
-  border-radius: 4px;
-  box-shadow: 0 3px 0 rgba(9, 24, 44, .25);
+  padding: clamp(7px, 1.35vh, 11px) 10px;
+  background: linear-gradient(180deg, var(--sun-lt) 0%, var(--sun) 62%, #f0ad00 100%);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  box-shadow: 0 3px 0 rgba(9, 24, 44, .26), inset 0 1.5px 0 rgba(255, 255, 255, .75);
 }
-.rd-plate span {
+.rd-pill span {
   display: block;
-  font-size: clamp(10px, 3.4vw, 13px);
+  font-size: clamp(11px, 3.7vw, 14px);
   font-weight: 900;
-  letter-spacing: .17em;
-  text-indent: .17em;
-  color: var(--dash);
-  transform: translateX(-104%);
+  letter-spacing: .15em;
+  text-indent: .15em;
+  color: var(--ink);
 }
-.rd-stage.rd-p5 .rd-plate span {
-  animation: rd-wipe .5s .42s cubic-bezier(.2, .85, .3, 1) both;
+.rd-stage.rd-p5 .rd-pill {
+  animation: rd-pop .52s .4s cubic-bezier(.2, .9, .26, 1.1) both;
 }
-@keyframes rd-wipe { to { transform: translateX(0); } }
+@keyframes rd-pop {
+  0%   { opacity: 0; transform: translateY(10px) scale(.84); }
+  60%  { opacity: 1; transform: translateY(0) scale(1.07); }
+  100% { opacity: 1; transform: none; }
+}
+/* sheen sweeping across once it has landed */
+.rd-pill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(104deg, transparent 34%, rgba(255, 255, 255, .9) 50%, transparent 66%);
+  transform: translateX(-135%);
+  pointer-events: none;
+}
+.rd-stage.rd-p5 .rd-pill::after {
+  animation: rd-sheen .75s .96s cubic-bezier(.3, .7, .3, 1) both;
+}
+@keyframes rd-sheen { to { transform: translateX(135%); } }
 
 .rd-btn {
   display: flex;
@@ -410,18 +449,21 @@
   justify-content: center;
   gap: 7px;
   width: 100%;
-  margin-top: clamp(2px, .4vh, 4px);
-  padding: clamp(8px, 1.5vh, 11px) 8px;
+  margin-top: clamp(3px, .6vh, 6px);
+  padding: clamp(8px, 1.5vh, 12px) 8px;
   background: linear-gradient(180deg, var(--red-lt), var(--red));
   color: #fff;
-  border-radius: 9px;
-  font-size: clamp(10px, 3.2vw, 12px);
+  border-radius: 999px;
+  font-size: clamp(10px, 3.3vw, 13px);
   font-weight: 900;
   letter-spacing: .06em;
   box-shadow: 0 4px 0 #a80020, 0 10px 18px rgba(228, 0, 43, .4);
-  animation: rd-pulse 1.9s 1.3s ease-in-out infinite;
 }
-.rd-btn b { font-size: 1.25em; line-height: 0; animation: rd-nudge 1.2s 1.3s ease-in-out infinite; }
+.rd-stage.rd-p5 .rd-btn {
+  animation: rd-rise .46s .56s cubic-bezier(.2, .9, .28, 1.06) both,
+             rd-pulse 1.9s 1.4s ease-in-out infinite;
+}
+.rd-btn b { font-size: 1.25em; line-height: 0; animation: rd-nudge 1.2s 1.4s ease-in-out infinite; }
 @keyframes rd-pulse {
   0%, 100% { box-shadow: 0 4px 0 #a80020, 0 10px 18px rgba(228, 0, 43, .4); }
   50%      { box-shadow: 0 4px 0 #a80020, 0 10px 26px rgba(228, 0, 43, .7); }
@@ -433,11 +475,11 @@
 
 .rd-url {
   font-family: "Permanent Marker", cursive;
-  font-size: clamp(10px, 3vw, 12px);
+  font-size: clamp(10px, 3.1vw, 13px);
   color: var(--ink);
 }
 
-/* ---------- texture --------------------------------------------------- */
+/* ---------- texture ----------------------------------------------------- */
 
 .rd-grain {
   position: absolute;
@@ -456,7 +498,7 @@
   background: radial-gradient(120% 78% at 50% 44%, transparent 54%, rgba(9, 24, 44, .3) 100%);
 }
 
-/* ---------- reduced motion -------------------------------------------- */
+/* ---------- reduced motion ---------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
   .rd-stage *,
@@ -469,8 +511,8 @@
     transition-delay: 0s !important;
   }
   .rd-cam { transform: none; }
-  .rd-busbox img { opacity: 0; }
+  .rd-front, .rd-side { opacity: 0; }
   .rd-zoom, .rd-beam, .rd-streaks, .rd-dust i { opacity: 0; }
-  .rd-card { opacity: 1; transform: none; filter: none; }
-  .rd-plate span { transform: none; }
+  .rd-card, .rd-card > * { opacity: 1; transform: none; filter: none; }
+  .rd-pill::after { opacity: 0; }
 }
