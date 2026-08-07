@@ -161,20 +161,34 @@
   opacity: 0;
   will-change: transform, opacity, filter;
 }
-.rd-front { width: 96vw; aspect-ratio: 902 / 980; }
+.rd-front { width: 77vw; aspect-ratio: 902 / 980; }
 /* the profile is ~3x the width of the head-on view, so it is sized off a
    smaller height and the turn scales it back — the camera reads as pulling
    out to follow the bus round, and the whole vehicle is visible by the time
    it leaves */
-.rd-side  { height: 82vw; width: auto; aspect-ratio: 1240 / 721; }
+.rd-side  { height: 66vw; width: auto; aspect-ratio: 1240 / 721; }
 
 .rd-front img, .rd-side img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 16px 24px rgba(60, 34, 0, .34));
+  filter: drop-shadow(0 10px 15px rgba(60, 34, 0, .26));
   animation: rd-ride .62s ease-in-out infinite;
+}
+/* Contact shadow on the body, not the image — it inherits the travel
+   transform for free, so it tracks the wheels at every scale without a
+   second set of keyframes to keep in sync. */
+.rd-front::before, .rd-side::before {
+  content: "";
+  position: absolute;
+  left: 7%; right: 7%;
+  bottom: -1.2%;
+  height: 6.5%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side,
+    rgba(24, 56, 20, .45) 0%, rgba(24, 56, 20, .24) 54%, rgba(24, 56, 20, 0) 100%);
 }
 .rd-side img { animation-duration: .54s; animation-delay: -.2s; }
 @keyframes rd-ride {
@@ -190,19 +204,19 @@
    on the crest, ~5vh above the horizon, and its base tracks down from there. */
 .rd-stage.rd-p2 .rd-front { animation: rd-approach 4.2s linear both; }
 @keyframes rd-approach {
-  0%    { opacity: 0; transform: translateX(-50%) translateY(-5vh)   scale(.046); }
+  0%    { opacity: 0; transform: translateX(-50%) translateY(-4.5vh)  scale(.046); }
   4%    { opacity: 1; }
-  15%   { transform: translateX(calc(-50% + .7vw)) translateY(-4.3vh) scale(.065); }
-  30%   { transform: translateX(calc(-50% - .8vw)) translateY(-3.2vh) scale(.093); }
-  45%   { transform: translateX(calc(-50% + .8vw)) translateY(-1.3vh) scale(.135); }
-  58%   { transform: translateX(calc(-50% - .6vw)) translateY(1vh)    scale(.187); }
-  68%   { transform: translateX(calc(-50% + .4vw)) translateY(3.8vh)  scale(.252); }
-  76%   { transform: translateX(calc(-50% - .2vw)) translateY(7.2vh)  scale(.327); }
-  83%   { transform: translateX(-50%) translateY(11.6vh) scale(.411); }
-  89%   { transform: translateX(-50%) translateY(17.6vh) scale(.523); }
-  94%   { transform: translateX(-50%) translateY(23.3vh) scale(.616); }
-  97%   { transform: translateX(-50%) translateY(27.9vh) scale(.672); }
-  100%  { opacity: 1; transform: translateX(-50%) translateY(33vh)    scale(.7); }
+  15%   { transform: translateX(calc(-50% + .7vw)) translateY(-3.65vh) scale(.065); }
+  30%   { transform: translateX(calc(-50% - .8vw)) translateY(-2.4vh)  scale(.093); }
+  45%   { transform: translateX(calc(-50% + .8vw)) translateY(-.35vh)  scale(.135); }
+  58%   { transform: translateX(calc(-50% - .6vw)) translateY(2.1vh)   scale(.187); }
+  68%   { transform: translateX(calc(-50% + .4vw)) translateY(5vh)     scale(.252); }
+  76%   { transform: translateX(calc(-50% - .2vw)) translateY(8.5vh)   scale(.327); }
+  83%   { transform: translateX(-50%) translateY(12.9vh) scale(.411); }
+  89%   { transform: translateX(-50%) translateY(19vh)   scale(.523); }
+  94%   { transform: translateX(-50%) translateY(24.7vh) scale(.616); }
+  97%   { transform: translateX(-50%) translateY(29.4vh) scale(.672); }
+  100%  { opacity: 1; transform: translateX(-50%) translateY(34.5vh)   scale(.7); }
 }
 
 /* The turn. The bus ends nose-right and travelling right, so the head-on
@@ -213,10 +227,10 @@
   animation: rd-turnout .32s cubic-bezier(.5, .06, .32, 1) both;
 }
 @keyframes rd-turnout {
-  0%   { opacity: 1; transform: translateX(-50%) translateY(33vh) scale(.7) rotateY(0deg) rotateZ(0deg); filter: blur(0); }
-  30%  { opacity: .9; transform: translateX(calc(-50% + 1vw)) translateY(33.4vh) scale(.7) rotateY(19deg) rotateZ(-1deg); filter: blur(.6px); }
-  62%  { opacity: .35; transform: translateX(calc(-50% + 2.6vw)) translateY(33.8vh) scale(.69) rotateY(44deg) rotateZ(-1.9deg); filter: blur(2.4px); }
-  100% { opacity: 0; transform: translateX(calc(-50% + 4.5vw)) translateY(34.2vh) scale(.68) rotateY(70deg) rotateZ(-2.5deg); filter: blur(4.5px); }
+  0%   { opacity: 1; transform: translateX(-50%) translateY(34.5vh) scale(.7) rotateY(0deg) rotateZ(0deg); filter: blur(0); }
+  30%  { opacity: .9; transform: translateX(calc(-50% + 1vw)) translateY(34.9vh) scale(.7) rotateY(19deg) rotateZ(-1deg); filter: blur(.6px); }
+  62%  { opacity: .35; transform: translateX(calc(-50% + 2.6vw)) translateY(35.3vh) scale(.69) rotateY(44deg) rotateZ(-1.9deg); filter: blur(2.4px); }
+  100% { opacity: 0; transform: translateX(calc(-50% + 4.5vw)) translateY(35.7vh) scale(.68) rotateY(70deg) rotateZ(-2.5deg); filter: blur(4.5px); }
 }
 
 /* the profile already represents 90deg of the turn, so it is drawn at
@@ -225,10 +239,10 @@
   animation: rd-turnin .36s .09s cubic-bezier(.32, .06, .28, 1) both;
 }
 @keyframes rd-turnin {
-  0%   { opacity: 0; transform: translateX(calc(-50% + 5vw)) translateY(34.4vh) scale(.72) rotateY(-66deg) rotateZ(-2.5deg); filter: blur(4.5px); }
+  0%   { opacity: 0; transform: translateX(calc(-50% + 5vw)) translateY(35.9vh) scale(.72) rotateY(-66deg) rotateZ(-2.5deg); filter: blur(4.5px); }
   46%  { opacity: 1; }
-  62%  { transform: translateX(calc(-50% + 2vw)) translateY(33.4vh) scale(.66) rotateY(-24deg) rotateZ(-1.1deg); filter: blur(1.4px); }
-  100% { opacity: 1; transform: translateX(-50%) translateY(32vh) scale(.62) rotateY(0deg) rotateZ(0deg); filter: blur(0); }
+  62%  { transform: translateX(calc(-50% + 2vw)) translateY(34.9vh) scale(.66) rotateY(-24deg) rotateZ(-1.1deg); filter: blur(1.4px); }
+  100% { opacity: 1; transform: translateX(-50%) translateY(33.5vh) scale(.62) rotateY(0deg) rotateZ(0deg); filter: blur(0); }
 }
 
 /* squats on the rear as it picks up, then accelerates off frame right */
@@ -236,10 +250,10 @@
   animation: rd-driveoff 1.05s cubic-bezier(.4, 0, .72, .52) both;
 }
 @keyframes rd-driveoff {
-  0%   { opacity: 1; transform: translateX(-50%) translateY(32vh) scale(.62) rotateY(0deg) rotateZ(0deg); }
-  14%  { transform: translateX(calc(-50% + 4vw)) translateY(32.4vh) scale(.63) rotateY(2deg) rotateZ(1.1deg); }
-  32%  { transform: translateX(calc(-50% + 18vw)) translateY(33.2vh) scale(.65) rotateY(5deg) rotateZ(.4deg); }
-  100% { opacity: 1; transform: translateX(calc(-50% + 155vw)) translateY(38vh) scale(.75) rotateY(13deg) rotateZ(0deg); }
+  0%   { opacity: 1; transform: translateX(-50%) translateY(33.5vh) scale(.62) rotateY(0deg) rotateZ(0deg); }
+  14%  { transform: translateX(calc(-50% + 4vw)) translateY(33.9vh) scale(.63) rotateY(2deg) rotateZ(1.1deg); }
+  32%  { transform: translateX(calc(-50% + 18vw)) translateY(34.7vh) scale(.65) rotateY(5deg) rotateZ(.4deg); }
+  100% { opacity: 1; transform: translateX(calc(-50% + 155vw)) translateY(39.5vh) scale(.75) rotateY(13deg) rotateZ(0deg); }
 }
 
 /* horizontal speed lines during the exit */
@@ -344,16 +358,16 @@
 }
 
 .rd-card {
-  width: min(68vw, 276px);
+  width: min(54vw, 221px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(4px, .8vh, 8px);
-  padding: clamp(13px, 2.3vh, 19px) clamp(12px, 3.6vw, 17px) clamp(14px, 2.5vh, 20px);
+  gap: clamp(3px, .64vh, 6px);
+  padding: clamp(10px, 1.85vh, 15px) clamp(10px, 2.9vw, 14px) clamp(11px, 2vh, 16px);
   background: linear-gradient(180deg, #fff, var(--cream));
   border: 2px solid var(--ink);
-  border-radius: 18px;
-  box-shadow: 0 7px 0 rgba(9, 24, 44, .22), 0 22px 44px rgba(9, 24, 44, .45);
+  border-radius: 15px;
+  box-shadow: 0 6px 0 rgba(9, 24, 44, .22), 0 18px 36px rgba(9, 24, 44, .45);
   text-align: center;
   opacity: 0;
   transform: scale(1.14);
@@ -382,9 +396,9 @@
 .rd-stage.rd-p5 .rd-btn   { animation-delay: .56s; }
 .rd-stage.rd-p5 .rd-url   { animation-delay: .64s; }
 
-.rd-logo { width: clamp(80px, 25vw, 100px); display: block; }
+.rd-logo { width: clamp(64px, 20vw, 80px); display: block; }
 .rd-place {
-  font-size: clamp(7px, 2.1vw, 9px);
+  font-size: clamp(6px, 1.7vw, 7.5px);
   font-weight: 900;
   letter-spacing: .42em;
   text-indent: .42em;
@@ -393,33 +407,55 @@
 }
 
 .rd-lead {
-  margin: clamp(4px, .8vh, 8px) 0 clamp(2px, .4vh, 4px);
+  margin: clamp(3px, .64vh, 6px) 0 clamp(2px, .32vh, 3px);
   font-family: "Archivo Black", "Inter", sans-serif;
-  font-size: clamp(19px, 6.6vw, 27px);
+  font-size: clamp(15px, 5.3vw, 22px);
   line-height: 1.02;
   letter-spacing: -.015em;
   color: var(--ink);
 }
 
-/* the pill: school-bus yellow, so the payoff carries the colour of the
-   thing that just drove past */
+/* The pill: school-bus yellow, so the payoff carries the colour of the thing
+   that just drove past. Built as an enamel badge rather than a flat chip — a
+   three-stop gradient with the light on top, a hard ink base edge so it reads
+   as a physical object, a hairline inner ring, and letterpressed type. */
 .rd-pill {
   position: relative;
   width: 100%;
   overflow: hidden;
-  padding: clamp(7px, 1.35vh, 11px) 10px;
-  background: linear-gradient(180deg, var(--sun-lt) 0%, var(--sun) 62%, #f0ad00 100%);
+  padding: clamp(6px, 1.15vh, 9px) 8px;
+  background:
+    linear-gradient(180deg,
+      #ffef9e 0%,
+      var(--sun-lt) 26%,
+      var(--sun) 62%,
+      #eda200 100%);
   border: 2px solid var(--ink);
   border-radius: 999px;
-  box-shadow: 0 3px 0 rgba(9, 24, 44, .26), inset 0 1.5px 0 rgba(255, 255, 255, .75);
+  box-shadow:
+    0 3px 0 var(--ink),
+    0 7px 12px rgba(9, 24, 44, .34),
+    inset 0 1.5px 0 rgba(255, 255, 255, .85),
+    inset 0 -2px 3px rgba(160, 100, 0, .3);
+}
+/* hairline ring, the way an enamel badge is struck */
+.rd-pill::before {
+  content: "";
+  position: absolute;
+  inset: 2.5px;
+  border: 1px solid rgba(255, 255, 255, .5);
+  border-radius: 999px;
+  pointer-events: none;
 }
 .rd-pill span {
+  position: relative;
   display: block;
-  font-size: clamp(11px, 3.7vw, 14px);
+  font-size: clamp(9px, 3vw, 11.5px);
   font-weight: 900;
-  letter-spacing: .15em;
-  text-indent: .15em;
+  letter-spacing: .16em;
+  text-indent: .16em;
   color: var(--ink);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .6);
 }
 .rd-stage.rd-p5 .rd-pill {
   animation: rd-pop .52s .4s cubic-bezier(.2, .9, .26, 1.1) both;
@@ -449,15 +485,15 @@
   justify-content: center;
   gap: 7px;
   width: 100%;
-  margin-top: clamp(3px, .6vh, 6px);
-  padding: clamp(8px, 1.5vh, 12px) 8px;
+  margin-top: clamp(2px, .48vh, 5px);
+  padding: clamp(6px, 1.2vh, 10px) 8px;
   background: linear-gradient(180deg, var(--red-lt), var(--red));
   color: #fff;
   border-radius: 999px;
-  font-size: clamp(10px, 3.3vw, 13px);
+  font-size: clamp(8px, 2.65vw, 10.5px);
   font-weight: 900;
   letter-spacing: .06em;
-  box-shadow: 0 4px 0 #a80020, 0 10px 18px rgba(228, 0, 43, .4);
+  box-shadow: 0 3px 0 #a80020, 0 8px 14px rgba(228, 0, 43, .4);
 }
 .rd-stage.rd-p5 .rd-btn {
   animation: rd-rise .46s .56s cubic-bezier(.2, .9, .28, 1.06) both,
@@ -465,8 +501,8 @@
 }
 .rd-btn b { font-size: 1.25em; line-height: 0; animation: rd-nudge 1.2s 1.4s ease-in-out infinite; }
 @keyframes rd-pulse {
-  0%, 100% { box-shadow: 0 4px 0 #a80020, 0 10px 18px rgba(228, 0, 43, .4); }
-  50%      { box-shadow: 0 4px 0 #a80020, 0 10px 26px rgba(228, 0, 43, .7); }
+  0%, 100% { box-shadow: 0 3px 0 #a80020, 0 8px 14px rgba(228, 0, 43, .4); }
+  50%      { box-shadow: 0 3px 0 #a80020, 0 8px 21px rgba(228, 0, 43, .7); }
 }
 @keyframes rd-nudge {
   0%, 100% { transform: translateX(0); }
@@ -475,7 +511,7 @@
 
 .rd-url {
   font-family: "Permanent Marker", cursive;
-  font-size: clamp(10px, 3.1vw, 13px);
+  font-size: clamp(8px, 2.5vw, 10.5px);
   color: var(--ink);
 }
 
