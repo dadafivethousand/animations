@@ -39,7 +39,7 @@ const CLOUDS = 3;
 const PUFFS = 7;    // dust kicked up as it leaves
 
 // phase cue sheet (ms from mount); index 1..5, index 0 is the initial state
-const CUES = [180, 620, 3300, 3980, 5150];
+const CUES = [180, 620, 4820, 5920, 7320];
 
 export default function BackToSchoolAd() {
   const [phase, setPhase] = React.useState(0);
