@@ -43,42 +43,45 @@ const COPY = {
 // sweeps right and toward camera, which is the bend the bus takes.
 const RW = 390;         // road-region viewBox, matches a 390x844 stage
 const RH = 473;
-const BEND_AT = 190;    // where the curve starts, in viewBox units
-// A big sweep on purpose. With a small one the road still ends at the bottom
-// of the frame while its inner edge curls back, which reads as a teardrop
-// rather than a bend; carrying it far enough that the road leaves through the
-// right of frame turns that same curl into the inside of a corner.
-const BEND_TO = 400;    // total lateral sweep
+// The road starts ABOVE the region — the SVG is overflow:visible — so its tip
+// crests the hill instead of stopping short of it against a band of green.
+const RY0 = -24;
+const BEND_AT = 200;    // dead straight until here, in viewBox units
+const BEND_TO = 430;    // total lateral sweep
+// Cubed rather than squared: the bus takes a sharp right, so the road has to
+// hold straight and then break hard, not lean over the whole lower half.
+const BEND_P = 3;
 
 const cx = (y) => {
   const t = Math.max(0, (y - BEND_AT) / (RH - BEND_AT));
-  return RW / 2 + BEND_TO * t * t;
+  return RW / 2 + BEND_TO * Math.pow(t, BEND_P);
 };
 // half-width, opening linearly toward camera
-const hw = (y) => 14 + 296 * (y / RH);
+const hw = (y) => 3 + 300 * ((y - RY0) / (RH - RY0));
 
 // a filled band around the centre curve, `pad` widening it (0 = tarmac)
 function band(pad) {
-  const n = 60;
+  const n = 80;
   const pts = [];
+  const at = (i) => RY0 + ((RH - RY0) * i) / n;
   for (let i = 0; i <= n; i++) {
-    const y = (RH * i) / n;
+    const y = at(i);
     pts.push([cx(y) - hw(y) - pad(y), y]);
   }
   for (let i = n; i >= 0; i--) {
-    const y = (RH * i) / n;
+    const y = at(i);
     pts.push([cx(y) + hw(y) + pad(y), y]);
   }
   return "M" + pts.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(" L") + " Z";
 }
 
 const TARMAC = band(() => 0);
-const SHOULDER = band((y) => 2 + 9 * (y / RH));
+const SHOULDER = band((y) => 2 + 9 * ((y - RY0) / (RH - RY0)));
 
 // centre dashes: bunched toward the horizon, scaled by the local road width
 // and rotated onto the tangent so they lie along the bend
 const DASHES = Array.from({ length: 12 }, (_, i) => {
-  const y = RH * Math.pow((i + 1) / 13, 2);
+  const y = RY0 + (RH - RY0) * Math.pow((i + 1) / 13, 2);
   const w = Math.max(0.9, hw(y) * 0.05);
   const ln = Math.max(1.5, hw(y) * 0.08);
   const ang = Math.atan2(1, (cx(y + 2) - cx(y - 2)) / 4) - Math.PI / 2;
@@ -96,7 +99,7 @@ const CLOUDS = 3;
 const PUFFS = 7;    // dust kicked up as it leaves
 
 // phase cue sheet (ms from mount); index 1..5, index 0 is the initial state
-const CUES = [180, 620, 4820, 5920, 7320];
+const CUES = [180, 620, 4820, 5560, 7010];
 
 export default function BackToSchoolAd() {
   const [phase, setPhase] = React.useState(0);
