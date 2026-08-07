@@ -44,8 +44,15 @@ const COPY = {
 const RW = 390;         // road-region viewBox, matches a 390x844 stage
 const RH = 473;
 // The road starts ABOVE the region — the SVG is overflow:visible — so its tip
-// crests the hill instead of stopping short of it against a band of green.
-const RY0 = -24;
+// lands ON the hill crest instead of stopping short against a band of green.
+// Derived, not eyeballed: the crest sits 4.6% of the camera height above --hz
+// (see .rd-hills), and the road's viewBox maps RH units onto (1 - 0.44) of
+// that same height, so the overshoot is 0.046 * RH / 0.56. Both sides scale
+// with viewport height, so they stay locked together on any phone.
+const RY0 = -(0.046 * 473) / 0.56;   // = -38.85
+// The bus fades in sitting on that tip, so the road has to be wide enough
+// there to carry it — at scale .046 the bus is ~17px across.
+const HW0 = 10;
 const BEND_AT = 200;    // dead straight until here, in viewBox units
 const BEND_TO = 430;    // total lateral sweep
 // Cubed rather than squared: the bus takes a sharp right, so the road has to
@@ -57,7 +64,7 @@ const cx = (y) => {
   return RW / 2 + BEND_TO * Math.pow(t, BEND_P);
 };
 // half-width, opening linearly toward camera
-const hw = (y) => 3 + 300 * ((y - RY0) / (RH - RY0));
+const hw = (y) => HW0 + (303 - HW0) * ((y - RY0) / (RH - RY0));
 
 // a filled band around the centre curve, `pad` widening it (0 = tarmac)
 function band(pad) {

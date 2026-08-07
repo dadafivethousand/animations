@@ -112,7 +112,7 @@
 /* warm bloom sitting on the vanishing point, swelling as the bus nears */
 .rd-beam {
   position: absolute;
-  left: 50%; top: var(--hz);
+  left: 50%; top: calc(var(--hz) - 4.6%);
   width: 90vw; height: 90vw;
   margin: -45vw 0 0 -45vw;
   border-radius: 50%;
@@ -129,7 +129,7 @@
 /* anime zoom-lines radiating out of the vanishing point */
 .rd-zoom {
   position: absolute;
-  left: 50%; top: var(--hz);
+  left: 50%; top: calc(var(--hz) - 4.6%);
   width: 260vmax; height: 260vmax;
   margin: -130vmax 0 0 -130vmax;
   background: repeating-conic-gradient(
@@ -186,18 +186,18 @@
    frame; it stops with clear air either side. */
 .rd-stage.rd-p2 .rd-front { animation: rd-approach 4.2s linear both; }
 @keyframes rd-approach {
-  0%    { opacity: 0; transform: translateX(-50%) translateY(0)     scale(.046); }
+  0%    { opacity: 0; transform: translateX(-50%) translateY(-5vh)   scale(.046); }
   4%    { opacity: 1; }
-  15%   { transform: translateX(calc(-50% + .5vw)) translateY(.6vh)  scale(.065); }
-  30%   { transform: translateX(calc(-50% - .6vw)) translateY(1.6vh) scale(.093); }
-  45%   { transform: translateX(calc(-50% + .6vw)) translateY(3.2vh) scale(.135); }
-  58%   { transform: translateX(calc(-50% - .5vw)) translateY(5.2vh) scale(.187); }
-  68%   { transform: translateX(calc(-50% + .3vw)) translateY(7.6vh) scale(.252); }
-  76%   { transform: translateX(-50%) translateY(10.6vh) scale(.327); }
-  83%   { transform: translateX(-50%) translateY(14.4vh) scale(.411); }
-  89%   { transform: translateX(-50%) translateY(19.6vh) scale(.523); }
-  94%   { transform: translateX(-50%) translateY(24.6vh) scale(.616); }
-  97%   { transform: translateX(-50%) translateY(28.6vh) scale(.672); }
+  15%   { transform: translateX(calc(-50% + .5vw)) translateY(-4.3vh) scale(.065); }
+  30%   { transform: translateX(calc(-50% - .6vw)) translateY(-3.2vh) scale(.093); }
+  45%   { transform: translateX(calc(-50% + .6vw)) translateY(-1.3vh) scale(.135); }
+  58%   { transform: translateX(calc(-50% - .5vw)) translateY(1vh)    scale(.187); }
+  68%   { transform: translateX(calc(-50% + .3vw)) translateY(3.8vh)  scale(.252); }
+  76%   { transform: translateX(-50%) translateY(7.2vh)  scale(.327); }
+  83%   { transform: translateX(-50%) translateY(11.6vh) scale(.411); }
+  89%   { transform: translateX(-50%) translateY(17.6vh) scale(.523); }
+  94%   { transform: translateX(-50%) translateY(23.3vh) scale(.616); }
+  97%   { transform: translateX(-50%) translateY(27.9vh) scale(.672); }
   100%  { opacity: 1; transform: translateX(-50%) translateY(33vh)   scale(.7); }
 }
 
