@@ -1,19 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Oswald:wght@400;500;600&family=UnifrakturMaguntia&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap');
 
 /* ============================================================
-   NewspaperPressAd — "CODE NINJAS / WOODBRIDGE" hammered into newsprint.
+   NewspaperPressAd — the mark printed on newsprint, then stamped.
    Warm paper grey, black ink, one muted spot red: the two-colour job an old
-   letterpress shop could run. No dark cinematic stage here on purpose.
+   letterpress shop could run. Deliberately not the house dark-navy/cyan stage.
 
-   The typing rig: each .np-line is exactly as wide as its own text (fit-content,
-   monospace), so a clip-path animated 100% -> 0% in steps(N) uncovers exactly
-   one character per step, and anything positioned with left: 0% -> 100% on the
-   same steps() lands on the same character. That is how the type bar, the caret
-   and the ink stay in sync without measuring text in JS.
+   The sheet is four stacked layers — colour, dot screen, fibre, wear — all
+   multiplying onto each other, and .np-paper is the blending root so the mark
+   and the stamp print into that texture instead of sitting on top of it.
 
-   --strike is the master tempo: one character per strike, everywhere.
    Portrait phone only (~390x844). Safe margins honoured: 40px top/bottom,
-   45px left/right — nothing meaningful crosses that band.
+   45px left/right.
    ============================================================ */
 
 .np-stage {
@@ -21,21 +18,15 @@
   --paper-lt: #d6d1c4;
   --paper-dk: #a9a291;
   --ink:      #1a1814;
-  --ink-2:    #443f36;
-  --ink-3:    #6f6a5c;
   --red:      #c1132f;   /* spot red, knocked back the way old ink dried */
   --red-dk:   #8e0a20;
-
-  /* one strike = one character */
-  --strike: 118ms;
-  --pitch: .6em;         /* monospace advance width */
 
   position: fixed;
   inset: 0;
   overflow: hidden;
   background: var(--paper-dk);
   color: var(--ink);
-  font-family: "Courier Prime", "Courier New", Courier, monospace;
+  font-family: "Oswald", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -49,8 +40,8 @@
     radial-gradient(120% 90% at 82% 96%, rgba(90,80,58,.22),    transparent 58%),
     linear-gradient(168deg, var(--paper-lt) 0%, var(--paper) 46%, var(--paper-dk) 100%);
   transform-origin: 50% 50%;
-  /* pin the blending root here so the ink multiplies against the sheet and
-     its dot screen, and keeps doing so once the paper picks up a transform */
+  /* pin the blending root here so the ink multiplies against the sheet and its
+     dot screen, and keeps doing so once the paper picks up a transform */
   isolation: isolate;
 }
 
@@ -62,7 +53,6 @@
   background-size: 3px 3px;
   mix-blend-mode: multiply;
   opacity: .26;
-  pointer-events: none;
 }
 
 /* cheap pulp: the fibre runs one way, the tooth the other */
@@ -75,7 +65,6 @@
     repeating-linear-gradient(151deg, rgba(90,80,60,.07) 0 2px, transparent 2px 9px);
   mix-blend-mode: multiply;
   opacity: .8;
-  pointer-events: none;
 }
 
 /* folds: this page came out of somebody's coat pocket */
@@ -87,7 +76,6 @@
     linear-gradient(180deg, transparent 37.2%, rgba(70,62,46,.13) 38.4%, rgba(255,252,240,.22) 39.2%, transparent 40.4%);
   mix-blend-mode: multiply;
   opacity: .75;
-  pointer-events: none;
 }
 
 /* aged edges + a general press-room grubbiness */
@@ -99,315 +87,12 @@
     radial-gradient(24% 18% at 88% 14%, rgba(96,78,44,.16), transparent 70%),
     radial-gradient(30% 12% at 12% 78%, rgba(96,78,44,.14), transparent 70%);
   mix-blend-mode: multiply;
-  pointer-events: none;
 }
 
-/* ---------- registration marks ------------------------------------- */
+/* ---------- the sheet takes the hit --------------------------------- */
 
-.np-regs i {
-  position: absolute;
-  width: 15px; height: 15px;
-  border-radius: 50%;
-  border: 1px solid rgba(193,19,47,.55);
-  opacity: 0;
-  transition: opacity .5s ease;
-}
-.np-regs i::before,
-.np-regs i::after {
-  content: "";
-  position: absolute;
-  background: rgba(193,19,47,.55);
-}
-.np-regs i::before { left: 50%; top: -7px;  width: 1px; height: 29px; margin-left: -.5px; }
-.np-regs i::after  { top: 50%;  left: -7px; height: 1px; width: 29px; margin-top: -.5px; }
+.np-p2 .np-paper { animation: np-slam .46s cubic-bezier(.2,.9,.3,1) both; }
 
-.np-regs i:nth-child(1) { left: 45px;  top: 40px; }
-.np-regs i:nth-child(2) { right: 45px; top: 40px; }
-.np-regs i:nth-child(3) { left: 45px;  bottom: 40px; }
-.np-regs i:nth-child(4) { right: 45px; bottom: 40px; }
-.np-stage:not(.np-p0) .np-regs i { opacity: 1; }
-
-/* ---------- page block (inside the safe margins) -------------------- */
-
-.np-page {
-  position: absolute;
-  left: 45px; right: 45px;
-  top: 40px;  bottom: 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* every rule inks in rather than fading — a press lays it down at once */
-.np-rule {
-  width: 100%;
-  background: var(--ink);
-  mix-blend-mode: multiply;
-  transform: scaleX(0);
-  transform-origin: 0 50%;
-  opacity: .88;
-}
-.np-rule-hair  { height: 1px; opacity: .55; }
-.np-rule-heavy { height: 4px; }
-.np-rule-double {
-  height: 5px;
-  background:
-    linear-gradient(var(--ink) 0 0) top/100% 2px no-repeat,
-    linear-gradient(var(--ink) 0 0) bottom/100% 1px no-repeat;
-  background-color: transparent;
-}
-.np-stage:not(.np-p0) .np-rule { animation: np-ruleIn .42s cubic-bezier(.2,.9,.3,1) both; }
-
-@keyframes np-ruleIn { to { transform: scaleX(1); } }
-
-/* ---------- masthead ------------------------------------------------ */
-
-.np-masthead {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 7px;
-}
-
-.np-flag {
-  font-family: "UnifrakturMaguntia", "Courier Prime", serif;
-  font-size: clamp(22px, 6.6vw, 30px);
-  line-height: 1;
-  color: var(--ink);
-  mix-blend-mode: multiply;
-  letter-spacing: .01em;
-  text-shadow: .5px .4px 0 rgba(26,24,20,.35);
-}
-
-.np-dateline {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  font-family: "Oswald", "Courier Prime", sans-serif;
-  font-weight: 500;
-  font-size: clamp(9px, 2.6vw, 11px);
-  letter-spacing: .22em;
-  color: var(--ink-2);
-  mix-blend-mode: multiply;
-}
-.np-dateline span:last-child { letter-spacing: .1em; }
-
-/* the masthead inks in as a unit; the rules snap across, the type blots up */
-.np-masthead > * { opacity: 0; }
-.np-stage:not(.np-p0) .np-masthead > *:not(.np-rule) { animation: np-inkIn .5s ease .16s both; }
-.np-stage:not(.np-p0) .np-masthead > .np-rule {
-  animation: np-ruleIn .42s cubic-bezier(.2,.9,.3,1) both,
-             np-inkIn .01s linear both;
-}
-.np-stage:not(.np-p0) .np-masthead > .np-rule:nth-child(1) { animation-delay: .02s, .02s; }
-.np-stage:not(.np-p0) .np-masthead > .np-rule:nth-child(3) { animation-delay: .12s, .12s; }
-.np-stage:not(.np-p0) .np-masthead > .np-rule:nth-child(5) { animation-delay: .18s, .18s; }
-
-@keyframes np-inkIn {
-  from { opacity: 0; filter: blur(2.4px); }
-  to   { opacity: 1; filter: blur(0); }
-}
-
-/* ---------- the typed headline -------------------------------------- */
-
-.np-headline {
-  position: relative;
-  width: fit-content;
-  margin: clamp(18px, 3.4vh, 30px) 0 clamp(14px, 2.6vh, 24px);
-  font-size: clamp(26px, 10.4vw, 42px);
-  font-weight: 700;
-  line-height: 1.16;
-  letter-spacing: 0;
-}
-
-/* each line is exactly its own text wide — that is what makes the stepped
-   clip land on character boundaries */
-.np-line {
-  position: relative;
-  width: fit-content;
-  white-space: pre;
-}
-
-.np-chars {
-  display: inline-block;
-  white-space: pre;
-  mix-blend-mode: multiply;
-  /* base state is the finished print; the phases below take it away */
-  clip-path: inset(-45% 0% -45% 0%);
-}
-
-.np-ch {
-  display: inline-block;
-  white-space: pre;
-  font-weight: 700;
-  transform: translateY(var(--dy)) rotate(var(--rot));
-  color: var(--ink);
-}
-/* a slug that inked heavy, and one that came up starved */
-.np-heavy  { color: #100e0b; text-shadow: .6px 0 0 rgba(16,14,11,.75), 0 .5px 0 rgba(16,14,11,.5); }
-.np-starved { color: #3d382f; text-shadow: -.4px -.3px 0 rgba(255,252,240,.35); }
-
-/* nothing typed yet */
-.np-p0 .np-l1 .np-chars,
-.np-p1 .np-l1 .np-chars { clip-path: inset(-45% 100% -45% 0%); }
-.np-p0 .np-l2 .np-chars,
-.np-p1 .np-l2 .np-chars,
-.np-p2 .np-l2 .np-chars,
-.np-p3 .np-l2 .np-chars { clip-path: inset(-45% 100% -45% 0%); }
-
-/* 11 strikes for CODE NINJAS, 10 for WOODBRIDGE */
-.np-p2 .np-l1 .np-chars { animation: np-type calc(11 * var(--strike)) steps(11) both; }
-.np-p4 .np-l2 .np-chars { animation: np-type calc(10 * var(--strike)) steps(10) both; }
-
-@keyframes np-type {
-  from { clip-path: inset(-45% 100% -45% 0%); }
-  to   { clip-path: inset(-45% 0%   -45% 0%); }
-}
-
-/* the printing point: a short ink tick sitting on the baseline */
-.np-caret {
-  position: absolute;
-  left: 0;
-  bottom: .06em;
-  width: var(--pitch);
-  height: 2px;
-  background: var(--ink-2);
-  opacity: 0;
-  mix-blend-mode: multiply;
-}
-.np-p2 .np-l1 .np-caret,
-.np-p4 .np-l2 .np-caret { opacity: .75; }
-.np-p2 .np-l1 .np-caret { animation: np-track calc(11 * var(--strike)) steps(11) both; }
-.np-p4 .np-l2 .np-caret { animation: np-track calc(10 * var(--strike)) steps(10) both; }
-
-@keyframes np-track { from { left: 0%; } to { left: 100%; } }
-
-/* ---------- the type bar -------------------------------------------- */
-
-/* anchored at the strike point, arm hanging down into the machine.
-   A real bar swings up at the paper, so the strike is mostly a rise plus a
-   little scale — the swing reads as coming at you, not sliding sideways. */
-.np-hammer {
-  position: absolute;
-  left: 0;
-  top: 100%;
-  width: 0;
-  height: 0;
-  margin-left: calc(var(--pitch) / 2);   /* centre the slug on its character */
-  opacity: 0;
-  filter: drop-shadow(0 7px 7px rgba(40,32,18,.42));
-  will-change: transform;
-}
-
-.np-arm {
-  position: absolute;
-  left: 50%;
-  top: .30em;
-  width: .16em;
-  height: 15vh;
-  margin-left: -.08em;
-  background: linear-gradient(90deg, #23211d 0%, #6b675e 38%, #8f8a7f 52%, #35322c 100%);
-  clip-path: polygon(22% 0%, 78% 0%, 100% 100%, 0% 100%);
-  border-radius: .04em .04em 0 0;
-}
-
-.np-slug {
-  position: absolute;
-  left: 50%;
-  top: .06em;
-  width: .56em;
-  height: .34em;
-  margin-left: -.28em;
-  border-radius: .05em;
-  background: linear-gradient(180deg, #706b60 0%, #3a372f 42%, #1d1b17 100%);
-  box-shadow:
-    inset 0 .04em 0 rgba(230,224,206,.35),
-    inset 0 -.03em 0 rgba(0,0,0,.5);
-}
-
-.np-p2 .np-l1 .np-hammer,
-.np-p4 .np-l2 .np-hammer { opacity: 1; }
-
-.np-p2 .np-l1 .np-hammer {
-  animation:
-    np-track calc(11 * var(--strike)) steps(11) both,
-    np-strike var(--strike) linear 11 both;
-}
-.np-p4 .np-l2 .np-hammer {
-  animation:
-    np-track calc(10 * var(--strike)) steps(10) both,
-    np-strike var(--strike) linear 10 both;
-}
-
-/* impact lands at the end of each strike, which is exactly when the stepped
-   clip uncovers that character */
-@keyframes np-strike {
-  0%   { transform: translateY(.10em) rotate(4deg)  scale(1); }
-  46%  { transform: translateY(.34em) rotate(7deg)  scale(.985); }
-  88%  { transform: translateY(-.30em) rotate(-1deg) scale(1.05); }
-  100% { transform: translateY(-.02em) rotate(2deg)  scale(1.01); }
-}
-
-/* ---------- carriage return ----------------------------------------- */
-
-.np-return {
-  position: absolute;
-  left: 0; right: 0;
-  top: .52em;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, rgba(26,24,20,.42) 42%, rgba(26,24,20,.06));
-  opacity: 0;
-  mix-blend-mode: multiply;
-}
-.np-p3 .np-return { animation: np-sweep .34s cubic-bezier(.3,.1,.1,1) both; }
-
-@keyframes np-sweep {
-  0%   { opacity: 0;   transform: translateX(38%) scaleX(.5); }
-  22%  { opacity: 1; }
-  100% { opacity: 0;   transform: translateX(-42%) scaleX(1.2); }
-}
-
-.np-bell {
-  position: absolute;
-  right: -.14em;
-  top: -.72em;
-  font-family: "Oswald", sans-serif;
-  font-weight: 600;
-  font-size: clamp(10px, 2.9vw, 12px);
-  letter-spacing: .2em;
-  color: var(--red);
-  mix-blend-mode: multiply;
-  opacity: 0;
-}
-.np-bell::before {
-  content: "";
-  position: absolute;
-  left: 50%; top: 50%;
-  width: 2.2em; height: 2.2em;
-  margin: -1.1em 0 0 -1.1em;
-  border: 1px solid var(--red);
-  border-radius: 50%;
-  opacity: .6;
-}
-.np-p3 .np-bell { animation: np-ding .5s ease-out both; }
-
-@keyframes np-ding {
-  0%   { opacity: 0; transform: scale(.7) rotate(-6deg); }
-  26%  { opacity: 1; transform: scale(1.12) rotate(3deg); }
-  100% { opacity: 0; transform: scale(1.5) rotate(0deg); }
-}
-
-/* the paper jerks on the line feed, and the press comes down at p5 */
-.np-p3 .np-paper { animation: np-feed .38s cubic-bezier(.25,.9,.3,1) both; }
-.np-p5 .np-paper { animation: np-slam .46s cubic-bezier(.2,.9,.3,1) both; }
-
-@keyframes np-feed {
-  0%   { transform: translateY(0); }
-  34%  { transform: translateY(-7px); }
-  70%  { transform: translateY(2px); }
-  100% { transform: translateY(0); }
-}
 @keyframes np-slam {
   0%   { transform: scale(1) translate(0, 0); }
   16%  { transform: scale(1.012) translate(2px, -3px); }
@@ -416,79 +101,21 @@
   100% { transform: scale(1) translate(0, 0); }
 }
 
-/* ---------- deck ---------------------------------------------------- */
+/* ---------- mark + stamp (inside the safe margins) ------------------ */
 
-.np-deck {
-  width: 100%;
+.np-page {
+  position: absolute;
+  left: 45px; right: 45px;
+  top: 40px;  bottom: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
-  opacity: 0;
-}
-.np-deck p {
-  margin: 0;
-  font-style: italic;
-  font-weight: 700;
-  font-size: clamp(11px, 3.2vw, 13px);
-  letter-spacing: .05em;
-  color: var(--ink-2);
-  mix-blend-mode: multiply;
-  text-align: center;
-}
-.np-deck .np-rule { opacity: .5; }
-.np-p5 .np-deck { animation: np-inkIn .5s ease .1s both; }
-
-/* ---------- greeked body copy --------------------------------------- */
-
-.np-columns {
-  width: 100%;
-  display: flex;
-  gap: 14px;
-  margin-top: clamp(12px, 2.2vh, 20px);
-  flex: 0 0 auto;
-}
-.np-col {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-.np-col + .np-col {
-  border-left: 1px solid rgba(26,24,20,.28);
-  padding-left: 14px;
-}
-.np-columns i {
-  display: block;
-  width: var(--w);
-  height: 4px;
-  background: var(--ink-3);
-  opacity: 0;
-  mix-blend-mode: multiply;
-  border-radius: .5px;
-}
-.np-stage:not(.np-p0) .np-columns i {
-  animation: np-lineIn .34s ease both;
-  animation-delay: calc(.22s + var(--i) * .028s);
-}
-@keyframes np-lineIn {
-  from { opacity: 0; transform: translateX(-4px); filter: blur(1.6px); }
-  to   { opacity: .42; transform: none; filter: blur(0); }
-}
-
-/* ---------- the plate: mark, stamp, url ----------------------------- */
-
-.np-plate {
-  margin-top: auto;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: clamp(10px, 1.8vh, 16px);
+  justify-content: center;
+  gap: clamp(20px, 4.2vh, 38px);
 }
 
 .np-logo {
-  width: min(48vw, 210px);
+  width: min(68vw, 268px);
   height: auto;
   display: block;
   opacity: 0;
@@ -496,75 +123,47 @@
   filter: grayscale(1) contrast(1.28) brightness(.86);
   mix-blend-mode: multiply;
 }
-.np-p5 .np-logo { animation: np-press .5s cubic-bezier(.18,.9,.26,1) both; }
+.np-p1 .np-logo,
+.np-p2 .np-logo { animation: np-press .58s cubic-bezier(.18,.9,.26,1) both; }
 
 @keyframes np-press {
-  0%   { opacity: 0; transform: scale(1.5) rotate(-1.6deg); filter: grayscale(1) contrast(1.28) brightness(.86) blur(5px); }
+  0%   { opacity: 0; transform: scale(1.42) rotate(-1.4deg); filter: grayscale(1) contrast(1.28) brightness(.86) blur(6px); }
   62%  { opacity: 1; }
-  100% { opacity: 1; transform: none; filter: grayscale(1) contrast(1.28) brightness(.86) blur(0); }
+  100% { opacity: 1; transform: none;                        filter: grayscale(1) contrast(1.28) brightness(.86) blur(0); }
 }
 
 /* rubber stamp, hit crooked, in the one spot colour on the job */
 .np-stamp {
-  position: relative;
-  padding: 9px 16px 8px;
+  padding: 11px 20px 10px;
   border: 3px solid var(--red);
   outline: 1px solid var(--red);
-  outline-offset: 3px;
+  outline-offset: 4px;
   color: var(--red);
   transform: rotate(-3.2deg);
   opacity: 0;
   mix-blend-mode: multiply;
 }
 .np-stamp span {
-  font-family: "Oswald", sans-serif;
   font-weight: 600;
-  font-size: clamp(14px, 4.1vw, 17px);
-  letter-spacing: .16em;
+  font-size: clamp(17px, 5.4vw, 23px);
+  letter-spacing: .18em;
   /* the misregistration every two-colour press had */
-  text-shadow: .8px .6px 0 rgba(142,10,32,.45);
+  text-shadow: .9px .7px 0 rgba(142,10,32,.45);
 }
-.np-p5 .np-stamp { animation: np-thump .44s cubic-bezier(.2,.95,.3,1) .26s both; }
+.np-p2 .np-stamp { animation: np-thump .44s cubic-bezier(.2,.95,.3,1) both; }
 
 @keyframes np-thump {
-  0%   { opacity: 0; transform: rotate(-9deg) scale(1.9); filter: blur(4px); }
+  0%   { opacity: 0;   transform: rotate(-9deg) scale(1.9); filter: blur(4px); }
   70%  { opacity: .95; transform: rotate(-2.2deg) scale(.97); filter: blur(0); }
   100% { opacity: .92; transform: rotate(-3.2deg) scale(1); }
 }
 
-.np-url {
-  font-weight: 700;
-  font-size: clamp(15px, 4.4vw, 18px);
-  letter-spacing: .04em;
-  color: var(--ink);
-  mix-blend-mode: multiply;
-  opacity: 0;
-}
-.np-p5 .np-url { animation: np-inkIn .42s ease .48s both; }
-
-.np-foot {
-  font-family: "Oswald", sans-serif;
-  font-weight: 400;
-  font-size: clamp(8px, 2.4vw, 10px);
-  letter-spacing: .26em;
-  color: var(--ink-3);
-  mix-blend-mode: multiply;
-  opacity: 0;
-}
-.np-p5 .np-foot { animation: np-inkIn .42s ease .6s both; }
-
-/* ---------- reduced motion: print the finished page ----------------- */
+/* ---------- reduced motion: show the finished sheet ------------------ */
 
 @media (prefers-reduced-motion: reduce) {
   .np-stage *, .np-stage *::before, .np-stage *::after {
     animation: none !important;
-    transition: none !important;
   }
-  .np-chars { clip-path: inset(-45% 0% -45% 0%) !important; }
-  .np-caret, .np-hammer, .np-return, .np-bell { opacity: 0 !important; }
-  .np-rule { transform: scaleX(1) !important; }
-  .np-masthead > *, .np-deck, .np-logo, .np-url, .np-foot { opacity: 1 !important; }
+  .np-logo  { opacity: 1 !important; }
   .np-stamp { opacity: .92 !important; }
-  .np-columns i { opacity: .42 !important; }
-  .np-regs i { opacity: 1 !important; }
 }
