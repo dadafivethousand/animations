@@ -8,7 +8,9 @@
 //   p1  the star flies in spinning on its Y axis — front face, back face,
 //       front again — and decelerates to dead-on
 //   p2  the counter climbs 0 -> 60 on an ease-out, so it blasts through the
-//       forties and then crawls 57 . 58 . 59 . ; the star kicks on every tick
+//       forties and then crawls 57 . 58 . 59 . ; the star turns on the same
+//       ease-out for three full rotations, so its angle tracks the number and
+//       it coasts onto square exactly as the 60 lands. It kicks on every tick.
 //   p3  60 lands: flash, four-colour confetti, the five stars pop in one by
 //       one and the line reads
 //   p4  the Woodbridge lockup settles under it
@@ -38,6 +40,21 @@ const CONFETTI = Array.from({ length: 18 }, (_, i) => ({
   t: (i % 5) * 26, // ms stagger
   c: G4[i % 4],
 }));
+
+// the four-colour wordmark — the chip is gone, this now carries the brand
+// down in the label line
+function GoogleWordmark() {
+  return (
+    <span className="gr-g">
+      <b style={{ color: "#4285f4" }}>G</b>
+      <b style={{ color: "#ea4335" }}>o</b>
+      <b style={{ color: "#fbbc05" }}>o</b>
+      <b style={{ color: "#4285f4" }}>g</b>
+      <b style={{ color: "#34a853" }}>l</b>
+      <b style={{ color: "#ea4335" }}>e</b>
+    </span>
+  );
+}
 
 export default function GoogleReviewsAd() {
   const [phase, setPhase] = React.useState(0);
@@ -86,18 +103,6 @@ export default function GoogleReviewsAd() {
       <div className="gr-vignette" aria-hidden />
 
       <div className="gr-card">
-        <div className="gr-chip">
-          <span className="gr-g">
-            <b style={{ color: "#4285f4" }}>G</b>
-            <b style={{ color: "#ea4335" }}>o</b>
-            <b style={{ color: "#fbbc05" }}>o</b>
-            <b style={{ color: "#4285f4" }}>g</b>
-            <b style={{ color: "#34a853" }}>l</b>
-            <b style={{ color: "#ea4335" }}>e</b>
-          </span>
-          <span className="gr-chip-sub">REVIEWS</span>
-        </div>
-
         <div className="gr-scene">
           <div className="gr-burst" aria-hidden />
           <div className="gr-confetti" aria-hidden>
@@ -141,7 +146,9 @@ export default function GoogleReviewsAd() {
           ))}
         </div>
 
-        <div className="gr-label">5-STAR GOOGLE REVIEWS</div>
+        <div className="gr-label">
+          5-STAR <GoogleWordmark /> REVIEWS
+        </div>
 
         <div className="gr-lockup">
           <img className="gr-logo" src={logo} alt="Code Ninjas" />

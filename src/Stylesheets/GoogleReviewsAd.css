@@ -13,10 +13,10 @@
    own preserve-3d context for the faces.
 
    Two knobs run the sizing:
-     --s     everything below the Google chip, scaled together
+     --s     the whole card, scaled together
      --star  the hero, cut from --s
-   The chip is deliberately outside --s: it's the smallest thing on the sheet
-   already and shrinking it costs legibility on a phone.
+   There is no masthead: the brand arrives late, in the label line, so the
+   star owns the sheet on its own until the 60 lands.
 
    Portrait phone only (~390x844). Safe margins honoured: 40px top/bottom,
    45px left/right.
@@ -31,12 +31,14 @@
   --ink-2:  #5f6368;   /* Google grey 700 */
   --sheet:  #ffffff;
 
-  /* the gold the number and the star are struck from */
-  --gold-hi: #ffeab0;
-  --gold:    #f4ae32;
-  --gold-dk: #b46a06;
+  /* the gold the number is struck from — pulled down a couple of stops from
+     the star's own gold, because a light gold on a white sheet is a light
+     grey at thumbnail size */
+  --gold-hi: #f3bf4a;
+  --gold:    #d18a12;
+  --gold-dk: #7d4302;
 
-  --s: .85;                                  /* everything under the chip */
+  --s: .85;                                  /* the whole card */
   --star: calc(clamp(146px, 44vw, 200px) * var(--s));
 
   position: fixed;
@@ -83,33 +85,14 @@
   text-align: center;
 }
 
-/* Google + REVIEWS — held at full size while everything else comes down */
-.gr-chip {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-  margin-bottom: calc(clamp(8px, 2.2vh, 20px) * var(--s));
-  opacity: 0;
-  transform: translateY(-8px);
-  animation: grFadeDown 620ms cubic-bezier(.2,.7,.3,1) 120ms both;
-}
-
+/* the four-colour wordmark. Sizes off the line it sits in, and refuses the
+   tracking of that line — the Google wordmark is tight and never spaced out */
 .gr-g {
-  font-size: clamp(20px, 5.6vw, 26px);
   font-weight: 700;
   letter-spacing: -.02em;
-  line-height: 1;
+  white-space: nowrap;
 }
 .gr-g b { font-weight: 700; }
-
-.gr-chip-sub {
-  font-size: clamp(9px, 2.6vw, 11px);
-  font-weight: 700;
-  letter-spacing: .34em;
-  color: var(--ink-2);
-  padding-left: .34em;
-}
 
 /* ---------- the star ------------------------------------------------- */
 
@@ -236,7 +219,7 @@
   background-image:
     linear-gradient(100deg, transparent 40%, rgba(255,255,255,.9) 50%, transparent 60%),
     linear-gradient(176deg,
-      var(--gold-hi) 0%, #fdd06a 22%, var(--gold) 48%, #dd8b16 72%, var(--gold-dk) 100%);
+      var(--gold-hi) 0%, #e3a72c 22%, var(--gold) 48%, #a96606 72%, var(--gold-dk) 100%);
   background-size: 260% 100%, 100% 100%;
   background-position: -80% 0, 0 0;
   background-repeat: no-repeat;
@@ -247,8 +230,8 @@
 
   filter:
     drop-shadow(0 1px 0 rgba(255,255,255,.95))
-    drop-shadow(0 2px 1px rgba(150,92,6,.34))
-    drop-shadow(0 12px 20px rgba(214,145,20,.30));
+    drop-shadow(0 2px 1px rgba(110,64,2,.44))
+    drop-shadow(0 12px 20px rgba(160,102,8,.26));
 
   animation-duration: 260ms;
   animation-timing-function: cubic-bezier(.3,1.5,.5,1);
@@ -280,8 +263,17 @@
   letter-spacing: .18em;
   color: var(--ink-2);
   padding-left: .18em;
+  white-space: nowrap;
   opacity: 0;
   transform: translateY(8px);
+}
+
+/* mixed case and four colours against tracked-out grey caps — the wordmark
+   needs a touch more size to hold the line, and its own baseline nudge */
+.gr-label .gr-g {
+  font-size: 1.2em;
+  vertical-align: -.03em;
+  margin: 0 .06em;
 }
 
 /* ---------- the lockup ------------------------------------------------ */
@@ -318,11 +310,21 @@
 .gr-p0 .gr-scene { opacity: 0; }
 
 /* p1 — the star flies in spinning, decelerating to dead-on */
-.gr-p1 .gr-star3d,
+.gr-p1 .gr-star3d {
+  animation: grFly 1500ms cubic-bezier(.16,.72,.16,1) both;
+}
+
+/* p2 — the star keeps turning while the number climbs. Three whole turns on
+   easeOutCubic, the same curve the counter runs, over the same 2900ms: the
+   angle tracks the number, so it blurs through the forties and is barely
+   creeping by 57 . 58 . 59, then parks dead square on the 60. Whole turns
+   matter — 1080deg is 0deg, so p3 inherits a square star and the landing kick
+   has nothing to fight. The rule repeats for p3/p4 with identical values, so
+   the animation carries across the class change instead of restarting. */
 .gr-p2 .gr-star3d,
 .gr-p3 .gr-star3d,
 .gr-p4 .gr-star3d {
-  animation: grFly 1500ms cubic-bezier(.16,.72,.16,1) both;
+  animation: grSpin 2900ms cubic-bezier(.33,1,.68,1) both;
 }
 
 .gr-p1 .gr-shadow,
@@ -379,11 +381,6 @@
   to   { opacity: 1; transform: scale(1); }
 }
 
-@keyframes grFadeDown {
-  from { opacity: 0; transform: translateY(-8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
 @keyframes grFadeUp {
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -400,6 +397,12 @@
   62%  { transform: translateY(0)    scale(1.06) rotateX(6deg) rotateY(-190deg); }
   82%  { transform: translateY(0)    scale(.99) rotateX(2deg) rotateY(26deg); }
   100% { transform: translateY(0)    scale(1)   rotateX(0deg) rotateY(0deg); }
+}
+
+/* the count-up turn — three revolutions, landing back on square */
+@keyframes grSpin {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(1080deg); }
 }
 
 @keyframes grDrop {
@@ -463,7 +466,6 @@
     transition: none !important;
   }
   .gr-aurora,
-  .gr-chip,
   .gr-count,
   .gr-label,
   .gr-lockup { opacity: 1; transform: none; }
