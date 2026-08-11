@@ -1,7 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
 
 /* ============================================================
-   ThankYouAd — the 60 melts down and is recast as THANK YOU.
+   ThankYouAd — the 60 is recast as THANK YOU, then it cuts to JOIN US.
+
+   Two scenes on one white sheet. The Woodbridge lockup is the only thing that
+   survives the cut, and it is bottom-anchored in its own row rather than
+   centred with everything else — so when the scene above it swaps, the brand
+   does not move by a pixel. Everything changes except the logo, which is what
+   makes the cut land as a cut rather than as a re-layout.
 
    The back half of GoogleReviewsAd. Everything the eye uses to place the shot
    is carried over verbatim so the two cut together: the white sheet, the
@@ -83,9 +89,31 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   text-align: center;
 }
+
+/* everything that changes at the cut lives in here, centred in the space above
+   the lockup. The lockup itself is a sibling, so it stays put. */
+.tk-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.tk-s1,
+.tk-s2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* scene 2 is simply not there until the cut — display, not opacity, because a
+   cut is a cut and there is no frame where both scenes are on the sheet */
+.tk-s2 { display: none; }
 
 /* ---------- the star, inherited already landed ----------------------- */
 
@@ -214,10 +242,74 @@
   padding-left: .20em;
 }
 
+/* ---------- scene 2 : the invitation ---------------------------------- */
+
+/* the ghost is the full string at full size, invisible, holding the box open;
+   the live text is laid over it from the left. Without that the block would
+   be sized by however much has been typed so far and, being centred, would
+   shuffle sideways on every keystroke. */
+.tk-join {
+  position: relative;
+  display: inline-block;
+  font-size: calc(clamp(44px, 13.6vw, 60px) * var(--s));
+  line-height: 1;
+}
+
+.tk-join-ghost { visibility: hidden; }
+
+.tk-join-live {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: pre;   /* the space in JOIN US has to survive as a character */
+  text-align: left;
+}
+
+.tk-join-ghost,
+.tk-join-live {
+  font-weight: 900;
+  letter-spacing: .03em;
+}
+
+/* the caret rides after the last character typed, and is gone the moment the
+   string is finished — the ad holds a still final frame, so nothing blinks
+   forever */
+.tk-caret {
+  display: inline-block;
+  width: .07em;
+  height: .78em;
+  margin-left: .07em;
+  vertical-align: -.02em;
+  background: var(--gold);
+  animation: tkBlink 560ms steps(1, end) infinite;
+}
+
+.tk-typed .tk-caret { display: none; }
+
+/* 60% of the screen, as asked. Centred that leaves 20vw either side, well
+   clear of the 45px the screen-record crop eats. */
+.tk-ninjas {
+  margin-top: calc(clamp(18px, 4vh, 34px) * var(--s));
+  width: 60vw;
+  overflow: hidden;   /* the slot the image rises into */
+}
+
+.tk-ninjas img {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* the source is an opaque white-background PNG. Multiplied against the white
+     sheet the background disappears and the ninjas stay dark, so there is no
+     white box sitting on top of the ambient colour. */
+  mix-blend-mode: multiply;
+  transform: translateY(100%);
+}
+
 /* ---------- the lockup ------------------------------------------------ */
 
 .tk-lockup {
-  margin-top: calc(clamp(22px, 5vh, 42px) * var(--s));
+  flex: none;
+  margin-top: calc(clamp(14px, 3vh, 26px) * var(--s));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -282,6 +374,18 @@
 /* p4 — the metal sets, and the star acknowledges it once */
 .tk-p4 .tk-star { animation: tkKick 620ms cubic-bezier(.2,1.5,.4,1) both; }
 
+/* p5 — the cut. Scene 1 is gone, scene 2 is on, and the typing starts. */
+.tk-p5 .tk-s1,
+.tk-p6 .tk-s1 { display: none; }
+
+.tk-p5 .tk-s2,
+.tk-p6 .tk-s2 { display: flex; }
+
+/* p6 — the ninjas come up into the slot */
+.tk-p6 .tk-ninjas img {
+  animation: tkSlideUp 880ms cubic-bezier(.18,.82,.24,1) both;
+}
+
 /* ============================================================
    keyframes
    ============================================================ */
@@ -326,6 +430,17 @@
   to   { background-position: 190% 0, 0 0; }
 }
 
+@keyframes tkBlink {
+  0%, 50%   { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}
+
+/* up out of its own slot, so it reads as rising into frame from below */
+@keyframes tkSlideUp {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
 @keyframes tkKick {
   0%   { transform: scale(1); }
   34%  { transform: scale(1.07); }
@@ -347,4 +462,8 @@
   .tk-pool  { display: none; }
   .tk-line--up   .tk-word,
   .tk-line--down .tk-word { transform: none; }
+  .tk-s1 { display: none; }
+  .tk-s2 { display: flex; }
+  .tk-caret { display: none; }
+  .tk-ninjas img { transform: none; }
 }
