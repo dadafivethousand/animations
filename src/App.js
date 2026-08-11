@@ -7,9 +7,9 @@ import "./Stylesheets/App.css";
 // import BackToSchoolAd from "./Components/BackToSchoolAd";
 // import NewspaperPressAd from "./Components/NewspaperPressAd";
 // import GoogleReviewsAd from "./Components/GoogleReviewsAd";
-import ThankYouAd from "./Components/ThankYouAd";
+import JoinUsAd from "./Components/JoinUsAd";
 
 function App() {
-  return <ThankYouAd />;
+  return <JoinUsAd />;
 }
 export default App;

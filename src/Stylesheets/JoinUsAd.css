@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+
+/* ============================================================
+   JoinUsAd — JOIN US types itself out in gold, then the ninjas arrive.
+
+   The white sheet, the four-colour ambient light, the vignette, Roboto and the
+   gold ramp are all carried over from GoogleReviewsAd verbatim, so this still
+   cuts together with that ad. Everything else is gone: one line, one picture.
+
+   No drop-shadow on the gold. The earlier build stacked three of them under
+   the type, and because the fill is transparent and the paint is a background
+   clipped to the glyphs, the filter was resolving against the element's box
+   rather than the letter shapes — which put a soft rectangular halo behind the
+   line. Flat gold on a white sheet needs no help anyway.
+
+   One knob runs the sizing:
+     --s   everything typographic
+
+   The image is the one thing --s doesn't reach, since it's specified against
+   the screen rather than the type; it carries the same 15% by hand below.
+
+   Portrait phone only (~390x844). Safe margins honoured: 40px top/bottom,
+   45px left/right.
+   ============================================================ */
+
+.ju-stage {
+  --ink:   #202124;   /* Google grey 900 */
+  --sheet: #ffffff;
+
+  /* the reviews ad's gold, unchanged */
+  --gold-hi: #f3bf4a;
+  --gold:    #d18a12;
+  --gold-dk: #7d4302;
+
+  /* .85 was the base scale; this is that, less the 15% */
+  --s: .7225;
+
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--sheet);
+  color: var(--ink);
+  font-family: "Roboto", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- the sheet, carried over ---------------------------------- */
+
+.ju-aurora {
+  position: absolute;
+  inset: -12%;
+  background:
+    radial-gradient(38% 26% at 16% 14%, rgba(66,133,244,.22),  transparent 70%),
+    radial-gradient(34% 24% at 86% 22%, rgba(234,67,53,.16),   transparent 70%),
+    radial-gradient(40% 26% at 82% 82%, rgba(52,168,83,.16),   transparent 70%),
+    radial-gradient(36% 24% at 14% 88%, rgba(251,188,5,.20),   transparent 70%);
+  filter: blur(6px);
+}
+
+.ju-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 78% at 50% 44%, transparent 52%, rgba(32,33,36,.09) 100%);
+}
+
+/* ---------- the card ------------------------------------------------- */
+
+.ju-card {
+  position: absolute;
+  inset: 40px 45px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* takes every pixel the ninjas don't, and centres the line in it */
+.ju-line {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- the type -------------------------------------------------- */
+
+.ju-join {
+  position: relative;
+  display: inline-block;
+  font-size: calc(clamp(44px, 13.6vw, 60px) * var(--s));
+  line-height: 1;
+}
+
+.ju-ghost { visibility: hidden; }
+
+.ju-live {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: pre;   /* the space in JOIN US has to survive as a character */
+  text-align: left;
+}
+
+.ju-ghost,
+.ju-live {
+  font-weight: 900;
+  letter-spacing: .03em;
+}
+
+/* the gold: a lit top face falling to a dark base, clipped to the glyphs.
+   No filter — see the note at the top of this file. */
+.ju-live {
+  background-image: linear-gradient(176deg,
+    var(--gold-hi) 0%, #e3a72c 22%, var(--gold) 48%, #a96606 72%, var(--gold-dk) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* the caret rides after the last character typed, and is gone the moment the
+   string is finished — the ad holds a still final frame, so nothing blinks
+   forever */
+.ju-caret {
+  display: inline-block;
+  width: .07em;
+  height: .78em;
+  margin-left: .07em;
+  vertical-align: -.02em;
+  background: var(--gold);
+  animation: juBlink 560ms steps(1, end) infinite;
+}
+
+.ju-typed .ju-caret { display: none; }
+
+/* ---------- the ninjas ------------------------------------------------ */
+
+/* 60vw was the brief, less the 15% — centred that still leaves ~95px either
+   side on a 390px phone, well clear of the 45px the screen-record crop eats.
+   Sits hard on the bottom of the card, which is what makes the travel below
+   exact. */
+.ju-ninjas {
+  flex: none;
+  width: 51vw;
+}
+
+.ju-ninjas img {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* the source is an opaque white-background PNG. Multiplied against the white
+     sheet the background drops out and the ninjas stay dark, so there is no
+     white box sitting on top of the ambient colour. */
+  mix-blend-mode: multiply;
+  /* its own height clears the image, the 40px clears the card's bottom inset —
+     together that parks it exactly on the bottom edge of the screen, off
+     frame, with no guessing at viewport height and no sliver left showing */
+  transform: translateY(calc(100% + 40px));
+}
+
+/* ============================================================
+   phases
+   ============================================================ */
+
+/* p0 — an empty sheet. p1 — the typing, which JS drives. */
+
+/* p2 — the ninjas come up off the bottom of the screen */
+.ju-p2 .ju-ninjas img {
+  animation: juTravel 980ms cubic-bezier(.18,.82,.24,1) both;
+}
+
+/* ============================================================
+   keyframes
+   ============================================================ */
+
+@keyframes juBlink {
+  0%, 50%      { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}
+
+@keyframes juTravel {
+  from { transform: translateY(calc(100% + 40px)); }
+  to   { transform: translateY(0); }
+}
+
+/* ============================================================
+   reduced motion — snap to the finished card
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .ju-stage *,
+  .ju-stage *::before,
+  .ju-stage *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .ju-caret { display: none; }
+  .ju-ninjas img { transform: none; }
+}
