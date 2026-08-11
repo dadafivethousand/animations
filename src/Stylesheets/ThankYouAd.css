@@ -3,11 +3,8 @@
 /* ============================================================
    ThankYouAd — the 60 is recast as THANK YOU, then it cuts to JOIN US.
 
-   Two scenes on one white sheet. The Woodbridge lockup is the only thing that
-   survives the cut, and it is bottom-anchored in its own row rather than
-   centred with everything else — so when the scene above it swaps, the brand
-   does not move by a pixel. Everything changes except the logo, which is what
-   makes the cut land as a cut rather than as a re-layout.
+   Two scenes on one white sheet, and no wordmark on either: the two ninjas
+   are the brand in scene 2, and scene 1 signs off on the gold alone.
 
    The back half of GoogleReviewsAd. Everything the eye uses to place the shot
    is carried over verbatim so the two cut together: the white sheet, the
@@ -113,7 +110,21 @@
 
 /* scene 2 is simply not there until the cut — display, not opacity, because a
    cut is a cut and there is no frame where both scenes are on the sheet */
-.tk-s2 { display: none; }
+.tk-s2 {
+  display: none;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+}
+
+/* takes every pixel the ninjas don't, and centres the line in it */
+.tk-join-wrap {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 /* ---------- the star, inherited already landed ----------------------- */
 
@@ -182,9 +193,12 @@
 /* ---------- the gold type -------------------------------------------- */
 
 /* the shared strike: a lit top face falling to a dark base, plus a sheen band
-   parked off the left edge until the metal sets */
+   parked off the left edge until the metal sets. Every piece of gold on the
+   sheet comes through here — the 60, THANK, YOU and JOIN US — so they read as
+   the same metal and there is one place to change it. */
 .tk-sixty span,
-.tk-word {
+.tk-word,
+.tk-join-live {
   display: inline-block;
   font-weight: 900;
   letter-spacing: -.045em;
@@ -287,11 +301,11 @@
 .tk-typed .tk-caret { display: none; }
 
 /* 60% of the screen, as asked. Centred that leaves 20vw either side, well
-   clear of the 45px the screen-record crop eats. */
+   clear of the 45px the screen-record crop eats. Sits hard on the bottom of
+   the card, which is what makes the travel distance below exact. */
 .tk-ninjas {
-  margin-top: calc(clamp(18px, 4vh, 34px) * var(--s));
+  flex: none;
   width: 60vw;
-  overflow: hidden;   /* the slot the image rises into */
 }
 
 .tk-ninjas img {
@@ -302,32 +316,10 @@
      sheet the background disappears and the ninjas stay dark, so there is no
      white box sitting on top of the ambient colour. */
   mix-blend-mode: multiply;
-  transform: translateY(100%);
-}
-
-/* ---------- the lockup ------------------------------------------------ */
-
-.tk-lockup {
-  flex: none;
-  margin-top: calc(clamp(14px, 3vh, 26px) * var(--s));
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: calc(6px * var(--s));
-}
-
-.tk-logo {
-  width: calc(clamp(120px, 38vw, 168px) * var(--s));
-  height: auto;
-  display: block;
-}
-
-.tk-city {
-  font-size: calc(clamp(10px, 3vw, 12px) * var(--s));
-  font-weight: 700;
-  letter-spacing: .40em;
-  padding-left: .40em;
-  color: var(--ink);
+  /* its own height clears the image, the 40px clears the card's bottom inset —
+     together that parks it exactly on the bottom edge of the screen, off frame,
+     with no guessing at viewport height and no sliver left showing */
+  transform: translateY(calc(100% + 40px));
 }
 
 /* ============================================================
@@ -383,7 +375,7 @@
 
 /* p6 — the ninjas come up into the slot */
 .tk-p6 .tk-ninjas img {
-  animation: tkSlideUp 880ms cubic-bezier(.18,.82,.24,1) both;
+  animation: tkSlideUp 980ms cubic-bezier(.18,.82,.24,1) both;
 }
 
 /* ============================================================
@@ -435,9 +427,9 @@
   50.01%, 100% { opacity: 0; }
 }
 
-/* up out of its own slot, so it reads as rising into frame from below */
+/* up from off the bottom edge of the screen into place */
 @keyframes tkSlideUp {
-  from { transform: translateY(100%); }
+  from { transform: translateY(calc(100% + 40px)); }
   to   { transform: translateY(0); }
 }
 

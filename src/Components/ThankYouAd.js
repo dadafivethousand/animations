@@ -2,22 +2,22 @@
 //
 // The back half of GoogleReviewsAd, in two scenes on one white sheet:
 //
-//   scene 1  the reviews ad's closing frame — star, gold 60, lockup — with the
-//            60 melting down and being recast as THANK YOU
+//   scene 1  the reviews ad's closing frame — the star and the gold 60 —
+//            with the 60 melting down and being recast as THANK YOU
 //   scene 2  a hard cut to JOIN US typing itself out in the same gold, with
 //            the two ninjas rising into frame underneath
 //
-// The Woodbridge lockup is the one thing that survives the cut, and it's
-// bottom-anchored rather than centred with everything else so it doesn't shift
-// a pixel when the scene above it changes. Everything moves except the brand.
+// There's no wordmark on either scene — the two ninjas are the brand in scene
+// 2, and scene 1 signs off on the gold alone.
 //
 // Beat sheet (plays once, then holds the final frame):
 //   p1  the inherited frame holds a beat
 //   p2  the 60 slumps, blurs and collapses onto the seam; the gold pools
 //   p3  THANK is drawn up out of the pool, YOU settles down out of it
 //   p4  a sheen crosses both words and the star kicks once
-//   p5  hard cut. JOIN US types, one character at a time, caret following
-//   p6  the ninjas slide up into the frame
+//   p5  hard cut. JOIN US types in gold, one character at a time, caret
+//       following
+//   p6  the ninjas travel up from off the bottom of the screen
 //
 // The typewriter is the one thing JS owns beyond phase — it has to, because a
 // caret that follows the text needs the text to actually grow. Everything else
@@ -27,7 +27,6 @@ import "../Stylesheets/ThankYouAd.css";
 
 import star from "../Images/gold-star-3d.png";
 import ninjas from "../Images/cn-ninjas-pair.png";
-import logo from "../Images/cn-woodbridge-logo.png";
 
 const JOIN = "JOIN US";
 const KEY_MS = 115; // per character
@@ -118,25 +117,22 @@ export default function ThankYouAd() {
             {/* the ghost reserves the full width so the block stays centred
                 while the live text grows from a fixed left edge — otherwise a
                 centred typewriter shuffles sideways on every keystroke */}
-            <div className="tk-join">
-              <span className="tk-join-ghost" aria-hidden>
-                {JOIN}
-              </span>
-              <span className="tk-join-live">
-                {JOIN.slice(0, typed)}
-                <i className="tk-caret" aria-hidden />
-              </span>
+            <div className="tk-join-wrap">
+              <div className="tk-join">
+                <span className="tk-join-ghost" aria-hidden>
+                  {JOIN}
+                </span>
+                <span className="tk-join-live">
+                  {JOIN.slice(0, typed)}
+                  <i className="tk-caret" aria-hidden />
+                </span>
+              </div>
             </div>
 
             <div className="tk-ninjas">
               <img src={ninjas} alt="Two Code Ninjas ninjas giving a thumbs up" />
             </div>
           </div>
-        </div>
-
-        <div className="tk-lockup">
-          <img className="tk-logo" src={logo} alt="Code Ninjas" />
-          <div className="tk-city">WOODBRIDGE</div>
         </div>
       </div>
     </div>
