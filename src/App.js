@@ -5,9 +5,10 @@ import "./Stylesheets/App.css";
 // import FilmstripScene from "./Components/FilmstripScene";
 // import GameBuildAd from "./Components/GameBuildAd";
 // import BackToSchoolAd from "./Components/BackToSchoolAd";
-import NewspaperPressAd from "./Components/NewspaperPressAd";
+// import NewspaperPressAd from "./Components/NewspaperPressAd";
+import GoogleReviewsAd from "./Components/GoogleReviewsAd";
 
 function App() {
-  return <NewspaperPressAd />;
+  return <GoogleReviewsAd />;
 }
 export default App;

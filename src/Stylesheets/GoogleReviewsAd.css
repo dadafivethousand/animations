@@ -1,0 +1,407 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+
+/* ============================================================
+   GoogleReviewsAd — the gold star turns over, then the count climbs to 60.
+
+   Google-clean daylight: a near-white sheet lit by the four brand colours at
+   low opacity, Google grey 900 type, one gold hero. Nothing dark, nothing
+   cyan — this ad has to read as a review card at a glance.
+
+   The star is a real 3D flip, not a squash: two faces of the same PNG,
+   back-face rotated 180deg and knocked down a stop because it's turned away
+   from the light. .gr-pulse carries the perspective so .gr-star3d keeps its
+   own preserve-3d context for the faces.
+
+   Portrait phone only (~390x844). Safe margins honoured: 40px top/bottom,
+   45px left/right.
+   ============================================================ */
+
+.gr-stage {
+  --blue:   #4285f4;
+  --red:    #ea4335;
+  --yellow: #fbbc05;
+  --green:  #34a853;
+  --ink:    #202124;   /* Google grey 900 */
+  --ink-2:  #5f6368;   /* Google grey 700 */
+  --sheet:  #ffffff;
+
+  /* the one knob the hero is cut from */
+  --star: clamp(146px, 44vw, 200px);
+
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--sheet);
+  color: var(--ink);
+  font-family: "Roboto", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- the sheet ------------------------------------------------ */
+
+/* four-colour light, well under the type so nothing fights the star */
+.gr-aurora {
+  position: absolute;
+  inset: -12%;
+  background:
+    radial-gradient(38% 26% at 16% 14%, rgba(66,133,244,.22),  transparent 70%),
+    radial-gradient(34% 24% at 86% 22%, rgba(234,67,53,.16),   transparent 70%),
+    radial-gradient(40% 26% at 82% 82%, rgba(52,168,83,.16),   transparent 70%),
+    radial-gradient(36% 24% at 14% 88%, rgba(251,188,5,.20),   transparent 70%);
+  filter: blur(6px);
+  opacity: 0;
+  animation: grLightUp 900ms ease-out 60ms both;
+}
+
+.gr-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 78% at 50% 44%, transparent 52%, rgba(32,33,36,.09) 100%);
+  pointer-events: none;
+}
+
+/* ---------- the card ------------------------------------------------- */
+
+.gr-card {
+  position: absolute;
+  inset: 40px 45px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  text-align: center;
+}
+
+/* Google + REVIEWS, the smallest thing on the sheet */
+.gr-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: clamp(8px, 2.2vh, 20px);
+  opacity: 0;
+  transform: translateY(-8px);
+  animation: grFadeDown 620ms cubic-bezier(.2,.7,.3,1) 120ms both;
+}
+
+.gr-g {
+  font-size: clamp(20px, 5.6vw, 26px);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  line-height: 1;
+}
+.gr-g b { font-weight: 700; }
+
+.gr-chip-sub {
+  font-size: clamp(9px, 2.6vw, 11px);
+  font-weight: 700;
+  letter-spacing: .34em;
+  color: var(--ink-2);
+  padding-left: .34em;
+}
+
+/* ---------- the star ------------------------------------------------- */
+
+.gr-scene {
+  position: relative;
+  width: var(--star);
+  height: var(--star);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+
+.gr-pulse {
+  width: 100%;
+  height: 100%;
+  perspective: 760px;          /* the 3D context the flip is read through */
+  animation-duration: 260ms;
+  animation-timing-function: cubic-bezier(.3,1.4,.5,1);
+  animation-fill-mode: both;
+}
+
+.gr-star3d {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform: rotateY(0deg);
+}
+
+.gr-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* the filter lives on the img, never on the backface-visibility node — a
+   filter turns its own box into a flattened group and some engines lose the
+   backface test when the two sit on the same element */
+.gr-face img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 16px rgba(180,120,0,.30));
+}
+
+/* the far side is turned away from the key light */
+.gr-face--back { transform: rotateY(180deg); }
+.gr-face--back img {
+  filter: brightness(.74) saturate(1.06) drop-shadow(0 10px 16px rgba(180,120,0,.24));
+}
+
+/* contact shadow on the sheet, tightening as the star settles */
+.gr-shadow {
+  position: absolute;
+  left: 50%;
+  bottom: -4%;
+  width: 62%;
+  height: 9%;
+  transform: translateX(-50%) scale(.4);
+  background: radial-gradient(50% 50% at 50% 50%, rgba(120,86,10,.30), transparent 70%);
+  filter: blur(4px);
+  opacity: 0;
+}
+
+/* the flash the 60 lands on */
+.gr-burst {
+  position: absolute;
+  width: 150%;
+  height: 150%;
+  border-radius: 50%;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(255,255,255,.92) 34%, rgba(251,188,5,.34) 56%, transparent 72%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.gr-confetti {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+.gr-confetti i {
+  position: absolute;
+  width: var(--s);
+  height: var(--s);
+  border-radius: 1.5px;
+  opacity: 0;
+}
+
+/* ---------- the number ----------------------------------------------- */
+
+.gr-count {
+  margin-top: clamp(6px, 1.6vh, 16px);
+  line-height: .9;
+  opacity: 0;
+}
+
+.gr-num {
+  display: inline-block;
+  font-size: clamp(84px, 26vw, 124px);
+  font-weight: 900;
+  letter-spacing: -.05em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  animation-duration: 260ms;
+  animation-timing-function: cubic-bezier(.3,1.5,.5,1);
+  animation-fill-mode: both;
+}
+
+/* ---------- the five, then the line ---------------------------------- */
+
+.gr-row {
+  display: flex;
+  gap: clamp(5px, 1.6vw, 9px);
+  margin-top: clamp(6px, 1.4vh, 14px);
+  height: clamp(24px, 7vw, 32px);
+}
+
+.gr-mini {
+  width: clamp(24px, 7vw, 32px);
+  height: clamp(24px, 7vw, 32px);
+  object-fit: contain;
+  opacity: 0;
+  transform: scale(.2) rotate(-140deg);
+  filter: drop-shadow(0 3px 5px rgba(180,120,0,.28));
+}
+
+.gr-label {
+  margin-top: clamp(9px, 2.2vh, 18px);
+  font-size: clamp(13px, 3.8vw, 16px);
+  font-weight: 700;
+  letter-spacing: .18em;
+  color: var(--ink-2);
+  padding-left: .18em;
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+/* ---------- the lockup ------------------------------------------------ */
+
+.gr-lockup {
+  margin-top: clamp(16px, 4vh, 34px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.gr-logo {
+  width: clamp(120px, 38vw, 168px);
+  height: auto;
+  display: block;
+}
+
+.gr-city {
+  font-size: clamp(10px, 3vw, 12px);
+  font-weight: 700;
+  letter-spacing: .40em;
+  color: var(--ink);
+  padding-left: .40em;
+}
+
+/* ============================================================
+   phases
+   ============================================================ */
+
+/* p0 — nothing has been thrown yet */
+.gr-p0 .gr-scene { opacity: 0; }
+
+/* p1 — the star flies in spinning, decelerating to dead-on */
+.gr-p1 .gr-star3d,
+.gr-p2 .gr-star3d,
+.gr-p3 .gr-star3d,
+.gr-p4 .gr-star3d {
+  animation: grFly 1500ms cubic-bezier(.16,.72,.16,1) both;
+}
+
+.gr-p1 .gr-shadow,
+.gr-p2 .gr-shadow,
+.gr-p3 .gr-shadow,
+.gr-p4 .gr-shadow {
+  animation: grDrop 1500ms cubic-bezier(.16,.72,.16,1) both;
+}
+
+/* p2 — the counter is live */
+.gr-p2 .gr-count,
+.gr-p3 .gr-count,
+.gr-p4 .gr-count {
+  animation: grFadeUp 380ms ease-out both;
+}
+
+/* p3 — the 60 lands */
+.gr-p3 .gr-burst,
+.gr-p4 .gr-burst { animation: grBurst 620ms cubic-bezier(.2,.75,.3,1) both; }
+
+.gr-p3 .gr-confetti i,
+.gr-p4 .gr-confetti i { animation: grFling 900ms cubic-bezier(.16,.7,.3,1) var(--t) both; }
+
+.gr-p3 .gr-num,
+.gr-p4 .gr-num { animation: grLand 620ms cubic-bezier(.2,1.5,.4,1) both; }
+
+.gr-p3 .gr-mini,
+.gr-p4 .gr-mini { animation: grPop 520ms cubic-bezier(.2,1.55,.4,1) calc(160ms + var(--i) * 95ms) both; }
+
+.gr-p3 .gr-label,
+.gr-p4 .gr-label { animation: grFadeUp 520ms cubic-bezier(.2,.7,.3,1) 640ms both; }
+
+/* p4 — the lockup settles */
+.gr-p4 .gr-lockup { animation: grFadeUp 620ms cubic-bezier(.2,.7,.3,1) both; }
+
+/* ============================================================
+   keyframes
+   ============================================================ */
+
+@keyframes grLightUp {
+  from { opacity: 0; transform: scale(1.08); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes grFadeDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes grFadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* three and a half turns, thrown from far, landing square */
+@keyframes grFly {
+  0%   { transform: translateY(-16%) scale(.34) rotateX(16deg) rotateY(-1260deg); }
+  62%  { transform: translateY(0)    scale(1.06) rotateX(6deg) rotateY(-190deg); }
+  82%  { transform: translateY(0)    scale(.99) rotateX(2deg) rotateY(26deg); }
+  100% { transform: translateY(0)    scale(1)   rotateX(0deg) rotateY(0deg); }
+}
+
+@keyframes grDrop {
+  0%   { opacity: 0;   transform: translateX(-50%) scale(.36); }
+  62%  { opacity: .85; transform: translateX(-50%) scale(1.06); }
+  100% { opacity: .7;  transform: translateX(-50%) scale(1); }
+}
+
+/* the per-tick kick — two identical names so the parity of the number can
+   restart the animation without remounting the node */
+@keyframes grBeatA {
+  0%   { transform: scale(1); }
+  38%  { transform: scale(1.055); }
+  100% { transform: scale(1); }
+}
+@keyframes grBeatB {
+  0%   { transform: scale(1); }
+  38%  { transform: scale(1.055); }
+  100% { transform: scale(1); }
+}
+
+@keyframes grLand {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.16); }
+  62%  { transform: scale(.98); }
+  100% { transform: scale(1); }
+}
+
+@keyframes grBurst {
+  0%   { opacity: 0;   transform: scale(.28); }
+  22%  { opacity: .95; transform: scale(.7); }
+  100% { opacity: 0;   transform: scale(1.5); }
+}
+
+@keyframes grFling {
+  0%   { opacity: 0; transform: rotate(var(--a)) translateY(0) rotate(0deg); }
+  12%  { opacity: 1; }
+  100% { opacity: 0; transform: rotate(var(--a)) translateY(calc(var(--d) * -1)) rotate(var(--r)); }
+}
+
+@keyframes grPop {
+  0%   { opacity: 0; transform: scale(.2) rotate(-140deg); }
+  70%  { opacity: 1; transform: scale(1.14) rotate(6deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+/* ============================================================
+   reduced motion — snap to the finished card
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .gr-stage *,
+  .gr-stage *::before,
+  .gr-stage *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .gr-aurora,
+  .gr-chip,
+  .gr-count,
+  .gr-label,
+  .gr-lockup { opacity: 1; transform: none; }
+  .gr-mini   { opacity: 1; transform: none; }
+  .gr-shadow { opacity: .7; transform: translateX(-50%) scale(1); }
+  .gr-confetti, .gr-burst { display: none; }
+}
