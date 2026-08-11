@@ -7,10 +7,11 @@
    low opacity, Google grey type, one gold hero. Nothing dark, nothing cyan —
    this ad has to read as a review card at a glance.
 
-   The star is a real 3D flip, not a squash: two faces of the same cut-out PNG,
-   the back rotated 180deg and knocked down a stop because it's turned away
-   from the light. .gr-pulse carries the perspective so .gr-star3d keeps its
-   own preserve-3d context for the faces.
+   The star is a real 3D turn, not a squash: two faces of the same cut-out PNG,
+   the back rotated 180deg so it lands un-mirrored, and lit identically to the
+   front so the star reads as one solid object all the way round. .gr-pulse
+   carries the perspective so .gr-star3d keeps its own preserve-3d context.
+   The turn happens only under the counter — the entry is a straight drop.
 
    Two knobs run the sizing:
      --s     the whole card, scaled together
@@ -153,11 +154,12 @@
   filter: drop-shadow(0 10px 16px rgba(180,120,0,.30));
 }
 
-/* the far side is turned away from the key light */
+/* The far side is the same star, lit the same way — it inherits .gr-face img
+   untouched, so a turn reads as one solid object rotating rather than a card
+   flipping to a duller reverse. The rotateY(180deg) stays: it is structural,
+   pre-compensating so the back lands un-mirrored when the star turns round,
+   and backface-visibility still needs a second face to hand off to past 90deg. */
 .gr-face--back { transform: rotateY(180deg); }
-.gr-face--back img {
-  filter: brightness(.74) saturate(1.06) drop-shadow(0 10px 16px rgba(180,120,0,.24));
-}
 
 /* contact shadow on the sheet, tightening as the star settles */
 .gr-shadow {
@@ -309,7 +311,8 @@
 /* p0 — nothing has been thrown yet */
 .gr-p0 .gr-scene { opacity: 0; }
 
-/* p1 — the star flies in spinning, decelerating to dead-on */
+/* p1 — the star drops in and settles. It does not turn: the turn is the
+   count's move and starts with it, in p2. */
 .gr-p1 .gr-star3d {
   animation: grFly 1500ms cubic-bezier(.16,.72,.16,1) both;
 }
@@ -391,12 +394,14 @@
   to   { opacity: 1; transform: scale(1); }
 }
 
-/* three and a half turns, thrown from far, landing square */
+/* thrown from far and landing square — no Y turn here any more, the star only
+   ever spins while the counter runs. The rotateX is a settle, not a spin: it
+   keeps the drop dimensional without stealing the p2 move. */
 @keyframes grFly {
-  0%   { transform: translateY(-16%) scale(.34) rotateX(16deg) rotateY(-1260deg); }
-  62%  { transform: translateY(0)    scale(1.06) rotateX(6deg) rotateY(-190deg); }
-  82%  { transform: translateY(0)    scale(.99) rotateX(2deg) rotateY(26deg); }
-  100% { transform: translateY(0)    scale(1)   rotateX(0deg) rotateY(0deg); }
+  0%   { transform: translateY(-16%) scale(.34) rotateX(16deg); }
+  62%  { transform: translateY(0)    scale(1.06) rotateX(6deg); }
+  82%  { transform: translateY(0)    scale(.99) rotateX(2deg); }
+  100% { transform: translateY(0)    scale(1)   rotateX(0deg); }
 }
 
 /* the count-up turn — three revolutions, landing back on square */

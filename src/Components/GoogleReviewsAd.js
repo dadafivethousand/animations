@@ -5,12 +5,14 @@
 // has to read as a Google review card the moment it lands on the feed.
 //
 // Beat sheet (plays once, then holds the final frame):
-//   p1  the star flies in spinning on its Y axis — front face, back face,
-//       front again — and decelerates to dead-on
+//   p1  the star drops in from far and settles dead-on — no turn, the turn is
+//       the counter's move and waits for it
 //   p2  the counter climbs 0 -> 60 on an ease-out, so it blasts through the
-//       forties and then crawls 57 . 58 . 59 . ; the star turns on the same
-//       ease-out for three full rotations, so its angle tracks the number and
-//       it coasts onto square exactly as the 60 lands. It kicks on every tick.
+//       forties and then crawls 57 . 58 . 59 . ; the star starts turning on
+//       that same ease-out for three full rotations, so its angle tracks the
+//       number and it coasts onto square exactly as the 60 lands. Both faces
+//       are the same star, so it reads as one solid object turning. It kicks
+//       on every tick.
 //   p3  60 lands: flash, four-colour confetti, the five stars pop in one by
 //       one and the line reads
 //   p4  the Woodbridge lockup settles under it
@@ -24,11 +26,11 @@ import star from "../Images/gold-star-3d.png";
 import logo from "../Images/cn-woodbridge-logo.png";
 
 const TARGET = 60;
-const SPIN_MS = 1500; // the fly-in spin
+const ENTER_MS = 1500; // the drop-in; the star holds still through it
 const COUNT_MS = 2900; // 0 -> 60
 
 // phase cue sheet (ms from mount); index 1..4, index 0 is the empty sheet
-const CUES = [200, 200 + SPIN_MS, 200 + SPIN_MS + COUNT_MS, 200 + SPIN_MS + COUNT_MS + 850];
+const CUES = [200, 200 + ENTER_MS, 200 + ENTER_MS + COUNT_MS, 200 + ENTER_MS + COUNT_MS + 850];
 
 // confetti thrown on the 60 — Google's four, fixed so every replay matches
 const G4 = ["#4285f4", "#ea4335", "#fbbc05", "#34a853"];
@@ -62,7 +64,7 @@ export default function GoogleReviewsAd() {
   const [still, setStill] = React.useState(false);
 
   React.useEffect(() => {
-    // reduced motion: skip the spin and the climb, show the finished card
+    // reduced motion: skip the drop, the turn and the climb — finished card
     const reduce =
       window.matchMedia &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
