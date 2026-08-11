@@ -1,0 +1,349 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap');
+
+/* ============================================================
+   ThankYouAd — the lights come on, then the thank-you lands.
+
+   Warm dusk: aubergine falling to wine, ember light pooled low, cream type,
+   one gold word. Deliberately not the navy-and-cyan stage and not the white
+   Google sheet — on the grid this has to be the warm post, the one that reads
+   as a room at golden hour rather than a product drop.
+
+   The lights are the idea. 54 of them on a phyllotaxis spiral (golden angle,
+   sqrt radius) so the field fills evenly and never ranks up into rows; each
+   one ignites on its own delay so the field arrives as a wave. One light per
+   person is what the copy says, so the field says it first.
+
+   Type reveals are true masks: .ty-line clips, .ty-word rises out of it from
+   below its own baseline. All-caps with no descenders, so the clip edge sits
+   invisibly on the baseline — this is why the headline is caps and the closing
+   line, which has descenders, fades instead of masking.
+
+   One knob runs the sizing:
+     --s   the whole card, scaled together
+
+   Portrait phone only (~390x844). Safe margins honoured: 40px top/bottom,
+   45px left/right. The light field is decoration and is allowed into that
+   band; nothing readable is.
+   ============================================================ */
+
+.ty-stage {
+  --ink:     #16081f;   /* the deep end of the dusk */
+  --cream:   #fff3e4;   /* the type */
+  --cream-2: #f0cdb4;   /* the closing line, a stop back */
+  --rose:    #ff6f8a;
+  --amber:   #ffb347;
+  --red:     #e4002b;   /* the brand through-line */
+
+  /* the gold APPRECIATE is struck from */
+  --gold-hi: #ffe9b8;
+  --gold:    #ffb347;
+  --gold-dk: #e06b1f;
+
+  --s: 1;
+
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--ink);
+  color: var(--cream);
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- the room -------------------------------------------------- */
+
+.ty-dusk {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(115% 78% at 50% 4%,   #4a1c52 0%, transparent 62%),
+    radial-gradient(120% 82% at 50% 104%, #6b1f34 0%, transparent 66%),
+    linear-gradient(180deg, #1c0a26 0%, #2b0f2f 48%, #1a0818 100%);
+}
+
+/* the ember pooled under the lockup — breathes so the sheet is never dead */
+.ty-ember {
+  position: absolute;
+  left: 50%;
+  bottom: -18%;
+  width: 150%;
+  height: 58%;
+  transform: translateX(-50%);
+  background: radial-gradient(50% 50% at 50% 50%, rgba(255,122,60,.30), rgba(255,90,60,0) 68%);
+  filter: blur(14px);
+  opacity: 0;
+  animation: tyEmber 1400ms ease-out 120ms both, tyBreathe 5200ms ease-in-out 1500ms infinite;
+}
+
+.ty-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(118% 74% at 50% 46%, transparent 46%, rgba(10,3,14,.72) 100%);
+}
+
+/* ---------- the lights ------------------------------------------------ */
+
+/* inset off the very edge, so the spiral doesn't get lopped into a visibly
+   truncated ring by the screen-record crop */
+.ty-field {
+  position: absolute;
+  inset: 5% 7%;
+  pointer-events: none;
+}
+
+.ty-field i {
+  position: absolute;
+  width: var(--dot);
+  height: var(--dot);
+  margin: calc(var(--dot) / -2) 0 0 calc(var(--dot) / -2);
+  border-radius: 50%;
+  background: var(--c);
+  /* the halo is a box-shadow rather than a filter: 54 filtered nodes is 54
+     offscreen buffers, and the phone drops frames under that on the wave */
+  box-shadow: 0 0 6px 1px var(--c), 0 0 18px 4px rgba(255,150,90,.34);
+  opacity: 0;
+}
+
+/* ---------- the card -------------------------------------------------- */
+
+.ty-card {
+  position: absolute;
+  inset: 40px 45px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* ---------- the headline ---------------------------------------------- */
+
+.ty-head {
+  margin: 0;
+  /* measured against the 285px card of the narrowest phone we care about:
+     EVERY SINGLE, the widest line, lands at ~253px there — loud, with the
+     margin the screen-record crop wants. Stays under the repo's ~44px cap. */
+  font-size: calc(clamp(32px, 9.6vw, 42px) * var(--s));
+  font-weight: 900;
+  line-height: 1.06;
+  letter-spacing: -.022em;
+  text-transform: uppercase;
+}
+
+/* the clip each headline word rises out of */
+.ty-line {
+  display: block;
+  overflow: hidden;
+  /* Inter's content area is taller than a 1.06 line box, so the cap tops sit
+     proud of it and a bare clip shaves them. Pad the clip open and pull the
+     layout back with an equal negative margin: same stacked rhythm, .12em of
+     room at each edge. The word then has to clear that padding as well as the
+     box, which is what the 125% below is for — 112% would leave a sliver of
+     the caps showing under the line above. */
+  padding: .12em 0;
+  margin: -.12em 0;
+}
+
+.ty-word {
+  display: inline-block;
+  font-style: normal;
+  transform: translateY(125%);
+  will-change: transform;
+}
+
+/* the one gold word — a lit top face falling to a dark base, and a sheen band
+   parked off the left edge until p3 pulls it across */
+.ty-word--hero {
+  background-image:
+    linear-gradient(100deg, transparent 40%, rgba(255,255,255,.85) 50%, transparent 60%),
+    linear-gradient(176deg,
+      var(--gold-hi) 0%, #ffcf7a 26%, var(--gold) 52%, #f08a26 74%, var(--gold-dk) 100%);
+  background-size: 260% 100%, 100% 100%;
+  background-position: -80% 0, 0 0;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ---------- the closing line ------------------------------------------ */
+
+/* sentence case with descenders, so this one fades rather than masking —
+   a clip edge on the baseline would cut the g and the y */
+.ty-closer {
+  margin: calc(clamp(15px, 3.4vh, 26px) * var(--s)) 0 0;
+  font-size: calc(clamp(14px, 4.05vw, 17px) * var(--s));
+  font-weight: 500;
+  letter-spacing: .005em;
+  line-height: 1.45;
+  color: var(--cream-2);
+  opacity: 0;
+}
+
+.ty-rule {
+  margin-top: calc(clamp(11px, 2.4vh, 18px) * var(--s));
+  width: calc(clamp(96px, 30vw, 128px) * var(--s));
+  height: 1.5px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--amber) 22%, var(--red) 78%, transparent);
+  transform: scaleX(0);
+  transform-origin: 50% 50%;
+}
+
+/* ---------- the lockup ------------------------------------------------- */
+
+.ty-lockup {
+  margin-top: calc(clamp(30px, 6.4vh, 54px) * var(--s));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(7px * var(--s));
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+/* the mark has no light-on-dark variant in the repo, so it's foiled: grayscale
+   first (keeps the mask band and the eye slits distinct from the head) then
+   inverted, so the detail survives where a flat invert would flatten the whole
+   head into a white disc */
+.ty-logo {
+  width: calc(clamp(118px, 37vw, 164px) * var(--s));
+  height: auto;
+  display: block;
+  filter:
+    grayscale(1) invert(1) contrast(1.04)
+    drop-shadow(0 1px 0 rgba(255,255,255,.30))
+    drop-shadow(0 -1px 0 rgba(0,0,0,.5));
+  opacity: .96;
+}
+
+.ty-city {
+  font-size: calc(clamp(10px, 3vw, 12px) * var(--s));
+  font-weight: 700;
+  letter-spacing: .40em;
+  padding-left: .40em;
+  color: var(--cream-2);
+}
+
+/* ============================================================
+   phases
+   ============================================================ */
+
+/* p0 — an empty room */
+
+/* p1 — the lights come on, each on its own delay, and stay on. The rule is
+   repeated for p2..p4 with identical values so the animation carries across
+   the class change instead of restarting. */
+.ty-p1 .ty-field i,
+.ty-p2 .ty-field i,
+.ty-p3 .ty-field i,
+.ty-p4 .ty-field i {
+  animation: tyIgnite 720ms cubic-bezier(.2,.9,.3,1) var(--d) both;
+}
+
+/* p2 — the field gathers inward and drops to embers, handing the sheet to
+   the type; the five lines mask up behind it */
+.ty-p2 .ty-field,
+.ty-p3 .ty-field,
+.ty-p4 .ty-field {
+  animation: tyGather 1150ms cubic-bezier(.3,.7,.25,1) both;
+}
+
+.ty-p2 .ty-word,
+.ty-p3 .ty-word,
+.ty-p4 .ty-word {
+  animation: tyRise 760ms cubic-bezier(.16,.84,.24,1) calc(var(--i) * 165ms) both;
+}
+
+/* The hero carries both animations from p2, not from p3. If the list grew at
+   p3 the browser would re-match by position and tyRise could restart, snapping
+   APPRECIATE back under its own line; identical lists across p2/p3/p4 can't.
+   The sheen's own delay is what times it to the end of the headline. Declared
+   after the generic .ty-word rule so it wins at equal specificity. */
+.ty-p2 .ty-word--hero,
+.ty-p3 .ty-word--hero,
+.ty-p4 .ty-word--hero {
+  animation:
+    tyRise  760ms cubic-bezier(.16,.84,.24,1) calc(var(--i) * 165ms) both,
+    tySheen 1150ms cubic-bezier(.3,.6,.3,1) 1450ms both;
+}
+
+/* p3 — the closing line arrives and the rule draws out */
+.ty-p3 .ty-closer,
+.ty-p4 .ty-closer { animation: tyFadeUp 700ms cubic-bezier(.2,.7,.3,1) 90ms both; }
+
+.ty-p3 .ty-rule,
+.ty-p4 .ty-rule { animation: tyDraw 760ms cubic-bezier(.2,.75,.25,1) 300ms both; }
+
+/* p4 — the lockup settles */
+.ty-p4 .ty-lockup { animation: tyFadeUp 720ms cubic-bezier(.2,.7,.3,1) both; }
+
+/* ============================================================
+   keyframes
+   ============================================================ */
+
+@keyframes tyEmber {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes tyBreathe {
+  0%, 100% { transform: translateX(-50%) scale(1); }
+  50%      { transform: translateX(-50%) scale(1.07); }
+}
+
+/* a light coming on: overshoots bright, settles back */
+@keyframes tyIgnite {
+  0%   { opacity: 0; transform: scale(.2); }
+  55%  { opacity: 1; transform: scale(1.45); }
+  100% { opacity: .92; transform: scale(1); }
+}
+
+/* the crowd draws in and dims to a texture the type can sit on */
+@keyframes tyGather {
+  from { transform: scale(1);   opacity: 1;   filter: blur(0); }
+  to   { transform: scale(.86); opacity: .26; filter: blur(1.5px); }
+}
+
+/* out from behind its own baseline */
+@keyframes tyRise {
+  from { transform: translateY(125%); }
+  to   { transform: translateY(0); }
+}
+
+/* the sheen crosses the gold once and parks off the right edge */
+@keyframes tySheen {
+  from { background-position: -80% 0, 0 0; }
+  to   { background-position: 190% 0, 0 0; }
+}
+
+@keyframes tyFadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes tyDraw {
+  from { transform: scaleX(0);   opacity: 0; }
+  to   { transform: scaleX(1);   opacity: 1; }
+}
+
+/* ============================================================
+   reduced motion — snap to the finished card
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .ty-stage *,
+  .ty-stage *::before,
+  .ty-stage *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .ty-ember  { opacity: 1; }
+  .ty-field  { transform: scale(.86); opacity: .26; }
+  .ty-field i { opacity: .92; }
+  .ty-word   { transform: none; }
+  .ty-closer,
+  .ty-lockup { opacity: 1; transform: none; }
+  .ty-rule   { transform: scaleX(1); opacity: 1; }
+}

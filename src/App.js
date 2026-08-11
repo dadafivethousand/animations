@@ -6,9 +6,10 @@ import "./Stylesheets/App.css";
 // import GameBuildAd from "./Components/GameBuildAd";
 // import BackToSchoolAd from "./Components/BackToSchoolAd";
 // import NewspaperPressAd from "./Components/NewspaperPressAd";
-import GoogleReviewsAd from "./Components/GoogleReviewsAd";
+// import GoogleReviewsAd from "./Components/GoogleReviewsAd";
+import ThankYouAd from "./Components/ThankYouAd";
 
 function App() {
-  return <GoogleReviewsAd />;
+  return <ThankYouAd />;
 }
 export default App;
