@@ -4,13 +4,19 @@
    GoogleReviewsAd — the gold star turns over, then the count climbs to 60.
 
    Google-clean daylight: a near-white sheet lit by the four brand colours at
-   low opacity, Google grey 900 type, one gold hero. Nothing dark, nothing
-   cyan — this ad has to read as a review card at a glance.
+   low opacity, Google grey type, one gold hero. Nothing dark, nothing cyan —
+   this ad has to read as a review card at a glance.
 
-   The star is a real 3D flip, not a squash: two faces of the same PNG,
-   back-face rotated 180deg and knocked down a stop because it's turned away
+   The star is a real 3D flip, not a squash: two faces of the same cut-out PNG,
+   the back rotated 180deg and knocked down a stop because it's turned away
    from the light. .gr-pulse carries the perspective so .gr-star3d keeps its
    own preserve-3d context for the faces.
+
+   Two knobs run the sizing:
+     --s     everything below the Google chip, scaled together
+     --star  the hero, cut from --s
+   The chip is deliberately outside --s: it's the smallest thing on the sheet
+   already and shrinking it costs legibility on a phone.
 
    Portrait phone only (~390x844). Safe margins honoured: 40px top/bottom,
    45px left/right.
@@ -25,8 +31,13 @@
   --ink-2:  #5f6368;   /* Google grey 700 */
   --sheet:  #ffffff;
 
-  /* the one knob the hero is cut from */
-  --star: clamp(146px, 44vw, 200px);
+  /* the gold the number and the star are struck from */
+  --gold-hi: #ffeab0;
+  --gold:    #f4ae32;
+  --gold-dk: #b46a06;
+
+  --s: .85;                                  /* everything under the chip */
+  --star: calc(clamp(146px, 44vw, 200px) * var(--s));
 
   position: fixed;
   inset: 0;
@@ -69,17 +80,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0;
   text-align: center;
 }
 
-/* Google + REVIEWS, the smallest thing on the sheet */
+/* Google + REVIEWS — held at full size while everything else comes down */
 .gr-chip {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 5px;
-  margin-bottom: clamp(8px, 2.2vh, 20px);
+  margin-bottom: calc(clamp(8px, 2.2vh, 20px) * var(--s));
   opacity: 0;
   transform: translateY(-8px);
   animation: grFadeDown 620ms cubic-bezier(.2,.7,.3,1) 120ms both;
@@ -110,6 +120,19 @@
   display: grid;
   place-items: center;
   flex: none;
+}
+
+/* the gold the star throws onto the sheet */
+.gr-scene::before {
+  content: "";
+  position: absolute;
+  width: 165%;
+  height: 165%;
+  border-radius: 50%;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(251,188,5,.34), rgba(251,188,5,0) 68%);
+  filter: blur(9px);
+  opacity: 0;
+  pointer-events: none;
 }
 
 .gr-pulse {
@@ -186,8 +209,8 @@
 }
 .gr-confetti i {
   position: absolute;
-  width: var(--s);
-  height: var(--s);
+  width: var(--s-px);
+  height: var(--s-px);
   border-radius: 1.5px;
   opacity: 0;
 }
@@ -195,18 +218,38 @@
 /* ---------- the number ----------------------------------------------- */
 
 .gr-count {
-  margin-top: clamp(6px, 1.6vh, 16px);
+  margin-top: calc(clamp(6px, 1.6vh, 16px) * var(--s));
   line-height: .9;
   opacity: 0;
 }
 
+/* struck from the same gold as the star: a lit top face falling to a dark
+   base, a white lip under it so it doesn't dissolve into the sheet, and a
+   sheen band parked off the left edge until the 60 lands */
 .gr-num {
   display: inline-block;
-  font-size: clamp(84px, 26vw, 124px);
+  font-size: calc(clamp(84px, 26vw, 124px) * var(--s));
   font-weight: 900;
   letter-spacing: -.05em;
   font-variant-numeric: tabular-nums;
-  color: var(--ink);
+
+  background-image:
+    linear-gradient(100deg, transparent 40%, rgba(255,255,255,.9) 50%, transparent 60%),
+    linear-gradient(176deg,
+      var(--gold-hi) 0%, #fdd06a 22%, var(--gold) 48%, #dd8b16 72%, var(--gold-dk) 100%);
+  background-size: 260% 100%, 100% 100%;
+  background-position: -80% 0, 0 0;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+
+  filter:
+    drop-shadow(0 1px 0 rgba(255,255,255,.95))
+    drop-shadow(0 2px 1px rgba(150,92,6,.34))
+    drop-shadow(0 12px 20px rgba(214,145,20,.30));
+
   animation-duration: 260ms;
   animation-timing-function: cubic-bezier(.3,1.5,.5,1);
   animation-fill-mode: both;
@@ -216,14 +259,14 @@
 
 .gr-row {
   display: flex;
-  gap: clamp(5px, 1.6vw, 9px);
-  margin-top: clamp(6px, 1.4vh, 14px);
-  height: clamp(24px, 7vw, 32px);
+  gap: calc(clamp(5px, 1.6vw, 9px) * var(--s));
+  margin-top: calc(clamp(6px, 1.4vh, 14px) * var(--s));
+  height: calc(clamp(24px, 7vw, 32px) * var(--s));
 }
 
 .gr-mini {
-  width: clamp(24px, 7vw, 32px);
-  height: clamp(24px, 7vw, 32px);
+  width: calc(clamp(24px, 7vw, 32px) * var(--s));
+  height: calc(clamp(24px, 7vw, 32px) * var(--s));
   object-fit: contain;
   opacity: 0;
   transform: scale(.2) rotate(-140deg);
@@ -231,8 +274,8 @@
 }
 
 .gr-label {
-  margin-top: clamp(9px, 2.2vh, 18px);
-  font-size: clamp(13px, 3.8vw, 16px);
+  margin-top: calc(clamp(9px, 2.2vh, 18px) * var(--s));
+  font-size: calc(clamp(13px, 3.8vw, 16px) * var(--s));
   font-weight: 700;
   letter-spacing: .18em;
   color: var(--ink-2);
@@ -244,23 +287,23 @@
 /* ---------- the lockup ------------------------------------------------ */
 
 .gr-lockup {
-  margin-top: clamp(16px, 4vh, 34px);
+  margin-top: calc(clamp(16px, 4vh, 34px) * var(--s));
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: calc(6px * var(--s));
   opacity: 0;
   transform: translateY(10px);
 }
 
 .gr-logo {
-  width: clamp(120px, 38vw, 168px);
+  width: calc(clamp(120px, 38vw, 168px) * var(--s));
   height: auto;
   display: block;
 }
 
 .gr-city {
-  font-size: clamp(10px, 3vw, 12px);
+  font-size: calc(clamp(10px, 3vw, 12px) * var(--s));
   font-weight: 700;
   letter-spacing: .40em;
   color: var(--ink);
@@ -289,6 +332,13 @@
   animation: grDrop 1500ms cubic-bezier(.16,.72,.16,1) both;
 }
 
+.gr-p1 .gr-scene::before,
+.gr-p2 .gr-scene::before,
+.gr-p3 .gr-scene::before,
+.gr-p4 .gr-scene::before {
+  animation: grBloom 1100ms ease-out 520ms both;
+}
+
 /* p2 — the counter is live */
 .gr-p2 .gr-count,
 .gr-p3 .gr-count,
@@ -303,8 +353,13 @@
 .gr-p3 .gr-confetti i,
 .gr-p4 .gr-confetti i { animation: grFling 900ms cubic-bezier(.16,.7,.3,1) var(--t) both; }
 
+/* the kick and the sheen crossing the gold, together */
 .gr-p3 .gr-num,
-.gr-p4 .gr-num { animation: grLand 620ms cubic-bezier(.2,1.5,.4,1) both; }
+.gr-p4 .gr-num {
+  animation:
+    grLand  620ms cubic-bezier(.2,1.5,.4,1) both,
+    grSheen 980ms cubic-bezier(.3,.6,.3,1) 90ms both;
+}
 
 .gr-p3 .gr-mini,
 .gr-p4 .gr-mini { animation: grPop 520ms cubic-bezier(.2,1.55,.4,1) calc(160ms + var(--i) * 95ms) both; }
@@ -332,6 +387,11 @@
 @keyframes grFadeUp {
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes grBloom {
+  from { opacity: 0; transform: scale(.6); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
 /* three and a half turns, thrown from far, landing square */
@@ -368,6 +428,12 @@
   100% { transform: scale(1); }
 }
 
+/* the sheen band crosses the gold once and parks off the right edge */
+@keyframes grSheen {
+  0%   { background-position: -80% 0, 0 0; }
+  100% { background-position: 190% 0, 0 0; }
+}
+
 @keyframes grBurst {
   0%   { opacity: 0;   transform: scale(.28); }
   22%  { opacity: .95; transform: scale(.7); }
@@ -402,6 +468,7 @@
   .gr-label,
   .gr-lockup { opacity: 1; transform: none; }
   .gr-mini   { opacity: 1; transform: none; }
+  .gr-scene::before { opacity: 1; }
   .gr-shadow { opacity: .7; transform: translateX(-50%) scale(1); }
   .gr-confetti, .gr-burst { display: none; }
 }

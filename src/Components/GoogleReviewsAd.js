@@ -107,7 +107,7 @@ export default function GoogleReviewsAd() {
                 style={{
                   "--a": `${c.a}deg`,
                   "--d": `${c.d}vh`,
-                  "--s": `${c.s}px`,
+                  "--s-px": `${c.s}px`,
                   "--r": `${c.r}deg`,
                   "--t": `${c.t}ms`,
                   background: c.c,
