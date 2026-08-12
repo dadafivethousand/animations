@@ -1,0 +1,617 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+
+/* ============================================================
+   SummerCamp2026Ad — Code Ninjas Woodbridge summer camp promo.
+
+   Outrun summer: deep navy ground, a slitted sun low behind the type, a
+   perspective grid running to the horizon, electric cyan structure and a hot
+   yellow-to-orange heat on the title. The grid and the heat are what keep this
+   off the "cinematic space" navy the repo already has too much of.
+
+   Three things in here are load-bearing and easy to undo by accident:
+
+   1. NO `filter` anywhere near `background-clip: text`. The title letters are
+      painted with a gradient clipped to the glyphs; adding a drop-shadow makes
+      the filter resolve against the element's *box* instead of the letters and
+      lays a soft rectangle behind the type. Depth comes from a second solid
+      copy of each letter offset behind it (.s26-ch-back), not from a shadow.
+
+   2. Nothing loops. The ambient field and the grid scroll are real animations,
+      but every one of them is finite and timed to finish before the last cue,
+      so the poster it holds on is completely still. Same contract JoinUsAd's
+      caret runs under: a transient loop is fine while its beat is live, but it
+      must be retired before the hold.
+
+   3. The whole composition is centred inside --safe-x/--safe-y with the
+      leftover room outside it, not stretched between the edges — the crop can
+      come off any side. Every child is in the layout from frame one at its
+      final position and only animates its own appearance, so nothing reflows
+      as the poster builds.
+
+   One knob runs the sizing:
+     --s   the whole card
+
+   Portrait phone only (~390x844).
+   ============================================================ */
+
+.s26-stage {
+  --navy-0: #02050f;
+  --navy-1: #061033;
+  --navy-2: #0b1d5c;
+  --cyan:   #24e5ff;
+  --cyan-d: #0b7fa3;
+  --yellow: #ffd426;
+  --orange: #ff7a18;
+  --hot:    #ff3d6e;
+  --red:    #e4002b;          /* the brand through-line */
+  --ink:    #eaf6ff;
+  --ink-2:  #93b6d8;
+
+  --s: 1;
+
+  /* the crop guard — floors, with a term that grows on a bigger screen */
+  --safe-x: max(45px, 11vw);
+  --safe-y: max(40px, 6vh);
+
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--navy-0);
+  color: var(--ink);
+  font-family: "Roboto", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- the ground ------------------------------------------------ */
+
+.s26-sky {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 70% at 50% 12%, rgba(11,29,92,.95), transparent 68%),
+    radial-gradient(90% 46% at 50% 62%, rgba(255,122,24,.18), transparent 70%),
+    linear-gradient(180deg, var(--navy-0) 0%, var(--navy-1) 46%, #100626 78%, #1a0722 100%);
+}
+
+/* the slitted outrun sun, low and well under the type */
+.s26-sun {
+  position: absolute;
+  left: 50%;
+  top: 47%;
+  width: 66vw;
+  height: 66vw;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: linear-gradient(180deg, var(--yellow) 0%, var(--orange) 58%, var(--hot) 100%);
+  -webkit-mask-image: repeating-linear-gradient(180deg, #000 0 9px, transparent 9px 15px);
+  mask-image: repeating-linear-gradient(180deg, #000 0 9px, transparent 9px 15px);
+  opacity: .22;
+}
+
+/* ---------- the grid -------------------------------------------------- */
+
+.s26-grid {
+  position: absolute;
+  left: -25%;
+  right: -25%;
+  bottom: 0;
+  height: 42%;
+  perspective: 240px;
+  perspective-origin: 50% 0%;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 26%, #000 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 26%, #000 100%);
+}
+
+.s26-grid-in {
+  position: absolute;
+  inset: -40% 0 -140%;
+  transform: rotateX(76deg);
+  transform-origin: 50% 0%;
+  background:
+    repeating-linear-gradient(90deg, rgba(36,229,255,.50) 0 1.5px, transparent 1.5px 46px),
+    repeating-linear-gradient(0deg,  rgba(36,229,255,.38) 0 1.5px, transparent 1.5px 46px);
+}
+
+/* ---------- the rising field ------------------------------------------ */
+
+.s26-motes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.s26-mote {
+  position: absolute;
+  bottom: -5vh;
+  width: var(--sz);
+  height: var(--sz);
+  border-radius: 50%;
+  background: var(--cyan);
+  /* box-shadow, not filter: 26 filtered nodes is 26 offscreen buffers and the
+     phone drops frames carrying that for twelve seconds */
+  box-shadow: 0 0 6px 1px rgba(36,229,255,.55);
+  opacity: 0;
+}
+
+.s26-mote--warm {
+  background: var(--yellow);
+  box-shadow: 0 0 6px 1px rgba(255,180,40,.55);
+}
+
+.s26-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(118% 76% at 50% 46%, transparent 42%, rgba(1,3,10,.82) 100%);
+}
+
+/* ---------- the frame ------------------------------------------------- */
+
+.s26-shake {
+  position: absolute;
+  inset: 0;
+}
+
+.s26-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.s26-card {
+  position: absolute;
+  inset: var(--safe-y) var(--safe-x);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(clamp(13px, 2.5vh, 22px) * var(--s));
+  text-align: center;
+}
+
+/* ---------- p1 : the lockup ------------------------------------------- */
+
+.s26-lockup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(5px * var(--s));
+}
+
+.s26-star {
+  position: relative;
+  width: calc(clamp(24px, 6.8vw, 31px) * var(--s));
+  height: calc(clamp(24px, 6.8vw, 31px) * var(--s));
+  opacity: 0;
+}
+
+.s26-star i {
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(from 0deg,
+    var(--cyan), var(--yellow) 30%, var(--orange) 55%, var(--cyan) 82%, var(--cyan));
+  clip-path: polygon(50% 0%, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0% 50%, 40% 40%);
+}
+
+/* the wipe the wordmark opens behind */
+.s26-wordmark {
+  clip-path: inset(0 100% 0 0);
+}
+
+/* The mark is dark-on-transparent with no light-on-dark variant, so it is
+   foiled: grayscale first — which keeps the mask band and the eye slits
+   distinct from the head — then inverted. A flat invert flattens the whole
+   head into a white disc. */
+.s26-wordmark img {
+  display: block;
+  width: calc(clamp(104px, 29vw, 128px) * var(--s));
+  height: auto;
+  filter: grayscale(1) invert(1) contrast(1.05);
+  opacity: .97;
+}
+
+.s26-city {
+  font-size: calc(clamp(9px, 2.6vw, 11px) * var(--s));
+  font-weight: 700;
+  letter-spacing: .42em;
+  padding-left: .42em;
+  color: var(--cyan);
+  opacity: 0;
+}
+
+/* ---------- p2 : the title -------------------------------------------- */
+
+.s26-title {
+  margin: 0;
+  font-weight: 900;
+  font-size: calc(clamp(28px, 8.4vw, 37px) * var(--s));
+  line-height: 1;
+  letter-spacing: .012em;
+}
+
+/* kerning off on the line so the plain-text glitch copies measure exactly the
+   same as the per-letter spans, which get no kerning by construction */
+.s26-line {
+  position: relative;
+  display: block;
+  font-kerning: none;
+  font-variant-ligatures: none;
+}
+
+.s26-line--b {
+  margin-top: calc(3px * var(--s));
+  font-size: 1.12em;
+  letter-spacing: .16em;
+  padding-left: .16em;
+}
+
+.s26-sp {
+  display: inline-block;
+  width: .3em;
+}
+
+.s26-ch {
+  position: relative;
+  display: inline-block;
+  opacity: 0;
+}
+
+/* the face: gradient clipped to the glyph. NO filter here, ever. */
+.s26-ch-face {
+  position: relative;
+  display: inline-block;
+  background-image: linear-gradient(178deg,
+    #fff7cf 0%, var(--yellow) 30%, var(--orange) 72%, #ff4b21 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* the extrude: a solid copy offset behind, which is how this gets depth
+   without a drop-shadow. Painted first in DOM order, so it sits underneath. */
+.s26-ch-back {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #8a3200;
+  transform: translate(2px, 3px);
+}
+
+/* the RGB split — two offset copies that burst once and are gone */
+.s26-glitch {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  letter-spacing: inherit;
+}
+
+.s26-glitch--r { color: #ff2d55; }
+.s26-glitch--c { color: var(--cyan); }
+
+/* ---------- p3 : the features ----------------------------------------- */
+
+.s26-chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: calc(7px * var(--s));
+  width: 100%;
+}
+
+.s26-chip {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: calc(8px * var(--s));
+  padding: calc(8px * var(--s)) calc(12px * var(--s));
+  border-radius: 999px;
+  border: 1px solid rgba(36,229,255,.34);
+  background: linear-gradient(100deg, rgba(11,29,92,.86), rgba(6,16,51,.62));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.07);
+  opacity: 0;
+}
+
+.s26-chip-ico {
+  font-size: calc(clamp(13px, 3.6vw, 16px) * var(--s));
+  line-height: 1;
+  flex: none;
+}
+
+.s26-chip-txt {
+  font-size: calc(clamp(10px, 2.85vw, 12px) * var(--s));
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+  text-align: left;
+}
+
+/* ---------- p4 : the contact card ------------------------------------- */
+
+.s26-info {
+  width: 100%;
+  padding: calc(11px * var(--s)) calc(12px * var(--s));
+  border-radius: calc(12px * var(--s));
+  border: 1px solid rgba(36,229,255,.26);
+  background: linear-gradient(180deg, rgba(11,29,92,.72), rgba(3,8,26,.72));
+  opacity: 0;
+}
+
+.s26-info-name {
+  font-size: calc(clamp(12px, 3.4vw, 14px) * var(--s));
+  font-weight: 700;
+  letter-spacing: .02em;
+  color: var(--cyan);
+  margin-bottom: calc(4px * var(--s));
+}
+
+.s26-info-row {
+  font-size: calc(clamp(11px, 3.1vw, 13px) * var(--s));
+  font-weight: 500;
+  letter-spacing: .04em;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.s26-info-row--site {
+  font-weight: 700;
+  color: var(--yellow);
+}
+
+/* ---------- p5 : the call to action ----------------------------------- */
+
+.s26-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(7px * var(--s));
+}
+
+.s26-btn {
+  padding: calc(12px * var(--s)) calc(26px * var(--s));
+  border-radius: 999px;
+  font-size: calc(clamp(13px, 3.7vw, 15px) * var(--s));
+  font-weight: 900;
+  letter-spacing: .13em;
+  padding-left: calc(26px * var(--s) + .13em);
+  color: #2b1000;
+  background: linear-gradient(180deg, #ffe066 0%, var(--yellow) 38%, var(--orange) 100%);
+  box-shadow:
+    0 6px 0 #a83c00,
+    0 12px 22px rgba(255,122,24,.34);
+  opacity: 0;
+}
+
+.s26-urgent {
+  font-size: calc(clamp(9px, 2.6vw, 11px) * var(--s));
+  font-weight: 700;
+  letter-spacing: .28em;
+  padding-left: .28em;
+  color: var(--red);
+  opacity: 0;
+}
+
+/* ============================================================
+   phases
+
+   Every ambient rule is repeated across later phases with identical values so
+   the animation carries across the class change instead of restarting.
+   ============================================================ */
+
+/* the grid scrolls once, decelerating to a full stop well before the last cue */
+.s26-p1 .s26-grid-in, .s26-p2 .s26-grid-in, .s26-p3 .s26-grid-in,
+.s26-p4 .s26-grid-in, .s26-p5 .s26-grid-in {
+  animation: s26Grid 11000ms cubic-bezier(.12,.62,.2,1) both;
+}
+
+/* each mote runs once. Delays and durations in the component are bounded so
+   the last one finishes before the CTA settles — nothing is moving on the
+   frame this holds on. */
+.s26-p1 .s26-mote, .s26-p2 .s26-mote, .s26-p3 .s26-mote,
+.s26-p4 .s26-mote, .s26-p5 .s26-mote {
+  animation: s26Rise var(--dur) linear var(--dly) both;
+}
+
+/* p1 — the shuriken spins in, the wordmark wipes open, the city fades up */
+.s26-p1 .s26-star, .s26-p2 .s26-star, .s26-p3 .s26-star,
+.s26-p4 .s26-star, .s26-p5 .s26-star {
+  animation: s26Spin 1150ms cubic-bezier(.14,.78,.2,1) both;
+}
+
+.s26-p1 .s26-wordmark, .s26-p2 .s26-wordmark, .s26-p3 .s26-wordmark,
+.s26-p4 .s26-wordmark, .s26-p5 .s26-wordmark {
+  animation: s26Wipe 900ms cubic-bezier(.55,.06,.2,1) 620ms both;
+}
+
+.s26-p1 .s26-city, .s26-p2 .s26-city, .s26-p3 .s26-city,
+.s26-p4 .s26-city, .s26-p5 .s26-city {
+  animation: s26Up 620ms cubic-bezier(.2,.8,.3,1) 1380ms both;
+}
+
+/* p2 — the slam, the flash, the shake, the one burst */
+.s26-p2 .s26-ch, .s26-p3 .s26-ch, .s26-p4 .s26-ch, .s26-p5 .s26-ch {
+  animation: s26Slam 700ms cubic-bezier(.2,1.42,.36,1) calc(var(--i) * 52ms) both;
+}
+
+.s26-p2 .s26-flash, .s26-p3 .s26-flash, .s26-p4 .s26-flash, .s26-p5 .s26-flash {
+  animation: s26Flash 320ms ease-out 480ms both;
+}
+
+.s26-p2 .s26-shake, .s26-p3 .s26-shake, .s26-p4 .s26-shake, .s26-p5 .s26-shake {
+  animation: s26Shake 440ms cubic-bezier(.36,.07,.19,.97) 470ms both;
+}
+
+.s26-p2 .s26-glitch--r, .s26-p3 .s26-glitch--r,
+.s26-p4 .s26-glitch--r, .s26-p5 .s26-glitch--r {
+  animation: s26SplitR 560ms steps(1, end) 620ms both;
+}
+
+.s26-p2 .s26-glitch--c, .s26-p3 .s26-glitch--c,
+.s26-p4 .s26-glitch--c, .s26-p5 .s26-glitch--c {
+  animation: s26SplitC 560ms steps(1, end) 620ms both;
+}
+
+/* p3 — the chips knife in from alternating sides */
+.s26-p3 .s26-chip--l, .s26-p4 .s26-chip--l, .s26-p5 .s26-chip--l {
+  animation: s26KnifeL 720ms cubic-bezier(.16,1.12,.3,1) calc(var(--i) * 150ms) both;
+}
+
+.s26-p3 .s26-chip--r, .s26-p4 .s26-chip--r, .s26-p5 .s26-chip--r {
+  animation: s26KnifeR 720ms cubic-bezier(.16,1.12,.3,1) calc(var(--i) * 150ms) both;
+}
+
+/* p4 — the contact card springs up */
+.s26-p4 .s26-info, .s26-p5 .s26-info {
+  animation: s26Spring 760ms cubic-bezier(.18,1.5,.36,1) both;
+}
+
+/* p5 — the button pops, then the urgency line beats twice and settles */
+.s26-p5 .s26-btn {
+  animation: s26Pop 640ms cubic-bezier(.2,1.62,.36,1) both;
+}
+
+.s26-p5 .s26-urgent {
+  animation:
+    s26Up 460ms cubic-bezier(.2,.8,.3,1) 300ms both,
+    s26Beat 1000ms ease-in-out 780ms both;
+}
+
+/* ============================================================
+   keyframes — all finite
+   ============================================================ */
+
+@keyframes s26Grid {
+  from { background-position: 0 0, 0 0; }
+  to   { background-position: 0 0, 0 920px; }
+}
+
+@keyframes s26Rise {
+  0%   { opacity: 0; transform: translate3d(0, 0, 0); }
+  12%  { opacity: .85; }
+  78%  { opacity: .6; }
+  100% { opacity: 0; transform: translate3d(var(--dx), -104vh, 0); }
+}
+
+@keyframes s26Spin {
+  0%   { opacity: 0; transform: rotate(-980deg) scale(.16); }
+  70%  { opacity: 1; transform: rotate(-24deg) scale(1.14); }
+  100% { opacity: 1; transform: rotate(0deg) scale(1); }
+}
+
+@keyframes s26Wipe {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes s26Up {
+  from { opacity: 0; transform: translateY(9px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* down out of the depth and onto the sheet */
+@keyframes s26Slam {
+  0%   { opacity: 0; transform: perspective(620px) translate3d(0, -34%, 300px) rotateX(-46deg); }
+  62%  { opacity: 1; transform: perspective(620px) translate3d(0, 0, 0) rotateX(7deg) scale(1.05); }
+  82%  { transform: perspective(620px) translate3d(0, 0, 0) rotateX(-2deg) scale(.98); }
+  100% { opacity: 1; transform: perspective(620px) translate3d(0, 0, 0) rotateX(0deg) scale(1); }
+}
+
+@keyframes s26Flash {
+  0%   { opacity: 0; }
+  9%   { opacity: .82; }
+  100% { opacity: 0; }
+}
+
+@keyframes s26Shake {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  12% { transform: translate3d(-7px, 4px, 0) rotate(-.5deg); }
+  26% { transform: translate3d(6px, -5px, 0) rotate(.45deg); }
+  40% { transform: translate3d(-5px, -2px, 0) rotate(-.3deg); }
+  56% { transform: translate3d(4px, 3px, 0) rotate(.22deg); }
+  72% { transform: translate3d(-2px, -2px, 0) rotate(-.12deg); }
+  86% { transform: translate3d(1px, 1px, 0); }
+}
+
+@keyframes s26SplitR {
+  0%, 100% { opacity: 0; transform: translate3d(0, 0, 0); }
+  6%  { opacity: .9; transform: translate3d(-6px, 2px, 0); }
+  15% { opacity: 0; }
+  30% { opacity: .8; transform: translate3d(5px, -3px, 0); }
+  42% { opacity: 0; }
+  58% { opacity: .55; transform: translate3d(-3px, 1px, 0); }
+  70% { opacity: 0; }
+}
+
+@keyframes s26SplitC {
+  0%, 100% { opacity: 0; transform: translate3d(0, 0, 0); }
+  6%  { opacity: .9; transform: translate3d(6px, -2px, 0); }
+  15% { opacity: 0; }
+  30% { opacity: .8; transform: translate3d(-5px, 3px, 0); }
+  42% { opacity: 0; }
+  58% { opacity: .55; transform: translate3d(3px, -1px, 0); }
+  70% { opacity: 0; }
+}
+
+@keyframes s26KnifeL {
+  0%   { opacity: 0; transform: translate3d(-46%, 0, 0) skewX(15deg); clip-path: inset(0 0 0 100%); }
+  55%  { opacity: 1; }
+  100% { opacity: 1; transform: translate3d(0, 0, 0) skewX(0deg); clip-path: inset(0 0 0 0); }
+}
+
+@keyframes s26KnifeR {
+  0%   { opacity: 0; transform: translate3d(46%, 0, 0) skewX(-15deg); clip-path: inset(0 100% 0 0); }
+  55%  { opacity: 1; }
+  100% { opacity: 1; transform: translate3d(0, 0, 0) skewX(0deg); clip-path: inset(0 0 0 0); }
+}
+
+@keyframes s26Spring {
+  0%   { opacity: 0; transform: translate3d(0, 30px, 0) scale(.92); }
+  100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+
+@keyframes s26Pop {
+  0%   { opacity: 0; transform: scale(.62); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* two beats and done — the urgency reads without leaving anything blinking on
+   the held frame */
+@keyframes s26Beat {
+  0%, 100% { opacity: 1; }
+  22% { opacity: .35; }
+  44% { opacity: 1; }
+  66% { opacity: .35; }
+}
+
+/* ============================================================
+   reduced motion — snap to the finished poster
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .s26-stage *,
+  .s26-stage *::before,
+  .s26-stage *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .s26-star,
+  .s26-city,
+  .s26-ch,
+  .s26-chip,
+  .s26-info,
+  .s26-btn,
+  .s26-urgent { opacity: 1; transform: none; }
+  .s26-wordmark { clip-path: inset(0 0 0 0); }
+  .s26-motes,
+  .s26-flash { display: none; }
+}

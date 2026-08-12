@@ -7,9 +7,10 @@ import "./Stylesheets/App.css";
 // import BackToSchoolAd from "./Components/BackToSchoolAd";
 // import NewspaperPressAd from "./Components/NewspaperPressAd";
 // import GoogleReviewsAd from "./Components/GoogleReviewsAd";
-import JoinUsAd from "./Components/JoinUsAd";
+// import JoinUsAd from "./Components/JoinUsAd";
+import SummerCamp2026Ad from "./Components/SummerCamp2026Ad";
 
 function App() {
-  return <JoinUsAd />;
+  return <SummerCamp2026Ad />;
 }
 export default App;
