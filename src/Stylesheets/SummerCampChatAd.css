@@ -3,9 +3,15 @@
 /* ============================================================
    SummerCampChatAd — the question, asked to an assistant, answered.
 
-   A dark chat panel floating on a warm summer ground. The panel is a card, not
-   a full-bleed screenshot: it keeps the whole composition centred inside the
-   crop guard, and it reads as designed rather than as a grab.
+   A ChatGPT dark-mode interface, recreated as a phone screen floating on a
+   warm summer ground. Palette and chrome are matched by hand against the real
+   app (#212121 ground, #303030 for the user bubble and the composer, #ececec
+   type); the mark is drawn in SVG in the component.
+
+   It stays a card rather than going full-bleed on purpose: that is what keeps
+   the whole composition centred inside the crop guard, which is a standing
+   rule in this repo. Going edge-to-edge would look more like a real grab and
+   would put the chrome on the crop line.
 
    Load-bearing, easy to undo by accident:
 
@@ -29,14 +35,13 @@
    ============================================================ */
 
 .scc-stage {
-  --panel:   #15161c;
-  --panel-2: #1d1f27;
-  --line:    #2b2e39;
-  --ink:     #f2f4f8;
-  --ink-2:   #a7aebd;
-  --ink-3:   #6f7787;
-  --spark:   #21d4a8;
-  --spark-2: #38b6ff;
+  --panel:   #212121;   /* the app ground */
+  --panel-2: #2a2a2a;
+  --surface: #303030;   /* user bubble, composer */
+  --line:    #ffffff1a;
+  --ink:     #ececec;
+  --ink-2:   #b4b4b4;
+  --ink-3:   #8f8f8f;
   --red:     #e4002b;      /* the brand through-line */
   --sun:     #ff9d2e;
 
@@ -96,8 +101,8 @@
 .scc-panel {
   width: 100%;
   border-radius: calc(20px * var(--s));
-  background: linear-gradient(180deg, var(--panel-2) 0%, var(--panel) 22%);
-  border: 1px solid #33374400;
+  background: var(--panel);
+  border: 1px solid var(--line);
   box-shadow:
     0 1px 0 rgba(255,255,255,.06) inset,
     0 18px 40px rgba(80,34,0,.28),
@@ -110,28 +115,53 @@
 .scc-bar {
   display: flex;
   align-items: center;
-  gap: calc(5px * var(--s));
-  padding: calc(9px * var(--s)) calc(12px * var(--s));
-  border-bottom: 1px solid var(--line);
-  background: #1b1d25;
+  gap: calc(10px * var(--s));
+  padding: calc(11px * var(--s)) calc(13px * var(--s)) calc(9px * var(--s));
+  background: var(--panel);
 }
 
-.scc-tl {
-  width: calc(7px * var(--s));
-  height: calc(7px * var(--s));
-  border-radius: 50%;
-  background: #3a3f4d;
+/* the sidebar glyph */
+.scc-side {
+  display: flex;
+  flex-direction: column;
+  gap: calc(3.5px * var(--s));
   flex: none;
 }
-.scc-tl:first-child { background: #4a505f; }
+.scc-side i {
+  display: block;
+  width: calc(14px * var(--s));
+  height: calc(1.6px * var(--s));
+  border-radius: 2px;
+  background: var(--ink-2);
+}
+.scc-side i:last-child { width: calc(9px * var(--s)); }
 
-.scc-bar-t {
+/* the new-chat pencil, reduced to its silhouette */
+.scc-pen {
   margin-left: auto;
-  font-size: calc(9.5px * var(--s));
+  flex: none;
+  width: calc(13px * var(--s));
+  height: calc(13px * var(--s));
+  background: var(--ink-2);
+  clip-path: polygon(0% 100%, 22% 78%, 78% 22%, 100% 0%, 100% 22%, 22% 100%);
+}
+
+.scc-title {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(5px * var(--s));
+  font-size: calc(14px * var(--s));
   font-weight: 600;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--ink-3);
+  letter-spacing: -.01em;
+  color: var(--ink);
+}
+
+.scc-chev {
+  width: calc(7px * var(--s));
+  height: calc(7px * var(--s));
+  border-right: calc(1.5px * var(--s)) solid var(--ink-3);
+  border-bottom: calc(1.5px * var(--s)) solid var(--ink-3);
+  transform: rotate(45deg) translate(-1px, -1px);
 }
 
 .scc-thread {
@@ -145,9 +175,8 @@
   width: fit-content;
   max-width: 88%;
   padding: calc(9px * var(--s)) calc(13px * var(--s));
-  border-radius: calc(16px * var(--s)) calc(16px * var(--s)) calc(5px * var(--s)) calc(16px * var(--s));
-  background: linear-gradient(180deg, #343949 0%, #2b3040 100%);
-  border: 1px solid #3d4356;
+  border-radius: calc(19px * var(--s));
+  background: var(--surface);
   font-size: calc(12.5px * var(--s));
   font-weight: 500;
   line-height: 1.42;
@@ -166,25 +195,14 @@
   margin-top: calc(14px * var(--s));
 }
 
-.scc-avatar {
-  position: relative;
+/* the mark, drawn in SVG in the component */
+.scc-mark {
   flex: none;
-  width: calc(24px * var(--s));
-  height: calc(24px * var(--s));
-  border-radius: 50%;
-  background: linear-gradient(150deg, var(--spark) 0%, var(--spark-2) 100%);
-  display: grid;
-  place-items: center;
+  width: calc(19px * var(--s));
+  height: calc(19px * var(--s));
+  fill: var(--ink);
   opacity: 0;
   transform: scale(.5);
-}
-
-/* a four-point spark — assistant iconography, no company's mark */
-.scc-avatar i {
-  width: 58%;
-  height: 58%;
-  background: #0f1116;
-  clip-path: polygon(50% 0%, 59% 41%, 100% 50%, 59% 59%, 50% 100%, 41% 59%, 0% 50%, 41% 41%);
 }
 
 .scc-body {
@@ -268,7 +286,7 @@
   padding: calc(11px * var(--s)) calc(12px * var(--s)) calc(10px * var(--s));
   border-radius: calc(13px * var(--s));
   border: 1px solid var(--line);
-  background: linear-gradient(180deg, #1e212b 0%, #171921 100%);
+  background: #2a2a2a;
   opacity: 0;
   transform: translateY(10px) scale(.98);
 }
@@ -327,12 +345,11 @@
 .scc-composer {
   display: flex;
   align-items: center;
-  gap: calc(8px * var(--s));
-  margin: 0 calc(11px * var(--s)) calc(11px * var(--s));
-  padding: calc(9px * var(--s)) calc(9px * var(--s)) calc(9px * var(--s)) calc(13px * var(--s));
+  gap: calc(9px * var(--s));
+  margin: calc(4px * var(--s)) calc(11px * var(--s)) 0;
+  padding: calc(9px * var(--s)) calc(10px * var(--s));
   border-radius: 999px;
-  border: 1px solid var(--line);
-  background: #101219;
+  background: var(--surface);
   opacity: 0;
 }
 
@@ -343,13 +360,69 @@
   color: var(--ink-3);
 }
 
+/* + . mic . send, as silhouettes */
+.scc-plus {
+  flex: none;
+  width: calc(17px * var(--s));
+  height: calc(17px * var(--s));
+  background: var(--ink);
+  clip-path: polygon(44% 12%, 56% 12%, 56% 44%, 88% 44%, 88% 56%, 56% 56%, 56% 88%, 44% 88%, 44% 56%, 12% 56%, 12% 44%, 44% 44%);
+}
+
+/* a capsule and a cradle reads as a mic at 13px; one clip-path polygon
+   trying to be both just reads as a blob */
+.scc-mic {
+  position: relative;
+  flex: none;
+  width: calc(14px * var(--s));
+  height: calc(16px * var(--s));
+}
+.scc-mic::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  width: calc(6.5px * var(--s));
+  height: calc(9px * var(--s));
+  border-radius: 999px;
+  background: var(--ink);
+}
+.scc-mic::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: calc(1px * var(--s));
+  transform: translateX(-50%);
+  width: calc(11px * var(--s));
+  height: calc(6px * var(--s));
+  border: calc(1.6px * var(--s)) solid var(--ink);
+  border-top: none;
+  border-radius: 0 0 calc(7px * var(--s)) calc(7px * var(--s));
+}
+
 .scc-send {
   flex: none;
-  width: calc(20px * var(--s));
-  height: calc(20px * var(--s));
+  width: calc(24px * var(--s));
+  height: calc(24px * var(--s));
   border-radius: 50%;
-  background: var(--ink-2);
-  clip-path: polygon(50% 0%, 100% 100%, 50% 76%, 0% 100%);
+  background: var(--ink);
+  position: relative;
+}
+.scc-send::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--panel);
+  clip-path: polygon(50% 26%, 74% 52%, 58% 52%, 58% 76%, 42% 76%, 42% 52%, 26% 52%);
+}
+
+.scc-legal {
+  margin: calc(8px * var(--s)) 0 calc(9px * var(--s));
+  font-size: calc(9px * var(--s));
+  color: var(--ink-3);
+  text-align: center;
+  opacity: 0;
 }
 
 /* ---------- the call to action ---------------------------------------- */
@@ -387,6 +460,11 @@
   animation: sccFade 520ms ease-out 420ms both;
 }
 
+.scc-p1 .scc-legal, .scc-p2 .scc-legal, .scc-p3 .scc-legal,
+.scc-p4 .scc-legal, .scc-p5 .scc-legal, .scc-p6 .scc-legal {
+  animation: sccFade 520ms ease-out 560ms both;
+}
+
 /* p2 — the question goes up */
 .scc-p2 .scc-ask, .scc-p3 .scc-ask, .scc-p4 .scc-ask,
 .scc-p5 .scc-ask, .scc-p6 .scc-ask {
@@ -395,8 +473,8 @@
 
 /* p3 — the assistant appears and the dots run. Two iterations, then done:
    finite by construction, and gone entirely by p4. */
-.scc-p3 .scc-avatar, .scc-p4 .scc-avatar,
-.scc-p5 .scc-avatar, .scc-p6 .scc-avatar {
+.scc-p3 .scc-mark, .scc-p4 .scc-mark,
+.scc-p5 .scc-mark, .scc-p6 .scc-mark {
   animation: sccPop 520ms cubic-bezier(.2,1.5,.36,1) both;
 }
 
@@ -498,8 +576,8 @@
     animation: none !important;
     transition: none !important;
   }
-  .scc-panel, .scc-ask, .scc-avatar, .scc-w, .scc-bul li,
-  .scc-biz, .scc-row, .scc-close, .scc-composer, .scc-cta {
+  .scc-panel, .scc-ask, .scc-mark, .scc-w, .scc-bul li,
+  .scc-biz, .scc-row, .scc-close, .scc-composer, .scc-legal, .scc-cta {
     opacity: 1;
     transform: none;
   }
