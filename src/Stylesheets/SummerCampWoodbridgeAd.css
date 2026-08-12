@@ -1,0 +1,412 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+/* ============================================================
+   SummerCampWoodbridgeAd — Code Ninjas Woodbridge summer camp.
+
+   Bright summer daylight: a warm cream-to-gold ground, white cards on soft
+   warm shadow, deep ink type, one hot orange and the brand red on the button.
+
+   Light rather than dark on purpose. Every dark ad in this repo has to foil
+   the brand mark to silver with grayscale+invert because it has no
+   light-on-dark variant; on this ground it runs in its real colours instead,
+   blue CODE and black NINJAS, which is both less work and more on-brand.
+
+   Two things worth not undoing:
+
+   1. No `background-clip: text` anywhere, so no chance of pairing it with a
+      filter — the known bug in this repo. The title is solid ink and solid
+      orange, which on a cream ground needs no gradient to carry.
+
+   2. Nothing loops, and the whole composition is centred inside
+      --safe-x/--safe-y with the leftover room outside it as crop margin.
+      Every element sits at its final position from frame one and only
+      animates its own appearance, so the poster never reflows as it builds.
+
+   One knob runs the sizing:
+     --s   the whole card
+
+   Portrait phone only (~390x844).
+   ============================================================ */
+
+.scw-stage {
+  --ink:    #191720;
+  --ink-2:  #5d5766;
+  --ink-3:  #8d8698;
+  --card:   #ffffff;
+  --orange: #ff6a1f;
+  --red:    #e4002b;      /* the brand through-line */
+  --blue:   #2f9fd6;      /* the blue out of the mark */
+
+  --s: 1;
+
+  /* the crop guard — floors, with a term that grows on a bigger screen */
+  --safe-x: max(45px, 11vw);
+  --safe-y: max(40px, 6vh);
+
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #fff3e2;
+  color: var(--ink);
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- the ground ------------------------------------------------ */
+
+.scw-ground {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(82% 54% at 12% 4%,   #ffe0ae 0%, transparent 64%),
+    radial-gradient(74% 46% at 92% 14%,  #ffc2b0 0%, transparent 66%),
+    radial-gradient(96% 52% at 50% 104%, #ffc25e 0%, transparent 68%),
+    linear-gradient(158deg, #fff8ec 0%, #ffeacd 50%, #ffd9ae 100%);
+}
+
+.scw-bloom {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  width: 122vw;
+  height: 66vh;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(50% 50% at 50% 50%, rgba(255,150,60,.20), transparent 70%);
+  filter: blur(26px);
+}
+
+/* ---------- the frame ------------------------------------------------- */
+
+.scw-card {
+  position: absolute;
+  inset: var(--safe-y) var(--safe-x);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(clamp(13px, 2.4vh, 20px) * var(--s));
+  text-align: center;
+}
+
+/* ---------- p1 : the lockup ------------------------------------------- */
+
+.scw-lockup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(3px * var(--s));
+}
+
+/* the wipe the mark opens behind */
+.scw-mark {
+  clip-path: inset(0 100% 0 0);
+}
+
+.scw-mark img {
+  display: block;
+  width: calc(clamp(112px, 31vw, 138px) * var(--s));
+  height: auto;
+}
+
+.scw-city {
+  font-size: calc(clamp(9px, 2.5vw, 10.5px) * var(--s));
+  font-weight: 800;
+  letter-spacing: .46em;
+  padding-left: .46em;
+  color: var(--ink-2);
+  opacity: 0;
+}
+
+/* ---------- p2 : the title -------------------------------------------- */
+
+.scw-title {
+  margin: 0;
+  line-height: 1;
+}
+
+.scw-t1 {
+  display: block;
+  font-size: calc(clamp(30px, 8.8vw, 39px) * var(--s));
+  font-weight: 900;
+  letter-spacing: -.026em;
+  color: var(--ink);
+}
+
+.scw-ch {
+  display: inline-block;
+  opacity: 0;
+}
+
+.scw-sp {
+  display: inline-block;
+  width: .26em;
+}
+
+.scw-t2 {
+  display: block;
+  margin-top: calc(4px * var(--s));
+  font-size: calc(clamp(34px, 10.2vw, 45px) * var(--s));
+  font-weight: 900;
+  letter-spacing: .16em;
+  padding-left: .16em;
+  color: var(--orange);
+  opacity: 0;
+}
+
+.scw-rule {
+  width: calc(48px * var(--s));
+  height: calc(3px * var(--s));
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--orange), var(--red));
+  transform: scaleX(0);
+}
+
+/* ---------- p3 : the three cards -------------------------------------- */
+
+.scw-cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: calc(8px * var(--s));
+}
+
+.scw-item {
+  display: flex;
+  align-items: center;
+  gap: calc(10px * var(--s));
+  padding: calc(10px * var(--s)) calc(13px * var(--s));
+  border-radius: calc(14px * var(--s));
+  background: var(--card);
+  box-shadow: 0 2px 3px rgba(140,70,10,.07), 0 10px 22px rgba(150,80,15,.13);
+  opacity: 0;
+}
+
+.scw-item-i {
+  font-size: calc(clamp(15px, 4.2vw, 18px) * var(--s));
+  line-height: 1;
+  flex: none;
+}
+
+.scw-item-t {
+  font-size: calc(clamp(11.5px, 3.3vw, 13.5px) * var(--s));
+  font-weight: 700;
+  letter-spacing: -.005em;
+  color: var(--ink);
+  text-align: left;
+}
+
+/* ---------- p4 : the contact card ------------------------------------- */
+
+.scw-info {
+  width: 100%;
+  padding: calc(13px * var(--s)) calc(14px * var(--s)) calc(12px * var(--s));
+  border-radius: calc(16px * var(--s));
+  background: var(--card);
+  box-shadow: 0 2px 3px rgba(140,70,10,.07), 0 14px 28px rgba(150,80,15,.15);
+  opacity: 0;
+  transform: translateY(14px) scale(.97);
+}
+
+.scw-info-name {
+  font-size: calc(clamp(12.5px, 3.6vw, 14.5px) * var(--s));
+  font-weight: 800;
+  letter-spacing: -.01em;
+  color: var(--blue);
+  margin-bottom: calc(6px * var(--s));
+}
+
+.scw-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(8px * var(--s));
+  font-size: calc(clamp(11.5px, 3.3vw, 13.5px) * var(--s));
+  font-weight: 500;
+  line-height: 1.72;
+  color: var(--ink-2);
+  opacity: 0;
+}
+
+.scw-row--s {
+  font-weight: 800;
+  color: var(--orange);
+}
+
+.scw-row-i {
+  font-size: calc(11px * var(--s));
+  line-height: 1;
+  flex: none;
+}
+
+/* ---------- p5 : the call to action ----------------------------------- */
+
+.scw-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(8px * var(--s));
+}
+
+.scw-btn {
+  padding: calc(13px * var(--s)) calc(30px * var(--s));
+  padding-left: calc(30px * var(--s) + .16em);
+  border-radius: 999px;
+  font-size: calc(clamp(13px, 3.7vw, 15px) * var(--s));
+  font-weight: 900;
+  letter-spacing: .16em;
+  color: #fff;
+  background: linear-gradient(180deg, #ff2e56 0%, var(--red) 100%);
+  box-shadow: 0 3px 0 #a3001f, 0 12px 24px rgba(228,0,43,.30);
+  opacity: 0;
+  transform: scale(.72);
+}
+
+.scw-urgent {
+  font-size: calc(clamp(9px, 2.6vw, 10.5px) * var(--s));
+  font-weight: 800;
+  letter-spacing: .28em;
+  padding-left: .28em;
+  color: var(--red);
+  opacity: 0;
+}
+
+/* ============================================================
+   phases
+
+   Rules are repeated across later phases with identical values so the
+   animation carries across the class change instead of restarting.
+   ============================================================ */
+
+/* p1 — the lockup */
+.scw-p1 .scw-mark, .scw-p2 .scw-mark, .scw-p3 .scw-mark,
+.scw-p4 .scw-mark, .scw-p5 .scw-mark {
+  animation: scwWipe 860ms cubic-bezier(.5,.05,.2,1) both;
+}
+
+.scw-p1 .scw-city, .scw-p2 .scw-city, .scw-p3 .scw-city,
+.scw-p4 .scw-city, .scw-p5 .scw-city {
+  animation: scwUp 620ms cubic-bezier(.2,.85,.3,1) 620ms both;
+}
+
+/* p2 — the title lands a letter at a time, then the year, then the rule */
+.scw-p2 .scw-ch, .scw-p3 .scw-ch, .scw-p4 .scw-ch, .scw-p5 .scw-ch {
+  animation: scwDrop 620ms cubic-bezier(.2,1.36,.34,1) calc(var(--i) * 48ms) both;
+}
+
+.scw-p2 .scw-t2, .scw-p3 .scw-t2, .scw-p4 .scw-t2, .scw-p5 .scw-t2 {
+  animation: scwYear 700ms cubic-bezier(.2,1.44,.34,1) 620ms both;
+}
+
+.scw-p2 .scw-rule, .scw-p3 .scw-rule, .scw-p4 .scw-rule, .scw-p5 .scw-rule {
+  animation: scwDraw 620ms cubic-bezier(.2,.8,.25,1) 1000ms both;
+}
+
+/* p3 — the cards come in from alternating sides */
+.scw-p3 .scw-item--l, .scw-p4 .scw-item--l, .scw-p5 .scw-item--l {
+  animation: scwInL 700ms cubic-bezier(.18,1.2,.3,1) calc(var(--i) * 140ms) both;
+}
+
+.scw-p3 .scw-item--r, .scw-p4 .scw-item--r, .scw-p5 .scw-item--r {
+  animation: scwInR 700ms cubic-bezier(.18,1.2,.3,1) calc(var(--i) * 140ms) both;
+}
+
+/* p4 — the contact card, its rows behind it */
+.scw-p4 .scw-info, .scw-p5 .scw-info {
+  animation: scwSpring 720ms cubic-bezier(.18,1.42,.34,1) both;
+}
+
+.scw-p4 .scw-row, .scw-p5 .scw-row {
+  animation: scwFade 460ms ease-out calc(280ms + var(--i) * 120ms) both;
+}
+
+/* p5 — the button, then the urgency line */
+.scw-p5 .scw-btn {
+  animation: scwPop 660ms cubic-bezier(.2,1.6,.36,1) both;
+}
+
+.scw-p5 .scw-urgent {
+  animation:
+    scwUp 460ms cubic-bezier(.2,.85,.3,1) 320ms both,
+    scwBeat 1000ms ease-in-out 800ms both;
+}
+
+/* ============================================================
+   keyframes — all finite
+   ============================================================ */
+
+@keyframes scwWipe {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes scwUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scwFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes scwDrop {
+  0%   { opacity: 0; transform: translateY(-26px) scale(.86); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes scwYear {
+  0%   { opacity: 0; transform: translateY(16px) scale(.8); letter-spacing: .34em; }
+  100% { opacity: 1; transform: translateY(0) scale(1); letter-spacing: .16em; }
+}
+
+@keyframes scwDraw {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+@keyframes scwInL {
+  0%   { opacity: 0; transform: translateX(-38%) rotate(-2deg); }
+  100% { opacity: 1; transform: translateX(0) rotate(0deg); }
+}
+
+@keyframes scwInR {
+  0%   { opacity: 0; transform: translateX(38%) rotate(2deg); }
+  100% { opacity: 1; transform: translateX(0) rotate(0deg); }
+}
+
+@keyframes scwSpring {
+  from { opacity: 0; transform: translateY(14px) scale(.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes scwPop {
+  from { opacity: 0; transform: scale(.72); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* two beats and done — nothing is left blinking on the held frame */
+@keyframes scwBeat {
+  0%, 100% { opacity: 1; }
+  24% { opacity: .32; }
+  48% { opacity: 1; }
+  72% { opacity: .32; }
+}
+
+/* ============================================================
+   reduced motion — snap to the finished poster
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .scw-stage *,
+  .scw-stage *::before,
+  .scw-stage *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .scw-mark { clip-path: inset(0 0 0 0); }
+  .scw-city, .scw-ch, .scw-t2, .scw-item,
+  .scw-info, .scw-row, .scw-btn, .scw-urgent { opacity: 1; transform: none; }
+  .scw-rule { transform: scaleX(1); }
+}

@@ -9,9 +9,9 @@ import "./Stylesheets/App.css";
 // import GoogleReviewsAd from "./Components/GoogleReviewsAd";
 // import JoinUsAd from "./Components/JoinUsAd";
 // import SummerCamp2026Ad from "./Components/SummerCamp2026Ad";
-import SummerCampChatAd from "./Components/SummerCampChatAd";
+import SummerCampWoodbridgeAd from "./Components/SummerCampWoodbridgeAd";
 
 function App() {
-  return <SummerCampChatAd />;
+  return <SummerCampWoodbridgeAd />;
 }
 export default App;
