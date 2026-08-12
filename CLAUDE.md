@@ -29,6 +29,49 @@ may sit inside that band. In practice: **cap hero widths around 66–74vw (not
 80vw+)**, and keep big TITLE text small enough to fit — long words like
 "ROBOTICS"/"WEBSITES" must not run wide, so title font maxes ~44px.
 
+### Centre the composition — never spread it to the safe line
+
+The margin above is a **floor, not a target.** The crop is unpredictable and can
+come off any edge, so every ad must read as one block of content **centred in
+the frame with clear space on all four sides.** Do not let a layout push one
+element to the top of the card and another to the bottom: that puts content
+hard against the safe line, and the first crop off that edge takes it.
+
+Concretely, in each ad's stylesheet:
+
+```css
+.xx-stage {
+  --safe-x: max(45px, 11vw);   /* px floor is the minimum; the vw/vh term lets */
+  --safe-y: max(40px, 6vh);    /* the guard grow with the screen              */
+}
+
+.xx-card {
+  position: absolute;
+  inset: var(--safe-y) var(--safe-x);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;              /* <- the whole group, centred */
+  gap: calc(clamp(28px, 6vh, 54px) * var(--s));
+}
+```
+
+**Anti-pattern:** giving one child `flex: 1` so it eats the free space. That
+justifies the siblings out to both edges instead of centring them together —
+whatever leftover room exists should sit *outside* the content as crop margin,
+split evenly above and below, not *inside* it as a stretched gap.
+
+Two consequences worth knowing:
+
+- Entrance animations that slide something in from off-screen can no longer
+  assume a fixed offset like `translateY(calc(100% + 40px))`, because the
+  element is no longer pinned to the card edge. Use
+  `translateY(calc(100% + 50vh))` — the gap below a centred block can never
+  exceed half the card plus the guard, so half a viewport always clears it on
+  any phone, with nothing to measure.
+- Expect the composition to occupy roughly a third to a half of the screen
+  height. That is correct. Sparse and safe beats full-bleed and cropped.
+
 ## MOBILE ONLY
 
 These ads are **only ever shown on mobile (portrait phone).** Do **not** build,

@@ -13,8 +13,9 @@
    rather than the letter shapes — which put a soft rectangular halo behind the
    line. Flat gold on a white sheet needs no help anyway.
 
-   One knob runs the sizing:
-     --s   everything typographic
+   Two knobs run the frame:
+     --s                  everything typographic
+     --safe-x / --safe-y  the crop guard the whole composition is centred in
 
    The image is the one thing --s doesn't reach, since it's specified against
    the screen rather than the type; it carries the same 15% by hand below.
@@ -34,6 +35,15 @@
 
   /* .85 was the base scale; this is that, less the 15% */
   --s: .7225;
+
+  /* The crop guard. The ad gets screen-recorded and re-fit before it reaches
+     IG, so the edges go missing — and by an amount nobody knows in advance.
+     The px floors are the repo minimums; the vw/vh terms let the guard grow
+     with the screen instead of staying a thin fixed band on a big phone.
+     Nothing readable is allowed outside this, and the composition is centred
+     inside it rather than pushed out to it — see .ju-card. */
+  --safe-x: max(45px, 11vw);
+  --safe-y: max(40px, 6vh);
 
   position: fixed;
   inset: 0;
@@ -66,19 +76,24 @@
 
 /* ---------- the card ------------------------------------------------- */
 
+/* Everything sits in one centred block with a fixed gap. The earlier version
+   gave .ju-line flex:1, which pushed the line to the top of the card and the
+   image hard against the bottom safe line — so any crop off the bottom took
+   the ninjas' feet with it. Centring the group instead leaves the leftover
+   space split evenly above and below, which is the actual crop margin. */
 .ju-card {
   position: absolute;
-  inset: 40px 45px;
+  inset: var(--safe-y) var(--safe-x);
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  gap: calc(clamp(28px, 6vh, 54px) * var(--s));
   text-align: center;
 }
 
-/* takes every pixel the ninjas don't, and centres the line in it */
 .ju-line {
-  flex: 1 1 auto;
-  min-height: 0;
+  flex: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -138,9 +153,7 @@
 /* ---------- the ninjas ------------------------------------------------ */
 
 /* 60vw was the brief, less the 15% — centred that still leaves ~95px either
-   side on a 390px phone, well clear of the 45px the screen-record crop eats.
-   Sits hard on the bottom of the card, which is what makes the travel below
-   exact. */
+   side on a 390px phone, well clear of the crop guard. */
 .ju-ninjas {
   flex: none;
   width: 51vw;
@@ -154,10 +167,12 @@
      sheet the background drops out and the ninjas stay dark, so there is no
      white box sitting on top of the ambient colour. */
   mix-blend-mode: multiply;
-  /* its own height clears the image, the 40px clears the card's bottom inset —
-     together that parks it exactly on the bottom edge of the screen, off
-     frame, with no guessing at viewport height and no sliver left showing */
-  transform: translateY(calc(100% + 40px));
+  /* its own height clears the image; the 50vh clears whatever sits between it
+     and the bottom of the screen. Now that the block is centred rather than
+     bottom-pinned that distance is no longer a fixed 40px — but it can never
+     exceed half the card plus the guard, so half a viewport always covers it.
+     No measuring, and no sliver left showing on any phone. */
+  transform: translateY(calc(100% + 50vh));
 }
 
 /* ============================================================
@@ -168,7 +183,7 @@
 
 /* p2 — the ninjas come up off the bottom of the screen */
 .ju-p2 .ju-ninjas img {
-  animation: juTravel 980ms cubic-bezier(.18,.82,.24,1) both;
+  animation: juTravel 1080ms cubic-bezier(.18,.82,.24,1) both;
 }
 
 /* ============================================================
@@ -181,7 +196,7 @@
 }
 
 @keyframes juTravel {
-  from { transform: translateY(calc(100% + 40px)); }
+  from { transform: translateY(calc(100% + 50vh)); }
   to   { transform: translateY(0); }
 }
 
