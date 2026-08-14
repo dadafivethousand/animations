@@ -1,58 +1,57 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700;800&family=JetBrains+Mono:wght@400;700;800&display=swap');
 
 /* ============================================================
-   StaplesPromoAd — the Staples partnership, typed out.
+   StaplesPromoAd — the Staples partnership, typed onto a voucher.
 
-   Flat white, no card, no border, no band: the page sits directly on the
-   scene. The whole notice is monospace and every line of it is struck on
-   screen, rules included — a rule here is a run of "=", which is how you drew
-   one on a typewriter and the only kind of rule that can be typed rather than
-   drawn.
+   The previous pass set the notice as loose type on a flat white screen, and
+   the type was fine — it had nothing to sit on. On a feed, a page of
+   monospace with no object under it reads as a screenshot of a terminal.
+   Everything here is in service of one change: the notice is now PRINTED ON
+   SOMETHING. White stock on a lit desk, a perforated tear between the two
+   offers, a stub at the foot.
 
-   Left-aligned inside a centred block. Centred monospace is a poster;
-   left-aligned monospace is a document, and a document is what this is. The
-   block is what gets centred in the frame, which is what the crop guard cares
-   about — the text alignment inside it is a separate question and the answer
-   is left.
+   Staples sells paper, so paper is the material the partnership lives on, and
+   that is the whole colour story: warm neutral desk, white stock, black ink,
+   one red. No second accent — both brands are red, so a red voucher needs no
+   help, and a blue would have been a third company.
 
-   JetBrains Mono rather than a Courier. Courier is the more literal typewriter
-   and it collapses at display size: the amounts are the two things in this ad
-   that have to carry, and a 46px Courier "$50" is a wireframe. This is a mono
-   with an 800 weight, so the page is unmistakably typed and the numbers still
-   land. Courier Prime is a one-line swap in the @import if the literal
-   typewriter is worth the weight.
+   Two structural notes worth not undoing:
 
-   Red is spent on three things only: the two amounts, the rules, and the
-   partner mark. Everything else is ink or grey.
+   1. THE DESK IS A FLAT COLOUR and the vignette and grain are laid over
+      EVERYTHING, voucher included. That is what lets the perforation's
+      notches be punched in that same flat colour and disappear — a graded
+      ground would show a disc of the wrong tone at every notch.
+
+   2. NO PADDING ON A TYPED LINE. Every line is a ghost holding the box with
+      the struck text laid over it absolutely, and an absolutely positioned
+      child is placed against the PADDING box — so padding on .sp-line moves
+      the ghost and not the live text, and the line prints out of register
+      with itself. The code chip is drawn as a ::before box growing outward
+      from the text instead, and the meta bullets hang in the margin.
 
    Three knobs run the frame:
      --s                  every typographic size
-     --nw                 the column, and everything measured against it
      --safe-x / --safe-y  the crop guard the whole composition is centred in
+     the voucher's own padding, which sets the column
 
-   Portrait phone only (~390x844). Safe margins honoured: the card is inset by
-   the guard and the page is centred inside it, so the leftover space is crop
-   margin split evenly rather than a stretched gap.
+   Portrait phone only (~390x844).
    ============================================================ */
 
 .sp-stage {
   /* Staples red. Deeper than Code Ninjas' #e4002b, and both are in frame —
-     this one on the amounts and rules, the brand red on the mark. */
-  --red:    #cc0000;
+     this one on the amounts, the brand red inside the mark. */
+  --red:      #cc0000;
 
-  --ink:     #171614;
-  --ink-mid: #4a4742;
-  --ink-soft: #8b8680;
-  --hair:    #e2ded8;
+  --ink:      #17161a;
+  --ink-mid:  #4c4952;
+  --ink-soft: #8b8791;
+
+  --stock:    #fffefc;
+  --ground:   #e7e3db;   /* the desk. FLAT — see note 1 above. */
+  --hair:     #e4e0d8;
+  --perf:     #cfcabf;
 
   --s: 1;
-
-  /* The column. 72vw is 281px on a 390px phone against 300px of usable width
-     inside the guard. Monospace makes this a character count rather than a
-     guess: the longest line in the script is 32 characters, JetBrains Mono
-     advances at .6em, so the line sets at 281 / (32 × .6) = 14.6px before it
-     would touch the edge. Nothing below is set above 14. */
-  --nw: 72vw;
 
   /* The crop guard. The ad is screen-recorded and re-fit before it reaches IG,
      so the edges go missing by an amount nobody knows in advance. The px
@@ -64,17 +63,25 @@
   position: fixed;
   inset: 0;
   overflow: hidden;
-  background: #fff;
+  background: var(--ground);
   color: var(--ink);
   font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   -webkit-font-smoothing: antialiased;
 }
 
-/* ---------- the column ------------------------------------------------ */
-
 /* One centred block. Nothing gets flex:1 — the free space belongs outside the
    composition as crop margin, split evenly, not inside it as a gap that pushes
-   the first line and the last onto the safe lines. */
+   the head and the foot onto the safe lines. */
+/* Scoped border-box. Without it the voucher's 22px of padding is ADDED to its
+   width:100%, so a 300px card carries a 344px card — 23px of crop guard each
+   side instead of 45px, i.e. the composition quietly breaks the one rule this
+   repo cares most about. It measured 344 before this line existed. */
+.sp-stage *,
+.sp-stage *::before,
+.sp-stage *::after {
+  box-sizing: border-box;
+}
+
 .sp-card {
   position: absolute;
   inset: var(--safe-y) var(--safe-x);
@@ -84,64 +91,162 @@
   justify-content: center;
 }
 
-/* ---------- the lockup ------------------------------------------------ */
+/* ---------- the voucher ----------------------------------------------- */
 
-/* The two logos are the only thing on the page that is not typed, because they
-   are pictures. They resolve before the first key is struck. */
+/* The stock. Its padding is what sets the column every typed line is measured
+   against, so the two are one decision: 22px each side of a 300px card leaves
+   256px, and the longest line in the script sets at 11px inside it. */
+.sp-voucher {
+  position: relative;
+  width: 100%;
+  padding: calc(26px * var(--s)) calc(22px * var(--s)) calc(20px * var(--s));
+  background: var(--stock);
+  border-radius: 3px;
+  box-shadow:
+    0 1px 1px rgba(48, 40, 28, .05),
+    0 2px 6px rgba(48, 40, 28, .07),
+    0 18px 38px rgba(48, 40, 28, .14);
+  animation: spDrop 640ms cubic-bezier(.16, 1, .3, 1) both;
+}
+
+/* ---------- letterhead ------------------------------------------------ */
+
+.sp-head {
+  margin-bottom: calc(20px * var(--s));
+  animation: spFade 520ms 180ms ease-out both;
+}
+
+.sp-kicker {
+  font-size: calc(8.5px * var(--s));
+  font-weight: 700;
+  letter-spacing: .3em;
+  text-indent: .3em;          /* tracking lands after the last letter too */
+  text-align: center;
+  color: var(--ink-soft);
+  margin-bottom: calc(11px * var(--s));
+}
+
+/* A hairline between two marks is the standard way to say "with", and it keeps
+   either brand from looking like it owns the other. */
 .sp-lockup {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: calc(var(--nw) * .05);
-  margin-bottom: calc(var(--nw) * .1);
-  animation: spFade 560ms ease-out both;
+  gap: calc(15px * var(--s));
 }
 
-/* The stand-in. Correct in colour and weight, tracked the way the real mark is
-   tracked, but these are not their letterforms — see the swap point in the
-   component. Set in the mono like everything else, so until the real logo
-   lands the lockup at least belongs to the page. */
+/* The stand-in. Set in Inter rather than the page's mono: the letterhead is
+   the one thing here that is NOT typed, and a mono "STAPLES" reads as another
+   line of the notice rather than as a mark. Correct in colour and weight, but
+   these are not their letterforms — see the swap point in the component. */
 .sp-partner-type {
   display: block;
-  font-size: calc(clamp(13px, 4.1vw, 18px) * var(--s));
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+  font-size: calc(18px * var(--s));
   font-weight: 800;
-  letter-spacing: .06em;
+  letter-spacing: .012em;
   color: var(--red);
   line-height: 1;
-  /* Tracking lands after the last letter too, so a centred word sits a
-     sixteenth of an em left of true centre. */
-  text-indent: .06em;
 }
 
 .sp-partner-img {
   display: block;
-  width: calc(var(--nw) * .26);
+  width: calc(84px * var(--s));
   height: auto;
 }
 
 .sp-hair {
   width: 1px;
-  height: calc(var(--nw) * .06);
-  background: var(--hair);
+  height: calc(17px * var(--s));
+  background: #d8d3ca;
 }
 
-.sp-cn { width: calc(var(--nw) * .28); }
+.sp-cn { width: calc(86px * var(--s)); }
 
 .sp-cn img {
   display: block;
   width: 100%;
   height: auto;
-  /* The source is an opaque white-background PNG. On a white scene multiply
+  /* The source is an opaque white-background PNG. On white stock multiply
      drops the background out exactly and costs nothing. */
   mix-blend-mode: multiply;
 }
 
-/* ---------- the typed page -------------------------------------------- */
+/* ---------- an offer block -------------------------------------------- */
 
-.sp-page {
-  width: var(--nw);
-  text-align: left;
+.sp-blockhead {
+  display: flex;
+  align-items: center;
+  gap: calc(8px * var(--s));
 }
+
+/* The number is a printed chip, not a typed "01  " — a monospace prefix
+   inside the string put two characters of dead space between the number and
+   the label and made the whole line one grey mass. */
+.sp-num {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: calc(17px * var(--s));
+  height: calc(17px * var(--s));
+  background: var(--ink);
+  color: var(--stock);
+  font-size: calc(9px * var(--s));
+  font-weight: 700;
+  line-height: 1;
+  transform: scale(.4);
+  opacity: 0;
+  transition: transform 420ms cubic-bezier(.2, 1.5, .4, 1), opacity 240ms ease;
+}
+.sp-block.is-open .sp-num { transform: scale(1); opacity: 1; }
+
+/* The rule under the block head. This was a typed run of "=" — correct to the
+   conceit and the ugliest thing on the page: two red bars per offer, four in
+   frame, shouting over the amounts they introduce. Drawing a hairline left to
+   right is the same gesture, and it happens on the same beat. */
+.sp-hrule {
+  display: block;
+  width: 0;
+  height: 1px;
+  margin: calc(9px * var(--s)) 0 calc(14px * var(--s));
+  background: #ded9d0;
+  transition: width 620ms 90ms cubic-bezier(.22, 1, .3, 1);
+}
+.sp-block.is-open .sp-hrule { width: 100%; }
+
+/* ---------- the perforation ------------------------------------------- */
+
+/* Two coupons on one piece of stock, which is what lets a reader accept that
+   the ad makes two different offers to two different people. */
+.sp-tear {
+  position: relative;
+  height: 0;
+  margin: calc(20px * var(--s)) 0 calc(22px * var(--s));
+}
+
+.sp-perf {
+  position: absolute;
+  left: calc(4px * var(--s));
+  right: calc(4px * var(--s));
+  top: 0;
+  border-top: 1px dashed var(--perf);
+}
+
+/* Punched in the desk's own flat colour, half outside the stock — see note 1.
+   The offset is the voucher's padding plus the notch's radius, so the disc
+   centres exactly on the edge of the card. */
+.sp-notch {
+  position: absolute;
+  top: calc(-7px * var(--s));
+  width: calc(14px * var(--s));
+  height: calc(14px * var(--s));
+  border-radius: 50%;
+  background: var(--ground);
+}
+.sp-notch-l { left: calc(-29px * var(--s)); }
+.sp-notch-r { right: calc(-29px * var(--s)); }
+
+/* ---------- the typed page -------------------------------------------- */
 
 /* Every line holds its own box from frame one. The ghost carries the full
    string at visibility:hidden so the line has its true width and height before
@@ -150,7 +255,7 @@
    thing creeps upward on every carriage return. */
 .sp-line {
   position: relative;
-  white-space: pre;   /* runs of spaces in "01  NEW TO..." have to survive */
+  white-space: pre;
 }
 
 .sp-ghost { visibility: hidden; }
@@ -179,59 +284,131 @@
 
 /* ---------- the kinds of line ----------------------------------------- */
 
-/* The rule. Tight line-height so a row of "=" reads as a rule rather than as a
-   line of type that happens to be all one character. */
-.sp-rule {
-  font-size: calc(clamp(10px, 3.2vw, 13.5px) * var(--s));
-  line-height: 1.15;
-  font-weight: 700;
-  color: var(--red);
-}
-
-/* The gap between the two offers, put on the second block's opening rule
-   rather than as a spacer line — a blank line in the script would be a line
-   that types nothing and pauses, which is a pause with no reason a viewer can
-   see. */
-.sp-rule--gap { margin-top: calc(var(--nw) * .105); }
-
 .sp-who {
-  font-size: calc(clamp(10px, 3.2vw, 13.5px) * var(--s));
-  line-height: 1.9;
+  font-size: calc(11.5px * var(--s));
+  line-height: 1.5;
   font-weight: 700;
+  letter-spacing: .02em;
   color: var(--ink);
 }
 
-/* The two things in the ad that have to carry. 800 rather than 700 and set
-   nearly four times the body size — in a page with one typeface and no colour
+/* The two things in this ad that have to carry. 800 rather than 700 and set
+   more than three times the body — in a page with one typeface and one colour
    to spend, scale is most of the hierarchy there is. */
 .sp-amt {
-  margin-top: calc(var(--nw) * .055);
-  font-size: calc(clamp(34px, 11vw, 48px) * var(--s));
-  line-height: 1.12;
+  font-size: calc(clamp(30px, 9.6vw, 42px) * var(--s));
+  line-height: 1.08;
   font-weight: 800;
-  letter-spacing: -.02em;
+  letter-spacing: -.03em;
   color: var(--red);
 }
 
 .sp-what {
-  font-size: calc(clamp(10px, 3.1vw, 13px) * var(--s));
+  font-size: calc(11.6px * var(--s));
   line-height: 1.62;
   font-weight: 400;
   color: var(--ink-mid);
 }
 
-/* First of the pair only — the second line of a sentence follows straight on
-   from the first, which is what makes them read as one sentence. */
-.sp-amt + .sp-what { margin-top: calc(var(--nw) * .035); }
+.sp-amt + .sp-what { margin-top: calc(9px * var(--s)); }
 
 .sp-meta {
-  font-size: calc(clamp(9px, 2.85vw, 12px) * var(--s));
-  line-height: 1.72;
+  font-size: calc(10.4px * var(--s));
+  line-height: 1.74;
   font-weight: 400;
   color: var(--ink-soft);
 }
 
-.sp-what + .sp-meta { margin-top: calc(var(--nw) * .045); }
+.sp-what + .sp-meta { margin-top: calc(13px * var(--s)); }
+
+/* The bullet HANGS in the margin: indenting the text instead would need
+   padding on the line, which is the one thing a ghost-plus-overlay line
+   cannot have (see note 2 at the top). It arrives with its own line. */
+.sp-meta::before {
+  content: "·";
+  position: absolute;
+  left: calc(-10px * var(--s));
+  color: #b9b4ac;
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+.sp-meta.is-typed::before { opacity: 1; }
+
+/* The mechanic, boxed the way a coupon code is always boxed. The box is a
+   ::before growing OUTWARD from the text rather than padding on the line, for
+   the same reason as above. */
+/* inline-block so the dashed box shrink-wraps the code. As a block it ran the
+   full column and read as a text field waiting to be filled in. */
+.sp-code {
+  display: inline-block;
+  margin-top: calc(15px * var(--s));
+  margin-left: calc(1px * var(--s));
+  font-size: calc(10.6px * var(--s));
+  line-height: 1.6;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+.sp-code::before {
+  content: "";
+  position: absolute;
+  inset: calc(-6px * var(--s)) calc(-9px * var(--s));
+  border: 1px dashed var(--perf);
+  border-radius: 2px;
+  opacity: 0;
+  transform: scale(.96);
+  transition: opacity 260ms ease, transform 380ms cubic-bezier(.2, 1.3, .4, 1);
+}
+.sp-code.is-typed::before { opacity: 1; transform: none; }
+
+/* ---------- the stub -------------------------------------------------- */
+
+/* Who issued it. Arrives once the last key is struck, which is the frame the
+   ad holds on. */
+.sp-tear-foot { margin: calc(22px * var(--s)) 0 calc(14px * var(--s)); }
+
+.sp-tear-foot,
+.sp-foot {
+  opacity: 0;
+  transition: opacity 520ms ease;
+}
+.sp-done .sp-tear-foot,
+.sp-done .sp-foot { opacity: 1; }
+
+.sp-foot {
+  font-size: calc(8.5px * var(--s));
+  font-weight: 700;
+  letter-spacing: .28em;
+  color: var(--ink-soft);
+}
+
+/* ---------- the grade ------------------------------------------------- */
+
+/* Over everything, voucher included: the desk has to stay flat so the notches
+   can be punched in its colour, so the light has to arrive on top. */
+.sp-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 8;
+  /* Darkening ONLY. There was a white bloom in the middle of this and it sat
+     directly on "$50 OFF" — the first amount came out a lighter, pinker red
+     than the second one, on a page where the two amounts are the whole point
+     and have to be the same colour. A grade that changes the brand red is not
+     a grade. */
+  background: radial-gradient(98% 76% at 50% 46%, transparent 46%, rgba(74, 62, 44, .16) 100%);
+}
+
+.sp-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9;
+  opacity: .07;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='160' height='160' filter='url(%23f)'/></svg>");
+  background-size: 160px 160px;
+}
 
 /* ============================================================
    keyframes
@@ -242,12 +419,19 @@
   to   { opacity: 1; }
 }
 
+/* The stock lands. Short, and it does not bounce: paper put down on a desk
+   settles, it does not overshoot. */
+@keyframes spDrop {
+  from { opacity: 0; transform: translateY(calc(-10px * var(--s))) scale(.988); }
+  to   { opacity: 1; transform: none; }
+}
+
 /* ============================================================
-   reduced motion — the finished page, no keys struck
+   reduced motion — the finished voucher, no keys struck
 
    The component hands over li = LINES.length in this case, so every line is
-   already at its full string; all that is left is to stop the lockup fading
-   and make sure no caret is rendered.
+   already at its full string and .sp-done is set; all that is left is to stop
+   the entrances and pin the things that animate on a class.
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
   .sp-stage *,
@@ -256,6 +440,13 @@
     animation: none !important;
     transition: none !important;
   }
-  .sp-lockup { opacity: 1; }
-  .sp-caret  { display: none; }
+  .sp-voucher,
+  .sp-head,
+  .sp-tear-foot,
+  .sp-foot { opacity: 1; transform: none; }
+  .sp-num { opacity: 1; transform: none; }
+  .sp-hrule { width: 100%; }
+  .sp-meta::before { opacity: 1; }
+  .sp-code::before { opacity: 1; transform: none; }
+  .sp-caret { display: none; }
 }
