@@ -1,30 +1,35 @@
-// StaplesPromoAd.jsx — the Staples partnership, typed onto a voucher.
+// StaplesPromoAd.jsx — the Staples partnership, typed onto two coupons.
 //
 // Two offers pointing opposite ways: a Staples customer gets $50 off joining
 // Code Ninjas, a Code Ninjas family gets $20 off shopping at Staples. Each
 // block leads with who it is for, because a reader sorts themselves in about a
 // second if you let them and never if you don't.
 //
-// ── The voucher ──
+// ── Two coupons, not one notice ──
 //
-// The earlier pass set this as loose type on a flat white screen. Everything
-// about it was right except that it had nothing to sit on: type alone in the
-// middle of a white frame reads as a document someone forgot to design, and on
-// a feed it reads as nothing at all. Now the notice is printed on a voucher —
-// white stock on a lit desk, a perforated tear between the two offers, a stub
-// at the foot. The object is what makes it legible at thumbnail size, before a
-// single word is read, and a voucher is also just what this is.
+// They are separate pieces of stock, stacked. An earlier pass ran both offers
+// down one sheet with a perforation between them, and a perforation is a line:
+// the two offers read as one list that happened to have a rule through it. Two
+// cards read as two things, and a reader can see which one is theirs before
+// reading either.
 //
-// Staples sells paper, so paper is the right material for the partnership to
-// live on. That is the whole colour story: warm neutral desk, white stock,
-// black ink, one red. No second accent — both brands are red, so a red voucher
-// needs no help.
+// The letterhead sits on the desk rather than on stock of its own — the marks
+// arrive before any paper does, and a third card in a frame meant to hold two
+// coupons is a third card.
+//
+// ── The desk ──
+//
+// School and office supply falls through the frame behind the coupons.
+// Staples sells the things a school year is made of, so the ad's weather is
+// those things — the one place in this layout where the partnership is shown
+// rather than stated. Faint and behind, because it is the room the offer is
+// standing in, not a second thing to read.
 //
 // ── Typed, not laid out ──
 //
 // Every line of the notice is struck on screen, left-aligned inside a centred
 // block: centred monospace is a poster, left-aligned monospace is a document,
-// and a document is what a voucher is. Line breaks are authored, not wrapped —
+// and a document is what a coupon is. Line breaks are authored, not wrapped —
 // every string below is one line as it will appear, measured to fit the
 // column, which is the other half of setting a typed page and the reason
 // nothing here ends in a widow.
@@ -33,16 +38,29 @@
 // are struck slowly enough to be read as they arrive. Same idea as varying
 // weight, except this ad has one typeface to vary.
 //
-// What is NOT typed: the letterhead, the rules and the stub. The rules were a
-// run of "=" before — correct to the conceit, and the ugliest thing on the
-// page: two red dashed bars per offer, four in a frame, shouting over the
-// amounts they were supposed to introduce. A hairline that draws itself left
-// to right when its block starts is the same gesture without the noise.
+// ── The opening ──
+//
+// SCENE ONE IS THE TWO MARKS AND NOTHING ELSE. They come in from opposite
+// edges of an empty desk, INFLATING as they travel, and meet dead centre at
+// nearly twice their final size. They do not stop politely apart either: the
+// gap closes to nothing, so they arrive touching. That is also what pays for
+// the inflation — set apart the pair is 181px wide and 1.75 would put it
+// through the crop guard; closed up it is 167px, and 1.75 of that clears with
+// 49px to spare.
+//
+// Contact combusts, and what comes out of it is a school year: a flash, two
+// shockwave rings, shards off the seam, and a dozen pencils, laptops and
+// scissors thrown clear. The two coupons are thrown out of the same point, one
+// up and one down, while the pair rides into the letterhead.
+//
+// The approach is a keyframe on a fixed delay, so JS carries only the one beat
+// it cannot express: the moment of contact, which everything the impact causes
+// hangs off. HIT below and the 54% in the stylesheet's spLockup/spInL/spInR
+// are the same instant written twice — a 90ms delay + .54 x 1350ms = 819ms.
+// Move one and move the other.
 //
 // JS owns the typewriter and nothing else. It has to: a caret that follows the
-// text needs the text to actually grow, so it cannot be a keyframe. Everything
-// else — the voucher landing, the rules drawing, the stub — is CSS keyed off
-// two flags.
+// text needs the text to actually grow, so it cannot be a keyframe.
 import React from "react";
 import "../Stylesheets/StaplesPromoAd.css";
 
@@ -88,6 +106,48 @@ const LINES = [
   { t: "Through September 14, 2026", k: "meta", z: 1, s: 11, a: 0 },
 ];
 
+// ── the desk ──────────────────────────────────────────────────────────────
+// School and office supply, falling. Staples sells the things a school year is
+// made of, so the ad's weather is those things — the one place in this layout
+// where the partnership can be shown rather than stated.
+//
+// Deliberately behind the coupons and deliberately faint: this is the room the
+// offer is standing in, not a second thing to read.
+const GLYPHS = ["✏️", "📎", "📐", "📏", "✂️", "📓", "💻", "🖍️", "🖊️", "📌", "🎒", "📚", "🖇️", "🧮", "⌨️", "📝", "🍎", "🔖"];
+
+// Seven columns. Every value comes off the index — no randomness anywhere in
+// this repo, so every take of the recording is identical.
+//
+// Each column carries EIGHT glyphs and renders them twice, and the fall is a
+// translate of exactly -50% to 0, so the second copy arrives where the first
+// one was and the loop has no seam. The gap is in vh rather than em so a
+// column's half-height clears the frame at any of the sizes below.
+const RAIN = Array.from({ length: 7 }, (_, i) => ({
+  x: (i + 0.5) * (100 / 7),                                    // % across
+  size: 15 + ((i * 5) % 11),                                   // px
+  dur: 15 + ((i * 3.4) % 9),                                   // seconds
+  delay: -((i * 4.3) % 13),                                    // already falling at frame one
+  op: 0.2 + ((i % 3) * 0.055),
+  glyphs: Array.from({ length: 8 }, (_, j) => GLYPHS[(i * 5 + j * 3) % GLYPHS.length]),
+}));
+
+// What the impact throws. The shards are the physics; the supply thrown out
+// with them is the point — the two marks hit each other and a school year
+// comes out. x/y are computed here rather than with CSS cos()/sin(), which is
+// recent enough to be worth not depending on.
+const EJECT = Array.from({ length: 11 }, (_, i) => {
+  const a = ((i / 11) * 360 + (i % 2) * 14) * (Math.PI / 180);
+  const d = 92 + ((i * 29) % 54);
+  return {
+    g: GLYPHS[(i * 7) % GLYPHS.length],
+    x: Math.round(Math.cos(a) * d),
+    y: Math.round(Math.sin(a) * d),
+    r: ((i * 47) % 120) - 60,        // degrees of spin
+    s: 13 + ((i * 3) % 8),           // px
+    t: (i % 3) * 26,                 // ms of stagger
+  };
+});
+
 // The shards thrown out of the seam. Generated rather than hand-listed, but
 // generated from the INDEX and nothing else — no randomness anywhere in this
 // repo, so every take of the recording is identical. The small irregularities
@@ -132,7 +192,7 @@ const BLOCKS = [0, 1].map((z) => SCRIPT.filter((l) => l.z === z));
 // struck between them, the marks settling out of their approach scale, the
 // stock unfurling, the kicker — hangs off that single flag.
 const HIT = 820;
-const OPEN = 1520;
+const OPEN = 1240;
 
 export default function StaplesPromoAd() {
   const reduce = React.useMemo(
@@ -187,81 +247,83 @@ export default function StaplesPromoAd() {
     <div
       className={`sp-stage${hit ? " is-hit" : ""}${done ? " sp-done" : ""}`}
     >
+      {/* the weather, behind everything */}
+      <div className="sp-rain" aria-hidden>
+        {RAIN.map((c, i) => (
+          <span
+            key={i}
+            className="sp-rain-col"
+            style={{
+              left: `${c.x}%`,
+              fontSize: `${c.size}px`,
+              opacity: c.op,
+              "--dur": `${c.dur}s`,
+              "--delay": `${c.delay}s`,
+            }}
+          >
+            {c.glyphs.concat(c.glyphs).map((g, j) => (
+              <i key={j}>{g}</i>
+            ))}
+          </span>
+        ))}
+      </div>
+
       <div className="sp-card">
-        <div className="sp-voucher">
-          {/* The stock is its own layer so it can be revealed independently of
-              what is printed on it: it is clipped to nothing at the line where
-              the marks meet, and opens from there in both directions. Painting
-              it on .sp-voucher itself would mean transforming the box that
-              holds the type. */}
-          <div className="sp-stock" aria-hidden />
+        {/* ---- letterhead ----
+            On the desk itself, not on stock: the marks arrive before any paper
+            does, and giving them a card of their own would make three cards in
+            a frame that is meant to hold two coupons. A hairline between two
+            marks is the standard way to say "with", and it keeps either brand
+            from looking like it owns the other. */}
+        <div className="sp-head">
+          <div className="sp-kicker">PARTNER OFFER</div>
+          <div className="sp-lockup">
+            <div className="sp-partner">
+              {USE_LOGO ? (
+                <img className="sp-partner-img" src={staplesLogo} alt="Staples" />
+              ) : (
+                <span className="sp-partner-type">STAPLES</span>
+              )}
+            </div>
 
-          {/* ---- letterhead ----
-              A hairline between two marks is the standard way to say "with",
-              and it keeps either brand from looking like it owns the other.
-              The marks are the only pictures on the page; everything below
-              them is struck. */}
-          <div className="sp-head">
-            <div className="sp-kicker">PARTNER OFFER</div>
-            <div className="sp-lockup">
-              <div className="sp-partner">
-                {USE_LOGO ? (
-                  <img className="sp-partner-img" src={staplesLogo} alt="Staples" />
-                ) : (
-                  <span className="sp-partner-type">STAPLES</span>
-                )}
-              </div>
+            <span className="sp-hair" aria-hidden />
 
-              <span className="sp-hair" aria-hidden />
-
-              <div className="sp-cn">
-                <img src={cnLogo} alt="Code Ninjas" />
-              </div>
+            <div className="sp-cn">
+              <img src={cnLogo} alt="Code Ninjas" />
             </div>
           </div>
-
-          {BLOCKS.map((lines, z) => (
-            <React.Fragment key={z}>
-              {/* The perforation between the two offers. Two coupons on one
-                  piece of stock is the reason a reader accepts that the ad is
-                  making two different offers to two different people. */}
-              {z > 0 && (
-                <div className="sp-tear" aria-hidden>
-                  <span className="sp-notch sp-notch-l" />
-                  <span className="sp-perf" />
-                  <span className="sp-notch sp-notch-r" />
-                </div>
-              )}
-
-              <div
-                className={`sp-block${lines[0].i <= li ? " is-open" : ""}`}
-              >
-                <div className="sp-blockhead">
-                  <span className="sp-num">{`0${z + 1}`}</span>
-                  <Line line={lines[0]} li={li} ch={ch} />
-                </div>
-                <span className="sp-hrule" aria-hidden />
-
-                {lines.slice(1).map((line) => (
-                  <Line key={line.i} line={line} li={li} ch={ch} />
-                ))}
-              </div>
-            </React.Fragment>
-          ))}
-
-          {/* ---- the stub ----
-              Who issued it. It arrives once the last key is struck, which is
-              also the frame the ad holds on. */}
-          <div className="sp-tear sp-tear-foot" aria-hidden>
-            <span className="sp-notch sp-notch-l" />
-            <span className="sp-perf" />
-            <span className="sp-notch sp-notch-r" />
-          </div>
-          <div className="sp-foot">CODE NINJAS WOODBRIDGE</div>
         </div>
 
+        {/* ---- two coupons, stacked ----
+            Separate pieces of stock rather than one sheet with a perforation
+            through it. Two offers to two different people are two coupons, and
+            the reader should be able to see which one is theirs before reading
+            either. Each is thrown out of the impact — the first upward, the
+            second downward — so the pair lands as a consequence of the clash. */}
+        {BLOCKS.map((lines, z) => (
+          <div
+            className={`sp-coupon sp-coupon-${z + 1}${
+              lines[0].i <= li ? " is-open" : ""
+            }`}
+            key={z}
+          >
+            {/* the cut line, which is most of what says "coupon" */}
+            <span className="sp-cut" aria-hidden />
+
+            <div className="sp-blockhead">
+              <span className="sp-num">{`0${z + 1}`}</span>
+              <Line line={lines[0]} li={li} ch={ch} />
+            </div>
+            <span className="sp-hrule" aria-hidden />
+
+            {lines.slice(1).map((line) => (
+              <Line key={line.i} line={line} li={li} ch={ch} />
+            ))}
+          </div>
+        ))}
+
         {/* The contact, pinned to the middle of the card — where the two marks
-            meet, and where the paper opens from. */}
+            meet, and where both coupons are thrown from. */}
         <div className="sp-burst" aria-hidden>
           <span className="sp-flash" />
           <span className="sp-ring" />
@@ -273,12 +335,25 @@ export default function StaplesPromoAd() {
               style={{ "--a": s.a, "--d": s.d, "--w": s.w, "--t": `${s.t}ms` }}
             />
           ))}
+          {EJECT.map((e, i) => (
+            <span
+              key={`e${i}`}
+              className="sp-eject"
+              style={{
+                fontSize: `${e.s}px`,
+                "--x": `${e.x}px`,
+                "--y": `${e.y}px`,
+                "--r": `${e.r}deg`,
+                "--t": `${e.t}ms`,
+              }}
+            >
+              {e.g}
+            </span>
+          ))}
         </div>
       </div>
 
-      {/* Over everything, so the desk under the voucher can stay a flat colour
-          — which is what lets the perforation's notches be punched in that
-          same flat colour and land invisibly. */}
+      {/* Over everything: the desk stays flat and the light arrives on top. */}
       <div className="sp-vignette" aria-hidden />
       <div className="sp-grain" aria-hidden />
     </div>
