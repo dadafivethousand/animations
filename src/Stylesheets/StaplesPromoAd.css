@@ -118,10 +118,22 @@
   transform: translateY(-50%);
   animation: spRain var(--dur) linear var(--delay) infinite;
 }
-.sp-rain-col i { font-style: normal; }
+.sp-rain-col i {
+  font-style: normal;
+  line-height: 1;
+}
+
+/* The leading glyph of every stream: the one at the bottom, since the column
+   falls. Slightly bigger and fully lit, with the ones above it dying off
+   exponentially — the bright head over a fast-dying tail is the whole read of
+   a Matrix rain, and a linear fade gives you a gradient instead. */
+.sp-drop-head {
+  transform: scale(1.18);
+  filter: saturate(1.15);
+}
 
 /* the downpour */
-.sp-rain-storm { opacity: .92; }
+.sp-rain-storm { opacity: 1; }
 .sp-stage.is-calm .sp-rain-storm { opacity: 0; }
 
 /* what it settles to. Faint, and masked in two places: the fades at 0% and

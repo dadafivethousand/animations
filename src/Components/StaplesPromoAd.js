@@ -99,62 +99,89 @@ const LINES = [
 const GLYPHS = ["✏️", "📎", "📐", "📏", "✂️", "📓", "💻", "🖍️", "🖊️", "📌", "🎒", "📚", "🖇️", "🧮", "⌨️", "📝", "🍎", "🔖"];
 
 /**
- * One field of falling columns. Every value comes off the index — no
- * randomness anywhere in this repo, so every take of the recording is
- * identical.
+ * A deterministic hash: an integer in, a well-scattered number in [0,1) out.
+ *
+ * The rain has to look random and be identical in every take of the
+ * recording, and there is no randomness anywhere in this repo. The previous
+ * pass got its variety from arithmetic — (i * 5 + j * 3) % n and friends —
+ * which is not scattered, it is a cycle: every column ran the same glyphs in
+ * the same order a few steps apart, and at a glance the field read as a
+ * pattern rather than as weather. This is the cheapest thing that actually
+ * scatters.
+ */
+function hash(n) {
+  let x = Math.imul(n ^ 61, 0x27d4eb2d);
+  x ^= x >>> 15;
+  x = Math.imul(x, 0x85ebca6b);
+  x ^= x >>> 13;
+  return (x >>> 0) / 4294967296;
+}
+
+/**
+ * One field of falling columns.
  *
  * Each column carries `n` glyphs and renders them TWICE, and the fall is a
  * translate of exactly -50% to 0, so the second copy arrives where the first
- * one was and the loop has no seam. The per-glyph opacity ramps from the top
- * of a copy to its bottom, which gives every run of glyphs a fading tail and a
- * bright head — and because the ramp is per COPY it repeats with the loop
- * instead of flashing at the wrap.
+ * one was and the loop has no seam.
  *
- * The gap is in vh, not em: a column's half-height has to clear the frame or
- * it runs out of glyphs on the way down, and in em a small column does exactly
- * that. n x (size + gap) must stay above 844.
+ * THE GAP IS DERIVED, NOT CHOSEN. One copy of a column has to be taller than
+ * the frame or the column runs out of glyphs on the way down and leaves a
+ * hole — so the slot each glyph gets is `span / n`, and the gap is whatever is
+ * left after the glyph itself. That is what lets `n` vary per column: a
+ * sixteen-glyph column is a tight stream and a ten-glyph one is a loose one,
+ * and both still cover the frame.
+ *
+ * Everything else varies per column too — x within its lane, size, speed,
+ * phase, and which glyphs it carries. The phase matters most: a field whose
+ * heads are level reads as a curtain coming down, not as rain.
  */
-function field({ cols, n, size, spread, dur, durSpread, gapVh, seed }) {
-  return Array.from({ length: cols }, (_, i) => ({
-    x: (i + 0.5) * (100 / cols),
-    size: size + ((i * 5) % spread),
-    dur: dur + ((i * 3.4) % durSpread),
-    delay: -((i * 4.3) % 13),           // already falling at frame one
-    gapVh,
-    glyphs: Array.from({ length: n }, (_, j) => GLYPHS[(i * seed + j * 3) % GLYPHS.length]),
+function field({ cols, n, size, span, dur, tail, seed }) {
+  return Array.from({ length: cols }, (_, i) => {
+    const r = (k) => hash(i * 31 + k + seed * 977);
+    const count = n[0] + Math.floor(r(1) * (n[1] - n[0] + 1));
+    const px = Math.round(size[0] + r(2) * (size[1] - size[0]));
+    const lane = 100 / cols;
+
+    return {
+      // in its lane, but not centred in it — a perfect grid is a texture
+      x: (i + 0.5) * lane + (r(3) - 0.5) * lane * 0.7,
+      size: px,
+      // bigger reads as nearer, and nearer falls faster
+      dur: dur[1] - ((px - size[0]) / (size[1] - size[0])) * (dur[1] - dur[0]) + r(4) * 0.9,
+      gap: Math.max(10, span / count - px),
+      tail,
+      glyphs: Array.from({ length: count }, (_, j) =>
+        GLYPHS[Math.floor(r(10 + j) * GLYPHS.length)]
+      ),
+    };
+  }).map((c) => ({
+    ...c,
+    // a full phase spread, so no two columns are ever in step
+    delay: -(hash(c.size * 7919 + Math.round(c.x * 13)) * c.dur),
   }));
 }
 
-// The downpour. Dense, fast, and the whole frame.
-const STORM = field({ cols: 10, n: 12, size: 13, spread: 8, dur: 2.8, durSpread: 2.4, gapVh: 8, seed: 5 });
+// The downpour. Sixteen lanes, streams of ten to nineteen, and a tail that
+// dies off exponentially — a linear fade is a gradient, a curve is a trail.
+// The exponent is worth tuning by eye: at 2.4 most of every stream sits under
+// 0.2 and the field goes washy, and at 1 there is no head at all.
+const STORM = field({
+  cols: 16, n: [10, 19], size: [11, 21], span: 930, dur: [2.4, 5.2], tail: 1.8, seed: 3,
+});
 
 // What it settles to: the room the offer is standing in, not a second thing
-// to read.
-const CALM = field({ cols: 6, n: 8, size: 15, spread: 11, dur: 15, durSpread: 9, gapVh: 11, seed: 7 });
+// to read. Slower, sparser, and its glyphs hold their brightness — a dying
+// tail at this opacity is just missing glyphs.
+const CALM = field({
+  cols: 6, n: [7, 10], size: [15, 26], span: 980, dur: [14, 24], tail: 0.7, seed: 11,
+});
 
-// ── the desk ──────────────────────────────────────────────────────────────
+
 // Carry each line's index in the flat script with it, then split by block: the
-// typewriter walks one list, the layout draws two columns of it.
+// typewriter walks one list, the layout draws two coupons of it.
 const SCRIPT = LINES.map((l, i) => ({ ...l, i }));
 const BLOCKS = [0, 1].map((z) => SCRIPT.filter((l) => l.z === z));
 
-// The opening, in one timeline.
-//
-// SCENE ONE IS THE TWO MARKS AND NOTHING ELSE. They come in from opposite
-// edges of an empty desk, INFLATING as they travel, and meet dead centre at
-// nearly twice their final size. There is no voucher yet, no kicker, no
-// divider — the frame holds two logos.
-//
-// They do not stop politely apart, either: the gap closes to nothing, so they
-// arrive touching. That is also what pays for the inflation — set apart the
-// pair is 181px wide and 1.75 would put it through the crop guard; closed up
-// it is 167px, and 1.75 of that clears with 49px to spare.
-//
-// Contact combusts: a flash, a ring, and shards thrown out of the seam. The
-// paper opens out of that same point, up and down at once, while the pair
-// recoils to its resting gap and rides up into the letterhead. The marks
-// BECOME the letterhead rather than having been sitting in it all along.
-//
 // CALM_AT is when the downpour breaks: the storm fades out, the ambient rain
 // fades in under it, the letterhead resolves and the coupons lay down out of
 // it. OPEN follows close behind rather than after — at a wider gap the frame
@@ -302,16 +329,25 @@ function Rain({ className, cols }) {
           style={{
             left: `${c.x}%`,
             fontSize: `${c.size}px`,
-            gap: `${c.gapVh}vh`,
+            gap: `${c.gap}px`,
             "--dur": `${c.dur}s`,
             "--delay": `${c.delay}s`,
           }}
         >
-          {c.glyphs.concat(c.glyphs).map((g, j) => (
-            <i key={j} style={{ opacity: 0.16 + 0.84 * ((j % c.glyphs.length) / (c.glyphs.length - 1)) }}>
-              {g}
-            </i>
-          ))}
+          {c.glyphs.concat(c.glyphs).map((g, j) => {
+            const k = j % c.glyphs.length;              // position within a copy
+            const t = k / (c.glyphs.length - 1);        // 0 at the tail, 1 at the head
+            const head = k === c.glyphs.length - 1;
+            return (
+              <i
+                key={j}
+                className={head ? "sp-drop-head" : undefined}
+                style={{ opacity: 0.05 + 0.95 * Math.pow(t, c.tail) }}
+              >
+                {g}
+              </i>
+            );
+          })}
         </span>
       ))}
     </div>
