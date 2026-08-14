@@ -80,7 +80,7 @@ const LINES = [
   { t: "Through October 31, 2026", k: "meta", z: 0, s: 11, a: 110 },
   { t: "CODE STAPLES2026", k: "code", z: 0, s: 42, a: 620 },
 
-  { t: "ALREADY A CODE NINJAS FAMILY", k: "who", z: 1, s: 26, a: 200 },
+  { t: "ALREADY A CODE NINJAS FAMILY?", k: "who", z: 1, s: 26, a: 200 },
 
   { t: "$20 OFF", k: "amt", z: 1, s: 95, a: 260 },
   { t: "a $75 Staples order,", k: "what", z: 1, s: 16, a: 50 },
@@ -94,8 +94,19 @@ const LINES = [
 const SCRIPT = LINES.map((l, i) => ({ ...l, i }));
 const BLOCKS = [0, 1].map((z) => SCRIPT.filter((l) => l.z === z));
 
-// The voucher lands and the letterhead resolves before a key is struck.
-const OPEN = 900;
+// The opening, in one timeline.
+//
+// The two marks fly in from opposite edges, meet in the middle of an empty
+// desk, and the voucher grows out of the line where they met — up and down at
+// once, so the paper reads as coming OUT of the collision rather than sliding
+// in behind it. The fly-in itself is a CSS animation on a fixed delay, so JS
+// only carries the one beat it cannot know: the moment of contact.
+//
+// HIT is when they touch. Everything the collision causes — the divider being
+// struck between them, the marks settling out of their approach scale, the
+// stock unfurling, the kicker — hangs off that single flag.
+const HIT = 780;
+const OPEN = 1340;
 
 export default function StaplesPromoAd() {
   const reduce = React.useMemo(
@@ -109,14 +120,21 @@ export default function StaplesPromoAd() {
   // -1 is the beat before the first key; LINES.length is the finished page.
   const [li, setLi] = React.useState(-1);
   const [ch, setCh] = React.useState(0);
+  // the marks have met. Everything the collision sets off keys off this.
+  const [hit, setHit] = React.useState(false);
 
   React.useEffect(() => {
     if (reduce) {
+      setHit(true);
       setLi(LINES.length);
       return undefined;
     }
-    const t = setTimeout(() => setLi(0), OPEN);
-    return () => clearTimeout(t);
+    const a = setTimeout(() => setHit(true), HIT);
+    const b = setTimeout(() => setLi(0), OPEN);
+    return () => {
+      clearTimeout(a);
+      clearTimeout(b);
+    };
   }, [reduce]);
 
   React.useEffect(() => {
@@ -140,9 +158,16 @@ export default function StaplesPromoAd() {
   const done = li >= LINES.length;
 
   return (
-    <div className={`sp-stage${done ? " sp-done" : ""}`}>
+    <div className={`sp-stage${hit ? " is-hit" : ""}${done ? " sp-done" : ""}`}>
       <div className="sp-card">
         <div className="sp-voucher">
+          {/* The stock is its own layer so it can be revealed independently of
+              what is printed on it: it is clipped to nothing at the line where
+              the marks meet, and opens from there in both directions. Painting
+              it on .sp-voucher itself would mean transforming the box that
+              holds the type. */}
+          <div className="sp-stock" aria-hidden />
+
           {/* ---- letterhead ----
               A hairline between two marks is the standard way to say "with",
               and it keeps either brand from looking like it owns the other.
@@ -151,6 +176,9 @@ export default function StaplesPromoAd() {
           <div className="sp-head">
             <div className="sp-kicker">PARTNER OFFER</div>
             <div className="sp-lockup">
+              {/* the contact itself */}
+              <span className="sp-clash" aria-hidden />
+
               <div className="sp-partner">
                 {USE_LOGO ? (
                   <img className="sp-partner-img" src={staplesLogo} alt="Staples" />

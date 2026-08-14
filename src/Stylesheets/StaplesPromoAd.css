@@ -100,23 +100,55 @@
   position: relative;
   width: 100%;
   padding: calc(26px * var(--s)) calc(22px * var(--s)) calc(20px * var(--s));
+}
+
+/* The stock, on its own layer underneath the print.
+
+   It is clipped to nothing at the line where the two marks meet — 12.8% down
+   the voucher, which is where the lockup's centre falls — and opens from there
+   in BOTH directions on contact, so the paper reads as coming out of the
+   collision rather than sliding in behind it. clip-path rather than a scale or
+   a height: a scale would squash the shadow and the corner radius, and this
+   way the shadow is revealed with the paper it belongs to. */
+.sp-stock {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   background: var(--stock);
   border-radius: 3px;
   box-shadow:
     0 1px 1px rgba(48, 40, 28, .05),
     0 2px 6px rgba(48, 40, 28, .07),
     0 18px 38px rgba(48, 40, 28, .14);
-  animation: spDrop 640ms cubic-bezier(.16, 1, .3, 1) both;
+  /* The end state is written as a full inset() rather than left as `none`:
+     clip-path does not interpolate between a shape and the keyword, so a
+     transition to `none` would snap the whole sheet on in one frame. */
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 660ms cubic-bezier(.2, .86, .26, 1);
+}
+.sp-stage:not(.is-hit) .sp-stock {
+  clip-path: inset(12.8% 0 87.2% 0);
+}
+
+/* Everything printed sits above the stock. Positioned elements paint after
+   in-flow content, so without this the stock covers the type. */
+.sp-head,
+.sp-block,
+.sp-tear,
+.sp-foot {
+  position: relative;
+  z-index: 1;
 }
 
 /* ---------- letterhead ------------------------------------------------ */
 
 .sp-head {
   margin-bottom: calc(20px * var(--s));
-  animation: spFade 520ms 180ms ease-out both;
 }
 
 .sp-kicker {
+  opacity: 1;
+  transition: opacity 420ms 200ms ease;
   font-size: calc(8.5px * var(--s));
   font-weight: 700;
   letter-spacing: .3em;
@@ -129,10 +161,33 @@
 /* A hairline between two marks is the standard way to say "with", and it keeps
    either brand from looking like it owns the other. */
 .sp-lockup {
+  position: relative;                  /* the clash ring centres on this */
   display: flex;
   align-items: center;
   justify-content: center;
   gap: calc(15px * var(--s));
+}
+
+/* ── the two marks sit on ONE line ────────────────────────────────────────
+
+   The Code Ninjas file is a stacked lockup: a ninja head above the wordmark,
+   inside one 1920x1080 box. Centring that box against a line of type therefore
+   centres the HEAD-PLUS-WORDMARK, and the partner's name lands well above the
+   word CODE — which is what it did.
+
+   Measured off the file's own pixels: the blue of CODE runs rows 743-989 of
+   1080, so the wordmark's cap band centres at 80.19% of the image height,
+   30.19% BELOW the image's own centre. At an image aspect of 1.7778 that is
+   .3019 / 1.7778 = .1698 of the logo's WIDTH, which is the number the lockup
+   is set in — so the drop below survives any change to --cn-w, and re-measure
+   only if the logo file itself is replaced.
+
+   The partner's mark and the divider take that drop; the logo stays where it
+   is, because dropping the logo instead would push the ninja's head out of the
+   letterhead. */
+.sp-lockup {
+  --cn-w: calc(86px * var(--s));
+  --wordline: calc(var(--cn-w) * .1698);
 }
 
 /* The stand-in. Set in Inter rather than the page's mono: the letterhead is
@@ -141,6 +196,10 @@
    these are not their letterforms — see the swap point in the component. */
 .sp-partner-type {
   display: block;
+  /* the drop onto the wordmark's line, and the approach scale it settles out
+     of when the marks meet */
+  transform: translateY(var(--wordline)) scale(1.22);
+  transition: transform 620ms cubic-bezier(.2, 1.14, .32, 1);
   font-family: Inter, system-ui, -apple-system, sans-serif;
   font-size: calc(18px * var(--s));
   font-weight: 800;
@@ -153,24 +212,63 @@
   display: block;
   width: calc(84px * var(--s));
   height: auto;
+  transform: translateY(var(--wordline)) scale(1.22);
+  transition: transform 620ms cubic-bezier(.2, 1.14, .32, 1);
+}
+.is-hit .sp-partner-type,
+.is-hit .sp-partner-img {
+  transform: translateY(var(--wordline)) scale(1);
 }
 
+/* Struck between them ON CONTACT, from nothing, on the wordmark's line. */
 .sp-hair {
   width: 1px;
-  height: calc(17px * var(--s));
+  height: 0;
   background: #d8d3ca;
+  transform: translateY(var(--wordline));
+  transition: height 420ms 60ms cubic-bezier(.2, 1, .3, 1);
 }
+.is-hit .sp-hair { height: calc(17px * var(--s)); }
 
-.sp-cn { width: calc(86px * var(--s)); }
+.sp-cn { width: var(--cn-w); }
 
 .sp-cn img {
   display: block;
   width: 100%;
   height: auto;
+  transform: scale(1.22);
+  transition: transform 620ms cubic-bezier(.2, 1.14, .32, 1);
   /* The source is an opaque white-background PNG. On white stock multiply
      drops the background out exactly and costs nothing. */
   mix-blend-mode: multiply;
 }
+.is-hit .sp-cn img { transform: scale(1); }
+
+/* ── the approach ─────────────────────────────────────────────────────────
+   Each mark flies in from its own edge. This is an animation rather than a
+   transition on a class, and deliberately: the resting state of both marks is
+   then the plain untransformed one, so killing animations for reduced motion
+   leaves them exactly where they belong instead of stranded off-screen. 78vw
+   clears the frame from a centred lockup on any phone. */
+.sp-partner { animation: spFlyL 660ms 120ms cubic-bezier(.22, .72, .2, 1) both; }
+.sp-cn      { animation: spFlyR 660ms 120ms cubic-bezier(.22, .72, .2, 1) both; }
+
+/* The contact. A ring, not a white flash: on paper a white bloom is invisible,
+   and this ad has one colour to spend. */
+.sp-clash {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(46px * var(--s));
+  height: calc(46px * var(--s));
+  margin: calc(-23px * var(--s)) 0 0 calc(-23px * var(--s));
+  border-radius: 50%;
+  border: 2px solid rgba(204, 0, 0, .55);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(var(--wordline)) scale(.3);
+}
+.is-hit .sp-clash { animation: spClash 620ms cubic-bezier(.16, .9, .3, 1) both; }
 
 /* ---------- an offer block -------------------------------------------- */
 
@@ -221,8 +319,13 @@
 .sp-tear {
   position: relative;
   height: 0;
+  transition: opacity 380ms 300ms ease;
   margin: calc(20px * var(--s)) 0 calc(22px * var(--s));
 }
+
+/* the perforations belong to the stock, so they cannot exist before it does */
+.sp-stage:not(.is-hit) .sp-tear,
+.sp-stage:not(.is-hit) .sp-kicker { opacity: 0; }
 
 .sp-perf {
   position: absolute;
@@ -419,11 +522,20 @@
   to   { opacity: 1; }
 }
 
-/* The stock lands. Short, and it does not bounce: paper put down on a desk
-   settles, it does not overshoot. */
-@keyframes spDrop {
-  from { opacity: 0; transform: translateY(calc(-10px * var(--s))) scale(.988); }
-  to   { opacity: 1; transform: none; }
+@keyframes spFlyL {
+  from { transform: translateX(-78vw); }
+  to   { transform: none; }
+}
+@keyframes spFlyR {
+  from { transform: translateX(78vw); }
+  to   { transform: none; }
+}
+
+/* One ring out of the point of contact. */
+@keyframes spClash {
+  0%   { opacity: 0; transform: translateY(var(--wordline)) scale(.3); }
+  14%  { opacity: .9; }
+  100% { opacity: 0; transform: translateY(var(--wordline)) scale(3.4); border-width: 1px; }
 }
 
 /* ============================================================
@@ -442,8 +554,16 @@
   }
   .sp-voucher,
   .sp-head,
+  .sp-tear,
+  .sp-kicker,
   .sp-tear-foot,
-  .sp-foot { opacity: 1; transform: none; }
+  .sp-foot { opacity: 1; }
+  .sp-stock { clip-path: none; }
+  .sp-clash { display: none; }
+  .sp-hair { height: calc(17px * var(--s)); }
+  .sp-cn img { transform: none; }
+  .sp-partner-type,
+  .sp-partner-img { transform: translateY(var(--wordline)); }
   .sp-num { opacity: 1; transform: none; }
   .sp-hrule { width: 100%; }
   .sp-meta::before { opacity: 1; }
