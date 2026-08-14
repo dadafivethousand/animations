@@ -5,6 +5,23 @@
 // block leads with who it is for, because a reader sorts themselves in about a
 // second if you let them and never if you don't.
 //
+// ── The opening is the rain ──
+//
+// The ad opens in a downpour of school and office supply — dense, fast,
+// full-frame, falling in columns with the bright head and fading tail of a
+// Matrix rain. Then it calms: the storm thins out and settles to a faint
+// weather behind the offers, and the coupons lay down out of it.
+//
+// Staples sells the things a school year is made of, so the ad's weather is
+// those things. It is the one place in this layout where the partnership gets
+// shown rather than stated, and it does the work an opening title would
+// otherwise have to do.
+//
+// TWO RAIN LAYERS, NOT ONE RE-TIMED. The storm is dense and fast, the calm is
+// sparse and slow, and they cross-fade. Changing an animation's duration
+// mid-flight jumps it — the same glyph is suddenly somewhere else — so the
+// only thing that ever animates on a running column here is its opacity.
+//
 // ── Two coupons, not one notice ──
 //
 // They are separate pieces of stock, stacked. An earlier pass ran both offers
@@ -13,17 +30,8 @@
 // cards read as two things, and a reader can see which one is theirs before
 // reading either.
 //
-// The letterhead sits on the desk rather than on stock of its own — the marks
-// arrive before any paper does, and a third card in a frame meant to hold two
-// coupons is a third card.
-//
-// ── The desk ──
-//
-// School and office supply falls through the frame behind the coupons.
-// Staples sells the things a school year is made of, so the ad's weather is
-// those things — the one place in this layout where the partnership is shown
-// rather than stated. Faint and behind, because it is the room the offer is
-// standing in, not a second thing to read.
+// The letterhead sits on the desk rather than on stock of its own — a third
+// card in a frame meant to hold two coupons is a third card.
 //
 // ── Typed, not laid out ──
 //
@@ -38,29 +46,9 @@
 // are struck slowly enough to be read as they arrive. Same idea as varying
 // weight, except this ad has one typeface to vary.
 //
-// ── The opening ──
-//
-// SCENE ONE IS THE TWO MARKS AND NOTHING ELSE. They come in from opposite
-// edges of an empty desk, INFLATING as they travel, and meet dead centre at
-// nearly twice their final size. They do not stop politely apart either: the
-// gap closes to nothing, so they arrive touching. That is also what pays for
-// the inflation — set apart the pair is 181px wide and 1.75 would put it
-// through the crop guard; closed up it is 167px, and 1.75 of that clears with
-// 49px to spare.
-//
-// Contact combusts, and what comes out of it is a school year: a flash, two
-// shockwave rings, shards off the seam, and a dozen pencils, laptops and
-// scissors thrown clear. The two coupons are thrown out of the same point, one
-// up and one down, while the pair rides into the letterhead.
-//
-// The approach is a keyframe on a fixed delay, so JS carries only the one beat
-// it cannot express: the moment of contact, which everything the impact causes
-// hangs off. HIT below and the 54% in the stylesheet's spLockup/spInL/spInR
-// are the same instant written twice — a 90ms delay + .54 x 1350ms = 819ms.
-// Move one and move the other.
-//
-// JS owns the typewriter and nothing else. It has to: a caret that follows the
-// text needs the text to actually grow, so it cannot be a keyframe.
+// JS owns the typewriter and the one beat CSS cannot know — when the storm
+// calms — and nothing else. A caret that follows the text needs the text to
+// actually grow, so it cannot be a keyframe.
 import React from "react";
 import "../Stylesheets/StaplesPromoAd.css";
 
@@ -106,60 +94,45 @@ const LINES = [
   { t: "Through September 14, 2026", k: "meta", z: 1, s: 11, a: 0 },
 ];
 
-// ── the desk ──────────────────────────────────────────────────────────────
-// School and office supply, falling. Staples sells the things a school year is
-// made of, so the ad's weather is those things — the one place in this layout
-// where the partnership can be shown rather than stated.
-//
-// Deliberately behind the coupons and deliberately faint: this is the room the
-// offer is standing in, not a second thing to read.
+// ── the weather ───────────────────────────────────────────────────────────
+// The things a school year is made of.
 const GLYPHS = ["✏️", "📎", "📐", "📏", "✂️", "📓", "💻", "🖍️", "🖊️", "📌", "🎒", "📚", "🖇️", "🧮", "⌨️", "📝", "🍎", "🔖"];
 
-// Seven columns. Every value comes off the index — no randomness anywhere in
-// this repo, so every take of the recording is identical.
-//
-// Each column carries EIGHT glyphs and renders them twice, and the fall is a
-// translate of exactly -50% to 0, so the second copy arrives where the first
-// one was and the loop has no seam. The gap is in vh rather than em so a
-// column's half-height clears the frame at any of the sizes below.
-const RAIN = Array.from({ length: 7 }, (_, i) => ({
-  x: (i + 0.5) * (100 / 7),                                    // % across
-  size: 15 + ((i * 5) % 11),                                   // px
-  dur: 15 + ((i * 3.4) % 9),                                   // seconds
-  delay: -((i * 4.3) % 13),                                    // already falling at frame one
-  op: 0.2 + ((i % 3) * 0.055),
-  glyphs: Array.from({ length: 8 }, (_, j) => GLYPHS[(i * 5 + j * 3) % GLYPHS.length]),
-}));
+/**
+ * One field of falling columns. Every value comes off the index — no
+ * randomness anywhere in this repo, so every take of the recording is
+ * identical.
+ *
+ * Each column carries `n` glyphs and renders them TWICE, and the fall is a
+ * translate of exactly -50% to 0, so the second copy arrives where the first
+ * one was and the loop has no seam. The per-glyph opacity ramps from the top
+ * of a copy to its bottom, which gives every run of glyphs a fading tail and a
+ * bright head — and because the ramp is per COPY it repeats with the loop
+ * instead of flashing at the wrap.
+ *
+ * The gap is in vh, not em: a column's half-height has to clear the frame or
+ * it runs out of glyphs on the way down, and in em a small column does exactly
+ * that. n x (size + gap) must stay above 844.
+ */
+function field({ cols, n, size, spread, dur, durSpread, gapVh, seed }) {
+  return Array.from({ length: cols }, (_, i) => ({
+    x: (i + 0.5) * (100 / cols),
+    size: size + ((i * 5) % spread),
+    dur: dur + ((i * 3.4) % durSpread),
+    delay: -((i * 4.3) % 13),           // already falling at frame one
+    gapVh,
+    glyphs: Array.from({ length: n }, (_, j) => GLYPHS[(i * seed + j * 3) % GLYPHS.length]),
+  }));
+}
 
-// What the impact throws. The shards are the physics; the supply thrown out
-// with them is the point — the two marks hit each other and a school year
-// comes out. x/y are computed here rather than with CSS cos()/sin(), which is
-// recent enough to be worth not depending on.
-const EJECT = Array.from({ length: 11 }, (_, i) => {
-  const a = ((i / 11) * 360 + (i % 2) * 14) * (Math.PI / 180);
-  const d = 92 + ((i * 29) % 54);
-  return {
-    g: GLYPHS[(i * 7) % GLYPHS.length],
-    x: Math.round(Math.cos(a) * d),
-    y: Math.round(Math.sin(a) * d),
-    r: ((i * 47) % 120) - 60,        // degrees of spin
-    s: 13 + ((i * 3) % 8),           // px
-    t: (i % 3) * 26,                 // ms of stagger
-  };
-});
+// The downpour. Dense, fast, and the whole frame.
+const STORM = field({ cols: 10, n: 12, size: 13, spread: 8, dur: 2.8, durSpread: 2.4, gapVh: 8, seed: 5 });
 
-// The shards thrown out of the seam. Generated rather than hand-listed, but
-// generated from the INDEX and nothing else — no randomness anywhere in this
-// repo, so every take of the recording is identical. The small irregularities
-// in angle, reach and size are what stop it reading as a starburst clip-art.
-const SPARKS = Array.from({ length: 18 }, (_, i) => ({
-  a: (i / 18) * 360 + (i % 3) * 6,   // degrees, nudged off the even spacing
-  d: 74 + ((i * 37) % 66),           // how far it gets, in px
-  w: 4 + ((i * 13) % 7),             // its length
-  t: (i % 4) * 22,                   // and a stagger, so they do not leave as one
-  ink: i % 3 === 0,                  // one in three is ink rather than red
-}));
+// What it settles to: the room the offer is standing in, not a second thing
+// to read.
+const CALM = field({ cols: 6, n: 8, size: 15, spread: 11, dur: 15, durSpread: 9, gapVh: 11, seed: 7 });
 
+// ── the desk ──────────────────────────────────────────────────────────────
 // Carry each line's index in the flat script with it, then split by block: the
 // typewriter walks one list, the layout draws two columns of it.
 const SCRIPT = LINES.map((l, i) => ({ ...l, i }));
@@ -182,17 +155,13 @@ const BLOCKS = [0, 1].map((z) => SCRIPT.filter((l) => l.z === z));
 // recoils to its resting gap and rides up into the letterhead. The marks
 // BECOME the letterhead rather than having been sitting in it all along.
 //
-// The approach is a keyframe on a fixed delay, so JS carries only the one beat
-// it cannot express: the moment of contact, which everything the impact causes
-// hangs off. HIT below and the 54% in the stylesheet's spLockup/spInL/spInR
-// are the same instant written twice — a 90ms delay + .54 x 1350ms = 819ms.
-// Move one and move the other.
-//
-// HIT is when they touch. Everything the collision causes — the divider being
-// struck between them, the marks settling out of their approach scale, the
-// stock unfurling, the kicker — hangs off that single flag.
-const HIT = 820;
-const OPEN = 1240;
+// CALM_AT is when the downpour breaks: the storm fades out, the ambient rain
+// fades in under it, the letterhead resolves and the coupons lay down out of
+// it. OPEN follows close behind rather than after — at a wider gap the frame
+// holds two blank cards for most of a second, which is a beat with nothing in
+// it.
+const CALM_AT = 900;
+const OPEN = 1300;
 
 export default function StaplesPromoAd() {
   const reduce = React.useMemo(
@@ -206,16 +175,16 @@ export default function StaplesPromoAd() {
   // -1 is the beat before the first key; LINES.length is the finished page.
   const [li, setLi] = React.useState(-1);
   const [ch, setCh] = React.useState(0);
-  // the marks have met. Everything the impact sets off keys off this.
-  const [hit, setHit] = React.useState(false);
+  // the storm has broken. Everything the composition does keys off this.
+  const [calm, setCalm] = React.useState(false);
 
   React.useEffect(() => {
     if (reduce) {
-      setHit(true);
+      setCalm(true);
       setLi(LINES.length);
       return undefined;
     }
-    const a = setTimeout(() => setHit(true), HIT);
+    const a = setTimeout(() => setCalm(true), CALM_AT);
     const b = setTimeout(() => setLi(0), OPEN);
     return () => {
       clearTimeout(a);
@@ -245,36 +214,20 @@ export default function StaplesPromoAd() {
 
   return (
     <div
-      className={`sp-stage${hit ? " is-hit" : ""}${done ? " sp-done" : ""}`}
+      className={`sp-stage${calm ? " is-calm" : ""}${done ? " sp-done" : ""}`}
     >
-      {/* the weather, behind everything */}
-      <div className="sp-rain" aria-hidden>
-        {RAIN.map((c, i) => (
-          <span
-            key={i}
-            className="sp-rain-col"
-            style={{
-              left: `${c.x}%`,
-              fontSize: `${c.size}px`,
-              opacity: c.op,
-              "--dur": `${c.dur}s`,
-              "--delay": `${c.delay}s`,
-            }}
-          >
-            {c.glyphs.concat(c.glyphs).map((g, j) => (
-              <i key={j}>{g}</i>
-            ))}
-          </span>
-        ))}
-      </div>
+      {/* ---- the weather ----
+          Two fields. The storm owns the opening and fades out; the calm one
+          fades in under it and stays for the rest of the take. */}
+      <Rain className="sp-rain sp-rain-storm" cols={STORM} />
+      <Rain className="sp-rain sp-rain-calm" cols={CALM} />
 
       <div className="sp-card">
         {/* ---- letterhead ----
-            On the desk itself, not on stock: the marks arrive before any paper
-            does, and giving them a card of their own would make three cards in
-            a frame that is meant to hold two coupons. A hairline between two
-            marks is the standard way to say "with", and it keeps either brand
-            from looking like it owns the other. */}
+            On the desk itself, not on stock: a third card in a frame meant to
+            hold two coupons is a third card. A hairline between two marks is
+            the standard way to say "with", and it keeps either brand from
+            looking like it owns the other. */}
         <div className="sp-head">
           <div className="sp-kicker">PARTNER OFFER</div>
           <div className="sp-lockup">
@@ -298,8 +251,8 @@ export default function StaplesPromoAd() {
             Separate pieces of stock rather than one sheet with a perforation
             through it. Two offers to two different people are two coupons, and
             the reader should be able to see which one is theirs before reading
-            either. Each is thrown out of the impact — the first upward, the
-            second downward — so the pair lands as a consequence of the clash. */}
+            either. They lay down out of the rain, top edge first, one after
+            the other. */}
         {BLOCKS.map((lines, z) => (
           <div
             className={`sp-coupon sp-coupon-${z + 1}${
@@ -321,41 +274,46 @@ export default function StaplesPromoAd() {
             ))}
           </div>
         ))}
-
-        {/* The contact, pinned to the middle of the card — where the two marks
-            meet, and where both coupons are thrown from. */}
-        <div className="sp-burst" aria-hidden>
-          <span className="sp-flash" />
-          <span className="sp-ring" />
-          <span className="sp-ring sp-ring-2" />
-          {SPARKS.map((s, i) => (
-            <span
-              key={i}
-              className={`sp-spark${s.ink ? " sp-spark-ink" : ""}`}
-              style={{ "--a": s.a, "--d": s.d, "--w": s.w, "--t": `${s.t}ms` }}
-            />
-          ))}
-          {EJECT.map((e, i) => (
-            <span
-              key={`e${i}`}
-              className="sp-eject"
-              style={{
-                fontSize: `${e.s}px`,
-                "--x": `${e.x}px`,
-                "--y": `${e.y}px`,
-                "--r": `${e.r}deg`,
-                "--t": `${e.t}ms`,
-              }}
-            >
-              {e.g}
-            </span>
-          ))}
-        </div>
       </div>
 
       {/* Over everything: the desk stays flat and the light arrives on top. */}
       <div className="sp-vignette" aria-hidden />
       <div className="sp-grain" aria-hidden />
+    </div>
+  );
+}
+
+/**
+ * One field of falling columns. Each column renders its glyphs twice — the
+ * fall is a translate of exactly -50% to 0, so the second copy arrives where
+ * the first one was and the loop has no seam.
+ *
+ * The opacity ramp is applied per COPY, so the pattern repeats with the loop
+ * rather than flashing at the wrap: every run of glyphs has a faint tail and a
+ * bright head, which is the whole read of a Matrix rain.
+ */
+function Rain({ className, cols }) {
+  return (
+    <div className={className} aria-hidden>
+      {cols.map((c, i) => (
+        <span
+          key={i}
+          className="sp-rain-col"
+          style={{
+            left: `${c.x}%`,
+            fontSize: `${c.size}px`,
+            gap: `${c.gapVh}vh`,
+            "--dur": `${c.dur}s`,
+            "--delay": `${c.delay}s`,
+          }}
+        >
+          {c.glyphs.concat(c.glyphs).map((g, j) => (
+            <i key={j} style={{ opacity: 0.16 + 0.84 * ((j % c.glyphs.length) / (c.glyphs.length - 1)) }}>
+              {g}
+            </i>
+          ))}
+        </span>
+      ))}
     </div>
   );
 }

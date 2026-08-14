@@ -3,6 +3,12 @@
 /* ============================================================
    StaplesPromoAd — the Staples partnership, typed onto two coupons.
 
+   The ad opens in a downpour of school and office supply — dense, fast, the
+   whole frame — which then calms to a faint weather behind the offers as the
+   coupons lay down out of it. Staples sells the things a school year is made
+   of, so that rain is the one place in this layout where the partnership gets
+   shown rather than stated.
+
    TWO PIECES OF STOCK, STACKED. An earlier pass ran both offers down one
    sheet with a perforation between them, and a perforation is a line: the
    two offers read as one list that happened to have a rule through it. Two
@@ -30,17 +36,14 @@
       with itself. The coupon carries the padding; the meta bullets hang in
       the margin.
 
-   3. THE OPENING IS KEYFRAMES, one animation per moving part carrying its
-      whole gesture. Approach-by-animation plus recoil-by-transition cannot
-      work — a filled animation's end state outranks any transition — and
-      three class states joined by transitions cannot be verified, because the
-      automation tab stalls transitions and every still of the approach comes
-      back an empty desk. Keyframes do both, and reduced motion drops them and
-      leaves the base rules, which are all resting states.
+   3. THE AD OPENS IN A DOWNPOUR of the same supply, and everything the
+      composition does hangs off one flag: .is-calm, when the storm breaks.
+      Two rain fields cross-fade rather than one field being re-timed —
+      changing a running animation's duration jumps it, so the only thing that
+      ever animates on a falling column here is its opacity.
 
    Knobs:
      --s                  every typographic size
-     --lift               how far the lockup travels out of the collision
      --safe-x / --safe-y  the crop guard the whole composition is centred in
 
    Portrait phone only (~390x844).
@@ -61,11 +64,6 @@
 
   --s: 1;
 
-  /* How far the lockup travels from its scene-one home (the middle of the
-     frame, where the marks meet) to its resting one (the letterhead).
-     MEASURED, and it moves whenever the block's height does — re-measure if a
-     line is added or removed, or the coupons' spacing changes. */
-  --lift: calc(225px * var(--s));
 
   /* The crop guard. The ad is screen-recorded and re-fit before it reaches IG,
      so the edges go missing by an amount nobody knows in advance. The px
@@ -91,48 +89,23 @@
 
 /* ---------- the weather ------------------------------------------------ */
 
-/* School and office supply, falling behind everything. Each column carries
-   eight glyphs and renders them TWICE, and the fall is a translate of exactly
-   -50% to 0, so the second copy arrives where the first one was and the loop
-   has no seam. The gap is in vh rather than em so that a column's half-height
-   clears the frame at any of the sizes the component hands it — in em a 15px
-   column would run out of glyphs two thirds of the way down. */
+/* Two fields, cross-faded. The storm owns the opening — dense, fast, the whole
+   frame — and the calm one is what it settles to. They are separate layers on
+   purpose: changing an animation's duration mid-flight jumps it, so the only
+   thing that ever animates on a running column is its opacity.
+
+   Each column carries its glyphs twice and falls -50% to 0, so the second copy
+   arrives where the first one was and the loop has no seam. The gap comes from
+   the component in vh, because a column's half-height has to clear the frame
+   or it runs out of glyphs on the way down — which is exactly what an em-based
+   gap does to the smallest column. */
 .sp-rain {
   position: absolute;
   inset: 0;
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
-
-  /* Two jobs. The fades at 0% and 100% stop glyphs from being cut in half by
-     the frame edge, which is what separates falling supply from a tiled
-     pattern. The dip at 20-28% is the LETTERHEAD's band — measured, it sits at
-     17.8-26.4% of the frame — and it is the one piece of content with no card
-     under it, so it is the one place the rain can land on type and win. Below
-     34% the coupons cover the rain anyway, so it runs at full strength there.
-     Re-measure the dip if the letterhead moves. */
-  -webkit-mask-image: linear-gradient(
-    180deg,
-    transparent 0%,
-    #000 6%,
-    #000 14%,
-    rgba(0, 0, 0, .16) 20%,
-    rgba(0, 0, 0, .16) 28%,
-    #000 34%,
-    #000 94%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    180deg,
-    transparent 0%,
-    #000 6%,
-    #000 14%,
-    rgba(0, 0, 0, .16) 20%,
-    rgba(0, 0, 0, .16) 28%,
-    #000 34%,
-    #000 94%,
-    transparent 100%
-  );
+  transition: opacity 900ms cubic-bezier(.4, 0, .3, 1);
 }
 
 .sp-rain-col {
@@ -141,12 +114,40 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 11vh;
   line-height: 1;
   transform: translateY(-50%);
   animation: spRain var(--dur) linear var(--delay) infinite;
 }
 .sp-rain-col i { font-style: normal; }
+
+/* the downpour */
+.sp-rain-storm { opacity: .92; }
+.sp-stage.is-calm .sp-rain-storm { opacity: 0; }
+
+/* what it settles to. Faint, and masked in two places: the fades at 0% and
+   100% stop glyphs being cut in half by the frame edge, and the dip at 20-28%
+   is the LETTERHEAD's measured band — the one piece of content with no card
+   under it, and so the one place the rain can land on type and win. Below 34%
+   the coupons cover it anyway. Re-measure the dip if the letterhead moves. */
+.sp-rain-calm {
+  opacity: 0;
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    transparent 0%, #000 6%, #000 14%,
+    rgba(0, 0, 0, .16) 20%, rgba(0, 0, 0, .16) 28%,
+    #000 34%, #000 94%, transparent 100%
+  );
+  mask-image: linear-gradient(
+    180deg,
+    transparent 0%, #000 6%, #000 14%,
+    rgba(0, 0, 0, .16) 20%, rgba(0, 0, 0, .16) 28%,
+    #000 34%, #000 94%, transparent 100%
+  );
+}
+.sp-stage.is-calm .sp-rain-calm {
+  opacity: .34;
+  transition-delay: 220ms;
+}
 
 /* ---------- the composition ------------------------------------------- */
 
@@ -165,11 +166,14 @@
 
 /* ---------- letterhead ------------------------------------------------ */
 
-/* On the desk itself, not on stock: the marks arrive before any paper does,
-   and a third card in a frame meant to hold two coupons is a third card. */
+/* On the desk itself, not on stock: a third card in a frame meant to hold two
+   coupons is a third card. */
 .sp-head {
   margin-bottom: calc(26px * var(--s));
+  opacity: 1;
 }
+.sp-stage:not(.is-calm) .sp-head { opacity: 0; }
+.is-calm .sp-head { animation: spRise 620ms 60ms cubic-bezier(.16, 1, .3, 1) both; }
 
 .sp-kicker {
   opacity: 1;
@@ -242,8 +246,8 @@
   background: #d8d3ca;
   transform: translateY(var(--wordline));
 }
-.sp-stage:not(.is-hit) .sp-hair { height: 0; }
-.is-hit .sp-hair { animation: spHair 420ms 90ms cubic-bezier(.2, 1, .3, 1) both; }
+.sp-stage:not(.is-calm) .sp-hair { height: 0; }
+.is-calm .sp-hair { animation: spHair 420ms 320ms cubic-bezier(.2, 1, .3, 1) both; }
 
 .sp-cn { width: var(--cn-w); }
 
@@ -282,15 +286,13 @@
   pointer-events: none;
 }
 
-/* Thrown out of the impact, the first upward and the second down, so the pair
-   lands as a consequence of the clash rather than appearing behind it. Each
-   opens from its own middle: a card that unfolds is stock, a card that fades
-   up is a div. */
-.sp-stage:not(.is-hit) .sp-coupon {
-  clip-path: inset(50% 0 50% 0);
+/* They lay down out of the rain, top edge first and one after the other — a
+   card that wipes on is being put down, a card that fades up is a div. */
+.sp-stage:not(.is-calm) .sp-coupon {
+  clip-path: inset(0 0 100% 0);
 }
-.is-hit .sp-coupon-1 { animation: spThrowUp 560ms cubic-bezier(.2, .88, .26, 1) both; }
-.is-hit .sp-coupon-2 { animation: spThrowDown 560ms 80ms cubic-bezier(.2, .88, .26, 1) both; }
+.is-calm .sp-coupon-1 { animation: spLay 620ms 160ms cubic-bezier(.2, .88, .26, 1) both; }
+.is-calm .sp-coupon-2 { animation: spLay 620ms 300ms cubic-bezier(.2, .88, .26, 1) both; }
 
 /* ---------- an offer block --------------------------------------------- */
 
@@ -422,110 +424,6 @@
 }
 .sp-meta.is-typed::before { opacity: 1; }
 
-/* ---------- the opening ------------------------------------------------ */
-
-/* THE 54% IS THE CONTACT, and it is shared with the component: the run is
-   1350ms after a 90ms delay, so 90 + .54 x 1350 = 819ms, and StaplesPromoAd.js
-   fires HIT at 820. Move one and move the other. */
-.sp-lockup {
-  transform: none;
-  animation: spLockup 1350ms 90ms both;
-}
-
-/* Each mark comes in from its own edge and does NOT stop politely apart: the
-   15px gap closes to nothing, so they arrive touching, then rebound to their
-   resting gap. 90vw of travel inside a lockup that is itself scaled ~1.75
-   reads as about 160vw of run-up; it only has to clear the frame. */
-.sp-partner { animation: spInL 1350ms 90ms both; }
-.sp-cn      { animation: spInR 1350ms 90ms both; }
-
-/* ── the combustion ───────────────────────────────────────────────────────
-
-   Pinned to the middle of the card — which is the middle of the frame, the
-   point of contact, and the line both coupons are thrown from. All of it hangs
-   off a zero-size anchor so every piece can be positioned from the same origin
-   without any of them knowing how big the others are.
-
-   The shards and rings are the physics; the supply thrown out with them is the
-   point. Two marks hit each other and a school year comes out. */
-.sp-burst {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 0;
-  height: 0;
-  z-index: 3;
-  pointer-events: none;
-}
-
-/* Tight and short. A big soft bloom on a light desk is a grey smudge; what
-   reads as a flash here is a small very bright core with a red edge. */
-.sp-flash {
-  position: absolute;
-  left: calc(-64px * var(--s));
-  top: calc(-64px * var(--s));
-  width: calc(128px * var(--s));
-  height: calc(128px * var(--s));
-  border-radius: 50%;
-  opacity: 0;
-  background: radial-gradient(
-    closest-side,
-    #ffffff 0%,
-    rgba(255, 246, 240, .96) 22%,
-    rgba(255, 150, 130, .45) 46%,
-    rgba(204, 0, 0, .16) 66%,
-    rgba(204, 0, 0, 0) 80%
-  );
-}
-.is-hit .sp-flash { animation: spFlash 420ms cubic-bezier(.1, .8, .3, 1) both; }
-
-.sp-ring {
-  position: absolute;
-  left: calc(-26px * var(--s));
-  top: calc(-26px * var(--s));
-  width: calc(52px * var(--s));
-  height: calc(52px * var(--s));
-  border-radius: 50%;
-  border: 2px solid rgba(204, 0, 0, .6);
-  opacity: 0;
-  transform: scale(.3);
-}
-.is-hit .sp-ring { animation: spRing 620ms cubic-bezier(.16, .9, .3, 1) both; }
-/* a second one, thinner and later, so the shockwave has depth rather than
-   being one hoop */
-.sp-ring-2 { border-color: rgba(23, 22, 26, .26); }
-.is-hit .sp-ring-2 { animation: spRing 760ms 100ms cubic-bezier(.16, .9, .3, 1) both; }
-
-/* Each shard is rotated to its own angle and then thrown along its own X, so
-   one keyframe throws all eighteen outward in eighteen directions. */
-.sp-spark {
-  position: absolute;
-  left: 0;
-  top: calc(-1px * var(--s));
-  width: calc(var(--w) * 1px * var(--s));
-  height: calc(2px * var(--s));
-  border-radius: 1px;
-  background: var(--red);
-  opacity: 0;
-  transform-origin: 0 50%;
-  transform: rotate(calc(var(--a) * 1deg)) translateX(calc(8px * var(--s)));
-}
-.sp-spark-ink { background: rgba(23, 22, 26, .55); }
-.is-hit .sp-spark { animation: spSpark 620ms var(--t) cubic-bezier(.1, .78, .3, 1) both; }
-
-/* The supply, thrown clear. x and y are computed in the component rather than
-   with CSS cos()/sin(), which is recent enough to be worth not depending on —
-   and it lets each one spin as it goes without the spin steering the throw. */
-.sp-eject {
-  position: absolute;
-  left: 0;
-  top: 0;
-  line-height: 1;
-  opacity: 0;
-  transform: translate(0, 0) rotate(0deg) scale(.3);
-}
-.is-hit .sp-eject { animation: spEject 820ms var(--t) cubic-bezier(.12, .74, .28, 1) both; }
-
 /* ---------- the grade -------------------------------------------------- */
 
 .sp-vignette {
@@ -557,57 +455,9 @@
   to   { opacity: 1; }
 }
 
-/* Waiting at the centre, only part-swollen; inflating the whole way in, so the
-   pair is still growing at the moment it lands — a pair that reached its size
-   early reads as a slide, one still reaching reads as an impact. Then a beat
-   of compression, and up into the letterhead. */
-@keyframes spLockup {
-  0% {
-    transform: translateY(var(--lift)) scale(1.3);
-    animation-timing-function: cubic-bezier(.42, 0, .62, 1);
-  }
-  54% {
-    transform: translateY(var(--lift)) scale(1.75);
-    animation-timing-function: cubic-bezier(.3, 0, .5, 1);
-  }
-  60% {
-    transform: translateY(var(--lift)) scale(1.62);
-    animation-timing-function: cubic-bezier(.22, .92, .24, 1);
-  }
-  100% { transform: translateY(0) scale(1); }
-}
-
-/* In hard, touch, rebound, settle. The approach accelerates on purpose: a
-   thing that speeds up into contact reads as heavy. */
-@keyframes spInL {
-  0% {
-    transform: translateX(-90vw);
-    animation-timing-function: cubic-bezier(.5, .02, .74, .5);
-  }
-  54% {
-    transform: translateX(calc(7px * var(--s)));
-    animation-timing-function: cubic-bezier(.16, .9, .3, 1);
-  }
-  70% {
-    transform: translateX(calc(-4px * var(--s)));
-    animation-timing-function: cubic-bezier(.32, 0, .38, 1);
-  }
-  100% { transform: translateX(0); }
-}
-@keyframes spInR {
-  0% {
-    transform: translateX(90vw);
-    animation-timing-function: cubic-bezier(.5, .02, .74, .5);
-  }
-  54% {
-    transform: translateX(calc(-7px * var(--s)));
-    animation-timing-function: cubic-bezier(.16, .9, .3, 1);
-  }
-  70% {
-    transform: translateX(calc(4px * var(--s)));
-    animation-timing-function: cubic-bezier(.32, 0, .38, 1);
-  }
-  100% { transform: translateX(0); }
+@keyframes spRise {
+  from { opacity: 0; transform: translateY(calc(10px * var(--s))); }
+  to   { opacity: 1; transform: none; }
 }
 
 @keyframes spHair {
@@ -615,49 +465,11 @@
   to   { height: calc(17px * var(--s)); }
 }
 
-/* The coupons, out of the seam: unfolding from their own middle while they
-   travel the last of the way off the impact. */
-@keyframes spThrowUp {
-  from { clip-path: inset(50% 0 50% 0); transform: translateY(calc(34px * var(--s))); }
-  to   { clip-path: inset(0 0 0 0);      transform: translateY(0); }
-}
-@keyframes spThrowDown {
-  from { clip-path: inset(50% 0 50% 0); transform: translateY(calc(-34px * var(--s))); }
-  to   { clip-path: inset(0 0 0 0);      transform: translateY(0); }
-}
-
-@keyframes spFlash {
-  0%   { opacity: 0; transform: scale(.15); }
-  8%   { opacity: 1; }
-  100% { opacity: 0; transform: scale(1.2); }
-}
-
-@keyframes spRing {
-  0%   { opacity: 0; transform: scale(.3); }
-  14%  { opacity: .9; }
-  100% { opacity: 0; transform: scale(3.6); border-width: 1px; }
-}
-
-@keyframes spSpark {
-  0% {
-    opacity: 0;
-    transform: rotate(calc(var(--a) * 1deg)) translateX(calc(8px * var(--s))) scaleX(.3);
-  }
-  12% { opacity: 1; }
-  100% {
-    opacity: 0;
-    transform: rotate(calc(var(--a) * 1deg)) translateX(calc(var(--d) * 1px * var(--s))) scaleX(1);
-  }
-}
-
-@keyframes spEject {
-  0%   { opacity: 0; transform: translate(0, 0) rotate(0deg) scale(.3); }
-  12%  { opacity: 1; }
-  70%  { opacity: 1; }
-  100% {
-    opacity: 0;
-    transform: translate(var(--x), var(--y)) rotate(var(--r)) scale(1);
-  }
+/* A coupon being put down: the top edge first, and a hair of drift so it
+   arrives rather than appears. */
+@keyframes spLay {
+  from { clip-path: inset(0 0 100% 0); transform: translateY(calc(-12px * var(--s))); }
+  to   { clip-path: inset(0 0 0 0);    transform: translateY(0); }
 }
 
 /* One column of supply, falling. -50% to 0 with the glyphs rendered twice, so
@@ -681,15 +493,14 @@
     animation: none !important;
     transition: none !important;
   }
-  .sp-kicker { opacity: 1; }
+  .sp-kicker, .sp-head { opacity: 1; transform: none; }
   .sp-coupon { clip-path: inset(0 0 0 0); transform: none; }
-  .sp-burst { display: none; }
+  .sp-rain-storm { opacity: 0; }
+  .sp-rain-calm { opacity: .34; }
   .sp-num { opacity: 1; transform: none; }
   .sp-hrule { width: 100%; }
   .sp-meta::before { opacity: 1; }
   .sp-hair { height: calc(17px * var(--s)); }
-  .sp-lockup { transform: none; }
-  .sp-partner, .sp-cn { transform: none; }
   .sp-rain-col { transform: translateY(-25%); }
   .sp-caret { display: none; }
 }
