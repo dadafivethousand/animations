@@ -40,7 +40,12 @@
   --ink-soft: #8b8680;
   --hair:    #e2ded8;
 
-  --s: .68;
+  /* Up from .68. The pooled terms and the event line are gone, which gave
+     roughly 130px of the column back, and the right thing to spend it on is
+     the two numbers — they are the whole ad now. Not higher: at ~515px of
+     content there is still ~114px of clear scene above and below, and that
+     margin is the point of the guard. */
+  --s: .86;
 
   /* 72vw is 281px on a 390px phone against 300px of usable width inside the
      guard. Wider than the boxed version could be, because without a card there
@@ -240,32 +245,10 @@
   color: var(--hair);
 }
 
-/* ---------- terms and the event line ---------------------------------- */
-
-.sp-terms {
-  margin-top: calc(var(--nw) * .095);
-  padding-top: calc(var(--nw) * .05);
-  border-top: 1px solid var(--hair);
-  width: 100%;
-  font-size: calc(clamp(8px, 2.5vw, 10.5px) * var(--s));
-  font-weight: 400;
-  line-height: 1.65;
-  letter-spacing: .03em;
-  color: var(--ink-soft);
-  opacity: 0;
-}
-
-.sp-event {
-  margin-top: calc(var(--nw) * .038);
-  font-size: calc(clamp(8px, 2.5vw, 10.5px) * var(--s));
-  font-weight: 700;
-  line-height: 1.5;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--red);
-  text-indent: .1em;
-  opacity: 0;
-}
+/* The pooled terms block and the Tech Talk line lived here. Both are gone —
+   neither was a promotion, and the conditions a customer actually needs are
+   inside .sp-meta on the offer they belong to. The hairline that separated
+   them went with them, which is the last border on the page. */
 
 /* ============================================================
    phases
@@ -275,48 +258,39 @@
    ============================================================ */
 
 /* p1 — the marks resolve */
-.sp-p1 .sp-lockup, .sp-p2 .sp-lockup, .sp-p3 .sp-lockup, .sp-p4 .sp-lockup {
+.sp-p1 .sp-lockup, .sp-p2 .sp-lockup, .sp-p3 .sp-lockup {
   animation: spFade 520ms ease-out both;
 }
 
-.sp-p1 .sp-eyebrow, .sp-p2 .sp-eyebrow, .sp-p3 .sp-eyebrow, .sp-p4 .sp-eyebrow {
+.sp-p1 .sp-eyebrow, .sp-p2 .sp-eyebrow, .sp-p3 .sp-eyebrow {
   animation: spFade 420ms ease-out 240ms both;
 }
 
-/* p2 — the first offer. p3 — the second. One rule set, gated on the index. */
+/* p2 — the first offer. p3 — the second. One rule set, gated on position. */
 .sp-p2 .sp-offer:nth-child(1) .sp-rule,
-.sp-p3 .sp-offer .sp-rule,
-.sp-p4 .sp-offer .sp-rule {
+.sp-p3 .sp-offer .sp-rule {
   animation: spDraw 520ms cubic-bezier(.65, 0, .25, 1) both;
 }
 
 .sp-p2 .sp-offer:nth-child(1) .sp-who,
-.sp-p3 .sp-offer .sp-who,
-.sp-p4 .sp-offer .sp-who {
+.sp-p3 .sp-offer .sp-who {
   animation: spRise 480ms cubic-bezier(.16, 1, .3, 1) 120ms both;
 }
 
 .sp-p2 .sp-offer:nth-child(1) .sp-amount,
-.sp-p3 .sp-offer .sp-amount,
-.sp-p4 .sp-offer .sp-amount {
+.sp-p3 .sp-offer .sp-amount {
   animation: spWipe 620ms cubic-bezier(.22, .74, .28, 1) 220ms both;
 }
 
 .sp-p2 .sp-offer:nth-child(1) .sp-what,
-.sp-p3 .sp-offer .sp-what,
-.sp-p4 .sp-offer .sp-what {
+.sp-p3 .sp-offer .sp-what {
   animation: spWipe 480ms cubic-bezier(.22, .74, .28, 1) 420ms both;
 }
 
 .sp-p2 .sp-offer:nth-child(1) .sp-meta,
-.sp-p3 .sp-offer .sp-meta,
-.sp-p4 .sp-offer .sp-meta {
+.sp-p3 .sp-offer .sp-meta {
   animation: spFade 420ms ease-out 560ms both;
 }
-
-/* p4 — the terms and the event line */
-.sp-p4 .sp-terms { animation: spFade 460ms ease-out both; }
-.sp-p4 .sp-event { animation: spFade 460ms ease-out 180ms both; }
 
 /* ============================================================
    keyframes
@@ -355,9 +329,7 @@
   .sp-rule { transform: scaleX(1); }
   .sp-lockup,
   .sp-eyebrow,
-  .sp-meta,
-  .sp-terms,
-  .sp-event { opacity: 1; }
+  .sp-meta { opacity: 1; }
   .sp-who { opacity: 1; transform: none; }
   .sp-amount,
   .sp-what { clip-path: inset(0 0 0 0); }

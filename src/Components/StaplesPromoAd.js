@@ -14,11 +14,10 @@
 // Beat sheet (plays once, then holds the final frame):
 //   p1  the two marks resolve either side of the hairline
 //   p2  the first offer's rule draws and its block wipes up
-//   p3  the second offer follows it
-//   p4  the terms and the event line fade up
+//   p3  the second offer follows it, and that is the whole ad
 //
 // JS owns the phase integer and nothing else; every movement is CSS keyed off
-// .sp-p0..p4.
+// .sp-p0..p3.
 import React from "react";
 import "../Stylesheets/StaplesPromoAd.css";
 
@@ -60,7 +59,7 @@ const OFFERS = [
   },
 ];
 
-const CUES = [240, 1020, 1900, 2760];
+const CUES = [240, 1020, 1900];
 
 export default function StaplesPromoAd() {
   const [phase, setPhase] = React.useState(0);
@@ -123,18 +122,13 @@ export default function StaplesPromoAd() {
           ))}
         </div>
 
-        {/* Set as terms rather than as fine print to be hidden — an official
-            notice is one that tells you the conditions. The MyStudio rollout
-            is centre-side operations and stays off the ad. */}
-        <div className="sp-terms">
-          The $50 offer is for new members only · One redemption per customer
-          per 3-month period · Neither offer combines with any other promotion
-          or discount
-        </div>
-
-        <div className="sp-event">
-          Tech Talk with Sharmila · Staples Corktown · August&nbsp;19
-        </div>
+        {/* Nothing follows the two offers. The pooled terms block and the Tech
+            Talk line are gone: neither was a promotion, both were competing
+            for the room the amounts wanted, and the conditions that actually
+            matter to a customer already sit inside the offer they belong to.
+            What is left off the ad entirely — new-members-only, one per
+            customer per 3-month period, no stacking, the MyStudio rollout — is
+            front-desk business and is in the SOP where staff will look. */}
       </div>
     </div>
   );
