@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./MonsterSchedule.css";
-import schedule from "../../Schedule"; // Assuming schedule data exists
+import schedule from "../../RhSchedule"; // Assuming schedule data exists
 import monster from '../../Images/Used/monsterlogo.png'
 
 function MonsterSchedule({ day, animationDelay = 4500, animationInterval = 250 }) {
@@ -10,7 +10,7 @@ function MonsterSchedule({ day, animationDelay = 4500, animationInterval = 250 }
      const [moveDown, setMoveDown] = useState(false)
  
         const [showText, setShowText] = useState(false);
-        const text = 'oodbridge Code Ninjas'
+        const text = 'onday'
  
 
 
