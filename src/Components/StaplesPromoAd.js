@@ -96,11 +96,17 @@ const BLOCKS = [0, 1].map((z) => SCRIPT.filter((l) => l.z === z));
 
 // The opening, in one timeline.
 //
-// The two marks fly in from opposite edges, meet in the middle of an empty
-// desk, and the voucher grows out of the line where they met — up and down at
-// once, so the paper reads as coming OUT of the collision rather than sliding
-// in behind it. The fly-in itself is a CSS animation on a fixed delay, so JS
-// only carries the one beat it cannot know: the moment of contact.
+// SCENE ONE IS THE TWO MARKS AND NOTHING ELSE. They fly in from opposite edges
+// of an empty desk and meet in the middle of the frame, half again as big as
+// they will end up. There is no voucher yet, no kicker, no divider — the frame
+// holds two logos.
+//
+// The collision is the morph. The paper opens out of the exact line where they
+// met, up and down at once, while the pair travels up into the letterhead and
+// settles to size: the marks BECOME the letterhead rather than having been
+// sitting in it all along. The fly-in itself is a CSS animation on a fixed
+// delay, so JS only carries the one beat it cannot know: the moment of
+// contact.
 //
 // HIT is when they touch. Everything the collision causes — the divider being
 // struck between them, the marks settling out of their approach scale, the
@@ -176,9 +182,6 @@ export default function StaplesPromoAd() {
           <div className="sp-head">
             <div className="sp-kicker">PARTNER OFFER</div>
             <div className="sp-lockup">
-              {/* the contact itself */}
-              <span className="sp-clash" aria-hidden />
-
               <div className="sp-partner">
                 {USE_LOGO ? (
                   <img className="sp-partner-img" src={staplesLogo} alt="Staples" />
@@ -234,6 +237,10 @@ export default function StaplesPromoAd() {
           </div>
           <div className="sp-foot">CODE NINJAS WOODBRIDGE</div>
         </div>
+
+        {/* The contact, pinned to the middle of the card — where the two marks
+            meet, and where the paper opens from. */}
+        <span className="sp-clash" aria-hidden />
       </div>
 
       {/* Over everything, so the desk under the voucher can stay a flat colour

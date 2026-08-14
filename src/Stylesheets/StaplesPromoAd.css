@@ -127,7 +127,10 @@
   transition: clip-path 660ms cubic-bezier(.2, .86, .26, 1);
 }
 .sp-stage:not(.is-hit) .sp-stock {
-  clip-path: inset(12.8% 0 87.2% 0);
+  /* a zero-height line across the MIDDLE of the voucher, which is where the
+     two marks meet — the paper opens from exactly the point of contact, in
+     both directions at once */
+  clip-path: inset(50% 0 50% 0);
 }
 
 /* Everything printed sits above the stock. Positioned elements paint after
@@ -148,7 +151,7 @@
 
 .sp-kicker {
   opacity: 1;
-  transition: opacity 420ms 200ms ease;
+  transition: opacity 420ms 380ms ease;
   font-size: calc(8.5px * var(--s));
   font-weight: 700;
   letter-spacing: .3em;
@@ -190,16 +193,43 @@
   --wordline: calc(var(--cn-w) * .1698);
 }
 
+/* ── scene one ────────────────────────────────────────────────────────────
+
+   Before contact the frame holds nothing but the two marks, met in the middle
+   of an empty desk. So the lockup starts life at the CENTRE OF THE FRAME and
+   half again as big, and the collision is the moment it travels up into the
+   letterhead and settles to size — the marks become the letterhead rather than
+   having been sitting in it all along, which is what the first pass did.
+
+   The lift is the distance between those two homes: the voucher is centred in
+   the frame, so its middle IS the frame's middle, and the lockup's resting
+   centre sits 26px of padding + 22px of kicker + half its own 48px height =
+   72px below the voucher's top. Against a 565px voucher that is 283 - 72 =
+   211px of travel. Measured, not guessed — and re-measure if the block ever
+   changes height.
+
+   1.5 rather than anything bigger: the pair is 189px wide set, so 1.5 puts it
+   at 283px inside a 300px guard. At 1.75 it would be 331px and the first
+   scene — the one frame with nothing else in it — would be the one thing in
+   the ad that breaks the crop rule.
+
+   The paper opens from this same line, so the two are one gesture. */
+.sp-stage:not(.is-hit) .sp-lockup {
+  transform: translateY(calc(211px * var(--s))) scale(1.5);
+}
+.sp-lockup {
+  transform: none;
+  transition: transform 720ms cubic-bezier(.22, .92, .24, 1);
+}
+
 /* The stand-in. Set in Inter rather than the page's mono: the letterhead is
    the one thing here that is NOT typed, and a mono "STAPLES" reads as another
    line of the notice rather than as a mark. Correct in colour and weight, but
    these are not their letterforms — see the swap point in the component. */
 .sp-partner-type {
   display: block;
-  /* the drop onto the wordmark's line, and the approach scale it settles out
-     of when the marks meet */
-  transform: translateY(var(--wordline)) scale(1.22);
-  transition: transform 620ms cubic-bezier(.2, 1.14, .32, 1);
+  /* the drop onto the wordmark's line */
+  transform: translateY(var(--wordline));
   font-family: Inter, system-ui, -apple-system, sans-serif;
   font-size: calc(18px * var(--s));
   font-weight: 800;
@@ -212,12 +242,7 @@
   display: block;
   width: calc(84px * var(--s));
   height: auto;
-  transform: translateY(var(--wordline)) scale(1.22);
-  transition: transform 620ms cubic-bezier(.2, 1.14, .32, 1);
-}
-.is-hit .sp-partner-type,
-.is-hit .sp-partner-img {
-  transform: translateY(var(--wordline)) scale(1);
+  transform: translateY(var(--wordline));
 }
 
 /* Struck between them ON CONTACT, from nothing, on the wordmark's line. */
@@ -236,37 +261,42 @@
   display: block;
   width: 100%;
   height: auto;
-  transform: scale(1.22);
-  transition: transform 620ms cubic-bezier(.2, 1.14, .32, 1);
   /* The source is an opaque white-background PNG. On white stock multiply
      drops the background out exactly and costs nothing. */
   mix-blend-mode: multiply;
 }
-.is-hit .sp-cn img { transform: scale(1); }
-
 /* ── the approach ─────────────────────────────────────────────────────────
    Each mark flies in from its own edge. This is an animation rather than a
    transition on a class, and deliberately: the resting state of both marks is
    then the plain untransformed one, so killing animations for reduced motion
-   leaves them exactly where they belong instead of stranded off-screen. 78vw
-   clears the frame from a centred lockup on any phone. */
+   leaves them exactly where they belong instead of stranded off-screen.
+
+   52vw, not more: this translate happens INSIDE a lockup that is itself scaled
+   1.5 in scene one, so the distance a viewer sees is 78vw. Enough to clear the
+   frame from the centre on any phone, and no further — the same duration over
+   a longer run just makes the marks arrive faster than they settle. */
 .sp-partner { animation: spFlyL 660ms 120ms cubic-bezier(.22, .72, .2, 1) both; }
 .sp-cn      { animation: spFlyR 660ms 120ms cubic-bezier(.22, .72, .2, 1) both; }
 
 /* The contact. A ring, not a white flash: on paper a white bloom is invisible,
    and this ad has one colour to spend. */
+/* Pinned to the middle of the card — which is the middle of the frame, and so
+   the point of contact. It used to live inside the lockup, and rode the lockup
+   up into the letterhead while it was still expanding: a shockwave that
+   shrinks and walks off is not a shockwave. */
 .sp-clash {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: calc(46px * var(--s));
-  height: calc(46px * var(--s));
-  margin: calc(-23px * var(--s)) 0 0 calc(-23px * var(--s));
+  width: calc(60px * var(--s));
+  height: calc(60px * var(--s));
+  margin: calc(-30px * var(--s)) 0 0 calc(-30px * var(--s));
   border-radius: 50%;
   border: 2px solid rgba(204, 0, 0, .55);
   opacity: 0;
   pointer-events: none;
-  transform: translateY(var(--wordline)) scale(.3);
+  z-index: 3;
+  transform: scale(.3);
 }
 .is-hit .sp-clash { animation: spClash 620ms cubic-bezier(.16, .9, .3, 1) both; }
 
@@ -523,19 +553,19 @@
 }
 
 @keyframes spFlyL {
-  from { transform: translateX(-78vw); }
+  from { transform: translateX(-52vw); }
   to   { transform: none; }
 }
 @keyframes spFlyR {
-  from { transform: translateX(78vw); }
+  from { transform: translateX(52vw); }
   to   { transform: none; }
 }
 
 /* One ring out of the point of contact. */
 @keyframes spClash {
-  0%   { opacity: 0; transform: translateY(var(--wordline)) scale(.3); }
+  0%   { opacity: 0; transform: scale(.3); }
   14%  { opacity: .9; }
-  100% { opacity: 0; transform: translateY(var(--wordline)) scale(3.4); border-width: 1px; }
+  100% { opacity: 0; transform: scale(3.6); border-width: 1px; }
 }
 
 /* ============================================================
@@ -564,6 +594,7 @@
   .sp-cn img { transform: none; }
   .sp-partner-type,
   .sp-partner-img { transform: translateY(var(--wordline)); }
+  .sp-lockup { transform: none; }
   .sp-num { opacity: 1; transform: none; }
   .sp-hrule { width: 100%; }
   .sp-meta::before { opacity: 1; }
