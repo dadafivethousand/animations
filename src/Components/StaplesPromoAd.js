@@ -1,31 +1,24 @@
-// StaplesPromoAd.jsx — the national Staples offer, as a co-branded notice.
+// StaplesPromoAd.jsx — the Staples partnership, both directions.
 //
-// Three zones, the way a real piece of corporate communication is built: a red
-// masthead that says what this is, a white body that carries the offer and how
-// to claim it, and a grey footer that carries the conditions. A reader who
-// stops after the masthead knows the category; one who stops after the body
-// knows what to do; the footer is there for the one who checks. That hierarchy
-// is what makes something look official — not ornament.
+// It is two offers, not one, and they point opposite ways: a Staples customer
+// gets $50 off joining Code Ninjas, and a Code Ninjas family gets $20 off
+// shopping at Staples. That is the whole idea of the partnership and the
+// earlier builds only carried half of it. So the ad is two blocks, labelled by
+// who each one is for, because a reader sorts themselves in about a second if
+// you let them and never if you don't.
 //
-// The earlier build was one flat column of centred lines with no zones and no
-// steps, so every line had equal weight and the offer read as a poster. This
-// carries the whole mechanic: what to spend, what to bring, what you get.
-//
-// Code Ninjas is the sender and Staples is the partner. That is the honest
-// arrangement and the useful one: the centre is what a reader has to walk into
-// to redeem this. The marks lock up on white rather than on the red band —
-// cn-woodbridge-logo.png has no light-on-dark variant, and the documented foil
-// (grayscale + invert) is a compromise worth avoiding when white is available.
+// Flat white. No card, no border, no band, no grey desk — the composition sits
+// directly on the scene. Nothing is boxed, so the only structure is type,
+// rules and space, which is also the most official a thing can look.
 //
 // Beat sheet (plays once, then holds the final frame):
-//   p1  the sheet rises in and the red masthead wipes across it
-//   p2  the two marks resolve either side of the hairline
-//   p3  the offer wipes up, line by line
-//   p4  the three steps rise in sequence
-//   p5  the footer band fills and the terms fade up
+//   p1  the two marks resolve either side of the hairline
+//   p2  the first offer's rule draws and its block wipes up
+//   p3  the second offer follows it
+//   p4  the terms and the event line fade up
 //
 // JS owns the phase integer and nothing else; every movement is CSS keyed off
-// .sp-p0..p5.
+// .sp-p0..p4.
 import React from "react";
 import "../Stylesheets/StaplesPromoAd.css";
 
@@ -42,16 +35,32 @@ import cnLogo from "../Images/cn-woodbridge-logo.png";
 const USE_LOGO = false;
 const staplesLogo = null;
 
-// The mechanic, in the order a customer performs it. "Before tax" and "one
-// transaction" are the two conditions that actually get people turned away at
-// the desk, so they belong in the step rather than in the terms.
-const STEPS = [
-  ["Shop", "Spend $100 or more at Staples, before tax, in one transaction"],
-  ["Bring", "Take your Staples receipt to your Code Ninjas centre"],
-  ["Save", "$50 off a new 3-month membership, paid in full"],
+// Two offers, each labelled by who it is for. The audience label leads because
+// it is the only thing a reader needs in order to know which half to read.
+//
+// The $100 threshold on the first one is off the national SOP (v2), which
+// states $100+ before tax in a single transaction; the later note restating
+// this offer gives the code and the window without repeating the threshold.
+const OFFERS = [
+  {
+    who: "New to Code Ninjas",
+    amount: "$50",
+    what: "a new 3-month membership, paid in full",
+    meta: [
+      "Spend $100 or more at Staples",
+      "Code STAPLES2026",
+      "Through October 31, 2026",
+    ],
+  },
+  {
+    who: "Already a Code Ninjas family",
+    amount: "$20",
+    what: "a $75 Staples order, at any Canadian location",
+    meta: ["Through September 14, 2026"],
+  },
 ];
 
-const CUES = [240, 1120, 1660, 2560, 3480];
+const CUES = [240, 1020, 1900, 2760];
 
 export default function StaplesPromoAd() {
   const [phase, setPhase] = React.useState(0);
@@ -70,82 +79,61 @@ export default function StaplesPromoAd() {
 
   return (
     <div className={`sp-stage sp-p${phase}`}>
-      <div className="sp-wash" aria-hidden />
-      <div className="sp-vignette" aria-hidden />
-
       <div className="sp-card">
-        <div className="sp-notice">
-          {/* ── masthead ── */}
-          <div className="sp-masthead">
-            <span className="sp-masthead-fill" aria-hidden />
-            <span className="sp-masthead-text">National Partner Offer</span>
+        {/* A hairline between two marks is the standard way to say "with", and
+            it keeps either brand from looking like it owns the other. */}
+        <div className="sp-lockup">
+          <div className="sp-partner">
+            {USE_LOGO ? (
+              <img className="sp-partner-img" src={staplesLogo} alt="Staples" />
+            ) : (
+              <span className="sp-partner-type">STAPLES</span>
+            )}
           </div>
 
-          {/* ── body ── */}
-          <div className="sp-body">
-            {/* A hairline between two marks is the standard way to say "with",
-                and it keeps either brand from looking like it owns the other. */}
-            <div className="sp-lockup">
-              <div className="sp-partner">
-                {USE_LOGO ? (
-                  <img className="sp-partner-img" src={staplesLogo} alt="Staples" />
-                ) : (
-                  <span className="sp-partner-type">STAPLES</span>
-                )}
-              </div>
+          <span className="sp-hair" aria-hidden />
 
-              <span className="sp-hair" aria-hidden />
-
-              <div className="sp-cn">
-                <img src={cnLogo} alt="Code Ninjas" />
-              </div>
-            </div>
-
-            {/* One number, and everything under it is a caption to it. */}
-            <div className="sp-offer">
-              <span className="sp-amount">$50</span>
-              <span className="sp-off">OFF</span>
-            </div>
-
-            <div className="sp-what">
-              a new <strong>3-month membership</strong> at Code&nbsp;Ninjas
-            </div>
-
-            <div className="sp-steps-label">How it works</div>
-
-            <ol className="sp-steps">
-              {STEPS.map(([lead, line], i) => (
-                <li key={lead} style={{ "--i": i }}>
-                  <span className="sp-step-n" aria-hidden>
-                    {i + 1}
-                  </span>
-                  <span className="sp-step-text">
-                    <span className="sp-step-lead">{lead}</span>
-                    {line}
-                  </span>
-                </li>
-              ))}
-            </ol>
+          <div className="sp-cn">
+            <img src={cnLogo} alt="Code Ninjas" />
           </div>
+        </div>
 
-          {/* ── footer ──
-              Set as terms, not as a disclaimer to be hidden — an official
-              notice is one that tells you the conditions. All of this is off
-              the national SOP. The promo code is staff-side and stays off, as
-              do the in-store and Quebec conditions, which the SOP still lists
-              as pending. */}
-          <div className="sp-foot">
-            <span className="sp-foot-fill" aria-hidden />
-            <div className="sp-foot-text">
-              <div className="sp-terms">
-                New members only · One redemption per customer per 3-month
-                period · Cannot be combined with any other offer or discount
+        <div className="sp-eyebrow">National partnership · Canada</div>
+
+        <div className="sp-offers">
+          {OFFERS.map((o, i) => (
+            <section className="sp-offer" key={o.who} style={{ "--i": i }}>
+              <span className="sp-rule" aria-hidden />
+
+              <h2 className="sp-who">{o.who}</h2>
+
+              <div className="sp-amount">
+                <span className="sp-amount-n">{o.amount}</span>
+                <span className="sp-amount-off">OFF</span>
               </div>
-              <div className="sp-until">
-                Valid through October 31, 2026 · All Canadian Code Ninjas centres
-              </div>
-            </div>
-          </div>
+
+              <p className="sp-what">{o.what}</p>
+
+              <ul className="sp-meta">
+                {o.meta.map((m) => (
+                  <li key={m}>{m}</li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+
+        {/* Set as terms rather than as fine print to be hidden — an official
+            notice is one that tells you the conditions. The MyStudio rollout
+            is centre-side operations and stays off the ad. */}
+        <div className="sp-terms">
+          The $50 offer is for new members only · One redemption per customer
+          per 3-month period · Neither offer combines with any other promotion
+          or discount
+        </div>
+
+        <div className="sp-event">
+          Tech Talk with Sharmila · Staples Corktown · August&nbsp;19
         </div>
       </div>
     </div>

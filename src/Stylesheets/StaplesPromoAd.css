@@ -1,59 +1,52 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
 
 /* ============================================================
-   StaplesPromoAd — the national Staples offer, as a co-branded notice.
+   StaplesPromoAd — the Staples partnership, both directions.
 
-   Three zones, the way a real piece of corporate communication is built: a red
-   masthead saying what this is, a white body carrying the offer and how to
-   claim it, a grey footer carrying the conditions. Stop after the masthead and
-   you know the category; stop after the body and you know what to do; the
-   footer is for the reader who checks. That hierarchy is what makes something
-   look official. Ornament is what makes it look like it is pretending to be.
+   Flat white. No card, no border, no band, no grey desk, no vignette: the
+   composition sits directly on the scene and nothing is boxed. The only
+   structure left is type, rules and space — which is also the most official a
+   thing can look, and the reason the earlier boxed version read as a coupon.
 
-   The previous build was one flat column of centred lines: same weight
-   everywhere, no zones, no mechanic. It read as a poster with small print.
+   It is two offers pointing opposite ways: a Staples customer gets $50 off
+   joining Code Ninjas, a Code Ninjas family gets $20 off shopping at Staples.
+   Each block leads with who it is for, because a reader sorts themselves in
+   about a second if you let them and never if you don't.
 
-   Officialness is otherwise restraint. Three type sizes doing the work, one
-   centre line, generous air, and no ornament that is not a rule or a band. The
-   motion follows — things wipe, draw and fade, nothing overshoots, because
-   official things do not bounce.
-
-   It still reads as its own post on the grid: the navy/cyan drops are dark and
-   the Google-sheet ads are near-white with four-colour ambient; this is a warm
-   grey desk with a white document on it and exactly one saturated colour.
+   Red is the only colour in the frame, and it is spent on exactly three
+   things: the two amounts, the rule over each block, and the partner mark.
+   Everything else is ink or grey. On a white scene that restraint is what
+   keeps it from looking like a flyer.
 
    Three knobs run the frame:
      --s                  every typographic size
-     --nw                 the notice, and everything measured against it
+     --nw                 the column, and everything measured against it
      --safe-x / --safe-y  the crop guard the whole composition is centred in
 
    Portrait phone only (~390x844). Safe margins honoured: the card is inset by
-   the guard and the notice is centred inside it, so the leftover space is crop
+   the guard and the column is centred inside it, so the leftover space is crop
    margin split evenly rather than a stretched gap.
    ============================================================ */
 
 .sp-stage {
   /* Staples red. Deeper than Code Ninjas' #e4002b, and both are in frame —
-     this one on the masthead and the number, the brand red on the mark. Close
-     enough to read as one colour story, far enough apart that neither looks
-     like a bad print of the other. */
+     this one on the amounts and rules, the brand red on the mark. Close enough
+     to read as one colour story, far enough apart that neither looks like a
+     bad print of the other. */
   --red:    #cc0000;
-  --red-dk: #a30000;
 
-  --sheet:  #ffffff;
-  --band:   #f4f2ee;
-  --ground: #e9e6e1;
-  --ink:    #1c1b19;
-  --ink-mid: #55524c;
-  --ink-soft: #8d8880;
-  --hair:   #dedad3;
+  --ink:     #171614;
+  --ink-mid: #4f4c47;
+  --ink-soft: #8b8680;
+  --hair:    #e2ded8;
 
-  --s: .70;
+  --s: .68;
 
-  /* 66vw leaves ~66px either side of a 390px phone before the guard is even
-     considered. Everything inside the notice is measured against this, so the
-     document rescales from one number. */
-  --nw: 66vw;
+  /* 72vw is 281px on a 390px phone against 300px of usable width inside the
+     guard. Wider than the boxed version could be, because without a card there
+     is no padding to pay for. Everything is measured against it, so the column
+     rescales from one number. */
+  --nw: 72vw;
 
   /* The crop guard. The ad is screen-recorded and re-fit before it reaches IG,
      so the edges go missing by an amount nobody knows in advance. The px
@@ -65,98 +58,28 @@
   position: fixed;
   inset: 0;
   overflow: hidden;
-  background: var(--ground);
+  background: #fff;
   color: var(--ink);
   font-family: "Roboto", system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
-/* ---------- the desk ------------------------------------------------- */
+/* ---------- the column ------------------------------------------------ */
 
-/* One red light from the upper left and a neutral one opposite. Two sources
-   rather than four: the Google ads own the four-colour look, and a document
-   under a single source is what makes a flat sheet read as a surface with a
-   picture taken of it. */
-.sp-wash {
-  position: absolute;
-  inset: -14%;
-  background:
-    radial-gradient(44% 30% at 16% 10%, rgba(204, 0, 0, .12), transparent 72%),
-    radial-gradient(46% 32% at 86% 88%, rgba(120, 116, 108, .16), transparent 74%);
-  filter: blur(8px);
-}
-
-.sp-vignette {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(122% 82% at 50% 44%, transparent 48%, rgba(28, 27, 25, .16) 100%);
-}
-
-/* ---------- the card ------------------------------------------------- */
-
+/* One centred block. Nothing gets flex:1 — the free space belongs outside the
+   composition as crop margin, split evenly, not inside it as a gap that pushes
+   the first line and the last onto the safe lines. */
 .sp-card {
   position: absolute;
   inset: var(--safe-y) var(--safe-x);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
 }
 
-/* Square corners. A rounded card is an app surface; a notice is a sheet of
-   paper and paper has corners. */
-.sp-notice {
-  position: relative;
-  width: var(--nw);
-  background: var(--sheet);
-  overflow: hidden;
-  box-shadow:
-    0 calc(var(--nw) * .006) calc(var(--nw) * .014) rgba(28, 27, 25, .10),
-    0 calc(var(--nw) * .035) calc(var(--nw) * .07)  rgba(28, 27, 25, .13);
-  opacity: 0;
-  transform: translateY(calc(var(--nw) * .045));
-}
-
-/* ---------- masthead --------------------------------------------------- */
-
-/* The fill is a separate layer from the label so the band can wipe across
-   while the text simply fades — a scaleX on the band itself would squash the
-   type inside it. */
-.sp-masthead {
-  position: relative;
-  padding: calc(var(--nw) * .042) calc(var(--nw) * .06);
-  overflow: hidden;
-}
-
-.sp-masthead-fill {
-  position: absolute;
-  inset: 0;
-  background: var(--red);
-  transform: scaleX(0);
-  transform-origin: 0 50%;
-}
-
-.sp-masthead-text {
-  position: relative;
-  display: block;
-  font-size: calc(clamp(9px, 2.9vw, 12px) * var(--s));
-  font-weight: 700;
-  letter-spacing: .26em;
-  text-transform: uppercase;
-  color: #fff;
-  line-height: 1;
-  /* Tracking lands after the last letter too, so a centred line sits a quarter
-     of an em left of true centre. */
-  text-indent: .26em;
-  opacity: 0;
-}
-
-/* ---------- body ------------------------------------------------------- */
-
-.sp-body {
-  padding: calc(var(--nw) * .085) calc(var(--nw) * .075) calc(var(--nw) * .075);
-}
+/* ---------- the lockup ------------------------------------------------ */
 
 .sp-lockup {
   display: flex;
@@ -176,82 +99,36 @@
   letter-spacing: .1em;
   color: var(--red);
   line-height: 1;
+  /* Tracking lands after the last letter too, so a centred word sits a tenth
+     of an em left of true centre. */
   text-indent: .1em;
 }
 
 .sp-partner-img {
   display: block;
-  width: calc(var(--nw) * .28);
+  width: calc(var(--nw) * .26);
   height: auto;
 }
 
 .sp-hair {
   width: 1px;
-  height: calc(var(--nw) * .065);
+  height: calc(var(--nw) * .06);
   background: var(--hair);
 }
 
-.sp-cn { width: calc(var(--nw) * .30); }
+.sp-cn { width: calc(var(--nw) * .28); }
 
 .sp-cn img {
   display: block;
   width: 100%;
   height: auto;
-  /* The source is an opaque white-background PNG. On the white sheet multiply
-     drops the background out cleanly and costs nothing. */
+  /* The source is an opaque white-background PNG. On a white scene multiply
+     drops the background out exactly and costs nothing. */
   mix-blend-mode: multiply;
 }
 
-/* ---------- the offer -------------------------------------------------- */
-
-/* One number, and everything under it is a caption to it. The wipe is a
-   clip-path rather than an opacity fade so the line arrives as something
-   uncovered rather than something switched on. */
-.sp-offer {
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: calc(var(--nw) * .026);
-  margin-top: calc(var(--nw) * .075);
-  color: var(--red);
-  clip-path: inset(0 0 100% 0);
-}
-
-.sp-amount {
-  font-size: calc(clamp(50px, 16vw, 74px) * var(--s));
-  font-weight: 900;
-  line-height: .88;
-  letter-spacing: -.025em;
-}
-
-.sp-off {
-  font-size: calc(clamp(17px, 5.2vw, 25px) * var(--s));
-  font-weight: 900;
-  line-height: 1;
-  letter-spacing: .18em;
-  text-indent: .18em;
-}
-
-.sp-what {
-  margin-top: calc(var(--nw) * .04);
-  font-size: calc(clamp(12px, 3.7vw, 16px) * var(--s));
-  font-weight: 400;
-  line-height: 1.45;
-  color: var(--ink-mid);
-  clip-path: inset(0 0 100% 0);
-}
-
-.sp-what strong { font-weight: 700; color: var(--ink); }
-
-/* ---------- how it works ----------------------------------------------- */
-
-/* A tracked label over a rule, which is how a section head is set in print and
-   the cheapest possible way to make a block read as a section rather than as
-   more copy. */
-.sp-steps-label {
-  position: relative;
-  margin-top: calc(var(--nw) * .085);
-  padding-top: calc(var(--nw) * .055);
+.sp-eyebrow {
+  margin-top: calc(var(--nw) * .05);
   font-size: calc(clamp(8.5px, 2.7vw, 11px) * var(--s));
   font-weight: 700;
   letter-spacing: .24em;
@@ -261,173 +138,189 @@
   opacity: 0;
 }
 
-.sp-steps-label::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: var(--hair);
+/* ---------- the two offers -------------------------------------------- */
+
+.sp-offers {
+  width: 100%;
+  margin-top: calc(var(--nw) * .085);
 }
 
-/* Left-aligned inside a centred block. Three steps centred would put every
-   line on a different axis and the numbers would stop being a column, which is
-   the one thing making this read as a sequence. */
-.sp-steps {
-  list-style: none;
-  margin: calc(var(--nw) * .05) 0 0;
-  padding: 0;
-  text-align: left;
+.sp-offer + .sp-offer { margin-top: calc(var(--nw) * .085); }
+
+/* A short red rule over each block, drawn from the left. It is the only
+   divider on the page and it is doing two jobs: separating the offers, and
+   marking each one as a thing that starts here. */
+.sp-rule {
+  display: block;
+  width: calc(var(--nw) * .17);
+  height: calc(var(--nw) * .011);
+  margin: 0 auto calc(var(--nw) * .05);
+  background: var(--red);
+  transform: scaleX(0);
 }
 
-.sp-steps li {
-  display: flex;
-  align-items: flex-start;
-  gap: calc(var(--nw) * .04);
+/* The audience label leads the block. Set at body size in the heavy weight
+   rather than large — it is a signpost, and a signpost that competes with the
+   number under it stops being one. */
+.sp-who {
+  margin: 0;
+  /* Hidden in the base state like every other part of a block. Without this
+     the second offer's label is the one thing on the page visible from frame
+     one, sitting alone over an empty gap until its phase arrives. */
   opacity: 0;
-  transform: translateY(calc(var(--nw) * .03));
+  font-size: calc(clamp(11px, 3.4vw, 14.5px) * var(--s));
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--ink);
+  line-height: 1.3;
+  text-indent: .09em;
 }
 
-.sp-steps li + li { margin-top: calc(var(--nw) * .038); }
-
-/* The disc is sized in ems off its own font-size so the number always sits
-   centred in it regardless of what --s does. */
-.sp-step-n {
-  flex: none;
+.sp-amount {
   display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: calc(var(--nw) * .024);
+  margin-top: calc(var(--nw) * .035);
+  color: var(--red);
+  /* A wipe rather than a fade, so the number arrives as something uncovered
+     rather than something switched on. */
+  clip-path: inset(0 0 100% 0);
+}
+
+.sp-amount-n {
+  font-size: calc(clamp(44px, 14.5vw, 68px) * var(--s));
+  font-weight: 900;
+  line-height: .88;
+  letter-spacing: -.025em;
+}
+
+.sp-amount-off {
+  font-size: calc(clamp(15px, 4.8vw, 22px) * var(--s));
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: .18em;
+  text-indent: .18em;
+}
+
+.sp-what {
+  margin: calc(var(--nw) * .03) 0 0;
+  font-size: calc(clamp(11.5px, 3.6vw, 15px) * var(--s));
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--ink-mid);
+  clip-path: inset(0 0 100% 0);
+}
+
+/* The conditions that belong to this offer specifically — threshold, code,
+   window — kept with it rather than pooled into the terms at the foot, where
+   a reader would have to work out which of two offers each line applies to.
+   Middots between them, wrapping as they need to. */
+.sp-meta {
+  list-style: none;
+  margin: calc(var(--nw) * .03) 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  width: 1.85em;
-  height: 1.85em;
-  border-radius: 50%;
-  background: var(--red);
-  color: #fff;
-  font-size: calc(clamp(9px, 2.9vw, 12px) * var(--s));
-  font-weight: 700;
-  line-height: 1;
-  /* Nudged down so the disc centres against the cap height of the text beside
-     it rather than against its line box. */
-  margin-top: .15em;
-}
-
-.sp-step-text {
-  font-size: calc(clamp(10.5px, 3.3vw, 14px) * var(--s));
-  font-weight: 400;
-  line-height: 1.42;
-  color: var(--ink-mid);
-}
-
-.sp-step-lead {
-  display: block;
-  font-weight: 700;
-  color: var(--ink);
-  letter-spacing: .01em;
-}
-
-/* ---------- footer ----------------------------------------------------- */
-
-/* Same construction as the masthead: the fill wipes, the text fades, so the
-   type is never scaled by the band arriving under it. */
-.sp-foot {
-  position: relative;
-  padding: calc(var(--nw) * .055) calc(var(--nw) * .075);
-  overflow: hidden;
-}
-
-.sp-foot-fill {
-  position: absolute;
-  inset: 0;
-  background: var(--band);
-  border-top: 1px solid var(--hair);
-  transform: scaleX(0);
-  transform-origin: 0 50%;
-}
-
-.sp-foot-text {
-  position: relative;
+  font-size: calc(clamp(8.5px, 2.7vw, 11px) * var(--s));
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
   opacity: 0;
 }
 
-.sp-terms {
-  font-size: calc(clamp(8px, 2.5vw, 10.5px) * var(--s));
-  font-weight: 400;
-  line-height: 1.6;
-  letter-spacing: .03em;
-  color: var(--ink-soft);
+.sp-meta li + li::before {
+  content: "·";
+  margin: 0 calc(var(--nw) * .022);
+  color: var(--hair);
 }
 
-.sp-until {
-  margin-top: calc(var(--nw) * .028);
+/* ---------- terms and the event line ---------------------------------- */
+
+.sp-terms {
+  margin-top: calc(var(--nw) * .095);
+  padding-top: calc(var(--nw) * .05);
+  border-top: 1px solid var(--hair);
+  width: 100%;
+  font-size: calc(clamp(8px, 2.5vw, 10.5px) * var(--s));
+  font-weight: 400;
+  line-height: 1.65;
+  letter-spacing: .03em;
+  color: var(--ink-soft);
+  opacity: 0;
+}
+
+.sp-event {
+  margin-top: calc(var(--nw) * .038);
   font-size: calc(clamp(8px, 2.5vw, 10.5px) * var(--s));
   font-weight: 700;
   line-height: 1.5;
-  letter-spacing: .05em;
-  color: var(--ink-mid);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--red);
+  text-indent: .1em;
+  opacity: 0;
 }
 
 /* ============================================================
    phases
+
+   The two offers stagger off --i on the block index rather than off two
+   hand-written sets of delays, so a third offer would need no new CSS.
    ============================================================ */
 
-/* p1 — the sheet arrives and the masthead wipes across it */
-.sp-p1 .sp-notice, .sp-p2 .sp-notice, .sp-p3 .sp-notice,
-.sp-p4 .sp-notice, .sp-p5 .sp-notice {
-  animation: spSheet 720ms cubic-bezier(.16, 1, .3, 1) both;
-}
-
-.sp-p1 .sp-masthead-fill, .sp-p2 .sp-masthead-fill, .sp-p3 .sp-masthead-fill,
-.sp-p4 .sp-masthead-fill, .sp-p5 .sp-masthead-fill {
-  animation: spDraw 620ms cubic-bezier(.65, 0, .25, 1) 240ms both;
-}
-
-.sp-p1 .sp-masthead-text, .sp-p2 .sp-masthead-text, .sp-p3 .sp-masthead-text,
-.sp-p4 .sp-masthead-text, .sp-p5 .sp-masthead-text {
-  animation: spFade 380ms ease-out 640ms both;
-}
-
-/* p2 — the marks resolve */
-.sp-p2 .sp-lockup, .sp-p3 .sp-lockup, .sp-p4 .sp-lockup, .sp-p5 .sp-lockup {
+/* p1 — the marks resolve */
+.sp-p1 .sp-lockup, .sp-p2 .sp-lockup, .sp-p3 .sp-lockup, .sp-p4 .sp-lockup {
   animation: spFade 520ms ease-out both;
 }
 
-/* p3 — the offer wipes up, line by line */
-.sp-p3 .sp-offer, .sp-p4 .sp-offer, .sp-p5 .sp-offer {
-  animation: spWipe 660ms cubic-bezier(.22, .74, .28, 1) both;
+.sp-p1 .sp-eyebrow, .sp-p2 .sp-eyebrow, .sp-p3 .sp-eyebrow, .sp-p4 .sp-eyebrow {
+  animation: spFade 420ms ease-out 240ms both;
 }
 
-.sp-p3 .sp-what, .sp-p4 .sp-what, .sp-p5 .sp-what {
-  animation: spWipe 520ms cubic-bezier(.22, .74, .28, 1) 300ms both;
+/* p2 — the first offer. p3 — the second. One rule set, gated on the index. */
+.sp-p2 .sp-offer:nth-child(1) .sp-rule,
+.sp-p3 .sp-offer .sp-rule,
+.sp-p4 .sp-offer .sp-rule {
+  animation: spDraw 520ms cubic-bezier(.65, 0, .25, 1) both;
 }
 
-/* p4 — the section head, then the steps in sequence.
-   The stagger is --i off the list index rather than three hand-written
-   delays, so a fourth step would need no new CSS. */
-.sp-p4 .sp-steps-label, .sp-p5 .sp-steps-label {
-  animation: spFade 400ms ease-out both;
+.sp-p2 .sp-offer:nth-child(1) .sp-who,
+.sp-p3 .sp-offer .sp-who,
+.sp-p4 .sp-offer .sp-who {
+  animation: spRise 480ms cubic-bezier(.16, 1, .3, 1) 120ms both;
 }
 
-.sp-p4 .sp-steps li, .sp-p5 .sp-steps li {
-  animation: spRise 520ms cubic-bezier(.16, 1, .3, 1) calc(160ms + var(--i) * 130ms) both;
+.sp-p2 .sp-offer:nth-child(1) .sp-amount,
+.sp-p3 .sp-offer .sp-amount,
+.sp-p4 .sp-offer .sp-amount {
+  animation: spWipe 620ms cubic-bezier(.22, .74, .28, 1) 220ms both;
 }
 
-/* p5 — the footer band fills and the terms fade up */
-.sp-p5 .sp-foot-fill {
-  animation: spDraw 560ms cubic-bezier(.65, 0, .25, 1) both;
+.sp-p2 .sp-offer:nth-child(1) .sp-what,
+.sp-p3 .sp-offer .sp-what,
+.sp-p4 .sp-offer .sp-what {
+  animation: spWipe 480ms cubic-bezier(.22, .74, .28, 1) 420ms both;
 }
 
-.sp-p5 .sp-foot-text {
-  animation: spFade 460ms ease-out 260ms both;
+.sp-p2 .sp-offer:nth-child(1) .sp-meta,
+.sp-p3 .sp-offer .sp-meta,
+.sp-p4 .sp-offer .sp-meta {
+  animation: spFade 420ms ease-out 560ms both;
 }
+
+/* p4 — the terms and the event line */
+.sp-p4 .sp-terms { animation: spFade 460ms ease-out both; }
+.sp-p4 .sp-event { animation: spFade 460ms ease-out 180ms both; }
 
 /* ============================================================
    keyframes
    ============================================================ */
-
-@keyframes spSheet {
-  from { opacity: 0; transform: translateY(calc(var(--nw) * .045)); }
-  to   { opacity: 1; transform: none; }
-}
 
 @keyframes spDraw {
   from { transform: scaleX(0); }
@@ -440,7 +333,7 @@
 }
 
 @keyframes spRise {
-  from { opacity: 0; transform: translateY(calc(var(--nw) * .03)); }
+  from { opacity: 0; transform: translateY(calc(var(--nw) * .025)); }
   to   { opacity: 1; transform: none; }
 }
 
@@ -459,14 +352,13 @@
     animation: none !important;
     transition: none !important;
   }
-  .sp-notice { opacity: 1; transform: none; }
-  .sp-masthead-fill,
-  .sp-foot-fill { transform: scaleX(1); }
-  .sp-masthead-text,
+  .sp-rule { transform: scaleX(1); }
   .sp-lockup,
-  .sp-steps-label,
-  .sp-foot-text { opacity: 1; }
-  .sp-steps li { opacity: 1; transform: none; }
-  .sp-offer,
+  .sp-eyebrow,
+  .sp-meta,
+  .sp-terms,
+  .sp-event { opacity: 1; }
+  .sp-who { opacity: 1; transform: none; }
+  .sp-amount,
   .sp-what { clip-path: inset(0 0 0 0); }
 }
