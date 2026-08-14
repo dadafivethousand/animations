@@ -1,23 +1,30 @@
-// StaplesPromoAd.jsx — the Staples partnership, both directions.
+// StaplesPromoAd.jsx — the Staples partnership, typed out.
 //
-// It is two offers, not one, and they point opposite ways: a Staples customer
-// gets $50 off joining Code Ninjas, and a Code Ninjas family gets $20 off
-// shopping at Staples. That is the whole idea of the partnership and the
-// earlier builds only carried half of it. So the ad is two blocks, labelled by
-// who each one is for, because a reader sorts themselves in about a second if
-// you let them and never if you don't.
+// Two offers pointing opposite ways: a Staples customer gets $50 off joining
+// Code Ninjas, a Code Ninjas family gets $20 off shopping at Staples. Each
+// block leads with who it is for, because a reader sorts themselves in about a
+// second if you let them and never if you don't.
 //
-// Flat white. No card, no border, no band, no grey desk — the composition sits
-// directly on the scene. Nothing is boxed, so the only structure is type,
-// rules and space, which is also the most official a thing can look.
+// ── Typed, not laid out ──
 //
-// Beat sheet (plays once, then holds the final frame):
-//   p1  the two marks resolve either side of the hairline
-//   p2  the first offer's rule draws and its block wipes up
-//   p3  the second offer follows it, and that is the whole ad
+// The whole notice is monospace and every line of it is typed on screen, rules
+// included — a rule is a run of "=" here, which is how you drew one on a
+// typewriter and the only version of a rule that can be typed rather than
+// drawn. That is also why the copy is left-aligned inside a centred block:
+// centred monospace is a poster, left-aligned monospace is a document, and a
+// document is what this is.
 //
-// JS owns the phase integer and nothing else; every movement is CSS keyed off
-// .sp-p0..p3.
+// Line breaks are authored, not wrapped. Every string below is one line as it
+// will appear, measured to fit the column — which is the other half of setting
+// a typed page, and the reason nothing here ends in a widow.
+//
+// Speed carries the emphasis. The rules rattle out, the detail lines are brisk,
+// and the two amounts are typed slowly enough to be read as they arrive. Same
+// idea as varying weight, except this ad only has one weight to vary.
+//
+// JS owns the typewriter and nothing else. It has to: a caret that follows the
+// text needs the text to actually grow, so it cannot be a keyframe. Everything
+// else — the marks resolving, the caret itself — is CSS.
 import React from "react";
 import "../Stylesheets/StaplesPromoAd.css";
 
@@ -34,53 +41,91 @@ import cnLogo from "../Images/cn-woodbridge-logo.png";
 const USE_LOGO = false;
 const staplesLogo = null;
 
-// Two offers, each labelled by who it is for. The audience label leads because
-// it is the only thing a reader needs in order to know which half to read.
-//
-// The $100 threshold on the first one is off the national SOP (v2), which
-// states $100+ before tax in a single transaction; the later note restating
-// this offer gives the code and the window without repeating the threshold.
-const OFFERS = [
-  {
-    who: "New to Code Ninjas",
-    amount: "$50",
-    what: "a new 3-month membership, paid in full",
-    meta: [
-      "Spend $100 or more at Staples",
-      "Code STAPLES2026",
-      "Through October 31, 2026",
-    ],
-  },
-  {
-    who: "Already a Code Ninjas family",
-    amount: "$20",
-    what: "a $75 Staples order, at any Canadian location",
-    meta: ["Through September 14, 2026"],
-  },
+// 32 characters, which is the longest line in the script — a typed rule runs
+// the measure of the block it heads, never past it.
+const RULE = "=".repeat(32);
+
+// One entry per printed line.
+//   t  the line, exactly as it appears — breaks are authored, never wrapped
+//   c  what kind of line it is, for styling
+//   s  milliseconds per character
+//   a  the pause after the line lands, i.e. the carriage return
+const LINES = [
+  { t: RULE, c: "rule", s: 7, a: 90 },
+  { t: "01  NEW TO CODE NINJAS", c: "who", s: 34, a: 110 },
+  { t: RULE, c: "rule", s: 7, a: 260 },
+
+  { t: "$50 OFF", c: "amt", s: 115, a: 300 },
+  { t: "a new 3-month membership,", c: "what", s: 19, a: 60 },
+  { t: "paid in full", c: "what", s: 19, a: 240 },
+
+  { t: "· Spend $100 or more at Staples", c: "meta", s: 13, a: 90 },
+  { t: "· Code STAPLES2026", c: "meta", s: 13, a: 90 },
+  { t: "· Through October 31, 2026", c: "meta", s: 13, a: 620 },
+
+  { t: RULE, c: "rule rule--gap", s: 7, a: 90 },
+  { t: "02  ALREADY A CODE NINJAS FAMILY", c: "who", s: 34, a: 110 },
+  { t: RULE, c: "rule", s: 7, a: 260 },
+
+  { t: "$20 OFF", c: "amt", s: 115, a: 300 },
+  { t: "a $75 Staples order,", c: "what", s: 19, a: 60 },
+  { t: "at any Canadian location", c: "what", s: 19, a: 240 },
+
+  { t: "· Through September 14, 2026", c: "meta", s: 13, a: 0 },
 ];
 
-const CUES = [240, 1020, 1900];
+// The marks resolve before a key is struck.
+const OPEN = 620;
 
 export default function StaplesPromoAd() {
-  const [phase, setPhase] = React.useState(0);
+  const reduce = React.useMemo(
+    () =>
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    []
+  );
+
+  // -1 is the beat before the first key; LINES.length is the finished page.
+  const [li, setLi] = React.useState(-1);
+  const [ch, setCh] = React.useState(0);
 
   React.useEffect(() => {
-    const reduce =
-      window.matchMedia &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) {
-      setPhase(CUES.length);
+      setLi(LINES.length);
       return undefined;
     }
-    const timers = CUES.map((t, i) => setTimeout(() => setPhase(i + 1), t));
-    return () => timers.forEach(clearTimeout);
-  }, []);
+    const t = setTimeout(() => setLi(0), OPEN);
+    return () => clearTimeout(t);
+  }, [reduce]);
+
+  React.useEffect(() => {
+    if (reduce || li < 0 || li >= LINES.length) return undefined;
+    const line = LINES[li];
+
+    // Mid-line: strike the next character.
+    if (ch < line.t.length) {
+      const t = setTimeout(() => setCh((c) => c + 1), line.s);
+      return () => clearTimeout(t);
+    }
+
+    // End of line: hold, then return.
+    const t = setTimeout(() => {
+      setLi((l) => l + 1);
+      setCh(0);
+    }, line.a);
+    return () => clearTimeout(t);
+  }, [li, ch, reduce]);
+
+  const done = li >= LINES.length;
 
   return (
-    <div className={`sp-stage sp-p${phase}`}>
+    <div className={`sp-stage${done ? " sp-done" : ""}`}>
       <div className="sp-card">
         {/* A hairline between two marks is the standard way to say "with", and
-            it keeps either brand from looking like it owns the other. */}
+            it keeps either brand from looking like it owns the other. The two
+            logos are the only thing on the page that is not typed, because
+            they are pictures — everything else is struck. */}
         <div className="sp-lockup">
           <div className="sp-partner">
             {USE_LOGO ? (
@@ -97,38 +142,23 @@ export default function StaplesPromoAd() {
           </div>
         </div>
 
-        <div className="sp-eyebrow">National partnership · Canada</div>
-
-        <div className="sp-offers">
-          {OFFERS.map((o, i) => (
-            <section className="sp-offer" key={o.who} style={{ "--i": i }}>
-              <span className="sp-rule" aria-hidden />
-
-              <h2 className="sp-who">{o.who}</h2>
-
-              <div className="sp-amount">
-                <span className="sp-amount-n">{o.amount}</span>
-                <span className="sp-amount-off">OFF</span>
-              </div>
-
-              <p className="sp-what">{o.what}</p>
-
-              <ul className="sp-meta">
-                {o.meta.map((m) => (
-                  <li key={m}>{m}</li>
-                ))}
-              </ul>
-            </section>
+        {/* Every line is present from frame one as a hidden ghost holding its
+            own width and height, with the struck text laid over it. Without
+            that the block grows a line at a time and, because it is centred,
+            the whole page creeps upward on every carriage return. */}
+        <div className="sp-page">
+          {LINES.map((line, i) => (
+            <div className={`sp-line sp-${line.c}`} key={`${line.c}-${i}`}>
+              <span className="sp-ghost" aria-hidden>
+                {line.t}
+              </span>
+              <span className="sp-live">
+                {i < li ? line.t : i === li ? line.t.slice(0, ch) : ""}
+                {i === li && <i className="sp-caret" aria-hidden />}
+              </span>
+            </div>
           ))}
         </div>
-
-        {/* Nothing follows the two offers. The pooled terms block and the Tech
-            Talk line are gone: neither was a promotion, both were competing
-            for the room the amounts wanted, and the conditions that actually
-            matter to a customer already sit inside the offer they belong to.
-            What is left off the ad entirely — new-members-only, one per
-            customer per 3-month period, no stacking, the MyStudio rollout — is
-            front-desk business and is in the SOP where staff will look. */}
       </div>
     </div>
   );

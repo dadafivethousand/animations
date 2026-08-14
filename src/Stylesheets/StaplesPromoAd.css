@@ -1,22 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap');
 
 /* ============================================================
-   StaplesPromoAd — the Staples partnership, both directions.
+   StaplesPromoAd — the Staples partnership, typed out.
 
-   Flat white. No card, no border, no band, no grey desk, no vignette: the
-   composition sits directly on the scene and nothing is boxed. The only
-   structure left is type, rules and space — which is also the most official a
-   thing can look, and the reason the earlier boxed version read as a coupon.
+   Flat white, no card, no border, no band: the page sits directly on the
+   scene. The whole notice is monospace and every line of it is struck on
+   screen, rules included — a rule here is a run of "=", which is how you drew
+   one on a typewriter and the only kind of rule that can be typed rather than
+   drawn.
 
-   It is two offers pointing opposite ways: a Staples customer gets $50 off
-   joining Code Ninjas, a Code Ninjas family gets $20 off shopping at Staples.
-   Each block leads with who it is for, because a reader sorts themselves in
-   about a second if you let them and never if you don't.
+   Left-aligned inside a centred block. Centred monospace is a poster;
+   left-aligned monospace is a document, and a document is what this is. The
+   block is what gets centred in the frame, which is what the crop guard cares
+   about — the text alignment inside it is a separate question and the answer
+   is left.
 
-   Red is the only colour in the frame, and it is spent on exactly three
-   things: the two amounts, the rule over each block, and the partner mark.
-   Everything else is ink or grey. On a white scene that restraint is what
-   keeps it from looking like a flyer.
+   JetBrains Mono rather than a Courier. Courier is the more literal typewriter
+   and it collapses at display size: the amounts are the two things in this ad
+   that have to carry, and a 46px Courier "$50" is a wireframe. This is a mono
+   with an 800 weight, so the page is unmistakably typed and the numbers still
+   land. Courier Prime is a one-line swap in the @import if the literal
+   typewriter is worth the weight.
+
+   Red is spent on three things only: the two amounts, the rules, and the
+   partner mark. Everything else is ink or grey.
 
    Three knobs run the frame:
      --s                  every typographic size
@@ -24,33 +31,27 @@
      --safe-x / --safe-y  the crop guard the whole composition is centred in
 
    Portrait phone only (~390x844). Safe margins honoured: the card is inset by
-   the guard and the column is centred inside it, so the leftover space is crop
+   the guard and the page is centred inside it, so the leftover space is crop
    margin split evenly rather than a stretched gap.
    ============================================================ */
 
 .sp-stage {
   /* Staples red. Deeper than Code Ninjas' #e4002b, and both are in frame —
-     this one on the amounts and rules, the brand red on the mark. Close enough
-     to read as one colour story, far enough apart that neither looks like a
-     bad print of the other. */
+     this one on the amounts and rules, the brand red on the mark. */
   --red:    #cc0000;
 
   --ink:     #171614;
-  --ink-mid: #4f4c47;
+  --ink-mid: #4a4742;
   --ink-soft: #8b8680;
   --hair:    #e2ded8;
 
-  /* Up from .68. The pooled terms and the event line are gone, which gave
-     roughly 130px of the column back, and the right thing to spend it on is
-     the two numbers — they are the whole ad now. Not higher: at ~515px of
-     content there is still ~114px of clear scene above and below, and that
-     margin is the point of the guard. */
-  --s: .86;
+  --s: 1;
 
-  /* 72vw is 281px on a 390px phone against 300px of usable width inside the
-     guard. Wider than the boxed version could be, because without a card there
-     is no padding to pay for. Everything is measured against it, so the column
-     rescales from one number. */
+  /* The column. 72vw is 281px on a 390px phone against 300px of usable width
+     inside the guard. Monospace makes this a character count rather than a
+     guess: the longest line in the script is 32 characters, JetBrains Mono
+     advances at .6em, so the line sets at 281 / (32 × .6) = 14.6px before it
+     would touch the edge. Nothing below is set above 14. */
   --nw: 72vw;
 
   /* The crop guard. The ad is screen-recorded and re-fit before it reaches IG,
@@ -65,7 +66,7 @@
   overflow: hidden;
   background: #fff;
   color: var(--ink);
-  font-family: "Roboto", system-ui, -apple-system, sans-serif;
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -81,32 +82,35 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
 }
 
 /* ---------- the lockup ------------------------------------------------ */
 
+/* The two logos are the only thing on the page that is not typed, because they
+   are pictures. They resolve before the first key is struck. */
 .sp-lockup {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: calc(var(--nw) * .05);
-  opacity: 0;
+  margin-bottom: calc(var(--nw) * .1);
+  animation: spFade 560ms ease-out both;
 }
 
 /* The stand-in. Correct in colour and weight, tracked the way the real mark is
    tracked, but these are not their letterforms — see the swap point in the
-   component. */
+   component. Set in the mono like everything else, so until the real logo
+   lands the lockup at least belongs to the page. */
 .sp-partner-type {
   display: block;
-  font-size: calc(clamp(14px, 4.4vw, 20px) * var(--s));
-  font-weight: 900;
-  letter-spacing: .1em;
+  font-size: calc(clamp(13px, 4.1vw, 18px) * var(--s));
+  font-weight: 800;
+  letter-spacing: .06em;
   color: var(--red);
   line-height: 1;
-  /* Tracking lands after the last letter too, so a centred word sits a tenth
-     of an em left of true centre. */
-  text-indent: .1em;
+  /* Tracking lands after the last letter too, so a centred word sits a
+     sixteenth of an em left of true centre. */
+  text-indent: .06em;
 }
 
 .sp-partner-img {
@@ -132,184 +136,106 @@
   mix-blend-mode: multiply;
 }
 
-.sp-eyebrow {
-  margin-top: calc(var(--nw) * .05);
-  font-size: calc(clamp(8.5px, 2.7vw, 11px) * var(--s));
-  font-weight: 700;
-  letter-spacing: .24em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-  text-indent: .24em;
-  opacity: 0;
+/* ---------- the typed page -------------------------------------------- */
+
+.sp-page {
+  width: var(--nw);
+  text-align: left;
 }
 
-/* ---------- the two offers -------------------------------------------- */
-
-.sp-offers {
-  width: 100%;
-  margin-top: calc(var(--nw) * .085);
+/* Every line holds its own box from frame one. The ghost carries the full
+   string at visibility:hidden so the line has its true width and height before
+   a character of it exists, and the struck text is laid over it. Without that
+   the page grows a line at a time and, because the block is centred, the whole
+   thing creeps upward on every carriage return. */
+.sp-line {
+  position: relative;
+  white-space: pre;   /* runs of spaces in "01  NEW TO..." have to survive */
 }
 
-.sp-offer + .sp-offer { margin-top: calc(var(--nw) * .085); }
+.sp-ghost { visibility: hidden; }
 
-/* A short red rule over each block, drawn from the left. It is the only
-   divider on the page and it is doing two jobs: separating the offers, and
-   marking each one as a thing that starts here. */
+.sp-live {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+/* The caret is a struck block rather than a hairline — a typewriter has no
+   thin cursor, it has the next character's worth of space. .6em is JetBrains
+   Mono's advance, so it occupies exactly one cell. */
+.sp-caret {
+  display: inline-block;
+  width: .6em;
+  height: 1em;
+  vertical-align: -.16em;
+  background: currentColor;
+  opacity: .85;
+}
+
+/* Nothing blinks forever: the ad holds a still final frame, and the caret is
+   gone from it. */
+.sp-done .sp-caret { display: none; }
+
+/* ---------- the kinds of line ----------------------------------------- */
+
+/* The rule. Tight line-height so a row of "=" reads as a rule rather than as a
+   line of type that happens to be all one character. */
 .sp-rule {
-  display: block;
-  width: calc(var(--nw) * .17);
-  height: calc(var(--nw) * .011);
-  margin: 0 auto calc(var(--nw) * .05);
-  background: var(--red);
-  transform: scaleX(0);
-}
-
-/* The audience label leads the block. Set at body size in the heavy weight
-   rather than large — it is a signpost, and a signpost that competes with the
-   number under it stops being one. */
-.sp-who {
-  margin: 0;
-  /* Hidden in the base state like every other part of a block. Without this
-     the second offer's label is the one thing on the page visible from frame
-     one, sitting alone over an empty gap until its phase arrives. */
-  opacity: 0;
-  font-size: calc(clamp(11px, 3.4vw, 14.5px) * var(--s));
+  font-size: calc(clamp(10px, 3.2vw, 13.5px) * var(--s));
+  line-height: 1.15;
   font-weight: 700;
-  letter-spacing: .09em;
-  text-transform: uppercase;
-  color: var(--ink);
-  line-height: 1.3;
-  text-indent: .09em;
-}
-
-.sp-amount {
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: calc(var(--nw) * .024);
-  margin-top: calc(var(--nw) * .035);
   color: var(--red);
-  /* A wipe rather than a fade, so the number arrives as something uncovered
-     rather than something switched on. */
-  clip-path: inset(0 0 100% 0);
 }
 
-.sp-amount-n {
-  font-size: calc(clamp(44px, 14.5vw, 68px) * var(--s));
-  font-weight: 900;
-  line-height: .88;
-  letter-spacing: -.025em;
+/* The gap between the two offers, put on the second block's opening rule
+   rather than as a spacer line — a blank line in the script would be a line
+   that types nothing and pauses, which is a pause with no reason a viewer can
+   see. */
+.sp-rule--gap { margin-top: calc(var(--nw) * .105); }
+
+.sp-who {
+  font-size: calc(clamp(10px, 3.2vw, 13.5px) * var(--s));
+  line-height: 1.9;
+  font-weight: 700;
+  color: var(--ink);
 }
 
-.sp-amount-off {
-  font-size: calc(clamp(15px, 4.8vw, 22px) * var(--s));
-  font-weight: 900;
-  line-height: 1;
-  letter-spacing: .18em;
-  text-indent: .18em;
+/* The two things in the ad that have to carry. 800 rather than 700 and set
+   nearly four times the body size — in a page with one typeface and no colour
+   to spend, scale is most of the hierarchy there is. */
+.sp-amt {
+  margin-top: calc(var(--nw) * .055);
+  font-size: calc(clamp(34px, 11vw, 48px) * var(--s));
+  line-height: 1.12;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  color: var(--red);
 }
 
 .sp-what {
-  margin: calc(var(--nw) * .03) 0 0;
-  font-size: calc(clamp(11.5px, 3.6vw, 15px) * var(--s));
+  font-size: calc(clamp(10px, 3.1vw, 13px) * var(--s));
+  line-height: 1.62;
   font-weight: 400;
-  line-height: 1.45;
   color: var(--ink-mid);
-  clip-path: inset(0 0 100% 0);
 }
 
-/* The conditions that belong to this offer specifically — threshold, code,
-   window — kept with it rather than pooled into the terms at the foot, where
-   a reader would have to work out which of two offers each line applies to.
-   Middots between them, wrapping as they need to. */
+/* First of the pair only — the second line of a sentence follows straight on
+   from the first, which is what makes them read as one sentence. */
+.sp-amt + .sp-what { margin-top: calc(var(--nw) * .035); }
+
 .sp-meta {
-  list-style: none;
-  margin: calc(var(--nw) * .03) 0 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(clamp(8.5px, 2.7vw, 11px) * var(--s));
-  font-weight: 500;
-  line-height: 1.6;
-  letter-spacing: .06em;
-  text-transform: uppercase;
+  font-size: calc(clamp(9px, 2.85vw, 12px) * var(--s));
+  line-height: 1.72;
+  font-weight: 400;
   color: var(--ink-soft);
-  opacity: 0;
 }
 
-.sp-meta li + li::before {
-  content: "·";
-  margin: 0 calc(var(--nw) * .022);
-  color: var(--hair);
-}
-
-/* The pooled terms block and the Tech Talk line lived here. Both are gone —
-   neither was a promotion, and the conditions a customer actually needs are
-   inside .sp-meta on the offer they belong to. The hairline that separated
-   them went with them, which is the last border on the page. */
-
-/* ============================================================
-   phases
-
-   The two offers stagger off --i on the block index rather than off two
-   hand-written sets of delays, so a third offer would need no new CSS.
-   ============================================================ */
-
-/* p1 — the marks resolve */
-.sp-p1 .sp-lockup, .sp-p2 .sp-lockup, .sp-p3 .sp-lockup {
-  animation: spFade 520ms ease-out both;
-}
-
-.sp-p1 .sp-eyebrow, .sp-p2 .sp-eyebrow, .sp-p3 .sp-eyebrow {
-  animation: spFade 420ms ease-out 240ms both;
-}
-
-/* p2 — the first offer. p3 — the second. One rule set, gated on position. */
-.sp-p2 .sp-offer:nth-child(1) .sp-rule,
-.sp-p3 .sp-offer .sp-rule {
-  animation: spDraw 520ms cubic-bezier(.65, 0, .25, 1) both;
-}
-
-.sp-p2 .sp-offer:nth-child(1) .sp-who,
-.sp-p3 .sp-offer .sp-who {
-  animation: spRise 480ms cubic-bezier(.16, 1, .3, 1) 120ms both;
-}
-
-.sp-p2 .sp-offer:nth-child(1) .sp-amount,
-.sp-p3 .sp-offer .sp-amount {
-  animation: spWipe 620ms cubic-bezier(.22, .74, .28, 1) 220ms both;
-}
-
-.sp-p2 .sp-offer:nth-child(1) .sp-what,
-.sp-p3 .sp-offer .sp-what {
-  animation: spWipe 480ms cubic-bezier(.22, .74, .28, 1) 420ms both;
-}
-
-.sp-p2 .sp-offer:nth-child(1) .sp-meta,
-.sp-p3 .sp-offer .sp-meta {
-  animation: spFade 420ms ease-out 560ms both;
-}
+.sp-what + .sp-meta { margin-top: calc(var(--nw) * .045); }
 
 /* ============================================================
    keyframes
    ============================================================ */
-
-@keyframes spDraw {
-  from { transform: scaleX(0); }
-  to   { transform: scaleX(1); }
-}
-
-@keyframes spWipe {
-  from { clip-path: inset(0 0 100% 0); }
-  to   { clip-path: inset(0 0 0 0); }
-}
-
-@keyframes spRise {
-  from { opacity: 0; transform: translateY(calc(var(--nw) * .025)); }
-  to   { opacity: 1; transform: none; }
-}
 
 @keyframes spFade {
   from { opacity: 0; }
@@ -317,7 +243,11 @@
 }
 
 /* ============================================================
-   reduced motion — snap to the finished notice
+   reduced motion — the finished page, no keys struck
+
+   The component hands over li = LINES.length in this case, so every line is
+   already at its full string; all that is left is to stop the lockup fading
+   and make sure no caret is rendered.
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
   .sp-stage *,
@@ -326,11 +256,6 @@
     animation: none !important;
     transition: none !important;
   }
-  .sp-rule { transform: scaleX(1); }
-  .sp-lockup,
-  .sp-eyebrow,
-  .sp-meta { opacity: 1; }
-  .sp-who { opacity: 1; transform: none; }
-  .sp-amount,
-  .sp-what { clip-path: inset(0 0 0 0); }
+  .sp-lockup { opacity: 1; }
+  .sp-caret  { display: none; }
 }
