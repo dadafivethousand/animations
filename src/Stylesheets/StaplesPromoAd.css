@@ -53,6 +53,16 @@
 
   --s: 1;
 
+  /* How far the lockup sits from its scene-one home (the middle of the frame)
+     to its resting one (the letterhead). The voucher is centred in the frame,
+     so this is half the voucher's height minus the lockup's own centre —
+     26px of padding + 22px of kicker + half its 48px height = 73.2px below the
+     voucher's top, against a 548.1px voucher, so 274.1 - 73.2. MEASURED, and
+     it moves whenever the block's height does: re-measure if a line is added
+     or removed, or the offers' spacing changes. Both happened in the pass that
+     set this number. */
+  --lift: calc(201px * var(--s));
+
   /* The crop guard. The ad is screen-recorded and re-fit before it reaches IG,
      so the edges go missing by an amount nobody knows in advance. The px
      floors are the repo minimums; the vw/vh terms let the guard grow with the
@@ -124,8 +134,8 @@
      clip-path does not interpolate between a shape and the keyword, so a
      transition to `none` would snap the whole sheet on in one frame. */
   clip-path: inset(0 0 0 0);
-  transition: clip-path 660ms cubic-bezier(.2, .86, .26, 1);
 }
+.is-hit .sp-stock { animation: spOpen 680ms cubic-bezier(.2, .86, .26, 1) both; }
 .sp-stage:not(.is-hit) .sp-stock {
   /* a zero-height line across the MIDDLE of the voucher, which is where the
      two marks meet — the paper opens from exactly the point of contact, in
@@ -151,7 +161,6 @@
 
 .sp-kicker {
   opacity: 1;
-  transition: opacity 420ms 380ms ease;
   font-size: calc(8.5px * var(--s));
   font-weight: 700;
   letter-spacing: .3em;
@@ -214,14 +223,6 @@
    the ad that breaks the crop rule.
 
    The paper opens from this same line, so the two are one gesture. */
-.sp-stage:not(.is-hit) .sp-lockup {
-  transform: translateY(calc(211px * var(--s))) scale(1.5);
-}
-.sp-lockup {
-  transform: none;
-  transition: transform 720ms cubic-bezier(.22, .92, .24, 1);
-}
-
 /* The stand-in. Set in Inter rather than the page's mono: the letterhead is
    the one thing here that is NOT typed, and a mono "STAPLES" reads as another
    line of the notice rather than as a mark. Correct in colour and weight, but
@@ -248,12 +249,12 @@
 /* Struck between them ON CONTACT, from nothing, on the wordmark's line. */
 .sp-hair {
   width: 1px;
-  height: 0;
+  height: calc(17px * var(--s));
   background: #d8d3ca;
   transform: translateY(var(--wordline));
-  transition: height 420ms 60ms cubic-bezier(.2, 1, .3, 1);
 }
-.is-hit .sp-hair { height: calc(17px * var(--s)); }
+.sp-stage:not(.is-hit) .sp-hair { height: 0; }
+.is-hit .sp-hair { animation: spHair 420ms 90ms cubic-bezier(.2, 1, .3, 1) both; }
 
 .sp-cn { width: var(--cn-w); }
 
@@ -265,40 +266,122 @@
      drops the background out exactly and costs nothing. */
   mix-blend-mode: multiply;
 }
-/* ── the approach ─────────────────────────────────────────────────────────
-   Each mark flies in from its own edge. This is an animation rather than a
-   transition on a class, and deliberately: the resting state of both marks is
-   then the plain untransformed one, so killing animations for reduced motion
-   leaves them exactly where they belong instead of stranded off-screen.
 
-   52vw, not more: this translate happens INSIDE a lockup that is itself scaled
-   1.5 in scene one, so the distance a viewer sees is 78vw. Enough to clear the
-   frame from the centre on any phone, and no further — the same duration over
-   a longer run just makes the marks arrive faster than they settle. */
-.sp-partner { animation: spFlyL 660ms 120ms cubic-bezier(.22, .72, .2, 1) both; }
-.sp-cn      { animation: spFlyR 660ms 120ms cubic-bezier(.22, .72, .2, 1) both; }
+/* ── the opening, as two timelines ──────────────────────────────────
 
-/* The contact. A ring, not a white flash: on paper a white bloom is invisible,
-   and this ad has one colour to spend. */
-/* Pinned to the middle of the card — which is the middle of the frame, and so
-   the point of contact. It used to live inside the lockup, and rode the lockup
-   up into the letterhead while it was still expanding: a shockwave that
-   shrinks and walks off is not a shockwave. */
-.sp-clash {
+   ONE ANIMATION PER MOVING PART, each carrying its whole gesture: approach,
+   contact, recoil, rest. Both previous passes got this wrong in opposite
+   directions and it is worth writing down.
+
+   Driving the approach with an animation and the recoil with a transition
+   cannot work: a filled animation's end state outranks any transition, so the
+   marks could never leave the spot the animation parked them in — they arrived
+   and simply stopped.
+
+   Driving the whole thing with transitions between three class states works in
+   a browser and is unverifiable anywhere else: the automation tab stalls
+   transitions, so every still of the approach came back as an empty desk.
+
+   A keyframe covers both. The opening is a fixed timeline — nothing here waits
+   on anything unknown — so it belongs in keyframes, and keyframes run where
+   transitions stall. Reduced motion drops them and leaves the base rules,
+   which are all resting states.
+
+   THE 54% IS THE CONTACT, and it is shared with the component: the run is
+   1350ms after a 90ms delay, so 90 + .54 x 1350 = 819ms, and StaplesPromoAd.js
+   fires HIT at 820. Move one and move the other. */
+
+.sp-lockup {
+  transform: none;
+  animation: spLockup 1350ms 90ms both;
+}
+
+/* Each mark comes in from its own edge and does NOT stop politely apart: the
+   15px gap closes to nothing, so they arrive touching, then rebound to their
+   resting gap. Closing that gap is also what pays for the inflation — set
+   apart the pair is 181px wide and 1.75 would put it through the crop guard;
+   closed up it is 167px, and 1.75 of that clears with 49px to spare.
+
+   90vw of travel inside a lockup that is itself scaled ~1.75 reads as about
+   160vw of run-up; it only has to clear the frame. */
+.sp-partner { animation: spInL 1350ms 90ms both; }
+.sp-cn      { animation: spInR 1350ms 90ms both; }
+
+/* ── the combustion ───────────────────────────────────────────
+
+   Pinned to the middle of the card — which is the middle of the frame, and so
+   the point of contact and the line the paper opens from. All of it hangs off
+   a zero-size anchor so every piece can be positioned from the same origin
+   without any of them knowing how big the others are.
+
+   Everything here is in the ad's own two colours. A generic orange fireball on
+   a warm grey desk would be the only thing in the frame belonging to no brand
+   — this is ink and red, thrown. */
+.sp-burst {
   position: absolute;
   left: 50%;
   top: 50%;
+  width: 0;
+  height: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.sp-flash {
+  position: absolute;
+  left: calc(-90px * var(--s));
+  top: calc(-90px * var(--s));
+  width: calc(180px * var(--s));
+  height: calc(180px * var(--s));
+  border-radius: 50%;
+  opacity: 0;
+  background: radial-gradient(
+    closest-side,
+    rgba(255, 255, 255, .95) 0%,
+    rgba(255, 226, 214, .8) 26%,
+    rgba(204, 0, 0, .22) 58%,
+    rgba(204, 0, 0, 0) 78%
+  );
+}
+.is-hit .sp-kicker { animation: spFade 420ms 300ms ease both; }
+
+.is-hit .sp-flash { animation: spFlash 460ms cubic-bezier(.1, .8, .3, 1) both; }
+
+.sp-ring {
+  position: absolute;
+  left: calc(-30px * var(--s));
+  top: calc(-30px * var(--s));
   width: calc(60px * var(--s));
   height: calc(60px * var(--s));
-  margin: calc(-30px * var(--s)) 0 0 calc(-30px * var(--s));
   border-radius: 50%;
   border: 2px solid rgba(204, 0, 0, .55);
   opacity: 0;
-  pointer-events: none;
-  z-index: 3;
   transform: scale(.3);
 }
-.is-hit .sp-clash { animation: spClash 620ms cubic-bezier(.16, .9, .3, 1) both; }
+.is-hit .sp-ring { animation: spRing 620ms cubic-bezier(.16, .9, .3, 1) both; }
+/* a second one, thinner and later, so the shockwave has depth rather than
+   being one hoop */
+.sp-ring-2 { border-color: rgba(23, 22, 26, .28); }
+.is-hit .sp-ring-2 { animation: spRing 720ms 90ms cubic-bezier(.16, .9, .3, 1) both; }
+
+/* Each shard is rotated to its own angle and then thrown along its own X, so
+   one keyframe throws all eighteen outward in eighteen directions. */
+.sp-spark {
+  position: absolute;
+  left: 0;
+  top: calc(-1px * var(--s));
+  width: calc(var(--w) * 1px * var(--s));
+  height: calc(2px * var(--s));
+  border-radius: 1px;
+  background: var(--red);
+  opacity: 0;
+  transform-origin: 0 50%;
+  transform: rotate(calc(var(--a) * 1deg)) translateX(calc(8px * var(--s)));
+}
+.sp-spark-ink { background: rgba(23, 22, 26, .55); }
+.is-hit .sp-spark {
+  animation: spSpark 620ms var(--t) cubic-bezier(.1, .78, .3, 1) both;
+}
 
 /* ---------- an offer block -------------------------------------------- */
 
@@ -346,16 +429,21 @@
 
 /* Two coupons on one piece of stock, which is what lets a reader accept that
    the ad makes two different offers to two different people. */
+/* The gap between the two offers lives here. They are two coupons on one
+   piece of stock, so what separates them is air first and a perforation
+   second — at 20px they read as one list with a line through it. */
 .sp-tear {
   position: relative;
   height: 0;
-  transition: opacity 380ms 300ms ease;
-  margin: calc(20px * var(--s)) 0 calc(22px * var(--s));
+  margin: calc(38px * var(--s)) 0 calc(40px * var(--s));
 }
 
-/* the perforations belong to the stock, so they cannot exist before it does */
+/* The perforations belong to the stock, so they cannot exist before it does.
+   The foot's tear is excluded from that arrival: it has its own beat at the
+   end of the typing, and a filled animation here would outrank it. */
 .sp-stage:not(.is-hit) .sp-tear,
 .sp-stage:not(.is-hit) .sp-kicker { opacity: 0; }
+.is-hit .sp-tear:not(.sp-tear-foot) { animation: spFade 380ms 260ms ease both; }
 
 .sp-perf {
   position: absolute;
@@ -467,33 +555,6 @@
 }
 .sp-meta.is-typed::before { opacity: 1; }
 
-/* The mechanic, boxed the way a coupon code is always boxed. The box is a
-   ::before growing OUTWARD from the text rather than padding on the line, for
-   the same reason as above. */
-/* inline-block so the dashed box shrink-wraps the code. As a block it ran the
-   full column and read as a text field waiting to be filled in. */
-.sp-code {
-  display: inline-block;
-  margin-top: calc(15px * var(--s));
-  margin-left: calc(1px * var(--s));
-  font-size: calc(10.6px * var(--s));
-  line-height: 1.6;
-  font-weight: 700;
-  letter-spacing: .1em;
-  color: var(--ink);
-}
-.sp-code::before {
-  content: "";
-  position: absolute;
-  inset: calc(-6px * var(--s)) calc(-9px * var(--s));
-  border: 1px dashed var(--perf);
-  border-radius: 2px;
-  opacity: 0;
-  transform: scale(.96);
-  transition: opacity 260ms ease, transform 380ms cubic-bezier(.2, 1.3, .4, 1);
-}
-.sp-code.is-typed::before { opacity: 1; transform: none; }
-
 /* ---------- the stub -------------------------------------------------- */
 
 /* Who issued it. Arrives once the last key is struck, which is the frame the
@@ -552,20 +613,88 @@
   to   { opacity: 1; }
 }
 
-@keyframes spFlyL {
-  from { transform: translateX(-52vw); }
-  to   { transform: none; }
-}
-@keyframes spFlyR {
-  from { transform: translateX(52vw); }
-  to   { transform: none; }
+/* Waiting at the centre, only part-swollen; inflating the whole way in, so the
+   pair is still growing at the moment it lands — a pair that reached its size
+   early reads as a slide, one still reaching reads as an impact; then up into
+   the letterhead. */
+@keyframes spLockup {
+  0% {
+    transform: translateY(var(--lift)) scale(1.3);
+    animation-timing-function: cubic-bezier(.42, 0, .62, 1);
+  }
+  54% {
+    transform: translateY(var(--lift)) scale(1.75);
+    animation-timing-function: cubic-bezier(.22, .92, .24, 1);
+  }
+  100% { transform: translateY(0) scale(1); }
 }
 
-/* One ring out of the point of contact. */
-@keyframes spClash {
+/* In hard, touch, rebound, settle. The approach accelerates on purpose: a
+   thing that speeds up into contact reads as heavy. */
+@keyframes spInL {
+  0% {
+    transform: translateX(-90vw);
+    animation-timing-function: cubic-bezier(.5, .02, .74, .5);
+  }
+  54% {
+    transform: translateX(calc(7px * var(--s)));
+    animation-timing-function: cubic-bezier(.16, .9, .3, 1);
+  }
+  70% {
+    transform: translateX(calc(-4px * var(--s)));
+    animation-timing-function: cubic-bezier(.32, 0, .38, 1);
+  }
+  100% { transform: translateX(0); }
+}
+@keyframes spInR {
+  0% {
+    transform: translateX(90vw);
+    animation-timing-function: cubic-bezier(.5, .02, .74, .5);
+  }
+  54% {
+    transform: translateX(calc(-7px * var(--s)));
+    animation-timing-function: cubic-bezier(.16, .9, .3, 1);
+  }
+  70% {
+    transform: translateX(calc(4px * var(--s)));
+    animation-timing-function: cubic-bezier(.32, 0, .38, 1);
+  }
+  100% { transform: translateX(0); }
+}
+
+/* The paper, out of the seam. */
+@keyframes spOpen {
+  from { clip-path: inset(50% 0 50% 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes spHair {
+  from { height: 0; }
+  to   { height: calc(17px * var(--s)); }
+}
+
+@keyframes spFlash {
+  0%   { opacity: 0; transform: scale(.2); }
+  10%  { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.15); }
+}
+
+@keyframes spRing {
   0%   { opacity: 0; transform: scale(.3); }
   14%  { opacity: .9; }
   100% { opacity: 0; transform: scale(3.6); border-width: 1px; }
+}
+
+@keyframes spSpark {
+  0% {
+    opacity: 0;
+    transform: rotate(calc(var(--a) * 1deg)) translateX(calc(8px * var(--s))) scaleX(.3);
+  }
+  12% { opacity: 1; }
+  100% {
+    opacity: 0;
+    transform: rotate(calc(var(--a) * 1deg)) translateX(calc(var(--d) * 1px * var(--s))) scaleX(1);
+  }
 }
 
 /* ============================================================
@@ -588,9 +717,10 @@
   .sp-kicker,
   .sp-tear-foot,
   .sp-foot { opacity: 1; }
-  .sp-stock { clip-path: none; }
-  .sp-clash { display: none; }
+  .sp-stock { clip-path: inset(0 0 0 0); }
+  .sp-burst { display: none; }
   .sp-hair { height: calc(17px * var(--s)); }
+  .sp-partner, .sp-cn { transform: none; }
   .sp-cn img { transform: none; }
   .sp-partner-type,
   .sp-partner-img { transform: translateY(var(--wordline)); }
@@ -598,6 +728,5 @@
   .sp-num { opacity: 1; transform: none; }
   .sp-hrule { width: 100%; }
   .sp-meta::before { opacity: 1; }
-  .sp-code::before { opacity: 1; transform: none; }
   .sp-caret { display: none; }
 }

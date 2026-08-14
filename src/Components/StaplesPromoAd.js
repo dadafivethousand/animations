@@ -77,8 +77,7 @@ const LINES = [
   { t: "paid in full", k: "what", z: 0, s: 16, a: 200 },
 
   { t: "Spend $100 or more at Staples", k: "meta", z: 0, s: 11, a: 70 },
-  { t: "Through October 31, 2026", k: "meta", z: 0, s: 11, a: 110 },
-  { t: "CODE STAPLES2026", k: "code", z: 0, s: 42, a: 620 },
+  { t: "Through October 31, 2026", k: "meta", z: 0, s: 11, a: 620 },
 
   { t: "ALREADY A CODE NINJAS FAMILY?", k: "who", z: 1, s: 26, a: 200 },
 
@@ -89,6 +88,18 @@ const LINES = [
   { t: "Through September 14, 2026", k: "meta", z: 1, s: 11, a: 0 },
 ];
 
+// The shards thrown out of the seam. Generated rather than hand-listed, but
+// generated from the INDEX and nothing else — no randomness anywhere in this
+// repo, so every take of the recording is identical. The small irregularities
+// in angle, reach and size are what stop it reading as a starburst clip-art.
+const SPARKS = Array.from({ length: 18 }, (_, i) => ({
+  a: (i / 18) * 360 + (i % 3) * 6,   // degrees, nudged off the even spacing
+  d: 74 + ((i * 37) % 66),           // how far it gets, in px
+  w: 4 + ((i * 13) % 7),             // its length
+  t: (i % 4) * 22,                   // and a stagger, so they do not leave as one
+  ink: i % 3 === 0,                  // one in three is ink rather than red
+}));
+
 // Carry each line's index in the flat script with it, then split by block: the
 // typewriter walks one list, the layout draws two columns of it.
 const SCRIPT = LINES.map((l, i) => ({ ...l, i }));
@@ -96,23 +107,32 @@ const BLOCKS = [0, 1].map((z) => SCRIPT.filter((l) => l.z === z));
 
 // The opening, in one timeline.
 //
-// SCENE ONE IS THE TWO MARKS AND NOTHING ELSE. They fly in from opposite edges
-// of an empty desk and meet in the middle of the frame, half again as big as
-// they will end up. There is no voucher yet, no kicker, no divider — the frame
-// holds two logos.
+// SCENE ONE IS THE TWO MARKS AND NOTHING ELSE. They come in from opposite
+// edges of an empty desk, INFLATING as they travel, and meet dead centre at
+// nearly twice their final size. There is no voucher yet, no kicker, no
+// divider — the frame holds two logos.
 //
-// The collision is the morph. The paper opens out of the exact line where they
-// met, up and down at once, while the pair travels up into the letterhead and
-// settles to size: the marks BECOME the letterhead rather than having been
-// sitting in it all along. The fly-in itself is a CSS animation on a fixed
-// delay, so JS only carries the one beat it cannot know: the moment of
-// contact.
+// They do not stop politely apart, either: the gap closes to nothing, so they
+// arrive touching. That is also what pays for the inflation — set apart the
+// pair is 181px wide and 1.75 would put it through the crop guard; closed up
+// it is 167px, and 1.75 of that clears with 49px to spare.
+//
+// Contact combusts: a flash, a ring, and shards thrown out of the seam. The
+// paper opens out of that same point, up and down at once, while the pair
+// recoils to its resting gap and rides up into the letterhead. The marks
+// BECOME the letterhead rather than having been sitting in it all along.
+//
+// The approach is a keyframe on a fixed delay, so JS carries only the one beat
+// it cannot express: the moment of contact, which everything the impact causes
+// hangs off. HIT below and the 54% in the stylesheet's spLockup/spInL/spInR
+// are the same instant written twice — a 90ms delay + .54 x 1350ms = 819ms.
+// Move one and move the other.
 //
 // HIT is when they touch. Everything the collision causes — the divider being
 // struck between them, the marks settling out of their approach scale, the
 // stock unfurling, the kicker — hangs off that single flag.
-const HIT = 780;
-const OPEN = 1340;
+const HIT = 820;
+const OPEN = 1520;
 
 export default function StaplesPromoAd() {
   const reduce = React.useMemo(
@@ -126,7 +146,7 @@ export default function StaplesPromoAd() {
   // -1 is the beat before the first key; LINES.length is the finished page.
   const [li, setLi] = React.useState(-1);
   const [ch, setCh] = React.useState(0);
-  // the marks have met. Everything the collision sets off keys off this.
+  // the marks have met. Everything the impact sets off keys off this.
   const [hit, setHit] = React.useState(false);
 
   React.useEffect(() => {
@@ -164,7 +184,9 @@ export default function StaplesPromoAd() {
   const done = li >= LINES.length;
 
   return (
-    <div className={`sp-stage${hit ? " is-hit" : ""}${done ? " sp-done" : ""}`}>
+    <div
+      className={`sp-stage${hit ? " is-hit" : ""}${done ? " sp-done" : ""}`}
+    >
       <div className="sp-card">
         <div className="sp-voucher">
           {/* The stock is its own layer so it can be revealed independently of
@@ -240,7 +262,18 @@ export default function StaplesPromoAd() {
 
         {/* The contact, pinned to the middle of the card — where the two marks
             meet, and where the paper opens from. */}
-        <span className="sp-clash" aria-hidden />
+        <div className="sp-burst" aria-hidden>
+          <span className="sp-flash" />
+          <span className="sp-ring" />
+          <span className="sp-ring sp-ring-2" />
+          {SPARKS.map((s, i) => (
+            <span
+              key={i}
+              className={`sp-spark${s.ink ? " sp-spark-ink" : ""}`}
+              style={{ "--a": s.a, "--d": s.d, "--w": s.w, "--t": `${s.t}ms` }}
+            />
+          ))}
+        </div>
       </div>
 
       {/* Over everything, so the desk under the voucher can stay a flat colour
