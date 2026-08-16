@@ -1,0 +1,523 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800;900&family=JetBrains+Mono:wght@700&display=swap');
+
+/* ============================================================
+   StaplesPowerUpAd — the ninja collects easy buttons and levels up.
+
+   BUILT TO BE REPOSTED. The audience is Staples' social team before it is
+   anybody's parent, so their mark is the hero object — the thing being chased,
+   the thing that makes the ninja stronger — and the easy button is used as
+   itself: full size, square aspect, never cropped, never recoloured, never
+   given a filter. If you find yourself adding one, don't.
+
+   WHITE AND RED, which is both brands' own palette and the reason this ad
+   looks like a partnership rather than like one of ours with a logo bolted on.
+   Every other recent ad in this repo is a dark stage; this one is daylight.
+
+   Three structural notes worth not undoing:
+
+   1. THE GROWTH IS ONE SCALE WITH A DELAYED TRANSITION. --sc steps up on the
+      level class and the transition-delay lines it up with the button's
+      landing. That delay is why the growth reads as CAUSED by the pickup
+      rather than as happening near it. Remove it and the ninja swells before
+      the button arrives, which is the whole gag backwards.
+
+   2. THE IMPACT ELEMENTS ARE KEYED IN THE COMPONENT so they remount per beat.
+      Their animations have no infinite loop — they fire once, then the element
+      is thrown away. This is the only reliable way to replay a one-shot on an
+      element that would otherwise be reused.
+
+   3. TIMING IS SHARED VIA --hit, the moment the button lands inside a power
+      beat. Flight, flash, rings, shake and growth all reference it. Change it
+      once and the whole impact stays together.
+
+   Knobs:
+     --hit                when the button lands within a power beat
+     --sc                 the ninja's scale, stepped by level
+     --safe-x / --safe-y  the crop guard everything readable lives inside
+
+   Portrait phone only (~390x844, recorded at 360x640).
+   ============================================================ */
+
+.sp-stage {
+  /* Staples red, and Code Ninjas red. They are genuinely different and both
+     are in frame, so neither is faked with the other. */
+  --staples: #cc0000;
+  --cn:      #e4002b;
+
+  --ink:     #14161a;
+  --ink-2:   #4a4f57;
+  --mute:    #8b9099;
+  --hair:    #dfe3e8;
+  --sheet:   #ffffff;
+
+  --hit: 430ms;   /* see note 3 */
+  --sc: .28;      /* level 0 */
+
+  --s: 1;
+
+  /* The crop guard. The ad is screen-recorded and re-fit before it reaches IG,
+     so the edges go missing by an amount nobody knows in advance. */
+  --safe-x: max(45px, 11vw);
+  --safe-y: max(40px, 6vh);
+
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(78% 52% at 50% 42%, #ffffff 0%, #f2f5f8 58%, #e4e9ef 100%);
+  color: var(--ink);
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.sp-stage *,
+.sp-stage *::before,
+.sp-stage *::after {
+  box-sizing: border-box;
+}
+
+/* The ninja needs something to stand on or he floats in a void. A soft ellipse
+   rather than a drawn floor — this is a stage, not a place. */
+.sp-floor {
+  position: absolute;
+  left: 50%;
+  top: 63%;
+  width: 68vw;
+  height: 10vh;
+  margin-left: -34vw;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(20, 22, 26, .16) 0%, transparent 72%);
+  transition: transform 620ms cubic-bezier(.2, 1.4, .4, 1) var(--hit),
+              opacity 400ms ease;
+  transform: scale(calc(.5 + var(--sc) * .5));
+}
+
+/* ---------- the speed lines --------------------------------------------- */
+
+/* Denser and faster at every level. The rays are the power meter — a real
+   meter would be one more thing to read. */
+.sp-rays {
+  position: absolute;
+  left: 50%;
+  top: 47%;
+  width: 190vw;
+  height: 190vw;
+  margin: -95vw 0 0 -95vw;
+  opacity: 0;
+  transition: opacity 500ms ease;
+  animation: spSpin 24s linear infinite;
+}
+
+.sp-rays i {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: calc(10px * var(--s));
+  height: 50%;
+  margin-left: calc(-5px * var(--s));
+  transform-origin: 50% 100%;
+  transform: rotate(var(--r));
+  background: linear-gradient(180deg, transparent 0%, rgba(204, 0, 0, .16) 100%);
+}
+
+@keyframes spSpin {
+  from { rotate: 0deg; }
+  to   { rotate: 360deg; }
+}
+
+.sp-lv1 .sp-rays { opacity: .35; }
+.sp-lv2 .sp-rays { opacity: .6; }
+.sp-lv3 .sp-rays { opacity: .9; }
+
+.sp-k-offer .sp-rays { opacity: 0; }
+
+/* ---------- the level readout -------------------------------------------- */
+
+.sp-hud {
+  position: absolute;
+  left: var(--safe-x);
+  right: var(--safe-x);
+  top: var(--safe-y);
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(4px * var(--s));
+  text-align: center;
+  transition: opacity 380ms ease;
+}
+
+.sp-k-offer .sp-hud { opacity: 0; }
+
+.sp-hud-k {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: calc(10px * var(--s));
+  font-weight: 700;
+  letter-spacing: .42em;
+  text-indent: .42em;
+  color: var(--mute);
+}
+
+.sp-hud-n {
+  font-size: clamp(22px, 7.4vw, calc(30px * var(--s)));
+  font-weight: 900;
+  letter-spacing: -.01em;
+  color: var(--staples);
+}
+
+.sp-pips {
+  display: flex;
+  gap: calc(6px * var(--s));
+  margin-top: calc(2px * var(--s));
+}
+
+.sp-pips i {
+  width: calc(22px * var(--s));
+  height: calc(5px * var(--s));
+  border-radius: 3px;
+  background: var(--hair);
+  transition: background 300ms ease var(--hit), transform 300ms ease var(--hit);
+}
+
+.sp-pips i.is-on {
+  background: var(--staples);
+  transform: scaleY(1.4);
+}
+
+/* ---------- the incoming button ------------------------------------------ */
+
+/* Flies in from off-frame right, spinning, and is gone the instant it lands —
+   the ninja growing is the only evidence it arrived, which is exactly the
+   read we want. */
+.sp-token {
+  position: absolute;
+  left: 50%;
+  top: 47%;
+  z-index: 5;
+  width: calc(96px * var(--s));
+  height: calc(96px * var(--s));
+  margin: calc(-48px * var(--s)) 0 0 calc(-48px * var(--s));
+  filter: drop-shadow(0 10px 18px rgba(120, 0, 0, .3));
+  animation: spFly var(--hit) cubic-bezier(.5, 0, .75, .4) both;
+}
+
+@keyframes spFly {
+  0%   { opacity: 0; transform: translate(78vw, -34vh) rotate(-220deg) scale(.5); }
+  12%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(0, 0) rotate(0deg) scale(1.25); }
+}
+
+/* ---------- the impact --------------------------------------------------- */
+
+/* Note 2: these are keyed in the component, so each is a fresh element and
+   its one-shot animation always plays. */
+.sp-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+  background: #fff;
+  opacity: 0;
+  animation: spFlash 340ms ease-out both;
+  animation-delay: calc(var(--hit) - 40ms);
+}
+
+@keyframes spFlash {
+  0%   { opacity: 0; }
+  12%  { opacity: .85; }
+  100% { opacity: 0; }
+}
+
+.sp-ring {
+  position: absolute;
+  left: 50%;
+  top: 47%;
+  z-index: 4;
+  width: calc(120px * var(--s));
+  height: calc(120px * var(--s));
+  margin: calc(-60px * var(--s)) 0 0 calc(-60px * var(--s));
+  border: calc(5px * var(--s)) solid var(--staples);
+  border-radius: 50%;
+  opacity: 0;
+  animation: spRing 720ms cubic-bezier(.15, .7, .3, 1) both;
+  animation-delay: var(--hit);
+}
+
+/* A second ring, later and thinner. One ring is a circle; two are a shockwave. */
+.sp-ring-2 {
+  border-width: calc(2.5px * var(--s));
+  animation-delay: calc(var(--hit) + 110ms);
+  animation-duration: 820ms;
+}
+
+@keyframes spRing {
+  from { opacity: .9; transform: scale(.3); }
+  to   { opacity: 0;  transform: scale(3.6); }
+}
+
+/* The whole stage kicks on impact. Small — a big shake reads as an error, a
+   small one reads as weight. */
+.sp-k-pow {
+  animation: spShake 260ms ease-out both;
+  animation-delay: var(--hit);
+}
+
+@keyframes spShake {
+  0%   { transform: translate(0, 0); }
+  22%  { transform: translate(calc(-5px * var(--s)), calc(3px * var(--s))); }
+  48%  { transform: translate(calc(4px * var(--s)), calc(-3px * var(--s))); }
+  74%  { transform: translate(calc(-2px * var(--s)), calc(1px * var(--s))); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ---------- the ninja ---------------------------------------------------- */
+
+/* Note 1: ONE scale, stepped by the level class, and the transition delay is
+   what ties the growth to the landing. */
+.sp-hero {
+  position: absolute;
+  left: 50%;
+  top: 47%;
+  z-index: 5;
+  width: calc(300px * var(--s));
+  height: calc(340px * var(--s));
+  margin: calc(-196px * var(--s)) 0 0 calc(-150px * var(--s));
+  transform: scale(var(--sc));
+  transform-origin: 50% 100%;
+  transition: transform 640ms cubic-bezier(.2, 1.5, .4, 1) var(--hit);
+}
+
+/* THE TOP OF THIS LADDER IS SET BY THE FRAME, NOT BY THE NUMBER 1. He grows
+   from his feet, so at scale 1 the 340px box puts his head at roughly 105px
+   down — straight through the POWER readout — and his stance crowds the payoff
+   line underneath. 0.78 is the largest he goes while both still have their own
+   air. The steps below it are spaced so each pickup is a visible jump. */
+.sp-lv0 { --sc: .28; }
+.sp-lv1 { --sc: .44; }
+.sp-lv2 { --sc: .60; }
+.sp-lv3 { --sc: .78; }
+
+.sp-sprite {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 14px 22px rgba(20, 22, 26, .28));
+  transition: opacity 260ms ease;
+}
+
+.sp-sprite-max { opacity: 0; }
+
+.sp-k-max .sp-sprite-pose,
+.sp-k-offer .sp-sprite-pose { opacity: 0; }
+
+.sp-k-max .sp-sprite-max,
+.sp-k-offer .sp-sprite-max { opacity: 1; }
+
+/* A slow float once he is maxed, so the frame is not dead while the line
+   lands. */
+.sp-k-max .sp-hero {
+  animation: spFloat 1.6s ease-in-out infinite;
+}
+
+/* AND HE LEAVES FOR THE OFFER. Easy to forget, because every earlier beat is
+   about making him bigger — but at full size he fills the frame the offer has
+   to be read in, and the card simply renders on top of him. He steps back and
+   fades; the floor and the line go with him. */
+.sp-k-offer .sp-hero {
+  opacity: 0;
+  transform: scale(calc(var(--sc) * .82));
+  transition: opacity 420ms ease, transform 620ms cubic-bezier(.4, 0, .5, 1);
+}
+
+.sp-k-offer .sp-floor,
+.sp-k-offer .sp-punch {
+  opacity: 0;
+  transition: opacity 380ms ease;
+}
+
+@keyframes spFloat {
+  0%, 100% { translate: 0 0; }
+  50%      { translate: 0 calc(-10px * var(--s)); }
+}
+
+/* ---------- the line ----------------------------------------------------- */
+
+.sp-punch {
+  position: absolute;
+  left: var(--safe-x);
+  right: var(--safe-x);
+  bottom: calc(var(--safe-y) + 4vh);
+  z-index: 8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(1px * var(--s));
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sp-punch span {
+  font-size: clamp(28px, 9.6vw, calc(40px * var(--s)));
+  font-weight: 900;
+  letter-spacing: -.02em;
+  line-height: 1.02;
+  opacity: 0;
+  transform: translateY(calc(14px * var(--s)));
+}
+
+.sp-punch span:first-child { color: var(--ink); }
+.sp-punch span:last-child  { color: var(--staples); }
+
+.sp-k-max .sp-punch { opacity: 1; }
+
+.sp-k-max .sp-punch span {
+  animation: spUp 480ms cubic-bezier(.16, 1, .3, 1) both;
+}
+
+/* Landing together is a headline; landing one after the other is a beat, and
+   the second half is the one that means something. */
+.sp-k-max .sp-punch span:nth-child(1) { animation-delay: 120ms; }
+.sp-k-max .sp-punch span:nth-child(2) { animation-delay: 340ms; }
+
+@keyframes spUp {
+  from { opacity: 0; transform: translateY(calc(14px * var(--s))); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- the offer ---------------------------------------------------- */
+
+.sp-offer {
+  position: absolute;
+  inset: var(--safe-y) var(--safe-x);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(9px * var(--s));
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(calc(16px * var(--s)));
+  transition: opacity 520ms ease, transform 700ms cubic-bezier(.16, 1, .3, 1);
+}
+
+.sp-k-offer .sp-offer {
+  opacity: 1;
+  transform: none;
+  transition-delay: 200ms;
+}
+
+/* Both marks, same optical weight, with a hairline between. A partner lockup
+   is the one place neither logo may look like it owns the other. */
+.sp-lockup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(13px * var(--s));
+  width: 100%;
+}
+
+.sp-lockup-s { width: calc(112px * var(--s)); height: auto; display: block; }
+
+/* The Code Ninjas mark is wordmark-plus-head and reads smaller per unit width
+   than the Staples wordmark, so it is set wider to match it optically rather
+   than numerically. */
+.sp-lockup-c { width: calc(126px * var(--s)); height: auto; display: block; }
+
+.sp-x {
+  width: 1px;
+  height: calc(30px * var(--s));
+  background: var(--hair);
+}
+
+.sp-amount {
+  margin-top: calc(4px * var(--s));
+  font-size: clamp(44px, 15vw, calc(62px * var(--s)));
+  font-weight: 900;
+  letter-spacing: -.03em;
+  line-height: 1;
+  color: var(--staples);
+}
+
+.sp-what {
+  font-size: calc(15px * var(--s));
+  font-weight: 700;
+  color: var(--ink-2);
+}
+
+/* Set as a coupon, because that is what it is and because it is the one string
+   a viewer has to carry away from the whole ad. */
+.sp-code {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(4px * var(--s));
+  margin-top: calc(6px * var(--s));
+  padding: calc(9px * var(--s)) calc(18px * var(--s));
+  border: calc(2px * var(--s)) dashed var(--staples);
+  border-radius: calc(10px * var(--s));
+  background: rgba(204, 0, 0, .045);
+}
+
+.sp-code-k {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: calc(9px * var(--s));
+  font-weight: 700;
+  letter-spacing: .34em;
+  text-indent: .34em;
+  color: var(--mute);
+}
+
+.sp-code-n {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: clamp(18px, 6vw, calc(23px * var(--s)));
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: var(--staples);
+}
+
+.sp-site {
+  margin-top: calc(4px * var(--s));
+  padding: calc(10px * var(--s)) calc(22px * var(--s));
+  border-radius: 999px;
+  background: var(--cn);
+  color: #fff;
+  font-size: calc(13px * var(--s));
+  font-weight: 800;
+  letter-spacing: .04em;
+  box-shadow: 0 8px 22px rgba(228, 0, 43, .3);
+}
+
+/* Small, but it must be LEGIBLE — this is a dated offer with eligibility
+   conditions, and fine print nobody can read is worse than none at all. 8px at
+   this line-height still resolves on a phone; do not take it lower to buy
+   layout room. */
+.sp-terms {
+  margin-top: calc(3px * var(--s));
+  max-width: calc(300px * var(--s));
+  font-size: calc(8px * var(--s));
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: .002em;
+  color: var(--mute);
+  text-wrap: pretty;
+}
+
+/* ---------- reduced motion ----------------------------------------------- */
+
+/* The component already snaps the timeline to the offer; this stops the rays
+   and the float running under it. */
+@media (prefers-reduced-motion: reduce) {
+  .sp-stage,
+  .sp-stage *,
+  .sp-stage *::before,
+  .sp-stage *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

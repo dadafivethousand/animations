@@ -14,9 +14,10 @@ import "./Stylesheets/App.css";
 // import BestInvestmentAd from "./Components/BestInvestmentAd";
 // import TwoSummersAd from "./Components/TwoSummersAd";
 // import GroupChatAd from "./Components/GroupChatAd";
-import GameByKidAd from "./Components/GameByKidAd";
+// import GameByKidAd from "./Components/GameByKidAd";
+import StaplesPowerUpAd from "./Components/StaplesPowerUpAd";
 
 function App() {
-  return <GameByKidAd />;
+  return <StaplesPowerUpAd />;
 }
 export default App;
