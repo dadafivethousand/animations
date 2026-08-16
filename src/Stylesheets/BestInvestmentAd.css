@@ -26,7 +26,7 @@
    Four structural notes worth not undoing:
 
    1. --tint IS SET FROM JS, once per beat, and everything that carries the
-      current asset's colour reads it: glow, index, rule, emoji shadow, the
+      current asset's colour reads it: glow, rule, emoji shadow, the
       answer. Do not hard-code an accent anywhere below — that is what keeps
       four cards in two seconds from reading as one card shown four times.
 
@@ -711,15 +711,6 @@
   0%   { opacity: 0; transform: translateY(-10px); }
   45%  { opacity: .8; transform: translateY(2px); }
   100% { opacity: 0; transform: translateY(16px); }
-}
-
-.bi-idx {
-  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: calc(11px * var(--s));
-  font-weight: 700;
-  letter-spacing: .34em;
-  color: var(--tint);
-  opacity: .9;
 }
 
 .bi-emoji {

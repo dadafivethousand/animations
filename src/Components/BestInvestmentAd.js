@@ -44,7 +44,7 @@
 // the DOM the instant the new one arrived and could only ever vanish.
 //
 // Each asset owns the whole frame while it is up: its colour is pushed into
-// --tint and the glow, the rule, the index and the tape all take it. Four
+// --tint and the glow, the rule and the tape all take it. Four
 // distinct washes is what makes the fifth card read as a different kind of
 // answer rather than as a fifth item.
 //
@@ -522,7 +522,6 @@ export default function BestInvestmentAd() {
             style={{ "--tint": a.tint }}
             key={i}
           >
-            <div className="bi-idx">{`0${i + 1}`}</div>
             <div className="bi-emoji">
               {a.mark === "btc" ? (
                 <img className="bi-btc" src={btcCoin} alt="" />
