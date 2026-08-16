@@ -379,6 +379,20 @@
   to   { transform: none; opacity: 1; }
 }
 
+/* The drawn Bitcoin disc, sized to sit in the same hole as the emojis it is
+   lined up against.
+
+   .92em, NOT 1em. An emoji glyph is drawn inside its em box with its own
+   bearing, so it renders visibly smaller than the box it occupies — a mark set
+   to a full em next to it reads as the odd one out, larger than every other
+   card. This is matched by eye against 🏠 and 🥇, and it should be re-checked
+   by eye if the emoji set ever changes rather than reasoned about. */
+.bi-btc {
+  display: block;
+  width: .92em;
+  height: .92em;
+}
+
 /* Long names are set on authored lines — "REAL ESTATE" on one line at this
    size runs straight into the crop guard, and the repo cap for a title of this
    weight is ~44px. */

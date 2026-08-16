@@ -66,13 +66,15 @@ import cnLogo from "../Images/cn-woodbridge-logo.png";
 //   name   the lines as they are set — authored breaks, never wrapped, because
 //          "REAL ESTATE" on one line at this size runs into the crop guard
 //   tint   the colour the whole frame takes while this card is up
-//   note   the caveat, in muted type. Two or three words: at 470ms a longer
-//          line is texture rather than copy, and the eye only ever catches one
-//          or two of these across the run — which is enough, they are a mood
+//   note   the caveat, in muted type. Two or three words: at this speed a
+//          longer line is texture rather than copy, and the eye only ever
+//          catches one or two across the run — which is enough, they are a mood
 //   ms     how long the card holds. SHORTENING, card over card — see the header
+//   mark   a drawn mark instead of an emoji, for the one asset that has a real
+//          logo people recognise. See BitcoinMark.
 const ASSETS = [
   { name: ["REAL", "ESTATE"], emoji: "🏠", tint: "#5b86ff", note: "markets turn",     ms: 1000 },
-  { name: ["BITCOIN"],        emoji: "🪙", tint: "#f7931a", note: "volatile",         ms: 920 },
+  { name: ["BITCOIN"],        mark: "btc", tint: "#f7931a", note: "volatile",         ms: 920 },
   // Deeper than the answer's green on purpose — see the header. Stocks are
   // drawn green in every market there has ever been, so this card keeps the
   // hue and gives up the brightness.
@@ -101,6 +103,64 @@ const TIMELINE = [
 // A beat of feed before the first card, so the ad starts as a market rather
 // than as a title. Short — anything past ~400ms is a thumb's worth of nothing.
 const LEAD = 320;
+
+/**
+ * The Bitcoin mark: the orange disc with the tilted ₿.
+ *
+ * The card used the 🪙 emoji, which is a gold coin and reads as "money" —
+ * it named the category the other three cards are already in. Bitcoin is the
+ * one contender here with a logo people actually recognise, and recognition is
+ * the whole job of a card that is on screen for under a second.
+ *
+ * NOT THE ₿ CHARACTER (U+20BF). Setting it as type means depending on whatever
+ * font happens to resolve, and a missing glyph on the recording machine is a
+ * tofu box in the middle of the ad. It is drawn instead.
+ *
+ * DRAWN AS SOLIDS, WITH THE COUNTERS PAINTED BACK IN. The two holes in the B
+ * are rects in the disc's own colour rather than an even-odd path — the disc
+ * behind them is flat, so a repaint and a hole are the same picture, and this
+ * way the whole mark is six rectangles with corner radii instead of one path
+ * of bezier curves that has to be right the first time.
+ *
+ * Everything takes var(--tint), so the mark is the card's colour by
+ * construction and cannot drift from it.
+ */
+function BitcoinMark() {
+  return (
+    <svg className="bi-btc" viewBox="0 0 100 100" aria-hidden>
+      <circle cx="50" cy="50" r="49" fill="var(--tint)" />
+      {/* The letter leans right by 14 degrees, as it does in the real mark —
+          CLOCKWISE, which is positive here; the counter-clockwise version
+          looks like a mistake rather than like Bitcoin. Rotated about the
+          centre of the DISC, not of the letter, or it walks off-axis. The
+          translate/scale pair shrinks the letter about that same centre so it
+          sits inside the disc with air around it. */}
+      <g transform="rotate(14 50 50) translate(6 6) scale(0.88)">
+        <g fill="#fff">
+          {/* the four strokes through the top and bottom of the letter */}
+          <rect x="34" y="11" width="8" height="15" rx="2" />
+          <rect x="48" y="11" width="8" height="15" rx="2" />
+          <rect x="34" y="74" width="8" height="15" rx="2" />
+          <rect x="48" y="74" width="8" height="15" rx="2" />
+          {/* stem, then the two bowls — the stem squares off their left ends.
+              The stem is only a little heavier than the 6-unit bowl strokes:
+              at double the weight the letter reads as a slab with lumps on
+              it rather than as a B. */}
+          <rect x="30" y="23" width="10" height="54" rx="1" />
+          <rect x="30" y="23" width="33" height="25" rx="10" />
+          <rect x="30" y="52" width="38" height="25" rx="10" />
+        </g>
+        {/* The counters, sized so every bowl stroke comes out at 6 units. They
+            have to be this open — a tighter pair closes the bowls up and the
+            mark turns back into a coin with a scribble on it. */}
+        <g fill="var(--tint)">
+          <rect x="40" y="29.5" width="17" height="12" rx="5" />
+          <rect x="40" y="58.5" width="22" height="12" rx="5" />
+        </g>
+      </g>
+    </svg>
+  );
+}
 
 /**
  * A deterministic hash: an integer in, a well-scattered number in [0,1) out.
@@ -244,7 +304,9 @@ export default function BestInvestmentAd() {
         {asset && (
           <div className="bi-flash" key={beat.i}>
             <div className="bi-idx">{`0${beat.i + 1}`}</div>
-            <div className="bi-emoji">{asset.emoji}</div>
+            <div className="bi-emoji">
+              {asset.mark === "btc" ? <BitcoinMark /> : asset.emoji}
+            </div>
             <div className="bi-name">
               {asset.name.map((l) => (
                 <span key={l}>{l}</span>
@@ -278,9 +340,15 @@ export default function BestInvestmentAd() {
               <span>EDUCATION</span>
             </div>
             <span className="bi-rule bi-rule-wide" aria-hidden />
+            {/* Continues the headline rather than restating it — the frame
+                reads "EDUCATION will always be the best return on your
+                investment", which is why these lines start lowercase and
+                carry no full stop until the end. Breaks are authored: at this
+                measure "return on your investment" is the longest line that
+                clears the side guard on a 390px phone. */}
             <div className="bi-claim">
-              <span>It compounds.</span>
-              <span>It never crashes.</span>
+              <span>will always be the best</span>
+              <span>return on your investment.</span>
             </div>
           </div>
         )}
