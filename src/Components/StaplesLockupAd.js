@@ -157,7 +157,11 @@ export default function StaplesLockupAd() {
           <span className="sl-code-n">{OFFER.code}</span>
         </div>
 
-        <div className="sl-site">cnwoodbridge.com</div>
+        {/* NO CENTRE URL. This is written to be adopted nationally and reposted
+            by the partner, and one franchisee's web address is the single line
+            that makes that impossible — it turns a national co-brand piece
+            into a Woodbridge ad. The offer is valid at every Canadian centre,
+            so the film names neither. */}
         <div className="sl-terms">{OFFER.terms}</div>
       </div>
 

@@ -466,19 +466,13 @@
   color: var(--ink);
 }
 
-.sl-site {
-  margin-top: calc(6px * var(--s));
-  font-size: calc(13px * var(--s));
-  font-weight: 700;
-  letter-spacing: .01em;
-  color: var(--red);
-}
-
 /* Small, but LEGIBLE. This is a dated offer with eligibility conditions, and
    fine print nobody can read is worse than none — do not take it below 8px to
    buy layout room. */
 .sl-terms {
-  margin-top: calc(4px * var(--s));
+  /* Carries the space the centre URL used to occupy, so the code block still
+     has air under it rather than the terms crowding straight up against it. */
+  margin-top: calc(11px * var(--s));
   max-width: calc(292px * var(--s));
   font-size: calc(8px * var(--s));
   font-weight: 400;
