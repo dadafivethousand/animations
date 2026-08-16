@@ -129,14 +129,17 @@
 
 /* ---------- the candles ------------------------------------------------ */
 
-/* A bull market: green and red, climbing from the bottom of the box to the top
-   of it with pullbacks on the way up. Every contender is having a good day,
-   which is the fair version of the ad's argument and a stronger one than
-   stacking the deck with a crash.
+/* THE AD'S ONLY CHART, AND IT BELONGS TO THE ANSWER. A bull run climbing from
+   the bottom of the box to the top with pullbacks on the way up, hidden for
+   every beat except the reveal and the endcard.
 
-   The chart is the SUBJECT during the intro and the ROOM afterwards, and the
-   whole difference is this opacity. At .5 the whole way through, the opening
-   is a background nobody looks at and the ad has no first act. */
+   It used to run under the opening. Moving it here is most of what this ad is:
+   when every beat had a chart the chart said nothing, and now the four
+   contenders are names on cards while the answer is the one thing with the
+   numbers behind it.
+
+   Bright on the reveal and pulled back on the endcard, where the logo needs
+   the frame more than the argument does. */
 .bi-chart {
   position: absolute;
   /* FULL BLEED, and tall. The rally has to run the whole width and finish at
@@ -149,11 +152,24 @@
   top: 15%;
   height: 68%;
   z-index: 2;
-  opacity: .34;
+  opacity: 0;
   transition: opacity 620ms ease;
+  /* A soft hole where the answer stands. The rally runs corner to corner and
+     the answer is centred, so the candles cross the word — there is no
+     placement that avoids it, only a choice between dimming the whole chart
+     and masking the middle. Masking wins: the rally stays bright out at the
+     edges where it IS the picture, and goes quiet only across the type.
+
+     PERCENTAGES ARE OF THIS BOX, not of the frame and not of the type. 20% of
+     a 573px chart box is a 115px half-height, which is the answer block and
+     little more — an earlier mask elsewhere in this file used 34% and carved
+     out most of the phone. */
+  -webkit-mask-image: radial-gradient(46% 20% at 50% 50%, transparent 0%, rgba(0, 0, 0, .35) 55%, #000 88%);
+          mask-image: radial-gradient(46% 20% at 50% 50%, transparent 0%, rgba(0, 0, 0, .35) 55%, #000 88%);
 }
 
-.bi-k-lead .bi-chart { opacity: 1; }
+.bi-k-reveal .bi-chart { opacity: .9; }
+.bi-k-end .bi-chart    { opacity: .45; }
 
 .bi-candle {
   position: absolute;
@@ -189,10 +205,9 @@
 
 /* ── the print ──────────────────────────────────────────────────────────
    The chart draws itself left to right, one candle at a time, the way a live
-   one does. The stagger is off --i, set per candle in the component; 48ms
-   MIRRORS PRINT_STEP there, and the component's LEAD is sized to cover the
-   whole run — the three numbers move together or the first card cuts in over
-   a chart that is still drawing.
+   one does. The stagger is off --i, set per candle in the component, and the
+   whole run has to finish comfortably inside the reveal beat — the answer is
+   not going to wait for it.
 
    GROWN FROM THE OPEN, NOT FADED IN. An up candle opens at its low and closes
    at its high, so it grows upward; a down candle grows down from its open.
@@ -204,9 +219,19 @@
    edge. They are not in perfect register mid-growth — at 340ms and this size
    nobody can see it, and the alternative is one element that cannot be two
    widths. */
-.bi-candle i {
-  animation: biPrint 420ms cubic-bezier(.2, .85, .3, 1) both;
-  animation-delay: calc(var(--i) * 66ms);
+/* SCOPED TO THE REVEAL. The candles never unmount, so an animation on the base
+   element runs once at page load and is long over by the time the chart is
+   ever shown — it has to hang off the beat class to fire at all. Same trap as
+   the flash cards.
+
+   Faster than it was when this ran the opening: 40ms and 320ms instead of 66
+   and 420. There it was the act and could take its time; here it is building
+   behind a word that is landing at the same moment, and a chart still drawing
+   itself three seconds later is a second thing to watch. The 200ms head start
+   lets the answer arrive first and the market come up under it. */
+.bi-k-reveal .bi-candle i {
+  animation: biPrint 320ms cubic-bezier(.2, .85, .3, 1) both;
+  animation-delay: calc(200ms + var(--i) * 40ms);
 }
 
 .bi-candle.is-up i   { transform-origin: 50% 100%; }
@@ -231,122 +256,6 @@
 @keyframes biBreathe {
   0%, 100% { opacity: .68; transform: translateY(0); }
   50%      { opacity: 1;   transform: translateY(-2px); }
-}
-
-/* ---------- the LIVE badge --------------------------------------------- */
-
-/* The one label in the intro. Two seconds of candles is an abstract graphic
-   until something says what it is; this says it, then leaves before the first
-   card so the opening never has two things to read. */
-.bi-live {
-  position: absolute;
-  left: 0;
-  right: 0;
-  /* TOP LEFT, which is the only quadrant a bull run leaves empty. Centred and
-     lower it sat directly on the rally — and a label sitting on the thing it
-     labels is unreadable in both directions. Reading as a terminal header
-     rather than as a caption is the bonus, not the reason. */
-  top: 10%;
-  z-index: 5;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding-left: var(--safe-x);
-  gap: calc(7px * var(--s));
-  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: calc(10px * var(--s));
-  font-weight: 700;
-  letter-spacing: .36em;
-  text-indent: .36em;
-  color: var(--mute);
-  opacity: 0;
-  transform: translateY(calc(6px * var(--s)));
-  transition: opacity 420ms ease, transform 520ms cubic-bezier(.16, 1, .3, 1);
-  pointer-events: none;
-}
-
-.bi-k-lead .bi-live {
-  opacity: 1;
-  transform: none;
-  transition-delay: 220ms;
-}
-
-.bi-live-dot {
-  width: calc(6px * var(--s));
-  height: calc(6px * var(--s));
-  border-radius: 50%;
-  background: var(--down);
-  animation: biLive 1.5s ease-in-out infinite;
-}
-
-@keyframes biLive {
-  0%, 100% { opacity: 1;  box-shadow: 0 0 0 0 rgba(242, 65, 92, .5); }
-  70%      { opacity: .5; box-shadow: 0 0 0 6px rgba(242, 65, 92, 0); }
-}
-
-/* ---------- the line that only goes up --------------------------------- */
-
-/* Hidden until the reveal, then drawn across and off the top of the frame.
-   vector-effect keeps the stroke even under the non-uniform viewBox stretch —
-   without it a 100x100 box on a portrait phone gives a hairline that is three
-   times thicker vertically than horizontally.
-
-   Tall and high in the frame, because the point of the shape is that it does
-   not resolve: the last segment has to be clipped by the top of this box while
-   still climbing. A short box puts the exit halfway down the screen, where it
-   reads as a line that simply stopped. */
-.bi-line {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 10%;
-  height: 68%;
-  z-index: 3;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.bi-line polyline {
-  fill: none;
-  stroke: var(--tint);
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  vector-effect: non-scaling-stroke;
-  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--tint) 60%, transparent));
-  /* The polyline carries pathLength="100", so the draw is 100 units long
-     whatever the phone. A literal length here is measured in screen px under
-     non-scaling-stroke and comes out short — the line renders as a dashed
-     fragment rather than as a line being drawn. */
-  stroke-dasharray: 100;
-  stroke-dashoffset: 100;
-}
-
-/* Dim, and dimmer again on the endcard.
-   The line runs corner to corner and the copy is centred, so it crosses the
-   type — there is no placement that avoids that, only a weight at which it
-   stops mattering. At .85 it drew a stroke straight through the claim; this is
-   atmosphere behind the answer instead.
-
-   A pass once replaced this with a fan of eight traces plus a rotating ray
-   burst, drifting motes and a moving aura, all masked around the answer. It
-   was much busier and much worse: the reveal is the beat where one word has to
-   land, and every layer added was something else happening at the same time.
-   One line, dim, is the whole background this frame wants. */
-.bi-k-reveal .bi-line { opacity: .4; }
-.bi-k-end .bi-line    { opacity: .22; }
-
-.bi-k-reveal .bi-line polyline {
-  animation: biDraw 1100ms cubic-bezier(.35, .1, .25, 1) 120ms forwards;
-}
-
-.bi-k-end .bi-line polyline {
-  stroke-dashoffset: 0;
-  opacity: .5;
-}
-
-@keyframes biDraw {
-  to { stroke-dashoffset: 0; }
 }
 
 /* ---------- the tape --------------------------------------------------- */
@@ -426,14 +335,94 @@
   color: var(--tint);
 }
 
+/* ---------- the opening: the board ------------------------------------- */
+
+/* Ten more rows between the ad's two permanent strips, scrolling in
+   alternating directions at different speeds. Together they read as an
+   exchange wall: too much information, all of it shouting, none of it an
+   answer.
+
+   THEY DRAIN FROM THE MIDDLE OUTWARD. --pair is each row's distance from the
+   centre of the stack, so the innermost two leave first and the outermost two
+   last, and the wall collapses toward the top and bottom of the frame until
+   only the two strips are still running. The opening does not cut to the ad,
+   it drains into it — which is why the last pair has to be gone before the
+   first card, and why LEAD in the component is sized off BOARD_HOLD and
+   BOARD_STEP below.
+
+   No borders and no backgrounds on these, unlike the two real strips. That is
+   what keeps the flood reading as one wall of type rather than as ten separate
+   bars, and it is what makes the two survivors look like the ad's own. */
+.bi-board {
+  --hold: 950ms;    /* BOARD_HOLD — the wall stands this long before draining */
+  --step: 130ms;    /* BOARD_STEP — between one pair leaving and the next     */
+
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.bi-k-lead .bi-board { opacity: 1; }
+
+.bi-board-row {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 18px;
+  /* margin, NOT translateY — the exit animation owns transform, and centring
+     with one would be overwritten the moment the row starts to leave. */
+  margin-top: -9px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+
+.bi-board-run {
+  display: flex;
+  flex: none;
+  width: max-content;
+  /* gap and padding-left MUST match: the row is rendered twice and shifted
+     exactly -50%, and that only lands seamlessly when the leading pad equals
+     one gap. Same arithmetic as .bi-tape-run. */
+  gap: 22px;
+  padding-left: 22px;
+  /* The negative delay is the row's starting scroll offset. Without it every
+     row begins its loop at the same point and the first frame of the ad is a
+     wall of type in perfect vertical alignment — which reads as a table, not
+     as a dozen independent feeds. */
+  animation: biTape var(--dur) linear calc(var(--phase) * -1s) infinite;
+}
+
+.bi-board-row.is-back .bi-board-run { animation-name: biTapeBack; }
+
+.bi-board-row .bi-tick {
+  font-size: calc(9.5px * var(--s));
+  letter-spacing: .12em;
+  color: #aebcc2;
+}
+
+.bi-k-lead .bi-board-row {
+  animation: biRowOut 360ms ease both;
+  animation-delay: calc(var(--hold) + var(--pair) * var(--step));
+}
+
+@keyframes biRowOut {
+  0%   { opacity: 1; transform: scaleY(1); }
+  100% { opacity: 0; transform: scaleY(.35); }
+}
+
 /* ---------- the room goes still on the question ------------------------ */
 
 /* Note 4. Once the ad asks, the terminal drops back and never returns to
-   opening brightness — the reveal needs somewhere to put the emphasis. */
-.bi-k-ask .bi-chart    { opacity: .12; }
-.bi-k-reveal .bi-chart,
-.bi-k-end .bi-chart    { opacity: 0; }
-
+   opening brightness — the reveal needs somewhere to put the emphasis.
+   The CHART is not listed here: it is off for every beat but the reveal and
+   the endcard, and that is set once in its own section. A stale pair of rules
+   here zeroing it on the reveal is exactly what hid it when the chart moved. */
 .bi-k-ask .bi-grid     { opacity: .5; }
 .bi-k-reveal .bi-grid,
 .bi-k-end .bi-grid     { opacity: .32; }
@@ -1094,5 +1083,4 @@
     animation: none !important;
     transition: none !important;
   }
-  .bi-line polyline { stroke-dashoffset: 0; }
 }

@@ -1,9 +1,10 @@
 // BestInvestmentAd.jsx — "what is the best investment?" answered as education.
 //
-// The ad opens on a bull market and phases through four assets — stocks,
-// bitcoin, real estate, gold — a card each, faster every time. Then the feed
-// stops dead, asks the question, and the answer is the one asset that was
-// never on the tape.
+// The ad opens on an exchange wall — a dozen rows of symbols and arrows racing
+// past — which drains into the ad's own two ticker strips. It then phases
+// through four assets, stocks, bitcoin, real estate, gold, a card each and
+// faster every time. Then the feed stops dead, asks the question, and the
+// answer is the one asset that was never on the tape.
 //
 // ── The flash is the hook, so it has to accelerate ──
 //
@@ -64,23 +65,27 @@
 // to EDUCATION ▲ over and over, every symbol pointing the same way. Nothing
 // says it; the tape just stops being a market and starts being a position.
 //
-// ── The candles never come back ──
+// ── The chart belongs to the answer ──
 //
-// The chart behind the opening is a candlestick field running a bull market:
-// bottom of the frame to the top of it, green and red, pullbacks on the way
-// up. Every contender is having a good day — which is the fair version of the
-// argument, and a stronger one than stacking the deck with a crash.
+// THE AD HAS EXACTLY ONE CHART AND IT ONLY EVER APPEARS UNDER "EDUCATION". A
+// candlestick bull run, printing left to right from the bottom of the frame to
+// the top of it, green and red with pullbacks on the way up — it builds behind
+// the word while the word is landing.
 //
-// On the reveal the whole field is replaced by a single line that ascends and
-// leaves the top of the frame. Not a better rally: a different KIND of line.
-// The candles are a market, discrete and two-coloured and arguable; the answer
-// is one unbroken stroke that does not stop inside the picture.
+// It used to run under the OPENING instead, and giving it to the answer is
+// most of what this ad is now. When every beat had a chart, the chart said
+// nothing; when only the answer has one, the four contenders are names on
+// cards and the answer is the one thing with the numbers behind it. None of
+// that costs a line of copy.
 //
-// ONE LINE, AND KEPT DIM. A pass once built this out into a fan of eight
-// traces over a rotating ray burst, drifting motes and a moving aura. It was
-// far more detailed and far worse — the reveal is the beat where a single word
-// has to land, and everything added to the background was one more thing
-// happening at the same moment as the thing that matters.
+// The opening gets the board instead — see SYMBOLS. Two different textures,
+// which also stops the ad repeating itself: the board is dense type racing
+// sideways, the chart is sparse geometry climbing.
+//
+// Nothing else lives back there. A pass once built the reveal out into a fan
+// of eight traces over a rotating ray burst, drifting motes and a moving
+// aura; it was far more detailed and far worse, because the reveal is the beat
+// where a single word has to land.
 //
 // JS owns the timeline and nothing else: a step counter walking TIMELINE, its
 // kind exposed as a class on the root. Every movement is CSS keyed off that.
@@ -165,24 +170,20 @@ const CLAIM_LEN = CLAIM.join("").length;
 const TYPE_MS = 44;
 const TYPE_LEAD = 1000;
 
-// ── the intro ─────────────────────────────────────────────────────────────
-// Before any card, the ad is just a market: the candle field prints itself
-// left to right in green and red while the tape runs, under a LIVE badge.
+// ── the opening ───────────────────────────────────────────────────────────
+// Before any card, the ad is an exchange wall that then drains into itself.
 //
 // The ad has to earn the question it is going to ask, and it cannot do that
-// while it is still explaining what it is. Two seconds of a chart trading is
-// the cheapest way to establish "this is a market" so that the four cards read
-// as contenders in one rather than as four unrelated slides.
+// while it is still explaining what it is. Two seconds of a market shouting is
+// the cheapest way to establish the subject, so that the four cards read as
+// contenders in one rather than as four unrelated slides.
 //
-// LEAD IS NOT A FREE PARAMETER. It has to cover the print — 26 candles
-// staggered by PRINT_STEP, plus the growth of the last one — or the first card
-// cuts in over a chart that is still drawing, which reads as the ad starting
-// before it was ready. If the candle count or the stagger changes, this
-// changes with them.
-const PRINT_STEP = 66;   // ms between candles. Mirrored in the stylesheet.
-const LEAD = 2300;       // ≈ 26 * 66 + 420 growth + a beat of live movement
-                         // (the first card then waits out its own phase delay,
-                         //  so there is more settled market than this implies)
+// LEAD IS NOT A FREE PARAMETER. It has to cover the whole drain — the rows
+// leave in pairs from the middle out, and the last pair does not start until
+// BOARD_HOLD + 4 * BOARD_STEP — or the first card arrives over a wall that is
+// still standing. Those two numbers live in the stylesheet; this is what pays
+// for them.
+const LEAD = 2100;       // ≈ 1000 hold + 4 * 150 stagger + 360 fade + a beat
 
 /**
  * The Bitcoin mark: the orange disc with the tilted ₿.
@@ -359,6 +360,51 @@ const CANDLES = (() => {
   });
 })();
 
+// ── the opening: the board ────────────────────────────────────────────────
+//
+// Asset classes, commodities and indices — deliberately NOT company tickers.
+// A wall of "AAPL ▲" reads as a specific claim about a specific security even
+// with no price beside it, and this ad is about categories of investment, not
+// about any one company. These also happen to be the right nouns for it.
+const SYMBOLS = [
+  "GOLD", "OIL", "BTC", "ETH", "SILVER", "COPPER", "WHEAT", "REIT",
+  "BONDS", "CASH", "S&P 500", "NASDAQ", "DOW", "CORN", "GAS", "PLATINUM",
+  "RUSSELL", "EURO", "YEN", "COCOA", "SUGAR", "COTTON", "NICKEL", "ZINC",
+  "URANIUM", "LITHIUM", "TIMBER", "CATTLE", "PALLADIUM", "SOYBEAN",
+];
+
+/**
+ * The flood rows that fill the frame for the opening.
+ *
+ * Ten of them, between the ad's two permanent strips, scrolling in alternating
+ * directions at different speeds. Together with those strips it reads as an
+ * exchange wall: too much information, all of it shouting, none of it an
+ * answer — which is the state the question is going to interrupt.
+ *
+ * THEY LEAVE FROM THE MIDDLE OUTWARD, IN PAIRS. `pair` is distance from the
+ * centre of the stack, so the innermost two go first and the outermost two
+ * last, and the wall collapses toward the top and bottom of the frame until
+ * only the ad's own two strips are left running. The opening does not cut to
+ * the ad; it drains into it.
+ */
+const BOARD_N = 12;
+
+const BOARD_ROWS = Array.from({ length: BOARD_N }, (_, r) => {
+  const dur = 9 + hash(r * 89 + 3) * 7;
+  return {
+    items: Array.from({ length: 9 }, (_, j) => [
+      SYMBOLS[Math.floor(hash(r * 131 + j * 7) * SYMBOLS.length)],
+      hash(r * 53 + j * 11) > 0.42 ? "▲" : "▼",
+    ]),
+    back: r % 2 === 1,
+    dur,
+    // where in its own loop the row starts, so the wall is not in step with
+    // itself on the first frame
+    phase: hash(r * 197 + 23) * dur,
+    pair: Math.abs(r - (BOARD_N - 1) / 2) - 0.5,
+  };
+});
+
 // The tape. One pass of the contenders, rendered twice so the scroll has no
 // seam. Arrows disagree — a tape where everything points the same way is not a
 // market, it is the reveal, and the reveal is where that happens.
@@ -461,27 +507,40 @@ export default function BestInvestmentAd() {
           Replaces the candles on the reveal and draws itself across, leaving
           the top of the frame rather than resolving inside it. It is the
           claim; nothing else in the ad has to make it. */}
-      {/* pathLength normalises the draw to 100 units. The stroke is
-          non-scaling — its dash pattern is therefore measured in SCREEN px,
-          not in this 100x100 user space — so a hand-counted dasharray is
-          wrong on every phone by a different amount. */}
-      <svg className="bi-line" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
-        <polyline pathLength="100" points="-2,86 14,79 28,72 42,61 56,49 70,33 84,14 102,-8" />
-      </svg>
-
       {/* ---- the tape ----
           Two strips, running opposite ways so the frame reads as a feed rather
           than as one banner. Both flip to EDUCATION on the reveal. */}
       <Tape className="bi-tape bi-tape-top" answered={answered} />
       <Tape className="bi-tape bi-tape-bot" answered={answered} />
 
-      {/* ---- the intro badge ----
-          The one label in the opening. It says what the chart is so that two
-          seconds of candles is a market rather than an abstract graphic, then
-          it leaves before the first card. */}
-      <div className="bi-live" aria-hidden>
-        <i className="bi-live-dot" />
-        LIVE MARKET
+      {/* ---- the opening ----
+          Ten more rows between the two strips, flooding the frame and then
+          draining out of the middle in pairs until only those two are left. */}
+      <div className="bi-board" aria-hidden>
+        {BOARD_ROWS.map((row, r) => (
+          <div
+            className={`bi-board-row${row.back ? " is-back" : ""}`}
+            key={r}
+            style={{
+              top: `${((r + 1) * 100) / (BOARD_N + 1)}%`,
+              "--dur": `${row.dur.toFixed(1)}s`,
+              "--phase": row.phase.toFixed(2),
+              "--pair": row.pair,
+            }}
+          >
+            <div className="bi-board-run">
+              {row.items.concat(row.items).map(([sym, dir], i) => (
+                <span
+                  key={i}
+                  className={`bi-tick${dir === "▲" ? " is-up" : " is-down"}`}
+                >
+                  {sym}
+                  <i>{dir}</i>
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* ---- the cut ----
