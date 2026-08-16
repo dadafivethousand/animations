@@ -64,7 +64,7 @@ const TIMELINE = [
   // Short. A confident film can open on an empty frame, but this one is
   // scrolled past on a phone — a full second of white before anything moves is
   // a second of people leaving.
-  { k: "open",   ms: 520 },    // an empty studio
+  { k: "open",   ms: 380 },    // an empty studio
   // The marks' own travel is 1500ms, so `arrive` only needs to cover it —
   // anything past that is the pair sitting still before the beat changes.
   { k: "arrive", ms: 1550 },   // the two marks travel in
@@ -73,7 +73,8 @@ const TIMELINE = [
   // film had stalled. The sweep and the hairline draw were retimed with it, or
   // they get cut off mid-animation when the beat changes.
   { k: "meet",   ms: 780 },    // they settle, the hairline draws
-  { k: "name",   ms: 1750 },   // the lockup, named and held
+  { k: "name",   ms: 1550 },   // the HOLD on the finished lockup — the type
+                               // itself already arrived during `meet`
   { k: "line",   ms: 2050 },   // the line
   { k: "offer",  ms: 0 },      // holds
 ];

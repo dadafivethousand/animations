@@ -278,10 +278,21 @@
   transition: opacity 800ms ease, transform 1000ms var(--ease);
 }
 
+/* Comes up DURING the meet, not after it. The name used to wait for its own
+   beat, which meant the frame sat on two silent circles for the whole of
+   `meet` before anything told you what they were. Now it starts 120ms after
+   the marks land — late enough to read as a consequence of them arriving,
+   early enough that there is no dead frame.
+
+   `name` is still its own beat; it is the HOLD on the finished lockup rather
+   than the moment the type arrives. */
+.sl-k-meet .sl-names,
 .sl-k-name .sl-names {
   opacity: 1;
   transform: none;
 }
+
+.sl-k-meet .sl-names { transition-delay: 120ms; }
 
 /* Fades before the line rather than sliding away — two things moving at once
    in a frame this quiet reads as a mistake. */
