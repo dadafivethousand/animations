@@ -168,14 +168,7 @@
           mask-image: radial-gradient(46% 20% at 50% 50%, transparent 0%, rgba(0, 0, 0, .35) 55%, #000 88%);
 }
 
-/* Under the FIRST CARD ONLY, then again for the answer.
-
-   Not under cards 02-04 because the candles are green and red whatever --tint
-   is, and those three wash the frame orange, blue and gold — a red-and-green
-   chart behind an orange card is two colour schemes arguing. It is also the
-   better idea on its own terms: the chart is stocks' picture, and the answer
-   taking it over is the argument the ad is making. */
-.bi-a0 .bi-chart       { opacity: .6; }
+/* THE ANSWER'S ONLY. Card 01 gets the arrow field instead — see .bi-tris. */
 .bi-k-reveal .bi-chart { opacity: .9; }
 .bi-k-end .bi-chart    { opacity: .45; }
 
@@ -232,23 +225,10 @@
    ever shown — it has to hang off a beat class to fire at all. Same trap as
    the flash cards.
 
-   Two rules, because the chart draws twice and has a different job each time.
-   Between them the class is absent, the animation with it, and the candles sit
-   at their base state fully drawn behind an invisible chart — which is exactly
-   what lets the reveal restart the draw from nothing.
-
-   THE STOCKS DRAW MUST FIT INSIDE CARD 01'S SLOT. 80 + 25*34 + 300 comes to
-   1230ms against a 1500ms slot; run past it and the chart is still printing
-   when the class drops, at which point the animation is removed and every
-   unfinished candle snaps to full height at once. That is why CARD_MS[0] is
-   longer than the acceleration alone would want. */
-.bi-a0 .bi-candle i {
-  animation: biPrint 300ms cubic-bezier(.2, .85, .3, 1) both;
-  animation-delay: calc(80ms + var(--i) * 34ms);
-}
-
-/* Slower off the mark for the answer: the word lands first and the market
-   comes up under it. */
+   The 200ms head start lets the word land first and the market come up under
+   it. The whole run is 200 + 25*40 + 320 = 1520ms inside a 3360ms beat; if it
+   ever ran past the beat the class would drop mid-print and every unfinished
+   candle would snap to full height at once. */
 .bi-k-reveal .bi-candle i {
   animation: biPrint 320ms cubic-bezier(.2, .85, .3, 1) both;
   animation-delay: calc(200ms + var(--i) * 40ms);
@@ -276,6 +256,92 @@
 @keyframes biBreathe {
   0%, 100% { opacity: .68; transform: translateY(0); }
   50%      { opacity: 1;   transform: translateY(-2px); }
+}
+
+/* ---------- the opening field ------------------------------------------ */
+
+/* Thirty green and red arrows behind card 01, drifting and breathing. Green
+   rises, red falls — the direction is the meaning, so it is not decorative and
+   must not be flattened to one shared motion.
+
+   BORDER TRIANGLES, NOT ▲/▼ GLYPHS. The tape can use the characters because it
+   is type either way, but at 30px a glyph is at the mercy of whichever font
+   resolves, and the two arrows come out different weights and sit on different
+   baselines. Borders are exact at any size and cost nothing.
+
+   Masked over the middle for the same reason the chart is: the card sits
+   there, and a field that runs under the word competes with it. */
+.bi-tris {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 520ms ease;
+  -webkit-mask-image: radial-gradient(46% 20% at 50% 50%, transparent 0%, rgba(0, 0, 0, .4) 55%, #000 88%);
+          mask-image: radial-gradient(46% 20% at 50% 50%, transparent 0%, rgba(0, 0, 0, .4) 55%, #000 88%);
+}
+
+/* Card 01 only. Under 02-04 the fixed green and red would fight those cards'
+   orange, blue and gold. */
+.bi-a0 .bi-tris { opacity: 1; }
+
+/* THE SLOT DRIFTS, THE ARROW INSIDE IT SCALES, ON UNRELATED PERIODS. Doing
+   both on one element locks the zoom to the travel, and thirty things
+   breathing in time with their own movement reads as a mechanism rather than
+   as a market. This is the single thing that makes the field feel alive. */
+.bi-tri-slot {
+  position: absolute;
+  animation: biTriUp var(--dur) linear var(--delay) infinite;
+}
+
+.bi-tri-slot.is-down {
+  animation-name: biTriDown;
+}
+
+.bi-tri {
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: var(--w) solid transparent;
+  border-right: var(--w) solid transparent;
+  animation: biTriPulse var(--pdur) ease-in-out var(--pdelay) infinite;
+}
+
+/* Lit, not flat. Everything else on this stage carries a glow — the mark, the
+   CTA, the last candle — and thirty matte shapes in the middle of it read as
+   paper cut-outs. The colour has to be written out per direction because a
+   border-drawn triangle has no text colour for currentColor to pick up. */
+.bi-tri-slot.is-up .bi-tri {
+  border-bottom: var(--h) solid var(--up);
+  filter: drop-shadow(0 0 5px rgba(47, 208, 122, .45));
+}
+
+.bi-tri-slot.is-down .bi-tri {
+  border-top: var(--h) solid var(--down);
+  filter: drop-shadow(0 0 5px rgba(242, 65, 92, .45));
+}
+
+/* Fading to nothing at both ends of the travel is what hides the loop: the
+   arrow is invisible at the moment it jumps back to its start. */
+@keyframes biTriUp {
+  0%   { transform: translateY(46px);  opacity: 0; }
+  22%  { opacity: var(--o); }
+  74%  { opacity: var(--o); }
+  100% { transform: translateY(-58px); opacity: 0; }
+}
+
+@keyframes biTriDown {
+  0%   { transform: translateY(-46px); opacity: 0; }
+  22%  { opacity: var(--o); }
+  74%  { opacity: var(--o); }
+  100% { transform: translateY(58px);  opacity: 0; }
+}
+
+@keyframes biTriPulse {
+  0%, 100% { transform: scale(.82); }
+  50%      { transform: scale(1.18); }
 }
 
 /* ---------- the tape --------------------------------------------------- */

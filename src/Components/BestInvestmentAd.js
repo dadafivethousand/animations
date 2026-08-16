@@ -1,10 +1,10 @@
 // BestInvestmentAd.jsx — "what is the best investment?" answered as education.
 //
 // The ad opens ON ITS FIRST CARD — no title, no pre-roll — with STOCKS over a
-// candlestick chart drawing itself behind. It then phases through bitcoin,
-// real estate and gold, a card each and faster every time. Then the feed stops
-// dead, asks the question, and the answer is the one asset that was never on
-// the tape.
+// field of green and red arrows drifting and pulsing behind it. It then phases
+// through bitcoin, real estate and gold, a card each and faster every time.
+// Then the feed stops dead, asks the question, and the answer is the one asset
+// that was never on the tape.
 //
 // ── The flash is the hook, so it has to accelerate ──
 //
@@ -65,24 +65,22 @@
 // to EDUCATION ▲ over and over, every symbol pointing the same way. Nothing
 // says it; the tape just stops being a market and starts being a position.
 //
-// ── The chart appears exactly twice ──
+// ── Two backgrounds, and only two ──
 //
-// A candlestick bull run, printing left to right from the bottom of the frame
-// to the top of it, green and red with pullbacks on the way up. It shows under
-// STOCKS, and it shows again under EDUCATION. Nowhere else.
+// Card 01 gets the ARROW FIELD: thirty green and red triangles drifting and
+// breathing, half of them disagreeing with the other half. The answer gets the
+// CANDLESTICK BULL RUN: one ordered market climbing from the bottom of the
+// frame to the top of it. Nothing else in the ad has a background at all.
 //
-// UNDER STOCKS BECAUSE IT IS A STOCK CHART, AND IT IS THE OPENING IMAGE. The
-// ad has to be about something in its first half-second, and a chart drawing
-// itself is the fastest way to say which something.
+// The pairing is the argument. Noise, then signal. A market that is busy but
+// says nothing, then one line that goes up — and because the second is a
+// completely different KIND of picture rather than a better version of the
+// first, the answer reads as a different kind of answer.
 //
-// NOT UNDER THE OTHER THREE, for a plain reason: the candles are green and red
-// no matter what --tint is, and those three cards wash the frame orange, blue
-// and gold. A red-and-green chart behind an orange card is two colour schemes
-// arguing. It also happens to be the better idea — the chart is stocks'
-// picture, and the answer taking it over is the argument.
-//
-// It redraws for the answer rather than fading back up. Same field, drawn
-// again, brighter, with the tape flipped to EDUCATION behind it.
+// NEITHER RUNS UNDER CARDS 02-04, for a plain reason on top of the above:
+// green and red are fixed whatever --tint is, and those three cards wash the
+// frame orange, blue and gold. Red-and-green over orange is two colour schemes
+// arguing.
 //
 // Nothing else lives back there. A pass once built the reveal out into a fan
 // of eight traces over a rotating ray burst, drifting motes and a moving
@@ -140,7 +138,7 @@ const ASSETS = [
 // clear and then PHASE_IN arriving — roughly 660ms — before the card is fully
 // up. What is left is the hold: about 590ms down to 350ms across the run.
 // Trimming these without trimming the phase cuts a card off mid-arrival.
-const CARD_MS = [1500, 1170, 1090, 1010];
+const CARD_MS = [1250, 1170, 1090, 1010];
 
 // The answer's tint: the market's own colour for up, lit brighter than any
 // contender managed. Bright enough that anything sitting ON it needs dark ink
@@ -295,6 +293,54 @@ const CANDLES = (() => {
   });
 })();
 
+/**
+ * ── the opening field ─────────────────────────────────────────────────────
+ *
+ * What sits behind STOCKS: thirty up and down arrows scattered over the frame,
+ * green rising and red falling, breathing in and out as they go.
+ *
+ * It replaced a candlestick chart there, and the two are saying different
+ * things on purpose. A chart is ONE market with a shape you can read; this is
+ * a whole market's worth of little verdicts, half of them disagreeing, none of
+ * them adding up to anything. That is the state the question interrupts — and
+ * it makes the ordered bull run under the answer land as a different kind of
+ * picture rather than as more of the same.
+ *
+ * TWO INDEPENDENT LOOPS PER ARROW, which is where the life comes from. The
+ * slot drifts and fades on one period; the arrow inside it scales on another,
+ * unrelated one. A single keyframe doing both locks drift to zoom, and thirty
+ * things breathing in time with their own travel reads as a mechanism. Two
+ * loops at coprime-ish periods never repeat the same combination twice.
+ *
+ * DEPTH IS DERIVED FROM SIZE, not chosen separately: bigger reads as nearer,
+ * so it is brighter and drifts faster. That is the whole reason the field has
+ * a front and a back instead of being flat confetti.
+ */
+const TRIS = Array.from({ length: 30 }, (_, i) => {
+  // Slightly more green than red. An even split reads as noise; a tilt reads
+  // as a market that is up but arguing, which is the honest version.
+  const up = hash(i * 37 + 5) > 0.42;
+  const w = 6 + hash(i * 61 + 11) * 13;
+  const near = (w - 6) / 13;                       // 0 far, 1 near
+  return {
+    // Inset from all four edges. `left` places the arrow's LEFT corner, so an
+    // arrow at 96% is a half-triangle sliced by the frame, which reads as a
+    // rendering fault rather than as something passing by. The top and bottom
+    // insets keep the field off the two ticker strips.
+    x: 3 + hash(i * 13 + 3) * 86,
+    y: 7 + hash(i * 29 + 7) * 86,
+    up,
+    w,
+    h: w * 1.55,
+    o: 0.18 + near * 0.5,
+    dur: 9 - near * 3.5 + hash(i * 71 + 2) * 2,
+    // negative, so the field is already in flight on the ad's first frame
+    delay: -(hash(i * 89 + 13) * 12).toFixed(2),
+    pdur: 2.2 + hash(i * 103 + 17) * 2.6,
+    pdelay: -(hash(i * 127 + 19) * 3).toFixed(2),
+  };
+});
+
 // The tape. One pass of the contenders, rendered twice so the scroll has no
 // seam. Arrows disagree — a tape where everything points the same way is not a
 // market, it is the reveal, and the reveal is where that happens.
@@ -373,6 +419,35 @@ export default function BestInvestmentAd() {
           cuts. The cards flash; the room they flash in does not. */}
       <div className="bi-grid" aria-hidden />
       <div className="bi-glow" aria-hidden />
+
+      {/* ---- the opening field ----
+          Behind card 01 only. Each arrow is a slot that drifts and fades on
+          one period wrapping an arrow that scales on another. */}
+      <div className="bi-tris" aria-hidden>
+        {TRIS.map((t, i) => (
+          <span
+            key={i}
+            className={`bi-tri-slot${t.up ? " is-up" : " is-down"}`}
+            style={{
+              left: `${t.x.toFixed(2)}%`,
+              top: `${t.y.toFixed(2)}%`,
+              "--o": t.o.toFixed(2),
+              "--dur": `${t.dur.toFixed(2)}s`,
+              "--delay": `${t.delay}s`,
+            }}
+          >
+            <i
+              className="bi-tri"
+              style={{
+                "--w": `${t.w.toFixed(1)}px`,
+                "--h": `${t.h.toFixed(1)}px`,
+                "--pdur": `${t.pdur.toFixed(2)}s`,
+                "--pdelay": `${t.pdelay}s`,
+              }}
+            />
+          </span>
+        ))}
+      </div>
 
       <div className="bi-chart" aria-hidden>
         {CANDLES.map((c, i) => (
