@@ -228,10 +228,10 @@
 
 .sl-k-meet .sl-sweep {
   opacity: 1;
-  animation: slSweep 950ms var(--ease) 120ms both;
+  animation: slSweep 600ms var(--ease) 40ms both;
 }
 
-.sl-k-meet .sl-mark-c .sl-sweep { animation-delay: 260ms; }
+.sl-k-meet .sl-mark-c .sl-sweep { animation-delay: 140ms; }
 
 @keyframes slSweep {
   from { transform: translateX(0); }
@@ -246,7 +246,9 @@
   background: var(--hair);
   transform: scaleY(0);
   transform-origin: 50% 0;
-  transition: transform 900ms var(--ease);
+  /* Fits inside the shortened `meet` beat — a 900ms draw was still running
+     when the beat changed and the line snapped the rest of the way. */
+  transition: transform 600ms var(--ease);
 }
 
 .sl-k-meet .sl-hair,

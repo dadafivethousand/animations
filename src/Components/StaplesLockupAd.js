@@ -65,8 +65,14 @@ const TIMELINE = [
   // scrolled past on a phone — a full second of white before anything moves is
   // a second of people leaving.
   { k: "open",   ms: 520 },    // an empty studio
-  { k: "arrive", ms: 1650 },   // the two marks travel in
-  { k: "meet",   ms: 1250 },   // they settle, the hairline draws
+  // The marks' own travel is 1500ms, so `arrive` only needs to cover it —
+  // anything past that is the pair sitting still before the beat changes.
+  { k: "arrive", ms: 1550 },   // the two marks travel in
+  // TIGHT. This is dead air between the two circles landing and the lockup
+  // being named, and it was 1250ms — long enough on a phone to feel like the
+  // film had stalled. The sweep and the hairline draw were retimed with it, or
+  // they get cut off mid-animation when the beat changes.
+  { k: "meet",   ms: 780 },    // they settle, the hairline draws
   { k: "name",   ms: 1750 },   // the lockup, named and held
   { k: "line",   ms: 2050 },   // the line
   { k: "offer",  ms: 0 },      // holds
