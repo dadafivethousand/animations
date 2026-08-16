@@ -1,0 +1,499 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
+
+/* ============================================================
+   StaplesLockupAd — two circles, coming together.
+
+   Staples owns a red disc, Code Ninjas owns a dark one. The film is those two
+   objects travelling toward each other and settling into a lockup.
+
+   ── THE RULES THAT GET A CO-BRAND PIECE APPROVED ──
+
+   What gets a national promo rejected is almost never the idea; it is tone and
+   handling. So, and these are not stylistic preferences:
+
+     · both marks are used AS SUPPLIED — no filter, no crop, no rotation, no
+       recolour. There is not a single `filter` on either mark in this file and
+       there must not be one added.
+     · equal size, opposite sides, and neither is ever stacked in front of the
+       other. z-index parity is deliberate.
+     · the separator is a HAIRLINE. A hairline says "with" and belongs to
+       neither party; an ampersand, a plus or an X all imply an owner.
+     · red is the only colour in the film, and both brands own it.
+
+   ── WHY EVERY EASE IS A SETTLE ──
+
+   THERE IS NOT ONE BOUNCE IN THIS FILE, and that is the production value. The
+   previous pass at this partnership was energetic — pop, flash, shake, arcade
+   type — which is what a good local promo looks like and exactly what marks a
+   piece as franchisee-made. Expensive work is slower: long decelerations,
+   nothing that overshoots, long holds on the frame that matters.
+
+   Every timing function here is cubic-bezier(.22, 1, .36, 1) or close to it,
+   and every duration is 800-1400ms. If you find yourself reaching for a spring
+   curve, that is the moment this stops looking national.
+
+   ── THE STUDIO ──
+
+   One soft key from above and a floor the marks cast onto. Their shadows
+   TIGHTEN as they land, because a shadow that does not change is a drawing and
+   one that does is a light. Same reason the marks arrive slightly blurred and
+   resolve: it reads as focus, and focus reads as a camera.
+
+   Knobs:
+     --gap                how far apart the two marks settle
+     --d                  the shared mark diameter
+     --safe-x / --safe-y  the crop guard everything readable lives inside
+
+   Portrait phone only (~390x844, recorded at 360x640).
+   ============================================================ */
+
+.sl-stage {
+  --red:    #cc0000;      /* Staples red — the only colour in the film */
+  --ink:    #101215;
+  --ink-2:  #5a616b;
+  --mute:   #9aa1ab;
+  --hair:   #d9dde3;
+
+  /* Both marks, same diameter. Big enough to be the subject of the frame
+     rather than two icons sitting in it — this is the hero object of the film
+     and the thing the lockup frame is built around. */
+  --d: min(37vw, 146px);
+  --gap: 8vw;
+
+  --ease: cubic-bezier(.22, 1, .36, 1);
+
+  --s: 1;
+
+  /* The crop guard. The ad is screen-recorded and re-fit before it reaches IG,
+     so the edges go missing by an amount nobody knows in advance. */
+  --safe-x: max(45px, 11vw);
+  --safe-y: max(40px, 6vh);
+
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #fbfbfc;
+  color: var(--ink);
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.sl-stage *,
+.sl-stage *::before,
+.sl-stage *::after {
+  box-sizing: border-box;
+}
+
+/* ---------- the studio -------------------------------------------------- */
+
+/* One soft key from above. Wide and shallow, so it lights the frame rather
+   than spotlighting the middle of it. */
+.sl-key {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(88% 46% at 50% 8%, #ffffff 0%, rgba(255, 255, 255, 0) 72%),
+    linear-gradient(180deg, #ffffff 0%, #f4f6f8 62%, #e9edf1 100%);
+}
+
+/* The floor the marks stand on. A single soft band, not a drawn line — a hard
+   horizon would turn a studio into a diagram. */
+.sl-floor {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 47%;
+  height: 30vh;
+  z-index: 1;
+  background: radial-gradient(64% 40% at 50% 0%, rgba(16, 18, 21, .05) 0%, transparent 70%);
+}
+
+/* ---------- the two marks ----------------------------------------------- */
+
+.sl-marks {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 41%;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap);
+  transition: transform 1100ms var(--ease), opacity 700ms ease;
+}
+
+/* On the last two beats the pair steps back and up, giving the line and then
+   the offer the middle of the frame without ever cutting away from it. */
+.sl-k-line .sl-marks {
+  transform: translateY(-9vh) scale(.72);
+}
+
+.sl-k-offer .sl-marks {
+  transform: translateY(-9vh) scale(.72);
+  opacity: 0;
+}
+
+.sl-mark {
+  position: relative;
+  width: var(--d);
+  height: var(--d);
+  flex: none;
+  opacity: 0;
+  /* Arrives slightly soft and resolves — it reads as focus, and focus reads as
+     a camera rather than as a graphic being placed. */
+  filter: blur(6px);
+  transition:
+    transform 1500ms var(--ease),
+    opacity 900ms ease,
+    filter 1100ms var(--ease);
+}
+
+/* NO FILTER ON THE MARKS THEMSELVES. The blur above lives on the wrapper, and
+   the image inside is untouched — see the approval rules at the top. */
+.sl-mark img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Off-frame, and far enough out that the whole travel is a deceleration rather
+   than a slide-and-stop. */
+.sl-mark-s { transform: translateX(-96vw); }
+.sl-mark-c { transform: translateX(96vw); }
+
+.sl-k-arrive .sl-mark,
+.sl-k-meet .sl-mark,
+.sl-k-name .sl-mark,
+.sl-k-line .sl-mark,
+.sl-k-offer .sl-mark {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateX(0);
+}
+
+/* Each mark's own shadow. It TIGHTENS as the mark lands — a shadow that does
+   not change is a drawing; one that does is a light. */
+.sl-shadow {
+  position: absolute;
+  left: 50%;
+  bottom: -14%;
+  width: 96%;
+  height: 16%;
+  margin-left: -48%;
+  border-radius: 50%;
+  background: rgba(16, 18, 21, .3);
+  filter: blur(11px);
+  opacity: .5;
+  transform: scale(1.5);
+  transition: transform 1500ms var(--ease), opacity 1100ms var(--ease), filter 1100ms var(--ease);
+}
+
+.sl-k-meet .sl-shadow,
+.sl-k-name .sl-shadow,
+.sl-k-line .sl-shadow,
+.sl-k-offer .sl-shadow {
+  transform: scale(1);
+  opacity: .32;
+  filter: blur(7px);
+}
+
+/* One pass of light across each mark as they settle. Clipped to the disc, so
+   it is a highlight travelling over an object rather than a shape crossing the
+   frame. Fires once — this is a moment, not a loop. */
+.sl-sweep {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: 50%;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.sl-sweep::before {
+  content: "";
+  position: absolute;
+  top: -60%;
+  left: -140%;
+  width: 90%;
+  height: 220%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .72), transparent);
+  transform: rotate(18deg);
+}
+
+.sl-k-meet .sl-sweep {
+  opacity: 1;
+  animation: slSweep 950ms var(--ease) 120ms both;
+}
+
+.sl-k-meet .sl-mark-c .sl-sweep { animation-delay: 260ms; }
+
+@keyframes slSweep {
+  from { transform: translateX(0); }
+  to   { transform: translateX(320%); }
+}
+
+/* The hairline. Draws down out of nothing once both marks have stopped. */
+.sl-hair {
+  flex: none;
+  width: 1px;
+  height: calc(var(--d) * .52);
+  background: var(--hair);
+  transform: scaleY(0);
+  transform-origin: 50% 0;
+  transition: transform 900ms var(--ease);
+}
+
+.sl-k-meet .sl-hair,
+.sl-k-name .sl-hair,
+.sl-k-line .sl-hair,
+.sl-k-offer .sl-hair {
+  transform: scaleY(1);
+}
+
+/* ---------- the names --------------------------------------------------- */
+
+/* The screenshot frame: two marks, a hairline, and a name. */
+/* Clear of the marks AND of their shadows. At 61% it sat inside the shadow of
+   the discs above it, which on a frame this quiet reads as a collision. */
+.sl-names {
+  position: absolute;
+  left: var(--safe-x);
+  right: var(--safe-x);
+  top: 65%;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(10px * var(--s));
+  opacity: 0;
+  transform: translateY(calc(10px * var(--s)));
+  transition: opacity 800ms ease, transform 1000ms var(--ease);
+}
+
+.sl-k-name .sl-names {
+  opacity: 1;
+  transform: none;
+}
+
+/* Fades before the line rather than sliding away — two things moving at once
+   in a frame this quiet reads as a mistake. */
+.sl-k-line .sl-names,
+.sl-k-offer .sl-names { opacity: 0; }
+
+.sl-names span {
+  font-size: calc(12px * var(--s));
+  font-weight: 700;
+  letter-spacing: .3em;
+  text-indent: .3em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.sl-names i {
+  font-style: normal;
+  font-size: calc(11px * var(--s));
+  color: var(--mute);
+}
+
+/* ---------- the line ---------------------------------------------------- */
+
+/* One sentence split in two, each brand owning a half. Set in the same weight
+   and size as each other, because the moment one half is bigger it becomes an
+   argument about whose partnership it is. */
+.sl-line {
+  position: absolute;
+  left: var(--safe-x);
+  right: var(--safe-x);
+  top: 52%;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(2px * var(--s));
+  text-align: center;
+  pointer-events: none;
+}
+
+.sl-line span {
+  font-size: clamp(22px, 7.2vw, calc(29px * var(--s)));
+  font-weight: 600;
+  letter-spacing: -.018em;
+  line-height: 1.24;
+  color: var(--ink);
+  opacity: 0;
+  transform: translateY(calc(12px * var(--s)));
+}
+
+.sl-line span:last-child { color: var(--red); }
+
+.sl-k-line .sl-line span {
+  animation: slUp 1000ms var(--ease) both;
+}
+
+.sl-k-line .sl-line span:nth-child(1) { animation-delay: 160ms; }
+.sl-k-line .sl-line span:nth-child(2) { animation-delay: 520ms; }
+
+@keyframes slUp {
+  from { opacity: 0; transform: translateY(calc(12px * var(--s))); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- the offer --------------------------------------------------- */
+
+.sl-offer {
+  position: absolute;
+  inset: var(--safe-y) var(--safe-x);
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(9px * var(--s));
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(calc(12px * var(--s)));
+  transition: opacity 800ms ease, transform 1000ms var(--ease);
+}
+
+.sl-k-offer .sl-offer {
+  opacity: 1;
+  transform: none;
+  transition-delay: 260ms;
+}
+
+/* The compliant, official lockup — full marks as supplied, separated by the
+   same hairline as the hero frame. */
+.sl-lockup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(14px * var(--s));
+  margin-bottom: calc(6px * var(--s));
+}
+
+.sl-lockup-s { width: calc(104px * var(--s)); height: auto; display: block; }
+
+/* The Code Ninjas mark is head-plus-wordmark and reads smaller per unit width
+   than the Staples wordmark, so it is set wider to match OPTICALLY rather than
+   numerically. Two partner marks at equal measured width look unequal. */
+.sl-lockup-c { width: calc(120px * var(--s)); height: auto; display: block; }
+
+.sl-lockup-bar {
+  width: 1px;
+  height: calc(30px * var(--s));
+  background: var(--hair);
+}
+
+.sl-amount {
+  font-size: clamp(40px, 13.6vw, calc(56px * var(--s)));
+  font-weight: 800;
+  letter-spacing: -.035em;
+  line-height: 1;
+  color: var(--red);
+}
+
+.sl-what {
+  display: flex;
+  flex-direction: column;
+  gap: calc(2px * var(--s));
+  font-size: calc(13.5px * var(--s));
+  font-weight: 500;
+  line-height: 1.42;
+  color: var(--ink-2);
+}
+
+/* Between two hairlines, not inside a dashed coupon box. A coupon border is
+   discount-retail; this has to read as a partnership that happens to carry an
+   offer. */
+.sl-code {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(11px * var(--s));
+  margin-top: calc(8px * var(--s));
+  padding: calc(9px * var(--s)) 0;
+  border-top: 1px solid var(--hair);
+  border-bottom: 1px solid var(--hair);
+  width: min(88%, calc(280px * var(--s)));
+}
+
+.sl-code-k {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: calc(9.5px * var(--s));
+  font-weight: 500;
+  letter-spacing: .3em;
+  text-indent: .3em;
+  color: var(--mute);
+}
+
+.sl-code-n {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: clamp(16px, 5.4vw, calc(21px * var(--s)));
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: var(--ink);
+}
+
+.sl-site {
+  margin-top: calc(6px * var(--s));
+  font-size: calc(13px * var(--s));
+  font-weight: 700;
+  letter-spacing: .01em;
+  color: var(--red);
+}
+
+/* Small, but LEGIBLE. This is a dated offer with eligibility conditions, and
+   fine print nobody can read is worse than none — do not take it below 8px to
+   buy layout room. */
+.sl-terms {
+  margin-top: calc(4px * var(--s));
+  max-width: calc(292px * var(--s));
+  font-size: calc(8px * var(--s));
+  font-weight: 400;
+  line-height: 1.52;
+  color: var(--mute);
+  text-wrap: pretty;
+}
+
+/* ---------- over everything --------------------------------------------- */
+
+/* Both very light. On a near-white frame these are the difference between
+   "rendered" and "photographed", and at any strength they are the difference
+   between subtle and dirty. */
+.sl-grain {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+  opacity: .03;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='160' height='160' filter='url(%23f)'/></svg>");
+  background-size: 160px 160px;
+}
+
+.sl-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 9;
+  pointer-events: none;
+  background: radial-gradient(104% 78% at 50% 44%, transparent 58%, rgba(16, 18, 21, .07) 100%);
+}
+
+/* ---------- reduced motion ---------------------------------------------- */
+
+/* The component already snaps the timeline to the offer; this stops the
+   travels and sweeps running under it. */
+@media (prefers-reduced-motion: reduce) {
+  .sl-stage *,
+  .sl-stage *::before,
+  .sl-stage *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
