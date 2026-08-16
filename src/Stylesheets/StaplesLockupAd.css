@@ -369,25 +369,50 @@
 }
 
 /* The compliant, official lockup — full marks as supplied, separated by the
-   same hairline as the hero frame. */
+   same hairline as the hero frame.
+
+   BOTTOM-JUSTIFIED, SO BOTH WORDMARKS SIT ON ONE LINE. Centring them looks
+   tidy in a box model and wrong on the page: the two marks have completely
+   different internal proportions, so their type ends up at two different
+   heights and the lockup reads as two logos that happen to be near each
+   other. */
 .sl-lockup {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   gap: calc(14px * var(--s));
   margin-bottom: calc(6px * var(--s));
 }
 
-.sl-lockup-s { width: calc(104px * var(--s)); height: auto; display: block; }
+/* ...and flex-end alone is not enough, because the two marks do not end where
+   their writing ends. Measured on the actual files:
+
+     staples-logo     the wordmark's bottom is 19.5% of the box height ABOVE
+                      the box bottom — the easy button hangs below it
+     cn-woodbridge    the wordmark IS the bottom of the box, 0% offset
+
+   So the Staples mark is pushed down by that 19.5%, expressed against its own
+   width since that is what it is sized by: 0.195 x (256/903) = 0.055.
+   Re-measure if either file is ever replaced. */
+.sl-lockup-s {
+  --sw: calc(104px * var(--s));
+  width: var(--sw);
+  height: auto;
+  display: block;
+  margin-bottom: calc(var(--sw) * -0.055);
+}
 
 /* The Code Ninjas mark is head-plus-wordmark and reads smaller per unit width
    than the Staples wordmark, so it is set wider to match OPTICALLY rather than
    numerically. Two partner marks at equal measured width look unequal. */
 .sl-lockup-c { width: calc(120px * var(--s)); height: auto; display: block; }
 
+/* Sits on the same line the writing does, not on the bottom of the taller
+   box. */
 .sl-lockup-bar {
   width: 1px;
-  height: calc(30px * var(--s));
+  height: calc(26px * var(--s));
+  margin-bottom: calc(2px * var(--s));
   background: var(--hair);
 }
 
