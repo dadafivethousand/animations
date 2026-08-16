@@ -100,9 +100,22 @@ const TIMELINE = [
   { k: "end",    ms: 0 },
 ];
 
-// A beat of feed before the first card, so the ad starts as a market rather
-// than as a title. Short — anything past ~400ms is a thumb's worth of nothing.
-const LEAD = 320;
+// ── the intro ─────────────────────────────────────────────────────────────
+// Before any card, the ad is just a market: the candle field prints itself
+// left to right in green and red while the tape runs, under a LIVE badge.
+//
+// The ad has to earn the question it is going to ask, and it cannot do that
+// while it is still explaining what it is. Two seconds of a chart trading is
+// the cheapest way to establish "this is a market" so that the four cards read
+// as contenders in one rather than as four unrelated slides.
+//
+// LEAD IS NOT A FREE PARAMETER. It has to cover the print — 26 candles
+// staggered by PRINT_STEP, plus the growth of the last one — or the first card
+// cuts in over a chart that is still drawing, which reads as the ad starting
+// before it was ready. If the candle count or the stagger changes, this
+// changes with them.
+const PRINT_STEP = 48;   // ms between candles. Mirrored in the stylesheet.
+const LEAD = 2000;       // ≈ 26 * 48 + 340 growth + a beat of live movement
 
 /**
  * The Bitcoin mark: the orange disc with the tilted ₿.
@@ -179,19 +192,40 @@ function hash(n) {
 }
 
 /**
- * The candlestick field behind the opening.
+ * The candlestick field.
  *
  * Percentages of the chart box, so the whole thing scales with the frame. Each
  * candle gets a body and a wick, and the walk is cumulative — a candle opens
  * where the last one closed — because a field of independently placed bars is
  * a bar chart, not a market. It drifts down across the run, which is what
  * makes the ascending line on the reveal read as a reversal.
+ *
+ * THE FIELD PRINTS RATHER THAN APPEARING. Each candle carries its index, and
+ * CSS staggers its growth off that, so the chart draws itself left to right the
+ * way a live one does. It grows from the OPEN — up candles from the bottom,
+ * down candles from the top — which is the difference between a market
+ * printing and a bar chart wiping in. That is what --i and the .is-up/.is-down
+ * classes are for; the transform-origin is not decorative.
  */
 const CANDLES = (() => {
   const n = 26;
-  let y = 62;
+  // Opens high and works down. Start, bias and amplitude together decide how
+  // much of the chart box the walk uses AND whether it ever hits the clamp.
+  // These three span about two thirds of the box and never clamp once.
+  //
+  // Both failures are worth knowing, because both look like a bug in the
+  // drawing rather than a choice about the numbers:
+  //   - too little range (an earlier pass opened at 62 and used a third of the
+  //     box) reads as a strip of decoration, not as a chart;
+  //   - too much bias pins the walk against the clamp and the last several
+  //     candles come out as a flat row of stubs at the bottom of the frame.
+  //
+  // The bias is also the decline, and that is worth keeping: the market has to
+  // be visibly falling for the ascending line on the reveal to land as a
+  // reversal rather than as just another chart.
+  let y = 18;
   return Array.from({ length: n }, (_, i) => {
-    const move = (hash(i * 17 + 5) - 0.46) * 17;
+    const move = (hash(i * 17 + 5) - 0.42) * 15;
     const open = y;
     const close = Math.min(88, Math.max(12, y + move));
     y = close;
@@ -202,7 +236,10 @@ const CANDLES = (() => {
       h: Math.max(1.6, Math.abs(close - open)),
       wickTop: Math.min(open, close) - wick * 0.5,
       wickH: Math.abs(close - open) + wick,
-      // a slow, staggered breathe so the field is alive under the cuts
+      // a slow, staggered breathe so the field is alive under the cuts. Its
+      // period varies per candle too — one shared period is a pulse, and a
+      // field that pulses in time reads as a decoration rather than as a feed.
+      dur: (3.2 + hash(i * 71 + 13) * 2.6).toFixed(2),
       delay: -(hash(i * 53 + 3) * 4).toFixed(2),
     };
   });
@@ -266,9 +303,13 @@ export default function BestInvestmentAd() {
         {CANDLES.map((c, i) => (
           <span
             key={i}
-            className={`bi-candle${c.up ? " is-up" : " is-down"}`}
+            className={`bi-candle${c.up ? " is-up" : " is-down"}${
+              i === CANDLES.length - 1 ? " is-last" : ""
+            }`}
             style={{
               left: `${(i + 0.5) * (100 / CANDLES.length)}%`,
+              "--i": i,
+              "--dur": `${c.dur}s`,
               "--delay": `${c.delay}s`,
             }}
           >
@@ -296,6 +337,23 @@ export default function BestInvestmentAd() {
       <Tape className="bi-tape bi-tape-top" answered={answered} />
       <Tape className="bi-tape bi-tape-bot" answered={answered} />
 
+      {/* ---- the intro badge ----
+          The one label in the opening. It says what the chart is so that two
+          seconds of candles is a market rather than an abstract graphic, then
+          it leaves before the first card. */}
+      <div className="bi-live" aria-hidden>
+        <i className="bi-live-dot" />
+        LIVE MARKET
+      </div>
+
+      {/* ---- the cut ----
+          A bloom in the card's own colour, keyed by index so it remounts and
+          fires once per cut. The cards are hard cuts and should stay hard —
+          this does not soften the join, it punctuates it, which is the
+          difference between an edit that reads as deliberate and one that
+          reads as a dropped frame. */}
+      {asset && <span className="bi-blast" key={`x${beat.i}`} aria-hidden />}
+
       <div className="bi-card">
         {/* ---- the flash ----
             Keyed by index: React remounts on every cut so the entrance
@@ -317,69 +375,80 @@ export default function BestInvestmentAd() {
           </div>
         )}
 
-        {/* ---- the question ----
-            The feed stops and asks it. Set small and quiet on purpose: four
+        {/* ---- the three story scenes ----
+            These are ALWAYS MOUNTED and stacked on each other, unlike the
+            flash cards above. The cards want remounting because they are hard
+            cuts; these want to move into one another, and a scene that
+            unmounts cannot animate out — it can only vanish, which is what
+            made the answer→endcard join read as a dropped frame.
+
+            So each is an absolutely-positioned layer whose opacity and
+            transform are CSS transitions driven by the root's beat class. Only
+            one is ever lit, and every join between them is a real move. */}
+
+        {/* The feed stops and asks it. Set small and quiet on purpose: four
             shouted cards then a fifth shouted line is no change at all, and
             the drop in volume is what makes the room go still. */}
-        {kind === "ask" && (
-          <div className="bi-ask">
-            <div className="bi-ask-k">SO</div>
-            <div className="bi-ask-q">
-              <span>WHAT'S THE BEST</span>
-              <span>INVESTMENT?</span>
-            </div>
-            <span className="bi-blink" aria-hidden />
+        <div className="bi-scene bi-scene-ask">
+          <div className="bi-ask-k">SO</div>
+          <div className="bi-ask-q">
+            <span>WHAT'S THE BEST</span>
+            <span>INVESTMENT?</span>
           </div>
-        )}
+          <span className="bi-blink" aria-hidden />
+        </div>
 
-        {/* ---- the answer ---- */}
-        {kind === "reveal" && (
-          <div className="bi-reveal">
-            <div className="bi-emoji bi-emoji-big">🧠</div>
-            <div className="bi-name bi-name-big">
-              <span>EDUCATION</span>
-            </div>
-            <span className="bi-rule bi-rule-wide" aria-hidden />
-            {/* Continues the headline rather than restating it — the frame
-                reads "EDUCATION will always be the best return on your
-                investment", which is why these lines start lowercase and
-                carry no full stop until the end. Breaks are authored: at this
-                measure "return on your investment" is the longest line that
-                clears the side guard on a 390px phone. */}
-            <div className="bi-claim">
-              <span>will always be the best</span>
-              <span>return on your investment.</span>
-            </div>
+        {/* The answer. On the way out it shrinks and rises toward where the
+            endcard's kicker appears, so the two frames read as one move
+            rather than as a swap. */}
+        <div className="bi-scene bi-scene-reveal">
+          <div className="bi-emoji bi-emoji-big">🧠</div>
+          <div className="bi-name bi-name-big">
+            <span>EDUCATION</span>
           </div>
-        )}
+          <span className="bi-rule bi-rule-wide" aria-hidden />
+          {/* Continues the headline rather than restating it — the frame
+              reads "EDUCATION will always be the best return on your
+              investment", which is why these lines start lowercase and
+              carry no full stop until the end. Breaks are authored: at this
+              measure "return on your investment" is the longest line that
+              clears the side guard on a 390px phone. */}
+          <div className="bi-claim">
+            <span>will always be the best</span>
+            <span>return on your investment.</span>
+          </div>
+        </div>
 
         {/* ---- who the answer belongs to ----
             EDUCATION comes back as a kicker over the mark, so the last frame
             is one sentence: the answer, then whose it is. The wordmark has no
             light-on-dark art, so it is foiled — a flat invert flattens the
             ninja head to a white disc. */}
-        {kind === "end" && (
-          <div className="bi-end">
-            <div className="bi-kicker">
-              <span className="bi-kicker-a">🧠</span>
-              EDUCATION
-              <span className="bi-kicker-a">▲</span>
-            </div>
-
-            <img className="bi-logo" src={cnLogo} alt="Code Ninjas" />
-            <div className="bi-loc">WOODBRIDGE</div>
-
-            <span className="bi-rule bi-rule-wide" aria-hidden />
-
-            <div className="bi-sub">
-              <span>Kids ages 5&ndash;14 learn to code</span>
-              <span>by building real games</span>
-            </div>
-
-            <div className="bi-cta">BOOK A FREE SESSION</div>
+        <div className="bi-scene bi-scene-end">
+          <div className="bi-kicker">
+            <span className="bi-kicker-a">🧠</span>
+            EDUCATION
+            <span className="bi-kicker-a">▲</span>
           </div>
-        )}
+
+          <img className="bi-logo" src={cnLogo} alt="Code Ninjas" />
+          <div className="bi-loc">WOODBRIDGE</div>
+
+          <span className="bi-rule bi-rule-wide" aria-hidden />
+
+          <div className="bi-sub">
+            <span>Kids ages 5&ndash;14 learn to code</span>
+            <span>by building real games</span>
+          </div>
+
+          <div className="bi-cta">BOOK A FREE SESSION</div>
+        </div>
       </div>
+
+      {/* One pass of a scanline down the frame as the market halts — the
+          terminal redrawing, and the only motion in a beat that is otherwise
+          the ad standing still. */}
+      <div className="bi-sweep" aria-hidden />
 
       <div className="bi-vignette" aria-hidden />
       <div className="bi-grain" aria-hidden />

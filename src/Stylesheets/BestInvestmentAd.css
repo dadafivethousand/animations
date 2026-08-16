@@ -79,7 +79,13 @@
   position: fixed;
   inset: 0;
   overflow: hidden;
-  background: var(--bg);
+  /* The ground, INCLUDING the darkening at the bottom of the frame. That
+     gradient used to sit on .bi-glow, which the question beat dims — so the
+     beat that is supposed to darken the room was lightening it instead. Only
+     the tint belongs on a layer that gets turned down. */
+  background:
+    radial-gradient(120% 70% at 50% 118%, var(--bg-2) 0%, transparent 66%),
+    var(--bg);
   color: var(--paper);
   font-family: "Inter", system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -116,8 +122,7 @@
   inset: 0;
   z-index: 1;
   background:
-    radial-gradient(72% 46% at 50% 44%, color-mix(in srgb, var(--tint) 22%, transparent) 0%, transparent 72%),
-    radial-gradient(120% 70% at 50% 118%, var(--bg-2) 0%, transparent 66%);
+    radial-gradient(72% 46% at 50% 44%, color-mix(in srgb, var(--tint) 22%, transparent) 0%, transparent 72%);
   transition: background 260ms linear, opacity 600ms ease;
 }
 
@@ -125,17 +130,26 @@
 
 /* A market: up and down, drifting lower across the run so the ascending line
    on the reveal reads as a reversal rather than as more of the same. Sits low
-   in the frame — the card owns the middle. */
+   in the frame — the card owns the middle.
+
+   The chart is the SUBJECT during the intro and the ROOM afterwards, and the
+   whole difference is this opacity. At .5 the whole way through, the opening
+   is a background nobody looks at and the ad has no first act. */
 .bi-chart {
   position: absolute;
-  left: 0;
-  right: 0;
+  /* Inset, with a wider gutter on the right. A real trading chart reserves
+     that band for its price axis, and here it also keeps the lit last candle
+     — the one place the eye goes during the intro — off the crop line. */
+  left: 2%;
+  right: 12%;
   top: 26%;
   height: 52%;
   z-index: 2;
-  opacity: .5;
-  transition: opacity 520ms ease;
+  opacity: .34;
+  transition: opacity 620ms ease;
 }
+
+.bi-k-lead .bi-chart { opacity: 1; }
 
 .bi-candle {
   position: absolute;
@@ -143,7 +157,9 @@
   bottom: 0;
   width: 9px;
   margin-left: -4.5px;
-  animation: biBreathe 4s ease-in-out var(--delay) infinite;
+  /* Per-candle period, set from the component. One shared duration makes the
+     field pulse in time, which reads as a decoration rather than as a feed. */
+  animation: biBreathe var(--dur) ease-in-out var(--delay) infinite;
 }
 
 .bi-candle i {
@@ -167,11 +183,98 @@
 .bi-candle.is-up   i { background: var(--up); }
 .bi-candle.is-down i { background: var(--down); }
 
-/* Alive, but only just — the cuts are the motion in this section, and a
-   candle field that visibly animates competes with them. */
+/* ── the print ──────────────────────────────────────────────────────────
+   The chart draws itself left to right, one candle at a time, the way a live
+   one does. The stagger is off --i, set per candle in the component; 48ms
+   MIRRORS PRINT_STEP there, and the component's LEAD is sized to cover the
+   whole run — the three numbers move together or the first card cuts in over
+   a chart that is still drawing.
+
+   GROWN FROM THE OPEN, NOT FADED IN. An up candle opens at its low and closes
+   at its high, so it grows upward; a down candle grows down from its open.
+   That is the entire difference between a market printing and a bar chart
+   wiping in, and it is why the direction classes carry a transform-origin
+   rather than only a colour.
+
+   The wick and the body are separate boxes, so each scales about its own
+   edge. They are not in perfect register mid-growth — at 340ms and this size
+   nobody can see it, and the alternative is one element that cannot be two
+   widths. */
+.bi-candle i {
+  animation: biPrint 340ms cubic-bezier(.2, .85, .3, 1) both;
+  animation-delay: calc(var(--i) * 48ms);
+}
+
+.bi-candle.is-up i   { transform-origin: 50% 100%; }
+.bi-candle.is-down i { transform-origin: 50% 0%; }
+
+@keyframes biPrint {
+  from { transform: scaleY(0); opacity: 0; }
+  to   { transform: scaleY(1); opacity: 1; }
+}
+
+/* The candle currently trading. Lit, and it keeps a soft halo — the eye needs
+   one place to be during the intro, and the far right is where a live chart
+   is actually happening. */
+.bi-candle.is-last i {
+  box-shadow: 0 0 10px currentColor;
+}
+.bi-candle.is-last.is-up i   { color: var(--up); }
+.bi-candle.is-last.is-down i { color: var(--down); }
+
+/* Alive, but only just once the cards start — the cuts are the motion in that
+   section and a candle field that visibly animates competes with them. */
 @keyframes biBreathe {
   0%, 100% { opacity: .68; transform: translateY(0); }
   50%      { opacity: 1;   transform: translateY(-2px); }
+}
+
+/* ---------- the LIVE badge --------------------------------------------- */
+
+/* The one label in the intro. Two seconds of candles is an abstract graphic
+   until something says what it is; this says it, then leaves before the first
+   card so the opening never has two things to read. */
+.bi-live {
+  position: absolute;
+  left: 0;
+  right: 0;
+  /* Just above where the walk opens. Higher up it floats in empty frame and
+     stops reading as a label for the chart. */
+  top: 27%;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(7px * var(--s));
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: calc(10px * var(--s));
+  font-weight: 700;
+  letter-spacing: .36em;
+  text-indent: .36em;
+  color: var(--mute);
+  opacity: 0;
+  transform: translateY(calc(6px * var(--s)));
+  transition: opacity 420ms ease, transform 520ms cubic-bezier(.16, 1, .3, 1);
+  pointer-events: none;
+}
+
+.bi-k-lead .bi-live {
+  opacity: 1;
+  transform: none;
+  transition-delay: 220ms;
+}
+
+.bi-live-dot {
+  width: calc(6px * var(--s));
+  height: calc(6px * var(--s));
+  border-radius: 50%;
+  background: var(--down);
+  animation: biLive 1.5s ease-in-out infinite;
+}
+
+@keyframes biLive {
+  0%, 100% { opacity: 1;  box-shadow: 0 0 0 0 rgba(242, 65, 92, .5); }
+  70%      { opacity: .5; box-shadow: 0 0 0 6px rgba(242, 65, 92, 0); }
 }
 
 /* ---------- the line that only goes up --------------------------------- */
@@ -199,7 +302,7 @@
 .bi-line polyline {
   fill: none;
   stroke: var(--tint);
-  stroke-width: 2.5;
+  stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
@@ -212,10 +315,13 @@
   stroke-dashoffset: 100;
 }
 
-.bi-k-reveal .bi-line,
-.bi-k-end .bi-line {
-  opacity: .85;
-}
+/* Dim, and dimmer again on the endcard.
+   The line runs corner to corner and the copy is centred, so it crosses the
+   type — there is no placement that avoids that, only a weight at which it
+   stops mattering. At .85 it drew a stroke straight through "return on your
+   investment"; this is atmosphere behind the answer instead. */
+.bi-k-reveal .bi-line { opacity: .4; }
+.bi-k-end .bi-line    { opacity: .22; }
 
 .bi-k-reveal .bi-line polyline {
   animation: biDraw 1100ms cubic-bezier(.35, .1, .25, 1) 120ms forwards;
@@ -325,6 +431,71 @@
 
 .bi-k-ask .bi-glow     { opacity: .35; }
 
+/* The board updating, not a glitch. The tape's contents are swapped in one
+   frame on the reveal — without a beat of flicker over the swap it reads as a
+   rendering fault rather than as the market being repriced. */
+.bi-k-reveal .bi-tape {
+  animation: biFlicker 380ms steps(1, end) both;
+}
+
+@keyframes biFlicker {
+  0%, 100%  { opacity: .9; }
+  15%, 45%  { opacity: .15; }
+  30%, 70%  { opacity: .9; }
+  80%       { opacity: .35; }
+}
+
+/* ---------- the cut ----------------------------------------------------- */
+
+/* A bloom in the card's own colour, fired once per flash card. The cuts stay
+   hard — this does not soften the join, it punctuates it, which is what
+   separates an edit that reads as deliberate from one that reads as a dropped
+   frame. Behind the card, over the terminal. */
+.bi-blast {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background: radial-gradient(46% 30% at 50% 50%, var(--tint) 0%, transparent 70%);
+  animation: biBlast 300ms cubic-bezier(.2, .7, .3, 1) both;
+}
+
+@keyframes biBlast {
+  from { opacity: .38; transform: scale(.72); }
+  to   { opacity: 0;  transform: scale(1.25); }
+}
+
+/* ---------- the halt ---------------------------------------------------- */
+
+/* One pass of a scanline down the frame as the market stops. The question beat
+   is the ad standing still, and a beat with no motion at all in it reads as a
+   freeze rather than as a pause — this is the smallest thing that says the
+   terminal is still on. */
+.bi-sweep {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(180, 240, 220, .05) 44%,
+    rgba(180, 240, 220, .16) 50%,
+    rgba(180, 240, 220, .05) 56%,
+    transparent 100%
+  );
+}
+
+.bi-k-ask .bi-sweep {
+  animation: biSweep 700ms cubic-bezier(.4, 0, .5, 1) both;
+}
+
+@keyframes biSweep {
+  from { opacity: 1; transform: translateY(-100%); }
+  to   { opacity: 0; transform: translateY(100%); }
+}
+
 /* ---------- the card --------------------------------------------------- */
 
 /* One block, centred, with the leftover room outside it as crop margin — never
@@ -431,17 +602,56 @@
   color: var(--mute);
 }
 
-/* ---------- the question ----------------------------------------------- */
+/* ---------- the story scenes -------------------------------------------- */
+
+/* Question, answer and endcard. Unlike the flash cards these are ALWAYS
+   MOUNTED and stacked on each other, because a scene that unmounts cannot
+   animate out — it can only vanish, and that is what made the answer→endcard
+   join read as a dropped frame.
+
+   So each is an absolutely-positioned layer, centred on the card, whose
+   opacity and transform are TRANSITIONS driven by the root's beat class. Only
+   one is ever lit; every join between them is a real move.
+
+   ORDER MATTERS IN THE TRANSFORM. `translateY(-50%) scale(x)` scales about the
+   centre and then lifts by half the UNSCALED height, which is what keeps a
+   shrinking scene centred. Written the other way round the translate is scaled
+   too and the scene drifts downward as it shrinks. */
+.bi-scene {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-50%);
+  transition:
+    opacity 440ms ease,
+    transform 640ms cubic-bezier(.16, 1, .3, 1);
+}
 
 /* Quieter than the cards on purpose: four shouted beats then a fifth shouted
    line is no change at all, and the drop in volume is what reads as the room
    going still. */
-.bi-ask {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.bi-scene-ask {
   gap: calc(12px * var(--s));
-  animation: biFade 420ms ease both;
+  transform: translateY(calc(-50% + 16px));
+}
+
+.bi-k-ask .bi-scene-ask {
+  opacity: 1;
+  transform: translateY(-50%);
+}
+
+/* Lifts away rather than cutting, so the answer arrives into space the
+   question has already left. */
+.bi-k-reveal .bi-scene-ask,
+.bi-k-end .bi-scene-ask {
+  opacity: 0;
+  transform: translateY(calc(-50% - 30px));
 }
 
 .bi-ask-k {
@@ -449,7 +659,7 @@
   font-size: calc(11px * var(--s));
   font-weight: 700;
   letter-spacing: .4em;
-  color: var(--mute-2);
+  color: var(--mute);
 }
 
 .bi-ask-q {
@@ -480,17 +690,28 @@
 
 /* ---------- the answer -------------------------------------------------- */
 
-.bi-reveal {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.bi-scene-reveal {
   gap: calc(12px * var(--s));
-  animation: biLand 520ms cubic-bezier(.16, 1, .3, 1) both;
+  transform: translateY(calc(-50% + 20px)) scale(.94);
 }
 
-@keyframes biLand {
-  from { opacity: 0; transform: translateY(calc(16px * var(--s))) scale(.94); }
-  to   { opacity: 1; transform: none; }
+.bi-k-reveal .bi-scene-reveal {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
+
+/* THE HANDOFF. On the way out the answer shrinks and rises toward the spot
+   where the endcard's kicker appears, so "EDUCATION" reads as having moved
+   into the kicker rather than as having been replaced by it — the last join
+   in the ad is also the one carrying its point, and it was the only one that
+   used to be a straight swap.
+
+   The offsets are eyeballed against the endcard's layout, and they only have
+   to be close: the scene is at zero opacity by the time it lands, so the eye
+   is following a direction, not a destination. */
+.bi-k-end .bi-scene-reveal {
+  opacity: 0;
+  transform: translateY(calc(-50% - 104px)) scale(.45);
 }
 
 .bi-emoji-big { font-size: calc(64px * var(--s)); }
@@ -503,7 +724,28 @@
   text-shadow: 0 6px 30px color-mix(in srgb, var(--tint) 45%, transparent);
 }
 
-.bi-rule-wide { width: calc(64px * var(--s)); }
+/* ---------- staging inside a scene -------------------------------------- */
+
+/* The flash cards stage themselves with animations, because they mount when
+   they play. The scenes are mounted from frame one, so an animation on any of
+   their children runs during the intro — behind an invisible layer — and is
+   long finished by the time the scene is lit.
+
+   Everything inside a scene therefore stages with TRANSITIONS keyed off the
+   beat class, never with animation-delay. This is the single easiest thing to
+   get wrong when adding to a scene: an entrance that works in isolation will
+   silently never play here. */
+.bi-rule-wide {
+  width: calc(64px * var(--s));
+  animation: none;
+  transform: scaleX(0);
+  transition: transform 420ms cubic-bezier(.3, .8, .3, 1) 260ms;
+}
+
+.bi-k-reveal .bi-scene-reveal .bi-rule-wide,
+.bi-k-end .bi-scene-end .bi-rule-wide {
+  transform: none;
+}
 
 .bi-claim {
   display: flex;
@@ -516,19 +758,55 @@
   color: var(--mute);
 }
 
-.bi-claim span { animation: biFade 420ms ease both; }
-.bi-claim span:nth-child(1) { animation-delay: 560ms; }
-.bi-claim span:nth-child(2) { animation-delay: 780ms; }
+.bi-claim span {
+  opacity: 0;
+  transform: translateY(calc(6px * var(--s)));
+  transition: opacity 400ms ease, transform 460ms cubic-bezier(.16, 1, .3, 1);
+}
+
+.bi-k-reveal .bi-claim span { opacity: 1; transform: none; }
+.bi-k-reveal .bi-claim span:nth-child(1) { transition-delay: 420ms; }
+.bi-k-reveal .bi-claim span:nth-child(2) { transition-delay: 640ms; }
 
 /* ---------- the endcard ------------------------------------------------- */
 
-.bi-end {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.bi-scene-end {
   gap: calc(11px * var(--s));
-  animation: biFade 460ms ease both;
+  transform: translateY(calc(-50% + 24px));
 }
+
+.bi-k-end .bi-scene-end {
+  opacity: 1;
+  transform: translateY(-50%);
+}
+
+/* Staged in the order the frame is meant to be read: the answer it belongs
+   to, whose it is, where, then what to do about it. All transitions — see the
+   note above .bi-rule-wide. */
+.bi-kicker,
+.bi-logo,
+.bi-loc,
+.bi-sub,
+.bi-cta {
+  opacity: 0;
+  transform: translateY(calc(12px * var(--s)));
+  transition: opacity 440ms ease, transform 560ms cubic-bezier(.16, 1, .3, 1);
+}
+
+.bi-k-end .bi-kicker,
+.bi-k-end .bi-logo,
+.bi-k-end .bi-loc,
+.bi-k-end .bi-sub,
+.bi-k-end .bi-cta {
+  opacity: 1;
+  transform: none;
+}
+
+.bi-k-end .bi-kicker { transition-delay: 120ms; }
+.bi-k-end .bi-logo   { transition-delay: 300ms; }
+.bi-k-end .bi-loc    { transition-delay: 460ms; }
+.bi-k-end .bi-sub    { transition-delay: 600ms; }
+.bi-k-end .bi-cta    { transition-delay: 760ms; }
 
 /* EDUCATION comes back small, over the mark: the last frame is one sentence —
    the answer, then whose it is. */
@@ -552,7 +830,6 @@
   height: auto;
   display: block;
   filter: grayscale(1) invert(1) contrast(1.05);
-  animation: biRise 620ms cubic-bezier(.16, 1, .3, 1) 120ms both;
 }
 
 /* The wordmark does not include "Woodbridge" — the location is a separate
@@ -564,8 +841,6 @@
   letter-spacing: .52em;
   text-indent: .52em;
   color: var(--paper);
-  opacity: .92;
-  animation: biFade 420ms ease 320ms both;
 }
 
 .bi-sub {
@@ -576,7 +851,6 @@
   font-weight: 600;
   line-height: 1.34;
   color: var(--mute);
-  animation: biFade 420ms ease 460ms both;
 }
 
 /* The one filled element in the ad. Dark ink, not white — the tint it sits on
@@ -591,7 +865,6 @@
   font-weight: 800;
   letter-spacing: .16em;
   box-shadow: 0 10px 30px color-mix(in srgb, var(--tint) 42%, transparent);
-  animation: biRise 520ms cubic-bezier(.16, 1, .3, 1) 620ms both;
 }
 
 /* ---------- over everything -------------------------------------------- */
@@ -612,18 +885,6 @@
   opacity: .05;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='160' height='160' filter='url(%23f)'/></svg>");
   background-size: 160px 160px;
-}
-
-/* ---------- shared keyframes -------------------------------------------- */
-
-@keyframes biFade {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@keyframes biRise {
-  from { opacity: 0; transform: translateY(calc(14px * var(--s))); }
-  to   { opacity: 1; transform: none; }
 }
 
 /* ---------- reduced motion ---------------------------------------------- */
