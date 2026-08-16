@@ -107,7 +107,11 @@
   height: 30vh;
   z-index: 1;
   background: radial-gradient(64% 40% at 50% 0%, rgba(16, 18, 21, .05) 0%, transparent 70%);
+  transition: opacity 340ms ease;
 }
+
+/* Goes with the marks. It is only there because they were standing on it. */
+.sl-k-offer .sl-floor { opacity: 0; }
 
 /* ---------- the two marks ----------------------------------------------- */
 
@@ -130,9 +134,16 @@
   transform: translateY(-9vh) scale(.72);
 }
 
+/* OUT BEFORE THE OFFER COMES IN. The marks used to fade on the base 700ms
+   while the offer started arriving at 260ms, so for the better part of half a
+   second the two circles sat on top of the $50 — a cross-dissolve, in a film
+   whose whole point is that it never cross-dissolves anything. The exit is
+   340ms and the offer now waits until 420ms; the transform keeps its long
+   ease, because that is the drift back and it is allowed to finish unseen. */
 .sl-k-offer .sl-marks {
   transform: translateY(-9vh) scale(.72);
   opacity: 0;
+  transition: transform 1100ms var(--ease), opacity 340ms ease;
 }
 
 .sl-mark {
@@ -373,6 +384,19 @@
 .sl-k-line .sl-line span:nth-child(1) { animation-delay: 160ms; }
 .sl-k-line .sl-line span:nth-child(2) { animation-delay: 520ms; }
 
+/* An explicit exit, because these entered on an animation. When the beat
+   class changes the entrance animation is simply removed and the spans revert
+   to their base opacity: 0 — which is a hard cut, not a fade. A separate named
+   animation is the only thing that gives them a way out. */
+.sl-k-offer .sl-line span {
+  animation: slOut 300ms ease both;
+}
+
+@keyframes slOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
 @keyframes slUp {
   from { opacity: 0; transform: translateY(calc(12px * var(--s))); }
   to   { opacity: 1; transform: none; }
@@ -396,10 +420,12 @@
   transition: opacity 800ms ease, transform 1000ms var(--ease);
 }
 
+/* Waits for the frame to actually be empty — see the note on .sl-k-offer
+   .sl-marks. Nothing from the previous beat is still on screen at 420ms. */
 .sl-k-offer .sl-offer {
   opacity: 1;
   transform: none;
-  transition-delay: 260ms;
+  transition-delay: 420ms;
 }
 
 /* THE OFFICIAL PARTNER LOCKUP, used as one image rather than assembled here
