@@ -88,11 +88,14 @@ import cnLogo from "../Images/cn-woodbridge-logo.png";
 //   name   the lines as they are set — authored breaks, never wrapped, because
 //          "REAL ESTATE" on one line at this size runs into the crop guard
 //   tint   the colour the whole frame takes while this card is up
-//   note   the caveat, in muted type. Two or three words: at this speed a
-//          longer line is texture rather than copy, and the eye only ever
-//          catches one or two across the run — which is enough, they are a mood
 //   mark   a drawn mark instead of an emoji, for the one asset that has a real
 //          logo people recognise. See BitcoinMark.
+//
+// A NAME AND A MARK, NOTHING ELSE. An earlier pass hung a caveat off each card
+// — "volatile", "markets turn" — and it argued against the contenders one at a
+// time. The ad does not need to: the answer wins by being a different kind of
+// thing, not by these four being talked down, and a card that is on screen for
+// well under a second cannot afford a second line to read anyway.
 //
 // Stocks lead, because the ad opens on a stock chart and the first card should
 // name what the viewer is already looking at.
@@ -100,10 +103,10 @@ const ASSETS = [
   // Deeper than the answer's green on purpose — see the header. Stocks are
   // drawn green in every market there has ever been, so this card keeps the
   // hue and gives up the brightness.
-  { name: ["STOCKS"],         emoji: "📈", tint: "#1f9d5c", note: "corrections come" },
-  { name: ["BITCOIN"],        mark: "btc", tint: "#f7931a", note: "volatile" },
-  { name: ["REAL", "ESTATE"], emoji: "🏠", tint: "#5b86ff", note: "markets turn" },
-  { name: ["GOLD"],           emoji: "🥇", tint: "#e3ab27", note: "sits in a vault" },
+  { name: ["STOCKS"],         emoji: "📈", tint: "#1f9d5c" },
+  { name: ["BITCOIN"],        mark: "btc", tint: "#f7931a" },
+  { name: ["REAL", "ESTATE"], emoji: "🏠", tint: "#5b86ff" },
+  { name: ["GOLD"],           emoji: "🥇", tint: "#e3ab27" },
 ];
 
 // How long each SLOT holds — by position, not by asset. Shortening down the
@@ -305,6 +308,55 @@ const CANDLES = (() => {
   });
 })();
 
+/**
+ * ── the answer's sky ──────────────────────────────────────────────────────
+ *
+ * What replaces the candle field on the reveal. The candles are a market —
+ * discrete, two-coloured, arguable. This is one continuous thing going up, and
+ * it needs enough in it to be worth looking at for three seconds, because the
+ * answer holds longer than any other beat in the ad.
+ *
+ * A FAN, NOT A LINE. Five traces from the bottom-left, each steeper than the
+ * last, so they diverge as they climb and every one of them leaves the top of
+ * the frame rather than resolving inside it. One line was a single claim; a
+ * fan is a whole field of them, and the spread is the part that reads as
+ * "compounding" without a word spent on it.
+ *
+ * The first is the hero — heavier, brighter, drawn first. The rest are faint
+ * and staggered behind it, which is what keeps this a background instead of
+ * five equal lines competing with the word sitting on them.
+ */
+const RISERS = Array.from({ length: 8 }, (_, k) => {
+  const y0 = 104 - k * 3;
+  const slope = 1.05 + k * 0.07;
+  return {
+    // Eight points across the full width, from a staggered origin. The jitter
+    // is what stops them reading as copies of one ruled line.
+    pts: Array.from({ length: 8 }, (_2, j) =>
+      `${(-12 + k * 3 + j * 15).toFixed(1)},${(y0 - j * slope * 13 + (hash(k * 97 + j) - 0.5) * 5).toFixed(1)}`
+    ).join(" "),
+    w: k === 0 ? 2.2 : 1.4 - k * 0.06,
+    o: k === 0 ? 0.95 : 0.52 - k * 0.035,
+    delay: 120 + k * 110,
+  };
+});
+
+/**
+ * Motes drifting up through the frame.
+ *
+ * The layer that makes the sky feel occupied rather than empty. Slow, small
+ * and few — this is texture, and anything fast enough to track individually
+ * becomes a second thing on screen competing with the answer.
+ */
+const MOTES = Array.from({ length: 22 }, (_, i) => ({
+  x: hash(i * 13 + 3) * 100,
+  size: 1.8 + hash(i * 29 + 7) * 3.4,
+  dur: 7 + hash(i * 41 + 11) * 8,
+  // negative, so the field is already in motion on the first frame it is seen
+  delay: -(hash(i * 53 + 5) * 14).toFixed(2),
+  drift: ((hash(i * 67 + 9) - 0.5) * 9).toFixed(1),
+}));
+
 // The tape. One pass of the contenders, rendered twice so the scroll has no
 // seam. Arrows disagree — a tape where everything points the same way is not a
 // market, it is the reveal, and the reveal is where that happens.
@@ -383,6 +435,17 @@ export default function BestInvestmentAd() {
       <div className="bi-grid" aria-hidden />
       <div className="bi-glow" aria-hidden />
 
+      {/* Lit only from the reveal on: two offset radials that drift against
+          each other, so the answer sits in weather rather than on a flat
+          wash. One static radial is a spotlight; two moving ones read as
+          sky. */}
+      <div className="bi-aura" aria-hidden />
+
+      {/* A slow burst radiating from behind the answer. Masked to a ring so it
+          never touches the word itself — the rays are what the word is
+          standing in front of, not something crossing it. */}
+      <div className="bi-rays" aria-hidden />
+
       <div className="bi-chart" aria-hidden>
         {CANDLES.map((c, i) => (
           <span
@@ -407,13 +470,42 @@ export default function BestInvestmentAd() {
           Replaces the candles on the reveal and draws itself across, leaving
           the top of the frame rather than resolving inside it. It is the
           claim; nothing else in the ad has to make it. */}
-      {/* pathLength normalises the draw to 100 units. The stroke is
+      {/* pathLength normalises each draw to 100 units. The stroke is
           non-scaling — its dash pattern is therefore measured in SCREEN px,
           not in this 100x100 user space — so a hand-counted dasharray is
           wrong on every phone by a different amount. */}
       <svg className="bi-line" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
-        <polyline pathLength="100" points="-2,86 14,79 28,72 42,61 56,49 70,33 84,14 102,-8" />
+        {RISERS.map((r, i) => (
+          <polyline
+            key={i}
+            pathLength="100"
+            points={r.pts}
+            style={{
+              strokeWidth: r.w,
+              opacity: r.o,
+              "--draw-delay": `${r.delay}ms`,
+            }}
+          />
+        ))}
       </svg>
+
+      {/* Drifting up through the whole frame, behind everything. */}
+      <div className="bi-motes" aria-hidden>
+        {MOTES.map((m, i) => (
+          <i
+            key={i}
+            className="bi-mote"
+            style={{
+              left: `${m.x.toFixed(2)}%`,
+              width: `${m.size.toFixed(1)}px`,
+              height: `${m.size.toFixed(1)}px`,
+              "--dur": `${m.dur.toFixed(1)}s`,
+              "--delay": `${m.delay}s`,
+              "--drift": `${m.drift}px`,
+            }}
+          />
+        ))}
+      </div>
 
       {/* ---- the tape ----
           Two strips, running opposite ways so the frame reads as a feed rather
@@ -474,7 +566,6 @@ export default function BestInvestmentAd() {
               ))}
             </div>
             <span className="bi-rule" aria-hidden />
-            <div className="bi-note">{a.note}</div>
           </div>
         ))}
 
