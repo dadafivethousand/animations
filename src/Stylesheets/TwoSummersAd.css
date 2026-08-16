@@ -1,0 +1,455 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+/* ============================================================
+   TwoSummersAd — same sixty days, two different things to show for them.
+
+   One day counter runs 1 → 60 while two columns fill beside it at exactly the
+   same rate. The difference is what the fill is MADE of: one undifferentiated
+   block on the left, nine named things on the right.
+
+   COLD LIGHT AND WARM LIGHT. The left column is lit like a screen in a dark
+   room and flickers; the right is lit like daylight. That contrast is the
+   argument before a word is read, and it is why this ad sits on a dusk indigo
+   rather than on the dark terminal the last few used — a neutral ground would
+   have made both columns the same temperature and thrown the whole idea away.
+
+   Four structural notes worth not undoing:
+
+   1. BOTH COLUMNS FILL AT THE SAME RATE. The ad is not claiming that coding
+      buys more hours; it claims you have something at the end of the same
+      hours. Racing the right column ahead makes it a different, weaker and
+      less honest ad.
+
+   2. THE TWO FILLS ARE DIFFERENT KINDS OF ANIMATION ON PURPOSE. Left rises
+      continuously because that is time passing. Right pops in discrete tiles
+      at the days a build lands. Matching them flattens the idea into two
+      progress bars.
+
+   3. NOTHING HERE CALLS THE LEFT SUMMER WASTED, and nothing should. Kids play
+      games; a parent who feels told off closes the app. The columns end level,
+      the totals read 0 and 9, and the viewer draws their own conclusion.
+
+   4. THE STACK IS BOTTOM-UP (column-reverse, and the component reverses the
+      list to match). Tiles have to grow off the floor of the tube — hanging
+      them from the ceiling reads as a list being filled in, not as work
+      piling up.
+
+   Knobs:
+     --s                  every typographic size
+     --safe-x / --safe-y  the crop guard the whole composition is centred in
+
+   Portrait phone only (~390x844, recorded at 360x640).
+   ============================================================ */
+
+.ts-stage {
+  /* dusk */
+  --bg:       #0f0b1c;
+  --bg-2:     #1b1436;
+
+  /* the screen in a dark room */
+  --cold:     #5f82ad;
+  --cold-lit: #a8cbee;
+
+  /* daylight */
+  --warm:     #ffb03a;
+  --warm-2:   #ff7a3d;
+
+  --paper:    #f4f1ea;
+  --mute:     #918bab;
+  --mute-2:   #5d5876;
+
+  --red:      #e4002b;
+
+  --s: 1;
+
+  /* The crop guard. The ad is screen-recorded and re-fit before it reaches IG,
+     so the edges go missing by an amount nobody knows in advance. The px
+     floors are the repo minimums; the vw/vh terms let the guard grow with the
+     screen rather than staying a thin fixed band on a big phone. */
+  --safe-x: max(45px, 11vw);
+  --safe-y: max(40px, 6vh);
+
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--paper);
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.ts-stage *,
+.ts-stage *::before,
+.ts-stage *::after {
+  box-sizing: border-box;
+}
+
+/* The ground takes sides: a cold wash bottom-left, a warm one bottom-right.
+   Low and wide, so it reads as light coming from somewhere rather than as two
+   coloured blobs behind the columns. */
+.ts-sky {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(58% 34% at 22% 78%, rgba(95, 130, 173, .30) 0%, transparent 72%),
+    radial-gradient(58% 34% at 80% 76%, rgba(255, 150, 58, .30) 0%, transparent 72%),
+    radial-gradient(120% 74% at 50% 8%, var(--bg-2) 0%, transparent 70%);
+  transition: opacity 700ms ease;
+}
+
+/* ---------- the card ---------------------------------------------------- */
+
+/* One block, centred, with the leftover room outside it as crop margin — never
+   a child with flex:1 eating the space and justifying the group to both
+   edges. */
+.ts-card {
+  position: absolute;
+  inset: var(--safe-y) var(--safe-x);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(clamp(10px, 2.2vh, 18px) * var(--s));
+  text-align: center;
+  transition: opacity 600ms ease, transform 700ms cubic-bezier(.16, 1, .3, 1);
+}
+
+/* The comparison fades under the endcard rather than being cut away. */
+.ts-k-end .ts-card {
+  opacity: 0;
+  transform: translateY(calc(-18px * var(--s))) scale(.97);
+}
+
+.ts-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(5px * var(--s));
+}
+
+.ts-kicker {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: calc(10px * var(--s));
+  font-weight: 700;
+  letter-spacing: .38em;
+  text-indent: .38em;
+  color: var(--mute);
+}
+
+.ts-thesis {
+  font-size: clamp(19px, 6vw, calc(24px * var(--s)));
+  font-weight: 900;
+  letter-spacing: -.01em;
+  color: var(--paper);
+}
+
+/* ---------- the counter ------------------------------------------------- */
+
+/* The only thing either column is waiting on, so it is set larger than the
+   thesis above it and given its own air. */
+.ts-day {
+  display: flex;
+  align-items: baseline;
+  gap: calc(8px * var(--s));
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.ts-day-k {
+  font-size: calc(11px * var(--s));
+  font-weight: 700;
+  letter-spacing: .3em;
+  color: var(--mute);
+}
+
+/* TABULAR FIGURES. Without them the counter's width changes as the digits
+   change and the whole row twitches sideways sixty times — the one thing a
+   number that is meant to feel steady cannot do. */
+.ts-day-n {
+  font-size: clamp(30px, 10vw, calc(40px * var(--s)));
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .02em;
+  color: var(--paper);
+}
+
+/* ---------- the two columns --------------------------------------------- */
+
+.ts-cols {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: calc(14px * var(--s));
+  width: 100%;
+}
+
+.ts-col {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(8px * var(--s));
+}
+
+.ts-label {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: calc(9px * var(--s));
+  font-weight: 700;
+  letter-spacing: .14em;
+  white-space: nowrap;
+}
+
+.is-cold .ts-label { color: var(--cold); }
+.is-warm .ts-label { color: var(--warm); }
+
+/* The vessel. Height in vh so the pair scales with the phone rather than
+   overflowing a short one. */
+.ts-tube {
+  position: relative;
+  width: 100%;
+  height: clamp(200px, 36vh, 300px);
+  border-radius: calc(10px * var(--s));
+  overflow: hidden;
+  border: 1px solid rgba(244, 241, 234, .10);
+  background: rgba(255, 255, 255, .026);
+}
+
+/* ---------- the cold fill ----------------------------------------------- */
+
+/* Continuous, and the height is set inline from the day counter. The
+   transition is what makes it a rise rather than sixty visible steps — it is
+   slightly longer than one day's tick, so each step is still moving when the
+   next arrives and the whole thing reads as one smooth climb. */
+.ts-fill {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(95, 130, 173, .55) 0%, rgba(60, 84, 115, .8) 100%);
+  transition: height 140ms linear;
+}
+
+/* The screen in the dark room, and the ONLY movement on this side for the
+   whole count. Irregular steps rather than a smooth pulse: a screen's light
+   changes on cuts, not on a sine wave. */
+.ts-flicker {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: calc(34px * var(--s));
+  background: linear-gradient(180deg, rgba(168, 203, 238, .85) 0%, transparent 100%);
+  animation: tsFlicker 2.3s steps(1, end) infinite;
+}
+
+@keyframes tsFlicker {
+  0%, 22%   { opacity: .75; }
+  24%, 38%  { opacity: .35; }
+  40%, 61%  { opacity: .85; }
+  63%, 70%  { opacity: .28; }
+  72%, 100% { opacity: .6; }
+}
+
+/* ---------- the warm stack ---------------------------------------------- */
+
+/* BOTTOM-UP. column-reverse, with the component handing the list over already
+   reversed, so a new tile always appears at the top of a stack that is
+   standing on the floor of the tube. */
+.ts-stack {
+  position: absolute;
+  inset: calc(5px * var(--s));
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-start;
+  gap: calc(4px * var(--s));
+}
+
+/* Nine tiles have to fill the tube exactly, so each one takes a ninth of it
+   rather than a fixed height — hard-coding px here means the stack overshoots
+   the tube on a tall phone and falls short on a small one. */
+.ts-tile {
+  flex: 0 0 calc((100% - (8 * 4px * var(--s))) / 9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: calc(5px * var(--s));
+  background: linear-gradient(180deg, var(--warm) 0%, var(--warm-2) 100%);
+  color: #2a1400;
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: calc(8px * var(--s));
+  font-weight: 700;
+  letter-spacing: .06em;
+  white-space: nowrap;
+  overflow: hidden;
+  box-shadow: 0 3px 12px rgba(255, 122, 61, .3);
+  animation: tsTile 340ms cubic-bezier(.2, 1.3, .35, 1) both;
+}
+
+/* Lands rather than fades: a build arriving is an event, and the overshoot in
+   the easing is most of what sells that. */
+@keyframes tsTile {
+  from { opacity: 0; transform: translateY(calc(10px * var(--s))) scaleY(.4); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- the totals -------------------------------------------------- */
+
+.ts-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(1px * var(--s));
+}
+
+.ts-stat-n {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: clamp(26px, 8.4vw, calc(34px * var(--s)));
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.is-cold .ts-stat-n { color: var(--mute-2); }
+.is-warm .ts-stat-n { color: var(--warm); }
+
+.ts-stat-k {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: calc(9px * var(--s));
+  font-weight: 700;
+  letter-spacing: .26em;
+  text-indent: .26em;
+  color: var(--mute);
+}
+
+/* ---------- the line ---------------------------------------------------- */
+
+/* Held back until the count is over — landing it while the columns are still
+   filling gives the viewer two things to read at once and they will read
+   neither. It also holds its own height from frame one, so the columns do not
+   jump upward when it arrives. */
+.ts-punch {
+  font-size: calc(14px * var(--s));
+  font-weight: 700;
+  color: var(--paper);
+  opacity: 0;
+  transform: translateY(calc(8px * var(--s)));
+  transition: opacity 460ms ease, transform 560ms cubic-bezier(.16, 1, .3, 1);
+}
+
+.ts-punch.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- the endcard ------------------------------------------------- */
+
+.ts-end {
+  position: absolute;
+  inset: var(--safe-y) var(--safe-x);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(11px * var(--s));
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(calc(16px * var(--s)));
+  transition: opacity 520ms ease, transform 680ms cubic-bezier(.16, 1, .3, 1);
+}
+
+.ts-k-end .ts-end {
+  opacity: 1;
+  transform: none;
+  transition-delay: 260ms;
+}
+
+/* The wordmark is dark-on-transparent with no light-on-dark variant, so it is
+   foiled: grayscale first — which keeps the mask band and the eye slits
+   distinct from the head — then inverted. A flat invert flattens the whole
+   head into a white disc. */
+.ts-logo {
+  width: min(60vw, calc(226px * var(--s)));
+  height: auto;
+  display: block;
+  filter: grayscale(1) invert(1) contrast(1.05);
+}
+
+/* The wordmark does not include "Woodbridge" — the location is a separate
+   label, set to the mark's own width by letter-spacing rather than by scaling
+   type up. */
+.ts-loc {
+  font-size: calc(13px * var(--s));
+  font-weight: 800;
+  letter-spacing: .52em;
+  text-indent: .52em;
+  color: var(--paper);
+}
+
+.ts-rule {
+  display: block;
+  width: calc(64px * var(--s));
+  height: 2px;
+  border-radius: 2px;
+  background: var(--warm);
+}
+
+.ts-sub {
+  display: flex;
+  flex-direction: column;
+  gap: calc(3px * var(--s));
+  font-size: calc(13px * var(--s));
+  font-weight: 600;
+  line-height: 1.34;
+  color: var(--mute);
+}
+
+/* The one filled element in the ad, and the only place brand red appears —
+   everything else here is dusk, cold light and daylight. */
+.ts-cta {
+  margin-top: calc(4px * var(--s));
+  padding: calc(11px * var(--s)) calc(24px * var(--s));
+  border-radius: 999px;
+  background: var(--red);
+  color: #fff;
+  font-size: calc(13px * var(--s));
+  font-weight: 800;
+  letter-spacing: .04em;
+  box-shadow: 0 10px 30px rgba(228, 0, 43, .38);
+}
+
+/* ---------- over everything --------------------------------------------- */
+
+.ts-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+  background: radial-gradient(96% 74% at 50% 48%, transparent 44%, rgba(0, 0, 0, .58) 100%);
+}
+
+.ts-grain {
+  position: absolute;
+  inset: 0;
+  z-index: 9;
+  pointer-events: none;
+  opacity: .05;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='160' height='160' filter='url(%23f)'/></svg>");
+  background-size: 160px 160px;
+}
+
+/* ---------- reduced motion ---------------------------------------------- */
+
+/* The component already snaps the timeline to the endcard and the counter to
+   60; this stops the loops and entrances running under it. */
+@media (prefers-reduced-motion: reduce) {
+  .ts-stage *,
+  .ts-stage *::before,
+  .ts-stage *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
