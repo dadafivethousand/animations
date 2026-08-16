@@ -1,0 +1,440 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+/* ============================================================
+   GroupChatAd — the parent group chat, answering itself.
+
+   A thread fills in real time and another parent supplies the answer. The
+   whole value of the format is that it does not look like an ad for the first
+   three seconds, and that is bought entirely with detail:
+
+     · a typing indicator before the considered messages
+     · a sender name only on the FIRST message of a run
+     · avatars that vanish on follow-ups but keep their slot
+     · a read receipt at the end
+     · an input bar nobody uses
+
+   Any one of those missing and it reads as a designer's idea of a chat.
+
+   LIGHT, ON PURPOSE. Every other recent ad here is a dark stage; this is a
+   white phone screen, because that is what a thread looks like and because it
+   will stop a thumb scrolling past dark posts. Brand red appears once, on the
+   endcard, and never inside the chat.
+
+   Three structural notes worth not undoing:
+
+   1. THE THREAD IS BOTTOM-ALIGNED AND CLIPPED. `justify-content: flex-end` in
+      an overflow-hidden box means a new message pushes the thread up and off
+      the top exactly as a real one does — no scroll maths, no measuring, no
+      JS. Switching it to top-aligned breaks the illusion completely.
+
+   2. THE AVATAR SLOT IS ALWAYS THERE, even on follow-ups where it is
+      invisible. Removing the element instead of emptying it shifts every
+      follow-up bubble left by 34px, and a chat whose bubbles do not share a
+      left edge looks broken in a way people notice without knowing why.
+
+   3. THIS IS NOT AN iOS CLONE and must not become one. Generic bubble
+      geometry, no platform chrome, no logos, fictional names. It reads as "a
+      text thread" without pretending to be a screenshot of anything real.
+
+   Knobs:
+     --s                  every typographic size
+     --safe-x / --safe-y  the crop guard the phone card is inset by
+
+   Portrait phone only (~390x844, recorded at 360x640).
+   ============================================================ */
+
+.gc-stage {
+  --ink:        #0b0b0d;
+  --ink-2:      #3c3c43;
+  --mute:       #8a8a8e;
+  --hair:       #d6d6da;
+
+  --sheet:      #ffffff;
+  --ground:     #d9dde4;   /* behind the card, so the phone reads as an object */
+  --bubble-in:  #e9e9eb;
+  --bubble-out: #0a84ff;
+
+  --red:        #e4002b;
+
+  --s: 1;
+
+  /* The crop guard. The ad is screen-recorded and re-fit before it reaches IG,
+     so the edges go missing by an amount nobody knows in advance. */
+  --safe-x: max(45px, 11vw);
+  --safe-y: max(40px, 6vh);
+
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 70% at 50% 0%, #eef1f6 0%, transparent 60%),
+    var(--ground);
+  color: var(--ink);
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.gc-stage *,
+.gc-stage *::before,
+.gc-stage *::after {
+  box-sizing: border-box;
+}
+
+/* ---------- the phone --------------------------------------------------- */
+
+/* Inset by the crop guard rather than run full-bleed. A real screenshot would
+   bleed, but the recording gets re-cropped by an unknown amount before it
+   reaches IG and a clipped chat header looks like a mistake. Inset, it reads
+   as a screenshot someone shared — which is just as true to the format. */
+.gc-phone {
+  position: absolute;
+  inset: var(--safe-y) var(--safe-x);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  border-radius: calc(22px * var(--s));
+  overflow: hidden;
+  background: var(--sheet);
+  box-shadow:
+    0 1px 2px rgba(16, 20, 30, .12),
+    0 24px 60px rgba(16, 20, 30, .22);
+  transition: opacity 620ms ease, transform 780ms cubic-bezier(.16, 1, .3, 1),
+              filter 620ms ease;
+}
+
+/* Settles back and softens under the endcard rather than being cut away. */
+.gc-done .gc-phone {
+  opacity: 0;
+  transform: scale(.94) translateY(calc(-10px * var(--s)));
+  filter: blur(6px);
+}
+
+/* ---------- the header -------------------------------------------------- */
+
+.gc-head {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: calc(8px * var(--s));
+  padding: calc(12px * var(--s)) calc(14px * var(--s));
+  border-bottom: 1px solid var(--hair);
+  background: rgba(249, 249, 251, .96);
+}
+
+/* A back chevron, drawn rather than set as a glyph so it does not depend on
+   whichever font resolves. */
+.gc-back {
+  flex: none;
+  width: calc(9px * var(--s));
+  height: calc(9px * var(--s));
+  margin-right: calc(2px * var(--s));
+  border-left: 2px solid var(--bubble-out);
+  border-bottom: 2px solid var(--bubble-out);
+  transform: rotate(45deg);
+}
+
+/* Overlapped, as every group chat draws its members. */
+.gc-avatars {
+  display: flex;
+  flex: none;
+}
+
+.gc-avatars .gc-av {
+  margin-left: calc(-7px * var(--s));
+  border: 2px solid #f9f9fb;
+}
+
+.gc-avatars .gc-av:first-child { margin-left: 0; }
+
+.gc-av {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(24px * var(--s));
+  height: calc(24px * var(--s));
+  border-radius: 50%;
+  color: #fff;
+  font-size: calc(11px * var(--s));
+  font-weight: 700;
+  line-height: 1;
+}
+
+.gc-title {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.gc-title-n {
+  font-size: calc(14px * var(--s));
+  font-weight: 700;
+  letter-spacing: -.01em;
+  color: var(--ink);
+}
+
+.gc-title-s {
+  font-size: calc(11px * var(--s));
+  font-weight: 500;
+  color: var(--mute);
+}
+
+/* ---------- the thread -------------------------------------------------- */
+
+/* Note 1: the thread anchors to the bottom and overflows off the TOP. */
+.gc-thread {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  padding: calc(12px * var(--s)) calc(12px * var(--s));
+}
+
+/* COLUMN-REVERSE IS THE WHOLE MECHANIC, and `margin-top: auto` is the trap it
+   replaces. An auto margin pins a short thread to the bottom perfectly — right
+   up until the thread outgrows the box, at which point the margin resolves to
+   zero and the overflow goes off the BOTTOM, quietly hiding the newest
+   messages behind the input bar. This ad lost its last two lines and its read
+   receipt that way, which is to say it lost its payoff.
+
+   Reversed, the box fills from the bottom by construction and the OLD messages
+   are the ones that scroll off the top, exactly as a real thread behaves. The
+   component hands the rows over newest-first to match.
+
+   Physical margins still mean what they say under column-reverse, so
+   `.is-first { margin-top }` still puts the gap above a new speaker. */
+.gc-scroll {
+  width: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-start;
+  gap: calc(3px * var(--s));
+}
+
+.gc-row {
+  display: flex;
+  align-items: flex-end;
+  gap: calc(7px * var(--s));
+  max-width: 100%;
+  animation: gcLand 260ms cubic-bezier(.2, 1.2, .35, 1) both;
+}
+
+/* Space above a new speaker, none between one person's own follow-ups —
+   which is how a thread groups itself and reads as time passing. */
+.gc-row.is-first { margin-top: calc(9px * var(--s)); }
+
+.gc-row.is-me {
+  flex-direction: row-reverse;
+}
+
+/* Note 2: the slot survives even when the avatar is invisible, or every
+   follow-up bubble jumps left and the run stops sharing an edge. */
+.gc-av-row {
+  flex: none;
+  align-self: flex-end;
+  width: calc(26px * var(--s));
+  height: calc(26px * var(--s));
+  font-size: calc(12px * var(--s));
+}
+
+.gc-col {
+  display: flex;
+  flex-direction: column;
+  gap: calc(3px * var(--s));
+  min-width: 0;
+  max-width: calc(100% - (34px * var(--s)));
+}
+
+.gc-name {
+  padding-left: calc(11px * var(--s));
+  font-size: calc(11px * var(--s));
+  font-weight: 600;
+  color: var(--mute);
+}
+
+.gc-bubble {
+  align-self: flex-start;
+  padding: calc(9px * var(--s)) calc(13px * var(--s));
+  border-radius: calc(18px * var(--s));
+  background: var(--bubble-in);
+  color: var(--ink);
+  font-size: calc(14.5px * var(--s));
+  font-weight: 500;
+  line-height: 1.32;
+  letter-spacing: -.005em;
+  /* wrap long messages, but never break a word mid-way — a chat does not
+     hyphenate */
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.gc-row.is-me .gc-bubble {
+  align-self: flex-end;
+  background: var(--bubble-out);
+  color: #fff;
+}
+
+@keyframes gcLand {
+  from { opacity: 0; transform: translateY(calc(9px * var(--s))) scale(.94); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- the typing indicator ---------------------------------------- */
+
+.gc-row-typing { margin-top: calc(9px * var(--s)); }
+
+.gc-typing {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(4px * var(--s));
+  padding: calc(11px * var(--s)) calc(13px * var(--s));
+  border-radius: calc(18px * var(--s));
+  background: var(--bubble-in);
+}
+
+.gc-typing i {
+  width: calc(7px * var(--s));
+  height: calc(7px * var(--s));
+  border-radius: 50%;
+  background: #a3a3a8;
+  animation: gcDot 1.25s ease-in-out infinite;
+}
+
+/* Staggered, or the three dots pulse as one lump. */
+.gc-typing i:nth-child(2) { animation-delay: .16s; }
+.gc-typing i:nth-child(3) { animation-delay: .32s; }
+
+@keyframes gcDot {
+  0%, 60%, 100% { opacity: .38; transform: translateY(0); }
+  30%           { opacity: 1;   transform: translateY(calc(-3px * var(--s))); }
+}
+
+/* ---------- the read receipt -------------------------------------------- */
+
+.gc-read {
+  align-self: flex-end;
+  padding-top: calc(3px * var(--s));
+  padding-right: calc(3px * var(--s));
+  font-size: calc(10.5px * var(--s));
+  font-weight: 600;
+  color: var(--mute);
+  animation: gcLand 300ms ease both;
+}
+
+/* ---------- the input bar ----------------------------------------------- */
+
+.gc-bar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: calc(8px * var(--s));
+  padding: calc(10px * var(--s)) calc(12px * var(--s));
+  border-top: 1px solid var(--hair);
+  background: rgba(249, 249, 251, .96);
+}
+
+.gc-input {
+  flex: 1 1 auto;
+  padding: calc(8px * var(--s)) calc(13px * var(--s));
+  border: 1px solid var(--hair);
+  border-radius: 999px;
+  font-size: calc(13px * var(--s));
+  color: #b0b0b5;
+}
+
+.gc-send {
+  flex: none;
+  width: calc(28px * var(--s));
+  height: calc(28px * var(--s));
+  border-radius: 50%;
+  background: var(--bubble-out);
+  opacity: .28;
+}
+
+/* ---------- the endcard ------------------------------------------------- */
+
+.gc-end {
+  position: absolute;
+  inset: var(--safe-y) var(--safe-x);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(11px * var(--s));
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(calc(14px * var(--s)));
+  transition: opacity 520ms ease, transform 700ms cubic-bezier(.16, 1, .3, 1);
+}
+
+.gc-done .gc-end {
+  opacity: 1;
+  transform: none;
+  transition-delay: 300ms;
+}
+
+/* The wordmark is dark-on-transparent, which is what this light ground wants —
+   so unlike every other ad in this repo it is used AS SUPPLIED, with no foil.
+   Do not paste the grayscale/invert filter in here out of habit; it would turn
+   the mark white on white. */
+.gc-logo {
+  width: min(62vw, calc(232px * var(--s)));
+  height: auto;
+  display: block;
+}
+
+/* The wordmark does not include "Woodbridge" — the location is a separate
+   label, set to the mark's own width by letter-spacing rather than by scaling
+   type up. */
+.gc-loc {
+  font-size: calc(13px * var(--s));
+  font-weight: 800;
+  letter-spacing: .52em;
+  text-indent: .52em;
+  color: var(--ink);
+}
+
+.gc-rule {
+  display: block;
+  width: calc(64px * var(--s));
+  height: 2px;
+  border-radius: 2px;
+  background: var(--red);
+}
+
+.gc-sub {
+  display: flex;
+  flex-direction: column;
+  gap: calc(3px * var(--s));
+  font-size: calc(13.5px * var(--s));
+  font-weight: 600;
+  line-height: 1.34;
+  color: var(--ink-2);
+}
+
+.gc-cta {
+  margin-top: calc(4px * var(--s));
+  padding: calc(11px * var(--s)) calc(24px * var(--s));
+  border-radius: 999px;
+  background: var(--red);
+  color: #fff;
+  font-size: calc(13px * var(--s));
+  font-weight: 800;
+  letter-spacing: .04em;
+  box-shadow: 0 10px 28px rgba(228, 0, 43, .3);
+}
+
+/* ---------- reduced motion ---------------------------------------------- */
+
+/* The component already snaps the timeline to the endcard; this stops the
+   entrances and the typing dots running under it. */
+@media (prefers-reduced-motion: reduce) {
+  .gc-stage *,
+  .gc-stage *::before,
+  .gc-stage *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

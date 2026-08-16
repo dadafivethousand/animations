@@ -12,9 +12,10 @@ import "./Stylesheets/App.css";
 // import SummerCampWoodbridgeAd from "./Components/SummerCampWoodbridgeAd";
 // import StaplesPromoAd from "./Components/StaplesPromoAd";
 // import BestInvestmentAd from "./Components/BestInvestmentAd";
-import TwoSummersAd from "./Components/TwoSummersAd";
+// import TwoSummersAd from "./Components/TwoSummersAd";
+import GroupChatAd from "./Components/GroupChatAd";
 
 function App() {
-  return <TwoSummersAd />;
+  return <GroupChatAd />;
 }
 export default App;
