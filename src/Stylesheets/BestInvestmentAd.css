@@ -30,13 +30,14 @@
       answer. Do not hard-code an accent anywhere below — that is what keeps
       four cards in two seconds from reading as one card shown four times.
 
-   2. THE CUTS ARE CUTS. .bi-flash has an entrance animation and no exit, and
-      the component keys it by index so it remounts. Adding a transition to
-      the card, or cross-fading the two, collapses four beats into one long
-      muddy one.
+   2. THE CARDS PHASE, AND THE PHASE IS DRIVEN BY ANIMATION-NAME. All four are
+      mounted at once and picked by class, so nothing ever remounts — which
+      means is-live and is-past MUST carry different animation names or the
+      browser plays them once, at load, and never again. This is the one thing
+      here that fails silently.
 
-   3. THE TERMINAL DOES NOT FLASH. Grid, glow, candles and tape are continuous
-      under the cuts — only their tint changes. If the background restarts on
+   3. THE TERMINAL DOES NOT PHASE. Grid, glow, candles and tape are continuous
+      under the cards — only their tint changes. If the background restarts on
       each card the frame reads as four separate ads.
 
    4. THE ROOM DARKENS ON THE QUESTION and does not come back. The candles,
@@ -128,22 +129,25 @@
 
 /* ---------- the candles ------------------------------------------------ */
 
-/* A market: up and down, drifting lower across the run so the ascending line
-   on the reveal reads as a reversal rather than as more of the same. Sits low
-   in the frame — the card owns the middle.
+/* A bull market: green and red, climbing from the bottom of the box to the top
+   of it with pullbacks on the way up. Every contender is having a good day,
+   which is the fair version of the ad's argument and a stronger one than
+   stacking the deck with a crash.
 
    The chart is the SUBJECT during the intro and the ROOM afterwards, and the
    whole difference is this opacity. At .5 the whole way through, the opening
    is a background nobody looks at and the ad has no first act. */
 .bi-chart {
   position: absolute;
-  /* Inset, with a wider gutter on the right. A real trading chart reserves
-     that band for its price axis, and here it also keeps the lit last candle
-     — the one place the eye goes during the intro — off the crop line. */
-  left: 2%;
-  right: 12%;
-  top: 26%;
-  height: 52%;
+  /* FULL BLEED, and tall. The rally has to run the whole width and finish at
+     the top of the frame — a chart inset from the edges reads as a widget on a
+     screen, and the point of this one is that it does not fit in the picture.
+     The crop guard does not apply: it protects meaningful content, and a
+     background chart running off the edge is the intended image. */
+  left: 0;
+  right: 0;
+  top: 15%;
+  height: 68%;
   z-index: 2;
   opacity: .34;
   transition: opacity 620ms ease;
@@ -238,13 +242,16 @@
   position: absolute;
   left: 0;
   right: 0;
-  /* Just above where the walk opens. Higher up it floats in empty frame and
-     stops reading as a label for the chart. */
-  top: 27%;
+  /* TOP LEFT, which is the only quadrant a bull run leaves empty. Centred and
+     lower it sat directly on the rally — and a label sitting on the thing it
+     labels is unreadable in both directions. Reading as a terminal header
+     rather than as a caption is the bonus, not the reason. */
+  top: 10%;
   z-index: 5;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  padding-left: var(--safe-x);
   gap: calc(7px * var(--s));
   font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: calc(10px * var(--s));
@@ -512,21 +519,143 @@
   text-align: center;
 }
 
-/* ---------- the flash cards -------------------------------------------- */
+/* ---------- the contenders, and the phase between them ------------------ */
 
-/* Entrance only — see note 2. The card is remounted on every cut, so there is
-   nothing to transition out of and nothing that should try. */
+/* All four cards are mounted the whole time and stacked on each other, so the
+   outgoing one is still on screen — and still animating — while the incoming
+   one arrives. That overlap IS the transition; a card that unmounts on its
+   beat can only vanish.
+
+   Stacked means absolutely positioned, so they are centred the same way the
+   scenes are: top 50% and lifted half their own height. */
 .bi-flash {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: calc(10px * var(--s));
-  animation: biCut 220ms cubic-bezier(.2, .9, .3, 1) both;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-50%);
+  will-change: opacity, transform, filter;
 }
 
-@keyframes biCut {
-  from { opacity: 0; transform: scale(.9) translateY(calc(8px * var(--s))); }
-  to   { opacity: 1; transform: none; }
+/* ── the holographic phase ───────────────────────────────────────────────
+   A card comes apart into its colour channels, gets sliced by scanlines and
+   blurs out; the next resolves out of the same interference. The two overlap
+   by design — biPhaseIn starts at 0ms, not after the outgoing card has gone.
+
+   THE ANIMATION NAME IS THE TRIGGER. These elements never unmount, so a shared
+   animation-name across the two states would play exactly once, at page load,
+   and never again. is-live and is-past therefore run DIFFERENT named
+   animations — that is what restarts them on a class change, and it is the
+   whole mechanism holding this together.
+
+   The split is drop-shadow rather than text-shadow because it has to apply to
+   the Bitcoin disc and the emoji as well as to type; drop-shadow filters the
+   rendered element, text-shadow only paints behind glyphs.
+
+   Cyan and magenta, at low alpha. A real chromatic split is red/blue, but on
+   this near-black ground red reads as the market's down colour and puts a
+   false signal in the middle of the frame. */
+.bi-flash.is-live { animation: biPhaseIn 460ms cubic-bezier(.2, .85, .25, 1) both; }
+.bi-flash.is-past { animation: biPhaseOut 380ms cubic-bezier(.4, 0, .7, .4) both; }
+
+@keyframes biPhaseIn {
+  0% {
+    opacity: 0;
+    transform: translateY(calc(-50% + 16px)) scaleY(1.14) skewX(-3deg);
+    filter: blur(7px)
+            drop-shadow(-9px 0 0 rgba(0, 240, 255, .55))
+            drop-shadow(9px 0 0 rgba(255, 60, 190, .55));
+  }
+  40% {
+    opacity: .85;
+    transform: translateY(calc(-50% + 2px)) scaleY(1.02) skewX(1.4deg);
+    filter: blur(1.2px)
+            drop-shadow(-4px 0 0 rgba(0, 240, 255, .5))
+            drop-shadow(4px 0 0 rgba(255, 60, 190, .5));
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(-50%) scaleY(1) skewX(-.6deg);
+    filter: drop-shadow(-1.5px 0 0 rgba(0, 240, 255, .4))
+            drop-shadow(1.5px 0 0 rgba(255, 60, 190, .4));
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-50%);
+    filter: none;
+  }
+}
+
+@keyframes biPhaseOut {
+  0% {
+    opacity: 1;
+    transform: translateY(-50%);
+    filter: none;
+  }
+  30% {
+    opacity: .9;
+    transform: translateY(calc(-50% - 3px)) scaleY(1.03) skewX(2.2deg);
+    filter: drop-shadow(-5px 0 0 rgba(0, 240, 255, .6))
+            drop-shadow(5px 0 0 rgba(255, 60, 190, .6));
+  }
+  60% {
+    opacity: .45;
+    transform: translateY(calc(-50% - 9px)) scaleY(1.08) skewX(-3.4deg);
+    filter: blur(2px)
+            drop-shadow(-11px 0 0 rgba(0, 240, 255, .5))
+            drop-shadow(11px 0 0 rgba(255, 60, 190, .5));
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(calc(-50% - 20px)) scaleY(1.2);
+    filter: blur(9px);
+  }
+}
+
+/* The scanlines. A sheet of them sits over each card and is only lit during a
+   phase — this is the half that reads as "hologram" rather than as "blurry
+   fade", and it sweeps so the interference has a direction.
+
+   Inset negatively so the sheet covers the chromatic fringes too; a scanline
+   field that stops at the card's own box draws a visible rectangle around it. */
+.bi-flash::after {
+  content: "";
+  position: absolute;
+  inset: calc(-14px * var(--s)) calc(-22px * var(--s));
+  pointer-events: none;
+  opacity: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(150, 255, 235, .18) 0 1px,
+    transparent 1px 4px
+  );
+  /* Feathered, or the sheet draws its own rectangle. A hard-edged field of
+     scanlines reads as a box laid over the card — the interference has to fall
+     off into the frame for the card to look like it is coming apart rather
+     than like it is sitting behind a screen door. */
+  -webkit-mask-image: radial-gradient(72% 66% at 50% 50%, #000 35%, transparent 100%);
+          mask-image: radial-gradient(72% 66% at 50% 50%, #000 35%, transparent 100%);
+}
+
+.bi-flash.is-live::after { animation: biScanIn 460ms linear both; }
+.bi-flash.is-past::after { animation: biScanOut 380ms linear both; }
+
+@keyframes biScanIn {
+  0%   { opacity: .9; transform: translateY(-14px); }
+  60%  { opacity: .35; transform: translateY(6px); }
+  100% { opacity: 0; transform: translateY(14px); }
+}
+
+@keyframes biScanOut {
+  0%   { opacity: 0; transform: translateY(-10px); }
+  45%  { opacity: .8; transform: translateY(2px); }
+  100% { opacity: 0; transform: translateY(16px); }
 }
 
 .bi-idx {
@@ -542,7 +671,14 @@
   font-size: calc(56px * var(--s));
   line-height: 1;
   filter: drop-shadow(0 6px 22px color-mix(in srgb, var(--tint) 55%, transparent));
-  animation: biPop 320ms cubic-bezier(.2, 1.5, .4, 1) both;
+}
+
+/* Scoped to .is-live, not to .bi-emoji itself. The cards never unmount, so an
+   animation declared on the base element runs once at page load and is over
+   before the ad starts — it has to hang off the state class to fire per card.
+   Same reason as the phase animations above. */
+.bi-flash.is-live .bi-emoji {
+  animation: biPop 320ms cubic-bezier(.2, 1.5, .4, 1) 60ms both;
 }
 
 @keyframes biPop {
@@ -585,7 +721,10 @@
   border-radius: 2px;
   background: var(--tint);
   opacity: .85;
-  animation: biWipe 260ms cubic-bezier(.3, .8, .3, 1) both;
+}
+
+.bi-flash.is-live .bi-rule {
+  animation: biWipe 260ms cubic-bezier(.3, .8, .3, 1) 120ms both;
 }
 
 @keyframes biWipe {
@@ -747,10 +886,18 @@
   transform: none;
 }
 
+/* The claim is TYPED — see the component for the counter driving it.
+
+   LEFT-ALIGNED inside a centred block: centred text that grows a character at
+   a time slides sideways on every keystroke, and against a left edge it only
+   grows rightward. It is also what a terminal does, which this stage already
+   is. */
 .bi-claim {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: calc(3px * var(--s));
+  text-align: left;
   font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: calc(13px * var(--s));
   font-weight: 400;
@@ -758,15 +905,36 @@
   color: var(--mute);
 }
 
-.bi-claim span {
-  opacity: 0;
-  transform: translateY(calc(6px * var(--s)));
-  transition: opacity 400ms ease, transform 460ms cubic-bezier(.16, 1, .3, 1);
+/* NO PADDING ON A TYPED LINE. The line is a hidden ghost holding the box with
+   the struck text laid over it absolutely, and an absolutely positioned child
+   is placed against the PADDING box — so padding here moves the ghost and not
+   the live text, and the line prints out of register with itself. */
+.bi-claim-line {
+  position: relative;
 }
 
-.bi-k-reveal .bi-claim span { opacity: 1; transform: none; }
-.bi-k-reveal .bi-claim span:nth-child(1) { transition-delay: 420ms; }
-.bi-k-reveal .bi-claim span:nth-child(2) { transition-delay: 640ms; }
+.bi-ghost {
+  visibility: hidden;
+  white-space: pre;
+}
+
+.bi-struck {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: pre;
+}
+
+/* Follows the text, so it cannot be a keyframe on a fixed box. */
+.bi-caret {
+  display: inline-block;
+  width: calc(7px * var(--s));
+  height: calc(2px * var(--s));
+  margin-left: 1px;
+  vertical-align: baseline;
+  background: var(--tint);
+  animation: biBlink 620ms steps(1, end) infinite;
+}
 
 /* ---------- the endcard ------------------------------------------------- */
 

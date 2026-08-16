@@ -1,9 +1,9 @@
 // BestInvestmentAd.jsx — "what is the best investment?" answered as education.
 //
-// The ad opens as a market feed and hard-cuts through four assets — real
-// estate, bitcoin, stocks, gold — a card each, faster every time. Then the
-// feed stops dead, asks the question, and the answer is the one asset that
-// was never on the tape.
+// The ad opens on a bull market and phases through four assets — stocks,
+// bitcoin, real estate, gold — a card each, faster every time. Then the feed
+// stops dead, asks the question, and the answer is the one asset that was
+// never on the tape.
 //
 // ── The flash is the hook, so it has to accelerate ──
 //
@@ -19,10 +19,22 @@
 // scaling all four and keeping the gaps between them; flattening them to one
 // number is what actually breaks this.
 //
-// The cards are HARD CUTS. No cross-fade, no slide — each one is keyed by its
-// index so React remounts it and its entrance animation restarts from frame
-// one. A dissolve between two full-frame colour washes turns four beats into
-// one long muddy one.
+// ── The cards phase, they do not cut ──
+//
+// Each card breaks up as it leaves — chromatic split, scanlines, blur — while
+// the next one resolves out of the same interference. Holographic, and the
+// two overlap: the outgoing card is still coming apart as the incoming one
+// arrives, which is what makes a run of four read as one continuous signal
+// being retuned rather than as four slides.
+//
+// That requires BOTH CARDS ON SCREEN AT ONCE, so all four are mounted the
+// whole time and the live one is chosen by class. An earlier pass rendered a
+// single card keyed by index; it remounted on every beat, so the outgoing card
+// left the DOM the instant the new one arrived and could only ever vanish.
+//
+// The phase is fast — under half a second — because it still has to read as a
+// beat. A dissolve slow enough to admire turns four cards into one long muddy
+// one, which is the failure mode the old hard cuts were avoiding.
 //
 // Each asset owns the whole frame while it is up: its colour is pushed into
 // --tint and the glow, the rule, the index and the tape all take it. Four
@@ -48,11 +60,15 @@
 //
 // ── The candles never come back ──
 //
-// The chart behind the opening is a candlestick field — up and down, in the
-// two colours a market is always drawn in. On the reveal it is replaced by a
-// single line that ascends and leaves the top of the frame. The whole claim of
-// the ad is "this one only goes up", and the two chart shapes are that claim
-// without a sentence spent on it.
+// The chart behind the opening is a candlestick field running a bull market:
+// bottom of the frame to the top of it, green and red, pullbacks on the way
+// up. Every contender is having a good day — which is the fair version of the
+// argument, and a stronger one than stacking the deck with a crash.
+//
+// On the reveal the whole field is replaced by a single line that ascends and
+// leaves the top of the frame. Not a better rally: a different KIND of line.
+// The candles are a market, discrete and two-coloured and arguable; the answer
+// is one unbroken stroke that does not stop inside the picture.
 //
 // JS owns the timeline and nothing else: a step counter walking TIMELINE, its
 // kind exposed as a class on the root. Every movement is CSS keyed off that.
@@ -69,18 +85,28 @@ import cnLogo from "../Images/cn-woodbridge-logo.png";
 //   note   the caveat, in muted type. Two or three words: at this speed a
 //          longer line is texture rather than copy, and the eye only ever
 //          catches one or two across the run — which is enough, they are a mood
-//   ms     how long the card holds. SHORTENING, card over card — see the header
 //   mark   a drawn mark instead of an emoji, for the one asset that has a real
 //          logo people recognise. See BitcoinMark.
+//
+// Stocks lead, because the ad opens on a stock chart and the first card should
+// name what the viewer is already looking at.
 const ASSETS = [
-  { name: ["REAL", "ESTATE"], emoji: "🏠", tint: "#5b86ff", note: "markets turn",     ms: 1000 },
-  { name: ["BITCOIN"],        mark: "btc", tint: "#f7931a", note: "volatile",         ms: 920 },
   // Deeper than the answer's green on purpose — see the header. Stocks are
   // drawn green in every market there has ever been, so this card keeps the
   // hue and gives up the brightness.
-  { name: ["STOCKS"],         emoji: "📈", tint: "#1f9d5c", note: "corrections come", ms: 840 },
-  { name: ["GOLD"],           emoji: "🥇", tint: "#e3ab27", note: "sits in a vault",  ms: 770 },
+  { name: ["STOCKS"],         emoji: "📈", tint: "#1f9d5c", note: "corrections come" },
+  { name: ["BITCOIN"],        mark: "btc", tint: "#f7931a", note: "volatile" },
+  { name: ["REAL", "ESTATE"], emoji: "🏠", tint: "#5b86ff", note: "markets turn" },
+  { name: ["GOLD"],           emoji: "🥇", tint: "#e3ab27", note: "sits in a vault" },
 ];
+
+// How long each SLOT holds — by position, not by asset. Shortening down the
+// list; see the header for why the acceleration is the hook.
+//
+// Kept off the asset objects deliberately: these belong to the position in the
+// run, so reordering the contenders must not carry a duration along with an
+// asset and quietly flatten the curve.
+const CARD_MS = [1000, 920, 840, 770];
 
 // The answer's tint: the market's own colour for up, lit brighter than any
 // contender managed. Bright enough that anything sitting ON it needs dark ink
@@ -94,11 +120,21 @@ const GREEN = "#3ff09a";
 // how a run-up resolves, and if the answer flashed past at card speed it would
 // read as a fifth contender.
 const TIMELINE = [
-  ...ASSETS.map((a, i) => ({ k: "asset", i, ms: a.ms })),
+  ...ASSETS.map((_, i) => ({ k: "asset", i, ms: CARD_MS[i] })),
   { k: "ask",    ms: 1800 },
-  { k: "reveal", ms: 2100 },
+  { k: "reveal", ms: 2400 },
   { k: "end",    ms: 0 },
 ];
+
+// The claim under the answer, typed rather than faded in. Authored lines: at
+// this measure the whole sentence on one line runs past the crop guard.
+const CLAIM = ["will always provide", "the best returns."];
+const CLAIM_LEN = CLAIM.join("").length;
+
+// Milliseconds per character, and the pause before the first one — the answer
+// has to land and be read before anything starts printing under it.
+const TYPE_MS = 44;
+const TYPE_LEAD = 620;
 
 // ── the intro ─────────────────────────────────────────────────────────────
 // Before any card, the ad is just a market: the candle field prints itself
@@ -209,25 +245,28 @@ function hash(n) {
  */
 const CANDLES = (() => {
   const n = 26;
-  // Opens high and works down. Start, bias and amplitude together decide how
-  // much of the chart box the walk uses AND whether it ever hits the clamp.
-  // These three span about two thirds of the box and never clamp once.
+  // A BULL RUN. It opens at the bottom of the box and climbs to the top —
+  // 19 green candles to 7 red, with pullbacks on the way up, because a line
+  // that only ever ticks one way is not a market.
   //
-  // Both failures are worth knowing, because both look like a bug in the
+  // FOUR numbers decide the shape: the open, the hash seed, the bias and the
+  // amplitude. Between them they set how much of the box the walk uses and
+  // whether it ever hits the clamp, and both failures look like a bug in the
   // drawing rather than a choice about the numbers:
-  //   - too little range (an earlier pass opened at 62 and used a third of the
-  //     box) reads as a strip of decoration, not as a chart;
-  //   - too much bias pins the walk against the clamp and the last several
-  //     candles come out as a flat row of stubs at the bottom of the frame.
+  //   - too little range reads as a strip of decoration, not as a chart;
+  //   - too much bias pins the walk against the clamp and the tail comes out
+  //     as a flat row of stubs.
+  // These four span 91 to 7 of the box and never clamp once.
   //
-  // The bias is also the decline, and that is worth keeping: the market has to
-  // be visibly falling for the ascending line on the reveal to land as a
-  // reversal rather than as just another chart.
-  let y = 18;
+  // THE SEED IS PART OF THE TUNING, not a throwaway. The bias alone could not
+  // get a rising walk past about half the box without pinning, because this
+  // hash sequence happens to fall the wrong way early on. Changing the trend
+  // means searching the seed with it rather than only adjusting the bias.
+  let y = 90;
   return Array.from({ length: n }, (_, i) => {
-    const move = (hash(i * 17 + 5) - 0.42) * 15;
+    const move = (hash(i * 17 + 12) - 0.70) * 17;
     const open = y;
-    const close = Math.min(88, Math.max(12, y + move));
+    const close = Math.min(93, Math.max(7, y + move));
     y = close;
     const wick = 3 + hash(i * 31 + 9) * 9;
     return {
@@ -283,10 +322,34 @@ export default function BestInvestmentAd() {
   const kind = beat ? beat.k : "lead";
   const asset = beat && beat.k === "asset" ? ASSETS[beat.i] : null;
 
+  // ── the typewriter ──────────────────────────────────────────────────────
+  // Characters printed so far, across the claim as one string. JS owns this
+  // because a caret that follows the text needs the text to actually grow,
+  // which no keyframe can do.
+  const [typed, setTyped] = React.useState(0);
+
+  React.useEffect(() => {
+    if (reduce) {
+      setTyped(CLAIM_LEN);
+      return undefined;
+    }
+    if (kind !== "reveal" || typed >= CLAIM_LEN) return undefined;
+    const t = setTimeout(
+      () => setTyped((n) => n + 1),
+      typed === 0 ? TYPE_LEAD : TYPE_MS
+    );
+    return () => clearTimeout(t);
+  }, [kind, typed, reduce]);
+
   // From the reveal onward the frame belongs to the answer, so the tint is the
   // bright green — the answer card, the tape, the line and the CTA all take it.
   const answered = kind === "reveal" || kind === "end";
   const tint = asset ? asset.tint : answered ? GREEN : "#7c8b9a";
+
+  // Which contender owns the frame. -1 before the first, ASSETS.length once
+  // the run is over — so every card is "past" from the question onward and
+  // the last one phases out into it rather than disappearing.
+  const live = asset ? beat.i : kind === "lead" ? -1 : ASSETS.length;
 
   return (
     <div
@@ -355,25 +418,44 @@ export default function BestInvestmentAd() {
       {asset && <span className="bi-blast" key={`x${beat.i}`} aria-hidden />}
 
       <div className="bi-card">
-        {/* ---- the flash ----
-            Keyed by index: React remounts on every cut so the entrance
-            animation restarts. Without the key it would tween between two
-            cards, and a tween is not a cut. */}
-        {asset && (
-          <div className="bi-flash" key={beat.i}>
-            <div className="bi-idx">{`0${beat.i + 1}`}</div>
+        {/* ---- the contenders ----
+            ALL FOUR ARE MOUNTED, stacked on each other, and the one that owns
+            the frame is picked by class. They used to be a single card keyed
+            by index, remounted on every beat — which meant the outgoing card
+            was gone from the DOM the instant the new one arrived, so there was
+            never anything to animate out. A conditionally-rendered element can
+            only vanish.
+
+            With both on screen the join can be a real dissolve: the outgoing
+            card phases out while the incoming one phases in, and the two
+            overlap. See biPhaseOut / biPhaseIn.
+
+            THE CLASS IS WHAT RETRIGGERS THE ANIMATION. These elements never
+            unmount, so an entrance animation would only ever run once, at
+            load. Each state carries a DIFFERENT animation-name — that change
+            is what makes the browser start it again. Two states sharing one
+            name would silently play nothing. */}
+        {ASSETS.map((a, i) => (
+          <div
+            className={`bi-flash${
+              i === live ? " is-live" : i < live ? " is-past" : ""
+            }`}
+            style={{ "--tint": a.tint }}
+            key={i}
+          >
+            <div className="bi-idx">{`0${i + 1}`}</div>
             <div className="bi-emoji">
-              {asset.mark === "btc" ? <BitcoinMark /> : asset.emoji}
+              {a.mark === "btc" ? <BitcoinMark /> : a.emoji}
             </div>
             <div className="bi-name">
-              {asset.name.map((l) => (
+              {a.name.map((l) => (
                 <span key={l}>{l}</span>
               ))}
             </div>
             <span className="bi-rule" aria-hidden />
-            <div className="bi-note">{asset.note}</div>
+            <div className="bi-note">{a.note}</div>
           </div>
-        )}
+        ))}
 
         {/* ---- the three story scenes ----
             These are ALWAYS MOUNTED and stacked on each other, unlike the
@@ -407,15 +489,38 @@ export default function BestInvestmentAd() {
             <span>EDUCATION</span>
           </div>
           <span className="bi-rule bi-rule-wide" aria-hidden />
-          {/* Continues the headline rather than restating it — the frame
-              reads "EDUCATION will always be the best return on your
-              investment", which is why these lines start lowercase and
-              carry no full stop until the end. Breaks are authored: at this
-              measure "return on your investment" is the longest line that
-              clears the side guard on a 390px phone. */}
+          {/* Typed, not faded. The frame reads as one sentence — "EDUCATION
+              will always provide the best returns" — so the claim starts
+              lowercase and carries no stop until the end, and printing it
+              under the answer is the ad finishing its own thought.
+
+              LEFT-ALIGNED inside a centred block. Centred text that grows a
+              character at a time slides sideways on every keystroke; against
+              a left edge it only ever grows rightward, which is also what a
+              terminal does and what this stage already is.
+
+              Every line is a hidden ghost holding its own box with the struck
+              text laid over it — without that the block grows a line at a time
+              and, because the scene is centred, the whole answer creeps upward
+              on the carriage return. */}
           <div className="bi-claim">
-            <span>will always be the best</span>
-            <span>return on your investment.</span>
+            {CLAIM.map((line, i) => {
+              const from = CLAIM.slice(0, i).join("").length;
+              const shown = Math.min(line.length, Math.max(0, typed - from));
+              return (
+                <div className="bi-claim-line" key={line}>
+                  <span className="bi-ghost" aria-hidden>
+                    {line}
+                  </span>
+                  <span className="bi-struck">
+                    {line.slice(0, shown)}
+                    {typed >= from && typed < from + line.length && (
+                      <i className="bi-caret" aria-hidden />
+                    )}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
 
