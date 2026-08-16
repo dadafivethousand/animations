@@ -309,8 +309,7 @@
 .bi-line polyline {
   fill: none;
   stroke: var(--tint);
-  /* stroke-width and opacity come per-trace from the component — the hero is
-     heavier and brighter, the rest fall back behind it. */
+  stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
@@ -323,148 +322,31 @@
   stroke-dashoffset: 100;
 }
 
-/* The fan runs corner to corner and the copy is centred, so the traces cross
-   the type. There is no placement that avoids that — instead the whole layer
-   is MASKED, with a soft hole where the answer sits. That is better than
-   simply dimming everything: the traces stay bright out at the edges where
-   they are the picture, and go quiet only in the middle third where the word
-   is. Dimming alone cost the fan its whole read. */
-.bi-line {
-  /* PERCENTAGES ARE OF THE FRAME, NOT OF THE TYPE. An earlier hole was 34% of
-     the height — on an 844px phone that is a 570px void, and it swallowed the
-     whole fan while protecting far more than the six lines that needed it.
-     24% covers the answer block — mark through claim — and no more. */
-  -webkit-mask-image: radial-gradient(48% 24% at 50% 50%, transparent 0%, rgba(0, 0, 0, .5) 60%, #000 92%);
-          mask-image: radial-gradient(48% 24% at 50% 50%, transparent 0%, rgba(0, 0, 0, .5) 60%, #000 92%);
-}
+/* Dim, and dimmer again on the endcard.
+   The line runs corner to corner and the copy is centred, so it crosses the
+   type — there is no placement that avoids that, only a weight at which it
+   stops mattering. At .85 it drew a stroke straight through the claim; this is
+   atmosphere behind the answer instead.
 
-.bi-k-reveal .bi-line { opacity: .85; }
-.bi-k-end .bi-line    { opacity: .5; }
+   A pass once replaced this with a fan of eight traces plus a rotating ray
+   burst, drifting motes and a moving aura, all masked around the answer. It
+   was much busier and much worse: the reveal is the beat where one word has to
+   land, and every layer added was something else happening at the same time.
+   One line, dim, is the whole background this frame wants. */
+.bi-k-reveal .bi-line { opacity: .4; }
+.bi-k-end .bi-line    { opacity: .22; }
 
-/* Staggered: the hero draws first and the fan opens behind it. All five
-   arriving together is a wipe, not a fan. */
 .bi-k-reveal .bi-line polyline {
-  animation: biDraw 1250ms cubic-bezier(.35, .1, .25, 1) var(--draw-delay) forwards;
+  animation: biDraw 1100ms cubic-bezier(.35, .1, .25, 1) 120ms forwards;
 }
 
 .bi-k-end .bi-line polyline {
   stroke-dashoffset: 0;
+  opacity: .5;
 }
 
 @keyframes biDraw {
   to { stroke-dashoffset: 0; }
-}
-
-/* ---------- the answer's sky ------------------------------------------- */
-
-/* Two offset radials drifting against each other, lit only from the reveal.
-   One static radial is a spotlight; two that move slowly out of phase read as
-   weather, and the answer holds longer than any other beat in this ad — long
-   enough that a flat wash behind it goes dead. */
-.bi-aura {
-  position: absolute;
-  inset: -20%;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0;
-  background:
-    radial-gradient(38% 26% at 38% 42%, color-mix(in srgb, var(--tint) 30%, transparent) 0%, transparent 70%),
-    radial-gradient(44% 30% at 63% 57%, color-mix(in srgb, var(--tint) 22%, transparent) 0%, transparent 72%);
-  transition: opacity 900ms ease;
-}
-
-.bi-k-reveal .bi-aura,
-.bi-k-end .bi-aura {
-  opacity: 1;
-  animation: biAura 16s ease-in-out infinite;
-}
-
-.bi-k-end .bi-aura { opacity: .6; }
-
-@keyframes biAura {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50%      { transform: translate3d(2.5%, -3%, 0) scale(1.09); }
-}
-
-/* A burst radiating from behind the answer, turning very slowly.
-
-   MASKED TO A RING, not to a disc: transparent in the middle so the rays never
-   cross the word, opaque through the band around it, gone again before the
-   frame edge. A conic gradient with no mask is a starburst sitting ON the
-   type, which is the one thing the middle of this frame cannot have.
-
-   The rotation is deliberately far slower than it looks like it should be. At
-   anything under about half a minute per turn the eye starts tracking
-   individual spokes and the layer stops being a background. */
-.bi-rays {
-  position: absolute;
-  inset: -30%;
-  z-index: 2;
-  pointer-events: none;
-  opacity: 0;
-  background: repeating-conic-gradient(
-    from 0deg at 50% 50%,
-    color-mix(in srgb, var(--tint) 18%, transparent) 0deg 3.5deg,
-    transparent 3.5deg 13deg
-  );
-  /* The clear middle has to cover the WHOLE answer block — mark, word, rule
-     and both typed lines — not just the word. At a smaller hole the rays came
-     back in over the claim, which is the one part of this frame being read a
-     character at a time. closest-side resolves against the element's own
-     width, so these percentages are of ~1.6 frame-widths, not of the frame. */
-  -webkit-mask-image: radial-gradient(closest-side, transparent 30%, #000 56%, transparent 84%);
-          mask-image: radial-gradient(closest-side, transparent 30%, #000 56%, transparent 84%);
-  transition: opacity 1100ms ease;
-}
-
-.bi-k-reveal .bi-rays {
-  opacity: .5;
-  animation: biRays 44s linear infinite;
-}
-
-.bi-k-end .bi-rays {
-  opacity: .3;
-  animation: biRays 44s linear infinite;
-}
-
-@keyframes biRays {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-/* Motes drifting up the frame. Texture, not objects: small, slow and few, so
-   the layer is felt rather than tracked. Anything faster becomes a second
-   thing on screen arguing with the answer. */
-.bi-motes {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  overflow: hidden;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 900ms ease;
-  /* quiet in the middle, same reason as the fan's mask */
-  -webkit-mask-image: radial-gradient(46% 19% at 50% 50%, transparent 0%, rgba(0, 0, 0, .5) 60%, #000 92%);
-          mask-image: radial-gradient(46% 19% at 50% 50%, transparent 0%, rgba(0, 0, 0, .5) 60%, #000 92%);
-}
-
-.bi-k-reveal .bi-motes { opacity: 1; }
-.bi-k-end .bi-motes    { opacity: .7; }
-
-.bi-mote {
-  position: absolute;
-  bottom: -6%;
-  border-radius: 50%;
-  background: var(--tint);
-  box-shadow: 0 0 6px color-mix(in srgb, var(--tint) 70%, transparent);
-  animation: biMote var(--dur) linear var(--delay) infinite;
-}
-
-@keyframes biMote {
-  0%   { transform: translate3d(0, 0, 0);                        opacity: 0; }
-  14%  {                                                          opacity: .6; }
-  78%  {                                                          opacity: .3; }
-  100% { transform: translate3d(var(--drift), -108vh, 0);         opacity: 0; }
 }
 
 /* ---------- the tape --------------------------------------------------- */
@@ -829,6 +711,16 @@
   display: block;
   width: .92em;
   height: .92em;
+}
+
+/* The gold stack is landscape, not square, so it is sized by WIDTH with the
+   height following the viewBox. Forced into the disc's square box it would
+   render at about two thirds the visual mass of every other card's mark.
+   1.25em is matched by eye against the emoji, the same way .bi-btc is. */
+.bi-gold {
+  display: block;
+  width: 1.25em;
+  height: auto;
 }
 
 /* Long names are set on authored lines — "REAL ESTATE" on one line at this

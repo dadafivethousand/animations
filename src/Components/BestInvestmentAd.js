@@ -76,6 +76,12 @@
 // The candles are a market, discrete and two-coloured and arguable; the answer
 // is one unbroken stroke that does not stop inside the picture.
 //
+// ONE LINE, AND KEPT DIM. A pass once built this out into a fan of eight
+// traces over a rotating ray burst, drifting motes and a moving aura. It was
+// far more detailed and far worse — the reveal is the beat where a single word
+// has to land, and everything added to the background was one more thing
+// happening at the same moment as the thing that matters.
+//
 // JS owns the timeline and nothing else: a step counter walking TIMELINE, its
 // kind exposed as a class on the root. Every movement is CSS keyed off that.
 import React from "react";
@@ -88,8 +94,9 @@ import cnLogo from "../Images/cn-woodbridge-logo.png";
 //   name   the lines as they are set — authored breaks, never wrapped, because
 //          "REAL ESTATE" on one line at this size runs into the crop guard
 //   tint   the colour the whole frame takes while this card is up
-//   mark   a drawn mark instead of an emoji, for the one asset that has a real
-//          logo people recognise. See BitcoinMark.
+//   mark   a drawn mark instead of an emoji, for the two assets no emoji gets
+//          right: bitcoin has a logo people recognise, and gold's only emoji
+//          is a first-place medal. See BitcoinMark / GoldMark.
 //
 // A NAME AND A MARK, NOTHING ELSE. An earlier pass hung a caveat off each card
 // — "volatile", "markets turn" — and it argued against the contenders one at a
@@ -106,7 +113,7 @@ const ASSETS = [
   { name: ["STOCKS"],         emoji: "📈", tint: "#1f9d5c" },
   { name: ["BITCOIN"],        mark: "btc", tint: "#f7931a" },
   { name: ["REAL", "ESTATE"], emoji: "🏠", tint: "#5b86ff" },
-  { name: ["GOLD"],           emoji: "🥇", tint: "#e3ab27" },
+  { name: ["GOLD"],           mark: "gold", tint: "#e3ab27" },
 ];
 
 // How long each SLOT holds — by position, not by asset. Shortening down the
@@ -236,6 +243,50 @@ function BitcoinMark() {
 }
 
 /**
+ * The gold mark: three cast bars, stacked two-and-one.
+ *
+ * The card used 🥇, which is a first-place medal — an award, not an asset. It
+ * put the wrong noun on the one contender whose whole appeal is that it is a
+ * physical lump of something, and next to a drawn Bitcoin disc it also read as
+ * the odd card out.
+ *
+ * Each bar is three polygons: a pale top face, the tapered front, and a band
+ * just under the lip. The taper is what does the work — sides that fall
+ * straight down make a box, and the slight flare toward the base is the entire
+ * reason a shape this simple reads as cast metal.
+ *
+ * Only the front faces take var(--tint); the lit faces are fixed. Mixing every
+ * face from the tint would keep the drawing consistent under a colour change
+ * the ad never makes, at the cost of the highlight that makes it look metal.
+ */
+function GoldMark() {
+  return (
+    <svg className="bi-gold" viewBox="6 22 88 56" aria-hidden>
+      {[
+        { x: 50, y: 25 },   // the one on top
+        { x: 28, y: 51 },
+        { x: 72, y: 51 },
+      ].map((b, i) => (
+        <g key={i}>
+          <polygon
+            points={`${b.x - 15.2},${b.y} ${b.x + 15.2},${b.y} ${b.x + 18.4},${b.y + 6} ${b.x - 18.4},${b.y + 6}`}
+            fill="#f6dd93"
+          />
+          <polygon
+            points={`${b.x - 18.4},${b.y + 6} ${b.x + 18.4},${b.y + 6} ${b.x + 20},${b.y + 24} ${b.x - 20},${b.y + 24}`}
+            fill="var(--tint)"
+          />
+          <polygon
+            points={`${b.x - 18.4},${b.y + 6} ${b.x + 18.4},${b.y + 6} ${b.x + 17.4},${b.y + 10} ${b.x - 17.4},${b.y + 10}`}
+            fill="#eec254"
+          />
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+/**
  * A deterministic hash: an integer in, a well-scattered number in [0,1) out.
  *
  * The candle field has to look like a market and be identical in every take of
@@ -307,55 +358,6 @@ const CANDLES = (() => {
     };
   });
 })();
-
-/**
- * ── the answer's sky ──────────────────────────────────────────────────────
- *
- * What replaces the candle field on the reveal. The candles are a market —
- * discrete, two-coloured, arguable. This is one continuous thing going up, and
- * it needs enough in it to be worth looking at for three seconds, because the
- * answer holds longer than any other beat in the ad.
- *
- * A FAN, NOT A LINE. Five traces from the bottom-left, each steeper than the
- * last, so they diverge as they climb and every one of them leaves the top of
- * the frame rather than resolving inside it. One line was a single claim; a
- * fan is a whole field of them, and the spread is the part that reads as
- * "compounding" without a word spent on it.
- *
- * The first is the hero — heavier, brighter, drawn first. The rest are faint
- * and staggered behind it, which is what keeps this a background instead of
- * five equal lines competing with the word sitting on them.
- */
-const RISERS = Array.from({ length: 8 }, (_, k) => {
-  const y0 = 104 - k * 3;
-  const slope = 1.05 + k * 0.07;
-  return {
-    // Eight points across the full width, from a staggered origin. The jitter
-    // is what stops them reading as copies of one ruled line.
-    pts: Array.from({ length: 8 }, (_2, j) =>
-      `${(-12 + k * 3 + j * 15).toFixed(1)},${(y0 - j * slope * 13 + (hash(k * 97 + j) - 0.5) * 5).toFixed(1)}`
-    ).join(" "),
-    w: k === 0 ? 2.2 : 1.4 - k * 0.06,
-    o: k === 0 ? 0.95 : 0.52 - k * 0.035,
-    delay: 120 + k * 110,
-  };
-});
-
-/**
- * Motes drifting up through the frame.
- *
- * The layer that makes the sky feel occupied rather than empty. Slow, small
- * and few — this is texture, and anything fast enough to track individually
- * becomes a second thing on screen competing with the answer.
- */
-const MOTES = Array.from({ length: 22 }, (_, i) => ({
-  x: hash(i * 13 + 3) * 100,
-  size: 1.8 + hash(i * 29 + 7) * 3.4,
-  dur: 7 + hash(i * 41 + 11) * 8,
-  // negative, so the field is already in motion on the first frame it is seen
-  delay: -(hash(i * 53 + 5) * 14).toFixed(2),
-  drift: ((hash(i * 67 + 9) - 0.5) * 9).toFixed(1),
-}));
 
 // The tape. One pass of the contenders, rendered twice so the scroll has no
 // seam. Arrows disagree — a tape where everything points the same way is not a
@@ -435,17 +437,6 @@ export default function BestInvestmentAd() {
       <div className="bi-grid" aria-hidden />
       <div className="bi-glow" aria-hidden />
 
-      {/* Lit only from the reveal on: two offset radials that drift against
-          each other, so the answer sits in weather rather than on a flat
-          wash. One static radial is a spotlight; two moving ones read as
-          sky. */}
-      <div className="bi-aura" aria-hidden />
-
-      {/* A slow burst radiating from behind the answer. Masked to a ring so it
-          never touches the word itself — the rays are what the word is
-          standing in front of, not something crossing it. */}
-      <div className="bi-rays" aria-hidden />
-
       <div className="bi-chart" aria-hidden>
         {CANDLES.map((c, i) => (
           <span
@@ -470,42 +461,13 @@ export default function BestInvestmentAd() {
           Replaces the candles on the reveal and draws itself across, leaving
           the top of the frame rather than resolving inside it. It is the
           claim; nothing else in the ad has to make it. */}
-      {/* pathLength normalises each draw to 100 units. The stroke is
+      {/* pathLength normalises the draw to 100 units. The stroke is
           non-scaling — its dash pattern is therefore measured in SCREEN px,
           not in this 100x100 user space — so a hand-counted dasharray is
           wrong on every phone by a different amount. */}
       <svg className="bi-line" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
-        {RISERS.map((r, i) => (
-          <polyline
-            key={i}
-            pathLength="100"
-            points={r.pts}
-            style={{
-              strokeWidth: r.w,
-              opacity: r.o,
-              "--draw-delay": `${r.delay}ms`,
-            }}
-          />
-        ))}
+        <polyline pathLength="100" points="-2,86 14,79 28,72 42,61 56,49 70,33 84,14 102,-8" />
       </svg>
-
-      {/* Drifting up through the whole frame, behind everything. */}
-      <div className="bi-motes" aria-hidden>
-        {MOTES.map((m, i) => (
-          <i
-            key={i}
-            className="bi-mote"
-            style={{
-              left: `${m.x.toFixed(2)}%`,
-              width: `${m.size.toFixed(1)}px`,
-              height: `${m.size.toFixed(1)}px`,
-              "--dur": `${m.dur.toFixed(1)}s`,
-              "--delay": `${m.delay}s`,
-              "--drift": `${m.drift}px`,
-            }}
-          />
-        ))}
-      </div>
 
       {/* ---- the tape ----
           Two strips, running opposite ways so the frame reads as a feed rather
@@ -558,7 +520,13 @@ export default function BestInvestmentAd() {
           >
             <div className="bi-idx">{`0${i + 1}`}</div>
             <div className="bi-emoji">
-              {a.mark === "btc" ? <BitcoinMark /> : a.emoji}
+              {a.mark === "btc" ? (
+                <BitcoinMark />
+              ) : a.mark === "gold" ? (
+                <GoldMark />
+              ) : (
+                a.emoji
+              )}
             </div>
             <div className="bi-name">
               {a.name.map((l) => (
