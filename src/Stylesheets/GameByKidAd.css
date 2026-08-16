@@ -1,0 +1,764 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&family=JetBrains+Mono:wght@700&display=swap');
+
+/* ============================================================
+   GameByKidAd — a game plays, then you find out who made it.
+
+   A side-scrolling platformer running full frame for six seconds, then the
+   level clears and the credit lands.
+
+   EVERYTHING IS ON ONE CLOCK: --beat. The ground, the coins, the ninja's jump
+   and his dust all loop on it, and every sync in the ad falls out of that
+   rather than being hand-timed. A coin enters at 110% and leaves at -10%, so
+   it passes the ninja — parked at 30% — at exactly 66.7% of the loop, which is
+   where its collect pop sits and where the jump arc puts him at apex.
+
+   Change --beat and the whole thing still lines up. Give one layer its own
+   duration and the ninja starts jumping at nothing. There is no collision
+   detection in this ad and there does not need to be: two things on the same
+   clock always meet in the same place.
+
+   Four more notes worth not undoing:
+
+   1. PARALLAX IS THE DEPTH. Sky < clouds < far hills < near hills < ground,
+      each faster than the one behind it. Flatten those speeds and the frame
+      stops being a world and becomes a pattern sliding sideways.
+
+   2. EVERY SCROLLING STRIP IS RENDERED TWICE and translated exactly -50%, so
+      the second copy arrives where the first was and the loop has no seam.
+
+   3. THE SPRITE SWAP IS A CUT, NOT A FADE — steps(1). A ninja dissolving
+      between two poses looks like a ghost; a game cuts.
+
+   4. BRIGHT DAYLIGHT, and deliberately so. Every other recent ad in this repo
+      is a dark stage. This one has to look like a game a nine-year-old would
+      actually make, which means saturated sky, green hills and gold coins.
+
+   Knobs:
+     --beat               the one clock
+     --ground             how high the ground sits
+     --s                  every typographic size
+     --safe-x / --safe-y  the crop guard the HUD and cards live inside
+
+   Portrait phone only (~390x844, recorded at 360x640).
+   ============================================================ */
+
+.pg-stage {
+  --beat: 2.4s;
+  /* Top of the ground, from the bottom of the frame. THIS IS A COMPOSITION
+     KNOB, not just a number: it sets how much of the phone is dirt. At 26vh it
+     was a third of the frame of flat brown with nothing happening in it, and
+     the whole ad sat in the bottom half. A platformer wants a strip to run
+     along, not a floor to stand on. */
+  --ground: 17vh;
+
+  --sky-1:   #2196f3;
+  --sky-2:   #7fd3ff;
+  --sky-3:   #c9f0ff;
+
+  --hill-far:  #3f8f5c;
+  --hill-near: #2e7346;
+  --grass:     #6cc24a;
+  --grass-2:   #4e9e35;
+  --dirt:      #8d5a3c;
+  --dirt-2:    #6f452d;
+
+  --gold:    #ffd23f;
+  --gold-2:  #f5a623;
+  --ink:     #17232e;
+  --red:     #e4002b;
+
+  --s: 1;
+
+  /* The crop guard. The ad is screen-recorded and re-fit before it reaches IG,
+     so the edges go missing by an amount nobody knows in advance. The world
+     may bleed past it — a game's sky and ground should — but the HUD, the
+     banners and the endcard may not. */
+  --safe-x: max(45px, 11vw);
+  --safe-y: max(40px, 6vh);
+
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--sky-1);
+  color: #fff;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.pg-stage *,
+.pg-stage *::before,
+.pg-stage *::after {
+  box-sizing: border-box;
+}
+
+/* ---------- sky --------------------------------------------------------- */
+
+.pg-sky {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(180deg, var(--sky-1) 0%, var(--sky-2) 58%, var(--sky-3) 100%);
+}
+
+.pg-sun {
+  position: absolute;
+  left: 50%;
+  top: 14%;
+  z-index: 1;
+  width: calc(150px * var(--s));
+  height: calc(150px * var(--s));
+  margin-left: calc(-75px * var(--s));
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 248, 214, .95) 0%, rgba(255, 236, 150, .45) 42%, transparent 70%);
+  animation: pgSun 6s ease-in-out infinite;
+}
+
+@keyframes pgSun {
+  0%, 100% { transform: scale(1);    opacity: .9; }
+  50%      { transform: scale(1.07); opacity: 1; }
+}
+
+/* ---------- clouds ------------------------------------------------------ */
+
+/* Slowest layer, and the only one whose members drift at different speeds —
+   clouds at one shared rate read as a printed backdrop. */
+.pg-clouds {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.pg-cloud {
+  position: absolute;
+  display: block;
+  transform: scale(var(--sc));
+  animation: pgCloud var(--dur) linear infinite;
+}
+
+/* Three overlapping discs, which is all a cartoon cloud has ever been. */
+.pg-cloud i {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .92);
+}
+
+.pg-cloud i:nth-child(1) { width: 54px; height: 54px; left: 0;   top: 8px; }
+.pg-cloud i:nth-child(2) { width: 74px; height: 74px; left: 32px; top: 0; }
+.pg-cloud i:nth-child(3) { width: 48px; height: 48px; left: 92px; top: 14px; }
+
+@keyframes pgCloud {
+  from { margin-left: 0; }
+  to   { margin-left: -150vw; }
+}
+
+/* ---------- hills ------------------------------------------------------- */
+
+/* Note 2: two copies, translated -50%, no seam. The far layer runs at four
+   beats and the near at two, so the near one visibly overtakes it. */
+.pg-hills {
+  position: absolute;
+  left: 0;
+  bottom: var(--ground);
+  z-index: 3;
+  display: flex;
+  width: 200%;
+  pointer-events: none;
+}
+
+.pg-hills span {
+  flex: 0 0 50%;
+  height: 100%;
+  background-repeat: repeat-x;
+  background-position: bottom center;
+  background-size: 50% 100%;
+}
+
+.pg-hills-far {
+  height: calc(196px * var(--s));
+  animation: pgScroll calc(var(--beat) * 5) linear infinite;
+}
+
+.pg-hills-far span {
+  background-image:
+    radial-gradient(60% 100% at 22% 100%, var(--hill-far) 0 99%, transparent 100%),
+    radial-gradient(52% 82% at 62% 100%, var(--hill-far) 0 99%, transparent 100%),
+    radial-gradient(44% 92% at 92% 100%, var(--hill-far) 0 99%, transparent 100%);
+}
+
+.pg-hills-near {
+  height: calc(132px * var(--s));
+  animation: pgScroll calc(var(--beat) * 2.5) linear infinite;
+}
+
+.pg-hills-near span {
+  background-image:
+    radial-gradient(48% 100% at 14% 100%, var(--hill-near) 0 99%, transparent 100%),
+    radial-gradient(56% 88% at 52% 100%, var(--hill-near) 0 99%, transparent 100%),
+    radial-gradient(40% 96% at 86% 100%, var(--hill-near) 0 99%, transparent 100%);
+}
+
+@keyframes pgScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ---------- the ground -------------------------------------------------- */
+
+/* The fastest layer, and the one the beat is named for: exactly one --beat per
+   tile. Everything else is expressed as a multiple of it. */
+.pg-ground {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 6;
+  display: flex;
+  width: 200%;
+  height: var(--ground);
+  animation: pgScroll var(--beat) linear infinite;
+}
+
+.pg-ground span {
+  flex: 0 0 50%;
+  height: 100%;
+  background:
+    /* Stones. Without something with edges down there the dirt reads as a flat
+       colour and the fastest layer in the ad looks stationary — the stripes
+       below help but they are too regular to be seen as ground. */
+    radial-gradient(circle at 14% 46%, rgba(0, 0, 0, .16) 0 calc(7px * var(--s)), transparent calc(7px * var(--s))),
+    radial-gradient(circle at 38% 72%, rgba(0, 0, 0, .13) 0 calc(5px * var(--s)), transparent calc(5px * var(--s))),
+    radial-gradient(circle at 63% 40%, rgba(0, 0, 0, .15) 0 calc(6px * var(--s)), transparent calc(6px * var(--s))),
+    radial-gradient(circle at 82% 66%, rgba(0, 0, 0, .12) 0 calc(8px * var(--s)), transparent calc(8px * var(--s))),
+    /* the stripes that make the speed legible */
+    repeating-linear-gradient(90deg,
+      rgba(0, 0, 0, .10) 0 calc(26px * var(--s)),
+      transparent calc(26px * var(--s)) calc(52px * var(--s))),
+    linear-gradient(180deg,
+      var(--grass) 0, var(--grass) calc(12px * var(--s)),
+      var(--grass-2) calc(12px * var(--s)), var(--grass-2) calc(18px * var(--s)),
+      var(--dirt) calc(18px * var(--s)), var(--dirt-2) 100%);
+}
+
+/* ---------- the coins --------------------------------------------------- */
+
+.pg-coins {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+}
+
+/* Enters at 110%, leaves at -10%, so it crosses the ninja's 30% at 66.7% of
+   the beat — which is exactly where the pop is keyframed and where the jump
+   arc has him at apex. All three numbers move together or none of them do. */
+.pg-coin {
+  position: absolute;
+  left: 0;
+  width: calc(26px * var(--s));
+  height: calc(26px * var(--s));
+  animation: pgCoinRun var(--beat) linear calc(var(--d) * var(--beat)) infinite;
+}
+
+.pg-coin-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, #fff6c2 0%, var(--gold) 45%, var(--gold-2) 100%);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, .18), 0 0 12px rgba(255, 210, 63, .6);
+  /* spins on its own short period, so a row of coins never flashes in unison */
+  animation: pgSpin .9s linear infinite, pgCoinPop var(--beat) linear calc(var(--d) * var(--beat)) infinite;
+}
+
+/* The squash is what sells a coin as a disc rather than a ball. */
+@keyframes pgSpin {
+  0%, 100% { transform: scaleX(1); }
+  50%      { transform: scaleX(.18); }
+}
+
+@keyframes pgCoinRun {
+  from { transform: translateX(110vw); }
+  to   { transform: translateX(-10vw); }
+}
+
+/* Nothing until the ninja arrives, then it blows out. `visibility` rather than
+   opacity on the tail so a collected coin cannot ghost back in at the wrap. */
+@keyframes pgCoinPop {
+  0%, 64%   { opacity: 1; visibility: visible; }
+  66%       { opacity: 1; }
+  74%       { opacity: 0; }
+  75%, 100% { opacity: 0; visibility: hidden; }
+}
+
+.pg-pop {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  margin-left: calc(-18px * var(--s));
+  width: calc(36px * var(--s));
+  text-align: center;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: calc(13px * var(--s));
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 2px 0 var(--gold-2), 0 0 8px rgba(0, 0, 0, .35);
+  opacity: 0;
+  animation: pgPlus var(--beat) linear calc(var(--d) * var(--beat)) infinite;
+}
+
+@keyframes pgPlus {
+  0%, 65%   { opacity: 0; transform: translateY(0) scale(.7); }
+  70%       { opacity: 1; transform: translateY(calc(-14px * var(--s))) scale(1.15); }
+  80%       { opacity: 1; transform: translateY(calc(-26px * var(--s))) scale(1); }
+  88%, 100% { opacity: 0; transform: translateY(calc(-40px * var(--s))) scale(.9); }
+}
+
+/* ---------- the ninja --------------------------------------------------- */
+
+/* Parked at 30% of the width — the world moves past him, as in every
+   side-scroller ever shipped. */
+.pg-hero {
+  position: absolute;
+  left: 30%;
+  bottom: var(--ground);
+  z-index: 8;
+  width: calc(112px * var(--s));
+  height: calc(128px * var(--s));
+  margin-left: calc(-56px * var(--s));
+  animation: pgJump var(--beat) cubic-bezier(.3, 0, .5, 1) infinite;
+}
+
+/* Up from 50%, apex at 67% — the same 67% the coins pop at — down by 84%, then
+   a run-bob for the rest. The bob matters: a sprite that is perfectly still
+   between jumps looks pasted onto the background. */
+@keyframes pgJump {
+  0%           { transform: translateY(0); }
+  22%          { transform: translateY(calc(-4px * var(--s))); }
+  44%          { transform: translateY(0); }
+  50%          { transform: translateY(0); }
+  67%          { transform: translateY(calc(-108px * var(--s))); }
+  84%, 100%    { transform: translateY(0); }
+}
+
+.pg-sprite {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 6px 10px rgba(0, 40, 20, .35));
+}
+
+/* Note 3: a cut, not a fade. steps(1) holds each pose until the frame it
+   changes on. */
+.pg-sprite-run {
+  animation: pgPoseRun var(--beat) steps(1, end) infinite;
+}
+
+.pg-sprite-jump {
+  animation: pgPoseJump var(--beat) steps(1, end) infinite;
+}
+
+@keyframes pgPoseRun {
+  0%, 49%   { opacity: 1; }
+  50%, 85%  { opacity: 0; }
+  86%, 100% { opacity: 1; }
+}
+
+@keyframes pgPoseJump {
+  0%, 49%   { opacity: 0; }
+  50%, 85%  { opacity: 1; }
+  86%, 100% { opacity: 0; }
+}
+
+/* Only for the level-clear beat. */
+.pg-sprite-cheer { opacity: 0; }
+
+.pg-k-clear .pg-sprite-run,
+.pg-k-clear .pg-sprite-jump,
+.pg-k-credit .pg-sprite-run,
+.pg-k-credit .pg-sprite-jump { opacity: 0; animation: none; }
+
+.pg-k-clear .pg-sprite-cheer,
+.pg-k-credit .pg-sprite-cheer { opacity: 1; }
+
+.pg-k-clear .pg-hero {
+  animation: pgHop .5s cubic-bezier(.3, 0, .4, 1) infinite;
+}
+
+@keyframes pgHop {
+  0%, 100% { transform: translateY(0)                        scale(1); }
+  40%      { transform: translateY(calc(-26px * var(--s)))   scale(1.03); }
+}
+
+/* Kicked up behind his heels while he is on the ground. */
+.pg-dust {
+  position: absolute;
+  left: calc(-10px * var(--s));
+  bottom: 0;
+  width: calc(46px * var(--s));
+  height: calc(22px * var(--s));
+}
+
+.pg-dust i {
+  position: absolute;
+  bottom: 0;
+  width: calc(9px * var(--s));
+  height: calc(9px * var(--s));
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .62);
+  animation: pgDust .62s linear infinite;
+}
+
+.pg-dust i:nth-child(2) { animation-delay: .2s; }
+.pg-dust i:nth-child(3) { animation-delay: .4s; }
+
+@keyframes pgDust {
+  0%   { opacity: .7; transform: translate(0, 0) scale(.5); }
+  100% { opacity: 0;  transform: translate(calc(-34px * var(--s)), calc(-12px * var(--s))) scale(1.25); }
+}
+
+.pg-k-clear .pg-dust,
+.pg-k-credit .pg-dust,
+.pg-k-end .pg-dust { opacity: 0; }
+
+/* ---------- the world stops --------------------------------------------- */
+
+/* One rule freezes the level, because everything in it is an animation on the
+   same stage. Paused rather than removed, so nothing snaps back to frame one
+   at the moment the ad wants stillness. */
+.pg-k-clear .pg-ground,
+.pg-k-clear .pg-hills,
+.pg-k-clear .pg-coins,
+.pg-k-credit .pg-ground,
+.pg-k-credit .pg-hills,
+.pg-k-credit .pg-coins,
+.pg-k-end .pg-ground,
+.pg-k-end .pg-hills,
+.pg-k-end .pg-coins {
+  animation-play-state: paused;
+}
+
+.pg-k-credit .pg-coins,
+.pg-k-end .pg-coins { opacity: 0; }
+
+/* ---------- the HUD ----------------------------------------------------- */
+
+.pg-hud {
+  position: absolute;
+  left: var(--safe-x);
+  right: var(--safe-x);
+  top: var(--safe-y);
+  z-index: 10;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: calc(10px * var(--s));
+  transition: opacity 400ms ease;
+}
+
+.pg-k-credit .pg-hud,
+.pg-k-end .pg-hud { opacity: 0; }
+
+.pg-hud-l {
+  display: flex;
+  flex-direction: column;
+  gap: calc(2px * var(--s));
+  text-align: left;
+}
+
+/* Heavy outline rather than a shadow — that is how a game draws type over a
+   moving background, and it is the only thing that stays legible across sky,
+   hill and ground all at once. */
+.pg-lvl,
+.pg-world,
+.pg-score {
+  color: #fff;
+  -webkit-text-stroke: calc(3px * var(--s)) var(--ink);
+  paint-order: stroke fill;
+}
+
+.pg-lvl {
+  font-size: calc(15px * var(--s));
+  font-weight: 900;
+  letter-spacing: .01em;
+}
+
+.pg-world {
+  font-size: calc(11px * var(--s));
+  font-weight: 800;
+  letter-spacing: .16em;
+  -webkit-text-stroke-width: calc(2.5px * var(--s));
+  opacity: .95;
+}
+
+.pg-hud-r {
+  display: flex;
+  align-items: center;
+  gap: calc(6px * var(--s));
+}
+
+.pg-coin-icon {
+  width: calc(18px * var(--s));
+  height: calc(18px * var(--s));
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, #fff6c2 0%, var(--gold) 45%, var(--gold-2) 100%);
+  box-shadow: 0 0 0 calc(2.5px * var(--s)) var(--ink);
+}
+
+.pg-score {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: calc(19px * var(--s));
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- level complete ---------------------------------------------- */
+
+.pg-clear {
+  position: absolute;
+  left: var(--safe-x);
+  right: var(--safe-x);
+  top: 30%;
+  z-index: 11;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(2px * var(--s));
+  text-align: center;
+  opacity: 0;
+  transform: scale(.7);
+  pointer-events: none;
+}
+
+.pg-k-clear .pg-clear {
+  animation: pgSlam 620ms cubic-bezier(.2, 1.5, .4, 1) both;
+}
+
+.pg-k-credit .pg-clear { opacity: 0; transition: opacity 300ms ease; }
+
+@keyframes pgSlam {
+  0%   { opacity: 0; transform: scale(1.9) rotate(-6deg); }
+  55%  { opacity: 1; transform: scale(.94) rotate(1.5deg); }
+  100% { opacity: 1; transform: scale(1) rotate(-1.5deg); }
+}
+
+.pg-clear-k {
+  font-size: calc(18px * var(--s));
+  font-weight: 900;
+  letter-spacing: .3em;
+  text-indent: .3em;
+  color: #fff;
+  -webkit-text-stroke: calc(3px * var(--s)) var(--ink);
+  paint-order: stroke fill;
+}
+
+.pg-clear-n {
+  font-size: clamp(30px, 10.5vw, calc(44px * var(--s)));
+  font-weight: 900;
+  letter-spacing: -.02em;
+  line-height: .95;
+  color: var(--gold);
+  -webkit-text-stroke: calc(4.5px * var(--s)) var(--ink);
+  paint-order: stroke fill;
+}
+
+.pg-stars {
+  display: flex;
+  gap: calc(7px * var(--s));
+  margin-top: calc(8px * var(--s));
+}
+
+/* Drawn as discs rather than set as ★ — a star glyph is at the mercy of
+   whichever font resolves, and these have to match each other exactly. */
+.pg-stars i {
+  width: calc(20px * var(--s));
+  height: calc(20px * var(--s));
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 0 calc(3px * var(--s)) var(--ink);
+  opacity: 0;
+  transform: scale(0);
+}
+
+.pg-k-clear .pg-stars i {
+  animation: pgStar 420ms cubic-bezier(.2, 1.6, .4, 1) both;
+}
+
+/* Landing together is a graphic; landing one after another is a reward. */
+.pg-k-clear .pg-stars i:nth-child(1) { animation-delay: 340ms; }
+.pg-k-clear .pg-stars i:nth-child(2) { animation-delay: 500ms; }
+.pg-k-clear .pg-stars i:nth-child(3) { animation-delay: 660ms; }
+
+@keyframes pgStar {
+  from { opacity: 0; transform: scale(0) rotate(-40deg); }
+  to   { opacity: 1; transform: scale(1) rotate(0); }
+}
+
+/* ---------- the credit -------------------------------------------------- */
+
+/* Sits over the stopped level on a dark scrim, which is what a game does when
+   it takes the frame back from the world. */
+.pg-credit {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(4px * var(--s));
+  text-align: center;
+  background: rgba(9, 22, 32, .72);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 420ms ease;
+}
+
+.pg-k-credit .pg-credit { opacity: 1; }
+
+.pg-credit-k,
+.pg-credit-n,
+.pg-credit-a {
+  opacity: 0;
+}
+
+.pg-k-credit .pg-credit-k { animation: pgUp 460ms cubic-bezier(.16, 1, .3, 1) 180ms both; }
+.pg-k-credit .pg-credit-n { animation: pgUp 520ms cubic-bezier(.16, 1, .3, 1) 380ms both; }
+.pg-k-credit .pg-credit-a { animation: pgUp 460ms cubic-bezier(.16, 1, .3, 1) 640ms both; }
+
+@keyframes pgUp {
+  from { opacity: 0; transform: translateY(calc(14px * var(--s))); }
+  to   { opacity: 1; transform: none; }
+}
+
+.pg-credit-k {
+  font-size: calc(12px * var(--s));
+  font-weight: 800;
+  letter-spacing: .42em;
+  text-indent: .42em;
+  color: rgba(255, 255, 255, .72);
+}
+
+.pg-credit-n {
+  font-size: clamp(40px, 15vw, calc(62px * var(--s)));
+  font-weight: 900;
+  letter-spacing: -.02em;
+  line-height: 1;
+  color: var(--gold);
+}
+
+.pg-credit-a {
+  margin-top: calc(4px * var(--s));
+  font-size: calc(15px * var(--s));
+  font-weight: 800;
+  letter-spacing: .3em;
+  text-indent: .3em;
+  color: #fff;
+}
+
+/* ---------- the endcard ------------------------------------------------- */
+
+.pg-end {
+  position: absolute;
+  inset: var(--safe-y) var(--safe-x);
+  z-index: 13;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(11px * var(--s));
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(calc(14px * var(--s)));
+  transition: opacity 480ms ease, transform 660ms cubic-bezier(.16, 1, .3, 1);
+}
+
+.pg-k-end .pg-end {
+  opacity: 1;
+  transform: none;
+  transition-delay: 200ms;
+}
+
+/* The whole stage darkens under it, so the endcard is read on a ground rather
+   than over a bright sky. */
+.pg-k-end .pg-credit {
+  opacity: 1;
+  background: rgba(9, 22, 32, .9);
+}
+
+/* The wordmark is dark-on-transparent with no light-on-dark variant, so it is
+   foiled: grayscale first — which keeps the mask band and the eye slits
+   distinct from the head — then inverted. A flat invert flattens the whole
+   head into a white disc. */
+.pg-logo {
+  width: min(60vw, calc(226px * var(--s)));
+  height: auto;
+  display: block;
+  filter: grayscale(1) invert(1) contrast(1.05);
+}
+
+/* The wordmark does not include "Woodbridge" — the location is a separate
+   label, set to the mark's own width by letter-spacing rather than by scaling
+   type up. */
+.pg-loc {
+  font-size: calc(13px * var(--s));
+  font-weight: 800;
+  letter-spacing: .52em;
+  text-indent: .52em;
+  color: #fff;
+}
+
+.pg-rule {
+  display: block;
+  width: calc(64px * var(--s));
+  height: 2px;
+  border-radius: 2px;
+  background: var(--gold);
+}
+
+.pg-sub {
+  display: flex;
+  flex-direction: column;
+  gap: calc(3px * var(--s));
+  font-size: calc(13.5px * var(--s));
+  font-weight: 600;
+  line-height: 1.34;
+  color: rgba(255, 255, 255, .78);
+}
+
+.pg-cta {
+  margin-top: calc(4px * var(--s));
+  padding: calc(11px * var(--s)) calc(24px * var(--s));
+  border-radius: 999px;
+  background: var(--red);
+  color: #fff;
+  font-size: calc(13px * var(--s));
+  font-weight: 800;
+  letter-spacing: .04em;
+  box-shadow: 0 10px 30px rgba(228, 0, 43, .42);
+}
+
+/* ---------- over everything --------------------------------------------- */
+
+.pg-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 14;
+  pointer-events: none;
+  background: radial-gradient(102% 78% at 50% 46%, transparent 52%, rgba(6, 26, 40, .34) 100%);
+}
+
+/* ---------- reduced motion ---------------------------------------------- */
+
+/* The component already snaps the timeline to the endcard; this stops the
+   world looping under it. */
+@media (prefers-reduced-motion: reduce) {
+  .pg-stage *,
+  .pg-stage *::before,
+  .pg-stage *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
