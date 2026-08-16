@@ -1092,13 +1092,17 @@
    is a lit green, and white on it is unreadable at this size. */
 .bi-cta {
   margin-top: calc(4px * var(--s));
-  padding: calc(11px * var(--s)) calc(20px * var(--s));
+  padding: calc(11px * var(--s)) calc(24px * var(--s));
   border-radius: 999px;
   background: var(--tint);
   color: #04120b;
-  font-size: calc(12px * var(--s));
+  font-size: calc(13px * var(--s));
   font-weight: 800;
-  letter-spacing: .16em;
+  /* Barely tracked. The wide .16em this carried as "BOOK A FREE SESSION" is
+     right for a shouted label and wrong for an address — spread a domain out
+     and the dot stops binding the name to the .com, so it reads as two words
+     instead of one thing you could type. */
+  letter-spacing: .04em;
   box-shadow: 0 10px 30px color-mix(in srgb, var(--tint) 42%, transparent);
 }
 

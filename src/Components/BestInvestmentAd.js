@@ -629,7 +629,10 @@ export default function BestInvestmentAd() {
             <span>by building real games</span>
           </div>
 
-          <div className="bi-cta">BOOK A FREE SESSION</div>
+          {/* Lowercase, as a URL is written. Upper-casing it would match the
+              rest of the endcard's type but a shouted domain reads as a
+              string of letters rather than as an address. */}
+          <div className="bi-cta">cnwoodbridge.com</div>
         </div>
       </div>
 
