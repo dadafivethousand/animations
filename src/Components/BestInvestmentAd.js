@@ -21,20 +21,26 @@
 //
 // ── The cards phase, they do not cut ──
 //
-// Each card breaks up as it leaves — chromatic split, scanlines, blur — while
-// the next one resolves out of the same interference. Holographic, and the
-// two overlap: the outgoing card is still coming apart as the incoming one
-// arrives, which is what makes a run of four read as one continuous signal
-// being retuned rather than as four slides.
+// Each card breaks up as it leaves — chromatic split, scanlines, blur — and
+// the next one resolves out of the same interference. Holographic rather than
+// a dissolve: the card comes APART, it does not fade.
 //
-// That requires BOTH CARDS ON SCREEN AT ONCE, so all four are mounted the
-// whole time and the live one is chosen by class. An earlier pass rendered a
-// single card keyed by index; it remounted on every beat, so the outgoing card
-// left the DOM the instant the new one arrived and could only ever vanish.
+// THE TWO NEVER OVERLAP. The outgoing card is completely gone before the
+// incoming one starts, which is done with an animation-delay on the entrance
+// equal to the exit's duration. Two half-transparent cards on screen together
+// read as one muddy double-exposure, and at four cards in a row it turns the
+// whole opening to soup.
 //
-// The phase is fast — under half a second — because it still has to read as a
-// beat. A dissolve slow enough to admire turns four cards into one long muddy
-// one, which is the failure mode the old hard cuts were avoiding.
+// That is what sets the card durations. Every slot has to pay for the exit
+// delay AND the entrance before the card is even fully up — about 660ms of the
+// slot is gone before anyone can read it — so CARD_MS is much longer than the
+// on-screen hold it buys. Shortening those numbers without shortening the
+// phase is what would cut a card off mid-arrival.
+//
+// It also requires BOTH CARDS MOUNTED AT ONCE, so all four are on the whole
+// time and the live one is chosen by class. An earlier pass rendered a single
+// card keyed by index; it remounted on every beat, so the outgoing card left
+// the DOM the instant the new one arrived and could only ever vanish.
 //
 // Each asset owns the whole frame while it is up: its colour is pushed into
 // --tint and the glow, the rule, the index and the tape all take it. Four
@@ -106,7 +112,13 @@ const ASSETS = [
 // Kept off the asset objects deliberately: these belong to the position in the
 // run, so reordering the contenders must not carry a duration along with an
 // asset and quietly flatten the curve.
-const CARD_MS = [1000, 920, 840, 770];
+//
+// THESE ARE NOT HOLD TIMES. The cards phase in sequence rather than
+// overlapping, so each slot spends PHASE_OUT waiting for the previous card to
+// clear and then PHASE_IN arriving — roughly 660ms — before the card is fully
+// up. What is left is the hold: about 590ms down to 350ms across the run.
+// Trimming these without trimming the phase cuts a card off mid-arrival.
+const CARD_MS = [1250, 1170, 1090, 1010];
 
 // The answer's tint: the market's own colour for up, lit brighter than any
 // contender managed. Bright enough that anything sitting ON it needs dark ink
@@ -122,7 +134,11 @@ const GREEN = "#3ff09a";
 const TIMELINE = [
   ...ASSETS.map((_, i) => ({ k: "asset", i, ms: CARD_MS[i] })),
   { k: "ask",    ms: 1800 },
-  { k: "reveal", ms: 2400 },
+  // 3360 = 460 of entrance delay + 2900 on screen. The scenes now wait for the
+  // previous one to clear before they start arriving, so a beat's duration is
+  // no longer the same thing as how long its content is up — raising the
+  // visible time means raising this by the delay as well.
+  { k: "reveal", ms: 3360 },
   { k: "end",    ms: 0 },
 ];
 
@@ -133,8 +149,11 @@ const CLAIM_LEN = CLAIM.join("").length;
 
 // Milliseconds per character, and the pause before the first one — the answer
 // has to land and be read before anything starts printing under it.
+// TYPE_LEAD is measured from the start of the reveal beat, and the answer is
+// not fully up until ~900ms into it (460 delay + 440 fade). Typing before then
+// prints under something still arriving.
 const TYPE_MS = 44;
-const TYPE_LEAD = 620;
+const TYPE_LEAD = 1000;
 
 // ── the intro ─────────────────────────────────────────────────────────────
 // Before any card, the ad is just a market: the candle field prints itself
@@ -150,8 +169,10 @@ const TYPE_LEAD = 620;
 // cuts in over a chart that is still drawing, which reads as the ad starting
 // before it was ready. If the candle count or the stagger changes, this
 // changes with them.
-const PRINT_STEP = 48;   // ms between candles. Mirrored in the stylesheet.
-const LEAD = 2000;       // ≈ 26 * 48 + 340 growth + a beat of live movement
+const PRINT_STEP = 66;   // ms between candles. Mirrored in the stylesheet.
+const LEAD = 2300;       // ≈ 26 * 66 + 420 growth + a beat of live movement
+                         // (the first card then waits out its own phase delay,
+                         //  so there is more settled market than this implies)
 
 /**
  * The Bitcoin mark: the orange disc with the tilted ₿.

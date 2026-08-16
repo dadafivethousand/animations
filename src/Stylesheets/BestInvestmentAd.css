@@ -205,8 +205,8 @@
    nobody can see it, and the alternative is one element that cannot be two
    widths. */
 .bi-candle i {
-  animation: biPrint 340ms cubic-bezier(.2, .85, .3, 1) both;
-  animation-delay: calc(var(--i) * 48ms);
+  animation: biPrint 420ms cubic-bezier(.2, .85, .3, 1) both;
+  animation-delay: calc(var(--i) * 66ms);
 }
 
 .bi-candle.is-up i   { transform-origin: 50% 100%; }
@@ -545,8 +545,15 @@
 
 /* ── the holographic phase ───────────────────────────────────────────────
    A card comes apart into its colour channels, gets sliced by scanlines and
-   blurs out; the next resolves out of the same interference. The two overlap
-   by design — biPhaseIn starts at 0ms, not after the outgoing card has gone.
+   blurs out; the next resolves out of the same interference.
+
+   THE TWO NEVER SHARE THE FRAME. biPhaseIn is delayed by exactly biPhaseOut's
+   duration, so the outgoing card is at zero opacity before the incoming one
+   starts. The delay and that duration are one number in two places — change
+   one and the cards either overlap into a double-exposure or leave a hole.
+
+   It also means the entrance delay is dead time inside the card's slot, which
+   is why CARD_MS is so much longer than the hold it buys. See the component.
 
    THE ANIMATION NAME IS THE TRIGGER. These elements never unmount, so a shared
    animation-name across the two states would play exactly once, at page load,
@@ -561,8 +568,8 @@
    Cyan and magenta, at low alpha. A real chromatic split is red/blue, but on
    this near-black ground red reads as the market's down colour and puts a
    false signal in the middle of the frame. */
-.bi-flash.is-live { animation: biPhaseIn 460ms cubic-bezier(.2, .85, .25, 1) both; }
-.bi-flash.is-past { animation: biPhaseOut 380ms cubic-bezier(.4, 0, .7, .4) both; }
+.bi-flash.is-past { animation: biPhaseOut 300ms cubic-bezier(.4, 0, .7, .4) both; }
+.bi-flash.is-live { animation: biPhaseIn 360ms cubic-bezier(.2, .85, .25, 1) 300ms both; }
 
 @keyframes biPhaseIn {
   0% {
@@ -643,8 +650,8 @@
           mask-image: radial-gradient(72% 66% at 50% 50%, #000 35%, transparent 100%);
 }
 
-.bi-flash.is-live::after { animation: biScanIn 460ms linear both; }
-.bi-flash.is-past::after { animation: biScanOut 380ms linear both; }
+.bi-flash.is-past::after { animation: biScanOut 300ms linear both; }
+.bi-flash.is-live::after { animation: biScanIn 360ms linear 300ms both; }
 
 @keyframes biScanIn {
   0%   { opacity: .9; transform: translateY(-14px); }
@@ -678,7 +685,7 @@
    before the ad starts — it has to hang off the state class to fire per card.
    Same reason as the phase animations above. */
 .bi-flash.is-live .bi-emoji {
-  animation: biPop 320ms cubic-bezier(.2, 1.5, .4, 1) 60ms both;
+  animation: biPop 320ms cubic-bezier(.2, 1.5, .4, 1) 360ms both;
 }
 
 @keyframes biPop {
@@ -724,7 +731,7 @@
 }
 
 .bi-flash.is-live .bi-rule {
-  animation: biWipe 260ms cubic-bezier(.3, .8, .3, 1) 120ms both;
+  animation: biWipe 260ms cubic-bezier(.3, .8, .3, 1) 430ms both;
 }
 
 @keyframes biWipe {
@@ -780,9 +787,14 @@
   transform: translateY(calc(-50% + 16px));
 }
 
+/* Waits out the last card's phase. Same rule as the cards themselves: the
+   question must not start arriving while GOLD is still coming apart. The delay
+   is on the ENTRANCE only — the exit rule below sets none, so lifting away
+   still begins the instant the beat changes. */
 .bi-k-ask .bi-scene-ask {
   opacity: 1;
   transform: translateY(-50%);
+  transition-delay: 320ms;
 }
 
 /* Lifts away rather than cutting, so the answer arrives into space the
@@ -834,9 +846,14 @@
   transform: translateY(calc(-50% + 20px)) scale(.94);
 }
 
+/* Likewise: the question has lifted and gone before the answer starts to
+   land. This is the one join in the ad where a gap is wanted rather than
+   tolerated — the empty beat between the question and the answer is the
+   pause before it gets answered. */
 .bi-k-reveal .bi-scene-reveal {
   opacity: 1;
   transform: translateY(-50%) scale(1);
+  transition-delay: 460ms;
 }
 
 /* THE HANDOFF. On the way out the answer shrinks and rises toward the spot
@@ -970,11 +987,15 @@
   transform: none;
 }
 
-.bi-k-end .bi-kicker { transition-delay: 120ms; }
-.bi-k-end .bi-logo   { transition-delay: 300ms; }
-.bi-k-end .bi-loc    { transition-delay: 460ms; }
-.bi-k-end .bi-sub    { transition-delay: 600ms; }
-.bi-k-end .bi-cta    { transition-delay: 760ms; }
+/* Later than the other joins, but still overlapping the answer leaving — this
+   is the ad's one intentional overlap. EDUCATION shrinks and rises INTO the
+   kicker's position, so the two have to be on screen together for a moment or
+   the move reads as a swap instead of a handoff. */
+.bi-k-end .bi-kicker { transition-delay: 340ms; }
+.bi-k-end .bi-logo   { transition-delay: 520ms; }
+.bi-k-end .bi-loc    { transition-delay: 680ms; }
+.bi-k-end .bi-sub    { transition-delay: 820ms; }
+.bi-k-end .bi-cta    { transition-delay: 980ms; }
 
 /* EDUCATION comes back small, over the mark: the last frame is one sentence —
    the answer, then whose it is. */
