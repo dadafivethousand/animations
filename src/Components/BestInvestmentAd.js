@@ -1,10 +1,10 @@
 // BestInvestmentAd.jsx — "what is the best investment?" answered as education.
 //
-// The ad opens on an exchange wall — a dozen rows of symbols and arrows racing
-// past — which drains into the ad's own two ticker strips. It then phases
-// through four assets, stocks, bitcoin, real estate, gold, a card each and
-// faster every time. Then the feed stops dead, asks the question, and the
-// answer is the one asset that was never on the tape.
+// The ad opens ON ITS FIRST CARD — no title, no pre-roll — with STOCKS over a
+// candlestick chart drawing itself behind. It then phases through bitcoin,
+// real estate and gold, a card each and faster every time. Then the feed stops
+// dead, asks the question, and the answer is the one asset that was never on
+// the tape.
 //
 // ── The flash is the hook, so it has to accelerate ──
 //
@@ -65,22 +65,24 @@
 // to EDUCATION ▲ over and over, every symbol pointing the same way. Nothing
 // says it; the tape just stops being a market and starts being a position.
 //
-// ── The chart belongs to the answer ──
+// ── The chart appears exactly twice ──
 //
-// THE AD HAS EXACTLY ONE CHART AND IT ONLY EVER APPEARS UNDER "EDUCATION". A
-// candlestick bull run, printing left to right from the bottom of the frame to
-// the top of it, green and red with pullbacks on the way up — it builds behind
-// the word while the word is landing.
+// A candlestick bull run, printing left to right from the bottom of the frame
+// to the top of it, green and red with pullbacks on the way up. It shows under
+// STOCKS, and it shows again under EDUCATION. Nowhere else.
 //
-// It used to run under the OPENING instead, and giving it to the answer is
-// most of what this ad is now. When every beat had a chart, the chart said
-// nothing; when only the answer has one, the four contenders are names on
-// cards and the answer is the one thing with the numbers behind it. None of
-// that costs a line of copy.
+// UNDER STOCKS BECAUSE IT IS A STOCK CHART, AND IT IS THE OPENING IMAGE. The
+// ad has to be about something in its first half-second, and a chart drawing
+// itself is the fastest way to say which something.
 //
-// The opening gets the board instead — see SYMBOLS. Two different textures,
-// which also stops the ad repeating itself: the board is dense type racing
-// sideways, the chart is sparse geometry climbing.
+// NOT UNDER THE OTHER THREE, for a plain reason: the candles are green and red
+// no matter what --tint is, and those three cards wash the frame orange, blue
+// and gold. A red-and-green chart behind an orange card is two colour schemes
+// arguing. It also happens to be the better idea — the chart is stocks'
+// picture, and the answer taking it over is the argument.
+//
+// It redraws for the answer rather than fading back up. Same field, drawn
+// again, brighter, with the tape flipped to EDUCATION behind it.
 //
 // Nothing else lives back there. A pass once built the reveal out into a fan
 // of eight traces over a rotating ray burst, drifting motes and a moving
@@ -93,15 +95,20 @@ import React from "react";
 import "../Stylesheets/BestInvestmentAd.css";
 
 import cnLogo from "../Images/cn-woodbridge-logo.png";
+// A photograph of a physical coin, cut off its white ground. It replaces a
+// hand-drawn ₿ disc: the drawing was accurate and flat, and this has the one
+// thing the drawing could not fake — it looks like an object you could hold,
+// which is the whole appeal of the asset it stands for.
+import btcCoin from "../Images/btc-coin.png";
 
 // ── the contenders ────────────────────────────────────────────────────────
 // One entry per flash card.
 //   name   the lines as they are set — authored breaks, never wrapped, because
 //          "REAL ESTATE" on one line at this size runs into the crop guard
 //   tint   the colour the whole frame takes while this card is up
-//   mark   a drawn mark instead of an emoji, for the two assets no emoji gets
-//          right: bitcoin has a logo people recognise, and gold's only emoji
-//          is a first-place medal. See BitcoinMark / GoldMark.
+//   mark   art instead of an emoji, for the two assets no emoji gets right:
+//          bitcoin has a logo people recognise, and gold's only emoji
+//          is a first-place medal. Bitcoin is a photograph, gold is drawn.
 //
 // A NAME AND A MARK, NOTHING ELSE. An earlier pass hung a caveat off each card
 // — "volatile", "markets turn" — and it argued against the contenders one at a
@@ -133,7 +140,7 @@ const ASSETS = [
 // clear and then PHASE_IN arriving — roughly 660ms — before the card is fully
 // up. What is left is the hold: about 590ms down to 350ms across the run.
 // Trimming these without trimming the phase cuts a card off mid-arrival.
-const CARD_MS = [1250, 1170, 1090, 1010];
+const CARD_MS = [1500, 1170, 1090, 1010];
 
 // The answer's tint: the market's own colour for up, lit brighter than any
 // contender managed. Bright enough that anything sitting ON it needs dark ink
@@ -170,78 +177,6 @@ const CLAIM_LEN = CLAIM.join("").length;
 const TYPE_MS = 44;
 const TYPE_LEAD = 1000;
 
-// ── the opening ───────────────────────────────────────────────────────────
-// Before any card, the ad is an exchange wall that then drains into itself.
-//
-// The ad has to earn the question it is going to ask, and it cannot do that
-// while it is still explaining what it is. Two seconds of a market shouting is
-// the cheapest way to establish the subject, so that the four cards read as
-// contenders in one rather than as four unrelated slides.
-//
-// LEAD IS NOT A FREE PARAMETER. It has to cover the whole drain — the rows
-// leave in pairs from the middle out, and the last pair does not start until
-// BOARD_HOLD + 4 * BOARD_STEP — or the first card arrives over a wall that is
-// still standing. Those two numbers live in the stylesheet; this is what pays
-// for them.
-const LEAD = 2100;       // ≈ 1000 hold + 4 * 150 stagger + 360 fade + a beat
-
-/**
- * The Bitcoin mark: the orange disc with the tilted ₿.
- *
- * The card used the 🪙 emoji, which is a gold coin and reads as "money" —
- * it named the category the other three cards are already in. Bitcoin is the
- * one contender here with a logo people actually recognise, and recognition is
- * the whole job of a card that is on screen for under a second.
- *
- * NOT THE ₿ CHARACTER (U+20BF). Setting it as type means depending on whatever
- * font happens to resolve, and a missing glyph on the recording machine is a
- * tofu box in the middle of the ad. It is drawn instead.
- *
- * DRAWN AS SOLIDS, WITH THE COUNTERS PAINTED BACK IN. The two holes in the B
- * are rects in the disc's own colour rather than an even-odd path — the disc
- * behind them is flat, so a repaint and a hole are the same picture, and this
- * way the whole mark is six rectangles with corner radii instead of one path
- * of bezier curves that has to be right the first time.
- *
- * Everything takes var(--tint), so the mark is the card's colour by
- * construction and cannot drift from it.
- */
-function BitcoinMark() {
-  return (
-    <svg className="bi-btc" viewBox="0 0 100 100" aria-hidden>
-      <circle cx="50" cy="50" r="49" fill="var(--tint)" />
-      {/* The letter leans right by 14 degrees, as it does in the real mark —
-          CLOCKWISE, which is positive here; the counter-clockwise version
-          looks like a mistake rather than like Bitcoin. Rotated about the
-          centre of the DISC, not of the letter, or it walks off-axis. The
-          translate/scale pair shrinks the letter about that same centre so it
-          sits inside the disc with air around it. */}
-      <g transform="rotate(14 50 50) translate(6 6) scale(0.88)">
-        <g fill="#fff">
-          {/* the four strokes through the top and bottom of the letter */}
-          <rect x="34" y="11" width="8" height="15" rx="2" />
-          <rect x="48" y="11" width="8" height="15" rx="2" />
-          <rect x="34" y="74" width="8" height="15" rx="2" />
-          <rect x="48" y="74" width="8" height="15" rx="2" />
-          {/* stem, then the two bowls — the stem squares off their left ends.
-              The stem is only a little heavier than the 6-unit bowl strokes:
-              at double the weight the letter reads as a slab with lumps on
-              it rather than as a B. */}
-          <rect x="30" y="23" width="10" height="54" rx="1" />
-          <rect x="30" y="23" width="33" height="25" rx="10" />
-          <rect x="30" y="52" width="38" height="25" rx="10" />
-        </g>
-        {/* The counters, sized so every bowl stroke comes out at 6 units. They
-            have to be this open — a tighter pair closes the bowls up and the
-            mark turns back into a coin with a scribble on it. */}
-        <g fill="var(--tint)">
-          <rect x="40" y="29.5" width="17" height="12" rx="5" />
-          <rect x="40" y="58.5" width="22" height="12" rx="5" />
-        </g>
-      </g>
-    </svg>
-  );
-}
 
 /**
  * The gold mark: three cast bars, stacked two-and-one.
@@ -360,51 +295,6 @@ const CANDLES = (() => {
   });
 })();
 
-// ── the opening: the board ────────────────────────────────────────────────
-//
-// Asset classes, commodities and indices — deliberately NOT company tickers.
-// A wall of "AAPL ▲" reads as a specific claim about a specific security even
-// with no price beside it, and this ad is about categories of investment, not
-// about any one company. These also happen to be the right nouns for it.
-const SYMBOLS = [
-  "GOLD", "OIL", "BTC", "ETH", "SILVER", "COPPER", "WHEAT", "REIT",
-  "BONDS", "CASH", "S&P 500", "NASDAQ", "DOW", "CORN", "GAS", "PLATINUM",
-  "RUSSELL", "EURO", "YEN", "COCOA", "SUGAR", "COTTON", "NICKEL", "ZINC",
-  "URANIUM", "LITHIUM", "TIMBER", "CATTLE", "PALLADIUM", "SOYBEAN",
-];
-
-/**
- * The flood rows that fill the frame for the opening.
- *
- * Ten of them, between the ad's two permanent strips, scrolling in alternating
- * directions at different speeds. Together with those strips it reads as an
- * exchange wall: too much information, all of it shouting, none of it an
- * answer — which is the state the question is going to interrupt.
- *
- * THEY LEAVE FROM THE MIDDLE OUTWARD, IN PAIRS. `pair` is distance from the
- * centre of the stack, so the innermost two go first and the outermost two
- * last, and the wall collapses toward the top and bottom of the frame until
- * only the ad's own two strips are left running. The opening does not cut to
- * the ad; it drains into it.
- */
-const BOARD_N = 12;
-
-const BOARD_ROWS = Array.from({ length: BOARD_N }, (_, r) => {
-  const dur = 9 + hash(r * 89 + 3) * 7;
-  return {
-    items: Array.from({ length: 9 }, (_, j) => [
-      SYMBOLS[Math.floor(hash(r * 131 + j * 7) * SYMBOLS.length)],
-      hash(r * 53 + j * 11) > 0.42 ? "▲" : "▼",
-    ]),
-    back: r % 2 === 1,
-    dur,
-    // where in its own loop the row starts, so the wall is not in step with
-    // itself on the first frame
-    phase: hash(r * 197 + 23) * dur,
-    pair: Math.abs(r - (BOARD_N - 1) / 2) - 0.5,
-  };
-});
-
 // The tape. One pass of the contenders, rendered twice so the scroll has no
 // seam. Arrows disagree — a tape where everything points the same way is not a
 // market, it is the reveal, and the reveal is where that happens.
@@ -425,8 +315,10 @@ export default function BestInvestmentAd() {
     []
   );
 
-  // -1 is the beat of feed before the first card.
-  const [step, setStep] = React.useState(-1);
+  // NO PRE-ROLL. The ad opens on card 01 — there is no lead beat and no step
+  // below zero. It used to spend two seconds on an opening title card before
+  // saying anything, which is two seconds a scrolling thumb does not give you.
+  const [step, setStep] = React.useState(0);
 
   React.useEffect(() => {
     if (reduce) {
@@ -434,14 +326,13 @@ export default function BestInvestmentAd() {
       return undefined;
     }
     if (step >= TIMELINE.length - 1) return undefined;      // `end` holds
-    const ms = step < 0 ? LEAD : TIMELINE[step].ms;
-    const t = setTimeout(() => setStep((s) => s + 1), ms);
+    const t = setTimeout(() => setStep((n) => n + 1), TIMELINE[step].ms);
     return () => clearTimeout(t);
   }, [step, reduce]);
 
-  const beat = step >= 0 ? TIMELINE[step] : null;
-  const kind = beat ? beat.k : "lead";
-  const asset = beat && beat.k === "asset" ? ASSETS[beat.i] : null;
+  const beat = TIMELINE[step];
+  const kind = beat.k;
+  const asset = beat.k === "asset" ? ASSETS[beat.i] : null;
 
   // ── the typewriter ──────────────────────────────────────────────────────
   // Characters printed so far, across the claim as one string. JS owns this
@@ -470,7 +361,7 @@ export default function BestInvestmentAd() {
   // Which contender owns the frame. -1 before the first, ASSETS.length once
   // the run is over — so every card is "past" from the question onward and
   // the last one phases out into it rather than disappearing.
-  const live = asset ? beat.i : kind === "lead" ? -1 : ASSETS.length;
+  const live = asset ? beat.i : ASSETS.length;
 
   return (
     <div
@@ -513,44 +404,6 @@ export default function BestInvestmentAd() {
       <Tape className="bi-tape bi-tape-top" answered={answered} />
       <Tape className="bi-tape bi-tape-bot" answered={answered} />
 
-      {/* ---- the opening ----
-          Ten more rows between the two strips, flooding the frame and then
-          draining out of the middle in pairs until only those two are left. */}
-      <div className="bi-board" aria-hidden>
-        {BOARD_ROWS.map((row, r) => (
-          <div
-            className={`bi-board-row${row.back ? " is-back" : ""}`}
-            key={r}
-            style={{
-              top: `${((r + 1) * 100) / (BOARD_N + 1)}%`,
-              "--dur": `${row.dur.toFixed(1)}s`,
-              "--phase": row.phase.toFixed(2),
-              "--pair": row.pair,
-            }}
-          >
-            <div className="bi-board-run">
-              {row.items.concat(row.items).map(([sym, dir], i) => (
-                <span
-                  key={i}
-                  className={`bi-tick${dir === "▲" ? " is-up" : " is-down"}`}
-                >
-                  {sym}
-                  <i>{dir}</i>
-                </span>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* ---- the cut ----
-          A bloom in the card's own colour, keyed by index so it remounts and
-          fires once per cut. The cards are hard cuts and should stay hard —
-          this does not soften the join, it punctuates it, which is the
-          difference between an edit that reads as deliberate and one that
-          reads as a dropped frame. */}
-      {asset && <span className="bi-blast" key={`x${beat.i}`} aria-hidden />}
-
       <div className="bi-card">
         {/* ---- the contenders ----
             ALL FOUR ARE MOUNTED, stacked on each other, and the one that owns
@@ -580,7 +433,7 @@ export default function BestInvestmentAd() {
             <div className="bi-idx">{`0${i + 1}`}</div>
             <div className="bi-emoji">
               {a.mark === "btc" ? (
-                <BitcoinMark />
+                <img className="bi-btc" src={btcCoin} alt="" />
               ) : a.mark === "gold" ? (
                 <GoldMark />
               ) : (

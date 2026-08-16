@@ -168,6 +168,14 @@
           mask-image: radial-gradient(46% 20% at 50% 50%, transparent 0%, rgba(0, 0, 0, .35) 55%, #000 88%);
 }
 
+/* Under the FIRST CARD ONLY, then again for the answer.
+
+   Not under cards 02-04 because the candles are green and red whatever --tint
+   is, and those three wash the frame orange, blue and gold — a red-and-green
+   chart behind an orange card is two colour schemes arguing. It is also the
+   better idea on its own terms: the chart is stocks' picture, and the answer
+   taking it over is the argument the ad is making. */
+.bi-a0 .bi-chart       { opacity: .6; }
 .bi-k-reveal .bi-chart { opacity: .9; }
 .bi-k-end .bi-chart    { opacity: .45; }
 
@@ -219,16 +227,28 @@
    edge. They are not in perfect register mid-growth — at 340ms and this size
    nobody can see it, and the alternative is one element that cannot be two
    widths. */
-/* SCOPED TO THE REVEAL. The candles never unmount, so an animation on the base
-   element runs once at page load and is long over by the time the chart is
-   ever shown — it has to hang off the beat class to fire at all. Same trap as
+/* SCOPED TO A BEAT CLASS, TWICE. The candles never unmount, so an animation on
+   the base element runs once at page load and is long over before the chart is
+   ever shown — it has to hang off a beat class to fire at all. Same trap as
    the flash cards.
 
-   Faster than it was when this ran the opening: 40ms and 320ms instead of 66
-   and 420. There it was the act and could take its time; here it is building
-   behind a word that is landing at the same moment, and a chart still drawing
-   itself three seconds later is a second thing to watch. The 200ms head start
-   lets the answer arrive first and the market come up under it. */
+   Two rules, because the chart draws twice and has a different job each time.
+   Between them the class is absent, the animation with it, and the candles sit
+   at their base state fully drawn behind an invisible chart — which is exactly
+   what lets the reveal restart the draw from nothing.
+
+   THE STOCKS DRAW MUST FIT INSIDE CARD 01'S SLOT. 80 + 25*34 + 300 comes to
+   1230ms against a 1500ms slot; run past it and the chart is still printing
+   when the class drops, at which point the animation is removed and every
+   unfinished candle snaps to full height at once. That is why CARD_MS[0] is
+   longer than the acceleration alone would want. */
+.bi-a0 .bi-candle i {
+  animation: biPrint 300ms cubic-bezier(.2, .85, .3, 1) both;
+  animation-delay: calc(80ms + var(--i) * 34ms);
+}
+
+/* Slower off the mark for the answer: the word lands first and the market
+   comes up under it. */
 .bi-k-reveal .bi-candle i {
   animation: biPrint 320ms cubic-bezier(.2, .85, .3, 1) both;
   animation-delay: calc(200ms + var(--i) * 40ms);
@@ -335,87 +355,6 @@
   color: var(--tint);
 }
 
-/* ---------- the opening: the board ------------------------------------- */
-
-/* Ten more rows between the ad's two permanent strips, scrolling in
-   alternating directions at different speeds. Together they read as an
-   exchange wall: too much information, all of it shouting, none of it an
-   answer.
-
-   THEY DRAIN FROM THE MIDDLE OUTWARD. --pair is each row's distance from the
-   centre of the stack, so the innermost two leave first and the outermost two
-   last, and the wall collapses toward the top and bottom of the frame until
-   only the two strips are still running. The opening does not cut to the ad,
-   it drains into it — which is why the last pair has to be gone before the
-   first card, and why LEAD in the component is sized off BOARD_HOLD and
-   BOARD_STEP below.
-
-   No borders and no backgrounds on these, unlike the two real strips. That is
-   what keeps the flood reading as one wall of type rather than as ten separate
-   bars, and it is what makes the two survivors look like the ad's own. */
-.bi-board {
-  --hold: 950ms;    /* BOARD_HOLD — the wall stands this long before draining */
-  --step: 130ms;    /* BOARD_STEP — between one pair leaving and the next     */
-
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-  overflow: hidden;
-  pointer-events: none;
-  opacity: 0;
-}
-
-.bi-k-lead .bi-board { opacity: 1; }
-
-.bi-board-row {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 18px;
-  /* margin, NOT translateY — the exit animation owns transform, and centring
-     with one would be overwritten the moment the row starts to leave. */
-  margin-top: -9px;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
-          mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
-}
-
-.bi-board-run {
-  display: flex;
-  flex: none;
-  width: max-content;
-  /* gap and padding-left MUST match: the row is rendered twice and shifted
-     exactly -50%, and that only lands seamlessly when the leading pad equals
-     one gap. Same arithmetic as .bi-tape-run. */
-  gap: 22px;
-  padding-left: 22px;
-  /* The negative delay is the row's starting scroll offset. Without it every
-     row begins its loop at the same point and the first frame of the ad is a
-     wall of type in perfect vertical alignment — which reads as a table, not
-     as a dozen independent feeds. */
-  animation: biTape var(--dur) linear calc(var(--phase) * -1s) infinite;
-}
-
-.bi-board-row.is-back .bi-board-run { animation-name: biTapeBack; }
-
-.bi-board-row .bi-tick {
-  font-size: calc(9.5px * var(--s));
-  letter-spacing: .12em;
-  color: #aebcc2;
-}
-
-.bi-k-lead .bi-board-row {
-  animation: biRowOut 360ms ease both;
-  animation-delay: calc(var(--hold) + var(--pair) * var(--step));
-}
-
-@keyframes biRowOut {
-  0%   { opacity: 1; transform: scaleY(1); }
-  100% { opacity: 0; transform: scaleY(.35); }
-}
-
 /* ---------- the room goes still on the question ------------------------ */
 
 /* Note 4. Once the ad asks, the terminal drops back and never returns to
@@ -424,6 +363,7 @@
    the endcard, and that is set once in its own section. A stale pair of rules
    here zeroing it on the reveal is exactly what hid it when the chart moved. */
 .bi-k-ask .bi-grid     { opacity: .5; }
+.bi-k-ask .bi-chart    { opacity: 0; }
 .bi-k-reveal .bi-grid,
 .bi-k-end .bi-grid     { opacity: .32; }
 
@@ -696,10 +636,16 @@
    to a full em next to it reads as the odd one out, larger than every other
    card. This is matched by eye against 🏠 and 🥇, and it should be re-checked
    by eye if the emoji set ever changes rather than reasoned about. */
+/* The Bitcoin coin. A photograph rather than a drawing, so unlike the flat
+   disc it replaced it needs no colour coupling to --tint — it brings its own
+   gold. Slightly larger than the drawing was: a photographed object with a lit
+   rim and a shadowed edge reads smaller than a flat filled circle of the same
+   width. */
 .bi-btc {
   display: block;
-  width: .92em;
-  height: .92em;
+  width: 1.2em;
+  height: 1.2em;
+  object-fit: contain;
 }
 
 /* The gold stack is landscape, not square, so it is sized by WIDTH with the
