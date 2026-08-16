@@ -258,19 +258,19 @@
   50%      { opacity: 1;   transform: translateY(-2px); }
 }
 
-/* ---------- the opening field ------------------------------------------ */
+/* ---------- the arrow field -------------------------------------------- */
 
-/* Thirty green and red arrows behind card 01, drifting and breathing. Green
-   rises, red falls — the direction is the meaning, so it is not decorative and
-   must not be flattened to one shared motion.
+/* Forty-four green and red arrows behind the cards, drifting and breathing.
+   Green rises, red falls — the direction is the meaning, so it is not
+   decorative and must not be flattened to one shared motion.
 
    BORDER TRIANGLES, NOT ▲/▼ GLYPHS. The tape can use the characters because it
    is type either way, but at 30px a glyph is at the mercy of whichever font
-   resolves, and the two arrows come out different weights and sit on different
+   resolves, and the two arrows come out different weights sitting on different
    baselines. Borders are exact at any size and cost nothing.
 
-   Masked over the middle for the same reason the chart is: the card sits
-   there, and a field that runs under the word competes with it. */
+   Masked over the middle because the card sits there, and a field running
+   under the word competes with it. */
 .bi-tris {
   position: absolute;
   inset: 0;
@@ -278,27 +278,50 @@
   overflow: hidden;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 520ms ease;
+  transition: opacity 520ms ease, filter 520ms ease;
+  /* The whole field breathes very slowly against the arrows' own motion. One
+     more period nothing else shares, which is what stops forty-four loops from
+     ever lining up into a visible pattern. */
+  animation: biFieldDrift 27s ease-in-out infinite;
   -webkit-mask-image: radial-gradient(46% 20% at 50% 50%, transparent 0%, rgba(0, 0, 0, .4) 55%, #000 88%);
           mask-image: radial-gradient(46% 20% at 50% 50%, transparent 0%, rgba(0, 0, 0, .4) 55%, #000 88%);
 }
 
-/* Card 01 only. Under 02-04 the fixed green and red would fight those cards'
-   orange, blue and gold. */
-.bi-a0 .bi-tris { opacity: 1; }
+@keyframes biFieldDrift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(-1.5%, 1.2%, 0) scale(1.045); }
+}
 
-/* THE SLOT DRIFTS, THE ARROW INSIDE IT SCALES, ON UNRELATED PERIODS. Doing
-   both on one element locks the zoom to the travel, and thirty things
-   breathing in time with their own movement reads as a mechanism rather than
-   as a market. This is the single thing that makes the field feel alive. */
+/* THE FIELD IS THE ROOM FOR EVERY CARD, BUT ONLY THE SUBJECT OF THE FIRST.
+   Green and red are fixed whatever --tint is, so behind the orange, blue and
+   gold cards the field is pulled back AND desaturated — at full strength it is
+   a second colour scheme arguing with the card's own. On stocks it comes
+   forward, because there the arrows are what the card is about. */
+.bi-k-asset .bi-tris {
+  opacity: .5;
+  filter: saturate(.5);
+}
+
+.bi-a0 .bi-tris {
+  opacity: 1;
+  filter: none;
+}
+
+/* THE SLOT DRIFTS, THE ARROW INSIDE IT SWAYS AND SCALES, ON UNRELATED PERIODS.
+   Doing it all on one element locks the zoom to the travel, and forty-four
+   things breathing in time with their own movement reads as a mechanism rather
+   than as a market. This is the single thing that makes the field feel alive. */
 .bi-tri-slot {
   position: absolute;
   animation: biTriUp var(--dur) linear var(--delay) infinite;
 }
 
-.bi-tri-slot.is-down {
-  animation-name: biTriDown;
-}
+.bi-tri-slot.is-down { animation-name: biTriDown; }
+
+/* Set on the slot so the trail can pick it up with currentColor — a
+   border-drawn triangle has no text colour of its own to inherit. */
+.bi-tri-slot.is-up   { color: var(--up); }
+.bi-tri-slot.is-down { color: var(--down); }
 
 .bi-tri {
   display: block;
@@ -309,39 +332,63 @@
   animation: biTriPulse var(--pdur) ease-in-out var(--pdelay) infinite;
 }
 
-/* Lit, not flat. Everything else on this stage carries a glow — the mark, the
-   CTA, the last candle — and thirty matte shapes in the middle of it read as
-   paper cut-outs. The colour has to be written out per direction because a
-   border-drawn triangle has no text colour for currentColor to pick up. */
+/* Lit, not flat, and softened with distance. Everything else on this stage
+   carries a glow — the mark, the CTA — and forty-four matte shapes in the
+   middle of it read as paper cut-outs. Both the blur and the glow radius come
+   off the same depth number as the size, so a far arrow is small, dim, soft
+   and slow all at once. */
 .bi-tri-slot.is-up .bi-tri {
   border-bottom: var(--h) solid var(--up);
-  filter: drop-shadow(0 0 5px rgba(47, 208, 122, .45));
+  filter: blur(var(--blur)) drop-shadow(0 0 var(--glow) rgba(47, 208, 122, .5));
 }
 
 .bi-tri-slot.is-down .bi-tri {
   border-top: var(--h) solid var(--down);
-  filter: drop-shadow(0 0 5px rgba(242, 65, 92, .45));
+  filter: blur(var(--blur)) drop-shadow(0 0 var(--glow) rgba(242, 65, 92, .5));
+}
+
+/* A trail behind some of them, streaming from the flat edge and pointing back
+   the way the arrow came — DOWN behind a rising arrow, UP behind a falling
+   one. Getting that backwards is the difference between motion and decoration. */
+.bi-tri-slot.has-trail::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--w) - 1px);
+  width: 2px;
+  height: calc(var(--h) * 2.6);
+  opacity: .4;
+  pointer-events: none;
+}
+
+.bi-tri-slot.is-up.has-trail::after {
+  top: var(--h);
+  background: linear-gradient(to bottom, currentColor, transparent);
+}
+
+.bi-tri-slot.is-down.has-trail::after {
+  bottom: var(--h);
+  background: linear-gradient(to top, currentColor, transparent);
 }
 
 /* Fading to nothing at both ends of the travel is what hides the loop: the
    arrow is invisible at the moment it jumps back to its start. */
 @keyframes biTriUp {
-  0%   { transform: translateY(46px);  opacity: 0; }
-  22%  { opacity: var(--o); }
-  74%  { opacity: var(--o); }
-  100% { transform: translateY(-58px); opacity: 0; }
+  0%   { transform: translateY(52px);  opacity: 0; }
+  20%  { opacity: var(--o); }
+  76%  { opacity: var(--o); }
+  100% { transform: translateY(-64px); opacity: 0; }
 }
 
 @keyframes biTriDown {
-  0%   { transform: translateY(-46px); opacity: 0; }
-  22%  { opacity: var(--o); }
-  74%  { opacity: var(--o); }
-  100% { transform: translateY(58px);  opacity: 0; }
+  0%   { transform: translateY(-52px); opacity: 0; }
+  20%  { opacity: var(--o); }
+  76%  { opacity: var(--o); }
+  100% { transform: translateY(64px);  opacity: 0; }
 }
 
 @keyframes biTriPulse {
-  0%, 100% { transform: scale(.82); }
-  50%      { transform: scale(1.18); }
+  0%, 100% { transform: translateX(calc(var(--sway) * -1)) scale(.82); }
+  50%      { transform: translateX(var(--sway)) scale(1.18); }
 }
 
 /* ---------- the tape --------------------------------------------------- */

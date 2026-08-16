@@ -316,12 +316,12 @@ const CANDLES = (() => {
  * so it is brighter and drifts faster. That is the whole reason the field has
  * a front and a back instead of being flat confetti.
  */
-const TRIS = Array.from({ length: 30 }, (_, i) => {
+const TRIS = Array.from({ length: 44 }, (_, i) => {
   // Slightly more green than red. An even split reads as noise; a tilt reads
   // as a market that is up but arguing, which is the honest version.
   const up = hash(i * 37 + 5) > 0.42;
-  const w = 6 + hash(i * 61 + 11) * 13;
-  const near = (w - 6) / 13;                       // 0 far, 1 near
+  const w = 5 + hash(i * 61 + 11) * 14;
+  const near = (w - 5) / 14;                       // 0 far, 1 near
   return {
     // Inset from all four edges. `left` places the arrow's LEFT corner, so an
     // arrow at 96% is a half-triangle sliced by the frame, which reads as a
@@ -332,12 +332,22 @@ const TRIS = Array.from({ length: 30 }, (_, i) => {
     up,
     w,
     h: w * 1.55,
-    o: 0.18 + near * 0.5,
-    dur: 9 - near * 3.5 + hash(i * 71 + 2) * 2,
+    // Everything below is DERIVED FROM `near`, which is derived from size.
+    // One number drives brightness, softness, glow and speed together, and
+    // that single dependency is what makes the field read as depth rather
+    // than as forty knobs set at random.
+    o: 0.16 + near * 0.52,
+    blur: (1 - near) * 1.25,                       // the far ones soften
+    glow: 3 + near * 7,
+    dur: 9.5 - near * 3.8 + hash(i * 71 + 2) * 2,  // nearer falls faster
     // negative, so the field is already in flight on the ad's first frame
-    delay: -(hash(i * 89 + 13) * 12).toFixed(2),
-    pdur: 2.2 + hash(i * 103 + 17) * 2.6,
+    delay: -(hash(i * 89 + 13) * 13).toFixed(2),
+    pdur: 2.2 + hash(i * 103 + 17) * 2.8,
     pdelay: -(hash(i * 127 + 19) * 3).toFixed(2),
+    sway: (hash(i * 167 + 23) - 0.5) * 13,
+    // A trail on some of them, never all — every arrow streaking turns the
+    // field into rain, and rain has no up and down.
+    trail: hash(i * 191 + 29) > 0.6,
   };
 });
 
@@ -420,18 +430,22 @@ export default function BestInvestmentAd() {
       <div className="bi-grid" aria-hidden />
       <div className="bi-glow" aria-hidden />
 
-      {/* ---- the opening field ----
-          Behind card 01 only. Each arrow is a slot that drifts and fades on
-          one period wrapping an arrow that scales on another. */}
+      {/* ---- the arrow field ----
+          Behind all four cards. Each arrow is a slot that drifts and fades on
+          one period, wrapping an arrow that sways and scales on another. */}
       <div className="bi-tris" aria-hidden>
         {TRIS.map((t, i) => (
           <span
             key={i}
-            className={`bi-tri-slot${t.up ? " is-up" : " is-down"}`}
+            className={`bi-tri-slot${t.up ? " is-up" : " is-down"}${
+              t.trail ? " has-trail" : ""
+            }`}
             style={{
               left: `${t.x.toFixed(2)}%`,
               top: `${t.y.toFixed(2)}%`,
               "--o": t.o.toFixed(2),
+              "--w": `${t.w.toFixed(1)}px`,
+              "--h": `${t.h.toFixed(1)}px`,
               "--dur": `${t.dur.toFixed(2)}s`,
               "--delay": `${t.delay}s`,
             }}
@@ -443,6 +457,9 @@ export default function BestInvestmentAd() {
                 "--h": `${t.h.toFixed(1)}px`,
                 "--pdur": `${t.pdur.toFixed(2)}s`,
                 "--pdelay": `${t.pdelay}s`,
+                "--sway": `${t.sway.toFixed(1)}px`,
+                "--blur": `${t.blur.toFixed(2)}px`,
+                "--glow": `${t.glow.toFixed(1)}px`,
               }}
             />
           </span>
