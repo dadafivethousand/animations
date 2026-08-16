@@ -161,6 +161,27 @@
   object-fit: contain;
 }
 
+/* THE CODE NINJAS MARK IS NOT SQUARE — its headband tails stick out to the
+   left — so it cannot be dropped into the circle slot with object-fit and left
+   alone: contain would shrink the HEAD to fit the tails, and the two marks
+   would stop being the same size.
+
+   Measured on the file: 563 x 484, with the head's circle being the full
+   height and flush against the right edge. So the image is set to 1.163 of the
+   slot's diameter and pulled left by 0.163 of it, which lands the circle
+   exactly on the slot and lets the tails hang outside it. The shadow and the
+   sweep stay bound to the slot, i.e. to the head, which is correct — the tails
+   are not part of the sphere.
+
+   Re-measure both numbers if the file is ever replaced. */
+.sl-mark-c img {
+  width: calc(var(--d) * 1.163);
+  height: auto;
+  max-width: none;
+  margin-left: calc(var(--d) * -0.163);
+  object-fit: fill;
+}
+
 /* Off-frame, and far enough out that the whole travel is a deceleration rather
    than a slide-and-stop. */
 .sl-mark-s { transform: translateX(-96vw); }

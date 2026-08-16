@@ -34,7 +34,11 @@
 import React from "react";
 import "../Stylesheets/StaplesLockupAd.css";
 
-import cnMark from "../Images/cn-ninja-icon.png";
+// THE HEAD WITH ITS HEADBAND TAILS, not the bare disc. cn-ninja-icon.png is a
+// plain circle with the mask band on it and no tails at all — close enough to
+// pass at a glance, and wrong. This is cropped from the official wordmark
+// logo, so it is the mark as drawn.
+import cnMark from "../Images/cn-head-mark.png";
 import easyBtn from "../Images/staples-easy.png";
 // THE OFFICIAL PARTNER LOCKUP, lifted from the vector print artwork in the
 // promo pack — not two logos arranged by us. It settles the divider, the
