@@ -77,8 +77,10 @@ const TIMELINE = [
   // film had stalled. The sweep and the hairline draw were retimed with it, or
   // they get cut off mid-animation when the beat changes.
   { k: "meet",   ms: 780 },    // they settle, the hairline draws
-  { k: "name",   ms: 1550 },   // the HOLD on the finished lockup — the type
-                               // itself already arrived during `meet`
+  // The HOLD on the finished lockup — the type itself arrived back in `meet`,
+  // so this beat is only the pause before the line. It was 1550ms, which on a
+  // phone is a long time to look at something you have already read.
+  { k: "name",   ms: 600 },
   { k: "line",   ms: 2050 },   // the line
   { k: "offer",  ms: 0 },      // holds
 ];

@@ -307,7 +307,10 @@
   gap: calc(10px * var(--s));
   opacity: 0;
   transform: translateY(calc(10px * var(--s)));
-  transition: opacity 800ms ease, transform 1000ms var(--ease);
+  /* Quicker than the rest of the film on purpose. The `name` beat is short,
+     and a slow fade eats the hold it was supposed to protect — the lockup
+     should be RESOLVED for most of its beat, not still arriving. */
+  transition: opacity 520ms ease, transform 680ms var(--ease);
 }
 
 /* Comes up DURING the meet, not after it. The name used to wait for its own
@@ -392,9 +395,14 @@
   animation: slOut 300ms ease both;
 }
 
+/* IT MUST HOLD THE TRANSFORM TOO, not just fade. The spans' base state carries
+   a 12px downward offset — that is where they animate IN from — so an exit
+   keyframe that only mentions opacity hands transform back to the base rule
+   and the line visibly sinks as it goes. Every property the entrance animated
+   has to be pinned here. */
 @keyframes slOut {
-  from { opacity: 1; }
-  to   { opacity: 0; }
+  from { opacity: 1; transform: none; }
+  to   { opacity: 0; transform: none; }
 }
 
 @keyframes slUp {
