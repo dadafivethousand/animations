@@ -1,0 +1,615 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+/* ============================================================
+   BestInvestmentAd — "what is the best investment?" answered as education.
+
+   Four assets hard-cut past, faster every card, then the feed stops and asks
+   the question. The answer is the one that was never on the tape.
+
+   The palette is a trading terminal at night: near-black with a green cast,
+   the two colours a market is always drawn in, and one accent that is
+   whatever asset currently owns the frame. Deliberately NOT the house
+   navy/cyan — this ad has to look like a finance post for its first two
+   seconds or the hook does not work. Brand red arrives once, on the answer,
+   and never shares the frame with another accent.
+
+   Four structural notes worth not undoing:
+
+   1. --tint IS SET FROM JS, once per beat, and everything that carries the
+      current asset's colour reads it: glow, index, rule, emoji shadow, the
+      answer. Do not hard-code an accent anywhere below — that is what keeps
+      four cards in two seconds from reading as one card shown four times.
+
+   2. THE CUTS ARE CUTS. .bi-flash has an entrance animation and no exit, and
+      the component keys it by index so it remounts. Adding a transition to
+      the card, or cross-fading the two, collapses four beats into one long
+      muddy one.
+
+   3. THE TERMINAL DOES NOT FLASH. Grid, glow, candles and tape are continuous
+      under the cuts — only their tint changes. If the background restarts on
+      each card the frame reads as four separate ads.
+
+   4. THE ROOM DARKENS ON THE QUESTION and does not come back. The candles,
+      grid and tape drop toward black for .bi-k-ask onward; the reveal lights
+      only the answer. A frame that stays as busy as the opening has nowhere
+      to put the emphasis.
+
+   Knobs:
+     --s                  every typographic size
+     --safe-x / --safe-y  the crop guard the whole composition is centred in
+     --tint               the current beat's accent (set from JS)
+
+   Portrait phone only (~390x844).
+   ============================================================ */
+
+.bi-stage {
+  --tint: #7c8b9a;
+
+  /* the terminal */
+  --bg:      #05090b;
+  --bg-2:    #0a1114;
+  --line:    rgba(120, 175, 165, .09);
+
+  --up:      #2fd07a;
+  --down:    #f2415c;
+
+  --paper:   #f2f6f7;
+  --mute:    #7e8f96;
+  --mute-2:  #4d5c63;
+
+  --s: 1;
+
+  /* The crop guard. The ad is screen-recorded and re-fit before it reaches IG,
+     so the edges go missing by an amount nobody knows in advance. The px
+     floors are the repo minimums; the vw/vh terms let the guard grow with the
+     screen rather than staying a thin fixed band on a big phone. */
+  --safe-x: max(45px, 11vw);
+  --safe-y: max(40px, 6vh);
+
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--paper);
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.bi-stage *,
+.bi-stage *::before,
+.bi-stage *::after {
+  box-sizing: border-box;
+}
+
+/* ---------- the terminal ----------------------------------------------- */
+
+/* A chart grid, not a design grid: wide-spaced horizontals with tighter
+   verticals, which is how every trading screen is ruled. Fades toward the
+   middle so it never fights the card sitting on it. */
+.bi-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 100% 58px, 39px 100%;
+  -webkit-mask-image: radial-gradient(78% 58% at 50% 50%, rgba(0, 0, 0, .25) 0%, #000 78%);
+          mask-image: radial-gradient(78% 58% at 50% 50%, rgba(0, 0, 0, .25) 0%, #000 78%);
+  transition: opacity 600ms ease;
+}
+
+/* The room takes the colour of whatever is on screen. This is the single
+   biggest reason four cards in two seconds read as four things. */
+.bi-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(72% 46% at 50% 44%, color-mix(in srgb, var(--tint) 22%, transparent) 0%, transparent 72%),
+    radial-gradient(120% 70% at 50% 118%, var(--bg-2) 0%, transparent 66%);
+  transition: background 260ms linear, opacity 600ms ease;
+}
+
+/* ---------- the candles ------------------------------------------------ */
+
+/* A market: up and down, drifting lower across the run so the ascending line
+   on the reveal reads as a reversal rather than as more of the same. Sits low
+   in the frame — the card owns the middle. */
+.bi-chart {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 26%;
+  height: 52%;
+  z-index: 2;
+  opacity: .5;
+  transition: opacity 520ms ease;
+}
+
+.bi-candle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 9px;
+  margin-left: -4.5px;
+  animation: biBreathe 4s ease-in-out var(--delay) infinite;
+}
+
+.bi-candle i {
+  position: absolute;
+  display: block;
+  border-radius: 1px;
+}
+
+.bi-wick {
+  left: 50%;
+  width: 1.5px;
+  margin-left: -.75px;
+  opacity: .8;
+}
+
+.bi-body {
+  left: 0;
+  right: 0;
+}
+
+.bi-candle.is-up   i { background: var(--up); }
+.bi-candle.is-down i { background: var(--down); }
+
+/* Alive, but only just — the cuts are the motion in this section, and a
+   candle field that visibly animates competes with them. */
+@keyframes biBreathe {
+  0%, 100% { opacity: .68; transform: translateY(0); }
+  50%      { opacity: 1;   transform: translateY(-2px); }
+}
+
+/* ---------- the line that only goes up --------------------------------- */
+
+/* Hidden until the reveal, then drawn across and off the top of the frame.
+   vector-effect keeps the stroke even under the non-uniform viewBox stretch —
+   without it a 100x100 box on a portrait phone gives a hairline that is three
+   times thicker vertically than horizontally.
+
+   Tall and high in the frame, because the point of the shape is that it does
+   not resolve: the last segment has to be clipped by the top of this box while
+   still climbing. A short box puts the exit halfway down the screen, where it
+   reads as a line that simply stopped. */
+.bi-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 10%;
+  height: 68%;
+  z-index: 3;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.bi-line polyline {
+  fill: none;
+  stroke: var(--tint);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--tint) 60%, transparent));
+  /* The polyline carries pathLength="100", so the draw is 100 units long
+     whatever the phone. A literal length here is measured in screen px under
+     non-scaling-stroke and comes out short — the line renders as a dashed
+     fragment rather than as a line being drawn. */
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+}
+
+.bi-k-reveal .bi-line,
+.bi-k-end .bi-line {
+  opacity: .85;
+}
+
+.bi-k-reveal .bi-line polyline {
+  animation: biDraw 1100ms cubic-bezier(.35, .1, .25, 1) 120ms forwards;
+}
+
+.bi-k-end .bi-line polyline {
+  stroke-dashoffset: 0;
+  opacity: .5;
+}
+
+@keyframes biDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+/* ---------- the tape --------------------------------------------------- */
+
+/* Two strips running opposite ways, so the frame reads as a feed and not as a
+   banner. Each row is rendered twice and translated exactly -50%, so the
+   second copy arrives where the first one was and the loop has no seam. */
+.bi-tape {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 26px;
+  z-index: 4;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  border-block: 1px solid rgba(120, 175, 165, .12);
+  background: rgba(4, 9, 11, .72);
+  transition: opacity 520ms ease;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+/* Inside the crop guard, not against the frame edge — the first crop off the
+   top takes anything sitting at 0. */
+.bi-tape-top { top: calc(var(--safe-y) * .55); }
+.bi-tape-bot { bottom: calc(var(--safe-y) * .55); }
+
+.bi-tape-run {
+  display: flex;
+  flex: none;
+  width: max-content;
+  gap: 26px;
+  padding-left: 26px;
+  animation: biTape 17s linear infinite;
+}
+
+.bi-tape-bot .bi-tape-run {
+  animation-name: biTapeBack;
+  animation-duration: 21s;
+}
+
+@keyframes biTape     { from { transform: translateX(0); }    to { transform: translateX(-50%); } }
+@keyframes biTapeBack { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+
+.bi-tick {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: calc(10px * var(--s));
+  font-weight: 500;
+  letter-spacing: .1em;
+  color: var(--mute);
+}
+
+.bi-tick i {
+  font-style: normal;
+  font-size: calc(9px * var(--s));
+}
+
+.bi-tick.is-up   i { color: var(--up); }
+.bi-tick.is-down i { color: var(--down); }
+
+/* On the reveal every symbol is EDUCATION and every arrow points up, so the
+   tape stops being a market and becomes a position. It takes the brand tint
+   with it. */
+.bi-k-reveal .bi-tick,
+.bi-k-end .bi-tick {
+  color: color-mix(in srgb, var(--tint) 62%, var(--paper));
+  font-weight: 700;
+}
+
+.bi-k-reveal .bi-tick i,
+.bi-k-end .bi-tick i {
+  color: var(--tint);
+}
+
+/* ---------- the room goes still on the question ------------------------ */
+
+/* Note 4. Once the ad asks, the terminal drops back and never returns to
+   opening brightness — the reveal needs somewhere to put the emphasis. */
+.bi-k-ask .bi-chart    { opacity: .12; }
+.bi-k-reveal .bi-chart,
+.bi-k-end .bi-chart    { opacity: 0; }
+
+.bi-k-ask .bi-grid     { opacity: .5; }
+.bi-k-reveal .bi-grid,
+.bi-k-end .bi-grid     { opacity: .32; }
+
+.bi-k-ask .bi-tape     { opacity: .34; }
+.bi-k-reveal .bi-tape,
+.bi-k-end .bi-tape     { opacity: .9; }
+
+.bi-k-ask .bi-glow     { opacity: .35; }
+
+/* ---------- the card --------------------------------------------------- */
+
+/* One block, centred, with the leftover room outside it as crop margin — never
+   a child with flex:1 eating the space and justifying the group to both
+   edges. */
+.bi-card {
+  position: absolute;
+  inset: var(--safe-y) var(--safe-x);
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* ---------- the flash cards -------------------------------------------- */
+
+/* Entrance only — see note 2. The card is remounted on every cut, so there is
+   nothing to transition out of and nothing that should try. */
+.bi-flash {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(10px * var(--s));
+  animation: biCut 220ms cubic-bezier(.2, .9, .3, 1) both;
+}
+
+@keyframes biCut {
+  from { opacity: 0; transform: scale(.9) translateY(calc(8px * var(--s))); }
+  to   { opacity: 1; transform: none; }
+}
+
+.bi-idx {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: calc(11px * var(--s));
+  font-weight: 700;
+  letter-spacing: .34em;
+  color: var(--tint);
+  opacity: .9;
+}
+
+.bi-emoji {
+  font-size: calc(56px * var(--s));
+  line-height: 1;
+  filter: drop-shadow(0 6px 22px color-mix(in srgb, var(--tint) 55%, transparent));
+  animation: biPop 320ms cubic-bezier(.2, 1.5, .4, 1) both;
+}
+
+@keyframes biPop {
+  from { transform: scale(.6) rotate(-7deg); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+
+/* Long names are set on authored lines — "REAL ESTATE" on one line at this
+   size runs straight into the crop guard, and the repo cap for a title of this
+   weight is ~44px. */
+.bi-name {
+  display: flex;
+  flex-direction: column;
+  gap: calc(2px * var(--s));
+  font-size: clamp(30px, 10.5vw, calc(42px * var(--s)));
+  font-weight: 900;
+  line-height: .96;
+  letter-spacing: -.02em;
+  color: var(--paper);
+}
+
+.bi-rule {
+  display: block;
+  width: calc(40px * var(--s));
+  height: 2px;
+  border-radius: 2px;
+  background: var(--tint);
+  opacity: .85;
+  animation: biWipe 260ms cubic-bezier(.3, .8, .3, 1) both;
+}
+
+@keyframes biWipe {
+  from { transform: scaleX(0); }
+  to   { transform: none; }
+}
+
+.bi-note {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: calc(11px * var(--s));
+  font-weight: 400;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+
+/* ---------- the question ----------------------------------------------- */
+
+/* Quieter than the cards on purpose: four shouted beats then a fifth shouted
+   line is no change at all, and the drop in volume is what reads as the room
+   going still. */
+.bi-ask {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(12px * var(--s));
+  animation: biFade 420ms ease both;
+}
+
+.bi-ask-k {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: calc(11px * var(--s));
+  font-weight: 700;
+  letter-spacing: .4em;
+  color: var(--mute-2);
+}
+
+.bi-ask-q {
+  display: flex;
+  flex-direction: column;
+  gap: calc(3px * var(--s));
+  font-size: clamp(21px, 6.6vw, calc(26px * var(--s)));
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -.005em;
+  color: var(--paper);
+}
+
+/* A terminal caret. The one thing still moving while the room holds. */
+.bi-blink {
+  display: block;
+  width: calc(11px * var(--s));
+  height: 2px;
+  background: var(--paper);
+  opacity: .8;
+  animation: biBlink 640ms steps(1, end) infinite;
+}
+
+@keyframes biBlink {
+  0%, 49%   { opacity: .85; }
+  50%, 100% { opacity: 0; }
+}
+
+/* ---------- the answer -------------------------------------------------- */
+
+.bi-reveal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(12px * var(--s));
+  animation: biLand 520ms cubic-bezier(.16, 1, .3, 1) both;
+}
+
+@keyframes biLand {
+  from { opacity: 0; transform: translateY(calc(16px * var(--s))) scale(.94); }
+  to   { opacity: 1; transform: none; }
+}
+
+.bi-emoji-big { font-size: calc(64px * var(--s)); }
+
+/* "EDUCATION" is nine characters at 900 weight, so it is capped tighter than
+   the flash names — it has to clear the side guard on a 390px phone. */
+.bi-name-big {
+  font-size: clamp(30px, 9.4vw, calc(40px * var(--s)));
+  color: var(--tint);
+  text-shadow: 0 6px 30px color-mix(in srgb, var(--tint) 45%, transparent);
+}
+
+.bi-rule-wide { width: calc(64px * var(--s)); }
+
+.bi-claim {
+  display: flex;
+  flex-direction: column;
+  gap: calc(3px * var(--s));
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: calc(13px * var(--s));
+  font-weight: 400;
+  letter-spacing: .04em;
+  color: var(--mute);
+}
+
+.bi-claim span { animation: biFade 420ms ease both; }
+.bi-claim span:nth-child(1) { animation-delay: 560ms; }
+.bi-claim span:nth-child(2) { animation-delay: 780ms; }
+
+/* ---------- the endcard ------------------------------------------------- */
+
+.bi-end {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(11px * var(--s));
+  animation: biFade 460ms ease both;
+}
+
+/* EDUCATION comes back small, over the mark: the last frame is one sentence —
+   the answer, then whose it is. */
+.bi-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(8px * var(--s));
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: calc(11px * var(--s));
+  font-weight: 700;
+  letter-spacing: .3em;
+  color: var(--tint);
+}
+
+.bi-kicker-a { letter-spacing: 0; }
+
+/* The wordmark has no light-on-dark art. A flat invert flattens the ninja head
+   to a white disc, so it is desaturated first and then inverted. */
+.bi-logo {
+  width: min(60vw, calc(228px * var(--s)));
+  height: auto;
+  display: block;
+  filter: grayscale(1) invert(1) contrast(1.05);
+  animation: biRise 620ms cubic-bezier(.16, 1, .3, 1) 120ms both;
+}
+
+/* The wordmark does not include "Woodbridge" — the location is a separate
+   label, set to the mark's own width by letter-spacing rather than by scaling
+   type up. */
+.bi-loc {
+  font-size: calc(13px * var(--s));
+  font-weight: 800;
+  letter-spacing: .52em;
+  text-indent: .52em;
+  color: var(--paper);
+  opacity: .92;
+  animation: biFade 420ms ease 320ms both;
+}
+
+.bi-sub {
+  display: flex;
+  flex-direction: column;
+  gap: calc(3px * var(--s));
+  font-size: calc(13px * var(--s));
+  font-weight: 600;
+  line-height: 1.34;
+  color: var(--mute);
+  animation: biFade 420ms ease 460ms both;
+}
+
+.bi-cta {
+  margin-top: calc(4px * var(--s));
+  padding: calc(11px * var(--s)) calc(20px * var(--s));
+  border-radius: 999px;
+  background: var(--tint);
+  color: #fff;
+  font-size: calc(12px * var(--s));
+  font-weight: 800;
+  letter-spacing: .16em;
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--tint) 42%, transparent);
+  animation: biRise 520ms cubic-bezier(.16, 1, .3, 1) 620ms both;
+}
+
+/* ---------- over everything -------------------------------------------- */
+
+.bi-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+  background: radial-gradient(96% 74% at 50% 48%, transparent 42%, rgba(0, 0, 0, .62) 100%);
+}
+
+.bi-grain {
+  position: absolute;
+  inset: 0;
+  z-index: 9;
+  pointer-events: none;
+  opacity: .05;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='160' height='160' filter='url(%23f)'/></svg>");
+  background-size: 160px 160px;
+}
+
+/* ---------- shared keyframes -------------------------------------------- */
+
+@keyframes biFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes biRise {
+  from { opacity: 0; transform: translateY(calc(14px * var(--s))); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- reduced motion ---------------------------------------------- */
+
+/* The component already snaps the timeline to the endcard; this stops the
+   ambient loops and the entrance animations from running under it. */
+@media (prefers-reduced-motion: reduce) {
+  .bi-stage *,
+  .bi-stage *::before,
+  .bi-stage *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .bi-line polyline { stroke-dashoffset: 0; }
+}
