@@ -34,10 +34,14 @@
 import React from "react";
 import "../Stylesheets/StaplesLockupAd.css";
 
-import cnLogo from "../Images/cn-woodbridge-logo.png";
 import cnMark from "../Images/cn-ninja-icon.png";
-import staplesLogo from "../Images/staples-logo.png";
 import easyBtn from "../Images/staples-easy.png";
+// THE OFFICIAL PARTNER LOCKUP, lifted from the vector print artwork in the
+// promo pack — not two logos arranged by us. It settles the divider, the
+// relative sizes and the shared baseline the way the partnership already
+// approved them, which is both the correct answer and one fewer thing for a
+// brand team to object to.
+import partnerLockup from "../Images/staples-cn-lockup.png";
 
 // Lifted from the Staples Canada owner SOP for this promotion, not paraphrased
 // from memory. Every clause here is a condition somebody can be turned away at
@@ -140,11 +144,11 @@ export default function StaplesLockupAd() {
           dashed coupon box: a coupon border is discount-retail, and this is
           meant to read as a partnership that happens to carry an offer. */}
       <div className="sl-offer">
-        <div className="sl-lockup">
-          <img className="sl-lockup-s" src={staplesLogo} alt="Staples" />
-          <span className="sl-lockup-bar" aria-hidden />
-          <img className="sl-lockup-c" src={cnLogo} alt="Code Ninjas" />
-        </div>
+        <img
+          className="sl-lockup"
+          src={partnerLockup}
+          alt="Staples and Code Ninjas"
+        />
 
         <div className="sl-amount">{OFFER.amount}</div>
         <div className="sl-what">
