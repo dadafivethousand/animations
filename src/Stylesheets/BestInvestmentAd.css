@@ -9,9 +9,19 @@
    The palette is a trading terminal at night: near-black with a green cast,
    the two colours a market is always drawn in, and one accent that is
    whatever asset currently owns the frame. Deliberately NOT the house
-   navy/cyan — this ad has to look like a finance post for its first two
-   seconds or the hook does not work. Brand red arrives once, on the answer,
-   and never shares the frame with another accent.
+   navy/cyan — this ad has to look like a finance post for its first few
+   seconds or the hook does not work.
+
+   THE ANSWER IS GREEN, not brand red: green is the market's own colour for up,
+   so the answer lands in the colour every contender was trying to be. It is a
+   brighter green than the stocks card used — same hue, more light — and the
+   two are far enough apart in intensity that the answer does not read as that
+   card coming back. Brand red is therefore absent by design here; the Code
+   Ninjas mark carries the brand on the endcard instead.
+
+   A bright accent changes what can sit ON it. The CTA is the one filled
+   element in the ad, and it takes dark ink — white on this green is unreadable
+   and was the first thing to go wrong when the tint changed.
 
    Four structural notes worth not undoing:
 
@@ -555,12 +565,14 @@
   animation: biFade 420ms ease 460ms both;
 }
 
+/* The one filled element in the ad. Dark ink, not white — the tint it sits on
+   is a lit green, and white on it is unreadable at this size. */
 .bi-cta {
   margin-top: calc(4px * var(--s));
   padding: calc(11px * var(--s)) calc(20px * var(--s));
   border-radius: 999px;
   background: var(--tint);
-  color: #fff;
+  color: #04120b;
   font-size: calc(12px * var(--s));
   font-weight: 800;
   letter-spacing: .16em;

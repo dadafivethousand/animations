@@ -7,11 +7,17 @@
 //
 // ── The flash is the hook, so it has to accelerate ──
 //
-// Four cards at an even 550ms is a slideshow. The durations below shorten card
-// over card (640 → 580 → 520 → 470) so the sequence reads as a run-up rather
+// Four cards at an even duration is a slideshow. The ones below shorten card
+// over card (1000 → 920 → 840 → 770) so the sequence reads as a run-up rather
 // than a list, and the stop before the question lands as a stop. That is the
 // entire attention mechanic of the opening: a thumb scrolling past registers
 // motion changing speed long before it registers what any card said.
+//
+// THE ACCELERATION IS THE SHAPE, THE ABSOLUTE VALUES ARE NOT. An earlier pass
+// ran the same curve about a third faster and the cards were past before they
+// could be read — the emoji landed, the word did not. Retiming the run means
+// scaling all four and keeping the gaps between them; flattening them to one
+// number is what actually breaks this.
 //
 // The cards are HARD CUTS. No cross-fade, no slide — each one is keyed by its
 // index so React remounts it and its entrance animation restarts from frame
@@ -20,8 +26,18 @@
 //
 // Each asset owns the whole frame while it is up: its colour is pushed into
 // --tint and the glow, the rule, the index and the tape all take it. Four
-// distinct washes in two seconds is what makes the fifth card — brand red —
-// read as a different kind of answer rather than a fifth item.
+// distinct washes is what makes the fifth card read as a different kind of
+// answer rather than as a fifth item.
+//
+// ── The answer is green, and that is the joke ──
+//
+// Green is the market's own colour for up, so the answer arrives in the one
+// colour every contender was trying to be. It is NOT the green the stocks card
+// used: that one is a deeper working green, and the answer's is electric and
+// lit, brighter than anything the market managed. Same hue, different claim.
+//
+// Which is also why stocks had to move off pure green. Two greens a few
+// seconds apart, at the same intensity, read as the same card coming back.
 //
 // ── The tape is the argument ──
 //
@@ -55,20 +71,30 @@ import cnLogo from "../Images/cn-woodbridge-logo.png";
 //          or two of these across the run — which is enough, they are a mood
 //   ms     how long the card holds. SHORTENING, card over card — see the header
 const ASSETS = [
-  { name: ["REAL", "ESTATE"], emoji: "🏠", tint: "#5b86ff", note: "markets turn",     ms: 640 },
-  { name: ["BITCOIN"],        emoji: "🪙", tint: "#f7931a", note: "volatile",         ms: 580 },
-  { name: ["STOCKS"],         emoji: "📈", tint: "#2fd07a", note: "corrections come", ms: 520 },
-  { name: ["GOLD"],           emoji: "🥇", tint: "#e3ab27", note: "sits in a vault",  ms: 470 },
+  { name: ["REAL", "ESTATE"], emoji: "🏠", tint: "#5b86ff", note: "markets turn",     ms: 1000 },
+  { name: ["BITCOIN"],        emoji: "🪙", tint: "#f7931a", note: "volatile",         ms: 920 },
+  // Deeper than the answer's green on purpose — see the header. Stocks are
+  // drawn green in every market there has ever been, so this card keeps the
+  // hue and gives up the brightness.
+  { name: ["STOCKS"],         emoji: "📈", tint: "#1f9d5c", note: "corrections come", ms: 840 },
+  { name: ["GOLD"],           emoji: "🥇", tint: "#e3ab27", note: "sits in a vault",  ms: 770 },
 ];
 
-// Brand red. The answer's tint, and the only one in the ad that is ours.
-const RED = "#e4002b";
+// The answer's tint: the market's own colour for up, lit brighter than any
+// contender managed. Bright enough that anything sitting ON it needs dark ink
+// — see .bi-cta.
+const GREEN = "#3ff09a";
 
 // The whole take, in order. `end` has no duration — it is where the ad rests.
+//
+// The question and the answer both hold longer than any contender card. That
+// ordering is the point: a beat that holds longer than the ones before it is
+// how a run-up resolves, and if the answer flashed past at card speed it would
+// read as a fifth contender.
 const TIMELINE = [
   ...ASSETS.map((a, i) => ({ k: "asset", i, ms: a.ms })),
-  { k: "ask",    ms: 1550 },
-  { k: "reveal", ms: 1750 },
+  { k: "ask",    ms: 1800 },
+  { k: "reveal", ms: 2100 },
   { k: "end",    ms: 0 },
 ];
 
@@ -160,10 +186,10 @@ export default function BestInvestmentAd() {
   const kind = beat ? beat.k : "lead";
   const asset = beat && beat.k === "asset" ? ASSETS[beat.i] : null;
 
-  // Past the question the frame belongs to us, so the tint is brand red from
-  // the reveal onward — the answer card, the tape and the line all take it.
+  // From the reveal onward the frame belongs to the answer, so the tint is the
+  // bright green — the answer card, the tape, the line and the CTA all take it.
   const answered = kind === "reveal" || kind === "end";
-  const tint = asset ? asset.tint : answered ? RED : "#7c8b9a";
+  const tint = asset ? asset.tint : answered ? GREEN : "#7c8b9a";
 
   return (
     <div
