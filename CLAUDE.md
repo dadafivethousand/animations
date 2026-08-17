@@ -103,6 +103,24 @@ desktop, fine, but it is never a goal and never worth effort.
   representative still. Real playback only happens on an actual phone — flag
   timing/motion as "verify on device."
 
+## Rendering the video
+
+The ad is delivered as an **.mp4 in `~/Downloads`**, and nothing regenerates it
+on its own — editing the component does not update a file recorded earlier.
+`tools/record.js` does the capture (see its header for the two setup commands):
+
+```
+MS=11500 HOLD=1.6 OUT=~/Downloads/staples-lockup.mp4 \
+  NODE_PATH=/tmp/rec/node_modules node tools/record.js
+```
+
+**1080x1920, always** — a 360x640 viewport at `deviceScaleFactor: 3` lands there
+exactly. Instagram Reels presents 9:16, so capturing at a phone's own 19.5:9
+gets pillarboxed and the ad plays at ~76% of the size it could. `MS` has to
+cover the component's whole TIMELINE plus its tail; `HOLD` pads the final frame,
+which otherwise gets cut the instant motion stops, because the screencast only
+emits frames on repaint.
+
 ## Style conventions (mobile-first, cinematic)
 
 - Portrait-first. Size everything off `vh`/`vw`/`vmax` with `clamp()` so it
