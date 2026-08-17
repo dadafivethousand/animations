@@ -450,24 +450,70 @@
   transition-delay: 420ms;
 }
 
-/* THE OFFICIAL PARTNER LOCKUP, used as one image rather than assembled here
-   from two logos.
+/* THE PARTNER LOCKUP, ASSEMBLED — but assembled from measurements, not by eye.
+   This used to be one flat PNG, on the argument that the partnership already
+   has an approved lockup and rebuilding it by hand means guessing at the
+   divider, the relative sizes and the shared baseline. The argument was right;
+   the objection was to GUESSING at them. So they were measured instead.
 
-   That is not laziness, it is the correct answer. The partnership already has
-   an approved lockup — it fixes the divider, the relative sizes of the two
-   marks and the shared baseline of the two wordmarks — and rebuilding it by
-   hand means guessing at all three and giving a brand team something to
-   object to. It also deletes the optical-alignment problem entirely: the
-   staples wordmark sits high in its own box because the easy button hangs
-   below it, and matching that against the Code Ninjas baseline by eye is work
-   the official artwork has already done.
+   Off the approved print artwork, rendered at 5823px and measured in pixels:
 
-   Do not replace this with two <img> tags again. */
+     total          4219 x 515
+     staples        1810 wide  (42.9%), its box centred on the lockup's centre
+     gap             188       ( 4.5%)
+     divider          11 wide  ( 0.3%), 310 tall = 60% of the lockup height
+     gap             168       ( 4.0%)
+     code ninjas    2043 wide  (48.4%), aspect 4.77 — exactly the horizontal
+                               logo with outline, as supplied
+
+   Both partner marks sit 14px above the frame's centre in that artwork, i.e.
+   0.33% of the lockup's WIDTH — under a pixel at the size this renders, which
+   is why plain `align-items: center` reproduces it.
+
+   What assembling buys: the Code Ninjas half is now vector and cannot soften
+   at any size, and the Staples half is the brand's current on-screen red
+   rather than a CMYK print conversion of it. Do not go back to a flat raster
+   unless the partnership issues one at 2x this width. */
 .sl-lockup {
   width: min(94%, calc(268px * var(--s)));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: calc(10px * var(--s));
+}
+
+.sl-lockup-s {
+  width: 42.9%;
   height: auto;
   display: block;
-  margin-bottom: calc(10px * var(--s));
+  flex: none;
+}
+
+/* The same hairline device as the one between the two circles. The artwork's
+   divider is 0.3% of the lockup's width — sub-pixel here — so it is floored at
+   1px, and its 60% height comes from a gradient rather than a percentage
+   height: the row's height is set by the marks inside it, and a percentage
+   against an auto height is the one measurement in this block that would be a
+   guess. STRETCHED and masked is exact at any width. */
+.sl-lockup-bar {
+  width: 1px;
+  margin: 0 3.9% 0 4.4%;
+  align-self: stretch;
+  flex: none;
+  background: linear-gradient(
+    180deg,
+    transparent 20%,
+    var(--hair) 20%,
+    var(--hair) 80%,
+    transparent 80%
+  );
+}
+
+.sl-lockup-c {
+  width: 48.4%;
+  height: auto;
+  display: block;
+  flex: none;
 }
 
 .sl-amount {
@@ -512,12 +558,82 @@
   color: var(--mute);
 }
 
+/* TYPED, NOT FADED IN.
+   The code is the one thing in the film the viewer has to carry out of it and
+   into a store, so it is the one thing that arrives a character at a time —
+   the only place in the piece where the motion is asking to be read rather
+   than looked at. It works because the code was already set in a mono face:
+   every glyph advances the same 1ch + its letter-spacing, so a `steps()` clip
+   lands exactly on character boundaries with nothing to measure.
+
+   The base state is the FINISHED line, and the reveal is an animation on top
+   of it. That is what makes the reduced-motion rule at the bottom of the file
+   correct for free: kill the animations and the code is simply there. */
 .sl-code-n {
+  position: relative;
   font-family: "JetBrains Mono", ui-monospace, monospace;
   font-size: clamp(16px, 5.4vw, calc(21px * var(--s)));
   font-weight: 700;
   letter-spacing: .08em;
   color: var(--ink);
+  /* STAPLES2026. If the code ever changes, change this with it — it is the
+     step count, and a wrong number types in fractions of a character. */
+  --chars: 11;
+  /* Never let it wrap mid-type; the clip assumes one line. */
+  white-space: nowrap;
+}
+
+/* THE TEXT IS CLIPPED, THE WRAPPER IS NOT — that is the whole reason there are
+   two elements here. clip-path applies to an element's descendants, and the
+   caret is one of them, so clipping the same element the caret lives on hides
+   the caret exactly where it should be: at the edge of the reveal. */
+.sl-code-t {
+  display: inline-block;
+}
+
+/* Waits out the offer's own fade (420ms delay + 800ms) so the line is not
+   typing while the card it sits on is still arriving. ~85ms a character:
+   fast enough to be reading speed, slow enough to be legible. */
+.sl-k-offer .sl-code-t {
+  animation: slType 935ms steps(11, end) 1320ms both;
+}
+
+@keyframes slType {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+/* The caret. Solid while it types — a cursor that blinks mid-keystroke is a
+   cursor nobody is typing at — then three slow blinks and gone, because the
+   held final frame is the one that gets screenshotted and it should be clean. */
+.sl-code-n::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .08em;
+  bottom: .08em;
+  width: 2px;
+  background: var(--red);
+  opacity: 0;
+}
+
+.sl-k-offer .sl-code-n::after {
+  animation:
+    slCaret 935ms steps(11, end) 1320ms both,
+    slCaretOut 760ms 2255ms 3 forwards;
+}
+
+/* Steps across in the same 11 beats as the clip, so the caret is always at the
+   character being written. `1ch + .08em` is one glyph advance plus its
+   letter-spacing — the same arithmetic the clip is doing. */
+@keyframes slCaret {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 1; transform: translateX(calc(var(--chars) * (1ch + .08em))); }
+}
+
+@keyframes slCaretOut {
+  from, 49% { opacity: 1; }
+  50%,  to  { opacity: 0; }
 }
 
 /* Small, but LEGIBLE. This is a dated offer with eligibility conditions, and

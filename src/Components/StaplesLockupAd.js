@@ -39,13 +39,17 @@ import "../Stylesheets/StaplesLockupAd.css";
 // pass at a glance, and wrong. This is cropped from the official wordmark
 // logo, so it is the mark as drawn.
 import cnMark from "../Images/cn-head-mark.png";
+// Both Staples marks are the brand's own current artwork — the easy button
+// keyed out of the official campaign image, and the horizontal logo as
+// supplied. NOT the versions lifted out of the print promo PDF: that art is
+// CMYK-converted and reads a full shade duller (198,42,48 against the real
+// 226,33,28), which is the wrong red for a screen and was visibly the wrong
+// red next to anything official.
 import easyBtn from "../Images/staples-easy.png";
-// THE OFFICIAL PARTNER LOCKUP, lifted from the vector print artwork in the
-// promo pack — not two logos arranged by us. It settles the divider, the
-// relative sizes and the shared baseline the way the partnership already
-// approved them, which is both the correct answer and one fewer thing for a
-// brand team to object to.
-import partnerLockup from "../Images/staples-cn-lockup.png";
+import staplesLogo from "../Images/staples-easy-logo.png";
+// The Code Ninjas horizontal logo AS VECTOR. It is an <img src> to an .svg,
+// so it is resolution-independent — there is no size at which it softens.
+import cnLogo from "../Images/cn-logo-horizontal.svg";
 
 // Lifted from the Staples Canada owner SOP for this promotion, not paraphrased
 // from memory. Every clause here is a condition somebody can be turned away at
@@ -157,11 +161,14 @@ export default function StaplesLockupAd() {
           dashed coupon box: a coupon border is discount-retail, and this is
           meant to read as a partnership that happens to carry an offer. */}
       <div className="sl-offer">
-        <img
-          className="sl-lockup"
-          src={partnerLockup}
-          alt="Staples and Code Ninjas"
-        />
+        {/* The partner lockup, assembled here rather than used as one flat
+            image — every proportion in it is measured off the approved print
+            artwork, not chosen. See the stylesheet for the numbers. */}
+        <div className="sl-lockup">
+          <img className="sl-lockup-s" src={staplesLogo} alt="Staples" />
+          <span className="sl-lockup-bar" aria-hidden />
+          <img className="sl-lockup-c" src={cnLogo} alt="Code Ninjas" />
+        </div>
 
         <div className="sl-amount">{OFFER.amount}</div>
         <div className="sl-what">
@@ -169,9 +176,15 @@ export default function StaplesLockupAd() {
           <span>{OFFER.how}</span>
         </div>
 
+        {/* The code TYPES ITSELF — the one thing here the viewer has to carry
+            into a store, so the one thing that arrives a character at a time.
+            The inner span exists because the clip that reveals the text would
+            otherwise clip the caret too; see the stylesheet. */}
         <div className="sl-code">
           <span className="sl-code-k">CODE</span>
-          <span className="sl-code-n">{OFFER.code}</span>
+          <span className="sl-code-n">
+            <span className="sl-code-t">{OFFER.code}</span>
+          </span>
         </div>
 
         {/* NO CENTRE URL. This is written to be adopted nationally and reposted
