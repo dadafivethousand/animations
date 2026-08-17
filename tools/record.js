@@ -44,7 +44,18 @@ const HOLD = Number(process.env.HOLD || 1.6);
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "frames-"));
   const browser = await puppeteer.launch({
     headless: "new",
-    args: ["--no-sandbox", "--hide-scrollbars", "--force-color-profile=srgb"],
+    args: [
+      "--no-sandbox",
+      "--hide-scrollbars",
+      "--force-color-profile=srgb",
+      // THESE TWO ARE THE WHOLE BALLGAME. setViewport's deviceScaleFactor
+      // applies to page.screenshot(), but NOT to the compositor surface the
+      // screencast reads: without these the cast hands back 360x640 frames,
+      // ffmpeg upscales them 3x to hit 1080x1920, and every logo and every
+      // letter in the film is soft. It looks like bad artwork. It is not.
+      "--force-device-scale-factor=3",
+      "--window-size=360,640",
+    ],
   });
   const page = await browser.newPage();
   await page.setViewport({ width: 360, height: 640, deviceScaleFactor: 3 });
@@ -74,8 +85,10 @@ const HOLD = Number(process.env.HOLD || 1.6);
   // Start the cast BEFORE the navigation, or the ad's opening frames are gone
   // by the time the first frame arrives.
   await client.send("Page.startScreencast", {
-    format: "jpeg",
-    quality: 100,
+    // PNG, not JPEG: the stage is a near-white flat gradient, which is exactly
+    // what JPEG bands, and the frames are the master — compression belongs in
+    // the H.264 encode at the end, once, not in every frame going into it.
+    format: "png",
     maxWidth: 1080,
     maxHeight: 1920,
     everyNthFrame: 1,
@@ -89,6 +102,19 @@ const HOLD = Number(process.env.HOLD || 1.6);
   await browser.close();
 
   if (frames.length < 2) throw new Error(`captured ${frames.length} frames`);
+
+  // A 1x capture silently upscaled to 1080x1920 is the failure mode this
+  // recorder had for its whole first life, and it is invisible until someone
+  // looks at a logo up close and blames the logo. Refuse to encode it.
+  const png = Buffer.from(frames[0].data, "base64");
+  const w = png.readUInt32BE(16);
+  const h = png.readUInt32BE(20);
+  if (w !== 1080 || h !== 1920) {
+    throw new Error(
+      `frames are ${w}x${h}, not 1080x1920 — the compositor is not at ` +
+        `deviceScaleFactor 3 (check --force-device-scale-factor / --window-size)`
+    );
+  }
   const dur = frames[frames.length - 1].t - frames[0].t;
   console.log(
     `captured ${frames.length} frames over ${dur.toFixed(2)}s ` +
@@ -97,7 +123,7 @@ const HOLD = Number(process.env.HOLD || 1.6);
 
   const list = [];
   frames.forEach((f, i) => {
-    const p = path.join(dir, String(i).padStart(5, "0") + ".jpg");
+    const p = path.join(dir, String(i).padStart(5, "0") + ".png");
     fs.writeFileSync(p, Buffer.from(f.data, "base64"));
     const next = frames[i + 1];
     list.push(`file '${p}'`);
@@ -107,14 +133,14 @@ const HOLD = Number(process.env.HOLD || 1.6);
     list.push(`duration ${(next ? next.t - f.t : HOLD).toFixed(4)}`);
   });
   // concat needs the last file repeated or it drops the final frame
-  list.push(`file '${path.join(dir, String(frames.length - 1).padStart(5, "0") + ".jpg")}'`);
+  list.push(`file '${path.join(dir, String(frames.length - 1).padStart(5, "0") + ".png")}'`);
   const listPath = path.join(dir, "list.txt");
   fs.writeFileSync(listPath, list.join("\n"));
 
   await new Promise((res, rej) => {
     const p = spawn(ffmpeg, [
       "-y", "-f", "concat", "-safe", "0", "-i", listPath,
-      "-vf", "scale=1080:1920:flags=lanczos,format=yuv420p",
+      "-vf", "format=yuv420p",   // frames are already 1080x1920; asserted above
       "-r", String(FPS),
       "-c:v", "libx264", "-preset", "slow", "-crf", "18",
       "-movflags", "+faststart",

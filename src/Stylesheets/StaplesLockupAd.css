@@ -604,8 +604,10 @@
 }
 
 /* The caret. Solid while it types — a cursor that blinks mid-keystroke is a
-   cursor nobody is typing at — then three slow blinks and gone, because the
-   held final frame is the one that gets screenshotted and it should be clean. */
+   cursor nobody is typing at — and gone the instant the last character lands.
+   It does not linger and blink: the held final frame is the one that gets
+   screenshotted and reposted, and a cursor sitting on the end of a promo code
+   is something a viewer has to decide is not part of the code. */
 .sl-code-n::after {
   content: "";
   position: absolute;
@@ -617,23 +619,26 @@
   opacity: 0;
 }
 
+/* Two animations, one job each. The step is the movement and it holds its end
+   state; the visibility deliberately does NOT fill, so the moment the typing
+   finishes the caret falls back to the base rule above and is simply not
+   there. No fade, no blink — the line is finished, so the cursor is not. */
 .sl-k-offer .sl-code-n::after {
   animation:
     slCaret 935ms steps(11, end) 1320ms both,
-    slCaretOut 760ms 2255ms 3 forwards;
+    slCaretOn 935ms step-start 1320ms;
 }
 
 /* Steps across in the same 11 beats as the clip, so the caret is always at the
    character being written. `1ch + .08em` is one glyph advance plus its
    letter-spacing — the same arithmetic the clip is doing. */
 @keyframes slCaret {
-  from { opacity: 1; transform: translateX(0); }
-  to   { opacity: 1; transform: translateX(calc(var(--chars) * (1ch + .08em))); }
+  from { transform: translateX(0); }
+  to   { transform: translateX(calc(var(--chars) * (1ch + .08em))); }
 }
 
-@keyframes slCaretOut {
-  from, 49% { opacity: 1; }
-  50%,  to  { opacity: 0; }
+@keyframes slCaretOn {
+  from, to { opacity: 1; }
 }
 
 /* Small, but LEGIBLE. This is a dated offer with eligibility conditions, and
