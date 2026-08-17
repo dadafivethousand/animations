@@ -56,9 +56,20 @@
 
   /* Both marks, same diameter. Big enough to be the subject of the frame
      rather than two icons sitting in it — this is the hero object of the film
-     and the thing the lockup frame is built around. */
-  --d: min(37vw, 146px);
-  --gap: 8vw;
+     and the thing the lockup frame is built around.
+
+     SIZED FOR THE CROP, NOT FOR THE SCREEN. At 37vw/8vw the pair spanned ~355px
+     of a 390px phone — barely 17px a side, well inside the guard, and the first
+     crop off either edge took a slice of a partner's mark. Smaller discs sitting
+     closer together read the same at this scale and leave ~50px of dead space
+     on each side to lose.
+
+     The gap has a floor of its own: the Code Ninjas headband tails hang
+     0.163 * --d to the LEFT of that mark's slot, into the gap, so the two marks
+     can only close until the tails reach the hairline. 6.5vw keeps a few px of
+     air there — don't tighten it without re-checking that clearance. */
+  --d: min(30vw, 118px);
+  --gap: 6.5vw;
 
   --ease: cubic-bezier(.22, 1, .36, 1);
 
@@ -294,12 +305,15 @@
 
 /* The screenshot frame: two marks, a hairline, and a name. */
 /* Clear of the marks AND of their shadows. At 61% it sat inside the shadow of
-   the discs above it, which on a frame this quiet reads as a collision. */
+   the discs above it, which on a frame this quiet reads as a collision.
+   Came up from 65% when the discs shrank: the same absolute position under a
+   smaller pair leaves a hole in the middle of the lockup, and the marks, the
+   hairline and the name have to read as ONE block. Still clear of the shadows. */
 .sl-names {
   position: absolute;
   left: var(--safe-x);
   right: var(--safe-x);
-  top: 65%;
+  top: 63%;
   z-index: 4;
   display: flex;
   align-items: center;
