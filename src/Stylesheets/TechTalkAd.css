@@ -1,0 +1,344 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* ============================================================
+   TechTalkAd — a talk, announced.
+
+   The companion to StaplesLockupAd, and deliberately not a variation on it.
+   That film argues a partnership; this one delivers WHAT / WHEN / WHERE and
+   then holds still so the frame can be screenshotted and sent to somebody.
+
+   ── THE ONE RULE THIS FILE ADDS ──
+
+   NOTHING THAT ARRIVES EVER LEAVES. The poster assembles line by line and is
+   whole at the end. A viewer who drops at second four still leaves with the
+   date, and there is no beat in the film whose job is to take something away.
+   If a future edit makes an element exit, the notice has stopped working.
+
+   ── INHERITED WITHOUT RESTATING ──
+
+   No bounce; every timing function is the same settle; red is the only colour
+   and both brands own it; separators are hairlines, never boxes; both marks
+   are used as supplied, and there is not one `filter` on either of them. The
+   arguments for all of that are in StaplesLockupAd.css and are not repeated.
+
+   ── THE RED ──
+
+   #e2211c, not the #cc0000 the offer film uses for type. It is the red inside
+   the Staples artwork sitting six pixels away in the lockup, measured off the
+   asset rather than chosen, and at this size a headline in a different red to
+   the mark above it is visible as a mistake.
+
+   Portrait phone only (~390x844, recorded at 360x640 at 3x).
+   ============================================================ */
+
+.tt-stage {
+  --red:    #e2211c;
+  --ink:    #101215;
+  --ink-2:  #5a616b;
+  --mute:   #9aa1ab;
+  --hair:   #d9dde3;
+
+  --ease: cubic-bezier(.22, 1, .36, 1);
+
+  /* The crop guard, same as the offer film: the ad is screen-recorded and
+     re-fit before it reaches IG, so the edges go missing by an amount nobody
+     knows in advance. Everything readable lives inside this. */
+  --safe-x: max(45px, 11vw);
+  --safe-y: max(40px, 6vh);
+
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #fbfbfc;
+  color: var(--ink);
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.tt-stage *,
+.tt-stage *::before,
+.tt-stage *::after {
+  box-sizing: border-box;
+}
+
+/* ---------- the studio -------------------------------------------------- */
+
+/* One soft key from above, wide and shallow — it lights the frame rather than
+   spotlighting the middle of it. */
+.tt-key {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(70% 44% at 50% 0%, rgba(16, 18, 21, .05) 0%, transparent 72%);
+}
+
+/* And a floor for the card to sit on, so the type is standing on something
+   instead of pasted onto a colour. */
+.tt-floor {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(78% 34% at 50% 100%, rgba(16, 18, 21, .04) 0%, transparent 70%);
+}
+
+/* ---------- the card ---------------------------------------------------- */
+
+/* ONE CENTRED BLOCK WITH AIR ON ALL FOUR SIDES. The notice is ~380px tall in a
+   640px frame on purpose: whatever crop this ends up inside — square, 4:5,
+   somebody's re-fit — takes background, not type. */
+.tt-card {
+  position: absolute;
+  inset: var(--safe-y) var(--safe-x);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* ---------- the lockup -------------------------------------------------- */
+
+/* Small, and above the headline: this is the credential on the notice, not the
+   subject of it. Whose talk, and whose room, answered before the reader gets
+   to the title and then out of the way.
+
+   The proportions are the offer card's, which were measured off the approved
+   print artwork rather than eyeballed — staples 42.9% of the lockup, the
+   divider at 4.4% / 3.9%, Code Ninjas 48.4%. Do not re-fit them by eye. */
+.tt-lockup {
+  width: 190px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tt-lockup-s { width: 42.9%; height: auto; display: block; flex: none; }
+.tt-lockup-c { width: 48.4%; height: auto; display: block; flex: none; }
+
+.tt-lockup-bar {
+  width: 1px;
+  margin: 0 3.9% 0 4.4%;
+  align-self: stretch;
+  flex: none;
+  background: linear-gradient(180deg, transparent 20%, var(--hair) 20%, var(--hair) 80%, transparent 80%);
+}
+
+/* ---------- eyebrow ----------------------------------------------------- */
+
+.tt-eyebrow {
+  margin-top: 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  /* The tracking is on the right of the last letter too, which walks the word
+     off centre by half of it. */
+  text-indent: .26em;
+}
+
+/* Draws out from the centre once the word is already there — the only red on
+   the frame that is not type. */
+.tt-rule {
+  width: 26px;
+  height: 2px;
+  background: var(--red);
+  transform: scaleX(0);
+}
+
+/* ---------- the title --------------------------------------------------- */
+
+/* The subject. Three lines because three lines have a rhythm a wrapped
+   paragraph does not, and because the break points are then chosen rather than
+   whatever the container happens to do at a given width.
+
+   9vw with a 34px ceiling: at the 360px recording width that is 32.4px, and
+   "THE ULTIMATE" — the longest line — sets to ~245px inside a 270px column.
+   Anything larger and the crop guard starts eating the headline. */
+.tt-title {
+  margin: 16px 0 0;
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(26px, 9vw, 34px);
+  font-weight: 800;
+  line-height: 1.06;
+  letter-spacing: -.03em;
+  text-transform: uppercase;
+}
+
+/* The payload line. Red because it is the promise in the title, and because
+   a headline that is one colour throughout is a headline nobody has been
+   pointed at. */
+.tt-title span:last-child { color: var(--red); }
+
+/* ---------- the particulars --------------------------------------------- */
+
+.tt-hair {
+  width: 54px;
+  height: 1px;
+  margin: 22px 0;
+  background: var(--hair);
+  transform: scaleX(0);
+}
+
+/* WHEN, at the largest size anything that is not the title gets. It is the
+   single fact this film exists to deliver. */
+.tt-when {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.tt-day {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -.005em;
+  color: var(--ink-2);
+}
+
+.tt-time {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  line-height: 1.1;
+}
+
+/* WHERE. The store name leads, because that is what a reader recognises from
+   the street; the address underneath it is for the maps app, and is written
+   the way it is on the door rather than abbreviated to fit. */
+.tt-where {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--ink-2);
+}
+
+.tt-venue {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -.005em;
+  color: var(--ink);
+}
+
+/* Quiet, and last. The lockup at the top has already said this; the line is
+   here so the notice still reads as somebody's when it is cropped to the
+   type. */
+.tt-by {
+  margin-top: 22px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--mute);
+  text-indent: .1em;
+}
+
+/* ---------- the cascade -------------------------------------------------
+
+   Every delay in the film is here, in the order the viewer meets it, because
+   the choreography is the only thing holding these blocks together and it is
+   unreadable if it is spread across two files.
+
+     260   the lockup
+     700   the eyebrow, 1050 its rule
+    1350   the title, a line every 260ms
+    3050   the hairline
+    3350   the date, 3550 the time
+    4100   the address, its three lines 140ms apart
+    4900   the credit
+    ~5.8s  everything is up, and it holds
+
+   Nothing here exits. See the header. ------------------------------------- */
+
+/* Pre-roll state: mounted, painted, not yet moving. The class arrives on the
+   next frame, so the film opens ON the empty studio rather than partway
+   through the first move. */
+.tt-stage:not(.tt-go):not(.tt-still) .tt-lockup,
+.tt-stage:not(.tt-go):not(.tt-still) .tt-eyebrow span,
+.tt-stage:not(.tt-go):not(.tt-still) .tt-title span,
+.tt-stage:not(.tt-go):not(.tt-still) .tt-when > *,
+.tt-stage:not(.tt-go):not(.tt-still) .tt-where > *,
+.tt-stage:not(.tt-go):not(.tt-still) .tt-by {
+  opacity: 0;
+}
+
+/* A rise of 14px and a fade, every time. The distance is small on purpose:
+   type that travels far reads as type being animated, type that travels a
+   little reads as type settling. */
+@keyframes ttUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes ttDraw {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+.tt-go .tt-lockup      { animation: ttUp 1000ms var(--ease)  260ms both; }
+.tt-go .tt-eyebrow span{ animation: ttUp  900ms var(--ease)  700ms both; }
+.tt-go .tt-rule        { animation: ttDraw 700ms var(--ease) 1050ms both; }
+
+/* --i is set on each line in the component, so the stagger is one rule. */
+.tt-go .tt-title span  { animation: ttUp 1000ms var(--ease) calc(1350ms + var(--i) * 260ms) both; }
+
+.tt-go .tt-hair        { animation: ttDraw 800ms var(--ease) 3050ms both; }
+.tt-go .tt-day         { animation: ttUp  900ms var(--ease) 3350ms both; }
+.tt-go .tt-time        { animation: ttUp  900ms var(--ease) 3550ms both; }
+
+.tt-go .tt-where > *:nth-child(1) { animation: ttUp 900ms var(--ease) 4100ms both; }
+.tt-go .tt-where > *:nth-child(2) { animation: ttUp 900ms var(--ease) 4240ms both; }
+.tt-go .tt-where > *:nth-child(3) { animation: ttUp 900ms var(--ease) 4380ms both; }
+
+.tt-go .tt-by          { animation: ttUp 900ms var(--ease) 4900ms both; }
+
+/* ---------- grain and vignette ------------------------------------------ */
+
+/* Both very light — on a near-white frame these are the difference between
+   "rendered" and "photographed", and at any strength the difference between
+   subtle and dirty. */
+.tt-grain {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+  opacity: .03;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='160' height='160' filter='url(%23f)'/></svg>");
+  background-size: 160px 160px;
+}
+
+.tt-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 9;
+  pointer-events: none;
+  background: radial-gradient(104% 78% at 50% 44%, transparent 58%, rgba(16, 18, 21, .07) 100%);
+}
+
+/* ---------- reduced motion ---------------------------------------------- */
+
+/* The whole poster, immediately. It is a notice — the information is the
+   point, and the choreography was only ever how it was delivered. */
+@media (prefers-reduced-motion: reduce) {
+  .tt-stage *,
+  .tt-stage *::before,
+  .tt-stage *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .tt-rule,
+  .tt-hair {
+    transform: none !important;
+  }
+}

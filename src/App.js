@@ -16,9 +16,10 @@ import "./Stylesheets/App.css";
 // import GroupChatAd from "./Components/GroupChatAd";
 // import GameByKidAd from "./Components/GameByKidAd";
 // import StaplesPowerUpAd from "./Components/StaplesPowerUpAd";
-import StaplesLockupAd from "./Components/StaplesLockupAd";
+// import StaplesLockupAd from "./Components/StaplesLockupAd";
+import TechTalkAd from "./Components/TechTalkAd";
 
 function App() {
-  return <StaplesLockupAd />;
+  return <TechTalkAd />;
 }
 export default App;
