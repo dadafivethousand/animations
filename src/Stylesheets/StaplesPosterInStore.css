@@ -1,0 +1,361 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@700&display=swap');
+
+/* ============================================================
+   StaplesPosterInStore — a static 8.5x11 print poster.
+
+   NOT AN AD FILM. There is no animation, no timeline and no @keyframes in this
+   file, and none should be added: the page is captured as a single PNG and
+   printed.
+
+   ── THE GRID IS AN INCH GRID ──
+
+   The page is a fixed 850 x 1100 box and 100px == 1 inch. Every measurement in
+   this file is written in hundredths of an inch on purpose, so what you read
+   here is what comes out of the printer:
+
+       --margin: 45px   ->  0.45" print margin on all four sides
+
+   Screenshot .pz-page at deviceScaleFactor 3 and you get 2550x3300, which is
+   8.5x11" at exactly 300dpi with no resampling anywhere in the pipeline. Do
+   not switch this file to vw/vh/clamp() like the IG ads use — a poster that
+   reflows with the window cannot be trusted to print at a known size.
+
+   ── THE CROP GUARD IN CLAUDE.MD DOES NOT APPLY ──
+
+   That guard exists because the IG ads are screen-recorded and re-fit, losing
+   unpredictable slices of every edge. Print loses a known amount, hence one
+   honest 0.45" margin instead of an 11vw hedge. Nothing bleeds off the page,
+   so this also prints correctly on an office printer that cannot do full
+   bleed.
+
+   ── COLOUR ──
+
+   Staples red on white, one ink, no gradients and no tints of the red. This
+   sheet hangs inside a partner's store next to that partner's own signage; if
+   it does not look like it came from the same press it gets taken down. The
+   "give every ad its own palette" rule in CLAUDE.md is an Instagram-grid rule
+   — here the whole point is to match the wall.
+
+   ── MARK HANDLING ──
+
+   No `filter`, `transform` or `box-shadow` may ever be applied to either
+   partner mark. They are optically matched by height only.
+   ============================================================ */
+
+.pz-sheet {
+  /* The dark surround exists only for on-screen preview; it never prints,
+     because only .pz-page is captured. */
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background: #33383f;
+  padding: 24px 0;
+}
+
+.pz-page {
+  --red:   #cc0000;      /* Staples red — the only colour on the page */
+  --ink:   #101215;
+  --ink-2: #4c545e;
+  --mute:  #7d858f;
+  --hair:  #d7dbe1;
+
+  --margin: 45px;        /* 0.45" */
+
+  position: relative;
+  box-sizing: border-box;
+  width: 850px;          /* 8.5" */
+  height: 1100px;        /* 11"  */
+  flex: none;
+  padding: var(--margin);
+  background: #ffffff;
+  color: var(--ink);
+  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+  font-feature-settings: "kern" 1, "liga" 1;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+
+  display: flex;
+  flex-direction: column;
+  /* Deliberately NOT space-between. Letting flex justify the sections out to
+     both edges is what makes a printed sheet look like a template with the
+     content dropped in; the sections carry their own margins and the leftover
+     paper collects at the bottom, above the footer, where it reads as air. */
+  align-items: stretch;
+}
+
+/* A hairline frame set inside the margin. It is the one thing that makes a
+   sheet of paper read as a poster rather than a printout, and it doubles as
+   the trim line if this gets run at a copy centre. */
+.pz-page::before {
+  content: "";
+  position: absolute;
+  inset: 22px;
+  border: 1px solid var(--hair);
+  pointer-events: none;
+}
+
+/* ---------- the co-brand lockup ---------- */
+
+.pz-lockup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  padding-top: 6px;
+}
+
+/* Optically matched, not mathematically. The Staples wordmark sits on its cap
+   height with the easy button riding above it, so it needs slightly more box
+   than the Code Ninjas lockup to read the same size on the wall. */
+.pz-lockup-s { height: 58px; width: auto; display: block; }
+.pz-lockup-c { height: 44px; width: auto; display: block; }
+
+/* The separator says "with" and belongs to neither party. */
+.pz-lockup-bar {
+  width: 1px;
+  height: 46px;
+  background: var(--hair);
+}
+
+/* ---------- the offer ---------- */
+
+.pz-offer {
+  margin-top: 26px;
+  text-align: center;
+}
+
+.pz-trigger {
+  margin: 0;
+  font-size: 27px;
+  font-weight: 600;
+  letter-spacing: .002em;
+  color: var(--ink-2);
+}
+
+/* The number. It is the only thing on the page meant to be read from across
+   an aisle, so it is sized to be read from across an aisle. */
+.pz-amount {
+  margin: 6px 0 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 14px;
+  color: var(--red);
+  line-height: .92;
+}
+
+.pz-amount-n {
+  font-size: 134px;
+  font-weight: 900;
+  /* Big display type needs the tracking pulled in; at 232px the default
+     spacing opens a visible hole after the dollar sign. */
+  letter-spacing: -.055em;
+}
+
+.pz-amount-x {
+  font-size: 52px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  text-transform: lowercase;
+}
+
+.pz-what {
+  margin: 10px 0 0;
+  font-size: 29px;
+  font-weight: 700;
+  letter-spacing: -.008em;
+  color: var(--ink);
+}
+
+.pz-who {
+  margin: 16px auto 0;
+  max-width: 700px;
+  font-size: 19px;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--ink-2);
+}
+
+.pz-rule {
+  display: block;
+  height: 1px;
+  margin: 24px 0 0;
+  background: var(--hair);
+}
+
+/* ---------- how it works ---------- */
+
+.pz-steps {
+  position: relative;
+  margin-top: 22px;
+}
+
+.pz-steps-h {
+  margin: 0 0 18px;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+
+.pz-steps ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+}
+
+.pz-steps li {
+  display: flex;
+  align-items: flex-start;
+  gap: 22px;
+}
+
+/* Numerals in a red disc — the only filled shape on the page besides the code
+   band, which is what makes the three steps scan as a sequence at a glance. */
+.pz-step-n {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--red);
+  color: #fff;
+  font-size: 23px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Inter's digits sit a hair high inside a circle. */
+  padding-bottom: 2px;
+  box-sizing: border-box;
+}
+
+.pz-step-t {
+  display: block;
+  padding-top: 2px;
+  /* Leaves the right-hand column clear for the easy button. */
+  max-width: 600px;
+}
+
+.pz-step-t b {
+  display: block;
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: -.008em;
+  color: var(--ink);
+}
+
+.pz-step-t i {
+  display: block;
+  margin-top: 5px;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+/* Used once, small, and low-contrast enough that it sits behind the type it
+   overlaps rather than competing with the number. */
+.pz-easy {
+  position: absolute;
+  right: 6px;
+  bottom: 4px;
+  width: 104px;
+  height: auto;
+  opacity: .13;
+}
+
+/* ---------- the code ---------- */
+
+.pz-code {
+  margin-top: 24px;
+  padding: 15px 26px;
+  background: var(--red);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+}
+
+.pz-code-k {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+  opacity: .82;
+}
+
+.pz-code-v {
+  font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  font-size: 38px;
+  font-weight: 700;
+  letter-spacing: .07em;
+}
+
+/* ---------- footer ---------- */
+
+/* A three-column footer: the QR anchors the left, the address and its prompt
+   sit centred in the optical middle of the sheet, and the right column is
+   empty so the centre column stays centred on the PAGE rather than on the
+   space left over beside the code. */
+.pz-foot {
+  margin-top: auto;      /* the leftover paper collects above this line */
+  padding-top: 12px;
+  display: grid;
+  grid-template-columns: 100px 1fr 100px;
+  align-items: center;
+  column-gap: 18px;
+  text-align: center;
+}
+
+/* Sized off the printed page, not off the screen: at 0.98" square with level-H
+   correction and a 0.1" quiet zone, this scans from about a metre with a phone
+   held one-handed. Do not shrink it below ~90px — the quiet zone is what makes
+   a code on a busy sheet acquire quickly, and it is the first thing people cut.
+   `image-rendering: pixelated` keeps the modules hard-edged; smoothing them is
+   what makes a small printed code fail to acquire. */
+.pz-qr {
+  grid-row: 1 / span 2;
+  width: 84px;
+  height: 84px;
+  display: block;
+  padding: 8px;
+  box-sizing: content-box;
+  background: #fff;
+  image-rendering: pixelated;
+}
+
+.pz-site {
+  grid-column: 2;
+  margin: 0;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  color: var(--ink);
+}
+
+.pz-scan {
+  grid-column: 2;
+  margin: 4px 0 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+
+/* Fine print at 11px/1.45 is ~8pt on paper — small, and still legible at arm's
+   length, which is the bar it has to clear. Every clause in it is a reason
+   somebody can be turned away at the desk. */
+.pz-terms {
+  grid-column: 1 / -1;
+  margin: 14px auto 0;
+  max-width: 690px;
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--mute);
+}

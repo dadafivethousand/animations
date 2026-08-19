@@ -17,9 +17,10 @@ import "./Stylesheets/App.css";
 // import GameByKidAd from "./Components/GameByKidAd";
 // import StaplesPowerUpAd from "./Components/StaplesPowerUpAd";
 // import StaplesLockupAd from "./Components/StaplesLockupAd";
-import TechTalkAd from "./Components/TechTalkAd";
+// import TechTalkAd from "./Components/TechTalkAd";
+import StaplesPosterInStore from "./Components/StaplesPosterInStore";
 
 function App() {
-  return <TechTalkAd />;
+  return <StaplesPosterInStore />;
 }
 export default App;
