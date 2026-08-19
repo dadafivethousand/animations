@@ -54,10 +54,15 @@ import easyBtn from "../Images/staples-easy.png";
 // Generated with segno at error-correction level H, which tolerates ~30% of
 // the symbol being unreadable — this sheet ends up taped to a counter, folded
 // into a bag, or photocopied by the store, and a level-L code stops scanning
-// after any of those. It encodes the NATIONAL brand site and nothing else: no
-// franchise subdomain, and no tracking parameters, so it cannot rot and it is
-// correct in every store running the promotion.
-import qr from "../Images/qr-codeninjas.svg";
+// after any of those.
+//
+// IT POINTS AT THE WOODBRIDGE CENTRE, deliberately, and it is the only thing
+// on the sheet that does. Everything a reader can actually READ stays national
+// — see the footer — so the artwork is correct on any wall; the scans just
+// come to us. Nothing is printed beside the code promising where it goes, so
+// there is no claim for it to contradict. No tracking parameters, so it cannot
+// rot.
+import qr from "../Images/qr-cnwoodbridge.svg";
 
 // Lifted from the Staples Canada owner SOP for this promotion, not paraphrased
 // from memory. Every clause is a condition somebody can be turned away at the
@@ -168,10 +173,11 @@ export default function StaplesPosterInStore() {
         </section>
 
         {/* ---- where ----
-            The lockup ad carries no URL at all. A printed sheet does need one,
-            because there is no profile to tap through from — but it is the
-            brand's own address, not a centre's, so the same artwork is correct
-            in every Staples running the promotion. */}
+            NO FRANCHISE NAMED IN THE TYPE — same reason the lockup ad names
+            none. The offer is good at Code Ninjas centres across Canada and
+            this sheet prints for all of them, so a centre's name set in the
+            footer would be wrong in every store but that centre's own. The
+            printed address is the brand's; only the QR is ours. */}
         <footer className="pz-foot">
           {/* The QR earns its place here specifically because the reader is
               standing up with their hands full: it is the only element on the
@@ -179,18 +185,10 @@ export default function StaplesPosterInStore() {
               to remember anything. The URL stays set large next to it for the
               half of this audience who will not scan a code in a store.
 
-              Both point at the brand's own site rather than a centre, because
-              this sheet is not a Woodbridge piece — see the note on the scan
-              line below. */}
+              The printed address is the brand's own; the code is not. See the
+              note on the import. */}
           <img className="pz-qr" src={qr} alt="" aria-hidden />
           <p className="pz-site">{OFFER.site}</p>
-          {/* NO FRANCHISE NAMED, and no franchise URL — same reason the lockup
-              ad carries none. The offer is good at Code Ninjas centres across
-              Canada and this sheet prints for all of them, so naming one
-              centre would be wrong in every store but that centre's own, and
-              would turn a national co-brand piece into a local ad the moment a
-              second store hung it. The finder does the localising instead. */}
-          <p className="pz-scan">Scan to find your nearest Code Ninjas</p>
           <p className="pz-terms">{OFFER.terms}</p>
         </footer>
       </div>

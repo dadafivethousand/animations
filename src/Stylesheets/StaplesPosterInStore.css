@@ -300,9 +300,9 @@
 
 /* ---------- footer ---------- */
 
-/* A three-column footer: the QR anchors the left, the address and its prompt
-   sit centred in the optical middle of the sheet, and the right column is
-   empty so the centre column stays centred on the PAGE rather than on the
+/* A three-column footer: the QR anchors the left, the address sits centred in
+   the optical middle of the sheet, and the right column is empty and exactly
+   the QR's width so the address stays centred on the PAGE rather than on the
    space left over beside the code. */
 .pz-foot {
   margin-top: auto;      /* the leftover paper collects above this line */
@@ -322,7 +322,7 @@
    final capture scale with hard edges and no resampling — which is the whole
    reason it is not a PNG. */
 .pz-qr {
-  grid-row: 1 / span 2;
+  grid-row: 1;
   width: 84px;
   height: 84px;
   display: block;
@@ -338,14 +338,6 @@
   font-weight: 800;
   letter-spacing: -.01em;
   color: var(--ink);
-}
-
-.pz-scan {
-  grid-column: 2;
-  margin: 4px 0 0;
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--ink-2);
 }
 
 /* Fine print at 11px/1.45 is ~8pt on paper — small, and still legible at arm's
