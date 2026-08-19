@@ -2,42 +2,50 @@
 //
 // Everything else in this repo is a 9:16 animation that gets screen-recorded
 // and posted to Instagram. This is not that. This is one flat page, 8.5x11
-// portrait, meant to be printed and taped to a Staples counter / stanchion /
-// endcap, and it is governed by print rules instead of IG ones:
+// portrait, meant to be printed and hung at a Staples, and it is governed by
+// print rules instead of IG ones:
 //
 //   · no animation, no timeline, no state — it renders to a single frame
 //   · the page is a FIXED 850x1100 box (100 units per inch), so screenshotting
 //     it at deviceScaleFactor 3 lands exactly 2550x3300 = 8.5x11" @ 300dpi
 //   · the IG "crop guard" in CLAUDE.md does not apply; what applies instead is
-//     a 0.45" print margin, because a home/office trimmer and a Staples copy
-//     centre both eat the edge
+//     a print margin, and nothing bleeds off the sheet, so this runs on an
+//     office printer that cannot do full bleed
 //
-// ── WHO THIS IS FOR ──
+// ── THE SHEET IS TWO HALVES, AND THAT IS THE WHOLE DESIGN ──
 //
-// The reader is a Staples customer standing at a till with a $90 cart, who has
-// possibly never heard of Code Ninjas. That dictates the whole hierarchy:
+// The first pass at this was a centred stack of blocks on white: correct,
+// legible, and indistinguishable from a form. What makes a printed sheet read
+// as a POSTER rather than a printout is one committed block of colour and one
+// subject, so:
 //
-//   1. the OFFER, because it is the only reason to stop walking
-//   2. HOW to get it, in three numbered steps, because an in-store poster that
-//      does not say what to do at the register is decoration
-//   3. WHAT Code Ninjas is, in one line, because half this audience does not
-//      know and will not scan a code to find out
+//   WHITE HALF — the offer. Big number, the ninja, and the one line that says
+//   who this is for. This half is doing the selling and it is the half you can
+//   read from across an aisle.
+//
+//   RED HALF — the mechanics. Three steps, the code. Reversed out of Staples
+//   red, which is a colour both brands own, so the sheet matches the signage
+//   already on that wall instead of competing with it.
+//
+// The band is inset to the margin rather than bled to the page edge, on
+// purpose: bleed needs a trimmer, and this has to survive being run off on the
+// store's own copier.
+//
+// ── WHY THE NINJA IS HERE ──
+//
+// The earlier version had no character on it at all, so nothing told a passing
+// shopper in under a second that this was for their kid. The ninja with the
+// laptop and the handheld IS the pitch — learn to code by building games — and
+// it is the brand's own art, used as supplied.
 //
 // ── CO-BRAND HANDLING (same rules as StaplesLockupAd) ──
 //
 // This hangs inside a partner's store, so it has to look like the partner
 // approved it. Both marks are used AS SUPPLIED — no recolour, no crop, no
-// rotation, no drop shadow, no filter of any kind, and neither sits in front
-// of the other. The separator between them is a hairline, because a hairline
-// says "with"; an ampersand or an X implies an owner. Red is the only colour
-// on the page and both brands own it.
-//
-// ── WHY IT IS PLAIN ──
-//
-// Staples in-store signage is white, red, and set in a plain grotesque. A
-// poster with a gradient sky, an arcade font and a starburst reads as a flyer
-// somebody's dad printed, and a store manager takes it down. Restraint is what
-// makes it look like it belongs on that wall.
+// rotation, no drop shadow, no filter, and no knocking one back to a
+// watermark. Neither sits in front of the other. The separator in the header
+// is a hairline, because a hairline says "with"; an ampersand or an X implies
+// an owner. Red is the only colour on the sheet and both brands own it.
 import React from "react";
 import "../Stylesheets/StaplesPosterInStore.css";
 
@@ -48,11 +56,14 @@ import staplesLogo from "../Images/staples-easy-logo.png";
 // sharp at 300dpi. A raster wordmark blown up to poster size is the single
 // most obvious tell of an unapproved print piece.
 import cnLogo from "../Images/cn-logo-horizontal.svg";
-// The easy button, keyed out of the official campaign image. Used once, at
-// full strength in the steps block — not as a punchline, and not knocked
-// back to a watermark either: a partner’s mark is used as supplied or it is
-// left off the sheet.
+// The easy button, keyed out of the official campaign image. It marks the
+// STAPLES half of the mechanic — it sits on the "spend $100 at Staples" line
+// and nowhere else, so it reads as a label rather than a sticker.
 import easyBtn from "../Images/staples-easy.png";
+// The subject. Laptop plus handheld in one pose: the whole proposition as an
+// image, which is what the sheet needs in the second before anybody reads a
+// word of it.
+import ninja from "../Images/b2s-ninja-handheld.png";
 // Generated with segno at error-correction level H, which tolerates ~30% of
 // the symbol being unreadable — this sheet ends up taped to a counter, folded
 // into a bag, or photocopied by the store, and a level-L code stops scanning
@@ -75,7 +86,13 @@ const OFFER = {
   amount: "$50",
   amountLabel: "off",
   what: "your first 3 months at Code Ninjas",
+  who: "Coding for kids ages 5–14 — they learn by building real video games.",
   code: "STAPLES2026",
+  // Set on the sheet, not only in the fine print. A dated offer whose date is
+  // reachable at 8pt is a dated offer nobody reads as urgent — and this one
+  // hangs on a wall for months, so "is this still on?" is the question it has
+  // to answer without anybody crouching.
+  ends: "Offer ends October 31, 2026",
   site: "codeninjas.com",
   terms:
     "Requires a $100+ (before tax) single-transaction in-store purchase at any Staples in Canada. " +
@@ -84,24 +101,29 @@ const OFFER = {
     "Offer valid through October 31, 2026.",
 };
 
-// Three steps, because that is the number a person reads standing up. Each one
-// is an instruction the reader can act on today, in this store.
+// THREE COLUMNS, not three stacked rows. Stacked, these ate a third of the
+// sheet and pushed the offer up into the top corner; side by side they read as
+// one sequence at a glance and give the hero its room back. It also forces the
+// copy to stay short, which is the right discipline for something read
+// standing up.
 const STEPS = [
   {
     n: "1",
     head: "Shop $100 at Staples",
-    body: "Any single in-store purchase of $100 or more, before tax. Keep your receipt.",
+    body: "Any single in-store purchase of $100 or more, before tax. Keep the receipt.",
   },
   {
     n: "2",
-    head: "Bring it to Code Ninjas",
-    body:
-      "Show the receipt and quote code STAPLES2026 at any Code Ninjas in Canada when you sign your child up.",
+    // One line at this column width. "Show it at Code Ninjas" wrapped to two
+    // and pushed step 2's body a line lower than its neighbours', which is
+    // what makes three columns stop reading as one row.
+    head: "Visit Code Ninjas",
+    body: "Bring the receipt and quote the code when you sign your child up.",
   },
   {
     n: "3",
     head: "Take $50 off",
-    body: "$50 comes straight off a 3-month membership — weekly sessions, paid in full.",
+    body: "It comes straight off a 3-month membership, paid in full.",
   },
 ];
 
@@ -119,61 +141,70 @@ export default function StaplesPosterInStore() {
           <img className="pz-lockup-c" src={cnLogo} alt="Code Ninjas" />
         </header>
 
-        {/* ---- the offer ----
-            The trigger line sits ABOVE the number on purpose: the number is
-            meaningless until the reader knows it is attached to a purchase
-            they are already making. */}
-        <section className="pz-offer">
-          <p className="pz-trigger">{OFFER.trigger} today and get</p>
+        {/* ---- the white half: the offer ----
+            A two-column hero. The type owns the left, the subject owns the
+            right, and the number is set big enough to be the thing that stops
+            somebody walking past. */}
+        <section className="pz-hero">
+          <div className="pz-hero-copy">
+            {/* The trigger sits ABOVE the number on purpose: the number is
+                meaningless until the reader knows it is attached to a purchase
+                they are already making. The easy button labels it as the
+                Staples side of the deal. */}
+            <p className="pz-trigger">
+              <img src={easyBtn} alt="" aria-hidden />
+              <span>{OFFER.trigger}</span>
+            </p>
 
-          <p className="pz-amount">
-            <span className="pz-amount-n">{OFFER.amount}</span>
-            <span className="pz-amount-x">{OFFER.amountLabel}</span>
-          </p>
+            <p className="pz-amount">
+              <span className="pz-amount-n">{OFFER.amount}</span>
+              <span className="pz-amount-x">{OFFER.amountLabel}</span>
+            </p>
 
-          <p className="pz-what">{OFFER.what}</p>
+            <p className="pz-what">{OFFER.what}</p>
+          </div>
 
-          {/* One line for the reader who has never heard of the brand. Ages
-              and the "build real games" promise are the two facts that decide
-              whether this is for them. */}
-          <p className="pz-who">
-            After-school coding for kids ages 7&ndash;14 &mdash; they learn by building real games.
-          </p>
+          <img
+            className="pz-ninja"
+            src={ninja}
+            alt="A Code Ninjas ninja building a game on a laptop"
+          />
         </section>
 
-        <span className="pz-rule" aria-hidden />
+        {/* One line for the reader who has never heard of the brand. The age
+            range and "real video games" are the two facts that decide whether
+            this is for them, so they are the two facts on the sheet. */}
+        <p className="pz-who">{OFFER.who}</p>
 
-        {/* ---- how to redeem ----
+        {/* ---- the red half: the mechanics ----
             An in-store poster that does not say what to do at the register is
             decoration. */}
-        <section className="pz-steps">
-          <h2 className="pz-steps-h">How it works</h2>
-          <ol>
+        <section className="pz-band">
+          {/* The expiry rides on the section label's own line rather than
+              getting a line of its own — it costs no vertical space at all,
+              and a right-aligned date opposite a left-aligned label is what
+              makes the band read as a designed block instead of a stack. */}
+          <div className="pz-band-h">
+            <h2>How it works</h2>
+            <p>{OFFER.ends}</p>
+          </div>
+
+          <ol className="pz-steps">
             {STEPS.map((s) => (
               <li key={s.n}>
                 <span className="pz-step-n" aria-hidden>{s.n}</span>
-                <span className="pz-step-t">
-                  <b>{s.head}</b>
-                  <i>{s.body}</i>
-                </span>
+                <b>{s.head}</b>
+                <i>{s.body}</i>
               </li>
             ))}
           </ol>
-          {/* The easy button, once, at full strength, sitting with the steps
-              rather than floating over the headline — it is the mark a Staples
-              shopper recognises from across the aisle. Never knocked back to a
-              watermark: a partner’s asset is used as supplied or not at all. */}
-          <img className="pz-easy" src={easyBtn} alt="Staples easy button" />
-        </section>
 
-        {/* ---- the code ----
-            The one thing the reader has to carry out of the store, so it gets
-            its own band and the only monospace on the page. Between two rules
-            rather than inside a dashed coupon box: a coupon border is
-            discount-retail, and this is a partnership that carries an offer. */}
-        <section className="pz-code">
-          <span className="pz-code-k">Offer code</span>
-          <span className="pz-code-v">{OFFER.code}</span>
+          {/* The one thing the reader has to carry out of the store, so it gets
+              the only reversed block inside the band and the only monospace. */}
+          <p className="pz-code">
+            <span className="pz-code-k">Offer code</span>
+            <span className="pz-code-v">{OFFER.code}</span>
+          </p>
         </section>
 
         {/* ---- where ----
@@ -183,14 +214,6 @@ export default function StaplesPosterInStore() {
             footer would be wrong in every store but that centre's own. The
             printed address is the brand's; only the QR is ours. */}
         <footer className="pz-foot">
-          {/* The QR earns its place here specifically because the reader is
-              standing up with their hands full: it is the only element on the
-              sheet that turns "interesting" into a booking without asking them
-              to remember anything. The URL stays set large next to it for the
-              half of this audience who will not scan a code in a store.
-
-              The printed address is the brand's own; the code is not. See the
-              note on the import. */}
           <img className="pz-qr" src={qr} alt="" aria-hidden />
           {/* The inner span exists so the red rule under the address stops at
               the end of the word; on the <p> it would run the whole column. */}
