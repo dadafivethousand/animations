@@ -49,7 +49,9 @@ import staplesLogo from "../Images/staples-easy-logo.png";
 // most obvious tell of an unapproved print piece.
 import cnLogo from "../Images/cn-logo-horizontal.svg";
 // The easy button, keyed out of the official campaign image. Used once, at
-// small size, as a quiet mark beside step 1 — not as a punchline.
+// full strength in the steps block — not as a punchline, and not knocked
+// back to a watermark either: a partner’s mark is used as supplied or it is
+// left off the sheet.
 import easyBtn from "../Images/staples-easy.png";
 // Generated with segno at error-correction level H, which tolerates ~30% of
 // the symbol being unreadable — this sheet ends up taped to a counter, folded
@@ -157,9 +159,11 @@ export default function StaplesPosterInStore() {
               </li>
             ))}
           </ol>
-          {/* The easy button, once, small, sitting with the steps rather than
-              floating over the headline. */}
-          <img className="pz-easy" src={easyBtn} alt="" aria-hidden />
+          {/* The easy button, once, at full strength, sitting with the steps
+              rather than floating over the headline — it is the mark a Staples
+              shopper recognises from across the aisle. Never knocked back to a
+              watermark: a partner’s asset is used as supplied or not at all. */}
+          <img className="pz-easy" src={easyBtn} alt="Staples easy button" />
         </section>
 
         {/* ---- the code ----
@@ -188,7 +192,9 @@ export default function StaplesPosterInStore() {
               The printed address is the brand's own; the code is not. See the
               note on the import. */}
           <img className="pz-qr" src={qr} alt="" aria-hidden />
-          <p className="pz-site">{OFFER.site}</p>
+          {/* The inner span exists so the red rule under the address stops at
+              the end of the word; on the <p> it would run the whole column. */}
+          <p className="pz-site"><span>{OFFER.site}</span></p>
           <p className="pz-terms">{OFFER.terms}</p>
         </footer>
       </div>

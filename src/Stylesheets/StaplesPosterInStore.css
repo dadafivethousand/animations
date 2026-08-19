@@ -238,8 +238,9 @@
 .pz-step-t {
   display: block;
   padding-top: 2px;
-  /* Leaves the right-hand column clear for the easy button. */
-  max-width: 600px;
+  /* Leaves the right-hand gutter clear for the easy button, which is now
+     opaque and would read as a collision the moment a line ran under it. */
+  max-width: 552px;
 }
 
 .pz-step-t b {
@@ -259,15 +260,26 @@
   color: var(--ink-2);
 }
 
-/* Used once, small, and low-contrast enough that it sits behind the type it
-   overlaps rather than competing with the number. */
+/* Used once, at full strength. It was a 13%-opacity watermark, which is the
+   one handling of a partner's mark this file is not allowed: knocking someone
+   else's asset back to a ghost is a treatment, and the rule at the top of this
+   file is that neither mark is ever filtered. At full opacity it also does a
+   job — it is the object a Staples shopper recognises from three metres, and
+   it sits with the steps, where the instruction to go shopping is.
+
+   It is parked in the right-hand gutter the step text deliberately leaves
+   clear (see .pz-step-t's max-width), so it never sits behind a word. */
 .pz-easy {
   position: absolute;
-  right: 6px;
-  bottom: 4px;
-  width: 104px;
+  right: 0;
+  /* Sits beside STEP 1, not at the foot of the block. Two reasons: step 1 is
+     the Staples instruction, so the Staples object belongs next to it; and at
+     the bottom the button stacked directly above the red code band, putting
+     two red masses in a column and giving the lower third of the sheet all the
+     colour. Up here it balances the red 1-2-3 discs on the opposite margin. */
+  top: 30px;
+  width: 112px;
   height: auto;
-  opacity: .13;
 }
 
 /* ---------- the code ---------- */
@@ -331,13 +343,25 @@
   background: #fff;
 }
 
+/* The address is the last thing on the sheet and the second thing a reader
+   has to carry out of the store, so it is set as a destination rather than as
+   a line of text: display size, and a red rule under the word at the same
+   weight as the hairline frame is thin, so it reads as a link without
+   borrowing a browser's blue. The rule is on an inline-block so it stops at
+   the end of the word instead of running the width of the column. */
 .pz-site {
   grid-column: 2;
   margin: 0;
-  font-size: 26px;
+  font-size: 38px;
   font-weight: 800;
-  letter-spacing: -.01em;
+  letter-spacing: -.018em;
   color: var(--ink);
+}
+
+.pz-site span {
+  display: inline-block;
+  padding-bottom: 7px;
+  border-bottom: 4px solid var(--red);
 }
 
 /* Fine print at 11px/1.45 is ~8pt on paper — small, and still legible at arm's
