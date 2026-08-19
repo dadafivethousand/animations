@@ -54,10 +54,10 @@ import easyBtn from "../Images/staples-easy.png";
 // Generated with segno at error-correction level H, which tolerates ~30% of
 // the symbol being unreadable — this sheet ends up taped to a counter, folded
 // into a bag, or photocopied by the store, and a level-L code stops scanning
-// after any of those. Regenerate it if the URL ever changes; it encodes
-// https://cnwoodbridge.com and nothing else (no tracking parameters, so it
-// cannot rot).
-import qr from "../Images/qr-cnwoodbridge.svg";
+// after any of those. It encodes the NATIONAL brand site and nothing else: no
+// franchise subdomain, and no tracking parameters, so it cannot rot and it is
+// correct in every store running the promotion.
+import qr from "../Images/qr-codeninjas.svg";
 
 // Lifted from the Staples Canada owner SOP for this promotion, not paraphrased
 // from memory. Every clause is a condition somebody can be turned away at the
@@ -69,7 +69,7 @@ const OFFER = {
   amountLabel: "off",
   what: "your first 3 months at Code Ninjas",
   code: "STAPLES2026",
-  site: "cnwoodbridge.com",
+  site: "codeninjas.com",
   terms:
     "Requires a $100+ (before tax) single-transaction in-store purchase at any Staples in Canada. " +
     "New Code Ninjas members only. Applies to a 3-month membership paid in full. " +
@@ -88,7 +88,8 @@ const STEPS = [
   {
     n: "2",
     head: "Bring it to Code Ninjas",
-    body: "Show the receipt and quote code STAPLES2026 when you sign your child up.",
+    body:
+      "Show the receipt and quote code STAPLES2026 at any Code Ninjas in Canada when you sign your child up.",
   },
   {
     n: "3",
@@ -167,23 +168,29 @@ export default function StaplesPosterInStore() {
         </section>
 
         {/* ---- where ----
-            The lockup ad deliberately carries no URL, because it is written to
-            be adopted nationally. A printed sheet on one store's wall is the
-            opposite case: the reader is standing in a specific plaza and needs
-            a specific place to go. */}
+            The lockup ad carries no URL at all. A printed sheet does need one,
+            because there is no profile to tap through from — but it is the
+            brand's own address, not a centre's, so the same artwork is correct
+            in every Staples running the promotion. */}
         <footer className="pz-foot">
           {/* The QR earns its place here specifically because the reader is
               standing up with their hands full: it is the only element on the
               sheet that turns "interesting" into a booking without asking them
               to remember anything. The URL stays set large next to it for the
-              half of this audience who will not scan a code in a store. */}
+              half of this audience who will not scan a code in a store.
+
+              Both point at the brand's own site rather than a centre, because
+              this sheet is not a Woodbridge piece — see the note on the scan
+              line below. */}
           <img className="pz-qr" src={qr} alt="" aria-hidden />
           <p className="pz-site">{OFFER.site}</p>
-          {/* The lockup ad deliberately names no franchise, because it is written
-              to be adopted nationally. This sheet is the opposite case again:
-              the reader is in one plaza and needs to know which centre, and
-              the supplied Code Ninjas wordmark carries no location text. */}
-          <p className="pz-scan">Scan to book a first session at Code Ninjas Woodbridge</p>
+          {/* NO FRANCHISE NAMED, and no franchise URL — same reason the lockup
+              ad carries none. The offer is good at Code Ninjas centres across
+              Canada and this sheet prints for all of them, so naming one
+              centre would be wrong in every store but that centre's own, and
+              would turn a national co-brand piece into a local ad the moment a
+              second store hung it. The finder does the localising instead. */}
+          <p className="pz-scan">Scan to find your nearest Code Ninjas</p>
           <p className="pz-terms">{OFFER.terms}</p>
         </footer>
       </div>

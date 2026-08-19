@@ -318,8 +318,9 @@
    correction and a 0.1" quiet zone, this scans from about a metre with a phone
    held one-handed. Do not shrink it below ~90px — the quiet zone is what makes
    a code on a busy sheet acquire quickly, and it is the first thing people cut.
-   `image-rendering: pixelated` keeps the modules hard-edged; smoothing them is
-   what makes a small printed code fail to acquire. */
+   The symbol is an SVG of vector paths, so Chrome rasterises the modules at the
+   final capture scale with hard edges and no resampling — which is the whole
+   reason it is not a PNG. */
 .pz-qr {
   grid-row: 1 / span 2;
   width: 84px;
@@ -328,7 +329,6 @@
   padding: 8px;
   box-sizing: content-box;
   background: #fff;
-  image-rendering: pixelated;
 }
 
 .pz-site {
