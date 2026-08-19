@@ -1,0 +1,344 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Staples × Code Ninjas — Partner Offers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  @page { size: 8.5in 11in; margin: 0; }
+
+  :root {
+    --ink:   #0f1a2b;   /* headings                        */
+    --body:  #33415c;   /* running text                    */
+    --muted: #6b7894;   /* labels, captions                */
+    --hair:  #d9dfea;   /* rules                           */
+    --wash:  #f4f6fa;   /* panel fill                      */
+    --red:   #e4002b;   /* Code Ninjas red — accents       */
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:'Inter', -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    color:var(--body); background:#fff;
+    -webkit-font-smoothing:antialiased;
+    font-variant-numeric:tabular-nums lining-nums;
+  }
+
+  .page {
+    position:relative; width:8.5in; height:11in; overflow:hidden;
+    padding:0.52in 0.68in 0.46in;
+    display:flex; flex-direction:column;
+    page-break-after:always;
+  }
+  .page:last-child { page-break-after:auto; }
+
+  /* ---------- shared type ---------- */
+  .eyebrow { font-size:8pt; font-weight:700; letter-spacing:.14em;
+             text-transform:uppercase; color:var(--muted); }
+  h1 { font-size:27pt; font-weight:800; line-height:1.1; letter-spacing:-.021em; color:var(--ink); }
+  h1 em { font-style:normal; color:var(--red); }
+  h2 { font-size:12.5pt; font-weight:800; letter-spacing:-.01em; color:var(--ink);
+       display:flex; align-items:center; gap:9px; }
+  h2::after { content:''; flex:1; height:1px; background:var(--hair); }
+  p  { font-size:9.5pt; line-height:1.56; }
+  .lede { font-size:11.5pt; line-height:1.5; color:var(--body); }
+  strong { color:var(--ink); font-weight:700; }
+
+  /* ---------- masthead ---------- */
+  .mast { border-bottom:2px solid var(--ink); padding-bottom:12px; }
+  .mast-top { display:flex; justify-content:space-between; align-items:baseline;
+              margin-bottom:14px; }
+  .mast-top .tag { font-size:8pt; font-weight:700; letter-spacing:.14em;
+                   text-transform:uppercase; color:var(--muted); }
+
+  /* co-brand lockup: equal weight, hairline between, neither mark altered */
+  .lockup { display:flex; align-items:center; justify-content:center; gap:30px; }
+  .lockup .staples { width:1.58in; }        /* ≈320 dpi from the source art   */
+  .lockup .cn      { width:1.80in; }        /* vector — resolution independent */
+  .lockup .bar     { width:1px; height:0.44in; background:var(--hair); }
+
+  /* ---------- hero ---------- */
+  .hero { margin-top:26px; }
+  .hero h1 { margin-top:8px; }
+  .hero .lede { margin-top:10px; max-width:6.2in; }
+
+  /* ---------- offer strip ---------- */
+  .offer { margin-top:22px; display:grid; grid-template-columns:1.3fr .95fr 1.15fr;
+           border:1.5px solid var(--ink); border-radius:5px; overflow:hidden; }
+  .offer > div { padding:15px 19px 16px; }
+  .offer > div + div { border-left:1px solid var(--hair); }
+  .offer .k { font-size:7.5pt; font-weight:700; letter-spacing:.13em;
+              text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+  .offer .amt { font-size:30pt; font-weight:900; line-height:.92;
+                letter-spacing:-.03em; color:var(--red); }
+  .offer .amt-sub { font-size:9pt; line-height:1.4; margin-top:6px; color:var(--ink);
+                    font-weight:600; }
+  .offer .code { display:inline-block; font-size:15pt; font-weight:800; letter-spacing:.055em;
+                 color:var(--ink); background:var(--wash); border:1px dashed #b9c2d4;
+                 border-radius:4px; padding:7px 14px; margin-top:2px; }
+  .offer .date { font-size:12pt; font-weight:800; color:var(--ink);
+                 letter-spacing:-.012em; line-height:1.26; margin-top:3px; }
+  .offer .note { font-size:8pt; color:var(--muted); margin-top:6px; line-height:1.4; }
+
+  /* ---------- steps ---------- */
+  .steps { margin-top:13px; display:grid; grid-template-columns:repeat(3,1fr); gap:19px; }
+  .step .n { font-size:9pt; font-weight:800; color:var(--red); letter-spacing:.06em;
+             padding-bottom:6px; margin-bottom:8px; border-bottom:2px solid var(--red);
+             display:block; }
+  .step h3 { font-size:10.5pt; font-weight:800; color:var(--ink); margin-bottom:4px;
+             letter-spacing:-.01em; }
+  .step p { font-size:9pt; line-height:1.5; }
+
+  /* ---------- bullet grid ---------- */
+  .qual { margin-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:5px 26px; }
+  .qual li { list-style:none; font-size:9pt; line-height:1.48; padding-left:17px;
+             position:relative; color:var(--body); }
+  .qual li::before { content:''; position:absolute; left:0; top:.42em;
+                     width:6px; height:6px; border-radius:50%; background:var(--red); }
+
+  .why { margin-top:14px; background:var(--wash); border-radius:5px; padding:14px 19px 15px; }
+  .why p { font-size:9pt; }
+
+  /* ---------- fine print ---------- */
+  .terms { margin-top:auto; padding-top:14px; }
+  .terms .k { font-size:7.5pt; font-weight:700; letter-spacing:.13em;
+              text-transform:uppercase; color:var(--muted); margin-bottom:5px; }
+  .terms p { font-size:7pt; line-height:1.5; color:#5b6884; text-align:justify; }
+  .terms b { color:var(--ink); font-weight:700; }
+
+  /* ---------- footer ---------- */
+  .foot { margin-top:13px; padding-top:11px; border-top:1px solid var(--hair);
+          display:flex; justify-content:space-between; align-items:center;
+          font-size:8pt; color:var(--muted); }
+  .foot .org { font-weight:700; color:var(--ink); letter-spacing:.04em;
+               text-transform:uppercase; font-size:7.5pt; }
+  .foot .sep { color:var(--hair); margin:0 7px; }
+
+  /* ---------- page 2 head ---------- */
+  .p2head { display:flex; justify-content:space-between; align-items:center;
+            border-bottom:2px solid var(--ink); padding-bottom:12px; }
+  .p2head .tag { font-size:8pt; font-weight:700; letter-spacing:.14em;
+                 text-transform:uppercase; color:var(--muted); }
+  .p2head .lockup { gap:22px; }
+  .p2head .lockup .staples { width:1.16in; }
+  .p2head .lockup .cn      { width:1.32in; }
+  .p2head .lockup .bar     { height:0.34in; }
+</style>
+</head>
+<body>
+
+<!-- ======================= PAGE 1 — $50 off Code Ninjas ======================= -->
+<section class="page">
+
+  <header class="mast">
+    <div class="mast-top">
+      <span class="tag">Partner offer &middot; 2026</span>
+      <span class="tag">For Staples Canada store teams</span>
+    </div>
+    <div class="lockup">
+      <img class="staples" src="../../src/Images/staples-easy-logo.png" alt="Staples">
+      <span class="bar"></span>
+      <img class="cn" src="../../src/Images/cn-logo-horizontal.svg" alt="Code Ninjas">
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="eyebrow">Offer 1 &middot; for your customers</div>
+    <h1><em>$50 off</em> a Code Ninjas membership,<br>with any $100 purchase at Staples.</h1>
+    <p class="lede">
+      Your customers already come in for the things a school year is made of. This offer
+      sends them home with one more &mdash; fifty dollars off their child&rsquo;s first
+      three months of learning to code, redeemable at Code Ninjas centres across Canada.
+    </p>
+  </div>
+
+  <div class="offer">
+    <div>
+      <div class="k">The offer</div>
+      <div class="amt">$50 OFF</div>
+      <div class="amt-sub">a new 3-month Code Ninjas<br>membership, paid in full</div>
+    </div>
+    <div>
+      <div class="k">Promo code</div>
+      <div class="code">STAPLES2026</div>
+      <div class="note">Quoted at enrolment, or entered online.</div>
+    </div>
+    <div>
+      <div class="k">Valid through</div>
+      <div class="date">October 31, 2026</div>
+      <div class="note">In-store purchases at any Staples in Canada.</div>
+    </div>
+  </div>
+
+  <div style="margin-top:22px">
+    <h2>How it works</h2>
+    <div class="steps">
+      <div class="step">
+        <span class="n">STEP 1</span>
+        <h3>Shop at Staples</h3>
+        <p>A single in-store transaction of <strong>$100 or more before tax</strong>,
+           at any Staples location in Canada.</p>
+      </div>
+      <div class="step">
+        <span class="n">STEP 2</span>
+        <h3>Bring the receipt</h3>
+        <p>The customer presents it with promo code <strong>STAPLES2026</strong> at a
+           participating Code Ninjas centre.</p>
+      </div>
+      <div class="step">
+        <span class="n">STEP 3</span>
+        <h3>Save $50</h3>
+        <p>The discount comes off a <strong>3-month membership paid in full</strong>,
+           for new Code Ninjas members.</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:20px">
+    <h2>Who qualifies</h2>
+    <ul class="qual">
+      <li>New Code Ninjas members only</li>
+      <li>Purchase must be made in store, not online</li>
+      <li>Applies to a 3-month membership paid in full</li>
+      <li>$100 threshold is before tax, single transaction</li>
+      <li>One redemption per customer per 3-month period</li>
+      <li>Cannot be combined with other offers</li>
+    </ul>
+  </div>
+
+  <div class="why">
+    <p><strong>Why this works at your till.</strong> A customer spending $100 on
+    back-to-school supplies is, almost by definition, a parent of a school-age child
+    &mdash; the same person this membership is for. It costs the store nothing and
+    changes nothing at the point of sale.</p>
+  </div>
+
+  <div class="terms">
+    <div class="k">Offer 1 &mdash; full terms</div>
+    <p>Requires a <b>$100+ (before tax) single-transaction in-store purchase at any Staples
+      in Canada</b>. New Code Ninjas members only. Applies to a 3-month membership paid in
+      full. One redemption per customer per 3-month period. Cannot be combined with other
+      offers. Offer valid through <b>October 31, 2026</b>. Redemption takes place at a
+      participating Code Ninjas centre; Staples associates are not required to validate,
+      discount, or process anything at the point of sale. Participating centres and program
+      availability vary &mdash; customers should confirm with their local centre.</p>
+  </div>
+
+  <footer class="foot">
+    <span class="org">Staples Canada &times; Code Ninjas</span>
+    <span>codeninjas.com <span class="sep">|</span> Page 1 of 2 &mdash; Offer 1</span>
+  </footer>
+</section>
+
+<!-- ======================= PAGE 2 — $20 off Staples ========================== -->
+<section class="page">
+
+  <header class="p2head">
+    <span class="tag">Offer 2 &middot; at your till</span>
+    <div class="lockup">
+      <img class="staples" src="../../src/Images/staples-easy-logo.png" alt="Staples">
+      <span class="bar"></span>
+      <img class="cn" src="../../src/Images/cn-logo-horizontal.svg" alt="Code Ninjas">
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="eyebrow">Offer 2 &middot; for Code Ninjas members</div>
+    <h1><em>$20 off</em> a Staples purchase<br>of $75 or more.</h1>
+    <p class="lede">
+      This is the half of the partnership that arrives in your stores. Code Ninjas
+      members across Canada are being given this coupon to spend at Staples &mdash;
+      so expect promo code <strong>88346</strong> at the till and at checkout online.
+    </p>
+  </div>
+
+  <div class="offer">
+    <div>
+      <div class="k">The offer</div>
+      <div class="amt">$20 OFF</div>
+      <div class="amt-sub">a Staples purchase of<br>$75 or more</div>
+    </div>
+    <div>
+      <div class="k">Promo code</div>
+      <div class="code">88346</div>
+      <div class="note">Must be an existing Code Ninjas member.</div>
+    </div>
+    <div>
+      <div class="k">Offer period</div>
+      <div class="date">Aug 7 &ndash; Sept 14, 2026</div>
+      <div class="note">In store and online at Staples Canada.</div>
+    </div>
+  </div>
+
+  <div style="margin-top:22px">
+    <h2>How it works</h2>
+    <div class="steps">
+      <div class="step">
+        <span class="n">STEP 1</span>
+        <h3>Member gets the coupon</h3>
+        <p>Code Ninjas issues it to <strong>existing members</strong> through its centres
+           and channels.</p>
+      </div>
+      <div class="step">
+        <span class="n">STEP 2</span>
+        <h3>They spend $75+</h3>
+        <p>Minimum purchase <strong>before taxes</strong>, excluding the purchase of gift
+           cards. In store or online.</p>
+      </div>
+      <div class="step">
+        <span class="n">STEP 3</span>
+        <h3>$20 comes off</h3>
+        <p>Promo code <strong>88346</strong> is applied at the till or at online
+           checkout.</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:20px">
+    <h2>Conditions at a glance</h2>
+    <ul class="qual">
+      <li>Existing Code Ninjas members only</li>
+      <li>Valid in store and online at Staples Canada</li>
+      <li>Minimum spend is before taxes, gift cards excluded</li>
+      <li>One coupon per person, per transaction</li>
+      <li>Cannot be combined with other coupons or offers</li>
+      <li>No cash or credit back &middot; no copies or facsimiles</li>
+    </ul>
+  </div>
+
+  <div class="why">
+    <p><strong>What this means at your till.</strong> Code Ninjas is sending its member
+    families into Staples with a reason to build a $75 basket &mdash; one they would
+    otherwise split across other stores. Code <strong>88346</strong> is applied like any
+    other Staples coupon code, and the exclusions in the terms below are the only thing
+    to watch.</p>
+  </div>
+
+  <div class="terms">
+    <div class="k">Offer 2 &mdash; full terms, as printed on the coupon</div>
+    <p>This coupon is valid in store and online from August 7 to September 10, 2026 at
+      Staples Canada. A minimum purchase (before taxes and excluding any purchase gift
+      cards) is required to use the discount voucher. Limit of one discount coupon per
+      person, per transaction. This coupon cannot be combined with other coupons/offers.
+      No cash/credit back. No copies or facsimiles. Offer valid in Canada only. Staples
+      reserves the right to limit quantities. Additional exclusions may apply; ask an
+      associate. Coupon does not apply to clearance, Bose products, Cricut products, Fitbit
+      products, Samsonite products, PlayStation consoles, games and accessories,
+      downloadable software, services, business services, tech services, print services,
+      Protection Plans by Allstate, wireless/wireline services, gift cards, phone cards,
+      postage stamps, self-serve copying, charitable donations, electronics levies,
+      environmental and other third-party fees or prior purchases or details. Offer not
+      applicable to purchases made before August 7, 2026.</p>
+  </div>
+
+  <footer class="foot">
+    <span class="org">Staples Canada &times; Code Ninjas</span>
+    <span>Staples&reg; and the easy&reg; button are trademarks of Staples, Inc.
+      <span class="sep">|</span> Page 2 of 2 &mdash; Offer 2</span>
+  </footer>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { width:1080px; height:1080px; overflow:hidden; background:#0a2450; }
+
+  /* ---------- the ticket IS the square: full bleed, no surround ---------- */
+  .ticket {
+    position:relative; width:1080px; height:1080px; overflow:hidden;
+    font-family:'Poppins','Arial Rounded MT Bold',Arial,sans-serif;
+    background:
+      radial-gradient(115% 78% at 50% 2%, #2f8ade 0%, #1a6ac0 34%, #0f4a94 62%, #0a2f66 100%);
+  }
+  .foilglow {
+    position:absolute; inset:0; mix-blend-mode:screen; opacity:.55;
+    background:
+      radial-gradient(40% 28% at 18% 12%, rgba(150,220,255,.55), transparent 70%),
+      radial-gradient(38% 26% at 86% 82%, rgba(255,205,110,.42), transparent 70%);
+  }
+  .vignette {
+    position:absolute; inset:0;
+    background:radial-gradient(80% 72% at 50% 48%, transparent 44%, rgba(4,18,44,.55) 100%);
+  }
+  /* circuitry etched into the field */
+  .chip { position:absolute; inset:0; opacity:.5; }
+
+  /* ---------- engraved gold frame ---------- */
+  .frame {
+    position:absolute; inset:0; pointer-events:none; z-index:6;
+    box-shadow:
+      0 0 0 13px #c8920f inset,                  /* gold rim        */
+      0 0 0 17px #fff2c8 inset,                  /* cream hairline  */
+      0 0 0 21px #a8720f inset,                  /* deep gold       */
+      0 0 0 24px rgba(255,226,150,.6) inset;     /* highlight       */
+  }
+  .rule {
+    position:absolute; inset:38px; z-index:6; pointer-events:none;
+    border:2.5px dashed rgba(255,223,135,.55); border-radius:8px;
+  }
+  .corner { position:absolute; width:118px; height:118px; z-index:7; opacity:.85; }
+  .c-tl { top:30px; left:30px; }
+  .c-tr { top:30px; right:30px; transform:scaleX(-1); }
+
+  /* ---------- content ---------- */
+  .content {
+    position:relative; z-index:5; height:100%;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:62px 74px 56px;
+  }
+
+  /* the plaque: CODE NINJAS + WOODBRIDGE lock up together */
+  .plaque {
+    background:linear-gradient(180deg,#ffffff 0%,#fff8e6 100%);
+    border-radius:18px; padding:16px 46px 14px; text-align:center;
+    box-shadow:0 12px 26px rgba(4,18,44,.42), 0 0 0 4px #ffdf87, 0 0 0 8px #a8720f;
+  }
+  .plaque .logo { display:block; width:298px; margin:0 auto; }
+  .plaque .divider {
+    height:2px; margin:11px auto 9px; width:86%;
+    background:linear-gradient(90deg, transparent, #d9a92a 18%, #d9a92a 82%, transparent);
+  }
+  .plaque .wb {
+    font-size:33px; font-weight:800; letter-spacing:12px; text-indent:12px;
+    color:#0d2f63;
+  }
+
+  .headline {
+    margin-top:30px;
+    font-family:'Baloo 2','Arial Rounded MT Bold',sans-serif;
+    font-weight:800; font-size:152px; line-height:.92; letter-spacing:1px;
+    background:linear-gradient(180deg,#fff6cf 4%,#ffd75c 38%,#f6b326 70%,#e79305 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    filter:drop-shadow(0 5px 0 #06214a) drop-shadow(0 12px 18px rgba(2,14,40,.5));
+    white-space:nowrap;
+  }
+
+  /* promo plate — cream on blue, ringed in gold */
+  .code {
+    margin-top:34px; width:100%; text-align:center;
+    background:linear-gradient(180deg,#ffffff 0%,#fff8e6 100%);
+    border-radius:20px; padding:14px 20px 18px;
+    box-shadow:0 14px 28px rgba(4,18,44,.44), 0 0 0 4px #ffdf87, 0 0 0 8px #a8720f;
+  }
+  .code .lab { font-size:22px; font-weight:800; letter-spacing:7px;
+               text-indent:7px; color:#a8720f; }
+  .code .val {
+    margin-top:2px;
+    font-family:'Baloo 2','Arial Rounded MT Bold',sans-serif;
+    font-weight:800; font-size:86px; line-height:1; letter-spacing:1px;
+    color:#0d2f63;
+  }
+
+  /* ---------- bottom row: mascot + fine print ---------- */
+  .bottom { margin-top:20px; width:100%; display:flex; align-items:flex-end; gap:12px; }
+  .mascot { flex:0 0 156px; }
+  .ninja  { display:block; width:156px; margin-bottom:-6px;
+            filter:drop-shadow(0 0 16px rgba(255,214,120,.35))
+                   drop-shadow(0 14px 18px rgba(2,14,40,.5)); }
+  .btext  { flex:1; display:flex; flex-direction:column; align-items:center;
+            padding-bottom:4px; }
+
+  .valid {
+    text-align:center; max-width:600px;
+    font-size:23px; font-weight:800; line-height:1.32; letter-spacing:.5px;
+    color:#ffffff; text-shadow:0 2px 6px rgba(2,14,40,.5);
+  }
+  .terms {
+    margin-top:12px; max-width:600px; text-align:center;
+    font-size:13.5px; font-weight:500; line-height:1.44;
+    color:rgba(226,240,255,.86);
+  }
+
+  /* ---------- contact bar: address + website ---------- */
+  .contact {
+    margin-top:20px; width:100%; border-radius:14px;
+    padding:13px 20px 14px;
+    background:linear-gradient(180deg,#ffe9a8 0%,#f6c94b 52%,#dfa621 100%);
+    box-shadow:0 10px 22px rgba(4,18,44,.4), 0 0 0 3px #a8720f;
+    display:flex; align-items:center; justify-content:center; gap:14px;
+    color:#0d2f63; white-space:nowrap;
+    font-size:21px; font-weight:800; letter-spacing:1.1px;
+  }
+  .contact .dot { width:9px; height:9px; border-radius:50%; background:#0d2f63; opacity:.6; }
+
+  /* ---------- props ---------- */
+  .shuriken { position:absolute; z-index:4;
+              filter:drop-shadow(0 6px 12px rgba(2,14,40,.55)); }
+  .sh1 { top:64px;  right:62px; width:100px; transform:rotate(16deg); }
+  .sh2 { top:172px; left:56px;  width:72px;  transform:rotate(-22deg); }
+  .sh3 { top:288px; left:72px;  width:54px;  transform:rotate(34deg); opacity:.85; }
+</style>
+</head>
+<body>
+<div class="ticket">
+  <div class="foilglow"></div>
+
+  <!-- circuitry -->
+  <svg class="chip" viewBox="0 0 1080 1080" fill="none">
+    <g stroke="#9fdcff" stroke-width="3.5" stroke-linecap="round" opacity=".42">
+      <path d="M38 190 H150 L200 240 H320"/>
+      <path d="M38 330 H110 L160 280 H290"/>
+      <path d="M1042 210 H930 L880 260 H770"/>
+      <path d="M1042 400 H980 L930 350 H840"/>
+      <path d="M38 800 H130 L180 750 H300"/>
+      <path d="M1042 860 H940 L890 910 H780"/>
+      <path d="M250 38 V90 L300 140 V215"/>
+      <path d="M840 1042 V990 L790 940 V870"/>
+    </g>
+    <g fill="#9fdcff" opacity=".5">
+      <circle cx="320" cy="240" r="8"/><circle cx="290" cy="280" r="8"/>
+      <circle cx="770" cy="260" r="8"/><circle cx="840" cy="350" r="8"/>
+      <circle cx="300" cy="750" r="8"/><circle cx="780" cy="910" r="8"/>
+      <circle cx="300" cy="215" r="8"/><circle cx="790" cy="870" r="8"/>
+    </g>
+  </svg>
+  <div class="vignette"></div>
+
+  <!-- shuriken props -->
+  <svg class="shuriken sh1" viewBox="0 0 100 100">
+    <defs><linearGradient id="mtl" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#c8d6e6"/>
+      <stop offset="1" stop-color="#7f93ab"/></linearGradient></defs>
+    <path d="M50 2 L62 38 L98 50 L62 62 L50 98 L38 62 L2 50 L38 38 Z"
+          fill="url(#mtl)" stroke="#3b4d63" stroke-width="3" stroke-linejoin="round"/>
+    <circle cx="50" cy="50" r="10" fill="#0d2f63" stroke="#3b4d63" stroke-width="3"/>
+  </svg>
+  <svg class="shuriken sh2" viewBox="0 0 100 100">
+    <path d="M50 2 L62 38 L98 50 L62 62 L50 98 L38 62 L2 50 L38 38 Z"
+          fill="url(#mtl)" stroke="#3b4d63" stroke-width="3" stroke-linejoin="round"/>
+    <circle cx="50" cy="50" r="10" fill="#0d2f63" stroke="#3b4d63" stroke-width="3"/>
+  </svg>
+  <svg class="shuriken sh3" viewBox="0 0 100 100">
+    <path d="M50 2 L62 38 L98 50 L62 62 L50 98 L38 62 L2 50 L38 38 Z"
+          fill="url(#mtl)" stroke="#3b4d63" stroke-width="3" stroke-linejoin="round"/>
+    <circle cx="50" cy="50" r="10" fill="#0d2f63" stroke="#3b4d63" stroke-width="3"/>
+  </svg>
+
+  <!-- engraved frame + filigree corners -->
+  <div class="frame"></div>
+  <div class="rule"></div>
+  <svg class="corner c-tl" viewBox="0 0 100 100" fill="none">
+    <g stroke="#ffdf87" stroke-width="3" stroke-linecap="round">
+      <path d="M4 46 C4 22 22 4 46 4"/>
+      <path d="M14 52 C14 30 30 14 52 14" opacity=".7"/>
+      <path d="M26 26 C34 18 44 14 54 14" opacity=".5"/>
+      <path d="M4 70 C4 62 8 58 14 58" opacity=".6"/>
+      <path d="M70 4 C62 4 58 8 58 14" opacity=".6"/>
+    </g>
+    <g fill="#ffdf87"><circle cx="26" cy="26" r="5"/><circle cx="14" cy="58" r="3.5"/>
+      <circle cx="58" cy="14" r="3.5"/></g>
+  </svg>
+  <svg class="corner c-tr" viewBox="0 0 100 100" fill="none">
+    <g stroke="#ffdf87" stroke-width="3" stroke-linecap="round">
+      <path d="M4 46 C4 22 22 4 46 4"/><path d="M14 52 C14 30 30 14 52 14" opacity=".7"/>
+      <path d="M26 26 C34 18 44 14 54 14" opacity=".5"/>
+      <path d="M4 70 C4 62 8 58 14 58" opacity=".6"/>
+      <path d="M70 4 C62 4 58 8 58 14" opacity=".6"/></g>
+    <g fill="#ffdf87"><circle cx="26" cy="26" r="5"/><circle cx="14" cy="58" r="3.5"/>
+      <circle cx="58" cy="14" r="3.5"/></g>
+  </svg>
+
+  <div class="content">
+    <div class="plaque">
+      <img class="logo" src="../../src/Images/cn-woodbridge-logo.png" alt="Code Ninjas">
+      <div class="divider"></div>
+      <div class="wb">WOODBRIDGE</div>
+    </div>
+
+    <div class="headline">FREE MONTH</div>
+
+    <div class="code">
+      <div class="lab">PROMO CODE</div>
+      <div class="val">CNWOODBRIDGE1</div>
+    </div>
+
+    <div class="bottom">
+      <div class="mascot"><img class="ninja" src="../../src/Images/b2s-ninja-thumbs.png" alt=""></div>
+      <div class="btext">
+        <div class="valid">VALID FOR NEW STUDENT ENROLLMENTS<br>ONLY AT THE WOODBRIDGE LOCATION</div>
+        <div class="terms">
+          *Terms &amp; conditions: valid on first month&rsquo;s tuition for Code Ninjas JR or
+          Code Ninjas CREATE. One per student. Cannot be combined with other offers. Valid at the
+          Woodbridge centre only, 6175 Hwy 7 &mdash; not transferable. See centre for full details
+          and program availability.
+        </div>
+      </div>
+    </div>
+
+    <div class="contact">
+      <span>6175 HWY 7</span><span class="dot"></span><span>CNWOODBRIDGE.COM</span><span class="dot"></span><span>647-887-9940</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>

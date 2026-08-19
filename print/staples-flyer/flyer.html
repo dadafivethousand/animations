@@ -1,0 +1,185 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>$50 off Code Ninjas — Staples take-one flyer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Half-letter — the same trim as the official $20 coupon, so the two pieces
+     sit in the same rack and read as one campaign. Prints 2-up on Letter. */
+  @page { size: 5.5in 8.5in; margin: 0; }
+
+  :root {
+    --ink:   #16233a;
+    --body:  #3c4a63;
+    --blue:  #2b7cb8;   /* the campaign blue on the partner artwork */
+    --deep:  #123a5e;
+    --red:   #e4002b;   /* Code Ninjas red                          */
+    --field: #e6eef8;   /* the light panel behind everything        */
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter', Arial, sans-serif; -webkit-font-smoothing:antialiased; }
+  .sheet > * { flex:none; }
+  .sheet {
+    position:relative; width:5.5in; height:8.5in; overflow:hidden;
+    background:var(--field); padding:0.3in 0.3in 0.24in;
+    display:flex; flex-direction:column;
+  }
+
+  /* ---------- co-brand lockup ---------- */
+  .lockup { display:flex; align-items:center; justify-content:center; gap:17px;
+            padding:0 0 10px; }
+  .lockup .staples { width:1.30in; }
+  .lockup .cn      { width:1.48in; }
+  .lockup .bar     { width:1px; height:0.33in; background:#b9cbe0; }
+
+  /* ---------- hero ---------- */
+  .hero {
+    position:relative; background:#fff; border-radius:14px; overflow:hidden;
+    padding:16px 20px 15px; box-shadow:0 2px 10px rgba(18,58,94,.09);
+  }
+  .hero .kicker { font-family:'Poppins',sans-serif; font-size:7.5pt; font-weight:700;
+                  letter-spacing:.13em; text-transform:uppercase; color:var(--blue); }
+  .hero h1 {
+    font-family:'Poppins',sans-serif; font-size:17pt; font-weight:800;
+    line-height:1.14; letter-spacing:-.018em; color:var(--ink);
+    margin-top:5px; max-width:3.0in;
+  }
+  .hero h1 span { color:var(--blue); }
+  .hero p { font-size:8.5pt; line-height:1.45; color:var(--body);
+            margin-top:7px; max-width:2.72in; }
+  .hero .ninja { position:absolute; right:-6px; bottom:0; width:1.44in;
+                 filter:drop-shadow(0 8px 14px rgba(18,58,94,.22)); }
+
+  /* ---------- the coupon ---------- */
+  .coupon {
+    position:relative; margin-top:11px; background:#fff; border-radius:14px;
+    border:2px dashed rgba(228,0,43,.45); padding:17px 20px 19px; text-align:center;
+    box-shadow:0 2px 10px rgba(18,58,94,.09);
+  }
+  /* punched notches — the thing that says "coupon" before a word is read */
+  .coupon .notch {
+    position:absolute; top:50%; width:17px; height:17px; border-radius:50%;
+    background:var(--field); transform:translateY(-50%);
+  }
+  .coupon .notch.l { left:-10px; }
+  .coupon .notch.r { right:-10px; }
+
+  .amount { font-family:'Poppins',sans-serif; font-weight:800; font-size:47pt;
+            line-height:.94; letter-spacing:-.03em; color:var(--red); }
+  .amount .off { color:transparent; -webkit-text-stroke:2.2px var(--red); margin-left:4px; }
+
+  .what { font-family:'Poppins',sans-serif; font-size:11.5pt; font-weight:700;
+          color:var(--ink); margin-top:2px; letter-spacing:-.01em; }
+
+  /* the threshold — the one line that has to change behaviour */
+  .cond {
+    margin-top:9px; background:var(--red); color:#fff; border-radius:8px;
+    padding:7px 10px 8px; font-family:'Poppins',sans-serif;
+    font-size:11pt; font-weight:800; letter-spacing:-.01em;
+  }
+  .cond em { font-style:normal; font-size:13.5pt; }
+
+  .codeline { margin-top:10px; display:flex; align-items:center;
+              justify-content:center; gap:10px; }
+  .codeline .lab { font-size:9.5pt; color:var(--body); font-weight:500; }
+  .codeline .chip {
+    font-family:'Poppins',sans-serif; font-size:12pt; font-weight:800;
+    letter-spacing:.05em; color:#fff; background:var(--deep);
+    border-radius:999px; padding:6px 18px 7px;
+  }
+  .meta { margin-top:8px; font-size:8pt; color:#63728c; }
+  .meta b { color:var(--ink); font-weight:700; }
+
+  /* ---------- the nudge ---------- */
+  .nudge { margin-top:11px; background:var(--deep); border-radius:14px;
+           padding:12px 18px 13px; color:#fff; }
+  .nudge h2 { font-family:'Poppins',sans-serif; font-size:11pt; font-weight:800;
+              letter-spacing:-.01em; margin-bottom:4px; }
+  .nudge p { font-size:8.5pt; line-height:1.48; color:#cfe2f4; }
+  .nudge b { color:#fff; font-weight:700; }
+
+  /* ---------- value strip ---------- */
+  .strip { margin-top:11px; background:#fff; border-radius:12px; display:flex;
+           box-shadow:0 2px 8px rgba(18,58,94,.07); }
+  .strip > div { flex:1; padding:13px 8px 14px; text-align:center; }
+  .strip > div + div { border-left:1px solid #e3ebf5; }
+  .strip .t { font-family:'Poppins',sans-serif; font-size:8.5pt; font-weight:800;
+              color:var(--ink); line-height:1.25; }
+
+  /* ---------- close ---------- */
+  .close { margin-top:13px; text-align:center; }
+  .close .cta { font-family:'Poppins',sans-serif; font-size:10.5pt; font-weight:800;
+                color:var(--deep); }
+  .close .url { font-family:'Poppins',sans-serif; font-size:12pt; font-weight:800;
+                color:var(--blue); letter-spacing:-.01em; margin-top:1px; }
+
+  .fine { margin-top:auto; padding-top:9px; border-top:1px solid #d3e0ee; font-size:5.2pt; line-height:1.44;
+          color:#7b8aa3; text-align:center; }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="lockup">
+    <img class="staples" src="../../src/Images/staples-easy-logo.png" alt="Staples">
+    <span class="bar"></span>
+    <img class="cn" src="../../src/Images/cn-logo-horizontal.svg" alt="Code Ninjas">
+  </div>
+
+  <div class="hero">
+    <div class="kicker">While you&rsquo;re shopping</div>
+    <h1>Turn today&rsquo;s receipt into <span>their first video game.</span></h1>
+    <p>At Code Ninjas, kids learn to code by building real games &mdash; earning
+      belts as they level up, the way a dojo works.</p>
+    <img class="ninja" src="../../src/Images/b2s-ninja-backpack.png" alt="">
+  </div>
+
+  <div class="coupon">
+    <span class="notch l"></span><span class="notch r"></span>
+
+    <div class="amount">$50<span class="off">OFF</span></div>
+    <div class="what">Your first 3 months at Code Ninjas</div>
+
+    <div class="cond">When you spend <em>$100</em> or more at Staples</div>
+
+    <div class="codeline">
+      <span class="lab">Use promo code</span>
+      <span class="chip">STAPLES2026</span>
+    </div>
+
+    <div class="meta">Offer ends <b>October 31, 2026</b> &middot; new Code Ninjas members only</div>
+  </div>
+
+  <div class="nudge">
+    <h2>Not quite at $100?</h2>
+    <p>A backpack, a set of headphones or the year&rsquo;s ink usually closes the gap
+      &mdash; and turns your receipt into <b>$50 off</b> something they&rsquo;ll still
+      be talking about in June.</p>
+  </div>
+
+  <div class="strip">
+    <div><div class="t">Build real<br>video games</div></div>
+    <div><div class="t">Write real<br>JavaScript</div></div>
+    <div><div class="t">Earn belts,<br>like a dojo</div></div>
+  </div>
+
+  <div class="close">
+    <div class="cta">Keep your receipt &mdash; bring it in with the code.</div>
+    <div class="url">codeninjas.com</div>
+  </div>
+
+  <div class="fine">
+    Requires a $100+ (before tax) single-transaction in-store purchase at any Staples in Canada.
+    New Code Ninjas members only. Applies to a 3-month membership paid in full. One redemption per
+    customer per 3-month period. Cannot be combined with other offers. Offer valid through October 31,
+    2026. Redemption takes place at a participating Code Ninjas centre; participating centres and
+    program availability vary. Staples&reg; and the easy&reg; button are trademarks of Staples, Inc.
+  </div>
+
+</div>
+</body>
+</html>
