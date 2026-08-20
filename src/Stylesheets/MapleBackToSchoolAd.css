@@ -32,7 +32,33 @@
   container-name: poster;
 }
 
+/* The content box.
+
+   Shrinking is done by scaling the design UNIT and insetting the box
+   proportionally — NOT by putting transform: scale() on a wrapper. The two look
+   the same in a still and are not the same in a video: a scaled layer is
+   rasterised once and resampled, and 176px of headline resampled by 0.87 is
+   visibly softer than 153px of headline set at 153. Scaling --px re-lays the
+   whole sheet at the smaller size instead, so every glyph is rendered at its
+   final size and nothing is resampled anywhere.
+
+   The inset is (1 - fit) / 2 on each side. Percentages resolve against the
+   containing block's width horizontally and its height vertically, so one value
+   gives a proportional margin on all four edges without any arithmetic per
+   axis, and the content box ends up exactly 1080 x 1350 design px again. */
+.mb-content {
+  position: absolute;
+  inset: calc((1 - var(--fit)) * 50%);
+  --px: calc(100cqw / 1080 * var(--fit));
+}
+
 .mb-stage {
+  /* HOW MUCH OF THE FRAME THE CONTENT IS ALLOWED. 1 is the poster's own
+     edge-to-edge layout; anything less leaves a band of field on all four sides
+     for a crop to eat. The ad gets re-fit by whoever posts it and the crop can
+     come off any edge, so this is insurance, not styling. */
+  --fit: 0.87;
+
   --px: calc(100cqw / 1080);
   position: absolute;
   inset: 0;

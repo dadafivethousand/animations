@@ -84,6 +84,11 @@ export default function MapleBackToSchoolAd({
       {/* One shaft off the key light, raking across the upper third. */}
       <div className="mb-shaft" aria-hidden />
 
+      {/* Everything the viewer READS lives in here, inset from the frame so a
+          crop off any edge takes field and not content. The atmosphere layers
+          above stay full-bleed on purpose — a vignette that stopped short of
+          the edge would draw the very border it exists to hide. */}
+      <div className="mb-content">
       <img className="mb-logo" src={mapleLogo} alt="Maple Jiu Jitsu" />
 
       {/* ---- headline. The roundel sits beside it rather than over it, so the
@@ -163,12 +168,13 @@ export default function MapleBackToSchoolAd({
         {site}
       </p>
 
-      <Grain />
-
       <p className="mb-addr">
         <Pin />
         {address}
       </p>
+      </div>
+
+      <Grain />
     </div>
     </div>
   );
