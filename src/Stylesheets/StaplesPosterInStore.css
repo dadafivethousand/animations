@@ -125,6 +125,10 @@
 .pz-hero {
   margin-top: 44px;
   display: grid;
+  /* The COLUMN stays 262 and the art inside it drops to 223 — see .pz-ninja.
+     Shrinking the column too would have moved the problem rather than fixed
+     it, because the column's right edge is the print margin and the image is
+     justified to it. */
   grid-template-columns: 1fr 262px;
   align-items: center;
   column-gap: 18px;
@@ -201,11 +205,22 @@
 
 /* Used as supplied — no shadow, no rounding, no cutout. It sits on the white,
    which is what the art was drawn for. */
+/* 223, down from 262 — 15% off.
+
+   The artwork carries 6px of transparent padding in a 701px file, so its ink
+   effectively runs to its own edge, and justified to the end of a column whose
+   right edge IS the print margin it had about two units of clearance. Nothing
+   was ever clipped by CSS; it just sat on the line, and any drift on an office
+   printer takes the ninja's arm off.
+
+   So the shrink is only half of it: centred in the column it kept, the art now
+   has ~20 units of paper on each side. Shrinking the column as well would have
+   put it straight back on the margin. */
 .pz-ninja {
-  width: 262px;
+  width: 223px;
   height: auto;
   display: block;
-  justify-self: end;
+  justify-self: center;
 }
 
 /* The one line for somebody who has never heard of the brand. Full width under
@@ -344,18 +359,33 @@
 
 /* ---------- footer ---------- */
 
-/* A three-column footer: the QR anchors the left, the address sits centred in
-   the optical middle of the sheet, and the right column is empty and exactly
-   the QR's width so the address stays centred on the PAGE rather than on the
-   space left over beside the code. */
+/* The code and the address are ONE object, centred together.
+
+   They used to be three columns — code hard left, address centred on the page,
+   an empty column on the right to balance it. That put a foot and a half of
+   white paper between a scannable thing and the only line telling a reader what
+   it is for, and at that distance nobody connects them: the code reads as a
+   printer's mark in the corner. Sitting them side by side is what makes the
+   pair read as "scan this to get there".
+
+   Centring is now on the PAIR, via auto columns and justify-content, so the
+   block stays optically centred whatever the address is. */
 .pz-foot {
   margin-top: auto;        /* the leftover paper collects above this line */
   padding-top: 22px;
-  display: grid;
-  grid-template-columns: 94px 1fr 94px;
-  align-items: center;
-  column-gap: 18px;
   text-align: center;
+}
+
+/* The pair gets its own element rather than being two cells of the footer
+   grid. As grid cells they were pulled apart again by the terms paragraph
+   spanning the same columns: a 700-unit block of fine print in row two sets the
+   column widths for row one, so the code and the address ended up a third of a
+   page from each other with nothing between them. */
+.pz-foot-pair {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
 }
 
 /* Sized off the printed page, not off the screen: at ~0.8" square with level-H
@@ -365,8 +395,21 @@
    people cut. The symbol is an SVG of vector paths, so Chrome rasterises the
    modules at the final capture scale with hard edges and no resampling —
    which is the whole reason it is not a PNG. */
+/* 80 units — 0.8 of a printed inch, and it CANNOT grow. The sheet is exactly
+   full: the band ends where the footer begins, so the footer's height is the
+   page's last free space and there is none. Taking the code to 100 for a bigger
+   scan target pushed the footer 18 units past the bottom print margin, which on
+   this sheet is the same class of mistake as the ninja sitting on the right one.
+   If a larger code is ever wanted, something above has to give up the room
+   first.
+
+   0.8in over 29 modules is a 0.7mm module: comfortable for a phone held at
+   reading distance, which is how a code beside an address gets scanned.
+
+   The padding is the quiet zone. It is invisible on white paper, and the symbol
+   stops scanning without it. */
 .pz-qr {
-  grid-row: 1;
+  flex: none;
   width: 80px;
   height: 80px;
   display: block;
@@ -381,7 +424,6 @@
    link without borrowing a browser's blue. The rule is on an inline-block so
    it stops at the end of the word instead of running the column. */
 .pz-site {
-  grid-column: 2;
   margin: 0;
   font-family: Archivo, Inter, sans-serif;
   font-size: 36px;
@@ -400,7 +442,6 @@
    arm's length, which is the bar it has to clear. Every clause in it is a
    reason somebody can be turned away at the desk. */
 .pz-terms {
-  grid-column: 1 / -1;
   margin: 16px auto 0;
   max-width: 700px;
   font-size: 10.5px;

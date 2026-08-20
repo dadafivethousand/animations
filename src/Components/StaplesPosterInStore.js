@@ -69,12 +69,21 @@ import ninja from "../Images/b2s-ninja-handheld.png";
 // into a bag, or photocopied by the store, and a level-L code stops scanning
 // after any of those.
 //
-// IT POINTS AT THE WOODBRIDGE CENTRE, deliberately, and it is the only thing
-// on the sheet that does. Everything a reader can actually READ stays national
-// — see the footer — so the artwork is correct on any wall; the scans just
-// come to us. Nothing is printed beside the code promising where it goes, so
-// there is no claim for it to contradict. No tracking parameters, so it cannot
-// rot.
+// IT POINTS AT THE WOODBRIDGE CENTRE and the printed address beside it is the
+// national one, and now that the two sit side by side THAT IS A LIVE ISSUE. It
+// used to be defensible on the grounds that nothing was printed next to the
+// code promising where it went; the code now sits against codeninjas.com, and a
+// reader will reasonably read the pair as "this code opens that address". It
+// does not — it opens cnwoodbridge.com.
+//
+// Nobody is misled about anything that matters (both are Code Ninjas, and the
+// offer is good at either), but it is a mismatch somebody will eventually
+// notice, and it wants one of two decisions from the owner: print
+// cnwoodbridge.com as the address, or caption the code with where it goes. Do
+// not "fix" it by silently repointing the QR at codeninjas.com — the scans
+// coming to the local centre is the entire reason the code is on the sheet.
+//
+// No tracking parameters, so it cannot rot.
 import qr from "../Images/qr-cnwoodbridge.svg";
 
 // Lifted from the Staples Canada owner SOP for this promotion, not paraphrased
@@ -214,10 +223,15 @@ export default function StaplesPosterInStore() {
             footer would be wrong in every store but that centre's own. The
             printed address is the brand's; only the QR is ours. */}
         <footer className="pz-foot">
-          <img className="pz-qr" src={qr} alt="" aria-hidden />
-          {/* The inner span exists so the red rule under the address stops at
-              the end of the word; on the <p> it would run the whole column. */}
-          <p className="pz-site"><span>{OFFER.site}</span></p>
+          {/* The code and the address are one object, centred together — see
+              .pz-foot-pair. A scannable thing marooned in the corner reads as a
+              printer's mark; beside the address it reads as "scan this". */}
+          <div className="pz-foot-pair">
+            <img className="pz-qr" src={qr} alt="" aria-hidden />
+            {/* The inner span exists so the red rule under the address stops at
+                the end of the word; on the <p> it would run the whole column. */}
+            <p className="pz-site"><span>{OFFER.site}</span></p>
+          </div>
           <p className="pz-terms">{OFFER.terms}</p>
         </footer>
       </div>
