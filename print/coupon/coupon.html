@@ -72,7 +72,9 @@
   .headline {
     margin-top:30px;
     font-family:'Baloo 2','Arial Rounded MT Bold',sans-serif;
-    font-weight:800; font-size:152px; line-height:.92; letter-spacing:1px;
+    /* 152px fitted "FREE MONTH"; "1 FREE MONTH" is two glyphs wider and the
+       line is nowrap, so it has to come down to stay inside the gold frame. */
+    font-weight:800; font-size:138px; line-height:.92; letter-spacing:1px;
     background:linear-gradient(180deg,#fff6cf 4%,#ffd75c 38%,#f6b326 70%,#e79305 100%);
     -webkit-background-clip:text; background-clip:text; color:transparent;
     filter:drop-shadow(0 5px 0 #06214a) drop-shadow(0 12px 18px rgba(2,14,40,.5));
@@ -211,7 +213,7 @@
       <div class="wb">WOODBRIDGE</div>
     </div>
 
-    <div class="headline">FREE MONTH</div>
+    <div class="headline">1 FREE MONTH</div>
 
     <div class="code">
       <div class="lab">PROMO CODE</div>
