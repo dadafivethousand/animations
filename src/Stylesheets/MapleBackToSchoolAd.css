@@ -1,0 +1,467 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+/* ============================================================
+   MapleBackToSchoolAd — the flat post, rebuilt as elements.
+
+   The measurements in this file are not design decisions; they are readings
+   off maple-back-to-school-post.png, taken at 1080x1350 and divided by 3. The
+   stage is 360x450 so that a deviceScaleFactor-3 capture lands back on the
+   source's own pixel grid exactly.
+
+   IF THE SOURCE ART IS EVER REPLACED, these numbers are stale. Re-measure;
+   do not nudge them until it "looks about right", because the four cut-out
+   pieces (leaf, gi, glove, disc) are pinned to the layout that produced them.
+
+   ── THE DISPLAY FACE ──
+
+   Nothing is bundled here, so the face is a match rather than the original.
+   Anton was the first guess and it is too narrow: "BACK TO" measures 211 wide
+   at a 42 cap height in the source, an advance-to-cap ratio of 0.73, and Anton
+   runs about 0.60 — set to the right height it came out a fifth too short. 
+   Archivo Black sits at roughly 0.78 and lands close with a touch of negative
+   tracking. If this ever looks wrong, measure that ratio again before nudging
+   the size.
+   ============================================================ */
+
+.mb-stage {
+  --navy: #001230;
+  --navy-hi: #06203f;
+  --gold: #e9c46a;
+  --white: #ffffff;
+
+  /* the source's own slant, on both bars and the word inside them */
+  --slant: -8deg;
+
+  /* The display face's WIDTH, as a variation axis rather than a font choice.
+     The source sets "BACK TO" 211 wide at a 38.5 cap — 0.72 of advance per cap
+     per glyph. Anton runs 0.60 and Archivo Black 0.96, so neither is it, and
+     picking whichever looks closest then fighting it with letter-spacing gets
+     the block width right by pushing the letters apart, which is visibly not
+     what the artwork does. Archivo carries a wdth axis, so the face can just be
+     made the right width. Tuned against the measured 211. */
+  --wd: 82;
+
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--navy);
+  color: var(--white);
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.mb-stage *,
+.mb-stage *::before,
+.mb-stage *::after {
+  box-sizing: border-box;
+}
+
+/* The source is not a flat fill — it carries a soft lift toward the top and a
+   fall into the corners. Without it the rebuild reads flatter than the poster
+   it is copying, which is the kind of difference nobody names but everybody
+   sees when the two are side by side. */
+.mb-wash {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(78% 42% at 50% 6%, var(--navy-hi) 0%, transparent 68%),
+    radial-gradient(120% 80% at 50% 50%, transparent 52%, rgba(0, 0, 0, 0.42) 100%);
+}
+
+/* ---------- top group ---------------------------------------------------- */
+
+.mb-logo {
+  position: absolute;
+  top: 3px;
+  left: 50%;
+  width: 70px;
+  margin-left: -35px;
+  display: block;
+}
+
+.mb-head {
+  position: absolute;
+  top: 57px;
+  left: 32.8px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  font-family: Archivo, Inter, sans-serif;
+  font-variation-settings: "wdth" var(--wd, 76), "wght" 900;
+  /* 42 cap height / 0.73 cap ratio; 49 of baseline-to-baseline over 57.5 is the
+     0.852 line-height. Both read off the source, not chosen. */
+  font-size: 52.7px;
+  line-height: 0.93;
+  letter-spacing: -0.012em;
+  font-weight: 400;   /* Archivo Black is already the 900; asking for 700 or 800
+                         would let the browser synthesise on top of it */
+}
+
+/* Each line is clipped by its own box and slides up into it, so the words
+   arrive from behind the line above rather than floating in from nowhere. */
+.mb-head span {
+  display: block;
+  overflow: hidden;
+}
+
+.mb-badge {
+  position: absolute;
+  top: 66px;
+  left: 268.3px;
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  background: var(--navy);
+  border: 2px solid var(--white);
+  box-shadow: 0 0 0 2px rgba(233, 196, 106, 0.55);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: Archivo, Inter, sans-serif;
+  font-variation-settings: "wdth" var(--wd, 76), "wght" 900;
+  line-height: 1;
+}
+
+.mb-badge-over { font-size: 11px; letter-spacing: 0.06em; }
+.mb-badge-n    { font-size: 28.5px; margin: 2px 0 3px; letter-spacing: -0.01em; }
+.mb-badge-in   { font-size: 10px; letter-spacing: 0.05em; line-height: 1.15; }
+
+/* ---------- the two white bars ------------------------------------------- */
+
+/* Slabs of ink. Both are parallelograms carrying dark type, and the type takes
+   the same slant as the bar because in the source it is italic — un-skewing it
+   inside a skewed bar would make it upright, which is the opposite of the
+   artwork. */
+.mb-special,
+.mb-cta {
+  position: absolute;
+  background: var(--white);
+  color: var(--navy);
+  transform: skewX(var(--slant));
+  display: flex;
+  align-items: center;
+  font-family: Archivo, Inter, sans-serif;
+  font-variation-settings: "wdth" var(--wd, 76), "wght" 900;
+  overflow: hidden;
+}
+
+/* Both bars: the LEFT and WIDTH here are the un-skewed rect, back-solved from
+   the source's rendered bounding box. A skewX(-8deg) box spreads its bbox by
+   height * tan(8deg) — 6.1 for this one — so measuring the artwork and pasting
+   the numbers in directly would place the bar 3 to the left and 6 too wide. */
+.mb-special {
+  top: 156.7px;
+  left: 31.3px;
+  width: 228px;
+  height: 43.3px;
+  padding-left: 24px;
+  font-size: 36px;
+  letter-spacing: 0.012em;
+}
+
+.mb-cta {
+  top: 378.7px;
+  left: 39.8px;
+  width: 282px;
+  height: 35px;
+  justify-content: center;
+  font-size: 26px;
+  letter-spacing: 0.01em;
+}
+
+.mb-eyebrow {
+  position: absolute;
+  top: 204px;
+  left: 0;
+  right: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  font-size: 13px;
+  font-weight: 700;
+  font-style: italic;
+}
+
+/* The rules draw OUT from the word rather than fading in, which is why they
+   are two elements and not a border. */
+.mb-eyebrow i {
+  display: block;
+  width: 59px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.5);
+  transform: scaleX(0);
+}
+.mb-eyebrow i:first-child { transform-origin: right center; }
+.mb-eyebrow i:last-child  { transform-origin: left center; }
+
+/* ---------- the three cards ---------------------------------------------- */
+
+.mb-cards {
+  position: absolute;
+  top: 233.3px;
+  left: 10.7px;
+  right: 12.3px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /* 3.95, not a round number, because 3 x 109.7 + 2 x 3.95 is the 337 the three
+     cards span in the source. The cards are wide and the gutters are hairlines;
+     rounding the gap up to 11 took 21 off the card width and every head inside
+     them started wrapping a word early. */
+  gap: 3.95px;
+}
+
+.mb-card {
+  position: relative;
+  height: 133.3px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.028);
+  padding: 13px 4px 0;
+  text-align: center;
+}
+
+/* The number sits ON the card's top edge, half in and half out — it is what
+   makes three boxes read as three STEPS. */
+.mb-num {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  width: 22px;
+  height: 22px;
+  margin-left: -11px;
+  border-radius: 50%;
+  background: var(--white);
+  color: var(--navy);
+  font-family: Archivo, Inter, sans-serif;
+  font-variation-settings: "wdth" var(--wd, 76), "wght" 900;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+/* The card heads are set NARROWER than the headline in the source — 0.63 of
+   advance per cap against the headline's 0.72 — which is a designer squeezing
+   them to fit a 110-wide card, not an inconsistency to average away. They get
+   their own width axis. */
+.mb-card-head {
+  --wd: 70;
+  display: flex;
+  flex-direction: column;
+  font-family: Archivo, Inter, sans-serif;
+  font-variation-settings: "wdth" var(--wd, 76), "wght" 900;
+  line-height: 1.02;
+  letter-spacing: 0.01em;
+}
+
+/* The first line of each card is the loud one and the rest are qualifiers, so
+   they step down rather than all being set at the headline size. */
+.mb-card-head span:first-child { font-size: 26px; }
+.mb-card-head span + span      { font-size: 14px; }
+
+/* Card three carries FOUR head lines against card two's two, and at a shared
+   size its block ran straight over the disc pinned to the card bottom. The
+   source solves it the same way — its "MONTH OF / CODE NINJAS / WOODBRIDGE" is
+   visibly smaller than card two's "BOXING GLOVES" — so this is matching the
+   artwork, not papering over a layout bug. The budget is exact: 133.3 of card,
+   less 13 of padding, less the head, less the value, is what the disc gets. */
+.mb-card:nth-child(3) .mb-card-head span:first-child { font-size: 24px; }
+.mb-card:nth-child(3) .mb-card-head span + span      { font-size: 11px; }
+.mb-card:nth-child(3) .mb-value { margin-top: 4px; }
+
+.mb-value {
+  margin: 6px 0 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+}
+.mb-value b { color: var(--gold); font-weight: 800; }
+.mb-value::before { content: "("; }
+.mb-value::after  { content: ")"; }
+
+/* Each card's object is pinned to the card's own bottom, not laid out in flow:
+   the heads are one, two and four lines long, and in flow the gi, the glove and
+   the disc would sit at three different heights. */
+.mb-art {
+  position: absolute;
+  left: 50%;
+  bottom: 8px;
+  display: block;
+}
+/* Sized from each cut-out's own pixels at 1:3, so nothing is resampled:
+   the gi is 66x138 source, the glove 144x99, the disc 165x153. */
+.mb-art-gi    { width: 24px; margin-left: -12px;   bottom: 5px; }
+.mb-art-glove { width: 48px; margin-left: -24px;   bottom: 9px; }
+.mb-art-disc  { width: 42px; margin-left: -21px;   bottom: 3px; }
+
+/* ---------- footer ------------------------------------------------------- */
+
+.mb-site {
+  position: absolute;
+  top: 415px;
+  left: 82.3px;
+  width: 195.3px;
+  height: 21px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 11px;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.005em;
+}
+
+.mb-site svg {
+  width: 13px;
+  height: 13px;
+  fill: none;
+  stroke: var(--white);
+  stroke-width: 1.6;
+}
+
+.mb-addr {
+  position: absolute;
+  top: 439px;
+  left: 0;
+  right: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 10.4px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.mb-addr svg {
+  width: 10px;
+  height: 10px;
+  fill: var(--white);
+  stroke: none;
+}
+
+/* ---------- the cascade --------------------------------------------------
+
+   Every delay in the piece, in the order the viewer meets it:
+
+      120  the leaf
+      420  BACK TO      560  SCHOOL
+      880  the badge stamps
+     1120  SPECIAL wipes
+     1480  the eyebrow, its rules drawing out of the word
+     1720  the cards, 150ms apart
+     2120  their numbers, then 2320 their objects
+     2980  SIGN UP TODAY wipes
+     3280  the address pill      3520  the street address
+     ~4.4s everything is up, and it holds
+
+   Nothing exits. ------------------------------------------------------------ */
+
+.mb-stage:not(.mb-go):not(.mb-still) .mb-logo,
+.mb-stage:not(.mb-go):not(.mb-still) .mb-head span,
+.mb-stage:not(.mb-go):not(.mb-still) .mb-badge,
+.mb-stage:not(.mb-go):not(.mb-still) .mb-special,
+.mb-stage:not(.mb-go):not(.mb-still) .mb-cta,
+.mb-stage:not(.mb-go):not(.mb-still) .mb-eyebrow span,
+.mb-stage:not(.mb-go):not(.mb-still) .mb-card,
+.mb-stage:not(.mb-go):not(.mb-still) .mb-num,
+.mb-stage:not(.mb-go):not(.mb-still) .mb-art,
+.mb-stage:not(.mb-go):not(.mb-still) .mb-site,
+.mb-stage:not(.mb-go):not(.mb-still) .mb-addr {
+  opacity: 0;
+}
+
+@keyframes mbDrop {
+  from { opacity: 0; transform: translateY(-16px) scale(0.94); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes mbUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+/* The headline lines ride up from behind their own clip, so they come out of
+   the line above instead of out of nothing. */
+@keyframes mbLine {
+  from { opacity: 0; transform: translateY(100%); }
+  to   { opacity: 1; transform: none; }
+}
+/* The one overshoot in the piece. A stamp that settles gently is not a stamp. */
+@keyframes mbStamp {
+  0%   { opacity: 0; transform: scale(0.4) rotate(-14deg); }
+  62%  { opacity: 1; transform: scale(1.08) rotate(3deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+/* Ink being laid down: the bar grows from its leading edge, carrying the word
+   with it. The skew has to be restated or the transform replaces it. */
+@keyframes mbWipe {
+  from { opacity: 1; transform: skewX(var(--slant)) scaleX(0); }
+  to   { opacity: 1; transform: skewX(var(--slant)) scaleX(1); }
+}
+@keyframes mbDraw {
+  to { transform: scaleX(1); }
+}
+@keyframes mbPop {
+  0%   { opacity: 0; transform: scale(0.5); }
+  70%  { opacity: 1; transform: scale(1.12); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes mbFade {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: none; }
+}
+
+.mb-go .mb-logo { animation: mbDrop 760ms cubic-bezier(.2, .9, .25, 1) 120ms both; }
+
+.mb-go .mb-head span > * { display: block; }
+.mb-go .mb-head span:nth-child(1) { animation: mbLine 720ms cubic-bezier(.16,1,.3,1) 420ms both; }
+.mb-go .mb-head span:nth-child(2) { animation: mbLine 720ms cubic-bezier(.16,1,.3,1) 560ms both; }
+
+.mb-go .mb-badge   { animation: mbStamp 620ms cubic-bezier(.2,.9,.25,1) 880ms both; }
+
+.mb-go .mb-special { animation: mbWipe 620ms cubic-bezier(.16,1,.3,1) 1120ms both; transform-origin: left center; }
+.mb-go .mb-cta     { animation: mbWipe 620ms cubic-bezier(.16,1,.3,1) 2980ms both; transform-origin: left center; }
+
+.mb-go .mb-eyebrow span { animation: mbUp 560ms cubic-bezier(.16,1,.3,1) 1480ms both; }
+.mb-go .mb-eyebrow i    { animation: mbDraw 620ms cubic-bezier(.16,1,.3,1) 1660ms both; }
+
+.mb-go .mb-card:nth-child(1) { animation: mbUp 640ms cubic-bezier(.16,1,.3,1) 1720ms both; }
+.mb-go .mb-card:nth-child(2) { animation: mbUp 640ms cubic-bezier(.16,1,.3,1) 1870ms both; }
+.mb-go .mb-card:nth-child(3) { animation: mbUp 640ms cubic-bezier(.16,1,.3,1) 2020ms both; }
+
+.mb-go .mb-card:nth-child(1) .mb-num { animation: mbPop 480ms cubic-bezier(.2,.9,.25,1) 2120ms both; }
+.mb-go .mb-card:nth-child(2) .mb-num { animation: mbPop 480ms cubic-bezier(.2,.9,.25,1) 2220ms both; }
+.mb-go .mb-card:nth-child(3) .mb-num { animation: mbPop 480ms cubic-bezier(.2,.9,.25,1) 2320ms both; }
+
+.mb-go .mb-card:nth-child(1) .mb-art { animation: mbFade 620ms cubic-bezier(.16,1,.3,1) 2320ms both; }
+.mb-go .mb-card:nth-child(2) .mb-art { animation: mbFade 620ms cubic-bezier(.16,1,.3,1) 2440ms both; }
+.mb-go .mb-card:nth-child(3) .mb-art { animation: mbFade 620ms cubic-bezier(.16,1,.3,1) 2560ms both; }
+
+.mb-go .mb-site { animation: mbUp 600ms cubic-bezier(.16,1,.3,1) 3280ms both; }
+.mb-go .mb-addr { animation: mbUp 600ms cubic-bezier(.16,1,.3,1) 3520ms both; }
+
+/* ---------- reduced motion ----------------------------------------------- */
+
+/* The whole poster, immediately — it is a printed graphic underneath, and the
+   information was never the part that needed moving. */
+@media (prefers-reduced-motion: reduce) {
+  .mb-stage *,
+  .mb-stage *::before,
+  .mb-stage *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .mb-stage .mb-special,
+  .mb-stage .mb-cta {
+    transform: skewX(var(--slant));
+  }
+  .mb-stage .mb-eyebrow i { transform: scaleX(1); }
+}

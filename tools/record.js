@@ -14,10 +14,15 @@
 // MS is how long to sit on the page, so it has to cover the whole timeline in
 // the component plus the tail; HOLD is the pause on the final frame.
 //
-// 1080x1920 true 9:16 — a 360x640 viewport at deviceScaleFactor 3 lands there
-// exactly, with no scaling anywhere in the pipeline. Instagram Reels presents
-// 9:16, so capturing at a phone's own 19.5:9 gets pillarboxed and the ad plays
-// at ~76% of the size it could.
+// 1080x1920 true 9:16 by default — a 360x640 viewport at deviceScaleFactor 3
+// lands there exactly, with no scaling anywhere in the pipeline. Instagram Reels
+// presents 9:16, so capturing at a phone's own 19.5:9 gets pillarboxed and the
+// ad plays at ~76% of the size it could.
+//
+// W and H override the viewport for the ads that are not Reels. A FEED POST is
+// 4:5, so W=360 H=450 captures 1080x1350 — and the same rule holds: pick the
+// numbers so that three times them is the delivery size, because the value of
+// this recorder is that nothing is ever resampled.
 //
 // Uses CDP Page.startScreencast rather than screenshot-in-a-loop: screenshots
 // are too slow to be evenly spaced and the motion judders. Frames come back
@@ -31,6 +36,8 @@ const puppeteer = require("puppeteer");
 const ffmpeg = require("ffmpeg-static");
 
 const URL = process.env.URL || "http://localhost:3000";
+const W = Number(process.env.W || 360);
+const H = Number(process.env.H || 640);
 const MS = Number(process.env.MS || 11500);
 const OUT = process.env.OUT || path.join(os.tmpdir(), "ad.mp4");
 // The page is plain white between navigation and React mounting; paint it the
@@ -54,11 +61,11 @@ const HOLD = Number(process.env.HOLD || 1.6);
       // ffmpeg upscales them 3x to hit 1080x1920, and every logo and every
       // letter in the film is soft. It looks like bad artwork. It is not.
       "--force-device-scale-factor=3",
-      "--window-size=360,640",
+      `--window-size=${W},${H}`,
     ],
   });
   const page = await browser.newPage();
-  await page.setViewport({ width: 360, height: 640, deviceScaleFactor: 3 });
+  await page.setViewport({ width: W, height: H, deviceScaleFactor: 3 });
   await page.evaluateOnNewDocument((bg) => {
     const s = document.createElement("style");
     s.textContent = `html,body{background:${bg};margin:0}`;
@@ -89,8 +96,8 @@ const HOLD = Number(process.env.HOLD || 1.6);
     // what JPEG bands, and the frames are the master — compression belongs in
     // the H.264 encode at the end, once, not in every frame going into it.
     format: "png",
-    maxWidth: 1080,
-    maxHeight: 1920,
+    maxWidth: W * 3,
+    maxHeight: H * 3,
     everyNthFrame: 1,
   });
   page.once("domcontentloaded", () => {
@@ -103,15 +110,15 @@ const HOLD = Number(process.env.HOLD || 1.6);
 
   if (frames.length < 2) throw new Error(`captured ${frames.length} frames`);
 
-  // A 1x capture silently upscaled to 1080x1920 is the failure mode this
+  // A 1x capture silently upscaled to the delivery size is the failure mode this
   // recorder had for its whole first life, and it is invisible until someone
   // looks at a logo up close and blames the logo. Refuse to encode it.
   const png = Buffer.from(frames[0].data, "base64");
   const w = png.readUInt32BE(16);
   const h = png.readUInt32BE(20);
-  if (w !== 1080 || h !== 1920) {
+  if (w !== W * 3 || h !== H * 3) {
     throw new Error(
-      `frames are ${w}x${h}, not 1080x1920 — the compositor is not at ` +
+      `frames are ${w}x${h}, not ${W * 3}x${H * 3} — the compositor is not at ` +
         `deviceScaleFactor 3 (check --force-device-scale-factor / --window-size)`
     );
   }
@@ -153,7 +160,7 @@ const HOLD = Number(process.env.HOLD || 1.6);
       // .9922, and the remaining gap is 4:2:0 itself, not the encode.
       "-sws_flags", "lanczos+accurate_rnd+full_chroma_int",
       "-f", "concat", "-safe", "0", "-i", listPath,
-      "-vf", "format=yuv420p",   // frames are already 1080x1920; asserted above
+      "-vf", "format=yuv420p",   // frames are already at delivery size; asserted above
       "-r", String(FPS),
       // crf 18 is a footage number. This film is flat vector art, small type
       // and a held final frame that gets screenshotted, and there 18 spends
