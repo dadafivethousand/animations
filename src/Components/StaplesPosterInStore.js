@@ -69,19 +69,22 @@ import ninja from "../Images/b2s-ninja-handheld.png";
 // into a bag, or photocopied by the store, and a level-L code stops scanning
 // after any of those.
 //
-// IT POINTS AT THE WOODBRIDGE CENTRE and the printed address beside it is the
-// national one, and now that the two sit side by side THAT IS A LIVE ISSUE. It
-// used to be defensible on the grounds that nothing was printed next to the
-// code promising where it went; the code now sits against codeninjas.com, and a
-// reader will reasonably read the pair as "this code opens that address". It
-// does not — it opens cnwoodbridge.com.
+// IT POINTS AT THE WOODBRIDGE CENTRE, deliberately, and it is the only thing on
+// the sheet that does — everything a reader can actually READ stays national, so
+// the artwork is correct on any wall and the scans still come to us.
 //
-// Nobody is misled about anything that matters (both are Code Ninjas, and the
-// offer is good at either), but it is a mismatch somebody will eventually
-// notice, and it wants one of two decisions from the owner: print
-// cnwoodbridge.com as the address, or caption the code with where it goes. Do
-// not "fix" it by silently repointing the QR at codeninjas.com — the scans
-// coming to the local centre is the entire reason the code is on the sheet.
+// That sounds like it contradicts the codeninjas.com printed beside it, and it
+// was flagged as a problem when the two were first put side by side. It is not
+// one: cnwoodbridge.com 301s to codeninjas.com/woodbridge-on-ca (checked
+// 2026-08-20), so the code lands on the printed address — just on the
+// Woodbridge page of it. The pair makes a promise the redirect keeps.
+//
+// THE REDIRECT IS THEREFORE LOAD-BEARING. If that domain ever stops pointing at
+// the national site, the code and the line under it stop agreeing and this
+// becomes a real decision again: print cnwoodbridge.com as the address, or
+// caption the code with where it goes. Do not resolve it by repointing the QR
+// at plain codeninjas.com — sending scans to the local centre is the entire
+// reason the code is on the sheet.
 //
 // No tracking parameters, so it cannot rot.
 import qr from "../Images/qr-cnwoodbridge.svg";
