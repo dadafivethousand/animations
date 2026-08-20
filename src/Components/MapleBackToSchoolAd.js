@@ -20,28 +20,41 @@ import React from "react";
 import "../Stylesheets/MapleBackToSchoolAd.css";
 import mapleLogo from "../Images/maple-logo.png";
 import cnLogo from "../Images/cn-logo-horizontal.svg";
+import giPhoto from "../Images/maple-gi.png";
+import glovesPhoto from "../Images/maple-gloves.png";
+import ninjaPhoto from "../Images/cn-ninja-figure.png";
 
 export default function MapleBackToSchoolAd({
   headline = ["BACK TO", "SCHOOL"],
   emphasis = "SPECIAL",
   badge = ["OVER", "$300", "IN BONUS", "VALUE"],
-  eyebrow = "For New Kids Signups",
+  eyebrow = "For New Kids Signups (Ages 5-12)",
 
   cards = [
-    { big: "FREE GI", small: [], value: "($120 Value)", emoji: "🥋" },
-    { big: "FREE", small: ["BOXING GLOVES"], value: "($50 Value)", emoji: "🥊" },
     {
       big: "FREE",
-      small: ["1 MONTH OF", "CODE NINJAS"],
+      small: ["GI UNIFORM"],
+      value: "($120 Value)",
+      photo: giPhoto,
+    },
+    {
+      big: "FREE",
+      small: ["BOXING GLOVES"],
+      value: "($50 Value)",
+      photo: glovesPhoto,
+    },
+    {
+      big: "FREE",
+      small: ["1 MONTH AT", "CODE NINJAS"],
       note: "(WOODBRIDGE LOCATION)",
       value: "($169 Value)",
-      art: "partner",
+      photo: ninjaPhoto,
     },
   ],
 
   cta = "SIGN UP TODAY",
   site = "maplebjj.com",
-  address = "20 Cranston Park Ave, Vaughan",
+  address = "20 Cranston Park Ave",
 }) {
   const reduce = React.useMemo(
     () =>
@@ -52,7 +65,7 @@ export default function MapleBackToSchoolAd({
   );
 
   // Mount paints the empty field; the class lands on the next frame so the ad
-  // opens ON it rather than a third of the way through the first move.
+  // opens ON it rather than partway through the first move.
   const [go, setGo] = React.useState(false);
   React.useEffect(() => {
     if (reduce) return undefined;
@@ -62,9 +75,7 @@ export default function MapleBackToSchoolAd({
 
   return (
     <div className="mb-frame">
-    <div
-      className={`mb-stage mb${go ? " mb-go" : ""}${reduce ? " mb-still" : ""}`}
-    >
+    <div className={`mb-stage mb${go ? " mb-go" : ""}${reduce ? " mb-still" : ""}`}>
       {/* Field layers: key light, tatami weave, vignette. First child, so every
           positioned element after it paints on top without a z-index fight. */}
       <div className="mb-field" aria-hidden />
@@ -84,94 +95,97 @@ export default function MapleBackToSchoolAd({
       {/* One shaft off the key light, raking across the upper third. */}
       <div className="mb-shaft" aria-hidden />
 
-      {/* Everything the viewer READS lives in here, inset from the frame so a
-          crop off any edge takes field and not content. The atmosphere layers
-          above stay full-bleed on purpose — a vignette that stopped short of
-          the edge would draw the very border it exists to hide. */}
-      <div className="mb-content">
-      <img className="mb-logo" src={mapleLogo} alt="Maple Jiu Jitsu" />
+      {/* Everything that is READ lives inside the safe box. The field, the
+          leaf, the shaft and the grain stay full-bleed behind it, so the
+          margin is more poster rather than a border — a crop off any edge
+          takes background and nothing else. */}
+      <div className="mb-safe">
 
-      {/* ---- headline. The roundel sits beside it rather than over it, so the
-              two never fight for the same pixels at any string length. ---- */}
-      <div className="mb-top">
-        <h1 className="mb-head">
-          {/* the inner <i> is what moves; the <span> is the window it moves
-              up into, so the words arrive from behind the line above rather
-              than fading in over the field */}
-          {headline.map((l) => (
-            <span key={l}>
-              <i>{l}</i>
-            </span>
-          ))}
-        </h1>
+        <img className="mb-logo" src={mapleLogo} alt="Maple Jiu Jitsu" />
 
-        <div className="mb-badge" aria-hidden={false}>
-          <span className="mb-badge-sm">{badge[0]}</span>
-          <span className="mb-badge-lg">{badge[1]}</span>
-          <span className="mb-badge-sm">{badge[2]}</span>
-          <span className="mb-badge-sm">{badge[3]}</span>
-        </div>
-      </div>
+        {/* ---- headline. The roundel sits beside it rather than over it, so the
+                two never fight for the same pixels at any string length. ---- */}
+        <div className="mb-top">
+          <h1 className="mb-head">
+            {/* the inner <i> is what moves; the <span> is the window it rides
+                up into, so each line arrives from behind the one above rather
+                than fading in over the field */}
+            {headline.map((l) => (
+              <span key={l}>
+                <i>{l}</i>
+              </span>
+            ))}
+          </h1>
 
-      {/* Knocked out of a white slab — the one place on the sheet where the
-          navy becomes the ink and the paper becomes the ground. */}
-      <p className="mb-emph">
-        <span>{emphasis}</span>
-      </p>
-
-      <p className="mb-eyebrow">
-        <span>{eyebrow}</span>
-      </p>
-
-      <div className="mb-cards">
-        {cards.map((c, i) => (
-          <div
-            className={`mb-card ${c.art === "partner" ? "mb-card--partner" : ""}`}
-            key={c.big + i}
-          >
-            <span className="mb-num">{i + 1}</span>
-            <div className="mb-copy">
-              <p className="mb-big">{c.big}</p>
-              {c.small.length > 0 && (
-                <p className="mb-small">
-                  {c.small.map((l) => (
-                    <span key={l}>{l}</span>
-                  ))}
-                </p>
-              )}
-              {c.note && <p className="mb-note">{c.note}</p>}
-              <p className="mb-value">{money(c.value)}</p>
-            </div>
-
-            <div className="mb-art">
-              {c.art === "partner" ? (
-                <span className="mb-disc mb-disc--paper">
-                  <img src={cnLogo} alt="Code Ninjas" />
-                  <em>WOODBRIDGE</em>
-                </span>
-              ) : (
-                <span className="mb-disc mb-disc--glass">
-                  <span className="mb-emoji">{c.emoji}</span>
-                </span>
-              )}
-            </div>
+          <div className="mb-badge" aria-hidden={false}>
+            <span className="mb-badge-sm">{badge[0]}</span>
+            <span className="mb-badge-lg">{badge[1]}</span>
+            <span className="mb-badge-sm">{badge[2]}</span>
+            <span className="mb-badge-sm">{badge[3]}</span>
           </div>
-        ))}
-      </div>
+        </div>
 
-      <p className="mb-cta">
-        <span>{cta}</span>
-      </p>
+        {/* Knocked out of a white slab — the one place on the sheet where the
+            navy becomes the ink and the paper becomes the ground. */}
+        <p className="mb-emph">
+          <span>{emphasis}</span>
+        </p>
 
-      <p className="mb-site">
-        <Globe />
-        {site}
-      </p>
+        <p className="mb-eyebrow">
+          <span>{eyebrow}</span>
+        </p>
 
-      <p className="mb-addr">
-        <Pin />
-        {address}
-      </p>
+        <div className="mb-cards">
+          {cards.map((c, i) => (
+            <div
+              className={`mb-card ${c.art === "partner" ? "mb-card--partner" : ""}`}
+              key={c.big + i}
+            >
+              <span className="mb-num">{i + 1}</span>
+              <div className="mb-copy">
+                <p className="mb-big">{c.big}</p>
+                {c.small.length > 0 && (
+                  <p className="mb-small">
+                    {c.small.map((l) => (
+                      <span key={l}>{l}</span>
+                    ))}
+                  </p>
+                )}
+                {c.note && <p className="mb-note">{c.note}</p>}
+                <p className="mb-value">{money(c.value)}</p>
+              </div>
+
+              <div className="mb-art">
+                {c.photo ? (
+                  <img className="mb-photo" src={c.photo} alt="" />
+                ) : c.art === "partner" ? (
+                  <span className="mb-disc mb-disc--paper">
+                    <img src={cnLogo} alt="Code Ninjas" />
+                    <em>WOODBRIDGE</em>
+                  </span>
+                ) : (
+                  <span className="mb-disc mb-disc--glass">
+                    <span className="mb-emoji">{c.emoji}</span>
+                  </span>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <p className="mb-cta">
+          <span>{cta}</span>
+        </p>
+
+        <p className="mb-site">
+          <Globe />
+          {site}
+        </p>
+
+        <p className="mb-addr">
+          <Pin />
+            {address}
+          </p>
       </div>
 
       <Grain />

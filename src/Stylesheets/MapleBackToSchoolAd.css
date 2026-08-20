@@ -1,28 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;600;800;900&family=Poppins:wght@400;500;600;700;800&display=swap');
 
 /* ============================================================
-   PORTED FROM ../poster's MapleBackToSchool, and deliberately not rewritten.
+   PORTED FROM ../poster's MapleBackToSchool. A COPY, NOT A REWRITE.
 
-   That sheet is the design the user pointed at, and its whole layout is
-   expressed in ONE unit — `--px`, a thousand-and-eightieth of the canvas width
-   — so it is resolution independent by construction. Dropping it into a 360px
-   stage makes --px a third of a CSS pixel, and recording that at
-   deviceScaleFactor 3 puts every measurement back on the exact device pixel the
-   poster was authored on. Nothing was re-measured and nothing was rescaled; the
-   only additions are the two rules below, which stand in for the poster repo's
-   Frame, and the cascade at the bottom of this file.
+   That sheet is the design; this file is it plus a cascade. Everything below
+   the cascade marker is the poster's, untouched, including its safe box — the
+   poster now does the crop-margin work itself (96/120 of a 1080 sheet, an
+   even 0.822 in both axes), so the animations copy carries no margin knob of
+   its own any more. There is exactly one source of truth for this layout and
+   it is the other repo.
 
-   IF THE POSTER CHANGES, RE-PORT IT rather than editing here — this is a copy
-   of somebody else's sheet and the two are meant to stay identical.
+   RE-PORT, DON'T EDIT. If the poster changes, copy it over again and re-apply
+   the cascade; a fix made only here is a fix the poster loses.
 
-     W=360 H=450 MS=6000 HOLD=1.8 BG='#00102b' \
+   The port is nearly free because the whole sheet is expressed in one unit —
+   --px, a 1080th of the safe box's width. Dropped into a 360px stage that
+   becomes a third of a CSS pixel, and recording at deviceScaleFactor 3 puts
+   every measurement back on the exact device pixel it was authored on.
+
+     W=360 H=450 MS=5600 HOLD=2.0 BG='#00102b' \
        OUT=~/Downloads/maple-back-to-school.mp4 \
        NODE_PATH=/tmp/rec/node_modules node tools/record.js
    ============================================================ */
 
-/* The container. `100cqw` resolves against the nearest ancestor container, not
-   against the element declaring it, so the stage cannot be its own — hence a
-   wrapper whose only job is to be the thing --px is a thousandth of. */
+/* Stands in for the poster repo's Frame. `100cqw` resolves against the nearest
+   ancestor CONTAINER, never against the element declaring it, so the stage
+   cannot be its own — hence a wrapper whose only job is to be the thing the
+   design unit is a thousandth of. */
 .mb-frame {
   position: fixed;
   inset: 0;
@@ -32,34 +36,7 @@
   container-name: poster;
 }
 
-/* The content box.
-
-   Shrinking is done by scaling the design UNIT and insetting the box
-   proportionally — NOT by putting transform: scale() on a wrapper. The two look
-   the same in a still and are not the same in a video: a scaled layer is
-   rasterised once and resampled, and 176px of headline resampled by 0.87 is
-   visibly softer than 153px of headline set at 153. Scaling --px re-lays the
-   whole sheet at the smaller size instead, so every glyph is rendered at its
-   final size and nothing is resampled anywhere.
-
-   The inset is (1 - fit) / 2 on each side. Percentages resolve against the
-   containing block's width horizontally and its height vertically, so one value
-   gives a proportional margin on all four edges without any arithmetic per
-   axis, and the content box ends up exactly 1080 x 1350 design px again. */
-.mb-content {
-  position: absolute;
-  inset: calc((1 - var(--fit)) * 50%);
-  --px: calc(100cqw / 1080 * var(--fit));
-}
-
 .mb-stage {
-  /* HOW MUCH OF THE FRAME THE CONTENT IS ALLOWED. 1 is the poster's own
-     edge-to-edge layout; anything less leaves a band of field on all four sides
-     for a crop to eat. The ad gets re-fit by whoever posts it and the crop can
-     come off any edge, so this is insurance, not styling. */
-  --fit: 0.82;
-
-  --px: calc(100cqw / 1080);
   position: absolute;
   inset: 0;
   overflow: hidden;
@@ -96,6 +73,13 @@
   --skew: -11deg;
 
   --gold: #e9c46a;
+
+  /* The frame's own design pixel, before the safe-box shrink. Only the
+   * full-bleed layers use it. */
+  --u: calc(100cqw / 1080);
+  --safe-x: calc(96 * var(--u));
+  --safe-y: calc(120 * var(--u));
+
   background: #00102b;
   color: var(--paper);
   font-family: Poppins, Inter, -apple-system, BlinkMacSystemFont, sans-serif;
@@ -152,6 +136,35 @@
     transparent 42%,
     rgba(0, 6, 22, 0.72) 100%
   );
+}
+
+/* ---------- the safe box ----------
+ *
+ * Crop insurance. Everything that is READ sits inside this box; the field, the
+ * leaf, the shaft and the grain stay full-bleed behind it, so what a crop eats
+ * off any edge is more poster and never a border.
+ *
+ * The shrink is done by REDEFINING THE UNIT, not by transforming the box. Every
+ * coordinate in this file is still the number measured off the original 1080
+ * sheet — nothing below had to move — but a design pixel is now 1/1080th of
+ * the INSET width rather than the full one, so the whole composition scales
+ * with it and stays in proportion. A `transform: scale()` would have been one
+ * line and would have rasterised the type once and then resampled it; this
+ * lays out and renders at the final size.
+ *
+ * The two margins are set so the fit is exact in both axes: 96 either side
+ * takes the width to 888/1080 = 0.822, and 120 top and bottom takes the height
+ * to 1110/1350 = 0.822 as well. Same ratio, so nothing is squashed and the
+ * clear space reads as even all round.
+ *
+ * To open the margins further, raise both keeping the 1 : 1.25 ratio between
+ * them — that is the sheet's own aspect, and it is what keeps the scale equal
+ * in both axes. Change one alone and the composition stretches.
+ */
+.mb-safe {
+  position: absolute;
+  inset: var(--safe-y) var(--safe-x);
+  --px: calc((100cqw - 2 * var(--safe-x)) / 1080);
 }
 
 /* ---------- atmosphere ----------
@@ -227,10 +240,18 @@
 
 .mb-logo {
   position: absolute;
-  top: calc(6 * var(--px));
+  /* The mark is now the WHOLE leaf, stem included — the earlier asset was
+   * cropped at the leaf body, and what looked like a clipped stem was a stem
+   * that had been deleted and then had BACK TO parked against the cut.
+   *
+   * Full, it is 0.985 wide-to-tall instead of 1.15, so at the old width it
+   * would run into the headline. It is lifted 18px INTO the safe margin
+   * instead: the margin is 120px, so 102 stays clear above it, and the mark
+   * keeps its size rather than shrinking to fit a gap. */
+  top: calc(-18 * var(--px));
   left: 50%;
   transform: translateX(-50%);
-  width: calc(229 * var(--px));
+  width: calc(214 * var(--px));
   height: auto;
 }
 
@@ -296,7 +317,7 @@
   inset: calc(6 * var(--px));
   border-radius: 50%;
   background: conic-gradient(
-    from 216deg,
+    from var(--mb-ring, 216deg),
     #6d5219 0deg,
     #e9c46a 58deg,
     #fff4d2 96deg,
@@ -404,7 +425,7 @@
   left: calc(32 * var(--px));
   right: calc(37 * var(--px));
   top: calc(689 * var(--px));
-  height: calc(420 * var(--px));
+  height: calc(436 * var(--px));
   display: flex;
   gap: calc(12 * var(--px));
 }
@@ -493,7 +514,7 @@
  * apart. Three absolute tops cannot say that; a flow block says it once. */
 .mb-copy {
   position: absolute;
-  top: calc(40 * var(--px));
+  top: calc(32 * var(--px));
   left: calc(6 * var(--px));
   right: calc(6 * var(--px));
 }
@@ -503,7 +524,7 @@
   font-family: Archivo, Poppins, sans-serif;
   font-weight: 900;
   font-stretch: 75%;
-  font-size: calc(76 * var(--px));
+  font-size: calc(72 * var(--px));
   line-height: 1;
   letter-spacing: calc(-0.5 * var(--px));
 }
@@ -515,21 +536,21 @@
   font-family: Archivo, Poppins, sans-serif;
   font-weight: 900;
   font-stretch: 75%;
-  font-size: calc(33 * var(--px));
+  font-size: calc(30 * var(--px));
   line-height: 0.894;
 }
 
 .mb-note {
   margin: calc(7 * var(--px)) 0 0;
-  font-size: calc(19 * var(--px));
+  font-size: calc(17 * var(--px));
   font-weight: 600;
   letter-spacing: calc(0.6 * var(--px));
   color: rgba(255, 255, 255, 0.68);
 }
 
 .mb-value {
-  margin: calc(7 * var(--px)) 0 0;
-  font-size: calc(28 * var(--px));
+  margin: calc(6 * var(--px)) 0 0;
+  font-size: calc(25 * var(--px));
   font-weight: 500;
   color: rgba(255, 255, 255, 0.82);
 }
@@ -547,8 +568,12 @@
   /* Card 3 carries three supporting lines, so its value sits ~26px lower than
    * the others'. The well starts below THAT for every card, so all three discs
    * land on one line across the row. */
-  top: calc(256 * var(--px));
-  bottom: calc(12 * var(--px));
+  /* The well starts below the LOWEST card's copy so all three artworks share
+   * one baseline — card 3 has four rows and sets it. Shrinking that card's
+   * type by a few points and taking the cards 16px taller is what bought the
+   * artwork its extra 38px; the well is 188 where it was 150. */
+  top: calc(240 * var(--px));
+  bottom: calc(8 * var(--px));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -577,6 +602,56 @@
  * the eye reads a set. The glyph is still an emoji — it just has somewhere to
  * stand.
  */
+/* ---------- photographed artwork ----------
+ *
+ * Real product shots replace the glyphs. They arrive on transparent grounds
+ * with their own modelling, so they need less staging than the emoji did, not
+ * more — the plinth that made two emoji read as placed would now be a saucer
+ * under an object that already has form.
+ *
+ * What they do need is CONTACT. An object cut out and dropped on a field
+ * floats; a pool of light behind it and a shadow on the floor beneath it put
+ * it in the panel. Both come off .mb-art so they sit behind the image.
+ */
+.mb-photo {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 calc(12 * var(--px)) calc(16 * var(--px))
+    rgba(0, 4, 16, 0.62));
+}
+
+.mb-art::before {
+  content: "";
+  position: absolute;
+  width: calc(190 * var(--px));
+  height: calc(190 * var(--px));
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    rgba(126, 186, 255, 0.17) 0%,
+    rgba(126, 186, 255, 0.06) 54%,
+    transparent 100%
+  );
+}
+
+.mb-art::after {
+  content: "";
+  position: absolute;
+  bottom: calc(2 * var(--px));
+  width: calc(126 * var(--px));
+  height: calc(20 * var(--px));
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    rgba(0, 4, 16, 0.6) 0%,
+    transparent 100%
+  );
+}
+
 .mb-disc {
   position: relative;
   width: calc(148 * var(--px));
@@ -721,27 +796,28 @@
 }
 
 /* ============================================================
-   THE CASCADE — the only thing this file adds to the poster.
+   ===== THE CASCADE — the only thing this file adds =====
 
-   Front-loaded on purpose. This is a paid feed unit, so the order is not top to
-   bottom, it is BIGGEST FIRST: the headline is legible by 0.6s, the roundel has
-   stamped by 1.0, and the whole sheet is up by 3.2. An ad that spends two
-   seconds introducing itself has already been scrolled past.
+   Ordered BIGGEST FIRST, not top to bottom. This is a paid feed unit: the
+   headline is legible by 0.6s, the seal has landed by 1.1, and the sheet is
+   whole by 3.4. An ad that spends two seconds introducing itself has already
+   been scrolled past.
 
       60  the leaf mark
-     200  BACK TO      320  SCHOOL
+     200  BACK TO       320  SCHOOL
      560  a light crosses the headline, once
-     640  the roundel stamps
-     820  the SPECIAL slab is struck
-    1120  the eyebrow, rules drawing out of the words
-    1280  the cards, 140ms apart; their numbers and discs behind them
-    2380  SIGN UP TODAY is struck
-    2700  the site, 2900 the address
-    ~3.2s everything is up, and it holds
+     640  the seal is struck, and its milled ring turns as it lands
+     840  the SPECIAL slab is struck across
+    1140  the eyebrow, its gold rules drawing out of the words
+    1300  the cards, 140ms apart
+    1620  their numbers    1740  their product shots
+    2420  SIGN UP TODAY is struck
+    2740  the site    2940  the address
+    ~3.4s everything is up, and it holds
 
-   Nothing exits, and nothing loops: the atmosphere layers (leaf, shaft, grain)
-   are painted from frame one and never move, because a poster that keeps
-   twitching under its own copy reads as a screensaver.
+   Nothing exits and nothing loops. The atmosphere — field, watermark leaf,
+   shaft, grain — is painted from frame one and never moves: a sheet that keeps
+   twitching under its own copy reads as a screensaver, not as a poster.
    ============================================================ */
 
 /* Pre-roll: mounted and painted, not yet moving. */
@@ -754,6 +830,7 @@
 .mb-stage:not(.mb-go):not(.mb-still) .mb-eyebrow::after,
 .mb-stage:not(.mb-go):not(.mb-still) .mb-card,
 .mb-stage:not(.mb-go):not(.mb-still) .mb-num,
+.mb-stage:not(.mb-go):not(.mb-still) .mb-photo,
 .mb-stage:not(.mb-go):not(.mb-still) .mb-disc,
 .mb-stage:not(.mb-go):not(.mb-still) .mb-cta,
 .mb-stage:not(.mb-go):not(.mb-still) .mb-site,
@@ -761,13 +838,13 @@
   opacity: 0;
 }
 
-/* The headline lines ride up out of their own window. */
+/* The headline rides up out of its own window. The padding is what keeps the
+   clip off the caps — an overflow box set to the line box shaves every glyph. */
 .mb-head span {
   display: block;
   overflow: hidden;
-  /* the window must clear the cap, or the clip shaves the top of every letter */
-  padding-top: calc(6 * var(--px));
-  margin-top: calc(-6 * var(--px));
+  padding-top: calc(8 * var(--px));
+  margin-top: calc(-8 * var(--px));
 }
 
 .mb-head span i {
@@ -775,90 +852,114 @@
   font-style: normal;
 }
 
-@keyframes mbRise { from { opacity: 0; transform: translateY(104%); } to { opacity: 1; transform: none; } }
-@keyframes mbDrop { from { opacity: 0; transform: translateX(-50%) translateY(calc(-40 * var(--px))) scale(0.9); }
-                    to   { opacity: 1; transform: translateX(-50%); } }
-@keyframes mbUp   { from { opacity: 0; transform: translateY(calc(26 * var(--px))); } to { opacity: 1; transform: none; } }
-@keyframes mbDrawL { from { opacity: 0; transform: scaleX(0); } to { opacity: 1; transform: scaleX(1); } }
+/* ---- EVERY CENTRED THING NEEDS ITS OWN KEYFRAMES ----
 
-/* THE CENTRED VARIANT EXISTS BECAUSE A TRANSFORM REPLACES A TRANSFORM. .mb-site
-   is centred with `left: 50%; transform: translateX(-50%)`, so animating plain
-   translateY on it dropped the centring for the whole animation AND for the
-   `both` fill afterwards — the pill ended up starting at the middle of the
-   sheet and hanging off the right edge. Anything centred that way needs its own
-   keyframes carrying the -50% in every frame. */
-@keyframes mbUpCentred {
+   A CSS transform REPLACES a transform, and .mb-logo, .mb-num and .mb-site are
+   all centred with `left: 50%` + `translateX(-50%)`. Animating a plain
+   translateY or scale on any of them drops the centring for the run AND for the
+   `both` fill afterwards, which parks the element half a sheet to the right.
+   This has now bitten on the site pill once; these three variants are the fix
+   and any new centred element needs the same treatment. */
+@keyframes mbDropC {
+  from { opacity: 0; transform: translateX(-50%) translateY(calc(-44 * var(--px))) scale(0.9); }
+  to   { opacity: 1; transform: translateX(-50%); }
+}
+@keyframes mbUpC {
   from { opacity: 0; transform: translateX(-50%) translateY(calc(26 * var(--px))); }
   to   { opacity: 1; transform: translateX(-50%); }
 }
+@keyframes mbPopC {
+  0%   { opacity: 0; transform: translateX(-50%) scale(0.4); }
+  66%  { opacity: 1; transform: translateX(-50%) scale(1.14); }
+  100% { opacity: 1; transform: translateX(-50%) scale(1); }
+}
 
-/* THE SEAL IS STRUCK, not faded: it arrives oversized and off-angle and lands
-   square. It is the only element allowed to overshoot, because it is the only
-   one pretending to be a physical object hitting the sheet. */
+@keyframes mbRise { from { opacity: 0; transform: translateY(104%); } to { opacity: 1; transform: none; } }
+@keyframes mbUp   { from { opacity: 0; transform: translateY(calc(26 * var(--px))); } to { opacity: 1; transform: none; } }
+@keyframes mbDraw { from { opacity: 0; transform: scaleX(0); } to { opacity: 1; transform: scaleX(1); } }
+@keyframes mbCard { from { opacity: 0; transform: translateY(calc(40 * var(--px))) scale(0.97); } to { opacity: 1; transform: none; } }
+
+/* The product shots come UP and settle, as objects being set down on the card
+   rather than pictures being faded in. */
+@keyframes mbSet {
+  from { opacity: 0; transform: translateY(calc(26 * var(--px))) scale(0.88); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* THE SEAL IS STRUCK. It arrives oversized and off-angle and lands square — the
+   only element allowed to overshoot, because it is the only one pretending to
+   be a physical object hitting the sheet. */
 @keyframes mbStamp {
-  0%   { opacity: 0; transform: scale(1.5) rotate(-16deg); }
-  55%  { opacity: 1; transform: scale(0.94) rotate(4deg); }
-  78%  { transform: scale(1.03) rotate(-1.5deg); }
+  0%   { opacity: 0; transform: scale(1.55) rotate(-17deg); }
+  54%  { opacity: 1; transform: scale(0.93) rotate(4deg); }
+  78%  { transform: scale(1.035) rotate(-1.5deg); }
   100% { opacity: 1; transform: scale(1) rotate(0deg); }
 }
 
-/* Both white slabs are STRUCK ACROSS: they grow from their leading edge, which
-   is ink being laid down rather than a rectangle appearing. The skew has to be
-   restated in every frame or the transform replaces it and the slab stands up. */
+/* Both white slabs are struck ACROSS, growing from their leading edge — ink
+   being laid down rather than a rectangle appearing. The skew has to be
+   restated in every frame or the slab stands upright mid-strike. */
 @keyframes mbStrike {
   from { opacity: 1; transform: skewX(var(--skew)) scaleX(0); }
   to   { opacity: 1; transform: skewX(var(--skew)) scaleX(1); }
 }
 
-@keyframes mbCard { from { opacity: 0; transform: translateY(calc(38 * var(--px))) scale(0.97); } to { opacity: 1; transform: none; } }
-@keyframes mbPop  { 0% { opacity: 0; transform: scale(0.4); } 66% { opacity: 1; transform: scale(1.13); } 100% { opacity: 1; transform: scale(1); } }
-@keyframes mbDisc { from { opacity: 0; transform: translateY(calc(16 * var(--px))) scale(0.86); } to { opacity: 1; transform: none; } }
-
-.mb-go .mb-logo { animation: mbDrop 720ms cubic-bezier(.2,.9,.25,1) 60ms both; }
+.mb-go .mb-logo { animation: mbDropC 720ms cubic-bezier(.2,.9,.25,1) 60ms both; }
 
 .mb-go .mb-head span:nth-child(1) i { animation: mbRise 700ms cubic-bezier(.16,1,.3,1) 200ms both; }
 .mb-go .mb-head span:nth-child(2) i { animation: mbRise 700ms cubic-bezier(.16,1,.3,1) 320ms both; }
 
-.mb-go .mb-badge { animation: mbStamp 700ms cubic-bezier(.2,.86,.3,1) 640ms both; }
-.mb-go .mb-emph  { animation: mbStrike 620ms cubic-bezier(.16,1,.3,1) 820ms both; transform-origin: left center; }
-.mb-go .mb-cta   { animation: mbStrike 620ms cubic-bezier(.16,1,.3,1) 2380ms both; transform-origin: left center; }
+.mb-go .mb-badge { animation: mbStamp 720ms cubic-bezier(.2,.86,.3,1) 640ms both; }
+.mb-go .mb-emph  { animation: mbStrike 620ms cubic-bezier(.16,1,.3,1) 840ms both; transform-origin: left center; }
+.mb-go .mb-cta   { animation: mbStrike 620ms cubic-bezier(.16,1,.3,1) 2420ms both; transform-origin: left center; }
 
-.mb-go .mb-eyebrow span    { animation: mbUp 560ms cubic-bezier(.16,1,.3,1) 1120ms both; }
-.mb-go .mb-eyebrow::before { animation: mbDrawL 600ms cubic-bezier(.16,1,.3,1) 1280ms both; transform-origin: right center; }
-.mb-go .mb-eyebrow::after  { animation: mbDrawL 600ms cubic-bezier(.16,1,.3,1) 1280ms both; transform-origin: left center; }
+.mb-go .mb-eyebrow span    { animation: mbUp 560ms cubic-bezier(.16,1,.3,1) 1140ms both; }
+.mb-go .mb-eyebrow::before { animation: mbDraw 620ms cubic-bezier(.16,1,.3,1) 1300ms both; transform-origin: right center; }
+.mb-go .mb-eyebrow::after  { animation: mbDraw 620ms cubic-bezier(.16,1,.3,1) 1300ms both; transform-origin: left center; }
 
-.mb-go .mb-card:nth-child(1) { animation: mbCard 640ms cubic-bezier(.16,1,.3,1) 1280ms both; }
-.mb-go .mb-card:nth-child(2) { animation: mbCard 640ms cubic-bezier(.16,1,.3,1) 1420ms both; }
-.mb-go .mb-card:nth-child(3) { animation: mbCard 640ms cubic-bezier(.16,1,.3,1) 1560ms both; }
+.mb-go .mb-card:nth-child(1) { animation: mbCard 660ms cubic-bezier(.16,1,.3,1) 1300ms both; }
+.mb-go .mb-card:nth-child(2) { animation: mbCard 660ms cubic-bezier(.16,1,.3,1) 1440ms both; }
+.mb-go .mb-card:nth-child(3) { animation: mbCard 660ms cubic-bezier(.16,1,.3,1) 1580ms both; }
 
-.mb-go .mb-card:nth-child(1) .mb-num { animation: mbPop 460ms cubic-bezier(.2,.9,.25,1) 1600ms both; }
-.mb-go .mb-card:nth-child(2) .mb-num { animation: mbPop 460ms cubic-bezier(.2,.9,.25,1) 1720ms both; }
-.mb-go .mb-card:nth-child(3) .mb-num { animation: mbPop 460ms cubic-bezier(.2,.9,.25,1) 1840ms both; }
+.mb-go .mb-card:nth-child(1) .mb-num { animation: mbPopC 480ms cubic-bezier(.2,.9,.25,1) 1620ms both; }
+.mb-go .mb-card:nth-child(2) .mb-num { animation: mbPopC 480ms cubic-bezier(.2,.9,.25,1) 1740ms both; }
+.mb-go .mb-card:nth-child(3) .mb-num { animation: mbPopC 480ms cubic-bezier(.2,.9,.25,1) 1860ms both; }
 
-.mb-go .mb-card:nth-child(1) .mb-disc { animation: mbDisc 560ms cubic-bezier(.16,1,.3,1) 1700ms both; }
-.mb-go .mb-card:nth-child(2) .mb-disc { animation: mbDisc 560ms cubic-bezier(.16,1,.3,1) 1820ms both; }
-.mb-go .mb-card:nth-child(3) .mb-disc { animation: mbDisc 560ms cubic-bezier(.16,1,.3,1) 1940ms both; }
+.mb-go .mb-card:nth-child(1) .mb-photo,
+.mb-go .mb-card:nth-child(1) .mb-disc { animation: mbSet 600ms cubic-bezier(.16,1,.3,1) 1740ms both; }
+.mb-go .mb-card:nth-child(2) .mb-photo,
+.mb-go .mb-card:nth-child(2) .mb-disc { animation: mbSet 600ms cubic-bezier(.16,1,.3,1) 1860ms both; }
+.mb-go .mb-card:nth-child(3) .mb-photo,
+.mb-go .mb-card:nth-child(3) .mb-disc { animation: mbSet 600ms cubic-bezier(.16,1,.3,1) 1980ms both; }
 
-.mb-go .mb-site { animation: mbUpCentred 560ms cubic-bezier(.16,1,.3,1) 2700ms both; }
-.mb-go .mb-addr { animation: mbUp 560ms cubic-bezier(.16,1,.3,1) 2900ms both; }
+.mb-go .mb-site { animation: mbUpC 560ms cubic-bezier(.16,1,.3,1) 2740ms both; }
+.mb-go .mb-addr { animation: mbUp  560ms cubic-bezier(.16,1,.3,1) 2940ms both; }
 
-/* ---------- the light across the headline ----------
+/* ---------- the two lights ----------
 
-   Registered so it interpolates: an unregistered custom property is a string to
-   the animation engine and the highlight jumps between keyframes instead of
-   travelling. It passes ONCE — a shimmer on a loop reads as a web banner. */
+   Both are registered @property angles/percentages. That is not decoration: an
+   unregistered custom property is a STRING to the animation engine, so it jumps
+   from keyframe to keyframe instead of interpolating, and the light teleports.
+
+   Each happens ONCE. A shimmer on a loop reads as a web banner. */
+
 @property --mb-sweep {
   syntax: "<percentage>";
   inherits: false;
   initial-value: -30%;
 }
 
-.mb-head { position: absolute; }
+@property --mb-ring {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 216deg;
+}
 
+/* A highlight travelling across the headline. */
 .mb-head::after {
   content: "";
   position: absolute;
-  inset: calc(-10 * var(--px)) calc(-24 * var(--px));
+  inset: calc(-12 * var(--px)) calc(-26 * var(--px));
   pointer-events: none;
   background: linear-gradient(
     104deg,
@@ -879,6 +980,17 @@
 
 .mb-go .mb-head::after { animation: mbSweep 1150ms linear 560ms both; }
 
+/* The seal's gold ring is a conic sweep, so turning its start angle as the
+   stamp lands is the ring CATCHING THE LIGHT — the one thing that separates a
+   struck piece of metal from a printed circle. It turns a little over half a
+   revolution and stops; it does not spin. */
+@keyframes mbRing {
+  from { --mb-ring: 30deg; }
+  to   { --mb-ring: 216deg; }
+}
+
+.mb-go .mb-badge::before { animation: mbRing 900ms cubic-bezier(.16,1,.3,1) 640ms both; }
+
 /* ---------- reduced motion ---------- */
 
 @media (prefers-reduced-motion: reduce) {
@@ -888,10 +1000,12 @@
     animation: none !important;
     transition: none !important;
   }
-  /* the slabs carry their skew as a transform, so it has to be restored by hand
-     once the animations that were restating it are gone */
+  /* the transforms the animations were restating have to be restored by hand */
   .mb-stage .mb-emph,
   .mb-stage .mb-cta { transform: skewX(var(--skew)); }
+  .mb-stage .mb-logo,
+  .mb-stage .mb-num,
+  .mb-stage .mb-site { transform: translateX(-50%); }
   .mb-stage .mb-eyebrow::before,
   .mb-stage .mb-eyebrow::after { transform: scaleX(1); }
   /* the sweep has no resting state; it is forced off rather than frozen */
