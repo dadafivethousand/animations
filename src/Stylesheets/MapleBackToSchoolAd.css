@@ -1,50 +1,74 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..900;1,62..125,400..900&family=Inter:wght@400;500;600;700;800&display=swap');
 
 /* ============================================================
-   MapleBackToSchoolAd — the flat post, rebuilt as elements.
+   MapleBackToSchoolAd
 
-   The measurements in this file are not design decisions; they are readings
-   off maple-back-to-school-post.png, taken at 1080x1350 and divided by 3. The
-   stage is 360x450 so that a deviceScaleFactor-3 capture lands back on the
-   source's own pixel grid exactly.
+   A 4:5 feed post. 360x450 here is 1080x1350 at deviceScaleFactor 3, so
+   nothing in the delivered file is ever resampled.
 
-   IF THE SOURCE ART IS EVER REPLACED, these numbers are stale. Re-measure;
-   do not nudge them until it "looks about right", because the four cut-out
-   pieces (leaf, gi, glove, disc) are pinned to the layout that produced them.
+   ── THE MARGIN IS THE DESIGN DECISION ──
 
-   ── THE DISPLAY FACE ──
+   The source ran its address two px off the bottom edge and its cards to
+   within ten of the sides, and that is what made it read as a flyer rather
+   than as a post. Everything now lives inside --pad, the block is centred in
+   what is left, and the frame of navy around it is not spare room — it is the
+   thing that makes the composition look placed instead of poured in.
 
-   Nothing is bundled here, so the face is a match rather than the original.
-   Anton was the first guess and it is too narrow: "BACK TO" measures 211 wide
-   at a 42 cap height in the source, an advance-to-cap ratio of 0.73, and Anton
-   runs about 0.60 — set to the right height it came out a fifth too short. 
-   Archivo Black sits at roughly 0.78 and lands close with a touch of negative
-   tracking. If this ever looks wrong, measure that ratio again before nudging
-   the size.
+   DO NOT reclaim this padding to fit more copy. If something does not fit,
+   the copy is too long; the margin is not too big.
+
+   ── THE ORDER THE EYE TAKES IT IN ──
+
+   Four beats of decreasing size — headline, hook, cards, how-to — and the
+   cascade at the bottom of this file delivers them in that order rather than
+   top to bottom, because a feed post gets somewhere under a second and the
+   first thing to land has to be the biggest.
+
+   ── WHAT THE EFFECTS ARE FOR ──
+
+   One gradient (the headline) and one moving highlight (across it, once). Gold
+   is reserved for the hook and the values — the money — and appears nowhere
+   else, which is what keeps it meaning "money" instead of meaning "decoration".
    ============================================================ */
 
+/* Registered so the sweep interpolates. An unregistered custom property is a
+   string to the animation engine and jumps from keyframe to keyframe; declaring
+   its type is what makes the light travel instead of teleport. */
+@property --sweep {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: -40%;
+}
+
 .mb-stage {
-  --navy: #001230;
-  --navy-hi: #06203f;
+  --navy-900: #00091c;
+  --navy-800: #001230;
+  --navy-700: #0a2450;
   --gold: #e9c46a;
+  --gold-hi: #ffeab4;
+  --gold-lo: #a8762a;
   --white: #ffffff;
+  --hair: rgba(255, 255, 255, 0.14);
 
-  /* the source's own slant, on both bars and the word inside them */
-  --slant: -8deg;
+  /* THE FRAME. 26 on the sides, 24 top and bottom, and the content block is
+     centred in what is left. */
+  --pad-x: 26px;
+  --pad-y: 24px;
 
-  /* The display face's WIDTH, as a variation axis rather than a font choice.
-     The source sets "BACK TO" 211 wide at a 38.5 cap — 0.72 of advance per cap
-     per glyph. Anton runs 0.60 and Archivo Black 0.96, so neither is it, and
-     picking whichever looks closest then fighting it with letter-spacing gets
-     the block width right by pushing the letters apart, which is visibly not
-     what the artwork does. Archivo carries a wdth axis, so the face can just be
-     made the right width. Tuned against the measured 211. */
-  --wd: 82;
+  /* The display face's width axis. The source's headline runs about 0.72 of
+     advance per cap per glyph; Anton is 0.60 and Archivo Black 0.96, so neither
+     is it, and faking it with letter-spacing widens the block by pushing the
+     letters apart, which is visibly not the same thing. Archivo carries a wdth
+     axis, so the face is set to the width it needs. */
+  --wd: 84;
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --pop: cubic-bezier(0.2, 0.9, 0.25, 1);
 
   position: fixed;
   inset: 0;
   overflow: hidden;
-  background: var(--navy);
+  background: var(--navy-900);
   color: var(--white);
   font-family: Inter, system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -56,402 +80,481 @@
   box-sizing: border-box;
 }
 
-/* The source is not a flat fill — it carries a soft lift toward the top and a
-   fall into the corners. Without it the rebuild reads flatter than the poster
-   it is copying, which is the kind of difference nobody names but everybody
-   sees when the two are side by side. */
-.mb-wash {
+/* ---------- the room ----------------------------------------------------- */
+
+/* Two keys, warm over the headline and cold under the cards. A single flat
+   navy is what made the first pass read flatter than the artwork it copied. */
+.mb-key {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(78% 42% at 50% 6%, var(--navy-hi) 0%, transparent 68%),
-    radial-gradient(120% 80% at 50% 50%, transparent 52%, rgba(0, 0, 0, 0.42) 100%);
+    radial-gradient(64% 34% at 50% 12%, rgba(58, 110, 190, 0.5) 0%, transparent 70%),
+    radial-gradient(52% 26% at 78% 30%, rgba(233, 196, 106, 0.13) 0%, transparent 72%),
+    radial-gradient(90% 40% at 50% 96%, rgba(10, 36, 80, 0.9) 0%, transparent 74%),
+    linear-gradient(180deg, var(--navy-800) 0%, var(--navy-900) 62%, #000714 100%);
 }
 
-/* ---------- top group ---------------------------------------------------- */
+/* A surface rather than a fill: 3px diagonals at 4% carry just enough texture
+   to catch the eye without ever being seen as stripes. */
+.mb-weave {
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  background: repeating-linear-gradient(
+    -34deg,
+    rgba(255, 255, 255, 0.045) 0 1px,
+    transparent 1px 5px
+  );
+  -webkit-mask-image: radial-gradient(78% 60% at 50% 42%, #000 0%, transparent 78%);
+  mask-image: radial-gradient(78% 60% at 50% 42%, #000 0%, transparent 78%);
+}
+
+.mb-vig {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(112% 78% at 50% 44%, transparent 46%, rgba(0, 0, 0, 0.6) 100%);
+}
+
+.mb-grain {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='160' height='160' filter='url(%23f)'/></svg>");
+  background-size: 160px 160px;
+}
+
+/* ---------- the page ----------------------------------------------------- */
+
+/* One centred column with fixed gaps. Nothing is absolutely positioned any
+   more, and nothing has flex:1 — the leftover height collects OUTSIDE the
+   block as margin rather than inside it as a stretched gap. */
+.mb-page {
+  position: absolute;
+  inset: var(--pad-y) var(--pad-x);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* 7, and every value below was cut to make the block fit INSIDE the padding
+     rather than the padding being cut to fit the block. The first pass came out
+     437 tall in a 402 box and overflowed the frame at both ends, which is
+     exactly the failure the margin exists to prevent. */
+  gap: 6px;
+  text-align: center;
+}
+
+/* The leaf gets a row of its own with real air under it. In the source it sat
+   directly on the cap line of BACK TO and the two read as one collided object;
+   the gap below is the fix and it is not decorative. */
+.mb-top {
+  margin-bottom: 3px;
+}
 
 .mb-logo {
-  position: absolute;
-  top: 3px;
-  left: 50%;
-  width: 70px;
-  margin-left: -35px;
+  width: 40px;
   display: block;
+  filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.55));
+}
+
+/* ---------- the headline ------------------------------------------------- */
+
+.mb-head {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  font-family: Archivo, Inter, sans-serif;
+  font-variation-settings: "wdth" var(--wd), "wght" 900;
+  font-size: 40px;
+  line-height: 0.9;
+  letter-spacing: -0.014em;
+}
+
+/* Each line is a window its own text rides up into, so the words arrive from
+   behind the line above rather than fading in over the background. */
+.mb-line {
+  display: block;
+  overflow: hidden;
+  padding: 0 1px;      /* the window must not clip the glyph's own side bearing */
+}
+
+/* THE ONE GRADIENT IN THE PIECE, and the light that runs across it.
+   `background-clip: text` paints the fill; the third stop is a hot band parked
+   off to the left at --sweep, and animating that registered percentage walks it
+   across the letterforms once. It is a highlight moving over metal, not a
+   shimmer loop — it happens, and then the headline is just a headline. */
+.mb-line i {
+  display: block;
+  font-style: normal;
+  background:
+    linear-gradient(180deg, #ffffff 0%, #dbe7fb 62%, #9fb6dd 100%),
+    linear-gradient(180deg, #fff 0%, #fff 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  position: relative;
+}
+
+.mb-line i::after {
+  content: attr(data-t);
+}
+
+/* The sweep is a second, brighter fill laid over the first and masked to the
+   same glyphs, so it can be moved without touching the base gradient. */
+.mb-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 
 .mb-head {
-  position: absolute;
-  top: 57px;
-  left: 32.8px;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  font-family: Archivo, Inter, sans-serif;
-  font-variation-settings: "wdth" var(--wd, 76), "wght" 900;
-  /* 42 cap height / 0.73 cap ratio; 49 of baseline-to-baseline over 57.5 is the
-     0.852 line-height. Both read off the source, not chosen. */
-  font-size: 52.7px;
-  line-height: 0.93;
-  letter-spacing: -0.012em;
-  font-weight: 400;   /* Archivo Black is already the 900; asking for 700 or 800
-                         would let the browser synthesise on top of it */
+  position: relative;
 }
 
-/* Each line is clipped by its own box and slides up into it, so the words
-   arrive from behind the line above rather than floating in from nowhere. */
-.mb-head span {
-  display: block;
-  overflow: hidden;
+.mb-head::after {
+  content: "";
+  position: absolute;
+  inset: -6% -8%;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent calc(var(--sweep) - 14%),
+    rgba(255, 255, 255, 0.9) var(--sweep),
+    transparent calc(var(--sweep) + 14%)
+  );
+  opacity: 0;
+  mix-blend-mode: overlay;
 }
 
-.mb-badge {
-  position: absolute;
-  top: 66px;
-  left: 268.3px;
-  width: 86px;
-  height: 86px;
-  border-radius: 50%;
-  background: var(--navy);
-  border: 2px solid var(--white);
-  box-shadow: 0 0 0 2px rgba(233, 196, 106, 0.55);
+/* ---------- SPECIAL ------------------------------------------------------ */
+
+/* A rule of gold, a word, a rule of gold. The source set this as a white slab;
+   at this size the slab was the loudest object on the sheet and it was carrying
+   the least important word on it. */
+.mb-special {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  text-align: center;
+  gap: 10px;
   font-family: Archivo, Inter, sans-serif;
-  font-variation-settings: "wdth" var(--wd, 76), "wght" 900;
+  font-variation-settings: "wdth" 88, "wght" 800;
+  font-size: 19px;
+  letter-spacing: 0.34em;
+  text-indent: 0.34em;
+  color: var(--gold-hi);
+}
+
+.mb-special::before,
+.mb-special::after {
+  content: "";
+  width: 44px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold));
+}
+.mb-special::after {
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+
+/* ---------- the hook ----------------------------------------------------- */
+
+/* The single most persuasive fact in the offer, promoted out of the little
+   circle it was in and given the full width. Gold on navy, one gradient, a
+   hairline of light along the top edge so it reads as a struck plate rather
+   than a filled rectangle. */
+.mb-hook {
+  margin: 2px 0 0;
+  width: 100%;
+  padding: 4px 0 5px;
+  border-radius: 8px;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.34) 0%, transparent 1px),
+    linear-gradient(180deg, var(--gold-hi) 0%, var(--gold) 46%, var(--gold-lo) 100%);
+  color: #2a1c05;
+  box-shadow:
+    0 8px 22px rgba(233, 196, 106, 0.22),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.22);
+}
+
+/* Sized DOWN from the first pass. Promoting the hook out of its circle was
+   right; letting it out-shout the headline was not — it is the second beat, and
+   at 25px against a 40px headline it was reading as the first. */
+.mb-hook b {
+  font-family: Archivo, Inter, sans-serif;
+  font-variation-settings: "wdth" 92, "wght" 900;
+  font-size: 21px;
+  letter-spacing: -0.015em;
   line-height: 1;
 }
 
-.mb-badge-over { font-size: 11px; letter-spacing: 0.06em; }
-.mb-badge-n    { font-size: 28.5px; margin: 2px 0 3px; letter-spacing: -0.01em; }
-.mb-badge-in   { font-size: 10px; letter-spacing: 0.05em; line-height: 1.15; }
-
-/* ---------- the two white bars ------------------------------------------- */
-
-/* Slabs of ink. Both are parallelograms carrying dark type, and the type takes
-   the same slant as the bar because in the source it is italic — un-skewing it
-   inside a skewed bar would make it upright, which is the opposite of the
-   artwork. */
-.mb-special,
-.mb-cta {
-  position: absolute;
-  background: var(--white);
-  color: var(--navy);
-  transform: skewX(var(--slant));
-  display: flex;
-  align-items: center;
-  font-family: Archivo, Inter, sans-serif;
-  font-variation-settings: "wdth" var(--wd, 76), "wght" 900;
-  overflow: hidden;
-}
-
-/* Both bars: the LEFT and WIDTH here are the un-skewed rect, back-solved from
-   the source's rendered bounding box. A skewX(-8deg) box spreads its bbox by
-   height * tan(8deg) — 6.1 for this one — so measuring the artwork and pasting
-   the numbers in directly would place the bar 3 to the left and 6 too wide. */
-.mb-special {
-  top: 156.7px;
-  left: 31.3px;
-  width: 228px;
-  height: 43.3px;
-  padding-left: 24px;
-  font-size: 36px;
-  letter-spacing: 0.012em;
-}
-
-.mb-cta {
-  top: 378.7px;
-  left: 39.8px;
-  width: 282px;
-  height: 35px;
-  justify-content: center;
-  font-size: 26px;
-  letter-spacing: 0.01em;
+.mb-hook span {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .mb-eyebrow {
-  position: absolute;
-  top: 204px;
-  left: 0;
-  right: 0;
   margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  font-size: 13px;
-  font-weight: 700;
-  font-style: italic;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-indent: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.62);
 }
 
-/* The rules draw OUT from the word rather than fading in, which is why they
-   are two elements and not a border. */
-.mb-eyebrow i {
-  display: block;
-  width: 59px;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.5);
-  transform: scaleX(0);
-}
-.mb-eyebrow i:first-child { transform-origin: right center; }
-.mb-eyebrow i:last-child  { transform-origin: left center; }
-
-/* ---------- the three cards ---------------------------------------------- */
+/* ---------- the cards ---------------------------------------------------- */
 
 .mb-cards {
-  position: absolute;
-  top: 233.3px;
-  left: 10.7px;
-  right: 12.3px;
-  margin: 0;
+  margin: 1px 0 0;
   padding: 0;
+  width: 100%;
   list-style: none;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  /* 3.95, not a round number, because 3 x 109.7 + 2 x 3.95 is the 337 the three
-     cards span in the source. The cards are wide and the gutters are hairlines;
-     rounding the gap up to 11 took 21 off the card width and every head inside
-     them started wrapping a word early. */
-  gap: 3.95px;
+  gap: 8px;
 }
 
+/* Gradient-bordered glass. Two backgrounds in one box: the first clipped to the
+   padding box is the card's own fill, the second clipped to the border box is
+   the border. It is the only way to get a border that fades from lit at the top
+   to nothing at the bottom, which is what stops three rectangles reading as a
+   table. */
 .mb-card {
   position: relative;
-  height: 133.3px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 9px;
-  background: rgba(255, 255, 255, 0.028);
-  padding: 13px 4px 0;
-  text-align: center;
+  height: 118px;
+  padding: 14px 5px 6px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.058) 0%, rgba(255, 255, 255, 0.012) 100%) padding-box,
+    linear-gradient(180deg, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0.06) 58%, rgba(255, 255, 255, 0.02) 100%) border-box;
+  box-shadow: 0 10px 24px rgba(0, 4, 16, 0.45);
 }
 
 /* The number sits ON the card's top edge, half in and half out — it is what
-   makes three boxes read as three STEPS. */
+   makes three boxes read as three STEPS rather than three boxes. */
 .mb-num {
   position: absolute;
-  top: -14px;
+  top: -10px;
   left: 50%;
-  width: 22px;
-  height: 22px;
-  margin-left: -11px;
+  width: 20px;
+  height: 20px;
+  margin-left: -10px;
   border-radius: 50%;
-  background: var(--white);
-  color: var(--navy);
+  background: linear-gradient(180deg, #ffffff 0%, #cfd9ea 100%);
+  color: var(--navy-900);
   font-family: Archivo, Inter, sans-serif;
-  font-variation-settings: "wdth" var(--wd, 76), "wght" 900;
-  font-size: 14px;
-  line-height: 22px;
+  font-variation-settings: "wdth" 92, "wght" 900;
+  font-size: 12px;
+  line-height: 20px;
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
 }
 
-/* The card heads are set NARROWER than the headline in the source — 0.63 of
-   advance per cap against the headline's 0.72 — which is a designer squeezing
-   them to fit a 110-wide card, not an inconsistency to average away. They get
-   their own width axis. */
+.mb-card-body {
+  min-height: 30px;
+}
+
 .mb-card-head {
-  --wd: 70;
+  margin: 0;
   display: flex;
   flex-direction: column;
   font-family: Archivo, Inter, sans-serif;
-  font-variation-settings: "wdth" var(--wd, 76), "wght" 900;
   line-height: 1.02;
-  letter-spacing: 0.01em;
 }
 
-/* The first line of each card is the loud one and the rest are qualifiers, so
-   they step down rather than all being set at the headline size. */
-.mb-card-head span:first-child { font-size: 26px; }
-.mb-card-head span + span      { font-size: 14px; }
+.mb-card-head b {
+  font-variation-settings: "wdth" 78, "wght" 900;
+  font-size: 21px;
+  letter-spacing: 0.005em;
+}
 
-/* Card three carries FOUR head lines against card two's two, and at a shared
-   size its block ran straight over the disc pinned to the card bottom. The
-   source solves it the same way — its "MONTH OF / CODE NINJAS / WOODBRIDGE" is
-   visibly smaller than card two's "BOXING GLOVES" — so this is matching the
-   artwork, not papering over a layout bug. The budget is exact: 133.3 of card,
-   less 13 of padding, less the head, less the value, is what the disc gets. */
-.mb-card:nth-child(3) .mb-card-head span:first-child { font-size: 24px; }
-.mb-card:nth-child(3) .mb-card-head span + span      { font-size: 11px; }
-.mb-card:nth-child(3) .mb-value { margin-top: 4px; }
-
-.mb-value {
-  margin: 6px 0 0;
-  font-size: 11px;
-  font-weight: 600;
+.mb-card-head i {
+  font-style: normal;
+  font-variation-settings: "wdth" 76, "wght" 800;
+  font-size: 10.5px;
+  text-wrap: balance;
+  letter-spacing: 0.015em;
+  line-height: 1.14;
+  margin-top: 2px;
   color: rgba(255, 255, 255, 0.92);
 }
-.mb-value b { color: var(--gold); font-weight: 800; }
-.mb-value::before { content: "("; }
-.mb-value::after  { content: ")"; }
 
-/* Each card's object is pinned to the card's own bottom, not laid out in flow:
-   the heads are one, two and four lines long, and in flow the gi, the glove and
-   the disc would sit at three different heights. */
-.mb-art {
-  position: absolute;
-  left: 50%;
-  bottom: 8px;
-  display: block;
+.mb-card:nth-child(3) .mb-card-head i { font-size: 10px; }
+
+.mb-value {
+  margin: 4px 0 0;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
 }
-/* Sized from each cut-out's own pixels at 1:3, so nothing is resampled:
-   the gi is 66x138 source, the glove 144x99, the disc 165x153. */
-.mb-art-gi    { width: 24px; margin-left: -12px;   bottom: 5px; }
-.mb-art-glove { width: 48px; margin-left: -24px;   bottom: 9px; }
-.mb-art-disc  { width: 42px; margin-left: -21px;   bottom: 3px; }
+.mb-value b {
+  color: var(--gold);
+  font-weight: 800;
+  font-size: 11px;
+}
+
+/* The objects get whatever room is LEFT in the card and bottom-align in it.
+
+   A fixed slot height was tried and cannot work: the gi is 66x138 and the glove
+   144x99, so any height that lets the gi be legible is twice what the glove
+   needs, and any height the glove is comfortable in crushes the gi. Taking the
+   remainder means each card's type sets its own object's ceiling — which is the
+   thing the source could not do, and why its third card had to be shrunk whole
+   to keep the disc off its own copy. */
+.mb-art-slot {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.mb-art {
+  display: block;
+  filter: drop-shadow(0 5px 7px rgba(0, 0, 0, 0.55));
+}
+.mb-art-gi    { width: 22px; }
+.mb-art-glove { width: 44px; }
+/* The smallest of the three, and it has to be: card three's type runs to four
+   lines where card one's runs to two, so the disc gets what is left after the
+   copy rather than a size chosen for it. */
+.mb-art-disc  { width: 33px; }
 
 /* ---------- footer ------------------------------------------------------- */
 
-.mb-site {
-  position: absolute;
-  top: 415px;
-  left: 82.3px;
-  width: 195.3px;
-  height: 21px;
+.mb-foot {
+  width: 100%;
+  margin-top: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Reversed out to white, which makes it the second-brightest object on the
+   piece after the headline — correct, because it is the instruction. */
+.mb-cta {
+  margin: 0;
+  width: 100%;
+  padding: 6px 0 7px;
+  border-radius: 9px;
+  background: linear-gradient(180deg, #ffffff 0%, #dfe6f2 100%);
+  color: var(--navy-900);
+  font-family: Archivo, Inter, sans-serif;
+  font-variation-settings: "wdth" 90, "wght" 900;
+  font-size: 21px;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+}
+
+.mb-where {
   margin: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.45);
-  border-radius: 11px;
-  font-size: 15px;
+  gap: 8px;
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, 0.66);
+}
+.mb-where b {
+  font-size: 12.5px;
   font-weight: 800;
+  color: var(--white);
   letter-spacing: -0.005em;
 }
-
-.mb-site svg {
-  width: 13px;
-  height: 13px;
-  fill: none;
-  stroke: var(--white);
-  stroke-width: 1.6;
-}
-
-.mb-addr {
-  position: absolute;
-  top: 439px;
-  left: 0;
-  right: 0;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  font-size: 10.4px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.88);
-}
-
-.mb-addr svg {
-  width: 10px;
+.mb-where i {
+  width: 1px;
   height: 10px;
-  fill: var(--white);
-  stroke: none;
+  background: var(--hair);
 }
 
 /* ---------- the cascade --------------------------------------------------
 
-   Every delay in the piece, in the order the viewer meets it:
+   Front-loaded on purpose. The hook is on screen by 1.1s and the whole thing
+   is up by 3.3 — a feed post that spends two seconds introducing itself has
+   already been scrolled past.
 
-      120  the leaf
-      420  BACK TO      560  SCHOOL
-      880  the badge stamps
-     1120  SPECIAL wipes
-     1480  the eyebrow, its rules drawing out of the word
-     1720  the cards, 150ms apart
-     2120  their numbers, then 2320 their objects
-     2980  SIGN UP TODAY wipes
-     3280  the address pill      3520  the street address
-     ~4.4s everything is up, and it holds
+      80  the leaf
+     240  BACK TO      360  SCHOOL
+     700  the light crosses the headline
+     620  SPECIAL and its rules
+     880  THE HOOK
+    1180  the eligibility line
+    1320  the cards, 130ms apart
+    1620  their numbers, 1760 their objects
+    2400  SIGN UP TODAY
+    2700  the site and address
+   ~3.3s  everything is up, and it holds
 
    Nothing exits. ------------------------------------------------------------ */
 
 .mb-stage:not(.mb-go):not(.mb-still) .mb-logo,
-.mb-stage:not(.mb-go):not(.mb-still) .mb-head span,
-.mb-stage:not(.mb-go):not(.mb-still) .mb-badge,
+.mb-stage:not(.mb-go):not(.mb-still) .mb-line i,
 .mb-stage:not(.mb-go):not(.mb-still) .mb-special,
-.mb-stage:not(.mb-go):not(.mb-still) .mb-cta,
-.mb-stage:not(.mb-go):not(.mb-still) .mb-eyebrow span,
+.mb-stage:not(.mb-go):not(.mb-still) .mb-hook,
+.mb-stage:not(.mb-go):not(.mb-still) .mb-eyebrow,
 .mb-stage:not(.mb-go):not(.mb-still) .mb-card,
 .mb-stage:not(.mb-go):not(.mb-still) .mb-num,
 .mb-stage:not(.mb-go):not(.mb-still) .mb-art,
-.mb-stage:not(.mb-go):not(.mb-still) .mb-site,
-.mb-stage:not(.mb-go):not(.mb-still) .mb-addr {
+.mb-stage:not(.mb-go):not(.mb-still) .mb-cta,
+.mb-stage:not(.mb-go):not(.mb-still) .mb-where {
   opacity: 0;
 }
 
-@keyframes mbDrop {
-  from { opacity: 0; transform: translateY(-16px) scale(0.94); }
-  to   { opacity: 1; transform: none; }
-}
-@keyframes mbUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: none; }
-}
-/* The headline lines ride up from behind their own clip, so they come out of
-   the line above instead of out of nothing. */
-@keyframes mbLine {
-  from { opacity: 0; transform: translateY(100%); }
-  to   { opacity: 1; transform: none; }
-}
-/* The one overshoot in the piece. A stamp that settles gently is not a stamp. */
-@keyframes mbStamp {
-  0%   { opacity: 0; transform: scale(0.4) rotate(-14deg); }
-  62%  { opacity: 1; transform: scale(1.08) rotate(3deg); }
-  100% { opacity: 1; transform: scale(1) rotate(0deg); }
-}
-/* Ink being laid down: the bar grows from its leading edge, carrying the word
-   with it. The skew has to be restated or the transform replaces it. */
-@keyframes mbWipe {
-  from { opacity: 1; transform: skewX(var(--slant)) scaleX(0); }
-  to   { opacity: 1; transform: skewX(var(--slant)) scaleX(1); }
-}
-@keyframes mbDraw {
-  to { transform: scaleX(1); }
-}
-@keyframes mbPop {
-  0%   { opacity: 0; transform: scale(0.5); }
-  70%  { opacity: 1; transform: scale(1.12); }
-  100% { opacity: 1; transform: scale(1); }
-}
-@keyframes mbFade {
-  from { opacity: 0; transform: scale(0.9); }
-  to   { opacity: 1; transform: none; }
+@keyframes mbDrop { from { opacity: 0; transform: translateY(-14px) scale(0.92); } to { opacity: 1; transform: none; } }
+@keyframes mbUp   { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; transform: none; } }
+@keyframes mbRise { from { opacity: 0; transform: translateY(100%); } to { opacity: 1; transform: none; } }
+@keyframes mbWide { from { opacity: 0; transform: translateY(8px) scaleX(0.9); } to { opacity: 1; transform: none; } }
+@keyframes mbPop  { 0% { opacity: 0; transform: scale(0.45); } 68% { opacity: 1; transform: scale(1.14); } 100% { opacity: 1; transform: scale(1); } }
+@keyframes mbArt  { from { opacity: 0; transform: translateY(7px) scale(0.86); } to { opacity: 1; transform: none; } }
+
+/* The light: fade it up, walk it across, fade it out. Both the opacity and the
+   position are on one timeline so the highlight never appears parked. */
+@keyframes mbSweep {
+  0%   { opacity: 0;    --sweep: -30%; }
+  18%  { opacity: 0.85; }
+  82%  { opacity: 0.85; }
+  100% { opacity: 0;    --sweep: 130%; }
 }
 
-.mb-go .mb-logo { animation: mbDrop 760ms cubic-bezier(.2, .9, .25, 1) 120ms both; }
+.mb-go .mb-logo { animation: mbDrop 700ms var(--pop) 80ms both; }
+.mb-go .mb-line:nth-child(1) i { animation: mbRise 660ms var(--ease) 240ms both; }
+.mb-go .mb-line:nth-child(2) i { animation: mbRise 660ms var(--ease) 360ms both; }
+.mb-go .mb-head::after { animation: mbSweep 1100ms linear 700ms both; }
 
-.mb-go .mb-head span > * { display: block; }
-.mb-go .mb-head span:nth-child(1) { animation: mbLine 720ms cubic-bezier(.16,1,.3,1) 420ms both; }
-.mb-go .mb-head span:nth-child(2) { animation: mbLine 720ms cubic-bezier(.16,1,.3,1) 560ms both; }
+.mb-go .mb-special { animation: mbUp 620ms var(--ease) 620ms both; }
+.mb-go .mb-hook    { animation: mbWide 700ms var(--pop) 880ms both; }
+.mb-go .mb-eyebrow { animation: mbUp 560ms var(--ease) 1180ms both; }
 
-.mb-go .mb-badge   { animation: mbStamp 620ms cubic-bezier(.2,.9,.25,1) 880ms both; }
+.mb-go .mb-card:nth-child(1) { animation: mbUp 620ms var(--ease) 1320ms both; }
+.mb-go .mb-card:nth-child(2) { animation: mbUp 620ms var(--ease) 1450ms both; }
+.mb-go .mb-card:nth-child(3) { animation: mbUp 620ms var(--ease) 1580ms both; }
 
-.mb-go .mb-special { animation: mbWipe 620ms cubic-bezier(.16,1,.3,1) 1120ms both; transform-origin: left center; }
-.mb-go .mb-cta     { animation: mbWipe 620ms cubic-bezier(.16,1,.3,1) 2980ms both; transform-origin: left center; }
+.mb-go .mb-card:nth-child(1) .mb-num { animation: mbPop 460ms var(--pop) 1620ms both; }
+.mb-go .mb-card:nth-child(2) .mb-num { animation: mbPop 460ms var(--pop) 1730ms both; }
+.mb-go .mb-card:nth-child(3) .mb-num { animation: mbPop 460ms var(--pop) 1840ms both; }
 
-.mb-go .mb-eyebrow span { animation: mbUp 560ms cubic-bezier(.16,1,.3,1) 1480ms both; }
-.mb-go .mb-eyebrow i    { animation: mbDraw 620ms cubic-bezier(.16,1,.3,1) 1660ms both; }
+.mb-go .mb-card:nth-child(1) .mb-art { animation: mbArt 560ms var(--ease) 1760ms both; }
+.mb-go .mb-card:nth-child(2) .mb-art { animation: mbArt 560ms var(--ease) 1880ms both; }
+.mb-go .mb-card:nth-child(3) .mb-art { animation: mbArt 560ms var(--ease) 2000ms both; }
 
-.mb-go .mb-card:nth-child(1) { animation: mbUp 640ms cubic-bezier(.16,1,.3,1) 1720ms both; }
-.mb-go .mb-card:nth-child(2) { animation: mbUp 640ms cubic-bezier(.16,1,.3,1) 1870ms both; }
-.mb-go .mb-card:nth-child(3) { animation: mbUp 640ms cubic-bezier(.16,1,.3,1) 2020ms both; }
-
-.mb-go .mb-card:nth-child(1) .mb-num { animation: mbPop 480ms cubic-bezier(.2,.9,.25,1) 2120ms both; }
-.mb-go .mb-card:nth-child(2) .mb-num { animation: mbPop 480ms cubic-bezier(.2,.9,.25,1) 2220ms both; }
-.mb-go .mb-card:nth-child(3) .mb-num { animation: mbPop 480ms cubic-bezier(.2,.9,.25,1) 2320ms both; }
-
-.mb-go .mb-card:nth-child(1) .mb-art { animation: mbFade 620ms cubic-bezier(.16,1,.3,1) 2320ms both; }
-.mb-go .mb-card:nth-child(2) .mb-art { animation: mbFade 620ms cubic-bezier(.16,1,.3,1) 2440ms both; }
-.mb-go .mb-card:nth-child(3) .mb-art { animation: mbFade 620ms cubic-bezier(.16,1,.3,1) 2560ms both; }
-
-.mb-go .mb-site { animation: mbUp 600ms cubic-bezier(.16,1,.3,1) 3280ms both; }
-.mb-go .mb-addr { animation: mbUp 600ms cubic-bezier(.16,1,.3,1) 3520ms both; }
+.mb-go .mb-cta   { animation: mbWide 640ms var(--pop) 2400ms both; }
+.mb-go .mb-where { animation: mbUp 560ms var(--ease) 2700ms both; }
 
 /* ---------- reduced motion ----------------------------------------------- */
 
-/* The whole poster, immediately — it is a printed graphic underneath, and the
-   information was never the part that needed moving. */
 @media (prefers-reduced-motion: reduce) {
   .mb-stage *,
   .mb-stage *::before,
@@ -459,9 +562,6 @@
     animation: none !important;
     transition: none !important;
   }
-  .mb-stage .mb-special,
-  .mb-stage .mb-cta {
-    transform: skewX(var(--slant));
-  }
-  .mb-stage .mb-eyebrow i { transform: scaleX(1); }
+  /* the sweep has no resting state, so it is forced off rather than frozen */
+  .mb-stage .mb-head::after { opacity: 0; }
 }
