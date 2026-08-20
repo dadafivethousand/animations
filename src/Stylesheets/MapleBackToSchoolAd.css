@@ -57,7 +57,7 @@
      edge-to-edge layout; anything less leaves a band of field on all four sides
      for a crop to eat. The ad gets re-fit by whoever posts it and the crop can
      come off any edge, so this is insurance, not styling. */
-  --fit: 0.87;
+  --fit: 0.82;
 
   --px: calc(100cqw / 1080);
   position: absolute;
