@@ -41,10 +41,6 @@
       0 0 0 21px #a8720f inset,                  /* deep gold       */
       0 0 0 24px rgba(255,226,150,.6) inset;     /* highlight       */
   }
-  .rule {
-    position:absolute; inset:38px; z-index:6; pointer-events:none;
-    border:2.5px dashed rgba(255,223,135,.55); border-radius:8px;
-  }
   .corner { position:absolute; width:118px; height:118px; z-index:7; opacity:.85; }
   .c-tl { top:30px; left:30px; }
   .c-tr { top:30px; right:30px; transform:scaleX(-1); }
@@ -187,7 +183,6 @@
 
   <!-- engraved frame + filigree corners -->
   <div class="frame"></div>
-  <div class="rule"></div>
   <svg class="corner c-tl" viewBox="0 0 100 100" fill="none">
     <g stroke="#ffdf87" stroke-width="3" stroke-linecap="round">
       <path d="M4 46 C4 22 22 4 46 4"/>
