@@ -46,7 +46,7 @@ export default function MapleBackToSchoolAd({
     {
       big: "FREE",
       small: ["1 MONTH AT", "CODE NINJAS"],
-      note: "(WOODBRIDGE LOCATION)",
+      note: "(6175 HWY 7 LOCATION)",
       value: "($169 Value)",
       photo: ninjaPhoto,
     },
