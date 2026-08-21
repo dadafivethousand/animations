@@ -943,9 +943,12 @@
 
    Each happens ONCE. A shimmer on a loop reads as a web banner. */
 
+/* inherits: TRUE — the animation runs on .mb-head and both lines read the value
+   off it, so a single light crosses the whole headline. With inherits: false
+   each line would need its own timeline and they would drift apart. */
 @property --mb-sweep {
   syntax: "<percentage>";
-  inherits: false;
+  inherits: true;
   initial-value: -30%;
 }
 
@@ -955,30 +958,84 @@
   initial-value: 216deg;
 }
 
-/* A highlight travelling across the headline. */
-.mb-head::after {
-  content: "";
+/* THE LIGHT IS CLIPPED TO THE LETTERS, and this is the whole point.
+
+   It used to be a gradient painted over .mb-head::after — a box the size of the
+   headline — so what actually crossed the screen was a bright RECTANGLE with
+   hard vertical edges, lighting the navy field between and around the glyphs as
+   much as the glyphs themselves. The user spotted it immediately: a rectangle
+   appearing out of nowhere reads as a bug, and the instinct is to draw a border
+   round it so it looks intentional.
+
+   The border would have been the wrong fix twice over. It would make the
+   held final frame differ from the poster this file is a copy of, and it would
+   be adding an object to explain an effect rather than fixing the effect.
+
+   So the sweep is now painted through a DUPLICATE OF THE TEXT — content:
+   attr(data-text), filled with the moving gradient, background-clip: text — and
+   it lights nothing but the letterforms. There is no rectangle left to justify.
+   The base type underneath is untouched, so the resting frame is still the
+   poster's exactly. */
+.mb-head span i {
+  position: relative;
+}
+
+.mb-head span i::after {
+  content: attr(data-text);
   position: absolute;
-  inset: calc(-12 * var(--px)) calc(-26 * var(--px));
+  left: 0;
+  top: 0;
   pointer-events: none;
   background: linear-gradient(
     104deg,
-    transparent calc(var(--mb-sweep) - 13%),
-    rgba(255, 255, 255, 0.85) var(--mb-sweep),
-    transparent calc(var(--mb-sweep) + 13%)
+    transparent calc(var(--mb-sweep) - 15%),
+    #ffffff calc(var(--mb-sweep) - 2%),
+    #ffffff calc(var(--mb-sweep) + 2%),
+    transparent calc(var(--mb-sweep) + 15%)
   );
-  mix-blend-mode: overlay;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* TEXT-SHADOW PAINTS EVEN WHEN THE FILL IS TRANSPARENT — it is drawn from the
+     glyph outlines, not from the colour. The headline carries a dark shadow for
+     separation against the key light, this duplicate inherited it, and so every
+     frame of the sweep laid a dark copy of the letters over the white ones: the
+     headline turned GREY for the whole second the light was crossing it, then
+     snapped back to white. Kill it here; the real type underneath still has
+     its own. */
+  text-shadow: none;
   opacity: 0;
+  /* the highlight is brighter than white paper, so it blooms slightly rather
+     than just being white-on-white */
+  filter: drop-shadow(0 0 calc(10 * var(--px)) rgba(190, 226, 255, 0.85));
 }
 
-@keyframes mbSweep {
-  0%   { opacity: 0;   --mb-sweep: -26%; }
-  16%  { opacity: 0.9; }
-  84%  { opacity: 0.9; }
-  100% { opacity: 0;   --mb-sweep: 128%; }
+/* TWO KEYFRAMES, AND THEY MUST STAY TWO.
+
+   The driver moves the position and NOTHING else; the ink fades the highlight
+   in and out. Running one keyframe on both elements is what killed the first
+   attempt: it carried `opacity` as well as `--mb-sweep`, so putting it on
+   .mb-head faded THE ENTIRE HEADLINE — with `both` fill, to nothing. The held
+   final frame had no headline on it at all.
+
+   Anything that drives an inherited custom property has to animate that
+   property alone. The element it runs on is a carrier, not a participant. */
+@keyframes mbSweepDrive {
+  from { --mb-sweep: -24%; }
+  to   { --mb-sweep: 124%; }
 }
 
-.mb-go .mb-head::after { animation: mbSweep 1150ms linear 560ms both; }
+@keyframes mbSweepInk {
+  0%   { opacity: 0; }
+  14%  { opacity: 1; }
+  86%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* The driver runs on the HEAD and both lines inherit the value, so one light
+   crosses the whole headline instead of two lights crossing two boxes. */
+.mb-go .mb-head { animation: mbSweepDrive 1250ms linear 520ms both; }
+.mb-go .mb-head span i::after { animation: mbSweepInk 1250ms linear 520ms both; }
 
 /* The seal's gold ring is a conic sweep, so turning its start angle as the
    stamp lands is the ring CATCHING THE LIGHT — the one thing that separates a
@@ -1008,6 +1065,96 @@
   .mb-stage .mb-site { transform: translateX(-50%); }
   .mb-stage .mb-eyebrow::before,
   .mb-stage .mb-eyebrow::after { transform: scaleX(1); }
-  /* the sweep has no resting state; it is forced off rather than frozen */
-  .mb-stage .mb-head::after { opacity: 0; }
+  /* None of the three lights has a resting state — a highlight frozen halfway
+     across a word is worse than no highlight — so they are forced off rather
+     than left wherever `animation: none` happened to drop them. The selector
+     list has to track the effects: it named .mb-head::after, which stopped
+     existing when the sweep moved onto the glyph duplicate. */
+  .mb-stage .mb-head span i::after,
+  .mb-stage .mb-badge::after,
+  .mb-stage .mb-cta::after { opacity: 0; }
 }
+
+/* ============================================================
+   ===== TWO MORE THINGS FOR THE FEED =====
+
+   An ad has to earn the second it gets. Both of these are single events at
+   moments the eye is already going somewhere, not decoration laid over the
+   whole run.
+   ============================================================ */
+
+/* ---------- the seal lands ----------
+
+   A ring thrown off the roundel at the instant it hits. It expands past the
+   seal's own edge and is gone in under half a second — the visual equivalent of
+   the sound a stamp makes, and the reason the strike now reads as an impact
+   rather than as a circle that scaled in.
+
+   On ::after because ::before is already the milled gold ring. */
+.mb-badge::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow: 0 0 0 calc(3 * var(--px)) rgba(255, 255, 255, 0.9);
+  opacity: 0;
+}
+
+@keyframes mbImpact {
+  0%   { opacity: 0;    transform: scale(0.9); }
+  22%  { opacity: 0.85; }
+  100% { opacity: 0;    transform: scale(1.5); }
+}
+
+/* Fires at the landing, not at the start of the stamp: the seal is thrown at
+   640 and settles around 1040, and a ring that leaves before the object arrives
+   is a ring nothing threw. */
+.mb-go .mb-badge::after { animation: mbImpact 620ms cubic-bezier(.2,.7,.3,1) 980ms both; }
+
+/* ---------- the call to action catches the light ----------
+
+   Last thing to move, and deliberately so: the film ends by lighting the one
+   line that says what to do. The slab is white, so this is a sheen crossing
+   paper rather than a glow — a band slightly brighter than the paper, with a
+   cool edge, travelling the way the headline's light did.
+
+   overflow: hidden keeps it inside the parallelogram; without it the band
+   overhangs the slab's leading corner and the CTA appears to leak. */
+.mb-cta {
+  overflow: hidden;
+}
+
+.mb-cta::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--mb-gleam) - 22%);
+  width: 44%;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.95) 44%,
+    rgba(214, 234, 255, 0.9) 56%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  opacity: 0;
+  mix-blend-mode: soft-light;
+}
+
+@property --mb-gleam {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: -30%;
+}
+
+@keyframes mbGleam {
+  0%   { opacity: 0;   --mb-gleam: -28%; }
+  16%  { opacity: 1; }
+  84%  { opacity: 1; }
+  100% { opacity: 0;   --mb-gleam: 128%; }
+}
+
+.mb-go .mb-cta::after { animation: mbGleam 900ms linear 3080ms both; }

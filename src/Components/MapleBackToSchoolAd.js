@@ -112,7 +112,10 @@ export default function MapleBackToSchoolAd({
                 than fading in over the field */}
             {headline.map((l) => (
               <span key={l}>
-                <i>{l}</i>
+                {/* data-text is what the light is painted through: a duplicate
+                    of the line, filled with the moving gradient and clipped to
+                    the glyphs. Without it the sweep is a rectangle. */}
+                <i data-text={l}>{l}</i>
               </span>
             ))}
           </h1>
