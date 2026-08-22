@@ -1,0 +1,1171 @@
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wdth,wght@75..125,400..700&family=Caveat:wght@600;700&family=Poppins:wght@400;500;600;700;800&display=swap");
+
+/* ============================================================
+   PORTED FROM ../poster's OpenHouse. A COPY, NOT A REWRITE.
+
+   That sheet is the design; this file is it plus a cascade. Everything
+   between the two markers below is the poster's, untouched, including its
+   reel safe area — the poster does the crop-margin work itself, so this copy
+   carries no margin knob of its own. There is exactly one source of truth for
+   this layout and it is the other repo.
+
+   RE-PORT, DON'T EDIT. If the poster changes, copy it over again and re-apply
+   the cascade; a fix made only here is a fix the poster loses.
+
+   The port is nearly free because the whole sheet is expressed in one unit —
+   --px, a 1080th of the frame's width. Dropped into a 360px stage that becomes
+   a third of a CSS pixel, and recording at deviceScaleFactor 3 puts every
+   measurement back on the exact device pixel it was authored on.
+
+     MS=10200 HOLD=1.4 BG='#00122f' OUT=~/Downloads/cn-open-house.mp4 \
+       NODE_PATH=/tmp/rec/node_modules node tools/record.js
+
+   BG IS NOT OPTIONAL. The recorder's default is #fbfbfc, and the page is that
+   colour for the ~150ms between navigation and React mounting — which on a
+   dark ad is a white flash on frame one, the single worst frame to open an
+   Instagram reel on.
+
+   (No W/H — this is a REEL, and the recorder's 360x640 default is 1080x1920.)
+   ============================================================ */
+
+/* Stands in for the poster repo's Frame. `100cqw` resolves against the nearest
+   ancestor CONTAINER, never against the element declaring it, so the stage
+   cannot be its own — hence a wrapper whose only job is to be the thing the
+   design unit is a thousandth of. */
+.oh-frame {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #00122f;
+  container-type: size;
+  container-name: poster;
+}
+
+.oh-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* THE TWO CAMERA BOXES.
+ *
+ * A CSS transform REPLACES a transform — one element cannot hold both a ten
+ * second dolly and a 620ms impact, because whichever animation is declared
+ * last owns the property outright and the other one silently does nothing.
+ * So they are separate boxes stacked on the same rect, each with one job, and
+ * the browser composes them for free.
+ *
+ * Both are `inset: 0`, which matters: every element in the poster is
+ * positioned absolutely against a 1080x1920 box, and these have to BE that box
+ * or the whole sheet shifts. */
+.oh-push,
+.oh-shake {
+  position: absolute;
+  inset: 0;
+}
+
+/* The design pixel, which the poster repo's <Frame> would otherwise set. */
+.oh {
+  --px: calc(100cqw / 1080);
+}
+
+/* ============================================================
+   ===== BEGIN THE POSTER, VERBATIM =====
+   ============================================================ */
+
+/* OpenHouse.css — Code Ninjas Woodbridge open house. Namespace: oh-
+ *
+ * 1080x1920 — the `story` canvas, because this goes out as an INSTAGRAM REEL.
+ * `calc(<n> * var(--px))` is design pixels and --px is always 1/1080th of the
+ * canvas WIDTH, so every number below is read off a 1080-wide sheet that
+ * happens to be 1920 tall.
+ *
+ * ════════════════════════════════════════════════════════════════════════
+ *  THE REEL SAFE AREA IS THE WHOLE REASON THIS LAYOUT IS SHAPED LIKE THIS
+ * ════════════════════════════════════════════════════════════════════════
+ *
+ * A reel played full screen loses content two different ways, and they stack:
+ *
+ *   1. THE APP DRAWS OVER IT. The top carries the status bar and the Reels
+ *      header; the bottom carries the username, the caption, the audio strip
+ *      and the progress bar; the RIGHT EDGE carries the like / comment /
+ *      share / more rail, roughly over the lower half.
+ *   2. THE DEVICE CROPS IT. 9:16 is not every phone's aspect. A taller screen
+ *      fills by cutting the top and bottom; an older 16:9 one cuts more.
+ *
+ * So the sheet is 1920 tall and the POSTER is not. Everything readable lives
+ * between --safe-t and --safe-b, and nothing but the field is outside it:
+ *
+ *      0 ─────────────  status bar, Reels header, top crop
+ *    240 ─ --safe-t ──  everything starts here
+ *   1520 ─ --safe-b ──  everything has ended by here
+ *   1920 ─────────────  caption, audio, buttons, bottom crop
+ *
+ * That is 1290 units of usable height on a 1920 canvas — a third of the file
+ * is deliberately empty navy. It looks wrong in the editor and correct on a
+ * phone, which is the only place this is ever seen.
+ *
+ * --safe-r is wider than --safe-x for the same reason: the action rail sits on
+ * the right edge. Nothing below the mid-point may run past it.
+ *
+ * ── WHAT CHANGED COMING OFF THE SQUARE ──
+ *
+ * The square sheet was two columns: content on the left, a stack of five
+ * coloured tabs down the right. At 9:16 there is no room for a second column,
+ * so the tabs are now five chips across ONE row. They keep their colours,
+ * their keylines and their gloss — the thing that made them distinctive — and
+ * they lose a line of copy each, which was filler ("Win Awesome Prizes!" under
+ * the word PRIZES is the same word twice).
+ *
+ * The white sheet no longer bleeds off the top. On a reel the top 240 units
+ * are under the app's own furniture, so a slab that bled up there was throwing
+ * the logo away.
+ *
+ * ── PALETTE ──
+ *   #001b43 field navy   #001d48 footer navy
+ *   #c1d931 HOUSE green  #4ea936 prizes green
+ *   #0172ec chess blue   #f9d81d more yellow
+ *   #7a2bbd violet       #ef7c18 orange
+ *
+ * ── TYPE ──
+ * Fredoka at font-stretch 85% for display: the reference's cap-to-width ratio
+ * is 4.13 and Fredoka at 85% measures 4.15, where Baloo 2 is 5.02 and Chewy
+ * 3.34. WEIGHT 700 EVERYWHERE — index.html loads wght@400..700, so an 800
+ * clamps, and asking a variable font for an axis value it does not have
+ * invites a synthesised weight that thickens the outline unevenly.
+ */
+
+.oh {
+  --navy: #001b43;
+  --navy-deep: #00122f;
+  --lime: #c1d931;
+  --green: #4ea936;
+  --blue: #0172ec;
+  --yellow: #f9d81d;
+  --violet: #7a2bbd;
+  --orange: #ef7c18;
+  --ink: #0b2a5b;
+
+  /* The reel safe area. See the header. */
+  --safe-t: calc(240 * var(--px));
+  --safe-b: calc(1520 * var(--px));
+  --safe-x: calc(64 * var(--px));
+  --safe-r: calc(64 * var(--px));
+
+  font-family: Poppins, Inter, sans-serif;
+  color: #fff;
+  background: var(--navy-deep);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- the field ----------
+ * One pool of light behind the headline, one warmer one under the lockup, and
+ * a deep floor. The square version stacked four blue radials that cancelled
+ * into an even haze, which is why nothing on it had anything to sit in
+ * front of. */
+.oh-field {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(52% 26% at 46% 30%, rgba(120, 190, 255, 0.32) 0%, transparent 70%),
+    radial-gradient(44% 20% at 84% 12%, rgba(193, 217, 49, 0.12) 0%, transparent 72%),
+    /* a low pool under the footer, so the reserved bottom third is a field
+       with light in it rather than a flat rectangle of navy */
+    radial-gradient(58% 16% at 50% 92%, rgba(74, 140, 235, 0.20) 0%, transparent 74%),
+    linear-gradient(178deg, #0d4694 0%, #0a3c81 26%, #073063 52%, var(--navy) 78%, var(--navy-deep) 100%);
+}
+
+/* A faint blueprint grid, faded out before it reaches anything it could
+ * interfere with. One texture, doing one job: a flat gradient is clean but
+ * inert, and a place where children build things should not look like paint. */
+.oh-field::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) max(1px, calc(2 * var(--px))), transparent 0),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) max(1px, calc(2 * var(--px))), transparent 0);
+  background-size: calc(60 * var(--px)) calc(60 * var(--px));
+  -webkit-mask-image: radial-gradient(64% 34% at 50% 30%, #000 0%, transparent 82%);
+  mask-image: radial-gradient(64% 34% at 50% 30%, #000 0%, transparent 82%);
+}
+
+/* A vignette, so the corners sit back and the middle carries the eye. */
+.oh-field::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(70% 52% at 50% 44%, transparent 42%, rgba(1, 8, 22, 0.55) 100%);
+}
+
+/* ---------- the icon colour system ----------
+ * Every drawn icon paints its mass in `currentColor` and cuts its detail in
+ * `--icon-ink`, so one drawing works everywhere and the PARENT decides. The
+ * two named games are the deliberate exception: a grass block that is not
+ * green on top is a hexagon, and the tilted square has to be white.
+ */
+
+.oh-slot { display: block; object-fit: contain; }
+
+.oh-slot--drawn { display: grid; place-items: center; }
+
+.oh-slot--drawn svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: drop-shadow(0 calc(2 * var(--px)) calc(4 * var(--px)) rgba(0, 8, 26, 0.4));
+}
+
+/* An empty slot reserves nothing and shows nothing. */
+.oh-slot--empty { display: none; }
+
+/* ---------- confetti ---------- */
+
+.oh-confetti { position: absolute; inset: 0; }
+
+.oh-confetti span {
+  position: absolute;
+  border-radius: calc(3 * var(--px));
+  opacity: 0.82;
+  box-shadow: 0 calc(2 * var(--px)) calc(6 * var(--px)) rgba(0, 8, 26, 0.4);
+}
+
+/* ---------- the lockup ----------
+ * The angled slab, brought inside the safe area. It used to sit at y-46 and
+ * bleed off the top of the square; on a reel that is underneath the status bar
+ * and the Reels header, so the logo would simply have been thrown away. */
+
+.oh-sheet {
+  position: absolute;
+  left: calc(96 * var(--px));
+  top: calc(240 * var(--px));
+  width: calc(796 * var(--px));
+  height: calc(180 * var(--px));
+  background: #fff;
+  /* straight-then-angled, which is not a shape any border-radius makes */
+  clip-path: polygon(5% 0, 100% 0, 95% 100%, 9% 100%, 0 50%);
+  box-shadow: 0 calc(10 * var(--px)) calc(30 * var(--px)) rgba(0, 8, 26, 0.45);
+}
+
+.oh-logo {
+  position: absolute;
+  left: calc(178 * var(--px));
+  top: calc(254 * var(--px));
+  width: calc(520 * var(--px));
+  height: auto;
+}
+
+.oh-centre-name {
+  position: absolute;
+  left: calc(178 * var(--px));
+  top: calc(344 * var(--px));
+  width: calc(520 * var(--px));
+  margin: 0;
+  text-align: center;
+  font-size: calc(30 * var(--px));
+  font-weight: 700;
+  letter-spacing: calc(9 * var(--px));
+  text-indent: calc(9 * var(--px));
+  color: var(--ink);
+}
+
+/* ---------- the handwritten note ----------
+ * DROPPED ~150 UNITS. On the square it sat at y11, in the top-left corner —
+ * which on a reel is behind the Reels header, and on a crop is gone entirely.
+ * It now sits under the lockup where it flanks the headline. */
+
+.oh-script {
+  position: absolute;
+  /* 76, not 66: the note is rotated -5deg, and a rotated box grows — its top
+     line swings ~7 units further left than the box's own `left`. The safe line
+     applies to the INK, so the untransformed box has to start inside it. */
+  left: calc(76 * var(--px));
+  top: calc(452 * var(--px));
+  margin: 0;
+  width: calc(178 * var(--px));
+  display: flex;
+  flex-direction: column;
+  font-family: Caveat, cursive;
+  font-size: calc(40 * var(--px));
+  font-weight: 700;
+  line-height: 1.04;
+  color: #fff;
+  transform: rotate(-5deg);
+  text-shadow: 0 calc(2 * var(--px)) calc(8 * var(--px)) rgba(0, 8, 26, 0.55);
+}
+
+/* the last line is the payoff, so it takes the accent and the underline */
+.oh-script span:last-child {
+  color: var(--yellow);
+  /* SYMMETRIC. This had a 60-unit radius on one bottom corner and 8 on the
+     other, meant to read as a hand-drawn overshoot; under type already at
+     -5deg it read as a rule that had come loose at one end. */
+  border-bottom: calc(6 * var(--px)) solid var(--yellow);
+  border-radius: 0 0 calc(10 * var(--px)) calc(10 * var(--px));
+  padding-bottom: calc(4 * var(--px));
+  align-self: flex-start;
+}
+
+/* ---------- starburst ----------
+ * Near-square, so the 36 points are points. At the square sheet's 184x134 the
+ * long-axis points were twice the length of the short-axis ones and it read as
+ * a blob with a fringe. */
+
+.oh-burst {
+  position: absolute;
+  left: calc(842 * var(--px));
+  top: calc(258 * var(--px));
+  width: calc(172 * var(--px));
+  height: calc(166 * var(--px));
+  background: var(--violet);
+  clip-path: polygon(
+    50% 0%, 57% 9%, 66% 3%, 70% 14%, 81% 10%, 82% 22%, 93% 21%, 90% 33%,
+    100% 36%, 93% 46%, 100% 57%, 90% 62%, 95% 74%, 84% 76%, 85% 88%, 74% 85%,
+    70% 97%, 60% 91%, 50% 100%, 40% 91%, 30% 97%, 26% 85%, 15% 88%, 16% 76%,
+    5% 74%, 10% 62%, 0% 57%, 7% 46%, 0% 36%, 10% 33%, 7% 21%, 18% 22%,
+    19% 10%, 30% 14%, 34% 3%, 43% 9%
+  );
+  display: grid;
+  place-items: center;
+  filter: drop-shadow(0 calc(6 * var(--px)) calc(16 * var(--px)) rgba(0, 8, 26, 0.55));
+}
+
+.oh-burst span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Fredoka, Poppins, sans-serif;
+  font-stretch: 85%;
+  font-size: calc(23 * var(--px));
+  font-weight: 700;
+  line-height: 1.1;
+  text-align: center;
+  padding-bottom: calc(2 * var(--px));
+}
+
+.oh-burst b:nth-child(2),
+.oh-burst b:nth-child(3) { color: var(--yellow); }
+
+/* ---------- headline ----------
+ * SMALLER AGAIN — 152/148, down from 180/176 and from 200/195 before that.
+ * Twice now the word has been the thing that squeezed everything else, and on
+ * a canvas where a third of the height is reserved for the app's furniture
+ * there is nothing left to take. It is still the biggest thing on the sheet by
+ * a factor of four.
+ *
+ * The extrusion is a RAMP: eight copies on a 2-unit stride rather than four on
+ * a 4-unit one, which is the same depth with no visible staircase down the
+ * side of each letter. */
+
+.oh-title {
+  position: absolute;
+  left: calc(258 * var(--px));
+  top: calc(462 * var(--px));
+  width: calc(514 * var(--px));
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Fredoka, Poppins, sans-serif;
+  font-stretch: 85%;
+  font-weight: 700;
+  line-height: 0.86;
+  letter-spacing: calc(-2 * var(--px));
+}
+
+.oh-title-a {
+  font-size: calc(140 * var(--px));
+  color: #fff;
+  -webkit-text-stroke: calc(5 * var(--px)) #fff;
+  paint-order: stroke fill;
+  text-shadow:
+    0 calc(2 * var(--px)) 0 #e2e9f2, 0 calc(4 * var(--px)) 0 #cdd8e6,
+    0 calc(6 * var(--px)) 0 #bac7d9, 0 calc(8 * var(--px)) 0 #a8b7cb,
+    0 calc(10 * var(--px)) 0 #96a6bd, 0 calc(12 * var(--px)) 0 #8494ab,
+    0 calc(14 * var(--px)) 0 #75859e, 0 calc(16 * var(--px)) 0 #667792,
+    0 calc(24 * var(--px)) calc(26 * var(--px)) rgba(0, 10, 30, 0.62);
+}
+
+.oh-title-b {
+  font-size: calc(136 * var(--px));
+  color: var(--lime);
+  -webkit-text-stroke: calc(5 * var(--px)) #fff;
+  paint-order: stroke fill;
+  text-shadow:
+    0 calc(2 * var(--px)) 0 #aec42b, 0 calc(4 * var(--px)) 0 #9db325,
+    0 calc(6 * var(--px)) 0 #91a621, 0 calc(8 * var(--px)) 0 #85991d,
+    0 calc(10 * var(--px)) 0 #798c19, 0 calc(12 * var(--px)) 0 #6d7f16,
+    0 calc(14 * var(--px)) 0 #627212, 0 calc(16 * var(--px)) 0 #57660f,
+    0 calc(24 * var(--px)) calc(26 * var(--px)) rgba(0, 10, 30, 0.62);
+}
+
+/* ---------- mascot ----------
+ * Right-hand side now, under the starburst and standing on the banner. On the
+ * square he was bottom-left with a gutter to himself; at 9:16 every band runs
+ * the full width and there is no gutter, so he moved to the one column that
+ * still has air in it.
+ *
+ * His artwork's ink runs to all four edges of its own file — there is no
+ * transparent padding to spend — so a negative offset does not bleed him, it
+ * CLIPS him. */
+
+.oh-mascot-pool {
+  position: absolute;
+  right: calc(34 * var(--px));
+  bottom: calc(1170 * var(--px));
+  width: calc(308 * var(--px));
+  height: calc(290 * var(--px));
+  border-radius: 50%;
+  background:
+    radial-gradient(closest-side,
+      rgba(193, 217, 49, 0.24) 0%,
+      rgba(96, 176, 255, 0.20) 48%,
+      transparent 74%);
+  filter: blur(calc(26 * var(--px)));
+}
+
+.oh-mascot {
+  position: absolute;
+  right: calc(82 * var(--px));
+  /* soles on the banner's top edge, so he is standing on it */
+  bottom: calc(1194 * var(--px));
+  top: auto;
+  width: calc(206 * var(--px));
+  height: auto;
+  z-index: 3;
+  filter:
+    drop-shadow(0 calc(14 * var(--px)) calc(20 * var(--px)) rgba(0, 8, 26, 0.6))
+    drop-shadow(0 0 calc(3 * var(--px)) rgba(150, 214, 255, 0.45));
+}
+
+/* ---------- banner ---------- */
+
+.oh-banner {
+  position: absolute;
+  left: calc(110 * var(--px));
+  top: calc(726 * var(--px));
+  width: calc(860 * var(--px));
+  margin: 0;
+  padding: calc(14 * var(--px)) calc(20 * var(--px));
+  background: linear-gradient(180deg, #1163d2 0%, #073e92 100%);
+  border-radius: calc(12 * var(--px));
+  box-shadow:
+    0 calc(8 * var(--px)) calc(20 * var(--px)) rgba(0, 8, 26, 0.5),
+    inset 0 calc(2 * var(--px)) 0 rgba(255, 255, 255, 0.22);
+  text-align: center;
+  font-family: Fredoka, Poppins, sans-serif;
+  font-stretch: 85%;
+  font-size: calc(41 * var(--px));
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.oh-banner b { color: var(--yellow); }
+
+/* ---------- the date ---------- */
+
+/* NARROWER, AND THE TYPE IS BIGGER. At the full safe width this held ~640
+ * units of content in 952 of pill, so it read as a white bar with a date lost
+ * in the middle of it. A pill should fit what is in it. */
+.oh-when {
+  position: absolute;
+  left: calc(118 * var(--px));
+  right: calc(118 * var(--px));
+  top: calc(818 * var(--px));
+  height: calc(136 * var(--px));
+  padding: 0 calc(26 * var(--px));
+  background: #fff;
+  border-radius: calc(58 * var(--px)) calc(24 * var(--px)) calc(54 * var(--px)) calc(20 * var(--px));
+  box-shadow: 0 calc(10 * var(--px)) calc(24 * var(--px)) rgba(0, 8, 26, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(14 * var(--px));
+  color: var(--ink);
+}
+
+.oh-when-icon { width: calc(58 * var(--px)); height: calc(58 * var(--px)); flex: none; }
+
+/* Each icon takes the colour of the text it labels — and on this pill BOTH
+ * inks matter, because the pill is white.
+ *
+ * --icon-ink is cut against the surface, so on white it has to be dark: the
+ * calendar's top band and rings were #fff, which made the top of the calendar
+ * disappear into the pill and left a green box with a date floating over it.
+ * They are a deeper shade of the icon's own hue now, which reads against the
+ * white behind AND against the body below.
+ *
+ * --icon-face is printed on the icon's own mass, so it stays white: the "30"
+ * sits on green and the clock hands sit on violet. */
+.oh-when-icon:nth-child(1) { color: var(--green);  --icon-ink: #2c7a1f; --icon-face: #fff; }
+.oh-when-icon:nth-child(3) { color: var(--violet); --icon-ink: #55189b; --icon-face: #fff; }
+
+.oh-when-date,
+.oh-when-time {
+  font-family: Fredoka, Poppins, sans-serif;
+  font-stretch: 85%;
+  font-size: calc(53 * var(--px));
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.oh-when-time { color: var(--violet); }
+
+/* ---------- the five tabs, now one row ---------- */
+
+.oh-tabs {
+  position: absolute;
+  left: var(--safe-x);
+  right: var(--safe-r);
+  top: calc(974 * var(--px));
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: calc(12 * var(--px));
+}
+
+.oh-tab {
+  height: calc(140 * var(--px));
+  padding: calc(12 * var(--px)) calc(8 * var(--px));
+  border-radius: calc(18 * var(--px));
+  /* A white keyline is what separates five saturated blocks sitting in a row,
+     and the lit top / shaded bottom inside it is what turns five flat
+     gradients into five moulded stickers rather than a bar chart. */
+  box-shadow:
+    0 0 0 calc(3 * var(--px)) #fff,
+    0 calc(7 * var(--px)) calc(16 * var(--px)) rgba(0, 8, 26, 0.5),
+    inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.4),
+    inset 0 calc(-3 * var(--px)) 0 rgba(0, 0, 0, 0.18);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(7 * var(--px));
+  color: #fff;
+}
+
+.oh-tab--violet { background: linear-gradient(180deg, #8c3ad0 0%, #6c22ab 100%); --icon-ink: #5b1a93; }
+.oh-tab--green  { background: linear-gradient(180deg, #5cbb40 0%, #3f9129 100%); --icon-ink: #327720; }
+.oh-tab--blue   { background: linear-gradient(180deg, #1a80f0 0%, #0060cf 100%); --icon-ink: #0050ad; }
+.oh-tab--orange { background: linear-gradient(180deg, #f78a26 0%, #dd6a0c 100%); --icon-ink: #b85508; }
+.oh-tab--yellow {
+  background: linear-gradient(180deg, #ffe23c 0%, #f5c40f 100%);
+  color: var(--ink);
+  --icon-ink: #fff;
+}
+
+.oh-tab-icon { width: calc(46 * var(--px)); height: calc(46 * var(--px)); flex: none; }
+
+.oh-tab-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 0;
+}
+
+.oh-tab-text b {
+  font-family: Fredoka, Poppins, sans-serif;
+  font-stretch: 85%;
+  font-size: calc(23 * var(--px));
+  font-weight: 700;
+  line-height: 1;
+}
+
+.oh-tab-text i {
+  font-style: normal;
+  font-size: calc(15 * var(--px));
+  font-weight: 600;
+  line-height: 1.15;
+  margin-top: calc(3 * var(--px));
+  opacity: 0.95;
+}
+
+/* ---------- programs ---------- */
+
+.oh-programs {
+  position: absolute;
+  left: var(--safe-x);
+  right: var(--safe-r);
+  top: calc(1132 * var(--px));
+  height: calc(162 * var(--px));
+  padding: calc(12 * var(--px)) calc(6 * var(--px));
+  background: linear-gradient(180deg, rgba(6, 34, 82, 0.74) 0%, rgba(0, 18, 48, 0.74) 100%);
+  border: max(1px, calc(2 * var(--px))) solid rgba(255, 255, 255, 0.1);
+  border-radius: calc(18 * var(--px));
+  display: flex;
+}
+
+/* white mass, navy detail — the readable pair on a dark panel */
+.oh-program {
+  flex: 1;
+  color: #fff;
+  --icon-ink: #06214a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 calc(6 * var(--px));
+  border-left: max(1px, calc(2 * var(--px))) dotted rgba(255, 255, 255, 0.3);
+}
+
+.oh-program:first-child { border-left: 0; }
+
+.oh-program-icon {
+  width: calc(70 * var(--px));
+  height: calc(62 * var(--px));
+  margin-bottom: calc(7 * var(--px));
+}
+
+.oh-program b {
+  font-size: calc(19 * var(--px));
+  font-weight: 800;
+  letter-spacing: calc(0.3 * var(--px));
+  white-space: nowrap;
+}
+
+.oh-program i {
+  font-style: normal;
+  font-size: calc(16 * var(--px));
+  font-weight: 500;
+  line-height: 1.22;
+  opacity: 0.92;
+}
+
+/* ---------- ticks ----------
+ * Inset now, not bled off the left edge. A bar that runs off the side of a
+ * square is a design choice; on a reel that gets cropped from both sides it is
+ * just a bar with its first word missing. */
+
+.oh-checks {
+  position: absolute;
+  left: var(--safe-x);
+  right: var(--safe-r);
+  top: calc(1312 * var(--px));
+  height: calc(48 * var(--px));
+  background: #fff;
+  border-radius: calc(26 * var(--px));
+  box-shadow: 0 calc(6 * var(--px)) calc(16 * var(--px)) rgba(0, 8, 26, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 calc(20 * var(--px));
+  color: var(--ink);
+}
+
+.oh-checks span {
+  display: flex;
+  align-items: center;
+  gap: calc(8 * var(--px));
+  font-size: calc(21 * var(--px));
+  font-weight: 800;
+  letter-spacing: calc(0.3 * var(--px));
+}
+
+.oh-checks svg {
+  width: calc(21 * var(--px));
+  height: calc(21 * var(--px));
+  color: var(--green);
+  flex: none;
+}
+
+/* ---------- footer ----------
+ * A panel inside the safe area rather than a band on the bottom edge. On a
+ * reel the bottom 400 units carry the username, the caption, the audio strip
+ * and the progress bar — an address down there is an address nobody reads. */
+
+.oh-foot {
+  position: absolute;
+  left: var(--safe-x);
+  right: var(--safe-r);
+  /* 140 tall, starting at 1380, so the QR inside it can be 100 units. It was
+     126 with an 84-unit code, and 84 is under the line: OpenCV read that code
+     when it was cropped out of the export and FAILED to find it in the whole
+     sheet, which is exactly the symptom that shows up in the real world as
+     "it works if you get close". Everything above shuffled up to pay for it. */
+  top: calc(1380 * var(--px));
+  bottom: auto;
+  height: calc(140 * var(--px));
+  padding: 0 calc(26 * var(--px));
+  background: rgba(0, 14, 38, 0.82);
+  border: max(1px, calc(2 * var(--px))) solid rgba(193, 217, 49, 0.45);
+  border-radius: calc(18 * var(--px));
+  display: flex;
+  align-items: center;
+  gap: calc(14 * var(--px));
+  /* lime mass, navy detail */
+  color: var(--lime);
+  --icon-ink: #001d48;
+}
+
+.oh-foot-icon { width: calc(44 * var(--px)); height: calc(44 * var(--px)); flex: none; }
+
+.oh-foot-addr {
+  display: flex;
+  flex-direction: column;
+  gap: calc(4 * var(--px));
+  line-height: 1.14;
+}
+
+.oh-foot-addr b {
+  font-size: calc(28 * var(--px));
+  font-weight: 800;
+  letter-spacing: calc(0.2 * var(--px));
+  /* white, not lime: .oh-foot sets `color: lime` so its drawn icons inherit a
+     mass colour, and that quietly turned the name lime too. Lime is the
+     accent — pin, phone, keyline. The name is information. */
+  color: #fff;
+}
+
+.oh-foot-addr i {
+  font-style: normal;
+  font-size: calc(21 * var(--px));
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.oh-foot-addr em {
+  font-style: normal;
+  font-size: calc(17 * var(--px));
+  font-weight: 600;
+  color: var(--lime);
+}
+
+.oh-foot-rule {
+  width: max(1px, calc(2 * var(--px)));
+  height: calc(62 * var(--px));
+  margin-left: auto;
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.oh-foot-tel {
+  font-family: Fredoka, Poppins, sans-serif;
+  font-stretch: 85%;
+  font-size: calc(38 * var(--px));
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.oh-qr {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(4 * var(--px));
+}
+
+.oh-qr b {
+  font-family: Fredoka, Poppins, sans-serif;
+  font-stretch: 85%;
+  font-size: calc(14 * var(--px));
+  font-weight: 700;
+  color: var(--navy);
+  background: var(--lime);
+  border-radius: calc(4 * var(--px));
+  padding: 0 calc(7 * var(--px)) calc(1 * var(--px));
+  letter-spacing: calc(0.6 * var(--px));
+}
+
+/* Sized off the decoder: a 29x29 symbol at 96 units is 3.3px a module on the
+ * 1080 export. The white plate is the QUIET ZONE, not a background — a symbol
+ * printed straight onto the navy does not scan at all. */
+.oh-qr-img {
+  width: calc(100 * var(--px));
+  height: calc(100 * var(--px));
+  padding: calc(6 * var(--px));
+  background: #fff;
+  border-radius: calc(5 * var(--px));
+}
+
+/* ============================================================
+   ===== END THE POSTER =====
+   ===== THE CASCADE — the only thing this file adds =====
+
+   TOP DOWN, because that is how the eye reads a sheet and because every piece
+   arriving from above is one idea repeated rather than twelve tricks. Nothing
+   slides in from a side and nothing fades up on the spot: everything is a
+   physical object dropped into place, and the differences between them are
+   weight and settle, not direction.
+
+   Ten seconds, in two halves.
+
+   ── 0 → 6.5s, THE SHEET ASSEMBLES ──
+
+      0     the confetti starts falling and the white slab is already dropping
+      0     the camera starts a slow 3% pull-back, and runs the whole take
+     180    the logo    260  WOODBRIDGE
+     320    the starburst is STRUCK — oversized, off-angle, lands square
+     460    the handwritten note, a line at a time, 90ms apart
+     620    OPEN drops
+     860    HOUSE! drops — and at 1180, as it lands, THE CAMERA TAKES THE HIT
+    1340    the light pool blooms   1400  the mascot lands on it and squashes
+    1780    the banner
+    2060    the date pill    2320  its icons pop in behind it
+    2760    the five tabs, 130ms apart
+    3720    the programs panel, then its four columns 110ms apart
+    4560    the tick bar, then each tick DRAWS itself
+    5280    the footer, its contents, and the QR last
+    ~6.5s   the sheet is whole
+
+   ── 6.5 → 10s, IT STAYS ALIVE ──
+
+    6900    the tabs run a wave, left to right
+    7700    a sheen crosses the banner
+    8300    SCAN ME! pulses twice — the last thing that moves is the CTA
+    8600    a lime glow blooms behind OPEN HOUSE and fades
+
+   Running underneath the whole thing, so the frame is never still: the
+   confetti falls and then drifts, the mascot breathes, the starburst turns.
+   Those three are the only loops, they are all slow, and none of them is
+   under type.
+
+   THE HERO IS UP BY 1.2s. That is the constraint the top of this list is
+   built around — a reel gets one second to earn the next one, and an ad that
+   spends it introducing itself has already been scrolled past. Everything
+   before OPEN HOUSE is therefore fast and overlapping, and everything after
+   it can breathe.
+
+   ── THE ONE RULE THIS FILE KEEPS TRIPPING OVER ──
+
+   A CSS transform REPLACES a transform. Two animations on one element both
+   touching `transform` do not compose — the last one declared wins outright.
+   Where an element needs both an entrance and a loop (the mascot, the tabs,
+   the confetti, the starburst, SCAN ME!) the loop is a SECOND animation with
+   a delay and NO backwards fill, so it simply does not exist until its delay
+   elapses and the entrance's `both` fill owns the element until then. Where an
+   element has a base transform it cannot lose (the confetti's angle) every
+   keyframe restates it.
+   ============================================================ */
+
+/* Pre-roll: mounted and painted, not yet moving. Without this the first frame
+   shows the finished sheet for one tick before the class lands. */
+.oh-stage:not(.oh-go):not(.oh-still) .oh-sheet,
+.oh-stage:not(.oh-go):not(.oh-still) .oh-logo,
+.oh-stage:not(.oh-go):not(.oh-still) .oh-centre-name,
+.oh-stage:not(.oh-go):not(.oh-still) .oh-script span,
+.oh-stage:not(.oh-go):not(.oh-still) .oh-burst,
+.oh-stage:not(.oh-go):not(.oh-still) .oh-title-a,
+.oh-stage:not(.oh-go):not(.oh-still) .oh-title-b,
+.oh-stage:not(.oh-go):not(.oh-still) .oh-mascot,
+.oh-stage:not(.oh-go):not(.oh-still) .oh-mascot-pool,
+.oh-stage:not(.oh-go):not(.oh-still) .oh-banner,
+.oh-stage:not(.oh-go):not(.oh-still) .oh-when,
+.oh-stage:not(.oh-go):not(.oh-still) .oh-when > *,
+.oh-stage:not(.oh-go):not(.oh-still) .oh-tab,
+.oh-stage:not(.oh-go):not(.oh-still) .oh-programs,
+.oh-stage:not(.oh-go):not(.oh-still) .oh-program,
+.oh-stage:not(.oh-go):not(.oh-still) .oh-checks,
+.oh-stage:not(.oh-go):not(.oh-still) .oh-checks span,
+.oh-stage:not(.oh-go):not(.oh-still) .oh-foot,
+.oh-stage:not(.oh-go):not(.oh-still) .oh-foot > *,
+.oh-stage:not(.oh-go):not(.oh-still) .oh-confetti span {
+  opacity: 0;
+}
+
+/* ---------- the vocabulary ----------
+ *
+ * ohDrop is the sheet's one move: in from above, past the mark, back onto it.
+ * --d is how far above, in design pixels, so a 14-unit tick and a 150-unit
+ * slab use the same keyframes and read as the same weight of object.
+ */
+@keyframes ohDrop {
+  0%   { opacity: 0; transform: translateY(calc(var(--d, 80) * var(--px) * -1)); }
+  16%  { opacity: 1; }
+  60%  { opacity: 1; transform: translateY(calc(var(--d, 80) * var(--px) * 0.085)); }
+  82%  { opacity: 1; transform: translateY(calc(var(--d, 80) * var(--px) * -0.026)); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Small parts arriving INSIDE something that has already landed. No overshoot:
+   a tick that bounces inside a bar that is standing still reads as a glitch. */
+@keyframes ohSoft {
+  0%   { opacity: 0; transform: translateY(calc(var(--d, 30) * var(--px) * -1)); }
+  30%  { opacity: 1; }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ohPop {
+  0%   { opacity: 0; transform: scale(0.3); }
+  62%  { opacity: 1; transform: scale(1.16); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* THE STARBURST IS STRUCK. It arrives oversized and off-angle and lands
+   square — the only element allowed a big overshoot, because it is the only
+   one pretending to be a stamp hitting the sheet. */
+@keyframes ohStamp {
+  0%   { opacity: 0; transform: scale(1.62) rotate(-24deg); }
+  52%  { opacity: 1; transform: scale(0.92) rotate(7deg); }
+  76%  { opacity: 1; transform: scale(1.05) rotate(-2.5deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+/* ---------- the mascot ----------
+ * He is the only character on the sheet, so he is the only thing that gets
+ * squash and stretch: stretched thin on the way down, flattened on impact,
+ * one small rebound, then he breathes for the rest of the take. */
+@keyframes ohLand {
+  0%   { opacity: 0; transform: translateY(calc(-240 * var(--px))) scale(0.94, 1.08); }
+  46%  { opacity: 1; transform: translateY(0) scale(1.10, 0.90); }
+  64%  { opacity: 1; transform: translateY(calc(-18 * var(--px))) scale(0.97, 1.04); }
+  82%  { opacity: 1; transform: translateY(0) scale(1.02, 0.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1, 1); }
+}
+
+@keyframes ohBob {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  50%      { transform: translateY(calc(-9 * var(--px))) scale(0.995, 1.005); }
+}
+
+@keyframes ohBloom {
+  from { opacity: 0; transform: scale(0.55); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes ohBreathe {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50%      { transform: scale(1.045) rotate(2.5deg); }
+}
+
+/* The confetti falls in, spinning up to its resting angle, then drifts. Both
+   keyframe sets restate `rotate(var(--rot))` — the angle is the piece's own
+   identity and a transform that omits it throws it away. */
+@keyframes ohFall {
+  0%   { opacity: 0; transform: translateY(calc(-210 * var(--px))) rotate(calc(var(--rot) - 100deg)); }
+  12%  { opacity: 0.9; }
+  100% { opacity: 0.82; transform: translateY(0) rotate(var(--rot)); }
+}
+
+@keyframes ohSway {
+  0%, 100% { transform: translate(0, 0) rotate(var(--rot)); }
+  50%      { transform: translate(calc(7 * var(--px)), calc(-11 * var(--px))) rotate(calc(var(--rot) + 9deg)); }
+}
+
+@keyframes ohTick { from { stroke-dashoffset: 30; } to { stroke-dashoffset: 0; } }
+
+@keyframes ohWave {
+  0%, 100% { transform: translateY(0) scale(1); }
+  42%      { transform: translateY(calc(-17 * var(--px))) scale(1.045); }
+}
+
+@keyframes ohSheen {
+  0%   { opacity: 0; transform: translateX(0) skewX(-16deg); }
+  14%  { opacity: 1; }
+  86%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(calc(1210 * var(--px))) skewX(-16deg); }
+}
+
+@keyframes ohPulse {
+  0%, 100% { transform: scale(1); }
+  45%      { transform: scale(1.16); }
+}
+
+@keyframes ohGlow { 0% { opacity: 0; } 38% { opacity: 1; } 100% { opacity: 0; } }
+
+/* ---------- the camera ----------
+ * A slow pull-back over the whole take. The sheet fills from the top down, so
+ * the frame opening slightly tight and easing out is the move that motivates
+ * itself: it is making room for what is still arriving. */
+@keyframes ohDolly {
+  from { transform: scale(1.03); }
+  to   { transform: scale(1); }
+}
+
+/* THE HIT. Never lets the scale drop below 1 while it is translating — the
+   frame is exactly the stage, so a bare translate would show a bar of
+   background down one edge. At scale 1.024 there are ~13 design px of
+   overscan a side, and the largest kick is 9. */
+@keyframes ohSlam {
+  0%   { transform: scale(1.024) translateY(calc(-7 * var(--px))); }
+  18%  { transform: scale(1.018) translateY(calc(9 * var(--px))); }
+  38%  { transform: scale(1.012) translateY(calc(-5 * var(--px))); }
+  60%  { transform: scale(1.007) translateY(calc(3 * var(--px))); }
+  80%  { transform: scale(1.003) translateY(calc(-1.5 * var(--px))); }
+  100% { transform: scale(1) translateY(0); }
+}
+
+/* ---------- staging additions ----------
+ * Three properties the poster has no reason to carry and the cascade cannot
+ * work without. */
+
+/* he squashes onto his own soles, not through his middle */
+.oh-mascot { transform-origin: 50% 100%; }
+
+/* the angle moved out of the inline style so a keyframe can restate it */
+.oh-confetti span { transform: rotate(var(--rot)); }
+
+/* the tick is drawn, not revealed: ~27.6 units of path, dashed at 30 */
+.oh-checks svg path { stroke-dasharray: 30; stroke-dashoffset: 0; }
+
+/* the sheen rides inside the banner's radius */
+.oh-banner { overflow: hidden; }
+.oh-banner::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(-260 * var(--px));
+  width: calc(200 * var(--px));
+  background: linear-gradient(100deg, transparent 0%, rgba(255, 255, 255, 0.5) 50%, transparent 100%);
+  transform: translateX(0) skewX(-16deg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* the glow needs its own stacking context, or a negative z-index puts it
+   behind the field instead of behind the letters */
+.oh-title { isolation: isolate; }
+.oh-title::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(800 * var(--px));
+  height: calc(430 * var(--px));
+  transform: translate(-50%, -50%);
+  background: radial-gradient(closest-side, rgba(193, 217, 49, 0.62), transparent 74%);
+  filter: blur(calc(28 * var(--px)));
+  opacity: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* ============================================================
+   ===== THE TIMELINE =====
+   ============================================================ */
+
+.oh-go .oh-push  { animation: ohDolly 10200ms cubic-bezier(.25, .6, .25, 1) both; }
+.oh-go .oh-shake { animation: ohSlam 620ms cubic-bezier(.2, .7, .3, 1) 1180ms both; }
+
+/* --- the top band. NOTHING WAITS. The slab is already falling on the frame
+       the class lands, because the ~150ms React costs before that is dead air
+       the viewer has already been charged for. --- */
+.oh-go .oh-sheet       { --d: 150; animation: ohDrop 560ms cubic-bezier(.2, .8, .3, 1) 0ms both; }
+.oh-go .oh-logo        { --d: 70;  animation: ohDrop 520ms cubic-bezier(.2, .8, .3, 1) 180ms both; }
+.oh-go .oh-centre-name { --d: 44;  animation: ohDrop 460ms cubic-bezier(.2, .8, .3, 1) 260ms both; }
+
+.oh-go .oh-burst {
+  animation:
+    ohStamp 700ms cubic-bezier(.2, .86, .3, 1) 320ms both,
+    ohBreathe 3400ms ease-in-out 1120ms infinite;
+}
+
+.oh-go .oh-script span { --d: 34; animation: ohDrop 440ms cubic-bezier(.2, .8, .3, 1) both; }
+.oh-go .oh-script span:nth-child(1) { animation-delay: 460ms; }
+.oh-go .oh-script span:nth-child(2) { animation-delay: 550ms; }
+.oh-go .oh-script span:nth-child(3) { animation-delay: 640ms; }
+.oh-go .oh-script span:nth-child(4) { animation-delay: 730ms; }
+
+/* --- the headline, and the hit at 1.18s --- */
+.oh-go .oh-title-a { --d: 170; animation: ohDrop 560ms cubic-bezier(.2, .8, .3, 1) 620ms both; }
+.oh-go .oh-title-b { --d: 190; animation: ohDrop 600ms cubic-bezier(.2, .8, .3, 1) 860ms both; }
+.oh-go .oh-title::before { animation: ohGlow 1200ms ease-in-out 8600ms both; }
+
+/* --- the mascot --- */
+.oh-go .oh-mascot-pool { animation: ohBloom 700ms cubic-bezier(.16, 1, .3, 1) 1340ms both; }
+.oh-go .oh-mascot {
+  animation:
+    ohLand 840ms cubic-bezier(.3, .9, .3, 1) 1400ms both,
+    ohBob 3000ms ease-in-out 2800ms infinite;
+}
+
+/* --- the banner --- */
+.oh-go .oh-banner { --d: 90; animation: ohDrop 580ms cubic-bezier(.2, .8, .3, 1) 1780ms both; }
+.oh-go .oh-banner::after { animation: ohSheen 1100ms linear 7700ms both; }
+
+/* --- the date --- */
+.oh-go .oh-when { --d: 96; animation: ohDrop 600ms cubic-bezier(.2, .8, .3, 1) 2060ms both; }
+.oh-go .oh-when > * { animation: ohPop 460ms cubic-bezier(.2, .9, .25, 1) both; }
+.oh-go .oh-when > *:nth-child(1) { animation-delay: 2240ms; }
+.oh-go .oh-when > *:nth-child(2) { animation-delay: 2310ms; }
+.oh-go .oh-when > *:nth-child(3) { animation-delay: 2380ms; }
+.oh-go .oh-when > *:nth-child(4) { animation-delay: 2450ms; }
+
+/* --- the five tabs: drop in sequence, and wave once at 6.9s --- */
+.oh-go .oh-tab {
+  --d: 120;
+  animation:
+    ohDrop 580ms cubic-bezier(.2, .8, .3, 1) both,
+    ohWave 640ms ease-in-out;
+}
+.oh-go .oh-tab:nth-child(1) { animation-delay: 2760ms, 6900ms; }
+.oh-go .oh-tab:nth-child(2) { animation-delay: 2890ms, 6990ms; }
+.oh-go .oh-tab:nth-child(3) { animation-delay: 3020ms, 7080ms; }
+.oh-go .oh-tab:nth-child(4) { animation-delay: 3150ms, 7170ms; }
+.oh-go .oh-tab:nth-child(5) { animation-delay: 3280ms, 7260ms; }
+
+/* --- the programs --- */
+.oh-go .oh-programs { --d: 110; animation: ohDrop 620ms cubic-bezier(.2, .8, .3, 1) 3720ms both; }
+.oh-go .oh-program  { --d: 40;  animation: ohSoft 480ms cubic-bezier(.16, 1, .3, 1) both; }
+.oh-go .oh-program:nth-child(1) { animation-delay: 3900ms; }
+.oh-go .oh-program:nth-child(2) { animation-delay: 4010ms; }
+.oh-go .oh-program:nth-child(3) { animation-delay: 4120ms; }
+.oh-go .oh-program:nth-child(4) { animation-delay: 4230ms; }
+
+/* --- the ticks, each one drawn --- */
+.oh-go .oh-checks { --d: 90; animation: ohDrop 580ms cubic-bezier(.2, .8, .3, 1) 4560ms both; }
+.oh-go .oh-checks span { --d: 26; animation: ohSoft 440ms cubic-bezier(.16, 1, .3, 1) both; }
+.oh-go .oh-checks span:nth-child(1) { animation-delay: 4780ms; }
+.oh-go .oh-checks span:nth-child(2) { animation-delay: 4890ms; }
+.oh-go .oh-checks span:nth-child(3) { animation-delay: 5000ms; }
+
+.oh-go .oh-checks svg path { animation: ohTick 420ms cubic-bezier(.2, .8, .3, 1) both; }
+.oh-go .oh-checks span:nth-child(1) svg path { animation-delay: 4900ms; }
+.oh-go .oh-checks span:nth-child(2) svg path { animation-delay: 5010ms; }
+.oh-go .oh-checks span:nth-child(3) svg path { animation-delay: 5120ms; }
+
+/* --- the footer, and the QR last, because it is the thing to act on --- */
+.oh-go .oh-foot { --d: 110; animation: ohDrop 640ms cubic-bezier(.2, .8, .3, 1) 5280ms both; }
+.oh-go .oh-foot > * { --d: 30; animation: ohSoft 460ms cubic-bezier(.16, 1, .3, 1) both; }
+.oh-go .oh-foot > *:nth-child(1) { animation-delay: 5460ms; }
+.oh-go .oh-foot > *:nth-child(2) { animation-delay: 5540ms; }
+.oh-go .oh-foot > *:nth-child(3) { animation-delay: 5620ms; }
+.oh-go .oh-foot > *:nth-child(4) { animation-delay: 5700ms; }
+.oh-go .oh-foot > *:nth-child(5) { animation-delay: 5780ms; }
+.oh-go .oh-foot > *:nth-child(6) { animation-delay: 5860ms; }
+
+.oh-go .oh-qr b {
+  animation:
+    ohPop 440ms cubic-bezier(.2, .9, .25, 1) 5800ms both,
+    ohPulse 800ms ease-in-out 8300ms 2;
+}
+.oh-go .oh-qr-img { animation: ohPop 500ms cubic-bezier(.2, .9, .25, 1) 5920ms both; }
+
+/* --- the confetti. Falling on frame ONE, so the ad is never a still navy
+       rectangle waiting for React, and drifting for the rest of the take. --- */
+/* LONGHANDS, NOT THE SHORTHAND. Every value here is staggered off --i, and a
+   `var()` anywhere in a shorthand makes the whole declaration pending until
+   computed-value time; written out it is unambiguous and each channel is
+   readable on its own. */
+.oh-go .oh-confetti span {
+  animation-name: ohFall, ohSway;
+  animation-duration: 860ms, calc(3200ms + var(--i) * 140ms);
+  animation-timing-function: cubic-bezier(.2, .7, .3, 1), ease-in-out;
+  animation-delay: calc(var(--i) * 55ms), calc(2300ms + var(--i) * 70ms);
+  animation-fill-mode: both, none;
+  animation-iteration-count: 1, infinite;
+}
+
+/* ---------- reduced motion ----------
+ * Snap to the end state. Every animation above finishes on the poster's own
+ * static layout, so switching them off IS the poster — the two accents that
+ * live on pseudo-elements stay at opacity 0, which is where they start and
+ * end anyway. */
+@media (prefers-reduced-motion: reduce) {
+  .oh-stage *,
+  .oh-stage *::before,
+  .oh-stage *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+.oh-still *,
+.oh-still *::before,
+.oh-still *::after {
+  animation: none !important;
+  transition: none !important;
+}
