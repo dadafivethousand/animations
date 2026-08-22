@@ -248,10 +248,16 @@ export default function OpenHouseAd({
 /* Big, close, and out of focus. Kept to the edges: the point is depth, and a
  * blurred lump crossing the middle of the headline is just an obstruction.
  * [x%, y-start%, w, h, rot] */
+/* EVERY ONE OF THESE LIVES IN THE MARGIN, and that is not fussiness. The
+ * first set ran across the middle of the frame and a blurred blue lump spent
+ * part of its fall sitting on the ninja's head in the lockup — on a still
+ * that is not depth, it is a defect on the brand mark. The outer ~10% each
+ * side is dead space in this layout, so the near plane is free there and
+ * costs nothing anywhere else. */
 const NEAR = [
-  [6, 0, 46, 22, 18], [92, 0, 40, 40, -26], [23, 0, 52, 26, 34],
-  [78, 0, 44, 44, 12], [50, 0, 38, 19, -40], [13, 0, 36, 36, 26],
-  [66, 0, 50, 24, -14],
+  [4, 0, 46, 22, 18], [90, 0, 40, 40, -26], [8, 0, 52, 26, 34],
+  [94, 0, 44, 44, 12], [2, 0, 38, 19, -40], [86, 0, 36, 36, 26],
+  [10, 0, 50, 24, -14],
 ];
 
 function NearConfetti() {

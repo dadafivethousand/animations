@@ -609,7 +609,7 @@
 }
 
 .oh-tab {
-  height: calc(140 * var(--px));
+  height: calc(126 * var(--px));
   padding: calc(12 * var(--px)) calc(8 * var(--px));
   border-radius: calc(18 * var(--px));
   /* A white keyline is what separates five saturated blocks sitting in a row,
@@ -630,6 +630,16 @@
     0 0 0 calc(3 * var(--px)) #fff,
     0 calc(6 * var(--px)) 0 var(--edge, #2a2f3a),
     0 calc(11 * var(--px)) 0 var(--edge-d, #171b23),
+    /* THE KEYLINE HAS TO GO ROUND THE SIDE FACE TOO. The white ring above has
+       no offset, so it wrapped only the TOP of the block and the extrusion
+       hung out below it — five saturated bands of colour sitting outside the
+       border, which is what it looked like: a leak, not a solid.
+
+       This is the same ring offset to the depth of the deepest edge and
+       listed AFTER the coloured layers, so it paints behind them. The union
+       of the two rings is a continuous outline down both sides, and the block
+       is enclosed. */
+    0 calc(11 * var(--px)) 0 calc(3 * var(--px)) #fff,
     0 calc(22 * var(--px)) calc(26 * var(--px)) rgba(0, 8, 26, 0.55),
     inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.4),
     inset 0 calc(-3 * var(--px)) 0 rgba(0, 0, 0, 0.18);
@@ -1409,8 +1419,9 @@
       0 0 0 calc(3 * var(--px)) #fff,
       0 calc(6 * var(--px)) 0 var(--edge),
       0 calc(11 * var(--px)) 0 var(--edge-d),
+      0 calc(11 * var(--px)) 0 calc(3 * var(--px)) #fff,
       0 calc(22 * var(--px)) calc(26 * var(--px)) rgba(0, 8, 26, 0.55),
-      0 0 0 rgba(70, 165, 255, 0),
+      0 0 calc(0 * var(--px)) rgba(70, 165, 255, 0),
       inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.4),
       inset 0 calc(-3 * var(--px)) 0 rgba(0, 0, 0, 0.18);
   }
@@ -1421,6 +1432,7 @@
       0 0 0 calc(4 * var(--px)) #fff,
       0 calc(11 * var(--px)) 0 var(--edge),
       0 calc(20 * var(--px)) 0 var(--edge-d),
+      0 calc(20 * var(--px)) 0 calc(4 * var(--px)) #fff,
       0 calc(48 * var(--px)) calc(44 * var(--px)) rgba(0, 8, 26, 0.6),
       0 0 calc(56 * var(--px)) rgba(70, 165, 255, 0.9),
       inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.6),
@@ -1433,6 +1445,7 @@
       0 0 0 calc(4 * var(--px)) #fff,
       0 calc(10 * var(--px)) 0 var(--edge),
       0 calc(18 * var(--px)) 0 var(--edge-d),
+      0 calc(18 * var(--px)) 0 calc(4 * var(--px)) #fff,
       0 calc(43 * var(--px)) calc(40 * var(--px)) rgba(0, 8, 26, 0.6),
       0 0 calc(48 * var(--px)) rgba(70, 165, 255, 0.75),
       inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.55),
@@ -1445,8 +1458,9 @@
       0 0 0 calc(3 * var(--px)) #fff,
       0 calc(6 * var(--px)) 0 var(--edge),
       0 calc(11 * var(--px)) 0 var(--edge-d),
+      0 calc(11 * var(--px)) 0 calc(3 * var(--px)) #fff,
       0 calc(22 * var(--px)) calc(26 * var(--px)) rgba(0, 8, 26, 0.55),
-      0 0 0 rgba(70, 165, 255, 0),
+      0 0 calc(0 * var(--px)) rgba(70, 165, 255, 0),
       inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.4),
       inset 0 calc(-3 * var(--px)) 0 rgba(0, 0, 0, 0.18);
   }
@@ -1472,6 +1486,7 @@
       0 0 0 calc(3 * var(--px)) #fff,
       0 calc(6 * var(--px)) 0 var(--edge),
       0 calc(11 * var(--px)) 0 var(--edge-d),
+      0 calc(11 * var(--px)) 0 calc(3 * var(--px)) #fff,
       0 calc(22 * var(--px)) calc(26 * var(--px)) rgba(0, 8, 26, 0.55),
       inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.4),
       inset 0 calc(-3 * var(--px)) 0 rgba(0, 0, 0, 0.18);
@@ -1483,6 +1498,7 @@
       0 0 0 calc(3 * var(--px)) #fff,
       0 calc(9 * var(--px)) 0 var(--edge),
       0 calc(17 * var(--px)) 0 var(--edge-d),
+      0 calc(17 * var(--px)) 0 calc(3 * var(--px)) #fff,
       0 calc(36 * var(--px)) calc(34 * var(--px)) rgba(0, 8, 26, 0.58),
       inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.5),
       inset 0 calc(-3 * var(--px)) 0 rgba(0, 0, 0, 0.18);
@@ -1607,8 +1623,8 @@
  * rates is the oldest depth cue there is and it costs one extra layer. */
 @keyframes ohNearFall {
   0%   { opacity: 0;    transform: translateY(calc(-420 * var(--px))) rotate(var(--rot)); }
-  14%  { opacity: 0.62; }
-  84%  { opacity: 0.62; }
+  14%  { opacity: 0.5; }
+  84%  { opacity: 0.5; }
   100% { opacity: 0;    transform: translateY(calc(2160 * var(--px))) rotate(calc(var(--rot) + 240deg)); }
 }
 
