@@ -425,7 +425,9 @@
   background: linear-gradient(180deg, #123a72 0%, #071e42 100%);
   border-radius: calc(9 * var(--px));
   box-shadow:
-    0 calc(7 * var(--px)) calc(18 * var(--px)) rgba(0, 8, 26, 0.55),
+    0 calc(6 * var(--px)) 0 #04142f,
+    0 calc(10 * var(--px)) 0 #020c1e,
+    0 calc(22 * var(--px)) calc(24 * var(--px)) rgba(0, 8, 26, 0.6),
     inset 0 calc(2 * var(--px)) 0 rgba(255, 255, 255, 0.18);
 }
 
@@ -526,7 +528,9 @@
   background: linear-gradient(180deg, #1163d2 0%, #073e92 100%);
   border-radius: calc(12 * var(--px));
   box-shadow:
-    0 calc(8 * var(--px)) calc(20 * var(--px)) rgba(0, 8, 26, 0.5),
+    0 calc(6 * var(--px)) 0 #06306f,
+    0 calc(11 * var(--px)) 0 #04214e,
+    0 calc(24 * var(--px)) calc(28 * var(--px)) rgba(0, 8, 26, 0.55),
     inset 0 calc(2 * var(--px)) 0 rgba(255, 255, 255, 0.22);
   text-align: center;
   font-family: Fredoka, Poppins, sans-serif;
@@ -553,7 +557,10 @@
   padding: 0 calc(26 * var(--px));
   background: #fff;
   border-radius: calc(58 * var(--px)) calc(24 * var(--px)) calc(54 * var(--px)) calc(20 * var(--px));
-  box-shadow: 0 calc(10 * var(--px)) calc(24 * var(--px)) rgba(0, 8, 26, 0.45);
+  box-shadow:
+    0 calc(7 * var(--px)) 0 #d5dae4,
+    0 calc(13 * var(--px)) 0 #aeb6c6,
+    0 calc(28 * var(--px)) calc(30 * var(--px)) rgba(0, 8, 26, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -608,9 +615,22 @@
   /* A white keyline is what separates five saturated blocks sitting in a row,
      and the lit top / shaded bottom inside it is what turns five flat
      gradients into five moulded stickers rather than a bar chart. */
+  /* THICKNESS, not a drop shadow. Two hard offset shadows in progressively
+     darker shades of the chip's OWN hue read as the side of a solid block;
+     the blurred one underneath is then the shadow that block casts. A single
+     blurred shadow says "this rectangle floats"; this says "this rectangle is
+     an object". --edge is set per tone below, so one rule serves five chips.
+
+     Z-INDEX ON ALL FIVE. Every chip has a stacking context of its own the
+     moment anything transforms it, so without this the chips to the RIGHT
+     paint over any chip that lifts — which is what made the wave look broken
+     everywhere except on the one chip that had been given a z-index by hand. */
+  z-index: 4;
   box-shadow:
     0 0 0 calc(3 * var(--px)) #fff,
-    0 calc(7 * var(--px)) calc(16 * var(--px)) rgba(0, 8, 26, 0.5),
+    0 calc(6 * var(--px)) 0 var(--edge, #2a2f3a),
+    0 calc(11 * var(--px)) 0 var(--edge-d, #171b23),
+    0 calc(22 * var(--px)) calc(26 * var(--px)) rgba(0, 8, 26, 0.55),
     inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.4),
     inset 0 calc(-3 * var(--px)) 0 rgba(0, 0, 0, 0.18);
   display: flex;
@@ -621,8 +641,8 @@
   color: #fff;
 }
 
-.oh-tab--violet { background: linear-gradient(180deg, #8c3ad0 0%, #6c22ab 100%); --icon-ink: #5b1a93; }
-.oh-tab--green  { background: linear-gradient(180deg, #5cbb40 0%, #3f9129 100%); --icon-ink: #327720; }
+.oh-tab--violet { background: linear-gradient(180deg, #8c3ad0 0%, #6c22ab 100%); --icon-ink: #5b1a93; --edge: #521583; --edge-d: #3a0e5e; }
+.oh-tab--green  { background: linear-gradient(180deg, #5cbb40 0%, #3f9129 100%); --icon-ink: #327720; --edge: #2d6b1c; --edge-d: #1f4c13; }
 /* The one chip whose subject is a board gets one, at the strength of a
    watermark — enough to register as texture, not enough to fight the king. */
 .oh-tab--blue {
@@ -631,12 +651,16 @@
       0 0 / calc(22 * var(--px)) calc(22 * var(--px)),
     linear-gradient(180deg, #1a80f0 0%, #0060cf 100%);
   --icon-ink: #0050ad;
+  --edge: #00478f;
+  --edge-d: #003266;
 }
-.oh-tab--orange { background: linear-gradient(180deg, #f78a26 0%, #dd6a0c 100%); --icon-ink: #b85508; }
+.oh-tab--orange { background: linear-gradient(180deg, #f78a26 0%, #dd6a0c 100%); --icon-ink: #b85508; --edge: #a94d07; --edge-d: #7c3805; }
 .oh-tab--yellow {
   background: linear-gradient(180deg, #ffe23c 0%, #f5c40f 100%);
   color: var(--ink);
   --icon-ink: #fff;
+  --edge: #cc9d00;
+  --edge-d: #997600;
 }
 
 .oh-tab-icon { width: calc(46 * var(--px)); height: calc(46 * var(--px)); flex: none; }
@@ -730,7 +754,10 @@
   height: calc(48 * var(--px));
   background: #fff;
   border-radius: calc(26 * var(--px));
-  box-shadow: 0 calc(6 * var(--px)) calc(16 * var(--px)) rgba(0, 8, 26, 0.4);
+  box-shadow:
+    0 calc(5 * var(--px)) 0 #d5dae4,
+    0 calc(9 * var(--px)) 0 #aeb6c6,
+    0 calc(20 * var(--px)) calc(22 * var(--px)) rgba(0, 8, 26, 0.45);
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -775,6 +802,10 @@
   background: rgba(0, 14, 38, 0.82);
   border: max(1px, calc(2 * var(--px))) solid rgba(193, 217, 49, 0.45);
   border-radius: calc(18 * var(--px));
+  box-shadow:
+    0 calc(6 * var(--px)) 0 #011026,
+    0 calc(11 * var(--px)) 0 #00081a,
+    0 calc(24 * var(--px)) calc(26 * var(--px)) rgba(0, 8, 26, 0.55);
   display: flex;
   align-items: center;
   gap: calc(14 * var(--px));
@@ -1372,37 +1403,49 @@
  * keyframe with a different count snaps instead of animating. */
 @keyframes ohChessPop {
   0% {
+    z-index: 9;
     transform: perspective(900px) translateY(0) scale(1);
     box-shadow:
       0 0 0 calc(3 * var(--px)) #fff,
-      0 calc(7 * var(--px)) calc(16 * var(--px)) rgba(0, 8, 26, 0.5),
+      0 calc(6 * var(--px)) 0 var(--edge),
+      0 calc(11 * var(--px)) 0 var(--edge-d),
+      0 calc(22 * var(--px)) calc(26 * var(--px)) rgba(0, 8, 26, 0.55),
       0 0 0 rgba(70, 165, 255, 0),
       inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.4),
       inset 0 calc(-3 * var(--px)) 0 rgba(0, 0, 0, 0.18);
   }
   30% {
+    z-index: 9;
     transform: perspective(900px) translateY(calc(-38 * var(--px))) scale(1.18);
     box-shadow:
       0 0 0 calc(4 * var(--px)) #fff,
-      0 calc(18 * var(--px)) calc(32 * var(--px)) rgba(0, 8, 26, 0.55),
+      0 calc(11 * var(--px)) 0 var(--edge),
+      0 calc(20 * var(--px)) 0 var(--edge-d),
+      0 calc(48 * var(--px)) calc(44 * var(--px)) rgba(0, 8, 26, 0.6),
       0 0 calc(56 * var(--px)) rgba(70, 165, 255, 0.9),
       inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.6),
       inset 0 calc(-3 * var(--px)) 0 rgba(0, 0, 0, 0.18);
   }
   62% {
+    z-index: 9;
     transform: perspective(900px) translateY(calc(-33 * var(--px))) scale(1.15);
     box-shadow:
       0 0 0 calc(4 * var(--px)) #fff,
-      0 calc(16 * var(--px)) calc(30 * var(--px)) rgba(0, 8, 26, 0.55),
+      0 calc(10 * var(--px)) 0 var(--edge),
+      0 calc(18 * var(--px)) 0 var(--edge-d),
+      0 calc(43 * var(--px)) calc(40 * var(--px)) rgba(0, 8, 26, 0.6),
       0 0 calc(48 * var(--px)) rgba(70, 165, 255, 0.75),
       inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.55),
       inset 0 calc(-3 * var(--px)) 0 rgba(0, 0, 0, 0.18);
   }
   100% {
+    z-index: 9;
     transform: perspective(900px) translateY(0) scale(1);
     box-shadow:
       0 0 0 calc(3 * var(--px)) #fff,
-      0 calc(7 * var(--px)) calc(16 * var(--px)) rgba(0, 8, 26, 0.5),
+      0 calc(6 * var(--px)) 0 var(--edge),
+      0 calc(11 * var(--px)) 0 var(--edge-d),
+      0 calc(22 * var(--px)) calc(26 * var(--px)) rgba(0, 8, 26, 0.55),
       0 0 0 rgba(70, 165, 255, 0),
       inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.4),
       inset 0 calc(-3 * var(--px)) 0 rgba(0, 0, 0, 0.18);
@@ -1422,8 +1465,28 @@
 }
 
 @keyframes ohWave {
-  0%, 100% { transform: translateY(0) scale(1); }
-  42%      { transform: translateY(calc(-17 * var(--px))) scale(1.045); }
+  0%, 100% {
+    z-index: 8;
+    transform: translateY(0) scale(1);
+    box-shadow:
+      0 0 0 calc(3 * var(--px)) #fff,
+      0 calc(6 * var(--px)) 0 var(--edge),
+      0 calc(11 * var(--px)) 0 var(--edge-d),
+      0 calc(22 * var(--px)) calc(26 * var(--px)) rgba(0, 8, 26, 0.55),
+      inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.4),
+      inset 0 calc(-3 * var(--px)) 0 rgba(0, 0, 0, 0.18);
+  }
+  42% {
+    z-index: 8;
+    transform: translateY(calc(-19 * var(--px))) scale(1.05);
+    box-shadow:
+      0 0 0 calc(3 * var(--px)) #fff,
+      0 calc(9 * var(--px)) 0 var(--edge),
+      0 calc(17 * var(--px)) 0 var(--edge-d),
+      0 calc(36 * var(--px)) calc(34 * var(--px)) rgba(0, 8, 26, 0.58),
+      inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.5),
+      inset 0 calc(-3 * var(--px)) 0 rgba(0, 0, 0, 0.18);
+  }
 }
 
 /* A WAVE OF LIGHT WALKS THE HEADLINE, one letter at a time. */
@@ -1452,15 +1515,33 @@
  * there is anything to DO about. Additive only — no dimming pass over the
  * brand mark, which is not ours to fade out. */
 @keyframes ohLift {
-  0%   { transform: translateY(0) scale(1);
-         border-color: rgba(193, 217, 49, 0.45);
-         box-shadow: none; }
-  60%  { transform: translateY(calc(-7 * var(--px))) scale(1.028);
-         border-color: rgba(193, 217, 49, 1);
-         box-shadow: 0 calc(10 * var(--px)) calc(46 * var(--px)) rgba(193, 217, 49, 0.30); }
-  100% { transform: translateY(calc(-4 * var(--px))) scale(1.018);
-         border-color: rgba(193, 217, 49, 0.92);
-         box-shadow: 0 calc(8 * var(--px)) calc(38 * var(--px)) rgba(193, 217, 49, 0.24); }
+  0% {
+    transform: translateY(0) scale(1);
+    border-color: rgba(193, 217, 49, 0.45);
+    box-shadow:
+      0 calc(6 * var(--px)) 0 #011026,
+      0 calc(11 * var(--px)) 0 #00081a,
+      0 calc(24 * var(--px)) calc(26 * var(--px)) rgba(0, 8, 26, 0.55),
+      0 0 0 rgba(193, 217, 49, 0);
+  }
+  60% {
+    transform: translateY(calc(-9 * var(--px))) scale(1.028);
+    border-color: rgba(193, 217, 49, 1);
+    box-shadow:
+      0 calc(11 * var(--px)) 0 #011026,
+      0 calc(20 * var(--px)) 0 #00081a,
+      0 calc(44 * var(--px)) calc(42 * var(--px)) rgba(0, 8, 26, 0.6),
+      0 0 calc(50 * var(--px)) rgba(193, 217, 49, 0.34);
+  }
+  100% {
+    transform: translateY(calc(-5 * var(--px))) scale(1.018);
+    border-color: rgba(193, 217, 49, 0.92);
+    box-shadow:
+      0 calc(9 * var(--px)) 0 #011026,
+      0 calc(16 * var(--px)) 0 #00081a,
+      0 calc(36 * var(--px)) calc(36 * var(--px)) rgba(0, 8, 26, 0.58),
+      0 0 calc(40 * var(--px)) rgba(193, 217, 49, 0.26);
+  }
 }
 
 /* The date is the one fact the whole sheet exists to deliver, and after it
@@ -1468,11 +1549,22 @@
  * pinned to its left end for the hinge, so this lifts rather than scales —
  * a scale from that origin would grow out sideways. */
 @keyframes ohNudge {
-  0%, 100% { transform: translateY(0);
-             box-shadow: 0 calc(10 * var(--px)) calc(24 * var(--px)) rgba(0, 8, 26, 0.45); }
-  45%      { transform: translateY(calc(-11 * var(--px)));
-             box-shadow: 0 calc(18 * var(--px)) calc(34 * var(--px)) rgba(0, 8, 26, 0.5),
-                         0 0 calc(38 * var(--px)) rgba(255, 255, 255, 0.32); }
+  0%, 100% {
+    transform: translateY(0);
+    box-shadow:
+      0 calc(7 * var(--px)) 0 #d5dae4,
+      0 calc(13 * var(--px)) 0 #aeb6c6,
+      0 calc(28 * var(--px)) calc(30 * var(--px)) rgba(0, 8, 26, 0.5),
+      0 0 0 rgba(255, 255, 255, 0);
+  }
+  45% {
+    transform: translateY(calc(-12 * var(--px)));
+    box-shadow:
+      0 calc(12 * var(--px)) 0 #d5dae4,
+      0 calc(22 * var(--px)) 0 #aeb6c6,
+      0 calc(46 * var(--px)) calc(42 * var(--px)) rgba(0, 8, 26, 0.55),
+      0 0 calc(40 * var(--px)) rgba(255, 255, 255, 0.3);
+  }
 }
 
 @keyframes ohRake {
@@ -1507,10 +1599,31 @@
   100% { transform: scale(1.06) translate(0, 0); }
 }
 
+/* PARALLAX, WHICH IS WHAT ACTUALLY SELLS DEPTH.
+ *
+ * A handful of pieces live IN FRONT of the whole composition, close enough to
+ * the lens to be out of focus, and they cross the frame top to bottom in the
+ * time the far ones drift a few units. Two planes moving at wildly different
+ * rates is the oldest depth cue there is and it costs one extra layer. */
+@keyframes ohNearFall {
+  0%   { opacity: 0;    transform: translateY(calc(-420 * var(--px))) rotate(var(--rot)); }
+  14%  { opacity: 0.62; }
+  84%  { opacity: 0.62; }
+  100% { opacity: 0;    transform: translateY(calc(2160 * var(--px))) rotate(calc(var(--rot) + 240deg)); }
+}
+
 /* ---- the camera ---- */
+/* The camera does not just pull back, it SITS DOWN. The sheet starts tipped
+ * away from the viewer and settles flat, which is the same move the chess
+ * floor makes and the reason the two read as one space.
+ *
+ * The scale is not decoration either: tipping the top edge away pulls it down
+ * and inward, and at 3.6deg over a 1920-tall box that is ~31 units of bare
+ * background at the top and ~18 down each side. scale(1.055) covers it with
+ * room to spare, and both land on exactly 1 / 0deg at the end. */
 @keyframes ohDolly {
-  from { transform: scale(1.03); }
-  to   { transform: scale(1); }
+  from { transform: perspective(1800px) scale(1.055) rotateX(3.6deg); }
+  to   { transform: perspective(1800px) scale(1) rotateX(0deg); }
 }
 
 /* Never lets the scale drop below 1 while it is translating — the frame is
@@ -1704,6 +1817,10 @@
   animation-fill-mode: both, none;
   animation-iteration-count: 1, infinite;
 }
+.oh-go .oh-confetti--near span {
+  animation: ohNearFall calc(4200ms + var(--i) * 520ms) linear calc(var(--i) * -900ms) infinite;
+}
+
 .oh-go .oh-cf--fall  { animation-name: ohFall, ohDrift; }
 .oh-go .oh-cf--burst { animation-name: ohBurstOut, ohDrift; animation-duration: 940ms, calc(5200ms + var(--i) * 260ms); }
 

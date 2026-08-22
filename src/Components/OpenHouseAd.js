@@ -232,9 +232,46 @@ export default function OpenHouseAd({
                 <Slot src={a.qr} name="QR" className="oh-qr-img" />
               </span>
             </div>
+
+            {/* THE NEAR PLANE. Rendered last so it is in front of the whole
+                composition — a handful of large pieces close enough to the
+                lens to be out of focus, crossing the frame in the time the far
+                ones drift a few units. */}
+            <NearConfetti />
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+/* Big, close, and out of focus. Kept to the edges: the point is depth, and a
+ * blurred lump crossing the middle of the headline is just an obstruction.
+ * [x%, y-start%, w, h, rot] */
+const NEAR = [
+  [6, 0, 46, 22, 18], [92, 0, 40, 40, -26], [23, 0, 52, 26, 34],
+  [78, 0, 44, 44, 12], [50, 0, 38, 19, -40], [13, 0, 36, 36, 26],
+  [66, 0, 50, 24, -14],
+];
+
+function NearConfetti() {
+  const COLOURS = ["#f9d81d", "#4ea936", "#0172ec", "#e4002b", "#ef7c18", "#7a2bbd", "#ffffff"];
+  return (
+    <div className="oh-confetti oh-confetti--near" aria-hidden>
+      {NEAR.map(([x, , w, h, rot], i) => (
+        <span
+          key={i}
+          style={{
+            left: `${x}%`,
+            top: 0,
+            width: `calc(${w} * var(--px))`,
+            height: `calc(${h} * var(--px))`,
+            background: COLOURS[i % COLOURS.length],
+            "--rot": `${rot}deg`,
+            "--i": i,
+          }}
+        />
+      ))}
     </div>
   );
 }
