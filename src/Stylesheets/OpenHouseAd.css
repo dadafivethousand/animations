@@ -829,8 +829,13 @@
    of the runtime doing almost nothing. Two things fix it, and neither is
    another entrance:
 
-   6900   the tabs run a wave, left to right
-   7100   A RAKE OF LIGHT crosses the ENTIRE frame, top to bottom, on an 8deg
+   6300   the tabs run a wave, left to right — and when it reaches the THIRD
+          chip, that chip does not bob. CHESS comes up 18%, lights blue, and
+          HOLDS there for the best part of a second while its king is picked
+          up, moved and set down, before settling back into the row. Same
+          trigger as its neighbours, different consequence, so the emphasis
+          reads as caused rather than bolted on
+   7300   A RAKE OF LIGHT crosses the ENTIRE frame, top to bottom, on an 8deg
           tilt. It is the only move in the take that touches every part of the
           sheet — including the reserved bottom third, which has no content in
           it by design and therefore had nothing happening in it at all
@@ -896,8 +901,25 @@
 
 /* the headline is now nine inline-blocks; the extrusion and the stroke are
    both inherited properties, so they come along without being restated */
+/* NOWRAP IS LOad-BEARING, NOT TIDINESS.
+ *
+ * "HOUSE!" as a single text node can never break: UAX#14 forbids a line break
+ * BEFORE an exclamation mark, so the word overflows its 514-unit box by a few
+ * units and nobody notices. Split into six inline-blocks for the cascade, every
+ * gap between two boxes becomes a legal break opportunity — so the "!" wrapped
+ * onto a second line, dropped in down there, and then jumped up when the layout
+ * resolved. The split introduced the bug; this restores what the text node had. */
+.oh-title-a,
+.oh-title-b { white-space: nowrap; }
+
 .oh-title i { display: inline-block; font-style: normal; will-change: transform; }
 .oh-title-b i { transform-origin: 50% 0%; }   /* HOUSE! hinges from its top edge */
+
+/* The chess chip grows past its grid cell on its beat, and every tab has a
+   stacking context of its own (the deal's `both` fill leaves a transform on
+   it), so without this the two tabs to its right paint over the thing the
+   beat exists to show. Grid items take z-index without being positioned. */
+.oh-tab--blue { z-index: 4; }
 
 .oh-mascot { transform-origin: 50% 100%; }    /* he squashes onto his own soles */
 .oh-when   { transform-origin: 0% 50%; }      /* the pill hinges at its left end */
@@ -1220,6 +1242,68 @@
 }
 
 /* ---- second act ---- */
+
+/* CHESS IS THE ONE THEY WANT SEEN.
+ *
+ * The wave runs left to right across the five chips, and when it reaches the
+ * third one that chip does not bob — it comes up, lights blue and holds there
+ * for the best part of a second before settling. Same trigger, different
+ * consequence, so the emphasis reads as caused rather than bolted on.
+ *
+ * Every keyframe carries the SAME FIVE shadow layers, including the glow at
+ * zero alpha at either end. box-shadow interpolates layer by layer, and a
+ * keyframe with a different count snaps instead of animating. */
+@keyframes ohChessPop {
+  0% {
+    transform: perspective(900px) translateY(0) scale(1);
+    box-shadow:
+      0 0 0 calc(3 * var(--px)) #fff,
+      0 calc(7 * var(--px)) calc(16 * var(--px)) rgba(0, 8, 26, 0.5),
+      0 0 0 rgba(70, 165, 255, 0),
+      inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.4),
+      inset 0 calc(-3 * var(--px)) 0 rgba(0, 0, 0, 0.18);
+  }
+  30% {
+    transform: perspective(900px) translateY(calc(-38 * var(--px))) scale(1.18);
+    box-shadow:
+      0 0 0 calc(4 * var(--px)) #fff,
+      0 calc(18 * var(--px)) calc(32 * var(--px)) rgba(0, 8, 26, 0.55),
+      0 0 calc(56 * var(--px)) rgba(70, 165, 255, 0.9),
+      inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.6),
+      inset 0 calc(-3 * var(--px)) 0 rgba(0, 0, 0, 0.18);
+  }
+  62% {
+    transform: perspective(900px) translateY(calc(-33 * var(--px))) scale(1.15);
+    box-shadow:
+      0 0 0 calc(4 * var(--px)) #fff,
+      0 calc(16 * var(--px)) calc(30 * var(--px)) rgba(0, 8, 26, 0.55),
+      0 0 calc(48 * var(--px)) rgba(70, 165, 255, 0.75),
+      inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.55),
+      inset 0 calc(-3 * var(--px)) 0 rgba(0, 0, 0, 0.18);
+  }
+  100% {
+    transform: perspective(900px) translateY(0) scale(1);
+    box-shadow:
+      0 0 0 calc(3 * var(--px)) #fff,
+      0 calc(7 * var(--px)) calc(16 * var(--px)) rgba(0, 8, 26, 0.5),
+      0 0 0 rgba(70, 165, 255, 0),
+      inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.4),
+      inset 0 calc(-3 * var(--px)) 0 rgba(0, 0, 0, 0.18);
+  }
+}
+
+/* A PIECE IS PICKED UP, MOVED, AND PUT DOWN. That is the only motion a chess
+ * icon has any business making, and the snap at 70% is the piece hitting the
+ * board — the whole reason the gesture reads as chess and not as a bounce. */
+@keyframes ohPlace {
+  0%   { transform: translateY(0) rotate(0deg) scale(1); }
+  20%  { transform: translateY(calc(-22 * var(--px))) rotate(-7deg) scale(1.16); }
+  46%  { transform: translateY(calc(-20 * var(--px))) rotate(6deg) scale(1.14); }
+  70%  { transform: translateY(0) rotate(0deg) scale(0.92); }
+  84%  { transform: translateY(calc(-5 * var(--px))) rotate(0deg) scale(1.04); }
+  100% { transform: translateY(0) rotate(0deg) scale(1); }
+}
+
 @keyframes ohWave {
   0%, 100% { transform: translateY(0) scale(1); }
   42%      { transform: translateY(calc(-17 * var(--px))) scale(1.045); }
@@ -1331,7 +1415,7 @@
 
 .oh-go .oh-push  { animation: ohDolly 10200ms cubic-bezier(.25, .6, .25, 1) both; }
 .oh-go .oh-field { animation: ohFieldDrift 22000ms linear both; }
-.oh-go .oh-shake::after { animation: ohRake 1500ms cubic-bezier(.4, 0, .5, 1) 7100ms both; }
+.oh-go .oh-shake::after { animation: ohRake 1500ms cubic-bezier(.4, 0, .5, 1) 7300ms both; }
 .oh-go .oh-shake { animation: ohSlam 660ms cubic-bezier(.2, .7, .3, 1) 1260ms both; }
 
 /* --- the top band unfurls --- */
@@ -1396,11 +1480,29 @@
     ohDeal 620ms cubic-bezier(.2, .8, .3, 1) both,
     ohWave 640ms ease-in-out;
 }
-.oh-go .oh-tab:nth-child(1) { animation-delay: 2820ms, 6900ms; }
-.oh-go .oh-tab:nth-child(2) { animation-delay: 2950ms, 6990ms; }
-.oh-go .oh-tab:nth-child(3) { animation-delay: 3080ms, 7080ms; }
-.oh-go .oh-tab:nth-child(4) { animation-delay: 3210ms, 7170ms; }
-.oh-go .oh-tab:nth-child(5) { animation-delay: 3340ms, 7260ms; }
+.oh-go .oh-tab:nth-child(1) { animation-delay: 2820ms, 6300ms; }
+.oh-go .oh-tab:nth-child(2) { animation-delay: 2950ms, 6390ms; }
+.oh-go .oh-tab:nth-child(3) { animation-delay: 3080ms, 6480ms; }
+.oh-go .oh-tab:nth-child(4) { animation-delay: 3210ms, 6570ms; }
+.oh-go .oh-tab:nth-child(5) { animation-delay: 3340ms, 6660ms; }
+
+/* THE CHESS CHIP SWAPS ITS SECOND ANIMATION, NOT ITS FIRST. It is dealt with
+   the others at 3080; what changes is what the wave does to it when it
+   arrives. Declared after the shorthand above so the name and duration win,
+   and the delay above still applies because these are different properties. */
+.oh-go .oh-tab--blue {
+  animation-name: ohDeal, ohChessPop;
+  animation-duration: 620ms, 1300ms;
+  animation-timing-function: cubic-bezier(.2, .8, .3, 1), cubic-bezier(.3, .85, .3, 1);
+}
+
+.oh-go .oh-tab--blue .oh-tab-icon {
+  animation-name: ohPop, ohPlace;
+  animation-duration: 420ms, 1300ms;
+  animation-timing-function: cubic-bezier(.2, .9, .25, 1), cubic-bezier(.3, .8, .3, 1);
+  animation-delay: 3240ms, 6480ms;
+  animation-fill-mode: both, none;
+}
 
 /* The chip turns over EMPTY and then fills — the icon a beat behind the card,
    the label a beat behind that. A sticker that arrives with its artwork already
