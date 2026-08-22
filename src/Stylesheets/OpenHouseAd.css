@@ -550,8 +550,12 @@
  * in the middle of it. A pill should fit what is in it. */
 .oh-when {
   position: absolute;
-  left: calc(118 * var(--px));
-  right: calc(118 * var(--px));
+  /* WIDER AND TIGHTER, because the pill now holds a range rather than a
+     single time — "SUN, AUG 30 · 1:00 PM – 2:00 PM" is half as much content
+     again as it was built for. The date keeps the larger size; the time drops
+     a few units under it, which is also the right hierarchy. */
+  left: calc(76 * var(--px));
+  right: calc(76 * var(--px));
   top: calc(818 * var(--px));
   height: calc(136 * var(--px));
   padding: 0 calc(26 * var(--px));
@@ -564,11 +568,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: calc(14 * var(--px));
+  gap: calc(12 * var(--px));
   color: var(--ink);
 }
 
-.oh-when-icon { width: calc(58 * var(--px)); height: calc(58 * var(--px)); flex: none; }
+.oh-when-icon { width: calc(52 * var(--px)); height: calc(52 * var(--px)); flex: none; }
 
 /* Each icon takes the colour of the text it labels — and on this pill BOTH
  * inks matter, because the pill is white.
@@ -588,13 +592,13 @@
 .oh-when-time {
   font-family: Fredoka, Poppins, sans-serif;
   font-stretch: 85%;
-  font-size: calc(53 * var(--px));
+  font-size: calc(48 * var(--px));
   font-weight: 700;
   line-height: 1;
   white-space: nowrap;
 }
 
-.oh-when-time { color: var(--violet); }
+.oh-when-time { color: var(--violet); font-size: calc(42 * var(--px)); }
 
 /* ---------- the five tabs, now one row ---------- */
 
@@ -615,32 +619,18 @@
   /* A white keyline is what separates five saturated blocks sitting in a row,
      and the lit top / shaded bottom inside it is what turns five flat
      gradients into five moulded stickers rather than a bar chart. */
-  /* THICKNESS, not a drop shadow. Two hard offset shadows in progressively
-     darker shades of the chip's OWN hue read as the side of a solid block;
-     the blurred one underneath is then the shadow that block casts. A single
-     blurred shadow says "this rectangle floats"; this says "this rectangle is
-     an object". --edge is set per tone below, so one rule serves five chips.
-
-     Z-INDEX ON ALL FIVE. Every chip has a stacking context of its own the
-     moment anything transforms it, so without this the chips to the RIGHT
-     paint over any chip that lifts — which is what made the wave look broken
-     everywhere except on the one chip that had been given a z-index by hand. */
+  /* ONE KEYLINE AND NOTHING OUTSIDE IT.
+     These carried an extruded side face for a while. Enclosing that face
+     needed a second white ring at the extrusion's depth, and a ring at the top
+     plus a ring at the bottom reads as a DOUBLE BORDER — which is worse than
+     the leak it was fixing. A chip is a sticker, not a block: the white
+     keyline, a shadow cast on the field, and a lit top / shaded bottom inside
+     it to keep it moulded rather than flat. The page keeps its depth from the
+     floor, the camera and the slabs that are not outlined. */
   z-index: 4;
   box-shadow:
     0 0 0 calc(3 * var(--px)) #fff,
-    0 calc(6 * var(--px)) 0 var(--edge, #2a2f3a),
-    0 calc(11 * var(--px)) 0 var(--edge-d, #171b23),
-    /* THE KEYLINE HAS TO GO ROUND THE SIDE FACE TOO. The white ring above has
-       no offset, so it wrapped only the TOP of the block and the extrusion
-       hung out below it — five saturated bands of colour sitting outside the
-       border, which is what it looked like: a leak, not a solid.
-
-       This is the same ring offset to the depth of the deepest edge and
-       listed AFTER the coloured layers, so it paints behind them. The union
-       of the two rings is a continuous outline down both sides, and the block
-       is enclosed. */
-    0 calc(11 * var(--px)) 0 calc(3 * var(--px)) #fff,
-    0 calc(22 * var(--px)) calc(26 * var(--px)) rgba(0, 8, 26, 0.55),
+    0 calc(7 * var(--px)) calc(16 * var(--px)) rgba(0, 8, 26, 0.5),
     inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.4),
     inset 0 calc(-3 * var(--px)) 0 rgba(0, 0, 0, 0.18);
   display: flex;
@@ -651,8 +641,8 @@
   color: #fff;
 }
 
-.oh-tab--violet { background: linear-gradient(180deg, #8c3ad0 0%, #6c22ab 100%); --icon-ink: #5b1a93; --edge: #521583; --edge-d: #3a0e5e; }
-.oh-tab--green  { background: linear-gradient(180deg, #5cbb40 0%, #3f9129 100%); --icon-ink: #327720; --edge: #2d6b1c; --edge-d: #1f4c13; }
+.oh-tab--violet { background: linear-gradient(180deg, #8c3ad0 0%, #6c22ab 100%); --icon-ink: #5b1a93; }
+.oh-tab--green  { background: linear-gradient(180deg, #5cbb40 0%, #3f9129 100%); --icon-ink: #327720; }
 /* The one chip whose subject is a board gets one, at the strength of a
    watermark — enough to register as texture, not enough to fight the king. */
 .oh-tab--blue {
@@ -661,16 +651,12 @@
       0 0 / calc(22 * var(--px)) calc(22 * var(--px)),
     linear-gradient(180deg, #1a80f0 0%, #0060cf 100%);
   --icon-ink: #0050ad;
-  --edge: #00478f;
-  --edge-d: #003266;
 }
-.oh-tab--orange { background: linear-gradient(180deg, #f78a26 0%, #dd6a0c 100%); --icon-ink: #b85508; --edge: #a94d07; --edge-d: #7c3805; }
+.oh-tab--orange { background: linear-gradient(180deg, #f78a26 0%, #dd6a0c 100%); --icon-ink: #b85508; }
 .oh-tab--yellow {
   background: linear-gradient(180deg, #ffe23c 0%, #f5c40f 100%);
   color: var(--ink);
   --icon-ink: #fff;
-  --edge: #cc9d00;
-  --edge-d: #997600;
 }
 
 .oh-tab-icon { width: calc(46 * var(--px)); height: calc(46 * var(--px)); flex: none; }
@@ -1417,10 +1403,7 @@
     transform: perspective(900px) translateY(0) scale(1);
     box-shadow:
       0 0 0 calc(3 * var(--px)) #fff,
-      0 calc(6 * var(--px)) 0 var(--edge),
-      0 calc(11 * var(--px)) 0 var(--edge-d),
-      0 calc(11 * var(--px)) 0 calc(3 * var(--px)) #fff,
-      0 calc(22 * var(--px)) calc(26 * var(--px)) rgba(0, 8, 26, 0.55),
+      0 calc(7 * var(--px)) calc(16 * var(--px)) rgba(0, 8, 26, 0.5),
       0 0 calc(0 * var(--px)) rgba(70, 165, 255, 0),
       inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.4),
       inset 0 calc(-3 * var(--px)) 0 rgba(0, 0, 0, 0.18);
@@ -1430,10 +1413,7 @@
     transform: perspective(900px) translateY(calc(-38 * var(--px))) scale(1.18);
     box-shadow:
       0 0 0 calc(4 * var(--px)) #fff,
-      0 calc(11 * var(--px)) 0 var(--edge),
-      0 calc(20 * var(--px)) 0 var(--edge-d),
-      0 calc(20 * var(--px)) 0 calc(4 * var(--px)) #fff,
-      0 calc(48 * var(--px)) calc(44 * var(--px)) rgba(0, 8, 26, 0.6),
+      0 calc(44 * var(--px)) calc(42 * var(--px)) rgba(0, 8, 26, 0.6),
       0 0 calc(56 * var(--px)) rgba(70, 165, 255, 0.9),
       inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.6),
       inset 0 calc(-3 * var(--px)) 0 rgba(0, 0, 0, 0.18);
@@ -1443,10 +1423,7 @@
     transform: perspective(900px) translateY(calc(-33 * var(--px))) scale(1.15);
     box-shadow:
       0 0 0 calc(4 * var(--px)) #fff,
-      0 calc(10 * var(--px)) 0 var(--edge),
-      0 calc(18 * var(--px)) 0 var(--edge-d),
-      0 calc(18 * var(--px)) 0 calc(4 * var(--px)) #fff,
-      0 calc(43 * var(--px)) calc(40 * var(--px)) rgba(0, 8, 26, 0.6),
+      0 calc(39 * var(--px)) calc(38 * var(--px)) rgba(0, 8, 26, 0.6),
       0 0 calc(48 * var(--px)) rgba(70, 165, 255, 0.75),
       inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.55),
       inset 0 calc(-3 * var(--px)) 0 rgba(0, 0, 0, 0.18);
@@ -1456,10 +1433,7 @@
     transform: perspective(900px) translateY(0) scale(1);
     box-shadow:
       0 0 0 calc(3 * var(--px)) #fff,
-      0 calc(6 * var(--px)) 0 var(--edge),
-      0 calc(11 * var(--px)) 0 var(--edge-d),
-      0 calc(11 * var(--px)) 0 calc(3 * var(--px)) #fff,
-      0 calc(22 * var(--px)) calc(26 * var(--px)) rgba(0, 8, 26, 0.55),
+      0 calc(7 * var(--px)) calc(16 * var(--px)) rgba(0, 8, 26, 0.5),
       0 0 calc(0 * var(--px)) rgba(70, 165, 255, 0),
       inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.4),
       inset 0 calc(-3 * var(--px)) 0 rgba(0, 0, 0, 0.18);
@@ -1484,10 +1458,7 @@
     transform: translateY(0) scale(1);
     box-shadow:
       0 0 0 calc(3 * var(--px)) #fff,
-      0 calc(6 * var(--px)) 0 var(--edge),
-      0 calc(11 * var(--px)) 0 var(--edge-d),
-      0 calc(11 * var(--px)) 0 calc(3 * var(--px)) #fff,
-      0 calc(22 * var(--px)) calc(26 * var(--px)) rgba(0, 8, 26, 0.55),
+      0 calc(7 * var(--px)) calc(16 * var(--px)) rgba(0, 8, 26, 0.5),
       inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.4),
       inset 0 calc(-3 * var(--px)) 0 rgba(0, 0, 0, 0.18);
   }
@@ -1496,10 +1467,7 @@
     transform: translateY(calc(-19 * var(--px))) scale(1.05);
     box-shadow:
       0 0 0 calc(3 * var(--px)) #fff,
-      0 calc(9 * var(--px)) 0 var(--edge),
-      0 calc(17 * var(--px)) 0 var(--edge-d),
-      0 calc(17 * var(--px)) 0 calc(3 * var(--px)) #fff,
-      0 calc(36 * var(--px)) calc(34 * var(--px)) rgba(0, 8, 26, 0.58),
+      0 calc(24 * var(--px)) calc(28 * var(--px)) rgba(0, 8, 26, 0.55),
       inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.5),
       inset 0 calc(-3 * var(--px)) 0 rgba(0, 0, 0, 0.18);
   }

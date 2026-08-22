@@ -59,7 +59,7 @@ export default function OpenHouseAd({
   // Aug 29, not Aug 30: change both halves of this string and `dateNum`.
   date = "SUN, AUG 30",
   dateNum = "30",
-  time = "1:00 PM",
+  time = "1:00 PM – 2:00 PM",
 
   tabs = [
     { key: "games", tone: "violet", title: "GAMES", line: "Play & explore" },
