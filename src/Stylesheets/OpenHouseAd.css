@@ -361,9 +361,9 @@
 
 .oh-title {
   position: absolute;
-  left: calc(258 * var(--px));
-  top: calc(462 * var(--px));
-  width: calc(514 * var(--px));
+  left: calc(246 * var(--px));
+  top: calc(438 * var(--px));
+  width: calc(540 * var(--px));
   margin: 0;
   display: flex;
   flex-direction: column;
@@ -376,7 +376,7 @@
 }
 
 .oh-title-a {
-  font-size: calc(140 * var(--px));
+  font-size: calc(118 * var(--px));
   color: #fff;
   -webkit-text-stroke: calc(5 * var(--px)) #fff;
   paint-order: stroke fill;
@@ -389,7 +389,7 @@
 }
 
 .oh-title-b {
-  font-size: calc(136 * var(--px));
+  font-size: calc(114 * var(--px));
   color: var(--lime);
   -webkit-text-stroke: calc(5 * var(--px)) #fff;
   paint-order: stroke fill;
@@ -399,6 +399,70 @@
     0 calc(10 * var(--px)) 0 #798c19, 0 calc(12 * var(--px)) 0 #6d7f16,
     0 calc(14 * var(--px)) 0 #627212, 0 calc(16 * var(--px)) 0 #57660f,
     0 calc(24 * var(--px)) calc(26 * var(--px)) rgba(0, 10, 30, 0.62);
+}
+
+/* ---------- the second half of the name ----------
+ * The event is an open house AND a chess tournament, and the tournament was
+ * previously a two-word line inside a 180-unit chip. This is a bar rather than
+ * a third line of the same type, because at any size that reads next to 118pt
+ * display it would be a whisper — and because a bar can carry a chessboard on
+ * its edges, which states the subject before the words are read.
+ *
+ * The rails are one repeating-conic-gradient each: four quadrants, two of them
+ * transparent, tiled — the standard way to get a checkerboard out of CSS with
+ * no image and no markup. Tile 16 with a rail 8 tall shows exactly one row of
+ * squares.
+ */
+.oh-title-c {
+  position: relative;
+  margin-top: calc(10 * var(--px));
+  padding: calc(10 * var(--px)) calc(24 * var(--px));
+  font-size: calc(37 * var(--px));
+  letter-spacing: calc(1.5 * var(--px));
+  line-height: 1;
+  white-space: nowrap;
+  color: #fff;
+  background: linear-gradient(180deg, #123a72 0%, #071e42 100%);
+  border-radius: calc(9 * var(--px));
+  box-shadow:
+    0 calc(7 * var(--px)) calc(18 * var(--px)) rgba(0, 8, 26, 0.55),
+    inset 0 calc(2 * var(--px)) 0 rgba(255, 255, 255, 0.18);
+}
+
+.oh-title-c::before,
+.oh-title-c::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: calc(8 * var(--px));
+  background-image: repeating-conic-gradient(#fff 0% 25%, #0b2a5b 0% 50%);
+  background-size: calc(16 * var(--px)) calc(16 * var(--px));
+}
+
+.oh-title-c::before { top: 0; border-radius: calc(9 * var(--px)) calc(9 * var(--px)) 0 0; }
+.oh-title-c::after  { bottom: 0; border-radius: 0 0 calc(9 * var(--px)) calc(9 * var(--px)); }
+
+/* ---------- the board ----------
+ * A chessboard lying in perspective under the whole sheet, running off the
+ * bottom edge. It is the reason the lower third is no longer flat navy: the
+ * reel safe area reserves that band for Instagram's own furniture, so nothing
+ * may be PRINTED there, but nothing said it had to be empty.
+ *
+ * Masked away before it reaches the type, and kept under the vignette so the
+ * corners still sit back. */
+.oh-chess-board {
+  position: absolute;
+  left: -45%;
+  right: -45%;
+  bottom: calc(-60 * var(--px));
+  height: calc(820 * var(--px));
+  background-image: repeating-conic-gradient(rgba(190, 226, 255, 0.21) 0% 25%, transparent 0% 50%);
+  background-size: calc(104 * var(--px)) calc(104 * var(--px));
+  transform: perspective(560px) rotateX(63deg);
+  transform-origin: 50% 100%;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.55) 34%, #000 72%);
+  mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.55) 34%, #000 72%);
 }
 
 /* ---------- mascot ----------
@@ -549,7 +613,15 @@
 
 .oh-tab--violet { background: linear-gradient(180deg, #8c3ad0 0%, #6c22ab 100%); --icon-ink: #5b1a93; }
 .oh-tab--green  { background: linear-gradient(180deg, #5cbb40 0%, #3f9129 100%); --icon-ink: #327720; }
-.oh-tab--blue   { background: linear-gradient(180deg, #1a80f0 0%, #0060cf 100%); --icon-ink: #0050ad; }
+/* The one chip whose subject is a board gets one, at the strength of a
+   watermark — enough to register as texture, not enough to fight the king. */
+.oh-tab--blue {
+  background:
+    repeating-conic-gradient(rgba(255, 255, 255, 0.10) 0% 25%, transparent 0% 50%)
+      0 0 / calc(22 * var(--px)) calc(22 * var(--px)),
+    linear-gradient(180deg, #1a80f0 0%, #0060cf 100%);
+  --icon-ink: #0050ad;
+}
 .oh-tab--orange { background: linear-gradient(180deg, #f78a26 0%, #dd6a0c 100%); --icon-ink: #b85508; }
 .oh-tab--yellow {
   background: linear-gradient(180deg, #ffe23c 0%, #f5c40f 100%);
@@ -876,6 +948,8 @@
 .oh-stage:not(.oh-go):not(.oh-still) .oh-script span,
 .oh-stage:not(.oh-go):not(.oh-still) .oh-burst,
 .oh-stage:not(.oh-go):not(.oh-still) .oh-title i,
+.oh-stage:not(.oh-go):not(.oh-still) .oh-title-c,
+.oh-stage:not(.oh-go):not(.oh-still) .oh-chess-board,
 .oh-stage:not(.oh-go):not(.oh-still) .oh-mascot,
 .oh-stage:not(.oh-go):not(.oh-still) .oh-mascot-pool,
 .oh-stage:not(.oh-go):not(.oh-still) .oh-banner,
@@ -1241,6 +1315,39 @@
   100% { transform: translate(0, 0) rotate(calc(var(--rot) + 360deg)); }
 }
 
+/* THE BOARD IS SET before anything is laid on it — it comes up out of a
+ * shallower rake, as though the camera were settling onto the table. It is
+ * atmosphere, so it is the one entrance that starts at frame zero and takes
+ * its time. */
+@keyframes ohBoardSet {
+  0%   { opacity: 0; transform: perspective(560px) rotateX(74deg) scale(1.1); }
+  100% { opacity: 1; transform: perspective(560px) rotateX(63deg) scale(1); }
+}
+
+/* and it answers the chess beat, once */
+@keyframes ohBoardLift {
+  0%, 100% { filter: brightness(1); }
+  40%      { filter: brightness(2.3); }
+}
+
+/* The second half of the name arrives as a plate being set down under the
+ * headline — no clip, because the bar carries a drop shadow and clip-path
+ * would cut it off permanently at the end of the animation. */
+@keyframes ohBarIn {
+  0%   { opacity: 0; transform: translateY(calc(-26 * var(--px))) scale(0.88); }
+  20%  { opacity: 1; }
+  62%  { opacity: 1; transform: translateY(calc(4 * var(--px))) scale(1.03); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* The checker rails run one full tile into place, so the board on the bar is
+ * laid rather than printed. One tile is 16 units and the pattern repeats, so
+ * the end state is indistinguishable from never having moved. */
+@keyframes ohRailRun {
+  from { background-position: calc(-16 * var(--px)) 0; }
+  to   { background-position: 0 0; }
+}
+
 /* ---- second act ---- */
 
 /* CHESS IS THE ONE THEY WANT SEEN.
@@ -1415,6 +1522,11 @@
 
 .oh-go .oh-push  { animation: ohDolly 10200ms cubic-bezier(.25, .6, .25, 1) both; }
 .oh-go .oh-field { animation: ohFieldDrift 22000ms linear both; }
+.oh-go .oh-chess-board {
+  animation:
+    ohBoardSet 1100ms cubic-bezier(.2, .8, .3, 1) 0ms both,
+    ohBoardLift 900ms ease-in-out 6480ms;
+}
 .oh-go .oh-shake::after { animation: ohRake 1500ms cubic-bezier(.4, 0, .5, 1) 7300ms both; }
 .oh-go .oh-shake { animation: ohSlam 660ms cubic-bezier(.2, .7, .3, 1) 1260ms both; }
 
@@ -1447,6 +1559,9 @@
     ohShimmer 620ms ease-in-out calc(7500ms + var(--n) * 55ms);
 }
 .oh-go .oh-title-a { animation: ohRecoil 520ms cubic-bezier(.2, .8, .3, 1) 1300ms; }
+.oh-go .oh-title-c { animation: ohBarIn 620ms cubic-bezier(.2, .8, .3, 1) 1420ms both; }
+.oh-go .oh-title-c::before,
+.oh-go .oh-title-c::after { animation: ohRailRun 900ms cubic-bezier(.2, .8, .3, 1) 1500ms both; }
 .oh-go .oh-title::after  { animation: ohFlash 620ms cubic-bezier(.2, .7, .3, 1) 1260ms both; }
 .oh-go .oh-title::before { animation: ohGlow 1500ms ease-in-out 1480ms both; }
 

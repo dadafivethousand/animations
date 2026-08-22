@@ -48,7 +48,10 @@ function Slot({ src, name, className = "", alt = "", pass }) {
 export default function OpenHouseAd({
   script = ["Turn", "Screen Time", "into", "Skill Time!"],
   burst = ["FUN FOR", "KIDS 5–14", "& FAMILIES!"],
-  title = ["OPEN", "HOUSE!"],
+  title = ["OPEN", "HOUSE"],
+  // THE EVENT IS TWO EVENTS. The exclamation moved to the end of the whole
+  // name rather than sitting in the middle of it.
+  subtitle = "& CHESS TOURNAMENT!",
   banner = ["COME EXPLORE. PLAY.", "WIN!"],
 
   // ONE STRING, so nobody can update the weekday and leave the number.
@@ -110,6 +113,11 @@ export default function OpenHouseAd({
           <div className="oh-shake">
 
             <div className="oh-field" aria-hidden />
+            {/* A chessboard in perspective under the whole sheet. It says
+                "tournament" before a word is read, and it fills the lower
+                third, which the reel safe area reserves for Instagram's own
+                furniture and which was otherwise flat navy. */}
+            <div className="oh-chess-board" aria-hidden />
             <Confetti />
 
             {/* ---------- top band ---------- */}
@@ -145,6 +153,7 @@ export default function OpenHouseAd({
             <h1 className="oh-title">
               <span className="oh-title-a">{letters(title[0])}</span>
               <span className="oh-title-b">{letters(title[1], title[0].length)}</span>
+              <span className="oh-title-c">{subtitle}</span>
             </h1>
 
             {/* THE POOL IS NOT DECORATION. The mascot artwork is a near-black
