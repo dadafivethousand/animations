@@ -436,7 +436,7 @@
   left: 0;
   right: 0;
   height: calc(8 * var(--px));
-  background-image: repeating-conic-gradient(#fff 0% 25%, #0b2a5b 0% 50%);
+  background-image: repeating-conic-gradient(#fff 0% 25%, #12141a 0% 50%);
   background-size: calc(16 * var(--px)) calc(16 * var(--px));
 }
 
@@ -456,13 +456,23 @@
   left: -45%;
   right: -45%;
   bottom: calc(-60 * var(--px));
-  height: calc(820 * var(--px));
-  background-image: repeating-conic-gradient(rgba(190, 226, 255, 0.21) 0% 25%, transparent 0% 50%);
+  height: calc(940 * var(--px));
+  /* REAL BLACK AND WHITE, not a tint of the field. The squares are #fff and
+     near-black at full strength; what makes the board sit in the scene is the
+     MASK, not a watered-down colour — it is solid where the board is nearest
+     the camera and dissolves toward the horizon and out to both sides.
+     Fading the alpha instead of the ink is what keeps it a chessboard rather
+     than a blue pattern that happens to be checked.
+
+     One radial does the whole job: anchored below the bottom edge, it falls
+     off upward AND sideways, so the board loses itself into the navy on three
+     sides without a second mask layer to composite. */
+  background-image: repeating-conic-gradient(#ffffff 0% 25%, #12141a 0% 50%);
   background-size: calc(104 * var(--px)) calc(104 * var(--px));
   transform: perspective(560px) rotateX(63deg);
   transform-origin: 50% 100%;
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.55) 34%, #000 72%);
-  mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.55) 34%, #000 72%);
+  -webkit-mask-image: radial-gradient(120% 132% at 50% 108%, #000 0%, rgba(0, 0, 0, 0.92) 30%, rgba(0, 0, 0, 0.58) 54%, rgba(0, 0, 0, 0.22) 72%, transparent 88%);
+  mask-image: radial-gradient(120% 132% at 50% 108%, #000 0%, rgba(0, 0, 0, 0.92) 30%, rgba(0, 0, 0, 0.58) 54%, rgba(0, 0, 0, 0.22) 72%, transparent 88%);
 }
 
 /* ---------- mascot ----------
