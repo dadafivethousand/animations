@@ -784,71 +784,77 @@
    ===== END THE POSTER =====
    ===== THE CASCADE — the only thing this file adds =====
 
-   TOP DOWN, because that is how the eye reads a sheet and because every piece
-   arriving from above is one idea repeated rather than twelve tricks. Nothing
-   slides in from a side and nothing fades up on the spot: everything is a
-   physical object dropped into place, and the differences between them are
-   weight and settle, not direction.
+   ONE TECHNIQUE PER OBJECT, chosen by what the object IS. A banner unfurls
+   because that is what banners do; a sticker is stamped; handwriting is
+   written; five chips in a row are dealt like cards; a drawer opens; a
+   character leaps. Twelve things arriving the same way is a template, and it
+   is the difference between a sheet that assembles and a sheet that reads as
+   a list being populated.
 
-   Ten seconds, in two halves.
+   The build order still runs roughly top to bottom, so it scans — but the
+   DIRECTIONS deliberately break: the banner comes in off the left, the mascot
+   arcs in from the right, the footer rises from below, and at 1.26s the
+   confetti explodes outward from the middle. A composition that only ever
+   accepts things from above has one idea in it.
 
    ── 0 → 6.5s, THE SHEET ASSEMBLES ──
 
-      0     the confetti starts falling and the white slab is already dropping
-      0     the camera starts a slow 3% pull-back, and runs the whole take
-     180    the logo    260  WOODBRIDGE
-     320    the starburst is STRUCK — oversized, off-angle, lands square
-     460    the handwritten note, a line at a time, 90ms apart
-     620    OPEN drops
-     860    HOUSE! drops — and at 1180, as it lands, THE CAMERA TAKES THE HIT
-    1340    the light pool blooms   1400  the mascot lands on it and squashes
-    1780    the banner
-    2060    the date pill    2320  its icons pop in behind it
-    2760    the five tabs, 130ms apart
-    3720    the programs panel, then its four columns 110ms apart
-    4560    the tick bar, then each tick DRAWS itself
-    5280    the footer, its contents, and the QR last
-    ~6.5s   the sheet is whole
+      0   THE SLAB UNFURLS rightward, its own clip-path polygon opening out
+      0   camera starts a slow 3% pull-back, and runs the whole take
+    260   the logo and WOODBRIDGE are WIPED in behind the unfurling edge
+    340   the starburst is STAMPED — two turns of spin, 2.3x down to 1
+    560   the note is WRITTEN: letter-spacing closing up, a line at a time
+    700   OPEN CASCADES, letter by letter, each on its own elastic
+   1000   HOUSE! FLIPS down on rotateX — every letter on ONE delay, so the
+          word tilts as a mass instead of eight letters tilting separately
+   1260   THE IMPACT. Camera takes the hit, light flashes behind the type, and
+          THE CONFETTI BURSTS OUT OF THE HEADLINE along its own vectors
+   1480   the mascot LEAPS in from the right on an arc and lands squashed
+   1900   the banner SLIDES in off the left edge, skewed, and straightens
+   2200   the date pill SWINGS UP on a hinge at its left end
+   2820   the five tabs are DEALT, each flipping over on rotateY
+   3800   the programs panel OPENS DOWNWARD like a drawer, then fills
+   4600   the tick bar SPREADS from its centre, then each tick DRAWS itself
+   5300   the footer RISES FROM BELOW — the only thing that does
+   5980   the QR FLIPS over, last, because it is the thing to act on
+   ~6.5s  the sheet is whole
 
    ── 6.5 → 10s, IT STAYS ALIVE ──
 
-    6900    the tabs run a wave, left to right
-    7700    a sheen crosses the banner
-    8300    SCAN ME! pulses twice — the last thing that moves is the CTA
-    8600    a lime glow blooms behind OPEN HOUSE and fades
+   6900   the tabs run a wave, left to right
+   7500   A WAVE OF LIGHT WALKS ACROSS THE HEADLINE, letter by letter — which
+          is what the per-letter split buys on top of the entrance
+   7900   a sheen crosses the banner
+   8300   SCAN ME! pulses twice — the last thing that moves is the CTA
+   8600   a lime glow blooms behind OPEN HOUSE and fades
 
-   Running underneath the whole thing, so the frame is never still: the
-   confetti falls and then drifts, the mascot breathes, the starburst turns.
-   Those three are the only loops, they are all slow, and none of them is
-   under type.
-
-   THE HERO IS UP BY 1.2s. That is the constraint the top of this list is
-   built around — a reel gets one second to earn the next one, and an ad that
-   spends it introducing itself has already been scrolled past. Everything
-   before OPEN HOUSE is therefore fast and overlapping, and everything after
-   it can breathe.
+   Underneath all of it: the confetti drifts, the mascot breathes, the
+   starburst turns. Three slow loops, none of them under type.
 
    ── THE ONE RULE THIS FILE KEEPS TRIPPING OVER ──
 
    A CSS transform REPLACES a transform. Two animations on one element both
-   touching `transform` do not compose — the last one declared wins outright.
-   Where an element needs both an entrance and a loop (the mascot, the tabs,
-   the confetti, the starburst, SCAN ME!) the loop is a SECOND animation with
-   a delay and NO backwards fill, so it simply does not exist until its delay
-   elapses and the entrance's `both` fill owns the element until then. Where an
-   element has a base transform it cannot lose (the confetti's angle) every
-   keyframe restates it.
+   touching `transform` do not compose — the last declared wins outright.
+   Where an element needs an entrance AND a loop (mascot, tabs, letters,
+   confetti, starburst, SCAN ME!) the loop is a SECOND animation with a delay
+   and NO backwards fill, so it does not exist until its delay elapses and the
+   entrance's `both` fill owns the element until then. Where an element has a
+   base transform it cannot lose — the confetti's angle — every keyframe
+   restates it.
+
+   And where a technique is a CLIP rather than a move (the slab, the logo),
+   nothing else on that element may animate clip-path, which is why the slab's
+   unfurl had to be written as its own polygon rather than an inset wipe: it
+   already has a polygon, and the two cannot both be the value.
    ============================================================ */
 
-/* Pre-roll: mounted and painted, not yet moving. Without this the first frame
-   shows the finished sheet for one tick before the class lands. */
+/* Pre-roll: mounted and painted, not yet moving. */
 .oh-stage:not(.oh-go):not(.oh-still) .oh-sheet,
 .oh-stage:not(.oh-go):not(.oh-still) .oh-logo,
 .oh-stage:not(.oh-go):not(.oh-still) .oh-centre-name,
 .oh-stage:not(.oh-go):not(.oh-still) .oh-script span,
 .oh-stage:not(.oh-go):not(.oh-still) .oh-burst,
-.oh-stage:not(.oh-go):not(.oh-still) .oh-title-a,
-.oh-stage:not(.oh-go):not(.oh-still) .oh-title-b,
+.oh-stage:not(.oh-go):not(.oh-still) .oh-title i,
 .oh-stage:not(.oh-go):not(.oh-still) .oh-mascot,
 .oh-stage:not(.oh-go):not(.oh-still) .oh-mascot-pool,
 .oh-stage:not(.oh-go):not(.oh-still) .oh-banner,
@@ -865,136 +871,20 @@
   opacity: 0;
 }
 
-/* ---------- the vocabulary ----------
- *
- * ohDrop is the sheet's one move: in from above, past the mark, back onto it.
- * --d is how far above, in design pixels, so a 14-unit tick and a 150-unit
- * slab use the same keyframes and read as the same weight of object.
- */
-@keyframes ohDrop {
-  0%   { opacity: 0; transform: translateY(calc(var(--d, 80) * var(--px) * -1)); }
-  16%  { opacity: 1; }
-  60%  { opacity: 1; transform: translateY(calc(var(--d, 80) * var(--px) * 0.085)); }
-  82%  { opacity: 1; transform: translateY(calc(var(--d, 80) * var(--px) * -0.026)); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-/* Small parts arriving INSIDE something that has already landed. No overshoot:
-   a tick that bounces inside a bar that is standing still reads as a glitch. */
-@keyframes ohSoft {
-  0%   { opacity: 0; transform: translateY(calc(var(--d, 30) * var(--px) * -1)); }
-  30%  { opacity: 1; }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes ohPop {
-  0%   { opacity: 0; transform: scale(0.3); }
-  62%  { opacity: 1; transform: scale(1.16); }
-  100% { opacity: 1; transform: scale(1); }
-}
-
-/* THE STARBURST IS STRUCK. It arrives oversized and off-angle and lands
-   square — the only element allowed a big overshoot, because it is the only
-   one pretending to be a stamp hitting the sheet. */
-@keyframes ohStamp {
-  0%   { opacity: 0; transform: scale(1.62) rotate(-24deg); }
-  52%  { opacity: 1; transform: scale(0.92) rotate(7deg); }
-  76%  { opacity: 1; transform: scale(1.05) rotate(-2.5deg); }
-  100% { opacity: 1; transform: scale(1) rotate(0deg); }
-}
-
-/* ---------- the mascot ----------
- * He is the only character on the sheet, so he is the only thing that gets
- * squash and stretch: stretched thin on the way down, flattened on impact,
- * one small rebound, then he breathes for the rest of the take. */
-@keyframes ohLand {
-  0%   { opacity: 0; transform: translateY(calc(-240 * var(--px))) scale(0.94, 1.08); }
-  46%  { opacity: 1; transform: translateY(0) scale(1.10, 0.90); }
-  64%  { opacity: 1; transform: translateY(calc(-18 * var(--px))) scale(0.97, 1.04); }
-  82%  { opacity: 1; transform: translateY(0) scale(1.02, 0.98); }
-  100% { opacity: 1; transform: translateY(0) scale(1, 1); }
-}
-
-@keyframes ohBob {
-  0%, 100% { transform: translateY(0) scale(1, 1); }
-  50%      { transform: translateY(calc(-9 * var(--px))) scale(0.995, 1.005); }
-}
-
-@keyframes ohBloom {
-  from { opacity: 0; transform: scale(0.55); }
-  to   { opacity: 1; transform: scale(1); }
-}
-
-@keyframes ohBreathe {
-  0%, 100% { transform: scale(1) rotate(0deg); }
-  50%      { transform: scale(1.045) rotate(2.5deg); }
-}
-
-/* The confetti falls in, spinning up to its resting angle, then drifts. Both
-   keyframe sets restate `rotate(var(--rot))` — the angle is the piece's own
-   identity and a transform that omits it throws it away. */
-@keyframes ohFall {
-  0%   { opacity: 0; transform: translateY(calc(-210 * var(--px))) rotate(calc(var(--rot) - 100deg)); }
-  12%  { opacity: 0.9; }
-  100% { opacity: 0.82; transform: translateY(0) rotate(var(--rot)); }
-}
-
-@keyframes ohSway {
-  0%, 100% { transform: translate(0, 0) rotate(var(--rot)); }
-  50%      { transform: translate(calc(7 * var(--px)), calc(-11 * var(--px))) rotate(calc(var(--rot) + 9deg)); }
-}
-
-@keyframes ohTick { from { stroke-dashoffset: 30; } to { stroke-dashoffset: 0; } }
-
-@keyframes ohWave {
-  0%, 100% { transform: translateY(0) scale(1); }
-  42%      { transform: translateY(calc(-17 * var(--px))) scale(1.045); }
-}
-
-@keyframes ohSheen {
-  0%   { opacity: 0; transform: translateX(0) skewX(-16deg); }
-  14%  { opacity: 1; }
-  86%  { opacity: 1; }
-  100% { opacity: 0; transform: translateX(calc(1210 * var(--px))) skewX(-16deg); }
-}
-
-@keyframes ohPulse {
-  0%, 100% { transform: scale(1); }
-  45%      { transform: scale(1.16); }
-}
-
-@keyframes ohGlow { 0% { opacity: 0; } 38% { opacity: 1; } 100% { opacity: 0; } }
-
-/* ---------- the camera ----------
- * A slow pull-back over the whole take. The sheet fills from the top down, so
- * the frame opening slightly tight and easing out is the move that motivates
- * itself: it is making room for what is still arriving. */
-@keyframes ohDolly {
-  from { transform: scale(1.03); }
-  to   { transform: scale(1); }
-}
-
-/* THE HIT. Never lets the scale drop below 1 while it is translating — the
-   frame is exactly the stage, so a bare translate would show a bar of
-   background down one edge. At scale 1.024 there are ~13 design px of
-   overscan a side, and the largest kick is 9. */
-@keyframes ohSlam {
-  0%   { transform: scale(1.024) translateY(calc(-7 * var(--px))); }
-  18%  { transform: scale(1.018) translateY(calc(9 * var(--px))); }
-  38%  { transform: scale(1.012) translateY(calc(-5 * var(--px))); }
-  60%  { transform: scale(1.007) translateY(calc(3 * var(--px))); }
-  80%  { transform: scale(1.003) translateY(calc(-1.5 * var(--px))); }
-  100% { transform: scale(1) translateY(0); }
-}
-
 /* ---------- staging additions ----------
- * Three properties the poster has no reason to carry and the cascade cannot
- * work without. */
+ * Properties the poster has no reason to carry and the cascade cannot work
+ * without. */
 
-/* he squashes onto his own soles, not through his middle */
-.oh-mascot { transform-origin: 50% 100%; }
+/* the headline is now nine inline-blocks; the extrusion and the stroke are
+   both inherited properties, so they come along without being restated */
+.oh-title i { display: inline-block; font-style: normal; will-change: transform; }
+.oh-title-b i { transform-origin: 50% 0%; }   /* HOUSE! hinges from its top edge */
 
-/* the angle moved out of the inline style so a keyframe can restate it */
+.oh-mascot { transform-origin: 50% 100%; }    /* he squashes onto his own soles */
+.oh-when   { transform-origin: 0% 50%; }      /* the pill hinges at its left end */
+.oh-programs { transform-origin: 50% 0%; }    /* the drawer opens downward */
+.oh-checks   { transform-origin: 50% 50%; }   /* the bar spreads from its centre */
+
 .oh-confetti span { transform: rotate(var(--rot)); }
 
 /* the tick is drawn, not revealed: ~27.6 units of path, dashed at 30 */
@@ -1015,22 +905,274 @@
   pointer-events: none;
 }
 
-/* the glow needs its own stacking context, or a negative z-index puts it
-   behind the field instead of behind the letters */
+/* Both headline accents sit BEHIND the letters and above the field, which
+   needs a stacking context of the title's own — a bare z-index:-1 would put
+   them under .oh-field instead. */
 .oh-title { isolation: isolate; }
-.oh-title::before {
+
+.oh-title::before,
+.oh-title::after {
   content: "";
   position: absolute;
   left: 50%;
   top: 50%;
+  opacity: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* the closing glow */
+.oh-title::before {
   width: calc(800 * var(--px));
   height: calc(430 * var(--px));
   transform: translate(-50%, -50%);
   background: radial-gradient(closest-side, rgba(193, 217, 49, 0.62), transparent 74%);
   filter: blur(calc(28 * var(--px)));
-  opacity: 0;
-  z-index: -1;
-  pointer-events: none;
+}
+
+/* the impact flash, at 1.26s */
+.oh-title::after {
+  width: calc(940 * var(--px));
+  height: calc(520 * var(--px));
+  transform: translate(-50%, -50%);
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.55), rgba(193, 217, 49, 0.28) 45%, transparent 72%);
+  filter: blur(calc(18 * var(--px)));
+}
+
+/* ============================================================
+   ===== THE VOCABULARY — one keyframe set per technique =====
+   ============================================================ */
+
+/* THE BANNER UNFURLS. Its shape is already a clip-path polygon, so the
+   entrance has to BE that polygon with its right-hand points collapsed back
+   onto the left — same five points, or the two shapes cannot interpolate. */
+@keyframes ohUnfurl {
+  0%   { opacity: 0; clip-path: polygon(5% 0, 9% 0, 8% 100%, 9% 100%, 0 50%); }
+  10%  { opacity: 1; }
+  100% { opacity: 1; clip-path: polygon(5% 0, 100% 0, 95% 100%, 9% 100%, 0 50%); }
+}
+
+/* what the unfurling edge reveals as it passes */
+@keyframes ohWipe {
+  from { opacity: 1; clip-path: inset(0 100% 0 0); }
+  to   { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+
+/* THE STICKER IS STAMPED, with two turns of spin on the way down. */
+@keyframes ohSpinStamp {
+  0%   { opacity: 0; transform: scale(2.3) rotate(-200deg); }
+  20%  { opacity: 1; }
+  55%  { opacity: 1; transform: scale(0.88) rotate(12deg); }
+  74%  { transform: scale(1.06) rotate(-5deg); }
+  88%  { transform: scale(0.98) rotate(2deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+/* HANDWRITING IS WRITTEN. Closing the letter-spacing up from wide reads as a
+   line being laid down left to right, and unlike a clip wipe it cannot crop
+   the text's own shadow. */
+@keyframes ohWrite {
+  0%   { opacity: 0; letter-spacing: calc(15 * var(--px)); transform: translateX(calc(-24 * var(--px))); }
+  45%  { opacity: 1; }
+  100% { opacity: 1; letter-spacing: 0; transform: translateX(0); }
+}
+
+/* OPEN — one letter at a time, each on its own elastic. */
+@keyframes ohLetterDrop {
+  0%   { opacity: 0; transform: translateY(calc(-190 * var(--px))) rotate(-16deg) scale(0.72); }
+  22%  { opacity: 1; }
+  52%  { opacity: 1; transform: translateY(calc(16 * var(--px))) rotate(5deg) scale(1.08); }
+  72%  { transform: translateY(calc(-7 * var(--px))) rotate(-2.5deg) scale(0.985); }
+  88%  { transform: translateY(calc(2 * var(--px))) rotate(1deg) scale(1.004); }
+  100% { opacity: 1; transform: none; }
+}
+
+/* HOUSE! — the perspective lives in the transform rather than on the parent,
+   so the two words can use different depths without fighting over one
+   `perspective` property. */
+@keyframes ohFlipIn {
+  0%   { opacity: 0; transform: perspective(1000px) rotateX(-92deg) translateY(calc(-40 * var(--px))); }
+  14%  { opacity: 1; }
+  62%  { opacity: 1; transform: perspective(1000px) rotateX(14deg) translateY(0); }
+  80%  { transform: perspective(1000px) rotateX(-6deg); }
+  92%  { transform: perspective(1000px) rotateX(2deg); }
+  100% { opacity: 1; transform: perspective(1000px) rotateX(0deg); }
+}
+
+@keyframes ohFlash {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.35); }
+  18%  { opacity: 0.95; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.9); }
+}
+
+/* THE CHARACTER LEAPS. The 34% key is what bows the path — without it he
+   travels the diagonal in a straight line, and a straight line is the one
+   thing a jump is never. */
+@keyframes ohLeap {
+  0%   { opacity: 0; transform: translate(calc(210 * var(--px)), calc(-200 * var(--px))) rotate(18deg) scale(0.82); }
+  26%  { opacity: 1; }
+  34%  { opacity: 1; transform: translate(calc(88 * var(--px)), calc(-152 * var(--px))) rotate(9deg) scale(0.94); }
+  58%  { transform: translate(0, 0) rotate(0deg) scale(1.14, 0.86); }
+  72%  { transform: translate(0, calc(-26 * var(--px))) rotate(-3deg) scale(0.96, 1.07); }
+  86%  { transform: translate(0, 0) rotate(0deg) scale(1.04, 0.97); }
+  100% { opacity: 1; transform: none; }
+}
+
+@keyframes ohBob {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  50%      { transform: translateY(calc(-9 * var(--px))) scale(0.995, 1.005); }
+}
+
+@keyframes ohBloom {
+  from { opacity: 0; transform: scale(0.55); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes ohBreathe {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50%      { transform: scale(1.045) rotate(2.5deg); }
+}
+
+/* THE BAR ARRIVES OFF THE LEFT EDGE, skewed by its own speed, and straightens
+   as it stops. */
+@keyframes ohSlideL {
+  0%   { opacity: 0; transform: translateX(calc(-1000 * var(--px))) skewX(9deg); }
+  22%  { opacity: 1; }
+  70%  { opacity: 1; transform: translateX(calc(26 * var(--px))) skewX(-3deg); }
+  88%  { transform: translateX(calc(-8 * var(--px))) skewX(1deg); }
+  100% { opacity: 1; transform: translateX(0) skewX(0deg); }
+}
+
+/* THE PILL SWINGS UP on a hinge at its left end. Positive, so the far end
+   drops into the empty band below rather than up into the banner. */
+@keyframes ohHinge {
+  0%   { opacity: 0; transform: rotate(7deg) translateY(calc(-30 * var(--px))); }
+  22%  { opacity: 1; }
+  62%  { opacity: 1; transform: rotate(-1.6deg) translateY(0); }
+  82%  { transform: rotate(0.6deg); }
+  100% { opacity: 1; transform: rotate(0deg); }
+}
+
+@keyframes ohPop {
+  0%   { opacity: 0; transform: scale(0.3); }
+  62%  { opacity: 1; transform: scale(1.16); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* FIVE CHIPS IN A ROW ARE DEALT, each turning over as it lands. */
+@keyframes ohDeal {
+  0%   { opacity: 0; transform: perspective(900px) rotateY(-78deg) scale(0.92); }
+  20%  { opacity: 1; }
+  66%  { opacity: 1; transform: perspective(900px) rotateY(12deg) scale(1.03); }
+  84%  { transform: perspective(900px) rotateY(-4deg) scale(0.995); }
+  100% { opacity: 1; transform: perspective(900px) rotateY(0deg) scale(1); }
+}
+
+/* THE PANEL OPENS DOWNWARD. Its children are still at opacity 0 while it
+   does, so nothing is visibly squashed by the scale. */
+@keyframes ohOpenDown {
+  0%   { opacity: 0; transform: scaleY(0.02); }
+  18%  { opacity: 1; }
+  70%  { opacity: 1; transform: scaleY(1.06); }
+  86%  { transform: scaleY(0.98); }
+  100% { opacity: 1; transform: scaleY(1); }
+}
+
+/* THE BAR SPREADS FROM ITS CENTRE — same trick, same reason. */
+@keyframes ohSpread {
+  0%   { opacity: 0; transform: scaleX(0.04); }
+  22%  { opacity: 1; }
+  72%  { opacity: 1; transform: scaleX(1.03); }
+  100% { opacity: 1; transform: scaleX(1); }
+}
+
+/* things arriving from BELOW, inside something already standing still */
+@keyframes ohRise {
+  0%   { opacity: 0; transform: translateY(calc(var(--d, 26) * var(--px))); }
+  40%  { opacity: 1; }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ohRiseUp {
+  0%   { opacity: 0; transform: translateY(calc(150 * var(--px))) scale(0.96); }
+  25%  { opacity: 1; }
+  72%  { opacity: 1; transform: translateY(calc(-10 * var(--px))) scale(1.01); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes ohFlipY {
+  0%   { opacity: 0; transform: perspective(700px) rotateY(96deg) scale(0.9); }
+  22%  { opacity: 1; }
+  70%  { opacity: 1; transform: perspective(700px) rotateY(-12deg) scale(1.03); }
+  100% { opacity: 1; transform: perspective(700px) rotateY(0deg) scale(1); }
+}
+
+@keyframes ohTick { from { stroke-dashoffset: 30; } to { stroke-dashoffset: 0; } }
+
+/* ---- the confetti's two waves ---- */
+@keyframes ohFall {
+  0%   { opacity: 0; transform: translateY(calc(-210 * var(--px))) rotate(calc(var(--rot) - 100deg)); }
+  12%  { opacity: 0.9; }
+  100% { opacity: 0.82; transform: translateY(0) rotate(var(--rot)); }
+}
+
+/* OUT OF THE IMPACT. --bx/--by are the piece's own vector back to the point
+   HOUSE! landed on, computed in the component because only it knows where the
+   piece ends up. */
+@keyframes ohBurstOut {
+  0%   { opacity: 0; transform: translate(calc(var(--bx) * var(--px)), calc(var(--by) * var(--px))) rotate(calc(var(--rot) - 200deg)) scale(0.25); }
+  10%  { opacity: 1; }
+  100% { opacity: 0.82; transform: translate(0, 0) rotate(var(--rot)) scale(1); }
+}
+
+@keyframes ohSway {
+  0%, 100% { transform: translate(0, 0) rotate(var(--rot)); }
+  50%      { transform: translate(calc(7 * var(--px)), calc(-11 * var(--px))) rotate(calc(var(--rot) + 9deg)); }
+}
+
+/* ---- second act ---- */
+@keyframes ohWave {
+  0%, 100% { transform: translateY(0) scale(1); }
+  42%      { transform: translateY(calc(-17 * var(--px))) scale(1.045); }
+}
+
+/* A WAVE OF LIGHT WALKS THE HEADLINE, one letter at a time. */
+@keyframes ohShimmer {
+  0%, 100% { transform: none; filter: brightness(1); }
+  40%      { transform: translateY(calc(-13 * var(--px))) scale(1.05); filter: brightness(1.5); }
+}
+
+@keyframes ohSheen {
+  0%   { opacity: 0; transform: translateX(0) skewX(-16deg); }
+  14%  { opacity: 1; }
+  86%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(calc(1210 * var(--px))) skewX(-16deg); }
+}
+
+@keyframes ohPulse {
+  0%, 100% { transform: scale(1); }
+  45%      { transform: scale(1.16); }
+}
+
+@keyframes ohGlow { 0% { opacity: 0; } 38% { opacity: 1; } 100% { opacity: 0; } }
+
+/* ---- the camera ---- */
+@keyframes ohDolly {
+  from { transform: scale(1.03); }
+  to   { transform: scale(1); }
+}
+
+/* Never lets the scale drop below 1 while it is translating — the frame is
+   exactly the stage, so a bare translate would show a bar of background down
+   one edge. At scale 1.024 there are ~13 design px of overscan a side, and the
+   largest kick is 9. */
+@keyframes ohSlam {
+  0%   { transform: scale(1.026) translateY(calc(-8 * var(--px))); }
+  18%  { transform: scale(1.019) translateY(calc(10 * var(--px))); }
+  38%  { transform: scale(1.013) translateY(calc(-6 * var(--px))); }
+  60%  { transform: scale(1.007) translateY(calc(3 * var(--px))); }
+  80%  { transform: scale(1.003) translateY(calc(-1.5 * var(--px))); }
+  100% { transform: scale(1) translateY(0); }
 }
 
 /* ============================================================
@@ -1038,122 +1180,127 @@
    ============================================================ */
 
 .oh-go .oh-push  { animation: ohDolly 10200ms cubic-bezier(.25, .6, .25, 1) both; }
-.oh-go .oh-shake { animation: ohSlam 620ms cubic-bezier(.2, .7, .3, 1) 1180ms both; }
+.oh-go .oh-shake { animation: ohSlam 660ms cubic-bezier(.2, .7, .3, 1) 1260ms both; }
 
-/* --- the top band. NOTHING WAITS. The slab is already falling on the frame
-       the class lands, because the ~150ms React costs before that is dead air
-       the viewer has already been charged for. --- */
-.oh-go .oh-sheet       { --d: 150; animation: ohDrop 560ms cubic-bezier(.2, .8, .3, 1) 0ms both; }
-.oh-go .oh-logo        { --d: 70;  animation: ohDrop 520ms cubic-bezier(.2, .8, .3, 1) 180ms both; }
-.oh-go .oh-centre-name { --d: 44;  animation: ohDrop 460ms cubic-bezier(.2, .8, .3, 1) 260ms both; }
+/* --- the top band unfurls --- */
+.oh-go .oh-sheet       { animation: ohUnfurl 560ms cubic-bezier(.2, .85, .25, 1) 0ms both; }
+.oh-go .oh-logo        { animation: ohWipe 420ms cubic-bezier(.3, .8, .3, 1) 260ms both; }
+.oh-go .oh-centre-name { animation: ohWipe 360ms cubic-bezier(.3, .8, .3, 1) 420ms both; }
 
 .oh-go .oh-burst {
   animation:
-    ohStamp 700ms cubic-bezier(.2, .86, .3, 1) 320ms both,
-    ohBreathe 3400ms ease-in-out 1120ms infinite;
+    ohSpinStamp 760ms cubic-bezier(.2, .86, .3, 1) 340ms both,
+    ohBreathe 3400ms ease-in-out 1200ms infinite;
 }
 
-.oh-go .oh-script span { --d: 34; animation: ohDrop 440ms cubic-bezier(.2, .8, .3, 1) both; }
-.oh-go .oh-script span:nth-child(1) { animation-delay: 460ms; }
-.oh-go .oh-script span:nth-child(2) { animation-delay: 550ms; }
-.oh-go .oh-script span:nth-child(3) { animation-delay: 640ms; }
-.oh-go .oh-script span:nth-child(4) { animation-delay: 730ms; }
+.oh-go .oh-script span { animation: ohWrite 520ms cubic-bezier(.16, 1, .3, 1) both; }
+.oh-go .oh-script span:nth-child(1) { animation-delay: 560ms; }
+.oh-go .oh-script span:nth-child(2) { animation-delay: 650ms; }
+.oh-go .oh-script span:nth-child(3) { animation-delay: 740ms; }
+.oh-go .oh-script span:nth-child(4) { animation-delay: 830ms; }
 
-/* --- the headline, and the hit at 1.18s --- */
-.oh-go .oh-title-a { --d: 170; animation: ohDrop 560ms cubic-bezier(.2, .8, .3, 1) 620ms both; }
-.oh-go .oh-title-b { --d: 190; animation: ohDrop 600ms cubic-bezier(.2, .8, .3, 1) 860ms both; }
+/* --- the headline. OPEN cascades; HOUSE! flips as one mass; both shimmer. --- */
+.oh-go .oh-title-a i {
+  animation:
+    ohLetterDrop 640ms cubic-bezier(.2, .8, .3, 1) calc(700ms + var(--n) * 55ms) both,
+    ohShimmer 620ms ease-in-out calc(7500ms + var(--n) * 55ms);
+}
+.oh-go .oh-title-b i {
+  animation:
+    ohFlipIn 700ms cubic-bezier(.2, .8, .3, 1) 1000ms both,
+    ohShimmer 620ms ease-in-out calc(7500ms + var(--n) * 55ms);
+}
+.oh-go .oh-title::after  { animation: ohFlash 620ms cubic-bezier(.2, .7, .3, 1) 1260ms both; }
 .oh-go .oh-title::before { animation: ohGlow 1200ms ease-in-out 8600ms both; }
 
-/* --- the mascot --- */
-.oh-go .oh-mascot-pool { animation: ohBloom 700ms cubic-bezier(.16, 1, .3, 1) 1340ms both; }
+/* --- the mascot leaps --- */
+.oh-go .oh-mascot-pool { animation: ohBloom 700ms cubic-bezier(.16, 1, .3, 1) 1420ms both; }
 .oh-go .oh-mascot {
   animation:
-    ohLand 840ms cubic-bezier(.3, .9, .3, 1) 1400ms both,
-    ohBob 3000ms ease-in-out 2800ms infinite;
+    ohLeap 900ms cubic-bezier(.3, .85, .3, 1) 1480ms both,
+    ohBob 3000ms ease-in-out 2900ms infinite;
 }
 
-/* --- the banner --- */
-.oh-go .oh-banner { --d: 90; animation: ohDrop 580ms cubic-bezier(.2, .8, .3, 1) 1780ms both; }
-.oh-go .oh-banner::after { animation: ohSheen 1100ms linear 7700ms both; }
+/* --- the banner slides in off the left --- */
+.oh-go .oh-banner { animation: ohSlideL 720ms cubic-bezier(.2, .8, .3, 1) 1900ms both; }
+.oh-go .oh-banner::after { animation: ohSheen 1100ms linear 7900ms both; }
 
-/* --- the date --- */
-.oh-go .oh-when { --d: 96; animation: ohDrop 600ms cubic-bezier(.2, .8, .3, 1) 2060ms both; }
+/* --- the pill swings up --- */
+.oh-go .oh-when { animation: ohHinge 700ms cubic-bezier(.2, .8, .3, 1) 2200ms both; }
 .oh-go .oh-when > * { animation: ohPop 460ms cubic-bezier(.2, .9, .25, 1) both; }
-.oh-go .oh-when > *:nth-child(1) { animation-delay: 2240ms; }
-.oh-go .oh-when > *:nth-child(2) { animation-delay: 2310ms; }
-.oh-go .oh-when > *:nth-child(3) { animation-delay: 2380ms; }
-.oh-go .oh-when > *:nth-child(4) { animation-delay: 2450ms; }
+.oh-go .oh-when > *:nth-child(1) { animation-delay: 2440ms; }
+.oh-go .oh-when > *:nth-child(2) { animation-delay: 2510ms; }
+.oh-go .oh-when > *:nth-child(3) { animation-delay: 2580ms; }
+.oh-go .oh-when > *:nth-child(4) { animation-delay: 2650ms; }
 
-/* --- the five tabs: drop in sequence, and wave once at 6.9s --- */
+/* --- the tabs are dealt, and wave once at 6.9s --- */
 .oh-go .oh-tab {
-  --d: 120;
   animation:
-    ohDrop 580ms cubic-bezier(.2, .8, .3, 1) both,
+    ohDeal 620ms cubic-bezier(.2, .8, .3, 1) both,
     ohWave 640ms ease-in-out;
 }
-.oh-go .oh-tab:nth-child(1) { animation-delay: 2760ms, 6900ms; }
-.oh-go .oh-tab:nth-child(2) { animation-delay: 2890ms, 6990ms; }
-.oh-go .oh-tab:nth-child(3) { animation-delay: 3020ms, 7080ms; }
-.oh-go .oh-tab:nth-child(4) { animation-delay: 3150ms, 7170ms; }
-.oh-go .oh-tab:nth-child(5) { animation-delay: 3280ms, 7260ms; }
+.oh-go .oh-tab:nth-child(1) { animation-delay: 2820ms, 6900ms; }
+.oh-go .oh-tab:nth-child(2) { animation-delay: 2950ms, 6990ms; }
+.oh-go .oh-tab:nth-child(3) { animation-delay: 3080ms, 7080ms; }
+.oh-go .oh-tab:nth-child(4) { animation-delay: 3210ms, 7170ms; }
+.oh-go .oh-tab:nth-child(5) { animation-delay: 3340ms, 7260ms; }
 
-/* --- the programs --- */
-.oh-go .oh-programs { --d: 110; animation: ohDrop 620ms cubic-bezier(.2, .8, .3, 1) 3720ms both; }
-.oh-go .oh-program  { --d: 40;  animation: ohSoft 480ms cubic-bezier(.16, 1, .3, 1) both; }
-.oh-go .oh-program:nth-child(1) { animation-delay: 3900ms; }
-.oh-go .oh-program:nth-child(2) { animation-delay: 4010ms; }
-.oh-go .oh-program:nth-child(3) { animation-delay: 4120ms; }
-.oh-go .oh-program:nth-child(4) { animation-delay: 4230ms; }
+/* --- the drawer opens, then fills --- */
+.oh-go .oh-programs { animation: ohOpenDown 640ms cubic-bezier(.2, .8, .3, 1) 3800ms both; }
+.oh-go .oh-program  { --d: 30; animation: ohRise 480ms cubic-bezier(.16, 1, .3, 1) both; }
+.oh-go .oh-program:nth-child(1) { animation-delay: 3980ms; }
+.oh-go .oh-program:nth-child(2) { animation-delay: 4090ms; }
+.oh-go .oh-program:nth-child(3) { animation-delay: 4200ms; }
+.oh-go .oh-program:nth-child(4) { animation-delay: 4310ms; }
 
-/* --- the ticks, each one drawn --- */
-.oh-go .oh-checks { --d: 90; animation: ohDrop 580ms cubic-bezier(.2, .8, .3, 1) 4560ms both; }
-.oh-go .oh-checks span { --d: 26; animation: ohSoft 440ms cubic-bezier(.16, 1, .3, 1) both; }
-.oh-go .oh-checks span:nth-child(1) { animation-delay: 4780ms; }
-.oh-go .oh-checks span:nth-child(2) { animation-delay: 4890ms; }
-.oh-go .oh-checks span:nth-child(3) { animation-delay: 5000ms; }
+/* --- the bar spreads, the ticks draw --- */
+.oh-go .oh-checks { animation: ohSpread 600ms cubic-bezier(.2, .8, .3, 1) 4600ms both; }
+.oh-go .oh-checks span { --d: 22; animation: ohRise 440ms cubic-bezier(.16, 1, .3, 1) both; }
+.oh-go .oh-checks span:nth-child(1) { animation-delay: 4820ms; }
+.oh-go .oh-checks span:nth-child(2) { animation-delay: 4930ms; }
+.oh-go .oh-checks span:nth-child(3) { animation-delay: 5040ms; }
 
 .oh-go .oh-checks svg path { animation: ohTick 420ms cubic-bezier(.2, .8, .3, 1) both; }
-.oh-go .oh-checks span:nth-child(1) svg path { animation-delay: 4900ms; }
-.oh-go .oh-checks span:nth-child(2) svg path { animation-delay: 5010ms; }
-.oh-go .oh-checks span:nth-child(3) svg path { animation-delay: 5120ms; }
+.oh-go .oh-checks span:nth-child(1) svg path { animation-delay: 4940ms; }
+.oh-go .oh-checks span:nth-child(2) svg path { animation-delay: 5050ms; }
+.oh-go .oh-checks span:nth-child(3) svg path { animation-delay: 5160ms; }
 
-/* --- the footer, and the QR last, because it is the thing to act on --- */
-.oh-go .oh-foot { --d: 110; animation: ohDrop 640ms cubic-bezier(.2, .8, .3, 1) 5280ms both; }
-.oh-go .oh-foot > * { --d: 30; animation: ohSoft 460ms cubic-bezier(.16, 1, .3, 1) both; }
-.oh-go .oh-foot > *:nth-child(1) { animation-delay: 5460ms; }
-.oh-go .oh-foot > *:nth-child(2) { animation-delay: 5540ms; }
-.oh-go .oh-foot > *:nth-child(3) { animation-delay: 5620ms; }
-.oh-go .oh-foot > *:nth-child(4) { animation-delay: 5700ms; }
-.oh-go .oh-foot > *:nth-child(5) { animation-delay: 5780ms; }
-.oh-go .oh-foot > *:nth-child(6) { animation-delay: 5860ms; }
+/* --- the footer rises, and the QR turns over last --- */
+.oh-go .oh-foot { animation: ohRiseUp 700ms cubic-bezier(.2, .8, .3, 1) 5300ms both; }
+.oh-go .oh-foot > * { --d: 26; animation: ohRise 460ms cubic-bezier(.16, 1, .3, 1) both; }
+.oh-go .oh-foot > *:nth-child(1) { animation-delay: 5560ms; }
+.oh-go .oh-foot > *:nth-child(2) { animation-delay: 5640ms; }
+.oh-go .oh-foot > *:nth-child(3) { animation-delay: 5720ms; }
+.oh-go .oh-foot > *:nth-child(4) { animation-delay: 5800ms; }
+.oh-go .oh-foot > *:nth-child(5) { animation-delay: 5880ms; }
+.oh-go .oh-foot > *:nth-child(6) { animation-delay: 5960ms; }
 
 .oh-go .oh-qr b {
   animation:
-    ohPop 440ms cubic-bezier(.2, .9, .25, 1) 5800ms both,
+    ohPop 440ms cubic-bezier(.2, .9, .25, 1) 5900ms both,
     ohPulse 800ms ease-in-out 8300ms 2;
 }
-.oh-go .oh-qr-img { animation: ohPop 500ms cubic-bezier(.2, .9, .25, 1) 5920ms both; }
+.oh-go .oh-qr-img { animation: ohFlipY 560ms cubic-bezier(.2, .8, .3, 1) 5980ms both; }
 
-/* --- the confetti. Falling on frame ONE, so the ad is never a still navy
-       rectangle waiting for React, and drifting for the rest of the take. --- */
-/* LONGHANDS, NOT THE SHORTHAND. Every value here is staggered off --i, and a
-   `var()` anywhere in a shorthand makes the whole declaration pending until
-   computed-value time; written out it is unambiguous and each channel is
-   readable on its own. */
-.oh-go .oh-confetti span {
-  animation-name: ohFall, ohSway;
+/* --- the confetti. Wave A falls from frame one; wave B is thrown out of the
+       impact. Both drift afterwards. --dly is computed per wave in the
+       component, so the stagger belongs to the wave and not to the array. --- */
+.oh-go .oh-cf {
   animation-duration: 860ms, calc(3200ms + var(--i) * 140ms);
   animation-timing-function: cubic-bezier(.2, .7, .3, 1), ease-in-out;
-  animation-delay: calc(var(--i) * 55ms), calc(2300ms + var(--i) * 70ms);
+  animation-delay: calc(var(--dly) * 1ms), calc(var(--dly) * 1ms + 1500ms);
   animation-fill-mode: both, none;
   animation-iteration-count: 1, infinite;
 }
+.oh-go .oh-cf--fall  { animation-name: ohFall, ohSway; }
+.oh-go .oh-cf--burst { animation-name: ohBurstOut, ohSway; animation-duration: 940ms, calc(3200ms + var(--i) * 140ms); }
 
 /* ---------- reduced motion ----------
  * Snap to the end state. Every animation above finishes on the poster's own
- * static layout, so switching them off IS the poster — the two accents that
- * live on pseudo-elements stay at opacity 0, which is where they start and
- * end anyway. */
+ * static layout, so switching them off IS the poster — except the two clip
+ * techniques, whose un-animated value is the poster's own (the slab keeps its
+ * polygon; the wipes have no clip at all), and the accents on pseudo-elements,
+ * which start and end at opacity 0 either way. */
 @media (prefers-reduced-motion: reduce) {
   .oh-stage *,
   .oh-stage *::before,

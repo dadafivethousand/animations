@@ -132,10 +132,19 @@ export default function OpenHouseAd({
               </span>
             </div>
 
-            {/* ---------- headline ---------- */}
+            {/* ---------- headline ----------
+                SPLIT INTO LETTERS, because two words cannot carry two
+                different entrances and a travelling shimmer as single text
+                nodes. OPEN cascades letter by letter; HOUSE! flips as one
+                mass (every letter on the SAME delay, so it reads as the word
+                tilting rather than eight things tilting); and at 7.5s a wave
+                of light walks across all nine.
+
+                text-shadow and -webkit-text-stroke are both inherited, so the
+                extrusion follows the letters down without being restated. */}
             <h1 className="oh-title">
-              <span className="oh-title-a">{title[0]}</span>
-              <span className="oh-title-b">{title[1]}</span>
+              <span className="oh-title-a">{letters(title[0])}</span>
+              <span className="oh-title-b">{letters(title[1], title[0].length)}</span>
             </h1>
 
             {/* THE POOL IS NOT DECORATION. The mascot artwork is a near-black
@@ -221,6 +230,17 @@ export default function OpenHouseAd({
   );
 }
 
+/** One <i> per character, so each can be timed on its own. */
+function letters(word, base = 0) {
+  return String(word)
+    .split("")
+    .map((c, i) => (
+      <i key={i} style={{ "--n": base + i }}>
+        {c}
+      </i>
+    ));
+}
+
 /** "A\nB" → A<br/>B, so a tab or a program can carry two lines from one prop. */
 function lines(text) {
   return String(text)
@@ -256,25 +276,56 @@ const CONFETTI = [
   [47, 88, 13, 13, 38, "#ef7c18"], [83, 96, 15, 7, -18, "#0172ec"],
 ];
 
+/* TWO WAVES, NOT ONE.
+ *
+ * The pieces along the top edge FALL, from the first frame, so the ad is never
+ * a still navy rectangle waiting for React to mount. Everything else does not
+ * exist until 1.26s — and then it BURSTS out of the headline on the impact,
+ * every piece flying its own vector away from the point HOUSE! landed on.
+ *
+ * That is the whole reason the slam is worth having: a camera shake on its own
+ * is a tic, but a camera shake that throws confetti across the frame is an
+ * event with a cause. The vectors are computed here rather than guessed in CSS
+ * because each piece needs the line between the impact point and where it is
+ * going to end up, and only this file knows where that is.
+ */
+const BURST_X = 50;   // the impact point, in % of the frame
+const BURST_Y = 30;
+const FALL_ABOVE = 24; // pieces above this % fall instead of bursting
+
 function Confetti() {
   return (
     <div className="oh-confetti" aria-hidden>
-      {CONFETTI.map(([x, y, w, h, rot, c], i) => (
-        <span
-          key={i}
-          style={{
-            left: `${x}%`,
-            top: `${y}%`,
-            width: `calc(${w} * var(--px))`,
-            height: `calc(${h} * var(--px))`,
-            background: c,
-            "--rot": `${rot}deg`,
-            // The fall and the drift are both staggered off the index, so the
-            // field never pulses in unison.
-            "--i": i,
-          }}
-        />
-      ))}
+      {(() => { let nf = 0, nb = 0; return CONFETTI.map(([x, y, w, h, rot, c], i) => {
+        const falls = y < FALL_ABOVE;
+        // Staggered per WAVE, not per array index: the fallers spread across
+        // the opening, the bursters all leave within ~200ms of the impact.
+        const dly = falls ? nf++ * 55 : 1180 + nb++ * 16;
+        // Where the piece has to start to look like it came out of the impact:
+        // back down its own vector, most of the way to the origin.
+        const bx = -((x - BURST_X) / 100) * 1080 * 0.86;
+        const by = -((y - BURST_Y) / 100) * 1920 * 0.86;
+        return (
+          <span
+            key={i}
+            className={falls ? "oh-cf oh-cf--fall" : "oh-cf oh-cf--burst"}
+            style={{
+              left: `${x}%`,
+              top: `${y}%`,
+              width: `calc(${w} * var(--px))`,
+              height: `calc(${h} * var(--px))`,
+              background: c,
+              "--rot": `${rot}deg`,
+              "--bx": bx.toFixed(1),
+              "--by": by.toFixed(1),
+              "--dly": dly,
+              // the fall and the drift are both staggered off the index, so
+              // the field never pulses in unison
+              "--i": i,
+            }}
+          />
+        );
+      }); })()}
     </div>
   );
 }
