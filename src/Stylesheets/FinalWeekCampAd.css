@@ -468,17 +468,19 @@
      Each glyph throws a seven-step shadow 14 units down and to the LEFT, so at
      normal tracking the tail of every letter lands on the face of the one
      before it — the N sits in the shadow of the A, and the word reads as one
-     welded mass. The gap has to be wider than the throw: 9 units of tracking
-     plus the letterforms' own sidebearings clears the 14 it throws.
+     welded mass. The gap has to beat the throw, and 7 units of tracking plus
+     Fredoka's own sidebearings is about 15 against the 14 it throws — the
+     tightest setting where the shadows still land on the field rather than on
+     the next letter. Below that they start touching again.
 
      It cannot simply be MORE, either. At 14 units the ink ran from 74 to 990
      on a 1080 sheet — the F's extrusion sitting ten units off the 64-unit crop
-     guard, which is the edge a screen-recorded reel loses first. 11 lands it
-     with ~115 clear either side and the word still 20% wider than it was
-     before it was tracked at all. `text-indent` puts back the half-gap that
-     centring loses to the trailing space letter-spacing adds after the K. */
-  letter-spacing: calc(11 * var(--px));
-  text-indent: calc(11 * var(--px));
+     guard, which is the edge a screen-recorded reel loses first.
+
+     `text-indent` puts back the half-gap that centring loses to the trailing
+     space letter-spacing adds after the final K. */
+  letter-spacing: calc(7 * var(--px));
+  text-indent: calc(7 * var(--px));
 }
 
 .fw-title {
