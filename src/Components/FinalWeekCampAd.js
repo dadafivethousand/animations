@@ -3,12 +3,11 @@
 // ── WHY A TOWER, AND NOT ANOTHER SHEET ──
 //
 // The open house ad is a POSTER: bands of content stacked down a flat page
-// with a chess floor behind them. This one is a SCENE. The five things the
-// week teaches are five extruded blocks floating one above the other, and the
-// offer is a sixth slab that flies in from the back of the room and stops in
-// front of them. Nothing about the layout repeats the previous ad — no white
-// slab, no chip row, no programs grid, no mascot, and the type is a third of
-// the frame instead of half.
+// with a chess floor behind them. This one is a SCENE, shot in a room. The
+// five things the week teaches are five extruded blocks floating one above
+// the other, and the offer is a sixth slab that flies in from the back of the
+// room and stops in front of them. Nothing about the layout repeats the
+// previous ad — no white slab, no chip row, no programs grid, no mascot.
 //
 // ── THE 3D IS REAL, AND THE CAMERA IS THE ONLY THING THAT MOVES ──
 //
@@ -17,33 +16,34 @@
 // the world — it is `perspective-origin` DRIFTING across the run. Moving the
 // camera instead of the objects means the front faces stay perfectly
 // axis-aligned rectangles, so the type on them never keystones and never goes
-// soft, while the top and side faces open and close as the camera travels. A
-// rotateY on the world would have bought the same parallax and cost every word
-// its edges.
+// soft, while the top and side faces open and close as the camera travels.
 //
 // Consequence worth knowing: `opacity` and `filter` FLATTEN a preserve-3d
-// subtree, so nothing in the scene may fade. The blocks are hidden by being
-// off-frame instead — they fall in from above the stage — and the offer slab
-// is hidden by `visibility`, which does not flatten. Anything that needs to
-// fade fades on a flat child INSIDE a face, never on a box that has depth.
+// subtree, so nothing in the scene may fade or blur. The blocks are hidden by
+// being off-frame; the offer is hidden with `visibility`, which does not
+// flatten. EVERY atmospheric — the key light, the shafts, the haze, the motes,
+// the flare — therefore lives OUTSIDE `.fw-scene` as a flat sibling, which is
+// also where it belongs: those are lens and air, not objects.
 //
-// ── THE OFFER IS THE POINT ──
+// ── THREE ROOMS, ONE AD ──
 //
-// The ad exists to say: come to the last week, and you qualify for a free
-// month of Create. So the week is the setup (the five blocks build a tower)
-// and the offer is the payoff (a gold slab lands in front of the tower and
-// crowns the shot). The blocks build BOTTOM UP, like a real stack.
+// `?theme=obsidian|arctic|studio` (or the `theme` prop) swaps the room. The
+// whole palette is custom properties on `.fw`, so a theme is one block of
+// variable overrides and nothing else — the geometry, the timing and the copy
+// are shared, which is the only way three cuts stay comparable.
 //
-//   MS=9600 HOLD=1.8 BG='#170430' OUT=~/Downloads/cn-final-week.mp4 \
+//   MS=9900 HOLD=1.7 BG='#07090d' URL='http://localhost:3000/?theme=obsidian' \
+//     OUT=~/Downloads/cn-final-week-obsidian.mp4 \
 //     NODE_PATH=/tmp/rec/node_modules node tools/record.js
 //
-// BG is not optional: the recorder's default is near-white, and the page is
-// that colour for the ~150ms before React mounts — a white flash on frame one.
+// BG is not optional and it is PER THEME: the recorder paints it for the
+// ~150ms before React mounts, so the wrong one is a flash of the wrong room on
+// frame one — and on the studio cut the right one is nearly white.
 import React from "react";
 import "../Stylesheets/FinalWeekCampAd.css";
 import cnLogo from "../Images/cn-logo-horizontal.svg";
 import qrCode from "../Images/qr-cnwoodbridge.svg";
-import { Chess, Cube, Blocks, Printer, Pin, Phone } from "./OpenHouseIcons";
+import { Chess, Cube, Blocks, Pin, Phone } from "./OpenHouseIcons";
 
 /* A ROBOT, which the open house set had no need for.
  *
@@ -67,9 +67,63 @@ export const Robot = () => (
   </svg>
 );
 
-const ICONS = { robotics: Robot, chess: Chess, printing: Printer, minecraft: Cube, roblox: Blocks };
+/* A PRINT IN PROGRESS, drawn here rather than borrowed from the open house set.
+ *
+ * That file's printer narrows as it rises — three layers, each wider than the
+ * one above — and at 62px on a coloured bar the taper reads as an hourglass or
+ * a trophy, which is a disaster directly under the word CHESS. The fix is to
+ * stop drawing a shape and start drawing a PROCESS: a nozzle on a gantry, a
+ * strand of filament in the air, and a plain block being built up out of
+ * even layers on a bed. Equal widths are the whole point — the layer lines are
+ * what say "printed", and a silhouette that changes width steals attention
+ * from them. */
+export const Print3D = () => (
+  <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+    {/* the gantry rail, and the nozzle hanging off it */}
+    <rect x="8" y="3" width="48" height="5" rx="2.5" fill="currentColor" />
+    <rect x="28" y="8" width="8" height="4" rx="1.5" fill="currentColor" />
+    <path d="M27 12h10l-4 7h-2z" fill="currentColor" />
+    {/* the strand, mid-air between the nozzle and the top of the print */}
+    <path d="M32 19v5" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+    {/* THE PRINT IS A BLOCK, AND THE LAYERS ARE CUT INTO IT. Drawing the layers
+        as separate stacked bars gives the object a stepped silhouette, and at
+        this size a stepped silhouette is read as a taper — which is how the
+        borrowed icon ended up looking like a trophy. One solid mass with seams
+        across it keeps the outline square and still says "built up". */}
+    <rect x="17" y="25" width="30" height="30" rx="2.5" fill="currentColor" />
+    <rect x="17" y="32.4" width="30" height="2" fill="var(--icon-ink, #0b2a5b)" opacity=".45" />
+    <rect x="17" y="39.8" width="30" height="2" fill="var(--icon-ink, #0b2a5b)" opacity=".45" />
+    <rect x="17" y="47.2" width="30" height="2" fill="var(--icon-ink, #0b2a5b)" opacity=".45" />
+    {/* the bed */}
+    <rect x="8" y="57" width="48" height="5" rx="2.5" fill="currentColor" />
+  </svg>
+);
+
+const ICONS = { robotics: Robot, chess: Chess, printing: Print3D, minecraft: Cube, roblox: Blocks };
+const THEMES = ["obsidian", "arctic", "studio"];
+
+/* AIR, WRITTEN DOWN RATHER THAN ROLLED.
+ * [x%, y%, size, blur, drift-seconds, delay-seconds, brightness]
+ * Fixed, because a render that differs between takes cannot be checked against
+ * the take before it — and because two of these sit deliberately in the near
+ * plane, big and soft, to give the lens something to be out of focus about. */
+const MOTES = [
+  [ 8, 18,  7, 2, 15,  0, 0.55], [17, 62,  5, 1, 18,  2, 0.42],
+  [27, 30,  9, 3, 13,  5, 0.60], [35, 76,  4, 1, 20,  1, 0.36],
+  [44, 12,  6, 2, 17,  7, 0.50], [52, 52,  5, 1, 14,  3, 0.44],
+  [61, 84,  8, 3, 19,  6, 0.52], [69, 26,  5, 1, 16,  9, 0.40],
+  [77, 66,  7, 2, 12,  4, 0.56], [86, 40,  6, 2, 21,  8, 0.46],
+  [93, 74,  5, 1, 15, 11, 0.38], [ 4, 46,  6, 2, 18, 10, 0.44],
+  [22, 90,  5, 1, 16, 13, 0.40], [58,  8,  4, 1, 19, 12, 0.34],
+  /* the near plane — large, soft, and kept to the margins so a blurred lump
+     never sits on a word */
+  [ 6, 70, 26, 9, 24,  0, 0.30], [95, 22, 30, 11, 27,  6, 0.26],
+  [11, 34, 22, 8, 22, 14, 0.24], [90, 88, 24, 9, 26, 18, 0.22],
+];
 
 export default function FinalWeekCampAd({
+  theme,
+
   kicker = "CODE NINJAS SUMMER CAMP",
   title = "FINAL WEEK",
 
@@ -91,12 +145,22 @@ export default function FinalWeekCampAd({
   offerLead = "COME THIS WEEK & UNLOCK",
   offerBig = "1 FREE MONTH",
   offerTail = "OF THE CREATE PROGRAM",
-  finePrint = "Camp attendees only. Ask us at pickup — offer ends Fri, Aug 28.",
+  offerValue = "A $169/MO + HST VALUE",
+  finePrint = "Camp attendees only · offer ends Fri, Aug 28",
 
   centre = "CODE NINJAS WOODBRIDGE",
   address = "6175 Hwy 7, Woodbridge, ON",
   phone = "647-887-9940",
 }) {
+  // The theme is a URL parameter first, so the recorder can shoot all three
+  // cuts off one dev server without the file being edited between takes.
+  const picked = React.useMemo(() => {
+    if (theme && THEMES.includes(theme)) return theme;
+    if (typeof window === "undefined") return THEMES[0];
+    const q = new URLSearchParams(window.location.search).get("theme");
+    return THEMES.includes(q) ? q : THEMES[0];
+  }, [theme]);
+
   const reduce = React.useMemo(
     () =>
       typeof window !== "undefined" &&
@@ -115,47 +179,65 @@ export default function FinalWeekCampAd({
   }, [reduce]);
 
   const n = blocks.length;
+  const letters = (word) =>
+    word.split("").map((c, i) => (
+      <i key={i} style={{ "--n": i }}>{c === " " ? " " : c}</i>
+    ));
 
   return (
-    <div className="fw-frame">
+    <div className={`fw-frame fw-t-${picked}`}>
       <div className={`fw-stage fw${go ? " fw-go" : ""}${reduce ? " fw-still" : ""}`}>
-        {/* The dolly and the impact are separate boxes because a CSS transform
+        {/* The dolly and the impacts are separate boxes because a CSS transform
             REPLACES a transform — one element cannot hold both a nine second
             push and a 500ms hit. */}
         <div className="fw-push">
           <div className="fw-shake">
-            <div className="fw-sky" aria-hidden />
-            <div className="fw-sun" aria-hidden />
+
+            {/* ---------- the room ----------
+                Everything here is flat and lives outside the 3D scene: it is
+                light and air, and both of them need the blur and the blend
+                modes that a preserve-3d subtree cannot have. */}
+            <div className="fw-room" aria-hidden />
+            <div className="fw-key" aria-hidden />
+            <div className="fw-shafts" aria-hidden>
+              <span /><span /><span />
+            </div>
             <div className="fw-floor" aria-hidden />
             <div className="fw-horizon" aria-hidden />
+            <div className="fw-haze" aria-hidden />
+            {/* the tower's colour spilling onto the floor it stands over */}
+            <div className="fw-spill" aria-hidden />
 
-            {/* ---------- the lockup ---------- */}
+            {/* ---------- the lockup ----------
+                No rule between the mark and the city. The wordmark already
+                ends in a hard vertical stem and the divider read as a second
+                one two millimetres away; space does the same job. */}
             <div className="fw-lock">
               <img className="fw-lock-logo" src={cnLogo} alt="Code Ninjas" />
               <span className="fw-lock-city">WOODBRIDGE</span>
             </div>
 
-            {/* ---------- the headline ----------
-                Split into letters so the word can arrive as nine separate
-                objects turning into place, and so the shimmer at the end has
-                something to walk across. */}
+            {/* ---------- the headline ---------- */}
             <p className="fw-kicker">{kicker}</p>
-            <h1 className="fw-title">
-              {title.split("").map((c, i) => (
-                <i key={i} style={{ "--n": i }}>{c === " " ? " " : c}</i>
-              ))}
-            </h1>
+            <div className="fw-title-wrap">
+              <h1 className="fw-title">{letters(title)}</h1>
+              {/* A SECOND COPY, CLIPPED TO THE GLYPHS. The light that walks the
+                  headline cannot live on the <h1> itself: that element is a
+                  full-width block and a gradient on it paints a silver
+                  rectangle in the empty margin beside the type. It cannot use
+                  `background-clip:text` on the <h1> either, because clipping
+                  the background to the glyphs throws away the seven-step
+                  extrusion the letters are carrying. So the extrusion stays on
+                  the base layer and the light is a transparent copy on top. */}
+              <span className="fw-title-glint" aria-hidden>{letters(title)}</span>
+            </div>
             <div className="fw-when">
               <b>{when}</b>
               <span aria-hidden />
               <em>{ages}</em>
             </div>
 
-            {/* ---------- the tower ----------
-                One perspective camera over the whole scene. The blocks live in
-                a preserve-3d world; nothing else does, because nothing else
-                benefits from depth and everything else benefits from being
-                rasterised flat. */}
+            {/* ---------- the tower ---------- */}
             <div className="fw-scene">
               <div className="fw-world">
                 {blocks.map((b, i) => {
@@ -164,9 +246,9 @@ export default function FinalWeekCampAd({
                     <div
                       className={`fw-blk fw-blk--${b.key}`}
                       key={b.key}
-                      /* --i places it; --d orders the DROP, which runs bottom
-                         up so the tower builds like a real stack instead of
-                         raining top down onto nothing. */
+                      /* --i places it; --drop orders the BUILD, which runs
+                         bottom up so the tower stacks like a real one instead
+                         of raining top down onto nothing. */
                       style={{ "--i": i, "--drop": n - 1 - i }}
                     >
                       <div className="fw-blk-in">
@@ -179,7 +261,9 @@ export default function FinalWeekCampAd({
                             <b>{b.title}</b>
                             <i>{b.line}</i>
                           </span>
-                          {/* the light that runs across the face as it lands */}
+                          {/* the raking key light, and the specular that runs
+                              across the face as the block lands */}
+                          <span className="fw-blk-rake" aria-hidden />
                           <span className="fw-blk-sheen" aria-hidden />
                         </span>
                       </div>
@@ -190,9 +274,10 @@ export default function FinalWeekCampAd({
                 {/* ---------- the offer ----------
                     Inside the world, so it shares the camera and can fly in
                     from the back of the room rather than sliding up the page.
-                    It stops IN FRONT of the tower on +Z, which is the whole
-                    reason the scene is 3D: the payoff is nearer than the
-                    setup. */}
+                    It stops IN FRONT of the tower on +Z, and throws a shadow
+                    UPWARD onto the bottom block — which is what actually says
+                    "nearer" at this distance, more than the change of scale
+                    does. */}
                 <div className="fw-offer">
                   <div className="fw-offer-in">
                     <span className="fw-face fw-face--top" />
@@ -202,12 +287,16 @@ export default function FinalWeekCampAd({
                       <span className="fw-offer-lead">{offerLead}</span>
                       <span className="fw-offer-big">{offerBig}</span>
                       <span className="fw-offer-tail">{offerTail}</span>
+                      <span className="fw-offer-value">{offerValue}</span>
                       <span className="fw-offer-sheen" aria-hidden />
                     </span>
                   </div>
                 </div>
               </div>
             </div>
+
+            {/* the bloom the gold slab throws back into the room */}
+            <div className="fw-bloom" aria-hidden />
 
             {/* ---------- the footer ---------- */}
             <div className="fw-foot">
@@ -229,6 +318,31 @@ export default function FinalWeekCampAd({
             </div>
             <p className="fw-fine">{finePrint}</p>
 
+            {/* ---------- the lens ----------
+                Air in front of the subject, then the two anamorphic streaks
+                that fire on the impacts, then the grade. Last in the DOM
+                because every one of them is something that happens to the
+                picture after the picture exists. */}
+            <div className="fw-motes" aria-hidden>
+              {MOTES.map(([x, y, s, b, d, dl, o], i) => (
+                <span
+                  key={i}
+                  style={{
+                    left: `${x}%`,
+                    top: `${y}%`,
+                    width: `calc(${s} * var(--px))`,
+                    height: `calc(${s} * var(--px))`,
+                    filter: `blur(calc(${b} * var(--px)))`,
+                    animationDuration: `${d}s`,
+                    animationDelay: `${dl}s`,
+                    opacity: o,
+                  }}
+                />
+              ))}
+            </div>
+            <div className="fw-flare fw-flare--a" aria-hidden />
+            <div className="fw-flare fw-flare--b" aria-hidden />
+            <div className="fw-grade" aria-hidden />
             <div className="fw-grain" aria-hidden />
             <div className="fw-vig" aria-hidden />
           </div>

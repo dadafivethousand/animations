@@ -8,41 +8,219 @@
    sheet is authored on a 1080-wide page that happens to be 1920 tall and
    survives any phone unchanged.
 
-     MS=9600 HOLD=1.8 BG='#170430' OUT=~/Downloads/cn-final-week.mp4 \
-       NODE_PATH=/tmp/rec/node_modules node tools/record.js
-
    ── THE REEL SAFE AREA ──
         0 ────────────  status bar, Reels header, top crop
       236 ─ --safe-t ─  everything starts here
      1516 ─ --safe-b ─  everything has ended by here
      1920 ────────────  caption, audio strip, buttons, bottom crop
-   Only the sky, the sun and the floor are allowed outside that band.
+   Only the room, the floor and the lens overlays run outside that band.
 
-   ── PALETTE: DUSK, NOT NAVY ──
-   The last three ads on this feed are dark blue with cyan light. This one is
-   a sunset — indigo overhead falling through magenta into hot orange at the
-   horizon — because these ads sit next to each other on one grid and a fourth
-   navy post is a fourth identical thumbnail.
+   ── THREE ROOMS ──
 
-     #170430 night      #45124f plum       #b31f6a magenta
-     #ff5a3c coral      #ffab2e amber      #ffd75e gold
-     #14e0d2 teal       #e4002b brand red
+   The whole palette is custom properties set by one theme class on the frame:
+
+     .fw-t-obsidian   black room, gold rake        (the default)
+     .fw-t-arctic     gunmetal room, ice key
+     .fw-t-studio     white seamless, hard light
+
+   Nothing else changes between cuts — same geometry, same timing, same copy —
+   which is the only way three versions are actually comparable. NO THEME
+   VARIABLE MAY REFERENCE --px: the theme is declared on `.fw-frame` and --px
+   is declared on its child, so a theme value that wanted a design pixel would
+   resolve against nothing. Everything that has to scale is written in `em`
+   against a font-size that is already in design pixels.
 
    ── WHY THE CAMERA MOVES AND THE OBJECTS DO NOT ──
+
    The tower is real 3D: `transform-style: preserve-3d`, four faces a block.
    The parallax comes from animating `perspective-origin`, not from rotating
    the world. Rotating would keystone every front face and put the type on a
-   slant; moving the camera opens and closes the top and side faces while the
-   front faces stay dead-on rectangles, so the words keep their edges.
+   slant; moving the camera opens and closes the top faces while the front
+   faces stay dead-on rectangles, so the words keep their edges.
 
-   Two rules follow from preserve-3d and neither is negotiable:
-     · `opacity` and `filter` FLATTEN the subtree they are applied to. Nothing
-       with depth may fade. Blocks hide by being off-frame; the offer hides
-       with `visibility`, which does not flatten. Fades happen on flat
-       children INSIDE a face.
+   Three rules follow from preserve-3d and none is negotiable:
+     · `opacity`, `filter`, `mask` and `mix-blend-mode` all FLATTEN the subtree
+       they are applied to. Nothing with depth may fade, blur or blend. Blocks
+       hide by being off-frame; the offer hides with `visibility`.
+     · EVERY ATMOSPHERIC IS A FLAT SIBLING OF THE SCENE, never a child of it —
+       the key light, the shafts, the haze, the spill, the motes, the flares,
+       the grade. They all need blur or a blend mode, and none of them is an
+       object anyway: they are light and air and lens.
      · The front face sits at z:0 and the box extrudes BACKWARD, so the face
        carrying the type is on the picture plane and cannot drift as the
        camera travels. Only the depth behind it opens up.
+
+   ── RECORDING, PER THEME ──
+
+     MS=9900 HOLD=1.7 BG='#07090d' URL='http://localhost:3000/?theme=obsidian' \
+       OUT=~/Downloads/cn-final-week-obsidian.mp4 \
+       NODE_PATH=/tmp/rec/node_modules node tools/record.js
+
+   BG is the colour of the page for the ~150ms before React mounts, so it has
+   to match the theme or frame one is a flash of the wrong room:
+     obsidian #07090d · arctic #060a10 · studio #f7f8fa
+   ============================================================ */
+
+/* ============================================================
+   THE THEMES
+   ============================================================ */
+
+.fw-t-obsidian {
+  --frame-bg: #07090d;
+  --room:
+    radial-gradient(74% 42% at 22% 4%, rgba(247, 194, 74, 0.22) 0%, transparent 64%),
+    radial-gradient(96% 52% at 50% 98%, rgba(247, 168, 60, 0.13) 0%, transparent 72%),
+    linear-gradient(178deg, #05070a 0%, #080b11 24%, #0e131b 50%, #121924 74%, #06080d 100%);
+  --key: radial-gradient(48% 36% at 18% 4%, rgba(255, 226, 154, 0.36) 0%, transparent 72%);
+  --shaft-c: rgba(255, 216, 140, 0.17);
+  --shaft-blend: screen;
+  --floor-line: rgba(255, 190, 104, 0.24);
+  --floor-glow: rgba(247, 194, 74, 0.16);
+  --horizon-c: rgba(255, 226, 160, 0.85);
+  --horizon-glow: rgba(255, 176, 80, 0.5);
+  --haze: linear-gradient(180deg, transparent 0%, rgba(255, 186, 102, 0.16) 52%, transparent 100%);
+
+  --type: #ffffff;
+  --title-extrude:
+    -0.017em 0.017em 0 #e8bb63, -0.034em 0.034em 0 #c99a45,
+    -0.052em 0.052em 0 #a67a33, -0.069em 0.069em 0 #7f5c26,
+    -0.086em 0.086em 0 #5c421c, -0.103em 0.103em 0 #3d2c13,
+    -0.121em 0.121em 0 #241a0c, -0.14em 0.155em 0.21em rgba(0, 0, 0, 0.62);
+  --kicker-c: #f7c24a;
+
+  --chip-bg: rgba(10, 13, 18, 0.62);
+  --chip-bd: rgba(247, 194, 74, 0.66);
+  --chip-tx: #ffffff;
+  --chip-em: #f7c24a;
+
+  --rake: linear-gradient(102deg, rgba(255, 238, 196, 0.30) 0%, rgba(255, 238, 196, 0.07) 24%, transparent 48%);
+  --blk-shadow: 0 calc(22 * var(--px)) calc(40 * var(--px)) rgba(0, 0, 0, 0.62),
+                calc(34 * var(--px)) calc(26 * var(--px)) calc(62 * var(--px)) rgba(0, 0, 0, 0.44);
+
+  --fine-c: rgba(255, 240, 214, 0.58);
+  --foot-strong: #ffffff;
+  --foot-c: rgba(255, 240, 214, 0.74);
+  --foot-accent: #f7c24a;
+  --qr-frame: transparent;
+  --logo-filter: grayscale(1) invert(1);
+
+  --glint-c: rgba(255, 206, 116, 0.98);
+  --mote-c: rgba(255, 234, 186, 0.95);
+  --mote-blend: screen;
+  --flare-c: rgba(255, 206, 120, 0.9);
+  --bloom-c: rgba(255, 198, 88, 0.34);
+  --grade: linear-gradient(180deg, rgba(90, 160, 255, 0.5) 0%, transparent 38%, transparent 60%, rgba(255, 176, 80, 0.55) 100%);
+  --grade-o: 0.5;
+  --grain-o: 0.15;
+  --vig: radial-gradient(124% 80% at 50% 42%, transparent 38%, rgba(0, 0, 0, 0.56) 86%, rgba(0, 0, 0, 0.88) 100%);
+}
+
+.fw-t-arctic {
+  --frame-bg: #060a10;
+  --room:
+    radial-gradient(74% 42% at 20% 3%, rgba(196, 228, 255, 0.22) 0%, transparent 64%),
+    radial-gradient(96% 50% at 50% 99%, rgba(96, 158, 226, 0.15) 0%, transparent 72%),
+    linear-gradient(178deg, #04070c 0%, #070d15 24%, #0d1723 50%, #12202e 74%, #05080e 100%);
+  --key: radial-gradient(48% 36% at 17% 3%, rgba(220, 238, 255, 0.36) 0%, transparent 72%);
+  --shaft-c: rgba(202, 230, 255, 0.18);
+  --shaft-blend: screen;
+  --floor-line: rgba(130, 190, 255, 0.26);
+  --floor-glow: rgba(120, 180, 245, 0.16);
+  --horizon-c: rgba(226, 242, 255, 0.9);
+  --horizon-glow: rgba(110, 172, 235, 0.55);
+  --haze: linear-gradient(180deg, transparent 0%, rgba(120, 180, 240, 0.18) 52%, transparent 100%);
+
+  --type: #ffffff;
+  --title-extrude:
+    -0.017em 0.017em 0 #b9d4ea, -0.034em 0.034em 0 #93b3cf,
+    -0.052em 0.052em 0 #6f92b1, -0.069em 0.069em 0 #527591,
+    -0.086em 0.086em 0 #3a586f, -0.103em 0.103em 0 #263c4e,
+    -0.121em 0.121em 0 #16242f, -0.14em 0.155em 0.21em rgba(0, 0, 0, 0.6);
+  --kicker-c: #8fc6f5;
+
+  --chip-bg: rgba(8, 14, 22, 0.6);
+  --chip-bd: rgba(143, 198, 245, 0.66);
+  --chip-tx: #ffffff;
+  --chip-em: #8fc6f5;
+
+  --rake: linear-gradient(102deg, rgba(228, 244, 255, 0.32) 0%, rgba(228, 244, 255, 0.07) 24%, transparent 48%);
+  --blk-shadow: 0 calc(22 * var(--px)) calc(40 * var(--px)) rgba(0, 0, 0, 0.6),
+                calc(34 * var(--px)) calc(26 * var(--px)) calc(62 * var(--px)) rgba(0, 6, 16, 0.46);
+
+  --fine-c: rgba(222, 238, 255, 0.58);
+  --foot-strong: #ffffff;
+  --foot-c: rgba(222, 238, 255, 0.74);
+  --foot-accent: #8fc6f5;
+  --qr-frame: transparent;
+  --logo-filter: grayscale(1) invert(1);
+
+  --glint-c: rgba(168, 216, 255, 0.98);
+  --mote-c: rgba(216, 238, 255, 0.95);
+  --mote-blend: screen;
+  --flare-c: rgba(180, 220, 255, 0.9);
+  --bloom-c: rgba(255, 198, 88, 0.28);
+  --grade: linear-gradient(180deg, rgba(120, 190, 255, 0.55) 0%, transparent 40%, transparent 64%, rgba(60, 120, 200, 0.5) 100%);
+  --grade-o: 0.42;
+  --grain-o: 0.14;
+  --vig: radial-gradient(124% 80% at 50% 42%, transparent 38%, rgba(0, 4, 12, 0.58) 86%, rgba(0, 3, 9, 0.9) 100%);
+}
+
+/* THE LIGHT CUT. Everything that was additive light in the dark rooms has to
+ * become a SHADOW here, or it does nothing: you cannot screen white onto
+ * white. So the shafts are near-invisible, the grain drops to a sixth, the
+ * vignette is a soft grey falloff rather than a black one, and the whole
+ * frame's contrast comes from the blocks' own cast shadows instead. */
+.fw-t-studio {
+  --frame-bg: #f7f8fa;
+  --room:
+    radial-gradient(66% 40% at 26% 2%, rgba(255, 255, 255, 0.95) 0%, transparent 60%),
+    linear-gradient(178deg, #fdfdfe 0%, #f3f5f8 28%, #eaedf2 54%, #dae0e8 76%, #c9d0da 100%);
+  --key: radial-gradient(48% 34% at 20% 1%, rgba(255, 255, 255, 0.9) 0%, transparent 70%);
+  --shaft-c: rgba(255, 255, 255, 0.55);
+  --shaft-blend: normal;
+  --floor-line: rgba(22, 28, 40, 0.10);
+  --floor-glow: rgba(22, 28, 40, 0.05);
+  --horizon-c: rgba(255, 255, 255, 0.95);
+  --horizon-glow: rgba(255, 255, 255, 0.7);
+  --haze: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.65) 52%, transparent 100%);
+
+  --type: #10131a;
+  --title-extrude:
+    -0.017em 0.017em 0 #cfd4dd, -0.034em 0.034em 0 #b9c0cc,
+    -0.052em 0.052em 0 #a2abba, -0.069em 0.069em 0 #8b95a7,
+    -0.086em 0.086em 0 #757f93, -0.103em 0.103em 0 #606a7e,
+    -0.121em 0.121em 0 #4c5568, -0.14em 0.155em 0.21em rgba(28, 36, 52, 0.30);
+  --kicker-c: #e4002b;
+
+  --chip-bg: rgba(255, 255, 255, 0.9);
+  --chip-bd: rgba(16, 19, 26, 0.18);
+  --chip-tx: #10131a;
+  --chip-em: #e4002b;
+
+  --rake: linear-gradient(102deg, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0.10) 24%, transparent 48%);
+  --blk-shadow: 0 calc(20 * var(--px)) calc(34 * var(--px)) rgba(28, 36, 52, 0.30),
+                calc(30 * var(--px)) calc(24 * var(--px)) calc(56 * var(--px)) rgba(28, 36, 52, 0.20);
+
+  --fine-c: rgba(16, 19, 26, 0.55);
+  --foot-strong: #10131a;
+  --foot-c: rgba(16, 19, 26, 0.66);
+  --foot-accent: #e4002b;
+  --qr-frame: rgba(16, 19, 26, 0.12);
+  --logo-filter: none;
+
+  --glint-c: rgba(255, 255, 255, 0.98);
+  --mote-c: rgba(96, 108, 128, 0.55);
+  --mote-blend: multiply;
+  --flare-c: rgba(255, 255, 255, 0.95);
+  --bloom-c: rgba(255, 190, 70, 0.26);
+  --grade: linear-gradient(180deg, rgba(150, 190, 255, 0.35) 0%, transparent 42%, transparent 66%, rgba(255, 200, 140, 0.35) 100%);
+  --grade-o: 0.28;
+  --grain-o: 0.055;
+  --vig: radial-gradient(122% 82% at 50% 42%, transparent 52%, rgba(84, 96, 118, 0.16) 90%, rgba(64, 76, 98, 0.26) 100%);
+}
+
+/* ============================================================
+   THE FRAME
    ============================================================ */
 
 /* The container the design pixel is a thousandth of. `100cqw` resolves against
@@ -52,7 +230,7 @@
   position: fixed;
   inset: 0;
   overflow: hidden;
-  background: #170430;
+  background: var(--frame-bg, #07090d);
   container-type: size;
   container-name: reel;
 }
@@ -68,35 +246,24 @@
 .fw {
   --px: calc(100cqw / 1080);
 
-  --night: #170430;
-  --plum: #45124f;
-  --magenta: #b31f6a;
-  --coral: #ff5a3c;
-  --amber: #ffab2e;
-  --gold: #ffd75e;
-  --teal: #14e0d2;
-  --red: #e4002b;
-  --ink: #2a0637;
-
   --safe-t: calc(236 * var(--px));
   --safe-b: calc(1516 * var(--px));
   --safe-x: calc(64 * var(--px));
 
   /* The lens. 820 is a wide angle on a 1080 sheet, and that is the point: the
      objects all sit on the picture plane so nothing keystones, but the depth
-     behind them opens up hard, which is what makes a 46-unit extrusion read
+     behind them opens up hard, which is what makes a 54-unit extrusion read
      as a solid block instead of a hairline. */
   --lens: calc(820 * var(--px));
   --depth: calc(54 * var(--px));
 
   font-family: Poppins, Inter, sans-serif;
   color: #fff;
-  background: var(--night);
   -webkit-font-smoothing: antialiased;
 }
 
 /* The two camera boxes. A transform REPLACES a transform, so the nine-second
-   push and the 500ms impact cannot share an element. */
+   push and the two impacts cannot share an element. */
 .fw-push,
 .fw-shake {
   position: absolute;
@@ -107,68 +274,39 @@
    THE ROOM
    ============================================================ */
 
-.fw-sky {
+.fw-room {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(64% 26% at 50% 62%, rgba(255, 171, 46, 0.30) 0%, transparent 72%),
-    linear-gradient(
-      178deg,
-      #12032a 0%,
-      #2a0740 16%,
-      #5c1355 34%,
-      #9a1a63 50%,
-      #d63363 63%,
-      #ff6b3d 76%,
-      #ffa33a 86%,
-      #7a1c58 95%,
-      #2c0740 100%
-    );
+  background: var(--room);
 }
 
-/* THE SUN IS THE ONLY THING BEHIND THE TOWER, and it is slit horizontally so
-   the blocks have something with structure to sit against rather than a flat
-   wash. The slits widen downward — a solid disc up top dissolving into bands
-   at the horizon — which is the one detail that stops it reading as a circle. */
-.fw-sun {
+/* The key. One light, upper left, and every highlight in the frame is angled
+   to agree with it — the rake across the block faces, the direction the
+   headline extrudes, the side the shafts fall from. */
+.fw-key {
   position: absolute;
-  left: 50%;
-  top: calc(392 * var(--px));
-  width: calc(800 * var(--px));
-  height: calc(800 * var(--px));
-  margin-left: calc(-400 * var(--px));
-  border-radius: 50%;
-  background: linear-gradient(180deg, #fff3b0 0%, #ffd75e 16%, #ff8b3d 48%, #ff4d6e 80%, #d0246b 100%);
-  /* SCREEN, NOT ALPHA. At 50% opacity over the plum sky the disc mixed down
-     into a brown barrel sitting behind the tower — a shape with no name. On
-     screen it only ever adds light, so what shows between the blocks is a
-     glow and reads as the sun it is. */
-  mix-blend-mode: screen;
-  opacity: 0.52;
-  /* THREE MASKS, INTERSECTED. The vertical fade thins it toward the horizon,
-     the slits give it the banded read, and the RADIAL is what keeps the whole
-     thing from being a barrel: without it the disc ends on a hard circular
-     edge, and the two arcs of stripes showing either side of the tower are
-     read as the sides of a drum rather than as light behind it. */
-  -webkit-mask-image:
-    radial-gradient(closest-side, #000 0%, #000 52%, rgba(0, 0, 0, 0.55) 76%, transparent 100%),
-    linear-gradient(180deg, #000 0%, #000 40%, rgba(0, 0, 0, 0.9) 62%, rgba(0, 0, 0, 0.35) 88%, transparent 100%),
-    repeating-linear-gradient(
-      180deg,
-      #000 0 calc(24 * var(--px)),
-      transparent calc(24 * var(--px)) calc(33 * var(--px))
-    );
-  mask-image:
-    radial-gradient(closest-side, #000 0%, #000 52%, rgba(0, 0, 0, 0.55) 76%, transparent 100%),
-    linear-gradient(180deg, #000 0%, #000 40%, rgba(0, 0, 0, 0.9) 62%, rgba(0, 0, 0, 0.35) 88%, transparent 100%),
-    repeating-linear-gradient(
-      180deg,
-      #000 0 calc(24 * var(--px)),
-      transparent calc(24 * var(--px)) calc(33 * var(--px))
-    );
-  -webkit-mask-composite: source-in;
-  mask-composite: intersect;
+  inset: 0;
+  background: var(--key);
 }
+
+.fw-shafts {
+  position: absolute;
+  inset: calc(-30 * var(--px));
+  mix-blend-mode: var(--shaft-blend);
+}
+
+.fw-shafts span {
+  position: absolute;
+  top: calc(-260 * var(--px));
+  height: calc(1900 * var(--px));
+  background: linear-gradient(180deg, var(--shaft-c) 0%, transparent 76%);
+  filter: blur(calc(22 * var(--px)));
+  transform-origin: 50% 0;
+}
+
+.fw-shafts span:nth-child(1) { left: calc(-40 * var(--px)); width: calc(210 * var(--px)); transform: rotate(13deg); }
+.fw-shafts span:nth-child(2) { left: calc(210 * var(--px)); width: calc(120 * var(--px)); transform: rotate(17deg); opacity: 0.7; }
+.fw-shafts span:nth-child(3) { left: calc(430 * var(--px)); width: calc(72 * var(--px)); transform: rotate(21deg); opacity: 0.45; }
 
 /* The floor. Its own perspective, unrelated to the tower's — it is scenery,
    not part of the scene, and giving it the tower's lens would have pinned the
@@ -179,44 +317,72 @@
   position: absolute;
   left: -60%;
   right: -60%;
-  top: calc(1010 * var(--px));
+  top: calc(980 * var(--px));
   height: calc(1200 * var(--px));
   transform: perspective(calc(340 * var(--px))) rotateX(74deg);
   transform-origin: 50% 0%;
   background-image:
-    repeating-linear-gradient(
-      90deg,
-      rgba(255, 214, 120, 0.55) 0 calc(3 * var(--px)),
-      transparent calc(3 * var(--px)) calc(92 * var(--px))
-    ),
-    repeating-linear-gradient(
-      180deg,
-      rgba(255, 120, 90, 0.6) 0 calc(3 * var(--px)),
-      transparent calc(3 * var(--px)) calc(92 * var(--px))
-    );
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 8%, #000 26%, #000 62%, transparent 92%);
-  mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 8%, #000 26%, #000 62%, transparent 92%);
+    repeating-linear-gradient(90deg, var(--floor-line) 0 calc(3 * var(--px)), transparent calc(3 * var(--px)) calc(92 * var(--px))),
+    repeating-linear-gradient(180deg, var(--floor-line) 0 calc(3 * var(--px)), transparent calc(3 * var(--px)) calc(92 * var(--px)));
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 8%, #000 26%, #000 60%, transparent 92%);
+  mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 8%, #000 26%, #000 60%, transparent 92%);
 }
 
-.fw-go .fw-floor {
-  animation: fwGrid 2.4s linear infinite;
-}
+.fw-go .fw-floor { animation: fwGrid 2.6s linear infinite; }
 
 @keyframes fwGrid {
   from { background-position: 0 0, 0 0; }
   to   { background-position: 0 0, 0 calc(92 * var(--px)); }
 }
 
-/* A hot line where the ground meets the sky. One rule, and the floor stops
-   being a pattern lying on the gradient and starts being a ground plane. */
+/* Where the ground meets the back wall. One rule, and the floor stops being a
+   pattern lying on a gradient and starts being a plane the tower stands over. */
 .fw-horizon {
   position: absolute;
   left: 0;
   right: 0;
-  top: calc(1006 * var(--px));
+  top: calc(977 * var(--px));
   height: calc(3 * var(--px));
-  background: linear-gradient(90deg, transparent 0%, rgba(255, 226, 150, 0.9) 22%, #fff 50%, rgba(255, 226, 150, 0.9) 78%, transparent 100%);
-  box-shadow: 0 0 calc(46 * var(--px)) calc(10 * var(--px)) rgba(255, 150, 80, 0.55);
+  background: linear-gradient(90deg, transparent 0%, var(--horizon-c) 24%, var(--horizon-c) 76%, transparent 100%);
+  box-shadow: 0 0 calc(52 * var(--px)) calc(12 * var(--px)) var(--horizon-glow);
+}
+
+.fw-haze {
+  position: absolute;
+  left: calc(-10 * var(--px));
+  right: calc(-10 * var(--px));
+  top: calc(860 * var(--px));
+  height: calc(320 * var(--px));
+  background: var(--haze);
+  filter: blur(calc(30 * var(--px)));
+}
+
+/* THE TOWER'S OWN LIGHT, PUT BACK INTO THE ROOM. Five saturated slabs hanging
+ * in a dark space with nothing under them look pasted on; a pool of their own
+ * colour on the floor is what attaches them to it. It sits behind the scene,
+ * so the offer slab passes in front of it on its way forward. */
+.fw-spill {
+  position: absolute;
+  left: 50%;
+  top: calc(900 * var(--px));
+  width: calc(1000 * var(--px));
+  height: calc(360 * var(--px));
+  margin-left: calc(-500 * var(--px));
+  background:
+    radial-gradient(38% 46% at 26% 40%, rgba(15, 159, 192, 0.34) 0%, transparent 70%),
+    radial-gradient(34% 42% at 50% 34%, rgba(122, 43, 189, 0.30) 0%, transparent 70%),
+    radial-gradient(40% 48% at 72% 42%, rgba(239, 124, 24, 0.32) 0%, transparent 70%),
+    radial-gradient(46% 40% at 44% 62%, rgba(228, 0, 43, 0.26) 0%, transparent 72%);
+  filter: blur(calc(46 * var(--px)));
+  mix-blend-mode: screen;
+  opacity: 0;
+}
+
+.fw-go .fw-spill { animation: fwSpill 1.6s ease-out 2.0s both; }
+
+@keyframes fwSpill {
+  from { opacity: 0; transform: scaleY(0.6); }
+  to   { opacity: 0.9; transform: scaleY(1); }
 }
 
 /* ============================================================
@@ -231,32 +397,37 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: calc(18 * var(--px));
+  gap: calc(26 * var(--px));
 }
 
 /* The wordmark has no light-on-dark variant. `grayscale(1) invert(1)` foils it
-   without flattening the ninja head to a white disc, which a plain invert does. */
+   without flattening the ninja head to a white disc, which a plain invert does
+   — and on the white room it is left alone, which is the one place the artwork
+   was drawn for. */
 .fw-lock-logo {
   height: calc(46 * var(--px));
   width: auto;
-  filter: grayscale(1) invert(1) drop-shadow(0 calc(3 * var(--px)) calc(8 * var(--px)) rgba(0, 0, 0, 0.5));
+  filter: var(--logo-filter);
 }
 
+/* NO RULE BETWEEN THE MARK AND THE CITY. The wordmark ends on the hard
+   vertical stem of the S and the divider read as a second one a few
+   millimetres away; the gap alone separates them. */
 .fw-lock-city {
   font-family: Fredoka, Poppins, sans-serif;
   font-weight: 700;
   font-size: calc(26 * var(--px));
   letter-spacing: 0.26em;
-  padding-left: calc(18 * var(--px));
-  border-left: calc(2 * var(--px)) solid rgba(255, 255, 255, 0.38);
-  color: rgba(255, 255, 255, 0.92);
+  text-indent: 0.26em;
+  color: var(--foot-strong);
+  opacity: 0.94;
 }
 
 .fw-kicker {
   position: absolute;
   left: var(--safe-x);
   right: var(--safe-x);
-  top: calc(318 * var(--px));
+  top: calc(316 * var(--px));
   margin: 0;
   text-align: center;
   font-family: Fredoka, Poppins, sans-serif;
@@ -264,24 +435,27 @@
   font-size: calc(31 * var(--px));
   letter-spacing: 0.30em;
   text-indent: 0.30em;
-  color: var(--gold);
-  text-shadow: 0 calc(3 * var(--px)) calc(14 * var(--px)) rgba(80, 0, 40, 0.7);
+  color: var(--kicker-c);
 }
 
 /* THE HEADLINE, EXTRUDED IN TYPE.
  *
- * The ladder of text-shadows runs down-LEFT, not down-right, because the
- * camera lives left of centre for the whole run and every block in the tower
- * shows its left face. A headline extruding the other way would be the only
- * object in the frame lit from the wrong side.
- *
- * -webkit-text-stroke and text-shadow are both inherited, so the nine <i>s get
- * the extrusion without it being restated on each one. */
-.fw-title {
+ * The ladder of text-shadows runs down-LEFT because the key light is upper
+ * left and every other highlight in the frame agrees with it. Offsets are in
+ * `em` so the ladder scales with the type and the theme can restate it as
+ * pure colour — see the note about --px in theme variables at the top. */
+.fw-title-wrap {
   position: absolute;
   left: var(--safe-x);
   right: var(--safe-x);
-  top: calc(358 * var(--px));
+  top: calc(356 * var(--px));
+  height: calc(126 * var(--px));
+}
+
+.fw-title,
+.fw-title-glint {
+  position: absolute;
+  inset: 0;
   margin: 0;
   text-align: center;
   white-space: nowrap;
@@ -291,75 +465,69 @@
   font-size: calc(118 * var(--px));
   line-height: 1.06;
   letter-spacing: calc(1 * var(--px));
-  color: #fff;
-  text-shadow:
-    calc(-2 * var(--px)) calc(2 * var(--px)) 0 #ff9f3a,
-    calc(-4 * var(--px)) calc(4 * var(--px)) 0 #ff7a33,
-    calc(-6 * var(--px)) calc(6 * var(--px)) 0 #f4512f,
-    calc(-8 * var(--px)) calc(8 * var(--px)) 0 #d02a4e,
-    calc(-10 * var(--px)) calc(10 * var(--px)) 0 #a01f5c,
-    calc(-12 * var(--px)) calc(12 * var(--px)) 0 #6d1355,
-    calc(-14 * var(--px)) calc(14 * var(--px)) 0 #3f0b46,
-    calc(-16 * var(--px)) calc(18 * var(--px)) calc(24 * var(--px)) rgba(20, 2, 30, 0.6);
 }
 
-.fw-title i {
+.fw-title {
+  color: var(--type);
+  text-shadow: var(--title-extrude);
+}
+
+.fw-title i,
+.fw-title-glint i {
   display: inline-block;
   font-style: normal;
+  white-space: pre;
   transform-origin: 50% 100%;
 }
 
-/* the space between the words survives as an inline-block only if it is told to */
-.fw-title i:empty,
-.fw-title i {
-  white-space: pre;
+/* The light that walks the finished headline. Transparent glyphs over the
+   solid ones, with the gradient clipped to the text of the CONTAINER so one
+   band crosses the whole line instead of each letter getting its own. */
+.fw-title-glint {
+  color: transparent;
+  /* THE BAND IS THE KEY LIGHT'S COLOUR, NOT WHITE. On two of the three themes
+     the headline is already white, and a white band crossing white letters is
+     nothing at all — what reads as light raking over type is the letters
+     briefly taking the colour of the lamp. */
+  background-image: linear-gradient(104deg, transparent 38%, var(--glint-c) 50%, transparent 62%);
+  background-repeat: no-repeat;
+  background-size: 62% 100%;
+  background-position: -80% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  pointer-events: none;
 }
+
+.fw-title-glint i { color: transparent; }
 
 .fw-when {
   position: absolute;
   left: 50%;
-  top: calc(496 * var(--px));
+  top: calc(494 * var(--px));
   transform: translateX(-50%);
   display: flex;
   align-items: center;
   gap: calc(18 * var(--px));
   padding: calc(13 * var(--px)) calc(30 * var(--px));
   border-radius: calc(999 * var(--px));
-  background: rgba(23, 4, 48, 0.55);
-  border: calc(2.5 * var(--px)) solid rgba(255, 215, 94, 0.75);
-  box-shadow: 0 calc(10 * var(--px)) calc(30 * var(--px)) rgba(20, 2, 30, 0.55);
-  backdrop-filter: blur(calc(6 * var(--px)));
-  -webkit-backdrop-filter: blur(calc(6 * var(--px)));
+  background: var(--chip-bg);
+  border: calc(2.5 * var(--px)) solid var(--chip-bd);
+  box-shadow: 0 calc(12 * var(--px)) calc(34 * var(--px)) rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(calc(8 * var(--px)));
+  -webkit-backdrop-filter: blur(calc(8 * var(--px)));
   font-family: Fredoka, Poppins, sans-serif;
   font-weight: 700;
   white-space: nowrap;
 }
 
-.fw-when b {
-  font-size: calc(30 * var(--px));
-  letter-spacing: 0.08em;
-  color: #fff;
-}
-
-.fw-when span {
-  width: calc(6 * var(--px));
-  height: calc(6 * var(--px));
-  border-radius: 50%;
-  background: var(--gold);
-}
-
-.fw-when em {
-  font-style: normal;
-  font-size: calc(28 * var(--px));
-  letter-spacing: 0.08em;
-  color: var(--gold);
-}
+.fw-when b { font-size: calc(30 * var(--px)); letter-spacing: 0.08em; color: var(--chip-tx); }
+.fw-when span { width: calc(6 * var(--px)); height: calc(6 * var(--px)); border-radius: 50%; background: var(--chip-em); }
+.fw-when em { font-style: normal; font-size: calc(28 * var(--px)); letter-spacing: 0.08em; color: var(--chip-em); }
 
 /* ============================================================
    THE TOWER
    ============================================================ */
 
-/* The camera. `perspective-origin` is what animates — see the header. */
 .fw-scene {
   position: absolute;
   inset: 0;
@@ -367,9 +535,7 @@
   perspective-origin: 18% 21%;
 }
 
-.fw-go .fw-scene {
-  animation: fwCamera 9.4s cubic-bezier(0.4, 0, 0.3, 1) forwards;
-}
+.fw-go .fw-scene { animation: fwCamera 9.4s cubic-bezier(0.4, 0, 0.3, 1) forwards; }
 
 /* TWO LIMITS, BOTH LOAD-BEARING.
  *
@@ -395,10 +561,10 @@
 
 .fw-blk {
   --w: calc(720 * var(--px));
-  --h: calc(96 * var(--px));
+  --h: calc(92 * var(--px));
   position: absolute;
   left: calc(180 * var(--px));
-  top: calc((574 + 108 * var(--i)) * var(--px));
+  top: calc((572 + 104 * var(--i)) * var(--px));
   width: var(--w);
   height: var(--h);
   transform-style: preserve-3d;
@@ -414,21 +580,18 @@
  * Front on the picture plane, the solid extruding backward. The three back
  * faces are placed from the box CENTRE and pushed half a depth away, which is
  * the one form of the cuboid recipe that does not depend on guessing which way
- * a rotation tips. */
-/* BACKFACE CULLING IS A CORRECTNESS FIX, NOT A POLISH ONE.
+ * a rotation tips.
  *
- * The camera sits between a block's left and right edges for the whole run,
- * so both side faces are turned away from it and NEITHER should be visible —
- * a wide, shallow bar seen near-on shows its front and its top, and that is
- * all. Chrome was drawing the far side face over the front one anyway (an
- * away-facing polygon it never culled and sorted by centroid), which put a
- * hard dark band down the right of every block: a bevel lit from a direction
- * no other object in the frame agrees with, and one that would move if the
- * sorting ever changed. `backface-visibility: hidden` throws away exactly the
- * faces that are pointing away and nothing else.
- *
- * The side faces stay in the markup: they are what the block would show if
- * the camera ever travelled past its edge, and they cost nothing culled. */
+ * BACKFACE CULLING IS A CORRECTNESS FIX, NOT A POLISH ONE. The camera sits
+ * between a block's left and right edges for the whole run, so both side faces
+ * are turned away from it and NEITHER should be visible — a wide, shallow bar
+ * seen near-on shows its front and its top, and that is all. Chrome drew the
+ * far side face over the front one anyway (an away-facing polygon it never
+ * culled, sorted by centroid), which put a hard dark band down the right of
+ * every block: a bevel lit from a direction nothing else in the frame agrees
+ * with. `backface-visibility: hidden` throws away exactly those faces. They
+ * stay in the markup because they are what a block would show if the camera
+ * ever travelled past its edge, and they cost nothing culled. */
 .fw-face {
   position: absolute;
   display: block;
@@ -438,15 +601,14 @@
 
 .fw-face--front {
   inset: 0;
-  border-radius: calc(6 * var(--px));
-  background: linear-gradient(174deg, var(--c-lit, #2aa) 0%, var(--c, #199) 62%, var(--c-dim, #077) 100%);
+  border-radius: calc(7 * var(--px));
+  background: linear-gradient(174deg, var(--c-lit, #2aa) 0%, var(--c, #199) 60%, var(--c-dim, #077) 100%);
   box-shadow:
-    inset 0 calc(2 * var(--px)) 0 rgba(255, 255, 255, 0.34),
-    inset 0 calc(-3 * var(--px)) 0 rgba(0, 0, 0, 0.22),
-    /* the block's own shadow, into the 12-unit gap below it. Without the
-       phantom bevel the stack needed something to separate one bar from the
-       next besides a change of hue. */
-    0 calc(9 * var(--px)) calc(14 * var(--px)) rgba(28, 2, 34, 0.55);
+    /* the lit top edge and the left rim, both angled off the key */
+    inset 0 calc(2.5 * var(--px)) 0 rgba(255, 255, 255, 0.46),
+    inset calc(2.5 * var(--px)) 0 0 rgba(255, 255, 255, 0.18),
+    inset 0 calc(-3 * var(--px)) 0 rgba(0, 0, 0, 0.28),
+    var(--blk-shadow);
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -475,15 +637,8 @@
   background: var(--c-side, #066);
 }
 
-.fw-face--left {
-  transform: translate3d(calc(var(--w) / -2), 0, calc(var(--depth) / -2)) rotateY(-90deg);
-}
-
-.fw-face--right {
-  transform: translate3d(calc(var(--w) / 2), 0, calc(var(--depth) / -2)) rotateY(90deg);
-  filter: none;
-  background: var(--c-side, #066);
-}
+.fw-face--left  { transform: translate3d(calc(var(--w) / -2), 0, calc(var(--depth) / -2)) rotateY(-90deg); }
+.fw-face--right { transform: translate3d(calc(var(--w) / 2), 0, calc(var(--depth) / -2)) rotateY(90deg); }
 
 /* ---------- what is on a face ---------- */
 
@@ -495,13 +650,14 @@
   place-items: center;
   color: #fff;
   --icon-ink: var(--c-dim, #077);
+  z-index: 2;
 }
 
 .fw-blk-icon svg {
   width: 100%;
   height: 100%;
   display: block;
-  filter: drop-shadow(0 calc(2 * var(--px)) calc(3 * var(--px)) rgba(0, 0, 0, 0.35));
+  filter: drop-shadow(0 calc(2 * var(--px)) calc(4 * var(--px)) rgba(0, 0, 0, 0.4));
 }
 
 .fw-blk-text {
@@ -510,44 +666,58 @@
   justify-content: center;
   gap: calc(2 * var(--px));
   min-width: 0;
+  z-index: 2;
 }
 
 .fw-blk-text b {
   font-family: Fredoka, Poppins, sans-serif;
   font-weight: 700;
-  font-size: calc(41 * var(--px));
+  font-size: calc(40 * var(--px));
   line-height: 1.04;
   letter-spacing: 0.01em;
   color: #fff;
-  text-shadow: 0 calc(2 * var(--px)) 0 rgba(0, 0, 0, 0.22);
+  text-shadow: 0 calc(2 * var(--px)) calc(3 * var(--px)) rgba(0, 0, 0, 0.3);
   white-space: nowrap;
 }
 
 .fw-blk-text i {
   font-style: normal;
   font-weight: 600;
-  font-size: calc(23 * var(--px));
+  font-size: calc(22 * var(--px));
   line-height: 1.1;
   letter-spacing: 0.015em;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.92);
   white-space: nowrap;
 }
 
-/* The light that runs across a face as it lands. A flat child inside the
+/* The key light raking across the face. Static: it is the room's light, not an
+   event, and it is what stops five flat rectangles of colour reading as five
+   swatches. */
+.fw-blk-rake {
+  position: absolute;
+  inset: 0;
+  background: var(--rake);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* The specular that runs across a face as it lands. A flat child inside the
    front face, so its opacity cannot flatten anything with depth. */
 .fw-blk-sheen {
   position: absolute;
   top: 0;
   bottom: 0;
   left: calc(-40 * var(--px));
-  width: calc(160 * var(--px));
-  background: linear-gradient(100deg, transparent 0%, rgba(255, 255, 255, 0.55) 50%, transparent 100%);
+  width: calc(170 * var(--px));
+  background: linear-gradient(100deg, transparent 0%, rgba(255, 255, 255, 0.6) 50%, transparent 100%);
   opacity: 0;
   transform: translateX(calc(-200 * var(--px)));
+  z-index: 3;
 }
 
-/* ---------- the five blocks ---------- */
-
+/* ---------- the five blocks ----------
+ * The hues are shared by all three themes on purpose: they are the categories,
+ * and a comparison where the blocks change too is a comparison of nothing. */
 .fw-blk--robotics  { --c: #0f9fc0; --c-lit: #2fc6df; --c-dim: #076a86; --c-top: #4fd8ef; --c-side: #06546b; }
 .fw-blk--chess     { --c: #7a2bbd; --c-lit: #9a4ad9; --c-dim: #4c1580; --c-top: #b56ae6; --c-side: #3b0f68; }
 .fw-blk--printing  { --c: #ef7c18; --c-lit: #ffa042; --c-dim: #a44d06; --c-top: #ffb45c; --c-side: #8a3f04; }
@@ -564,22 +734,27 @@
    ============================================================ */
 
 /* The only object off the picture plane. +70 units toward the camera is worth
-   about 9% of scale and, more importantly, puts it IN FRONT of the bottom
-   block — the payoff occludes the setup, which is the sentence the whole
-   scene is built to say. */
+ * about 9% of scale — which on its own is not enough to read as "nearer" at
+ * this distance. What actually says it is the shadow the slab throws UPWARD
+ * onto the bottom block: light comes from above, so a shadow above an object
+ * can only have been cast by something in front of it. */
 .fw-offer {
   --w: calc(720 * var(--px));
-  --h: calc(178 * var(--px));
+  --h: calc(188 * var(--px));
+  --c: #ffc832;
+  --c-lit: #ffe27a;
+  --c-dim: #d18a05;
+  --c-top: #fff2b4;
+  --c-side: #a86a03;
   position: absolute;
   left: calc(180 * var(--px));
-  /* SET AGAINST THE PROJECTED EDGE, NOT THE AUTHORED ONE. The slab is 70
-     units toward the camera, so it renders ~9% further from the vanishing
-     point than it is written — and the camera's own vertical drift moves that
-     projection again over the run. Authored at 1086 it lands just under the
-     bottom block for the whole eleven seconds, overlapping it by a dozen
-     units: enough that the near object clearly occludes the far one, not
-     enough to eat the word ROBLOX. */
-  top: calc(1094 * var(--px));
+  /* SET AGAINST THE PROJECTED TOP FACE, NOT THE AUTHORED EDGE. The slab is 70
+     units toward the camera, so its front edge renders ~9% further from the
+     vanishing point than it is written — but the thing that reaches highest up
+     the frame is the TOP FACE, whose back edge is only 16 units forward and
+     therefore lands ~40 units above the front edge. Positioned off the front
+     edge alone, that face ate the line under ROBLOX. */
+  top: calc(1090 * var(--px));
   width: var(--w);
   height: var(--h);
   transform-style: preserve-3d;
@@ -593,24 +768,25 @@
   transform-style: preserve-3d;
 }
 
-.fw-offer {
-  --c: #ffc832;
-  --c-lit: #ffe27a;
-  --c-dim: #d18a05;
-  --c-top: #fff0a8;
-  --c-side: #a86a03;
-}
-
 .fw-offer .fw-face--front {
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 0;
-  border-radius: calc(8 * var(--px));
+  border-radius: calc(10 * var(--px));
+  /* gold is a MATERIAL, not a fill: a bright band across the upper third, a
+     turn to deep amber below it, and a lit lip at the bottom edge */
+  background:
+    linear-gradient(178deg,
+      #ffe895 0%, #ffd85c 16%, #ffc832 34%, #f0ab16 58%, #d9930a 82%, #f6bd35 100%);
   box-shadow:
-    inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.6),
-    inset 0 calc(-4 * var(--px)) 0 rgba(0, 0, 0, 0.18),
-    0 calc(26 * var(--px)) calc(50 * var(--px)) rgba(20, 2, 30, 0.55);
+    inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.72),
+    inset calc(3 * var(--px)) 0 0 rgba(255, 255, 255, 0.32),
+    inset 0 calc(-4 * var(--px)) 0 rgba(140, 84, 0, 0.4),
+    /* the shadow it throws UP onto the block behind it, and the one it throws
+       down into the room */
+    0 calc(-26 * var(--px)) calc(44 * var(--px)) rgba(0, 0, 0, 0.5),
+    0 calc(30 * var(--px)) calc(56 * var(--px)) rgba(0, 0, 0, 0.55);
 }
 
 .fw-offer-lead,
@@ -623,14 +799,14 @@
 }
 
 .fw-offer-lead { font-size: calc(25 * var(--px)); }
-.fw-offer-tail { font-size: calc(24 * var(--px)); }
+.fw-offer-tail { font-size: calc(23 * var(--px)); }
 
 .fw-offer-big {
   font-family: Fredoka, Poppins, sans-serif;
   font-weight: 700;
   font-variation-settings: "wdth" 92;
-  font-size: calc(84 * var(--px));
-  line-height: 1.08;
+  font-size: calc(82 * var(--px));
+  line-height: 1.1;
   color: #3a0a1e;
   text-shadow:
     calc(-1.5 * var(--px)) calc(1.5 * var(--px)) 0 rgba(255, 255, 255, 0.55),
@@ -638,15 +814,57 @@
   white-space: nowrap;
 }
 
+/* THE NUMBER THE OFFER IS WORTH, ON THE OFFER. "One free month" is a length of
+   time until it is priced; the pill is dark so it reads as a stamp on the gold
+   rather than another line of it. */
+.fw-offer-value {
+  margin-top: calc(9 * var(--px));
+  padding: calc(6 * var(--px)) calc(20 * var(--px)) calc(7 * var(--px));
+  border-radius: calc(999 * var(--px));
+  background: #3a0a1e;
+  color: #ffe08a;
+  font-family: Fredoka, Poppins, sans-serif;
+  font-weight: 700;
+  font-size: calc(21 * var(--px));
+  letter-spacing: 0.13em;
+  text-indent: 0.13em;
+  white-space: nowrap;
+  box-shadow: inset 0 calc(2 * var(--px)) 0 rgba(255, 255, 255, 0.12);
+}
+
 .fw-offer-sheen {
   position: absolute;
-  top: calc(-40 * var(--px));
-  bottom: calc(-40 * var(--px));
+  top: calc(-50 * var(--px));
+  bottom: calc(-50 * var(--px));
   left: 0;
-  width: calc(150 * var(--px));
-  background: linear-gradient(102deg, transparent 0%, rgba(255, 255, 255, 0.85) 50%, transparent 100%);
+  width: calc(160 * var(--px));
+  background: linear-gradient(102deg, transparent 0%, rgba(255, 255, 255, 0.9) 50%, transparent 100%);
   opacity: 0;
-  transform: translateX(calc(-260 * var(--px)));
+  transform: translateX(calc(-280 * var(--px)));
+  z-index: 3;
+}
+
+/* The light the gold throws back into the room when it lands. */
+.fw-bloom {
+  position: absolute;
+  left: 50%;
+  top: calc(1130 * var(--px));
+  width: calc(1200 * var(--px));
+  height: calc(560 * var(--px));
+  margin-left: calc(-600 * var(--px));
+  background: radial-gradient(closest-side, var(--bloom-c) 0%, transparent 72%);
+  filter: blur(calc(40 * var(--px)));
+  mix-blend-mode: screen;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.fw-go .fw-bloom { animation: fwBloom 1.5s ease-out 4.05s both; }
+
+@keyframes fwBloom {
+  0%   { opacity: 0; transform: scale(0.7); }
+  22%  { opacity: 1; transform: scale(1.06); }
+  100% { opacity: 0.72; transform: scale(1); }
 }
 
 /* ============================================================
@@ -662,15 +880,15 @@
   text-align: center;
   font-size: calc(21 * var(--px));
   font-weight: 500;
-  letter-spacing: 0.02em;
-  color: rgba(255, 255, 255, 0.68);
+  letter-spacing: 0.03em;
+  color: var(--fine-c);
 }
 
 .fw-foot {
   position: absolute;
   left: var(--safe-x);
   right: var(--safe-x);
-  top: calc(1416 * var(--px));
+  top: calc(1412 * var(--px));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -694,28 +912,22 @@
   font-weight: 700;
 }
 
-.fw-foot-col b { font-size: calc(29 * var(--px)); letter-spacing: 0.04em; color: #fff; }
-.fw-foot-col i { font-style: normal; font-size: calc(23 * var(--px)); color: rgba(255, 255, 255, 0.8); padding-left: calc(36 * var(--px)); }
-.fw-foot-col u { font-size: calc(31 * var(--px)); color: var(--gold); letter-spacing: 0.04em; }
+.fw-foot-col b { font-size: calc(29 * var(--px)); letter-spacing: 0.04em; color: var(--foot-strong); }
+.fw-foot-col i { font-style: normal; font-size: calc(23 * var(--px)); color: var(--foot-c); padding-left: calc(36 * var(--px)); }
+.fw-foot-col u { font-size: calc(31 * var(--px)); color: var(--foot-accent); letter-spacing: 0.04em; }
 
 .fw-foot-ic {
   width: calc(26 * var(--px));
   height: calc(26 * var(--px));
   display: grid;
   place-items: center;
-  color: var(--gold);
-  --icon-ink: var(--night);
+  color: var(--foot-accent);
+  --icon-ink: var(--frame-bg);
 }
 
-.fw-foot-col u .fw-foot-ic { color: var(--gold); }
 .fw-foot-ic svg { width: 100%; height: 100%; display: block; }
 
-.fw-qr {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: calc(5 * var(--px));
-}
+.fw-qr { display: flex; flex-direction: column; align-items: center; gap: calc(5 * var(--px)); }
 
 .fw-qr img {
   width: calc(84 * var(--px));
@@ -724,6 +936,7 @@
   padding: calc(6 * var(--px));
   border-radius: calc(8 * var(--px));
   background: #fff;
+  box-shadow: 0 0 0 calc(2 * var(--px)) var(--qr-frame);
 }
 
 .fw-qr b {
@@ -732,18 +945,79 @@
   font-size: calc(18 * var(--px));
   letter-spacing: 0.2em;
   text-indent: 0.2em;
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--foot-c);
 }
 
 /* ============================================================
-   OVERLAYS
+   THE LENS
    ============================================================ */
+
+.fw-motes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: var(--mote-blend);
+}
+
+.fw-motes span {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--mote-c) 0%, transparent 100%);
+  animation-name: fwDrift;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes fwDrift {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(calc(34 * var(--px)), calc(-58 * var(--px)), 0); }
+}
+
+/* The two anamorphic streaks. One when the headline lands, one when the gold
+   does — a flare with no impact behind it is a tic, so there are exactly two. */
+.fw-flare {
+  position: absolute;
+  left: -24%;
+  right: -24%;
+  height: calc(4 * var(--px));
+  background: linear-gradient(90deg, transparent 0%, var(--flare-c) 22%, #fff 50%, var(--flare-c) 78%, transparent 100%);
+  filter: blur(calc(3 * var(--px)));
+  box-shadow: 0 0 calc(60 * var(--px)) calc(14 * var(--px)) var(--flare-c);
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.fw-flare--a { top: calc(432 * var(--px)); }
+.fw-flare--b { top: calc(1250 * var(--px)); }
+
+.fw-go .fw-flare--a { animation: fwFlare 0.66s ease-out 1.40s both; }
+.fw-go .fw-flare--b { animation: fwFlare 0.8s ease-out 4.08s both; }
+
+@keyframes fwFlare {
+  0%   { opacity: 0; transform: scaleX(0.12) scaleY(0.5); }
+  12%  { opacity: 1; transform: scaleX(1.02) scaleY(1.6); }
+  100% { opacity: 0; transform: scaleX(1.14) scaleY(0.4); }
+}
+
+/* The grade, the grain and the falloff. Three passes that happen to the
+   picture after the picture exists — cool in the shadows, warm in the
+   highlights, dirt on the glass, and light dying at the corners. */
+.fw-grade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--grade);
+  mix-blend-mode: soft-light;
+  opacity: var(--grade-o);
+}
 
 .fw-grain {
   position: absolute;
   inset: calc(-20 * var(--px));
   pointer-events: none;
-  opacity: 0.16;
+  opacity: var(--grain-o);
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='0.5'/></svg>");
   background-size: calc(200 * var(--px)) calc(200 * var(--px));
@@ -753,9 +1027,7 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background:
-    radial-gradient(120% 78% at 50% 44%, transparent 42%, rgba(12, 1, 24, 0.5) 88%, rgba(12, 1, 24, 0.82) 100%),
-    linear-gradient(180deg, rgba(12, 1, 24, 0.65) 0%, transparent 12%, transparent 84%, rgba(12, 1, 24, 0.8) 100%);
+  background: var(--vig);
 }
 
 /* ============================================================
@@ -765,13 +1037,15 @@
      0.12  the lockup
      0.40  the kicker wipes in
      0.66  FINAL WEEK turns in letter by letter
-     1.44  the last letter lands — impact, and the date chip pops
+     1.40  the last letter lands — impact, flare, and the date chip
      1.80  the tower builds BOTTOM UP, one block every 175ms
+     2.00  its colour spills onto the floor under it
      2.75  the last block lands
      3.50  the offer flies in from the back of the room
-     4.15  it lands — second impact
-     4.60  gold runs across it, and again every 3s
-     4.90  the footer and the fine print
+     4.08  it lands — second impact, second flare, and the gold blooms
+     4.60  a specular runs across it, and again at 7.2
+     4.90  the footer, then the fine print
+     5.80  light walks the headline, and again at 8.0
      9.40  the camera stops travelling; the ad is a still poster
    ============================================================ */
 
@@ -781,6 +1055,7 @@
 .fw-stage:not(.fw-go):not(.fw-still) .fw-lock,
 .fw-stage:not(.fw-go):not(.fw-still) .fw-kicker,
 .fw-stage:not(.fw-go):not(.fw-still) .fw-title i,
+.fw-stage:not(.fw-go):not(.fw-still) .fw-title-glint,
 .fw-stage:not(.fw-go):not(.fw-still) .fw-when,
 .fw-stage:not(.fw-go):not(.fw-still) .fw-fine,
 .fw-stage:not(.fw-go):not(.fw-still) .fw-foot {
@@ -788,15 +1063,13 @@
 }
 
 /* Depth cannot fade. It hides. */
-.fw-stage:not(.fw-go):not(.fw-still) .fw-blk {
-  visibility: hidden;
-}
+.fw-stage:not(.fw-go):not(.fw-still) .fw-blk { visibility: hidden; }
 
-.fw-go .fw-lock  { animation: fwRise 0.7s cubic-bezier(0.2, 0.9, 0.25, 1) 0.12s both; }
+.fw-go .fw-lock   { animation: fwRise 0.7s cubic-bezier(0.2, 0.9, 0.25, 1) 0.12s both; }
 .fw-go .fw-kicker { animation: fwWipe 0.7s cubic-bezier(0.2, 0.9, 0.25, 1) 0.40s both; }
-.fw-go .fw-when  { animation: fwPop 0.6s cubic-bezier(0.26, 1.5, 0.4, 1) 1.44s both; }
-.fw-go .fw-fine  { animation: fwRise 0.7s ease-out 5.05s both; }
-.fw-go .fw-foot  { animation: fwRise 0.8s cubic-bezier(0.2, 0.9, 0.25, 1) 4.90s both; }
+.fw-go .fw-when   { animation: fwPop 0.6s cubic-bezier(0.26, 1.5, 0.4, 1) 1.44s both; }
+.fw-go .fw-fine   { animation: fwRise 0.7s ease-out 5.05s both; }
+.fw-go .fw-foot   { animation: fwRise 0.8s cubic-bezier(0.2, 0.9, 0.25, 1) 4.90s both; }
 
 @keyframes fwRise {
   from { opacity: 0; transform: translateY(calc(26 * var(--px))); }
@@ -834,14 +1107,16 @@
   100% { opacity: 1; transform: perspective(900px) rotateX(0deg); }
 }
 
-/* NO SHIMMER ON THE HEADLINE. A gradient on the <h1> paints the ELEMENT, and
- * the element is a full-width block, so what travelled across the frame was a
- * silver rectangle in the empty margin beside the type. `background-clip:text`
- * is the usual answer and it is not available here — the letters carry a
- * seven-step text-shadow extrusion, and clipping the background to the glyphs
- * throws the extrusion away. The letters turn in one at a time; that is the
- * headline's move, and it does not need a second one.
- */
+/* the glint waits for the last letter to have settled — it is clipped to
+   glyphs that are still turning until 1.4s, and a band of light crossing a
+   letter that is edge-on lands on nothing */
+.fw-go .fw-title-glint { animation: fwGlint 2.2s ease-in-out 5.8s 2 both; }
+
+@keyframes fwGlint {
+  0%   { opacity: 1; background-position: -80% 0; }
+  40%  { background-position: 180% 0; }
+  100% { opacity: 1; background-position: 180% 0; }
+}
 
 /* ---------- the tower builds ----------
  * Off the top of the frame, not out of a fade. A block that fades in has no
@@ -871,18 +1146,15 @@
 }
 
 /* ---------- the offer arrives ---------- */
-.fw-go .fw-offer {
-  animation: fwFly 0.85s cubic-bezier(0.22, 0.9, 0.24, 1) 3.50s both;
-}
+.fw-go .fw-offer { animation: fwFly 0.85s cubic-bezier(0.22, 0.9, 0.24, 1) 3.50s both; }
 
 /* HIDDEN AT 0%, VISIBLE AT 1%. `both` fills the animation BACKWARD over its
-   own delay, so whatever 0% says is what the slab does for the first three
-   and a half seconds — and `visible` there put a little gold chip up beside
-   the headline from the first frame of the ad, sitting at the vanishing point
+   own delay, so whatever 0% says is what the slab does for the first three and
+   a half seconds — and `visible` there put a little gold chip up beside the
+   headline from the first frame of the ad, sitting at the vanishing point
    waiting for its cue. visibility is stepped rather than interpolated, so one
-   frame later is enough, and at 1% the slab is still 1900 units away and a
-   third of a centimetre wide. Opacity is not available for this: it would
-   flatten the cuboid. */
+   frame later is enough, and at 1% the slab is still 1900 units away. Opacity
+   is not available for this: it would flatten the cuboid. */
 @keyframes fwFly {
   0%   { visibility: hidden; transform: translateZ(calc(-1900 * var(--px))); }
   1%   { visibility: visible; }
@@ -891,15 +1163,13 @@
   100% { visibility: visible; transform: translateZ(calc(70 * var(--px))); }
 }
 
-.fw-go .fw-offer-sheen {
-  animation: fwGold 2.6s ease-in-out 4.6s 2 both;
-}
+.fw-go .fw-offer-sheen { animation: fwGold 2.6s ease-in-out 4.6s 2 both; }
 
 @keyframes fwGold {
-  0%   { opacity: 0; transform: translateX(calc(-260 * var(--px))); }
+  0%   { opacity: 0; transform: translateX(calc(-280 * var(--px))); }
   6%   { opacity: 1; }
-  30%  { opacity: 0; transform: translateX(calc(820 * var(--px))); }
-  100% { opacity: 0; transform: translateX(calc(820 * var(--px))); }
+  30%  { opacity: 0; transform: translateX(calc(840 * var(--px))); }
+  100% { opacity: 0; transform: translateX(calc(840 * var(--px))); }
 }
 
 /* ---------- the camera ----------
@@ -913,7 +1183,7 @@
   to   { transform: scale(1); }
 }
 
-.fw-go .fw-shake { animation: fwHit 0.5s ease-out 1.42s 1 both, fwHit2 0.42s ease-out 4.12s 1 both; }
+.fw-go .fw-shake { animation: fwHit 0.5s ease-out 1.42s 1 both, fwHit2 0.42s ease-out 4.08s 1 both; }
 
 @keyframes fwHit {
   0%   { transform: translate3d(0, 0, 0); }
@@ -926,8 +1196,8 @@
 
 @keyframes fwHit2 {
   0%   { transform: translate3d(0, 0, 0) scale(1); }
-  20%  { transform: translate3d(0, calc(9 * var(--px)), 0) scale(1.012); }
-  48%  { transform: translate3d(0, calc(-5 * var(--px)), 0) scale(0.997); }
+  20%  { transform: translate3d(0, calc(10 * var(--px)), 0) scale(1.014); }
+  48%  { transform: translate3d(0, calc(-6 * var(--px)), 0) scale(0.996); }
   76%  { transform: translate3d(0, calc(2 * var(--px)), 0) scale(1); }
   100% { transform: translate3d(0, 0, 0) scale(1); }
 }
@@ -936,8 +1206,12 @@
    REDUCED MOTION — the finished frame, and nothing moving.
    ============================================================ */
 .fw-still .fw-offer { visibility: visible; transform: translateZ(calc(70 * var(--px))); }
+.fw-still .fw-spill { opacity: 0.9; }
+.fw-still .fw-bloom { opacity: 0.72; }
 
 @media (prefers-reduced-motion: reduce) {
   .fw-stage * { animation: none !important; }
   .fw-offer { visibility: visible; }
+  .fw-spill { opacity: 0.9; }
+  .fw-bloom { opacity: 0.72; }
 }
