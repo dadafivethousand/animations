@@ -82,10 +82,10 @@
 
   --type: #ffffff;
   --title-extrude:
-    -0.017em 0.017em 0 #e8bb63, -0.034em 0.034em 0 #c99a45,
-    -0.052em 0.052em 0 #a67a33, -0.069em 0.069em 0 #7f5c26,
-    -0.086em 0.086em 0 #5c421c, -0.103em 0.103em 0 #3d2c13,
-    -0.121em 0.121em 0 #241a0c, -0.14em 0.155em 0.21em rgba(0, 0, 0, 0.62);
+    -0.011em 0.011em 0 #e8bb63, -0.022em 0.022em 0 #c99a45,
+    -0.033em 0.033em 0 #a67a33, -0.044em 0.044em 0 #7f5c26,
+    -0.055em 0.055em 0 #5c421c, -0.066em 0.066em 0 #3d2c13,
+    -0.077em 0.077em 0 #241a0c, -0.09em 0.10em 0.16em rgba(0, 0, 0, 0.66);
   --kicker-c: #f7c24a;
 
   --chip-bg: rgba(10, 13, 18, 0.62);
@@ -132,10 +132,10 @@
 
   --type: #ffffff;
   --title-extrude:
-    -0.017em 0.017em 0 #b9d4ea, -0.034em 0.034em 0 #93b3cf,
-    -0.052em 0.052em 0 #6f92b1, -0.069em 0.069em 0 #527591,
-    -0.086em 0.086em 0 #3a586f, -0.103em 0.103em 0 #263c4e,
-    -0.121em 0.121em 0 #16242f, -0.14em 0.155em 0.21em rgba(0, 0, 0, 0.6);
+    -0.011em 0.011em 0 #b9d4ea, -0.022em 0.022em 0 #93b3cf,
+    -0.033em 0.033em 0 #6f92b1, -0.044em 0.044em 0 #527591,
+    -0.055em 0.055em 0 #3a586f, -0.066em 0.066em 0 #263c4e,
+    -0.077em 0.077em 0 #16242f, -0.09em 0.10em 0.16em rgba(0, 0, 0, 0.64);
   --kicker-c: #8fc6f5;
 
   --chip-bg: rgba(8, 14, 22, 0.6);
@@ -186,10 +186,10 @@
 
   --type: #10131a;
   --title-extrude:
-    -0.017em 0.017em 0 #cfd4dd, -0.034em 0.034em 0 #b9c0cc,
-    -0.052em 0.052em 0 #a2abba, -0.069em 0.069em 0 #8b95a7,
-    -0.086em 0.086em 0 #757f93, -0.103em 0.103em 0 #606a7e,
-    -0.121em 0.121em 0 #4c5568, -0.14em 0.155em 0.21em rgba(28, 36, 52, 0.30);
+    -0.011em 0.011em 0 #cfd4dd, -0.022em 0.022em 0 #b9c0cc,
+    -0.033em 0.033em 0 #a2abba, -0.044em 0.044em 0 #8b95a7,
+    -0.055em 0.055em 0 #757f93, -0.066em 0.066em 0 #606a7e,
+    -0.077em 0.077em 0 #4c5568, -0.09em 0.10em 0.16em rgba(28, 36, 52, 0.34);
   --kicker-c: #e4002b;
 
   --chip-bg: rgba(255, 255, 255, 0.9);
@@ -468,19 +468,22 @@
      Each glyph throws a seven-step shadow 14 units down and to the LEFT, so at
      normal tracking the tail of every letter lands on the face of the one
      before it — the N sits in the shadow of the A, and the word reads as one
-     welded mass. The gap has to beat the throw, and 7 units of tracking plus
-     Fredoka's own sidebearings is about 15 against the 14 it throws — the
-     tightest setting where the shadows still land on the field rather than on
-     the next letter. Below that they start touching again.
+     welded mass, which is why the tracking was opened in the first place.
 
-     It cannot simply be MORE, either. At 14 units the ink ran from 74 to 990
-     on a 1080 sheet — the F's extrusion sitting ten units off the 64-unit crop
-     guard, which is the edge a screen-recorded reel loses first.
+     TRACKING AND THROW ARE ONE SETTING, NOT TWO. The gap between two letters
+     has to beat the distance the shadow travels, so closing the tracking any
+     further meant shortening the extrusion to match: the ladder is now seven
+     steps of 0.011em instead of 0.017em, about 9 units of throw against the 14
+     it was. That buys tracking of 2 — near-solid, the letters almost touching
+     — with each letter's shadow still landing on the field rather than on the
+     letter before it. Shortening the throw costs nothing visually at this
+     size; the ladder still reads as a solid extruded face, it just does not
+     reach as far.
 
      `text-indent` puts back the half-gap that centring loses to the trailing
      space letter-spacing adds after the final K. */
-  letter-spacing: calc(7 * var(--px));
-  text-indent: calc(7 * var(--px));
+  letter-spacing: calc(2 * var(--px));
+  text-indent: calc(2 * var(--px));
 }
 
 .fw-title {
@@ -632,13 +635,24 @@
 
 .fw-face--front {
   inset: 0;
-  border-radius: calc(7 * var(--px));
-  background: linear-gradient(174deg, var(--c-lit, #2aa) 0%, var(--c, #199) 60%, var(--c-dim, #077) 100%);
+  border-radius: calc(8 * var(--px));
+  background:
+    /* the key's hotspot, upper left, where the two lit edges meet */
+    radial-gradient(58% 150% at 12% -10%, rgba(255, 255, 255, 0.26) 0%, transparent 62%),
+    linear-gradient(174deg, var(--c-lit, #2aa) 0%, var(--c, #199) 58%, var(--c-dim, #077) 100%);
+  /* FOUR EDGES, FOUR DIFFERENT ANSWERS. The block used to have a lit top, a
+     faintly lit left and a dark bottom, which left the right-hand edge simply
+     ending — and an edge that ends is what makes a solid look like a coloured
+     rectangle. Every edge now states which way it faces relative to the key:
+     top and left catch it hard, right and bottom fall away, and a hairline of
+     near-black around the whole silhouette separates the block from the room
+     instead of letting its darkest corner dissolve into the floor. */
   box-shadow:
-    /* the lit top edge and the left rim, both angled off the key */
-    inset 0 calc(2.5 * var(--px)) 0 rgba(255, 255, 255, 0.46),
-    inset calc(2.5 * var(--px)) 0 0 rgba(255, 255, 255, 0.18),
-    inset 0 calc(-3 * var(--px)) 0 rgba(0, 0, 0, 0.28),
+    inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.55),
+    inset calc(3 * var(--px)) 0 0 rgba(255, 255, 255, 0.26),
+    inset calc(-3 * var(--px)) 0 0 rgba(0, 0, 0, 0.22),
+    inset 0 calc(-4 * var(--px)) 0 rgba(0, 0, 0, 0.34),
+    0 0 0 calc(1.5 * var(--px)) rgba(0, 0, 0, 0.42),
     var(--blk-shadow);
   overflow: hidden;
   display: flex;
@@ -654,8 +668,17 @@
   top: 50%;
   margin-top: calc(var(--depth) / -2);
   transform: translate3d(0, calc(var(--h) / -2), calc(var(--depth) / -2)) rotateX(90deg);
-  background: linear-gradient(180deg, var(--c-top, #4dd) 0%, var(--c-lit, #2aa) 100%);
+  /* 0% IS THE BACK OF THIS FACE AND 100% IS THE FRONT. rotateX(90deg) sends
+     the strip's local +Y toward the viewer, so the element's bottom edge is
+     the seam it shares with the front face — the one nearest the lens, and the
+     one the key catches. Lighting it the other way round put the highlight on
+     the edge furthest from the camera, which is why the tops read as flat
+     colour rather than as a machined surface. */
+  background: linear-gradient(180deg, var(--c-dim, #077) 0%, var(--c-top, #4dd) 46%, var(--c-lit, #2aa) 100%);
   border-radius: calc(4 * var(--px));
+  box-shadow:
+    inset 0 calc(-2 * var(--px)) 0 rgba(255, 255, 255, 0.5),
+    inset 0 calc(2 * var(--px)) 0 rgba(0, 0, 0, 0.3);
 }
 
 .fw-face--left,
@@ -668,11 +691,15 @@
   background: linear-gradient(180deg, var(--c-dim, #066) 0%, var(--c-side, #066) 100%);
 }
 
-/* The visible one. It faces the key, so it takes a lit front edge — the sliver
-   of highlight along the seam between the side and the front is what stops the
-   two reading as one flat shape in a slightly different colour. */
+/* The visible one. rotateY(-90deg) sends its local +X toward the viewer, so
+   its RIGHT edge is the seam it shares with the front face. That seam gets the
+   highlight — the sliver of light along a corner is what stops a side and a
+   front reading as one flat shape in two slightly different colours — and the
+   far edge gets a dark line so the block has a back to it. */
 .fw-face--left {
-  box-shadow: inset calc(-2 * var(--px)) 0 0 rgba(255, 255, 255, 0.22);
+  box-shadow:
+    inset calc(-2.5 * var(--px)) 0 0 rgba(255, 255, 255, 0.42),
+    inset calc(2 * var(--px)) 0 0 rgba(0, 0, 0, 0.35);
 }
 
 .fw-face--left  { transform: translate3d(calc(var(--w) / -2), 0, calc(var(--depth) / -2)) rotateY(-90deg); }
@@ -734,7 +761,13 @@
 .fw-blk-rake {
   position: absolute;
   inset: 0;
-  background: var(--rake);
+  /* A broad soft gloss down the upper half on top of the key's diagonal rake.
+     Two lights doing two jobs: the rake says which way the lamp is, the gloss
+     says the material has a surface. It stops well before the lower edge —
+     carried all the way down it turns the block into a gradient swatch. */
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0.05) 46%, transparent 62%),
+    var(--rake);
   pointer-events: none;
   z-index: 1;
 }
@@ -830,9 +863,11 @@
     linear-gradient(178deg,
       #ffe895 0%, #ffd85c 16%, #ffc832 34%, #f0ab16 58%, #d9930a 82%, #f6bd35 100%);
   box-shadow:
-    inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.72),
-    inset calc(3 * var(--px)) 0 0 rgba(255, 255, 255, 0.32),
-    inset 0 calc(-4 * var(--px)) 0 rgba(140, 84, 0, 0.4),
+    inset 0 calc(3.5 * var(--px)) 0 rgba(255, 255, 255, 0.82),
+    inset calc(3.5 * var(--px)) 0 0 rgba(255, 255, 255, 0.42),
+    inset calc(-3.5 * var(--px)) 0 0 rgba(150, 92, 0, 0.34),
+    inset 0 calc(-5 * var(--px)) 0 rgba(140, 84, 0, 0.48),
+    0 0 0 calc(1.5 * var(--px)) rgba(70, 40, 0, 0.5),
     /* the shadow it throws UP onto the block behind it, and the one it throws
        down into the room */
     0 calc(-26 * var(--px)) calc(44 * var(--px)) rgba(0, 0, 0, 0.5),
