@@ -20,9 +20,10 @@ import "./Stylesheets/App.css";
 // import TechTalkAd from "./Components/TechTalkAd";
 // import StaplesPosterInStore from "./Components/StaplesPosterInStore";
 // import MapleBackToSchoolAd from "./Components/MapleBackToSchoolAd";
-import OpenHouseAd from "./Components/OpenHouseAd";
+// import OpenHouseAd from "./Components/OpenHouseAd";
+import FinalWeekCampAd from "./Components/FinalWeekCampAd";
 
 function App() {
-  return <OpenHouseAd />;
+  return <FinalWeekCampAd />;
 }
 export default App;
