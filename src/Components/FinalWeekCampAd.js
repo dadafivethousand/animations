@@ -32,9 +32,19 @@
 // variable overrides and nothing else — the geometry, the timing and the copy
 // are shared, which is the only way three cuts stay comparable.
 //
-//   MS=9900 HOLD=1.7 BG='#07090d' URL='http://localhost:3000/?theme=obsidian' \
-//     OUT=~/Downloads/cn-final-week-obsidian.mp4 \
+// OBSIDIAN IS THE APPROVED CUT and is what THEMES[0] means: the delivered file
+// is `~/Downloads/cn-final-week.mp4`, recorded off the default with no query
+// string. Arctic and studio were the other two options and stay in the sheet —
+// they cost one block of variables each, and the next ad on this feed needs a
+// palette that is not this one.
+//
+//   MS=9900 HOLD=1.7 BG='#07090d' URL='http://127.0.0.1:3000/' \
+//     OUT=~/Downloads/cn-final-week.mp4 \
 //     NODE_PATH=/tmp/rec/node_modules node tools/record.js
+//
+// 127.0.0.1, NOT localhost: there is a Next.js dev server on this machine that
+// also binds :3000, on IPv6, and macOS resolves localhost to ::1 first — point
+// the recorder at the name and it cheerfully records the other site.
 //
 // BG is not optional and it is PER THEME: the recorder paints it for the
 // ~150ms before React mounts, so the wrong one is a flash of the wrong room on

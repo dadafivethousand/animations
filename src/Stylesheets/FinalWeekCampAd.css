@@ -464,7 +464,21 @@
   font-weight: 700;
   font-size: calc(118 * var(--px));
   line-height: 1.06;
-  letter-spacing: calc(1 * var(--px));
+  /* THE TRACKING IS SET BY THE EXTRUSION, NOT BY THE LETTERFORMS.
+     Each glyph throws a seven-step shadow 14 units down and to the LEFT, so at
+     normal tracking the tail of every letter lands on the face of the one
+     before it — the N sits in the shadow of the A, and the word reads as one
+     welded mass. The gap has to be wider than the throw: 9 units of tracking
+     plus the letterforms' own sidebearings clears the 14 it throws.
+
+     It cannot simply be MORE, either. At 14 units the ink ran from 74 to 990
+     on a 1080 sheet — the F's extrusion sitting ten units off the 64-unit crop
+     guard, which is the edge a screen-recorded reel loses first. 11 lands it
+     with ~115 clear either side and the word still 20% wider than it was
+     before it was tracked at all. `text-indent` puts back the half-gap that
+     centring loses to the trailing space letter-spacing adds after the K. */
+  letter-spacing: calc(11 * var(--px));
+  text-indent: calc(11 * var(--px));
 }
 
 .fw-title {
@@ -576,10 +590,10 @@
 
 .fw-blk {
   --w: calc(720 * var(--px));
-  --h: calc(92 * var(--px));
+  --h: calc(86 * var(--px));
   position: absolute;
   left: calc(180 * var(--px));
-  top: calc((572 + 104 * var(--i)) * var(--px));
+  top: calc((572 + 98 * var(--i)) * var(--px));
   width: var(--w);
   height: var(--h);
   transform-style: preserve-3d;
@@ -762,7 +776,12 @@
  * can only have been cast by something in front of it. */
 .fw-offer {
   --w: calc(690 * var(--px));
-  --h: calc(188 * var(--px));
+  /* 208 tall against ~175 of type. The block was 188 against 188 — the copy
+     was not badly padded, it was EXACTLY the height of the box, so the lead
+     line sat on the top edge and the price pill sat on the bottom one. The
+     twenty units either side is what makes it read as printed ON the gold
+     rather than as filling it. */
+  --h: calc(208 * var(--px));
   --c: #ffc832;
   --c-lit: #ffe27a;
   --c-dim: #d18a05;
@@ -782,7 +801,7 @@
      alone, the face ate the line under ROBLOX. */
   position: absolute;
   left: calc(145 * var(--px));
-  top: calc(1100 * var(--px));
+  top: calc(1070 * var(--px));
   width: var(--w);
   height: var(--h);
   transform-style: preserve-3d;
@@ -801,6 +820,7 @@
   align-items: center;
   justify-content: center;
   gap: 0;
+  padding: 0 calc(46 * var(--px));
   border-radius: calc(10 * var(--px));
   /* gold is a MATERIAL, not a fill: a bright band across the upper third, a
      turn to deep amber below it, and a lit lip at the bottom edge */
@@ -826,15 +846,21 @@
   text-indent: 0.16em;
 }
 
-.fw-offer-lead { font-size: calc(25 * var(--px)); }
-.fw-offer-tail { font-size: calc(23 * var(--px)); }
+.fw-offer-lead { font-size: calc(23 * var(--px)); line-height: 1.2; }
+.fw-offer-tail { font-size: calc(21 * var(--px)); line-height: 1.2; }
 
 .fw-offer-big {
   font-family: Fredoka, Poppins, sans-serif;
   font-weight: 700;
-  font-variation-settings: "wdth" 92;
-  font-size: calc(82 * var(--px));
-  line-height: 1.1;
+  /* SMALLER AND NARROWER, WHICH ARE TWO DIFFERENT KNOBS. Dropping the size
+     alone would have left the same wide letterforms floating in a bigger gap;
+     pulling Fredoka's width axis to 88 and closing the tracking a touch keeps
+     the line looking SET rather than merely reduced, and buys the margins
+     without the words losing their weight on the slab. */
+  font-variation-settings: "wdth" 88;
+  font-size: calc(74 * var(--px));
+  letter-spacing: -0.012em;
+  line-height: 1.04;
   color: #3a0a1e;
   text-shadow:
     calc(-1.5 * var(--px)) calc(1.5 * var(--px)) 0 rgba(255, 255, 255, 0.55),
@@ -846,14 +872,15 @@
    time until it is priced; the pill is dark so it reads as a stamp on the gold
    rather than another line of it. */
 .fw-offer-value {
-  margin-top: calc(9 * var(--px));
-  padding: calc(6 * var(--px)) calc(20 * var(--px)) calc(7 * var(--px));
+  margin-top: calc(11 * var(--px));
+  padding: calc(7 * var(--px)) calc(20 * var(--px)) calc(8 * var(--px));
+  line-height: 1;
   border-radius: calc(999 * var(--px));
   background: #3a0a1e;
   color: #ffe08a;
   font-family: Fredoka, Poppins, sans-serif;
   font-weight: 700;
-  font-size: calc(21 * var(--px));
+  font-size: calc(20 * var(--px));
   letter-spacing: 0.13em;
   text-indent: 0.13em;
   white-space: nowrap;
@@ -876,7 +903,7 @@
 .fw-bloom {
   position: absolute;
   left: 50%;
-  top: calc(1130 * var(--px));
+  top: calc(1110 * var(--px));
   width: calc(1200 * var(--px));
   height: calc(560 * var(--px));
   margin-left: calc(-600 * var(--px));
@@ -903,7 +930,7 @@
   position: absolute;
   left: var(--safe-x);
   right: var(--safe-x);
-  top: calc(1382 * var(--px));
+  top: calc(1360 * var(--px));
   margin: 0;
   text-align: center;
   font-size: calc(21 * var(--px));
@@ -916,7 +943,7 @@
   position: absolute;
   left: var(--safe-x);
   right: var(--safe-x);
-  top: calc(1412 * var(--px));
+  top: calc(1390 * var(--px));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1018,7 +1045,7 @@
 }
 
 .fw-flare--a { top: calc(432 * var(--px)); }
-.fw-flare--b { top: calc(1250 * var(--px)); }
+.fw-flare--b { top: calc(1230 * var(--px)); }
 
 .fw-go .fw-flare--a { animation: fwFlare 0.66s ease-out 1.40s both; }
 .fw-go .fw-flare--b { animation: fwFlare 0.8s ease-out 4.08s both; }
