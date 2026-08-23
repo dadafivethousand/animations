@@ -255,7 +255,7 @@
      behind them opens up hard, which is what makes a 54-unit extrusion read
      as a solid block instead of a hairline. */
   --lens: calc(820 * var(--px));
-  --depth: calc(54 * var(--px));
+  --depth: calc(58 * var(--px));
 
   font-family: Poppins, Inter, sans-serif;
   color: #fff;
@@ -532,25 +532,40 @@
   position: absolute;
   inset: 0;
   perspective: var(--lens);
-  perspective-origin: 18% 21%;
+  perspective-origin: -20% 20%;
 }
 
 .fw-go .fw-scene { animation: fwCamera 9.4s cubic-bezier(0.4, 0, 0.3, 1) forwards; }
 
-/* TWO LIMITS, BOTH LOAD-BEARING.
+/* THE CAMERA STANDS OUTSIDE THE TOWER, AND THAT IS THE WHOLE REASON YOU CAN
+ * SEE A SIDE OF THESE BLOCKS.
  *
- * Horizontally it stops well short of 50%: the apparent width of a side face
- * is the depth times the camera's offset over the lens, so a camera arriving
- * at the tower's own centre line closes every side face to nothing and the
- * blocks flatten into stripes on the last five seconds of the ad — which is
- * exactly the part a viewer stares at.
+ * A block spans x 180–900. A camera anywhere between those two numbers has
+ * BOTH side faces turned away from it — which is just true, it is what a wide
+ * shallow bar looks like seen near-on — so no amount of depth or lighting will
+ * produce a side edge, and backface culling correctly throws both away. The
+ * camera has to travel past the block's own left edge before the left face
+ * turns to meet it. Hence a NEGATIVE perspective-origin: the lens sits about a
+ * fifth of a frame off the left of the picture, looking across the tower.
+ *
+ * The apparent width of that face is (blockLeft − originX) × (1 − lens/(lens +
+ * depth)) — roughly 26 design units at the start of the run and 16 at the end,
+ * which is a chunky, unmistakable edge that never closes to nothing.
+ *
+ * WHY NOT JUST ROTATE THE WORLD. rotateY would also show a side, and it would
+ * put every word on the tower on a slanted plane: Chrome rasterises text and
+ * then transforms it, so the type goes soft and the letterforms lose their
+ * verticals. Off-axis perspective leaves every front face exactly parallel to
+ * the picture plane — a perfect rectangle, type rendered at native resolution
+ * — while the top and side faces open up into trapezoids around it. Sharp
+ * words and a solid block, instead of choosing.
  *
  * Vertically it stays ABOVE the top block for the whole run. The moment the
  * camera drops below a block you are looking at its underside, and these
  * cuboids have no bottom face — there is nothing there to see. */
 @keyframes fwCamera {
-  from { perspective-origin: 18% 21%; }
-  to   { perspective-origin: 36% 27%; }
+  from { perspective-origin: -20% 20%; }
+  to   { perspective-origin: -6% 25%; }
 }
 
 .fw-world {
@@ -634,7 +649,14 @@
   width: var(--depth);
   left: 50%;
   margin-left: calc(var(--depth) / -2);
-  background: var(--c-side, #066);
+  background: linear-gradient(180deg, var(--c-dim, #066) 0%, var(--c-side, #066) 100%);
+}
+
+/* The visible one. It faces the key, so it takes a lit front edge — the sliver
+   of highlight along the seam between the side and the front is what stops the
+   two reading as one flat shape in a slightly different colour. */
+.fw-face--left {
+  box-shadow: inset calc(-2 * var(--px)) 0 0 rgba(255, 255, 255, 0.22);
 }
 
 .fw-face--left  { transform: translate3d(calc(var(--w) / -2), 0, calc(var(--depth) / -2)) rotateY(-90deg); }
@@ -739,26 +761,32 @@
  * onto the bottom block: light comes from above, so a shadow above an object
  * can only have been cast by something in front of it. */
 .fw-offer {
-  --w: calc(720 * var(--px));
+  --w: calc(690 * var(--px));
   --h: calc(188 * var(--px));
   --c: #ffc832;
   --c-lit: #ffe27a;
   --c-dim: #d18a05;
   --c-top: #fff2b4;
   --c-side: #a86a03;
+  /* AUTHORED OFF CENTRE ON PURPOSE — 145 rather than 195 for a 690-wide box.
+     This is the only object in the ad that is not on the picture plane, so it
+     is the only one the camera's position moves: sitting 58 units toward the
+     lens, and the lens now standing off the left of the frame, it projects
+     about 50 units to the RIGHT of where it is written. Authored dead centre
+     it renders visibly right of the tower. Written 50 short, it lands centred
+     and stays within a dozen units of centre across the whole camera move.
+
+     Its TOP is set against the projected top face, not the front edge: that
+     face's back edge is at z 0, so it reaches the frame at the authored number
+     while the front edge lands ~50 units lower. Positioned off the front edge
+     alone, the face ate the line under ROBLOX. */
   position: absolute;
-  left: calc(180 * var(--px));
-  /* SET AGAINST THE PROJECTED TOP FACE, NOT THE AUTHORED EDGE. The slab is 70
-     units toward the camera, so its front edge renders ~9% further from the
-     vanishing point than it is written — but the thing that reaches highest up
-     the frame is the TOP FACE, whose back edge is only 16 units forward and
-     therefore lands ~40 units above the front edge. Positioned off the front
-     edge alone, that face ate the line under ROBLOX. */
-  top: calc(1090 * var(--px));
+  left: calc(145 * var(--px));
+  top: calc(1100 * var(--px));
   width: var(--w);
   height: var(--h);
   transform-style: preserve-3d;
-  transform: translateZ(calc(70 * var(--px)));
+  transform: translateZ(calc(58 * var(--px)));
   visibility: hidden;
 }
 
@@ -1159,8 +1187,8 @@
   0%   { visibility: hidden; transform: translateZ(calc(-1900 * var(--px))); }
   1%   { visibility: visible; }
   70%  { transform: translateZ(calc(150 * var(--px))); }
-  86%  { transform: translateZ(calc(48 * var(--px))); }
-  100% { visibility: visible; transform: translateZ(calc(70 * var(--px))); }
+  86%  { transform: translateZ(calc(40 * var(--px))); }
+  100% { visibility: visible; transform: translateZ(calc(58 * var(--px))); }
 }
 
 .fw-go .fw-offer-sheen { animation: fwGold 2.6s ease-in-out 4.6s 2 both; }
@@ -1205,7 +1233,7 @@
 /* ============================================================
    REDUCED MOTION — the finished frame, and nothing moving.
    ============================================================ */
-.fw-still .fw-offer { visibility: visible; transform: translateZ(calc(70 * var(--px))); }
+.fw-still .fw-offer { visibility: visible; transform: translateZ(calc(58 * var(--px))); }
 .fw-still .fw-spill { opacity: 0.9; }
 .fw-still .fw-bloom { opacity: 0.72; }
 
