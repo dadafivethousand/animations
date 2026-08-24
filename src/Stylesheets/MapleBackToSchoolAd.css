@@ -317,7 +317,7 @@
   inset: calc(6 * var(--px));
   border-radius: 50%;
   background: conic-gradient(
-    from var(--mb-ring, 216deg),
+    from 216deg,
     #6d5219 0deg,
     #e9c46a 58deg,
     #fff4d2 96deg,
@@ -541,15 +541,15 @@
 }
 
 .mb-note {
-  margin: calc(7 * var(--px)) 0 0;
-  font-size: calc(17 * var(--px));
+  margin: calc(4 * var(--px)) 0 0;
+  font-size: calc(16 * var(--px));
   font-weight: 600;
   letter-spacing: calc(0.6 * var(--px));
   color: rgba(255, 255, 255, 0.68);
 }
 
 .mb-value {
-  margin: calc(6 * var(--px)) 0 0;
+  margin: calc(4 * var(--px)) 0 0;
   font-size: calc(25 * var(--px));
   font-weight: 500;
   color: rgba(255, 255, 255, 0.82);
@@ -573,7 +573,7 @@
    * type by a few points and taking the cards 16px taller is what bought the
    * artwork its extra 38px; the well is 188 where it was 150. */
   top: calc(240 * var(--px));
-  bottom: calc(8 * var(--px));
+  bottom: calc(4 * var(--px));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -613,6 +613,33 @@
  * floats; a pool of light behind it and a shadow on the floor beneath it put
  * it in the panel. Both come off .mb-art so they sit behind the image.
  */
+/* CARD THREE'S WELL IS ITS OWN, and taller.
+ *
+ * The three artworks share a BASELINE, not a size: every well ends at the same
+ * bottom, so the objects stand on one line, but the top is free. Card three's
+ * used to be pinned to the shared 240 with the other two and the ninja came out
+ * the same height as a gi — which reads much smaller, because a slim figure
+ * with thin limbs has a fraction of the visual mass of a broad white jacket at
+ * the same height.
+ *
+ * The room comes from its own copy: setting "1 MONTH AT CODE NINJAS" on one
+ * line instead of two frees ~34, and tightening the note and value margins the
+ * rest. Nothing was dropped to pay for it.
+ *
+ * If this card's copy ever grows a line back, this number has to go up with it
+ * or the ninja's head will run into the value line.
+ */
+.mb-card--3 .mb-art {
+  top: calc(200 * var(--px));
+}
+
+/* One line at 24 where the others are two at 30. It is the only card carrying
+ * a note as well, so its supporting type was always going to be denser — and
+ * the line it gives back is what the ninja is standing in. */
+.mb-card--3 .mb-small {
+  font-size: calc(24 * var(--px));
+}
+
 .mb-photo {
   position: relative;
   z-index: 1;
@@ -622,6 +649,43 @@
   object-fit: contain;
   filter: drop-shadow(0 calc(12 * var(--px)) calc(16 * var(--px))
     rgba(0, 4, 16, 0.62));
+}
+
+/* ---------- the back of the panel ----------
+ *
+ * The pane was one even wash of glass, so each product was standing in front of
+ * nothing — a lit rectangle with an object on it. This gives every card a BACK
+ * WALL and a FLOOR: light pooling high and behind where the object stands,
+ * falling away down the panel, and a lift across the base that reads as the
+ * surface the object is standing on.
+ *
+ * The join between wall and floor is a soft radial, never a line. A hard
+ * horizon inside a 330px card does not read as a room, it reads as a sticker of
+ * one — and the moment the viewer sees the device, the object stops being in
+ * the card and goes back to being on it.
+ *
+ * It sits BEHIND everything: .mb-photo carries z-index 1 and the copy is later
+ * in the box, so this only ever paints against the pane.
+ */
+.mb-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    /* the pool on the back wall, behind the object's shoulders */
+    radial-gradient(58% 32% at 50% 66%, rgba(150, 202, 255, 0.22) 0%, transparent 70%),
+    /* the floor, brightest under the object and dying at the card's sides */
+    radial-gradient(88% 20% at 50% 100%, rgba(168, 212, 255, 0.2) 0%, transparent 76%),
+    /* The top of the wall pulled DOWN, not just the bottom pushed up. Lifting
+       the base alone brightened the card overall and it went milky; taking the
+       head of the panel darker at the same time keeps the average where it was
+       and turns the change into depth instead of exposure. */
+    linear-gradient(180deg, rgba(0, 5, 18, 0.3) 0%, transparent 34%),
+    /* and the wall falling away into the floor, so the two are not one flat
+       value meeting in the middle */
+    linear-gradient(180deg, transparent 42%, rgba(0, 5, 18, 0.3) 88%, transparent 100%);
 }
 
 .mb-art::before {
