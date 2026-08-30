@@ -12,8 +12,9 @@
 // reviews, one star each, standing there to be counted. "50 reviews" as text
 // asks you to believe it; fifty stars spelling it out does not have to ask.
 //
-// Then the 50 retreats into the background as a ghost of itself and the ad
-// says the only thing it was ever for: thank you.
+// Then the 50 COLLAPSES into the five-star row above the thank-you — the same
+// fifty stars, travelling, forty-five of them absorbed into the five on the
+// way — and the ad says the only thing it was ever for.
 //
 // ── ORCHARD DUSK, NOT ANOTHER GOLD ROOM ──
 //
@@ -147,6 +148,40 @@ const MID = (() => {
 })();
 const GLYPH = PLACED.map(([x, y]) => [x - MID, y]);
 
+/* ── AND THEN THE FIFTY BECOME THE FIVE ──
+ *
+ * When the thank-you arrives the numeral does not fade out behind it: it
+ * COLLAPSES into the five-star row above the words. That row is not a separate
+ * element that crossfades in — a crossfade would only look like the collapse.
+ * These are the same fifty stars, travelling, and forty-five of them are
+ * absorbed into the five on the way.
+ *
+ * Which five survive is decided by position, not by index: the stars are
+ * ranked left to right across the numeral and cut into five bands of ten, so
+ * each band folds into the row slot it is already nearest. Ranking by anything
+ * else — DOM order, the order they were traced — sends stars across the frame
+ * to a slot on the far side and the collapse reads as a shuffle.
+ *
+ * ROW_Y is negative because the row sits ABOVE the numeral's centre, and it is
+ * the one measured constant here: 499 (the row's band-relative centre) minus
+ * 764 (the numeral's). The numeral's centre is declared in the stylesheet, so a
+ * change to it has to come back through here.
+ *
+ * 499 and not 521 — the 26 this row inherited from the flex gap it used to sit
+ * in. These stars arrive at 1.72x with their glow scaled up too, and at 26 the
+ * bloom sat on the ascenders of a 126px THANK YOU. A rating row belongs close
+ * above its headline, so the fix is 48 and not a wholesale reflow.
+ */
+const STAR = 36;                                   // design px, in the numeral
+const ROW_STAR = 62;                               // design px, in the row
+const ROW_GAP = 10;
+const ROW_Y = -265;
+const ROW_X = (k) => (k - 2) * (ROW_STAR + ROW_GAP);
+
+const RANK = GLYPH.map((p, i) => [p[0], i])        // left to right across the 50
+  .sort((a, b) => a[0] - b[0])
+  .reduce((m, [, i], r) => ((m[i] = r), m), {});
+
 const STARS = GLYPH.map(([gx, gy], i) => {
   const a = rnd(i, 1) * Math.PI * 2;
   const j = 44 + rnd(i, 2) * 130;     // how far past its place it overshoots
@@ -159,6 +194,12 @@ const STARS = GLYPH.map(([gx, gy], i) => {
     oy: gy * 0.46 + Math.sin(a) * j,
     sr: (rnd(i, 3) * 2 - 1) * 320,    // tumble
     d: rnd(i, 4) * 0.24,              // stagger, seconds
+
+    /* the collapse: where this star goes when the thank-you arrives, and
+       whether it is one of the five still there when it lands */
+    rx: ROW_X((RANK[i] / 10) | 0) - gx,
+    ry: ROW_Y - gy,
+    keep: RANK[i] % 10 === 5,
   };
 });
 
@@ -408,7 +449,17 @@ export default function RhFiftyReviewsAd({
                     "--ox": `calc(${s.ox.toFixed(1)} * var(--px))`,
                     "--oy": `calc(${s.oy.toFixed(1)} * var(--px))`,
                     "--sr": `${s.sr.toFixed(0)}deg`,
-                    animationDelay: `calc(var(--t-stars) + ${s.d.toFixed(3)}s)`,
+                    "--rx": `calc(${s.rx.toFixed(1)} * var(--px))`,
+                    "--ry": `calc(${s.ry.toFixed(1)} * var(--px))`,
+                    "--rs": s.keep ? ROW_STAR / STAR : 0.2,
+                    "--ro": s.keep ? 1 : 0,
+                    /* BOTH DELAYS, ALWAYS. `animation-delay` is a LIST, and a
+                       single value is repeated across every animation in
+                       `animation-name` — so one delay here does not "leave the
+                       other one alone", it silently retimes the collapse to the
+                       flight's stagger and fires it four seconds early. The
+                       second entry restates the collapse's own cue. */
+                    animationDelay: `calc(var(--t-stars) + ${s.d.toFixed(3)}s), var(--t-thanks)`,
                   }}
                 >
                   <Star className="ap-star" />
@@ -416,13 +467,10 @@ export default function RhFiftyReviewsAd({
               ))}
             </div>
 
-            {/* ---------- the thank you ---------- */}
+            {/* ---------- the thank you ----------
+                No star row in here: the row above these words is the fifty
+                stars, arrived. */}
             <div className="ap-thanks">
-              <div className="ap-rating">
-                {[0, 1, 2, 3, 4].map((i) => (
-                  <Star key={i} className="ap-rating-star" />
-                ))}
-              </div>
               <h1 className="ap-ty">
                 <i style={{ "--n": 0 }}>THANK</i> <i style={{ "--n": 1 }}>YOU</i>
               </h1>

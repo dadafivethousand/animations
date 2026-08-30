@@ -27,7 +27,8 @@
       544  the apple         (h 440, centre 764)
       764  the 50, in stars  (centre; the digits run +/-210 around it)
      1060  "five-star ..."   (h  54)
-      360  the thank-you block, centred in what is left below the lockup
+      499  the five-star row (centre) — where the 50 collapses to
+      448  the thank-you words, centred in what is left below the lockup
 
    THE LOCKUP BOX IS NOT THE LOCKUP. The mark is 2:1, so at 330 wide the pill
    is 197 tall and hangs 33 either side of the 132-tall box it is centred in.
@@ -548,8 +549,6 @@
 /* Authored BACKWARDS from the cell: 0% is the vector back to the apple, 36% is
    an overshoot past the cell, 100% is the cell itself. One keyframe set, fifty
    trajectories, all of them starting at the same point in space. */
-.ap-go .ap-cell { animation: ap-star-in 1.5s cubic-bezier(0.2, 0.72, 0.24, 1) both; }
-
 @keyframes ap-star-in {
   0%   { opacity: 0; transform: translate(var(--sx), calc(var(--sy) + var(--dy0))) scale(0.14) rotate(0deg); }
   8%   { opacity: 1; }
@@ -557,22 +556,39 @@
   100% { opacity: 1; transform: translate(0, 0) scale(1) rotate(0deg); }
 }
 
-/* the 50 does not leave: it drops back to a ghost of itself and becomes the
-   wall the thank-you hangs on */
-.ap-go .ap-glyph { animation: ap-glyph-back 0.72s cubic-bezier(0.3, 0.7, 0.2, 1) var(--t-thanks) forwards; }
+/* THE 50 DOES NOT LEAVE AND IT DOES NOT FADE. It collapses into the five-star
+   row above the thank-you, and the row IS these stars: --rx/--ry carry each one
+   to its slot, --rs grows the five that survive from 36 to 62 and shrinks the
+   forty-five that do not, and --ro puts those forty-five out on the way.
+   Crossfading a separate row of five into the same place would only LOOK like
+   this; the eye can tell, because in a crossfade nothing travels.
 
-@keyframes ap-glyph-back {
-  0%   { transform: none; opacity: 1; }
-  100% { transform: translateY(calc(55 * var(--px))) scale(1.35); opacity: 0.13; }
+   `forwards`, not `both`: a backwards fill would apply the collapse's 0% frame
+   through its own delay and stamp on the flight still holding underneath it. */
+.ap-go .ap-cell {
+  animation:
+    ap-star-in 1.5s cubic-bezier(0.2, 0.72, 0.24, 1) both,
+    ap-star-row 0.75s cubic-bezier(0.5, 0, 0.2, 1) var(--t-thanks) forwards;
+}
+
+@keyframes ap-star-row {
+  0%   { opacity: 1; transform: none; }
+  /* the forty-five are gone before they pile up on the five */
+  62%  { opacity: var(--ro); }
+  100% { opacity: var(--ro); transform: translate(var(--rx), var(--ry)) scale(var(--rs)); }
 }
 
 /* ============================================================
    THE THANK YOU
    ============================================================ */
 
+/* 448, not 360. The five-star row used to be the first child of this column
+   and is now fifty travelling stars that land at a declared y of their own, so
+   the column holds 88 less — one star row plus one gap. Adding that 88 back to
+   the top is what keeps THANK YOU on the same line it was already on. */
 .ap-thanks {
   position: absolute;
-  top: calc(360 * var(--px));
+  top: calc(448 * var(--px));
   left: 0;
   right: 0;
   bottom: 0;
@@ -587,14 +603,6 @@
 
 /* nothing in the block exists before its own beat */
 .ap-thanks > * { opacity: 0; }
-
-.ap-rating { display: flex; gap: calc(10 * var(--px)); }
-.ap-rating-star {
-  width: calc(62 * var(--px));
-  height: calc(62 * var(--px));
-  fill: var(--gold);
-  filter: drop-shadow(0 0 calc(16 * var(--px)) rgba(251, 188, 5, 0.6));
-}
 
 .ap-ty {
   margin: 0;
@@ -665,16 +673,14 @@
 }
 .ap-foot em { font-style: normal; color: var(--gold); padding: 0 calc(4 * var(--px)); }
 
-/* Every one of these waits out the 0.72s recede. THANK YOU rising THROUGH a
-   still-bright 50 put white type on gold stars for about a third of a second,
-   and that frame is unreadable — the number has to be a ghost before the words
-   exist. */
-.ap-go .ap-rating { animation: ap-rise 0.6s cubic-bezier(0.2, 0.8, 0.24, 1) calc(var(--t-thanks) + 0.45s) both; }
-.ap-go .ap-ty     { animation: ap-rise 0.66s cubic-bezier(0.2, 0.8, 0.24, 1) calc(var(--t-thanks) + 0.62s) both; }
-.ap-go .ap-rule   { animation: ap-wipe 0.5s ease-out calc(var(--t-thanks) + 0.98s) both; }
-.ap-go .ap-body   { animation: ap-rise 0.6s cubic-bezier(0.2, 0.8, 0.24, 1) calc(var(--t-thanks) + 1.12s) both; }
-.ap-go .ap-chip   { animation: ap-rise 0.6s cubic-bezier(0.16, 1.05, 0.3, 1) calc(var(--t-thanks) + 1.6s) both; }
-.ap-go .ap-foot   { animation: ap-rise 0.6s cubic-bezier(0.2, 0.8, 0.24, 1) calc(var(--t-thanks) + 1.88s) both; }
+/* Every one of these waits out the 0.75s collapse. The stars travel UP from the
+   numeral's centre to the row, straight across the line THANK YOU sits on, so
+   any word that exists before they land is a word with stars flying over it. */
+.ap-go .ap-ty     { animation: ap-rise 0.66s cubic-bezier(0.2, 0.8, 0.24, 1) calc(var(--t-thanks) + 0.78s) both; }
+.ap-go .ap-rule   { animation: ap-wipe 0.5s ease-out calc(var(--t-thanks) + 1.12s) both; }
+.ap-go .ap-body   { animation: ap-rise 0.6s cubic-bezier(0.2, 0.8, 0.24, 1) calc(var(--t-thanks) + 1.26s) both; }
+.ap-go .ap-chip   { animation: ap-rise 0.6s cubic-bezier(0.16, 1.05, 0.3, 1) calc(var(--t-thanks) + 1.72s) both; }
+.ap-go .ap-foot   { animation: ap-rise 0.6s cubic-bezier(0.2, 0.8, 0.24, 1) calc(var(--t-thanks) + 2s) both; }
 
 @keyframes ap-rise {
   0%   { opacity: 0; transform: translateY(calc(34 * var(--px))); }
@@ -765,9 +771,12 @@
 .ap-still .ap-core,
 .ap-still .ap-countline { display: none; }
 
-.ap-still .ap-cell,
 .ap-still .ap-thanks > * { opacity: 1; }
-.ap-still .ap-glyph { transform: translateY(calc(55 * var(--px))) scale(1.35); opacity: 0.13; }
+/* the fifty have already collapsed: the five that survive are the row */
+.ap-still .ap-cell {
+  opacity: var(--ro);
+  transform: translate(var(--rx), var(--ry)) scale(var(--rs));
+}
 .ap-still .ap-bloom { opacity: 0.12; }
 .ap-still .ap-grain { animation: none; }
 
