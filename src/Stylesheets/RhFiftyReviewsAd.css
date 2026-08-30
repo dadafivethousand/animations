@@ -49,9 +49,12 @@
    spent on MARGINS (--gx/--gy) and not on a transform, which is what leaves
    the transform free to carry the whole flight from the burst.
 
-   ── ORCHARD DUSK ──
-   Plum-indigo night, a cool violet key from the upper left, warm crimson
-   bounce off the floor. GOLD APPEARS ONCE, at the burst, and then owns the
+   ── ORCHARD AT NIGHT ──
+   Near-black, with a violet BREATH in it rather than a violet colour. The key
+   from the upper left and the crimson bounce off the floor are the only places
+   the palette is allowed to show; everywhere else the room is within a few
+   points of black, so the light reads as light falling on a dark room and not
+   as the colour the room is painted. GOLD APPEARS ONCE, at the burst, and owns the
    rest of the ad — holding it out of the first two seconds is what makes the
    burst read as a change of state and not a change of shot. The ad before this
    one on the feed was a black room with a gold rake; nothing here repeats it.
@@ -66,19 +69,53 @@
    backwards fill would apply the exit's 0% state during its own delay and
    overwrite the flight that is still running underneath it.
 
-     MS=10600 HOLD=1.8 BG='#0b0718' URL='http://127.0.0.1:3000/' \
+     MS=10600 HOLD=1.8 BG='#030209' URL='http://127.0.0.1:3000/' \
        OUT=~/Downloads/rhbjj-50-reviews.mp4 \
        NODE_PATH=/tmp/rec/node_modules node tools/record.js
    ============================================================ */
 
-/* The container the design pixel is a thousandth of. `100cqw` resolves against
-   the nearest ancestor container, never against the element declaring it, so
-   the stage cannot be its own. */
+/* ── 9:16, ON ANY SCREEN ──
+
+   The ad is authored 1080x1920 and every length in this sheet is a thousandth
+   of the frame's WIDTH, so a window that is not 9:16 does not letterbox the ad
+   — it stretches the design pixel and walks the safe band off the bottom of
+   the glass. `.ap-frame` is therefore only the black surround, and `.ap-reel`
+   is the reel: the largest 9:16 box that fits, centred, everything left over
+   painted out as bars.
+
+   THE TWO CANNOT BE ONE ELEMENT. `100cqw` resolves against the nearest
+   ancestor container and never against the element declaring it, so the box
+   that SIZES the reel and the box that READS its width have to be different
+   ones. `.ap-reel` holds the containment; `.ap-stage` inside it does the
+   reading.
+
+   This costs the delivered file nothing: a 360x640 viewport at
+   deviceScaleFactor 3 — what tools/record.js sets, and what lands on 1080x1920
+   exactly — is already 9:16, so the bars are zero pixels wide in the capture.
+   It is the PREVIEW this fixes, and any screen that is not a reel. */
 .ap-frame {
   position: fixed;
   inset: 0;
   overflow: hidden;
-  background: #0b0718;
+  background: #000;
+  display: grid;
+  place-items: center;
+}
+
+.ap-reel {
+  position: relative;
+  width: min(100vw, calc(100vh * 9 / 16));
+  height: min(100vh, calc(100vw * 16 / 9));
+  /* Restated in svh for the phone preview, and second so it wins where it is
+     understood. On iOS `vh` is the LARGE viewport — the height the page gets
+     once the URL bar has scrolled away — so a `vh`-sized reel hangs its own
+     bottom off the glass while the bar is still showing. `svh` is the small
+     one, which is the height that is actually visible. Browsers without it
+     drop this pair and keep the `vh` above. */
+  width: min(100vw, calc(100svh * 9 / 16));
+  height: min(100svh, calc(100vw * 16 / 9));
+  overflow: hidden;
+  background: #030209;
   container-type: size;
   container-name: reel;
 }
@@ -129,16 +166,18 @@
 .ap-room {
   position: absolute;
   inset: 0;
+  /* Black first, colour second — the violet and the crimson sit near a tenth
+     so they read as light and not as paint. */
   background:
-    radial-gradient(72% 40% at 20% 6%, rgba(150, 118, 255, 0.24) 0%, transparent 66%),
-    radial-gradient(94% 46% at 52% 100%, rgba(224, 32, 72, 0.16) 0%, transparent 72%),
-    linear-gradient(178deg, #0a0616 0%, #120a26 26%, #1a1038 52%, #150c2b 76%, #08040f 100%);
+    radial-gradient(72% 40% at 20% 6%, rgba(132, 104, 232, 0.13) 0%, transparent 64%),
+    radial-gradient(94% 46% at 52% 100%, rgba(198, 30, 66, 0.1) 0%, transparent 70%),
+    linear-gradient(178deg, #030209 0%, #06040e 26%, #0a0718 52%, #070512 76%, #020105 100%);
 }
 
 .ap-key {
   position: absolute;
   inset: 0;
-  background: radial-gradient(44% 32% at 18% 8%, rgba(206, 188, 255, 0.32) 0%, transparent 72%);
+  background: radial-gradient(44% 32% at 18% 8%, rgba(198, 182, 250, 0.17) 0%, transparent 72%);
   mix-blend-mode: screen;
 }
 
@@ -150,7 +189,7 @@
   right: -10%;
   top: 62%;
   height: 46%;
-  background: radial-gradient(58% 60% at 50% 6%, rgba(255, 96, 120, 0.16) 0%, transparent 74%);
+  background: radial-gradient(58% 60% at 50% 6%, rgba(255, 92, 118, 0.1) 0%, transparent 74%);
   filter: blur(calc(30 * var(--px)));
 }
 
@@ -160,7 +199,7 @@
   right: -10%;
   top: 34%;
   height: 34%;
-  background: linear-gradient(180deg, transparent 0%, rgba(178, 152, 255, 0.14) 48%, transparent 100%);
+  background: linear-gradient(180deg, transparent 0%, rgba(170, 146, 246, 0.08) 48%, transparent 100%);
   filter: blur(calc(24 * var(--px)));
   mix-blend-mode: screen;
 }
@@ -730,7 +769,7 @@
 .ap-grade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(200deg, rgba(120, 92, 255, 0.1) 0%, transparent 46%, rgba(255, 60, 90, 0.08) 100%);
+  background: linear-gradient(200deg, rgba(120, 92, 255, 0.07) 0%, transparent 46%, rgba(255, 60, 90, 0.055) 100%);
   mix-blend-mode: overlay;
   pointer-events: none;
 }
@@ -754,7 +793,7 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(72% 58% at 50% 46%, transparent 42%, rgba(2, 0, 10, 0.62) 100%);
+  background: radial-gradient(72% 58% at 50% 46%, transparent 40%, rgba(0, 0, 4, 0.76) 100%);
 }
 
 /* ============================================================

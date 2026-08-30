@@ -48,7 +48,7 @@
 // mounts twice in dev, and a live random would deal a different scatter to the
 // second mount than the one the first mount's animation started on.
 //
-//   MS=10600 HOLD=1.8 BG='#0b0718' URL='http://127.0.0.1:3000/' \
+//   MS=10600 HOLD=1.8 BG='#030209' URL='http://127.0.0.1:3000/' \
 //     OUT=~/Downloads/rhbjj-50-reviews.mp4 \
 //     NODE_PATH=/tmp/rec/node_modules node tools/record.js
 //
@@ -353,171 +353,175 @@ export default function RhFiftyReviewsAd({
 
   return (
     <div className="ap-frame">
-      <div className={`ap-stage ap${go ? " ap-go" : ""}${reduce ? " ap-still" : ""}`}>
-        {/* ---------- the orchard ----------
-            Light and air. All of it flat, all of it behind everything, none of
-            it an object. */}
-        <div className="ap-room" aria-hidden />
-        <div className="ap-key" aria-hidden />
-        <div className="ap-floor" aria-hidden />
-        <div className="ap-haze" aria-hidden />
+      {/* The reel. `.ap-frame` is only the black surround it is centred
+          in — see the stylesheet for why the two cannot be one element. */}
+      <div className="ap-reel">
+        <div className={`ap-stage ap${go ? " ap-go" : ""}${reduce ? " ap-still" : ""}`}>
+          {/* ---------- the orchard ----------
+              Light and air. All of it flat, all of it behind everything, none of
+              it an object. */}
+          <div className="ap-room" aria-hidden />
+          <div className="ap-key" aria-hidden />
+          <div className="ap-floor" aria-hidden />
+          <div className="ap-haze" aria-hidden />
 
-        {/* The camera. A transform REPLACES a transform, so the impact shake
-            cannot share an element with anything else that moves. */}
-        <div className="ap-shake">
-          <div className="ap-band">
+          {/* The camera. A transform REPLACES a transform, so the impact shake
+              cannot share an element with anything else that moves. */}
+          <div className="ap-shake">
+            <div className="ap-band">
 
-            {lockup}
+              {lockup}
 
-            {/* ---------- the apple, and what happens to it ---------- */}
-            <div className="ap-core" aria-hidden>
-              <div className="ap-target" />
-              <div className="ap-target ap-target--b" />
+              {/* ---------- the apple, and what happens to it ---------- */}
+              <div className="ap-core" aria-hidden>
+                <div className="ap-target" />
+                <div className="ap-target ap-target--b" />
 
-              <div className="ap-apple">
-                <Apple uid="ap-w" />
+                <div className="ap-apple">
+                  <Apple uid="ap-w" />
+                </div>
+
+                {/* the two pieces the pierce line makes */}
+                <div className="ap-half ap-half--t"><Apple uid="ap-t" /></div>
+                <div className="ap-half ap-half--b"><Apple uid="ap-b" /></div>
+
+                <div className="ap-debris">
+                  {SHARDS.map((s, i) => (
+                    <i
+                      key={i}
+                      className="ap-shard"
+                      style={{
+                        "--dx": `calc(${s.dx} * var(--px))`,
+                        "--dy": `calc(${s.dy} * var(--px))`,
+                        "--r": `${s.r}deg`,
+                        "--w": `calc(${s.w} * var(--px))`,
+                        "--h": `calc(${s.h} * var(--px))`,
+                        animationDelay: `calc(var(--t-burst) + ${s.d}s)`,
+                      }}
+                    />
+                  ))}
+                  {DROPS.map((s, i) => (
+                    <i
+                      key={`d${i}`}
+                      className="ap-drop"
+                      style={{
+                        "--dx": `calc(${s.dx} * var(--px))`,
+                        "--dy": `calc(${s.dy} * var(--px))`,
+                        "--w": `calc(${s.s} * var(--px))`,
+                        animationDelay: `calc(var(--t-burst) + ${s.d}s)`,
+                      }}
+                    />
+                  ))}
+                </div>
+
+                <div className="ap-flash" />
+                <div className="ap-ring" />
+                <div className="ap-ring ap-ring--b" />
+
+                <div className="ap-arrow">
+                  <span className="ap-streak" />
+                  <Arrow />
+                </div>
               </div>
 
-              {/* the two pieces the pierce line makes */}
-              <div className="ap-half ap-half--t"><Apple uid="ap-t" /></div>
-              <div className="ap-half ap-half--b"><Apple uid="ap-b" /></div>
+              {/* ---------- the count ----------
+                  There is no numeral here and there must not be one: a typeset
+                  50 next to a 50 built out of stars is the same number said
+                  twice, and the weaker of the two wins the eye. */}
+              <p className="ap-countline">
+                FIVE-STAR REVIEWS <b>ON GOOGLE</b>
+              </p>
 
-              <div className="ap-debris">
-                {SHARDS.map((s, i) => (
-                  <i
+              {/* ---------- fifty stars, which are the number ----------
+                  `--gx/--gy` place the star in the numeral, and they are spent
+                  on MARGINS rather than on a transform, which leaves the
+                  transform free for the whole flight. The flight is authored
+                  backwards from there: `--sx/--sy` is the vector home to the
+                  apple, and `--dy0` is the gap between the apple's centre and
+                  this constellation's. */}
+              <div className="ap-glyph" aria-hidden>
+                {STARS.map((s, i) => (
+                  <span
                     key={i}
-                    className="ap-shard"
+                    className="ap-cell"
                     style={{
-                      "--dx": `calc(${s.dx} * var(--px))`,
-                      "--dy": `calc(${s.dy} * var(--px))`,
-                      "--r": `${s.r}deg`,
-                      "--w": `calc(${s.w} * var(--px))`,
-                      "--h": `calc(${s.h} * var(--px))`,
-                      animationDelay: `calc(var(--t-burst) + ${s.d}s)`,
+                      "--gx": `calc(${s.gx.toFixed(1)} * var(--px))`,
+                      "--gy": `calc(${s.gy.toFixed(1)} * var(--px))`,
+                      "--sx": `calc(${s.sx.toFixed(1)} * var(--px))`,
+                      "--sy": `calc(${s.sy.toFixed(1)} * var(--px))`,
+                      "--ox": `calc(${s.ox.toFixed(1)} * var(--px))`,
+                      "--oy": `calc(${s.oy.toFixed(1)} * var(--px))`,
+                      "--sr": `${s.sr.toFixed(0)}deg`,
+                      "--rx": `calc(${s.rx.toFixed(1)} * var(--px))`,
+                      "--ry": `calc(${s.ry.toFixed(1)} * var(--px))`,
+                      "--rs": s.keep ? ROW_STAR / STAR : 0.2,
+                      "--ro": s.keep ? 1 : 0,
+                      /* BOTH DELAYS, ALWAYS. `animation-delay` is a LIST, and a
+                         single value is repeated across every animation in
+                         `animation-name` — so one delay here does not "leave the
+                         other one alone", it silently retimes the collapse to the
+                         flight's stagger and fires it four seconds early. The
+                         second entry restates the collapse's own cue. */
+                      animationDelay: `calc(var(--t-stars) + ${s.d.toFixed(3)}s), var(--t-thanks)`,
                     }}
-                  />
-                ))}
-                {DROPS.map((s, i) => (
-                  <i
-                    key={`d${i}`}
-                    className="ap-drop"
-                    style={{
-                      "--dx": `calc(${s.dx} * var(--px))`,
-                      "--dy": `calc(${s.dy} * var(--px))`,
-                      "--w": `calc(${s.s} * var(--px))`,
-                      animationDelay: `calc(var(--t-burst) + ${s.d}s)`,
-                    }}
-                  />
+                  >
+                    <Star className="ap-star" />
+                  </span>
                 ))}
               </div>
 
-              <div className="ap-flash" />
-              <div className="ap-ring" />
-              <div className="ap-ring ap-ring--b" />
-
-              <div className="ap-arrow">
-                <span className="ap-streak" />
-                <Arrow />
+              {/* ---------- the thank you ----------
+                  No star row in here: the row above these words is the fifty
+                  stars, arrived. */}
+              <div className="ap-thanks">
+                <h1 className="ap-ty">
+                  <i style={{ "--n": 0 }}>THANK</i> <i style={{ "--n": 1 }}>YOU</i>
+                </h1>
+                <span className="ap-rule" aria-hidden />
+                <p className="ap-body">
+                  <span style={{ "--n": 0 }}>To every student, parent and</span>
+                  <span style={{ "--n": 1 }}>training partner who took the time</span>
+                  <span style={{ "--n": 2 }}>to leave a review — you built this.</span>
+                </p>
+                <div className="ap-chip">
+                  <b>{total}</b>
+                  <span>FIVE-STAR REVIEWS</span>
+                </div>
+                <p className="ap-foot">
+                  <b>{academy}</b>
+                  <span>
+                    {address} <em>·</em> {website} <em>·</em> {phone}
+                  </span>
+                </p>
               </div>
-            </div>
-
-            {/* ---------- the count ----------
-                There is no numeral here and there must not be one: a typeset
-                50 next to a 50 built out of stars is the same number said
-                twice, and the weaker of the two wins the eye. */}
-            <p className="ap-countline">
-              FIVE-STAR REVIEWS <b>ON GOOGLE</b>
-            </p>
-
-            {/* ---------- fifty stars, which are the number ----------
-                `--gx/--gy` place the star in the numeral, and they are spent
-                on MARGINS rather than on a transform, which leaves the
-                transform free for the whole flight. The flight is authored
-                backwards from there: `--sx/--sy` is the vector home to the
-                apple, and `--dy0` is the gap between the apple's centre and
-                this constellation's. */}
-            <div className="ap-glyph" aria-hidden>
-              {STARS.map((s, i) => (
-                <span
-                  key={i}
-                  className="ap-cell"
-                  style={{
-                    "--gx": `calc(${s.gx.toFixed(1)} * var(--px))`,
-                    "--gy": `calc(${s.gy.toFixed(1)} * var(--px))`,
-                    "--sx": `calc(${s.sx.toFixed(1)} * var(--px))`,
-                    "--sy": `calc(${s.sy.toFixed(1)} * var(--px))`,
-                    "--ox": `calc(${s.ox.toFixed(1)} * var(--px))`,
-                    "--oy": `calc(${s.oy.toFixed(1)} * var(--px))`,
-                    "--sr": `${s.sr.toFixed(0)}deg`,
-                    "--rx": `calc(${s.rx.toFixed(1)} * var(--px))`,
-                    "--ry": `calc(${s.ry.toFixed(1)} * var(--px))`,
-                    "--rs": s.keep ? ROW_STAR / STAR : 0.2,
-                    "--ro": s.keep ? 1 : 0,
-                    /* BOTH DELAYS, ALWAYS. `animation-delay` is a LIST, and a
-                       single value is repeated across every animation in
-                       `animation-name` — so one delay here does not "leave the
-                       other one alone", it silently retimes the collapse to the
-                       flight's stagger and fires it four seconds early. The
-                       second entry restates the collapse's own cue. */
-                    animationDelay: `calc(var(--t-stars) + ${s.d.toFixed(3)}s), var(--t-thanks)`,
-                  }}
-                >
-                  <Star className="ap-star" />
-                </span>
-              ))}
-            </div>
-
-            {/* ---------- the thank you ----------
-                No star row in here: the row above these words is the fifty
-                stars, arrived. */}
-            <div className="ap-thanks">
-              <h1 className="ap-ty">
-                <i style={{ "--n": 0 }}>THANK</i> <i style={{ "--n": 1 }}>YOU</i>
-              </h1>
-              <span className="ap-rule" aria-hidden />
-              <p className="ap-body">
-                <span style={{ "--n": 0 }}>To every student, parent and</span>
-                <span style={{ "--n": 1 }}>training partner who took the time</span>
-                <span style={{ "--n": 2 }}>to leave a review — you built this.</span>
-              </p>
-              <div className="ap-chip">
-                <b>{total}</b>
-                <span>FIVE-STAR REVIEWS</span>
-              </div>
-              <p className="ap-foot">
-                <b>{academy}</b>
-                <span>
-                  {address} <em>·</em> {website} <em>·</em> {phone}
-                </span>
-              </p>
             </div>
           </div>
-        </div>
 
-        {/* ---------- the lens ----------
-            Dust, then the grade, then the grain, then the vignette. Last in
-            the DOM because each is something that happens to the picture
-            after the picture exists. */}
-        <div className="ap-motes" aria-hidden>
-          {MOTES.map((m, i) => (
-            <span
-              key={i}
-              style={{
-                left: `${m.x}%`,
-                top: `${m.y}%`,
-                width: `calc(${m.s} * var(--px))`,
-                height: `calc(${m.s} * var(--px))`,
-                animationDuration: `${m.dur}s`,
-                animationDelay: `${m.dl}s`,
-                opacity: m.o,
-              }}
-            />
-          ))}
+          {/* ---------- the lens ----------
+              Dust, then the grade, then the grain, then the vignette. Last in
+              the DOM because each is something that happens to the picture
+              after the picture exists. */}
+          <div className="ap-motes" aria-hidden>
+            {MOTES.map((m, i) => (
+              <span
+                key={i}
+                style={{
+                  left: `${m.x}%`,
+                  top: `${m.y}%`,
+                  width: `calc(${m.s} * var(--px))`,
+                  height: `calc(${m.s} * var(--px))`,
+                  animationDuration: `${m.dur}s`,
+                  animationDelay: `${m.dl}s`,
+                  opacity: m.o,
+                }}
+              />
+            ))}
+          </div>
+          <div className="ap-bloom" aria-hidden />
+          <div className="ap-grade" aria-hidden />
+          <div className="ap-grain" aria-hidden />
+          <div className="ap-vig" aria-hidden />
         </div>
-        <div className="ap-bloom" aria-hidden />
-        <div className="ap-grade" aria-hidden />
-        <div className="ap-grain" aria-hidden />
-        <div className="ap-vig" aria-hidden />
       </div>
     </div>
   );
