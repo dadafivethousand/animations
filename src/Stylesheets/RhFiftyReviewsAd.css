@@ -24,10 +24,9 @@
    three scenes together as one shot.
 
       190  lockup            (h 132 — but the PILL is 197 and overhangs it)
-      480  the apple         (h 440, centre 700)   <- scene 1 and 2 overlap here
+      544  the apple         (h 440, centre 764)
       764  the 50, in stars  (centre; the digits run +/-210 around it)
      1060  "five-star ..."   (h  54)
-      980  "one shot."       (h  70)
       360  the thank-you block, centred in what is left below the lockup
 
    THE LOCKUP BOX IS NOT THE LOCKUP. The mark is 2:1, so at 330 wide the pill
@@ -35,10 +34,13 @@
    Everything under it is spaced off 355 — the pill's real bottom edge — and
    not off 322, which is where the box ends and nothing actually is.
 
-   The apple's centre (700) and the numeral's centre (764) are 64 apart, and
-   that number is --dy0: it is the only thing the fifty flight paths need to
-   know about the layout, so the apple and the 50 it turns into can be placed
-   independently of one another.
+   THE APPLE AND THE 50 SHARE A CENTRE (764), which is why --dy0 is zero. That
+   is a decision and not a coincidence: the fruit stands exactly where the
+   number is going to form, so the burst does not relocate the composition
+   mid-shot — the stars leave the apple and land around the same point they
+   started from. --dy0 stays in the sheet anyway, because it is the one thing
+   the fifty flight paths need to know about the layout, and moving either
+   element without it would silently aim all fifty at the wrong place.
 
    THERE IS NO TYPESET NUMERAL IN THIS AD. The fifty stars ARE the 50, so a
    drawn 50 anywhere near them would be the same number said twice and the
@@ -95,8 +97,9 @@
   --safe-x: calc(64 * var(--px));
   --band-h: calc(1280 * var(--px));
 
-  /* the gap between the apple's centre and the numeral's — see the header */
-  --dy0: calc(-64 * var(--px));
+  /* the gap between the apple's centre and the numeral's — see the header.
+     Zero because they are the same point, on purpose. */
+  --dy0: 0px;
 
   /* THE WHOLE TIMELINE */
   --t-arrow: 1.55s;
@@ -235,7 +238,7 @@
 
 .ap-core {
   position: absolute;
-  top: calc(480 * var(--px));
+  top: calc(544 * var(--px));
   left: 0;
   right: 0;
   height: calc(440 * var(--px));
@@ -460,42 +463,6 @@
 }
 
 /* ============================================================
-   "ONE SHOT." — the only line before the burst
-   ============================================================ */
-
-.ap-caption {
-  position: absolute;
-  top: calc(980 * var(--px));
-  left: 0;
-  right: 0;
-  margin: 0;
-  height: calc(70 * var(--px));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: Anton, Poppins, sans-serif;
-  font-size: calc(56 * var(--px));
-  letter-spacing: 0.16em;
-  text-indent: 0.16em;
-  color: rgba(232, 222, 255, 0.9);
-  text-shadow: 0 calc(4 * var(--px)) calc(18 * var(--px)) rgba(0, 0, 0, 0.6);
-  opacity: 0;
-}
-
-.ap-go .ap-caption {
-  animation:
-    ap-cap-in 0.6s cubic-bezier(0.2, 0.8, 0.24, 1) 0.95s both,
-    ap-cap-out 0.22s ease-in var(--t-burst) forwards;
-}
-@keyframes ap-cap-in {
-  0%   { opacity: 0; transform: translateY(calc(20 * var(--px))); letter-spacing: 0.44em; }
-  100% { opacity: 1; transform: none; letter-spacing: 0.16em; }
-}
-@keyframes ap-cap-out {
-  100% { opacity: 0; transform: translateY(calc(-18 * var(--px))); }
-}
-
-/* ============================================================
    THE NUMBER
    ============================================================ */
 
@@ -525,8 +492,15 @@
 
 .ap-go .ap-countline {
   animation:
-    ap-cap-in 0.55s cubic-bezier(0.2, 0.8, 0.24, 1) var(--t-count) both,
+    ap-line-in 0.55s cubic-bezier(0.2, 0.8, 0.24, 1) var(--t-count) both,
     ap-scene-out 0.42s ease-in var(--t-thanks) forwards;
+}
+
+/* the letter-spacing closing as it fades up: the line settles rather than just
+   appearing, which is what keeps it from competing with the 50 above it */
+@keyframes ap-line-in {
+  0%   { opacity: 0; transform: translateY(calc(20 * var(--px))); letter-spacing: 0.44em; }
+  100% { opacity: 1; transform: none; letter-spacing: 0.3em; }
 }
 
 @keyframes ap-scene-out {
@@ -789,7 +763,6 @@
 /* reduced motion lands on the held frame: the thank-you, over the wall of
    fifty stars, with the apple and the arrow never having existed */
 .ap-still .ap-core,
-.ap-still .ap-caption,
 .ap-still .ap-countline { display: none; }
 
 .ap-still .ap-cell,

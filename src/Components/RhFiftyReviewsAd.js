@@ -380,8 +380,6 @@ export default function RhFiftyReviewsAd({
               </div>
             </div>
 
-            <p className="ap-caption">ONE&nbsp;SHOT.</p>
-
             {/* ---------- the count ----------
                 There is no numeral here and there must not be one: a typeset
                 50 next to a 50 built out of stars is the same number said
