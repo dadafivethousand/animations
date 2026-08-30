@@ -24,10 +24,9 @@
    three scenes together as one shot.
 
       190  lockup            (h 132 — but the PILL is 197 and overhangs it)
-      400  the number        (h 240, centre 520)
       480  the apple         (h 440, centre 700)   <- scene 1 and 2 overlap here
-      664  "five-star ..."   (h  54)
-      740  the star grid     (h 400, centre 940)
+      764  the 50, in stars  (centre; the digits run +/-210 around it)
+     1060  "five-star ..."   (h  54)
       980  "one shot."       (h  70)
       360  the thank-you block, centred in what is left below the lockup
 
@@ -36,10 +35,16 @@
    Everything under it is spaced off 355 — the pill's real bottom edge — and
    not off 322, which is where the box ends and nothing actually is.
 
-   The apple's centre (700) and the grid's centre (940) are 240 apart, and that
-   number is --dy0: it is the only thing the fifty flight paths need to know
-   about the layout, so the apple can sit at the optical centre of the frame
-   while the grid sits under the number.
+   The apple's centre (700) and the numeral's centre (764) are 64 apart, and
+   that number is --dy0: it is the only thing the fifty flight paths need to
+   know about the layout, so the apple and the 50 it turns into can be placed
+   independently of one another.
+
+   THERE IS NO TYPESET NUMERAL IN THIS AD. The fifty stars ARE the 50, so a
+   drawn 50 anywhere near them would be the same number said twice and the
+   weaker of the two would win the eye. Each star's place in the digits is
+   spent on MARGINS (--gx/--gy) and not on a transform, which is what leaves
+   the transform free to carry the whole flight from the burst.
 
    ── ORCHARD DUSK ──
    Plum-indigo night, a cool violet key from the upper left, warm crimson
@@ -90,15 +95,15 @@
   --safe-x: calc(64 * var(--px));
   --band-h: calc(1280 * var(--px));
 
-  /* the gap between the apple's centre and the grid's — see the header */
-  --dy0: calc(-240 * var(--px));
+  /* the gap between the apple's centre and the numeral's — see the header */
+  --dy0: calc(-64 * var(--px));
 
   /* THE WHOLE TIMELINE */
   --t-arrow: 1.55s;
   --t-hit: 2.15s;
   --t-burst: 2.15s;
   --t-stars: 2.3s;
-  --t-count: 3.55s;
+  --t-count: 3.95s;   /* the label waits until the 50 has assembled */
   --t-thanks: 6.1s;
 
   --gold: #fbbc05;
@@ -494,49 +499,13 @@
    THE NUMBER
    ============================================================ */
 
-.ap-count {
-  position: absolute;
-  top: calc(400 * var(--px));
-  left: 0;
-  right: 0;
-  height: calc(240 * var(--px));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-}
-
-.ap-count-n {
-  position: relative;
-  z-index: 2;
-  font-family: Anton, Poppins, sans-serif;
-  font-size: calc(272 * var(--px));
-  line-height: 0.86;
-  letter-spacing: 0.01em;
-  background: linear-gradient(178deg, #fff6d8 0%, var(--gold-hi) 26%, var(--gold) 58%, var(--gold-lo) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  /* the type is transparent, so the depth under it has to be a drop-shadow on
-     the element and not a text-shadow inside it */
-  filter:
-    drop-shadow(0 calc(4 * var(--px)) 0 rgba(120, 78, 0, 0.85))
-    drop-shadow(0 calc(14 * var(--px)) calc(26 * var(--px)) rgba(0, 0, 0, 0.6));
-}
-
-.ap-count-glow {
-  position: absolute;
-  width: calc(560 * var(--px));
-  height: calc(360 * var(--px));
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(251, 188, 5, 0.4) 0%, transparent 68%);
-  filter: blur(calc(24 * var(--px)));
-  mix-blend-mode: screen;
-}
-
+/* 1060, not 1014: the tail of the 5 curls down and LEFT, past the bottom of
+   the 0, and at 1014 it was landing on the first word of this line. The gap
+   has to clear the lowest ink in the numeral, which is not the numeral's
+   baseline. */
 .ap-countline {
   position: absolute;
-  top: calc(664 * var(--px));
+  top: calc(1060 * var(--px));
   left: 0;
   right: 0;
   margin: 0;
@@ -545,7 +514,7 @@
   align-items: center;
   justify-content: center;
   gap: calc(12 * var(--px));
-  font-size: calc(32 * var(--px));
+  font-size: calc(34 * var(--px));
   font-weight: 700;
   letter-spacing: 0.3em;
   text-indent: 0.3em;
@@ -554,21 +523,12 @@
 }
 .ap-countline b { color: var(--ink); font-weight: 800; }
 
-.ap-go .ap-count {
-  animation:
-    ap-count-in 0.5s cubic-bezier(0.16, 1.1, 0.3, 1) var(--t-count) both,
-    ap-scene-out 0.42s ease-in var(--t-thanks) forwards;
-}
 .ap-go .ap-countline {
   animation:
-    ap-cap-in 0.55s cubic-bezier(0.2, 0.8, 0.24, 1) calc(var(--t-count) + 0.2s) both,
+    ap-cap-in 0.55s cubic-bezier(0.2, 0.8, 0.24, 1) var(--t-count) both,
     ap-scene-out 0.42s ease-in var(--t-thanks) forwards;
 }
 
-@keyframes ap-count-in {
-  0%   { opacity: 0; transform: scale(1.5); }
-  100% { opacity: 1; transform: scale(1); }
-}
 @keyframes ap-scene-out {
   100% { opacity: 0; transform: translateY(calc(-40 * var(--px))) scale(0.94); }
 }
@@ -577,30 +537,34 @@
    FIFTY STARS
    ============================================================ */
 
-.ap-grid {
+/* A zero-height rail at the numeral's centre. Zero height is what makes
+   `transform-origin` unambiguous: every vertical origin keyword lands on the
+   same line, so the recede at the end scales the 50 about its own middle
+   without a single measured number. */
+.ap-glyph {
   position: absolute;
-  top: calc(740 * var(--px));
+  top: calc(764 * var(--px));
   left: 0;
   right: 0;
-  margin-inline: auto;          /* centres without spending the transform */
-  width: calc(800 * var(--px));
-  height: calc(400 * var(--px));
-  display: grid;
-  grid-template-columns: repeat(10, calc(80 * var(--px)));
-  grid-auto-rows: calc(80 * var(--px));
+  height: 0;
   transform-origin: 50% 50%;
 }
 
+/* Placed by margin, never by transform — the transform belongs to the flight. */
 .ap-cell {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: calc(36 * var(--px));
+  height: calc(36 * var(--px));
+  margin-left: calc(var(--gx) - 18 * var(--px));
+  margin-top: calc(var(--gy) - 18 * var(--px));
   opacity: 0;
 }
 
 .ap-star {
-  width: calc(56 * var(--px));
-  height: calc(56 * var(--px));
+  width: 100%;
+  height: 100%;
   fill: var(--gold);
   filter:
     drop-shadow(0 0 calc(10 * var(--px)) rgba(251, 188, 5, 0.75))
@@ -618,17 +582,14 @@
   36%  { opacity: 1; transform: translate(var(--ox), var(--oy)) scale(1.3) rotate(var(--sr)); }
   100% { opacity: 1; transform: translate(0, 0) scale(1) rotate(0deg); }
 }
-/* the grid does not leave: it steps back and becomes the wall the thank-you
-   hangs on */
-.ap-go .ap-grid { animation: ap-grid-back 1.05s cubic-bezier(0.3, 0.7, 0.2, 1) var(--t-thanks) forwards; }
 
-/* 1.15, NOT 1.42: the grid is 800 wide, so anything past ~1.2 pushes the outer
-   columns off a 1080 page and the wall of fifty loses the two ends that make
-   it countable. It rises 140 so it sits behind the words rather than under
-   them. */
-@keyframes ap-grid-back {
+/* the 50 does not leave: it drops back to a ghost of itself and becomes the
+   wall the thank-you hangs on */
+.ap-go .ap-glyph { animation: ap-glyph-back 0.72s cubic-bezier(0.3, 0.7, 0.2, 1) var(--t-thanks) forwards; }
+
+@keyframes ap-glyph-back {
   0%   { transform: none; opacity: 1; }
-  100% { transform: translateY(calc(-140 * var(--px))) scale(1.15); opacity: 0.15; }
+  100% { transform: translateY(calc(55 * var(--px))) scale(1.35); opacity: 0.13; }
 }
 
 /* ============================================================
@@ -730,12 +691,16 @@
 }
 .ap-foot em { font-style: normal; color: var(--gold); padding: 0 calc(4 * var(--px)); }
 
-.ap-go .ap-rating { animation: ap-rise 0.6s cubic-bezier(0.2, 0.8, 0.24, 1) calc(var(--t-thanks) + 0.25s) both; }
-.ap-go .ap-ty     { animation: ap-rise 0.66s cubic-bezier(0.2, 0.8, 0.24, 1) calc(var(--t-thanks) + 0.42s) both; }
-.ap-go .ap-rule   { animation: ap-wipe 0.5s ease-out calc(var(--t-thanks) + 0.78s) both; }
-.ap-go .ap-body   { animation: ap-rise 0.6s cubic-bezier(0.2, 0.8, 0.24, 1) calc(var(--t-thanks) + 0.92s) both; }
-.ap-go .ap-chip   { animation: ap-rise 0.6s cubic-bezier(0.16, 1.05, 0.3, 1) calc(var(--t-thanks) + 1.42s) both; }
-.ap-go .ap-foot   { animation: ap-rise 0.6s cubic-bezier(0.2, 0.8, 0.24, 1) calc(var(--t-thanks) + 1.7s) both; }
+/* Every one of these waits out the 0.72s recede. THANK YOU rising THROUGH a
+   still-bright 50 put white type on gold stars for about a third of a second,
+   and that frame is unreadable — the number has to be a ghost before the words
+   exist. */
+.ap-go .ap-rating { animation: ap-rise 0.6s cubic-bezier(0.2, 0.8, 0.24, 1) calc(var(--t-thanks) + 0.45s) both; }
+.ap-go .ap-ty     { animation: ap-rise 0.66s cubic-bezier(0.2, 0.8, 0.24, 1) calc(var(--t-thanks) + 0.62s) both; }
+.ap-go .ap-rule   { animation: ap-wipe 0.5s ease-out calc(var(--t-thanks) + 0.98s) both; }
+.ap-go .ap-body   { animation: ap-rise 0.6s cubic-bezier(0.2, 0.8, 0.24, 1) calc(var(--t-thanks) + 1.12s) both; }
+.ap-go .ap-chip   { animation: ap-rise 0.6s cubic-bezier(0.16, 1.05, 0.3, 1) calc(var(--t-thanks) + 1.6s) both; }
+.ap-go .ap-foot   { animation: ap-rise 0.6s cubic-bezier(0.2, 0.8, 0.24, 1) calc(var(--t-thanks) + 1.88s) both; }
 
 @keyframes ap-rise {
   0%   { opacity: 0; transform: translateY(calc(34 * var(--px))); }
@@ -825,12 +790,11 @@
    fifty stars, with the apple and the arrow never having existed */
 .ap-still .ap-core,
 .ap-still .ap-caption,
-.ap-still .ap-count,
 .ap-still .ap-countline { display: none; }
 
 .ap-still .ap-cell,
 .ap-still .ap-thanks > * { opacity: 1; }
-.ap-still .ap-grid { transform: translateY(calc(-140 * var(--px))) scale(1.15); opacity: 0.15; }
+.ap-still .ap-glyph { transform: translateY(calc(55 * var(--px))) scale(1.35); opacity: 0.13; }
 .ap-still .ap-bloom { opacity: 0.12; }
 .ap-still .ap-grain { animation: none; }
 

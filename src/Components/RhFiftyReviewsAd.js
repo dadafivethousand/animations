@@ -6,11 +6,13 @@
 // interesting thing a number can be. This one EARNS the number: an apple sits
 // alone in a dark orchard, an arrow crosses the frame and takes it, and the
 // fruit does not fall — it BURSTS INTO FIFTY GOLD STARS that fly outward,
-// hang, and then lock themselves into a ten-by-five grid. The grid is the
-// whole point. "50 reviews" as text asks you to believe it; fifty stars
-// counted out in front of you does not have to ask.
+// hang, and then lock themselves into the shape of the number 50. That is the
+// whole point, and it is why nothing else in the ad states the figure: the
+// digits are not drawn and then filled with stars, they are MADE of the fifty
+// reviews, one star each, standing there to be counted. "50 reviews" as text
+// asks you to believe it; fifty stars spelling it out does not have to ask.
 //
-// Then the grid retreats into the background as a field of light and the ad
+// Then the 50 retreats into the background as a ghost of itself and the ad
 // says the only thing it was ever for: thank you.
 //
 // ── ORCHARD DUSK, NOT ANOTHER GOLD ROOM ──
@@ -33,14 +35,13 @@
 //
 // ── THE STARS KNOW WHERE THEY CAME FROM ──
 //
-// Each of the fifty stars is laid out by CSS grid, so its FINAL position is
-// free. The flight is authored backwards from there: `--sx/--sy` is the vector
-// from that cell back to the apple, `--ox/--oy` an overshoot past the cell, so
-// one keyframe set carries fifty different trajectories that all begin at the
-// same point in space — the point the apple was standing on. `--dy0` on the
-// grid is the gap between the apple's centre and the grid's, which is why the
-// apple can sit at the optical centre of the frame while the grid sits lower,
-// under the number.
+// Each of the fifty stars is placed at a point on the numeral, so its FINAL
+// position is free. The flight is authored backwards from there: `--sx/--sy`
+// is the vector from that point back to the apple, `--ox/--oy` an overshoot
+// past it, so one keyframe set carries fifty different trajectories that all
+// begin at the same place in space — the place the apple was standing. `--dy0`
+// is the gap between the apple's centre and the numeral's, which is why the
+// apple can sit at the optical centre of the frame while the 50 sits lower.
 //
 // Those vectors come from a hashed PRNG, never `Math.random`: StrictMode
 // mounts twice in dev, and a live random would deal a different scatter to the
@@ -65,28 +66,97 @@ const rnd = (i, salt) => {
   return x - Math.floor(x);
 };
 
-/* THE GRID IS THE HEADLINE, so its shape is a design decision and not a
-   convenience: ten across by five down reads as "five rows of ten" at a
-   glance, which is how a person actually counts to fifty. Five across by ten
-   down would be a tall column nobody counts. */
-const COLS = 10;
-const ROWS = 5;
-const CELL = 80;                      // design px; the star inside is 56
+/* ── THE FIFTY IS THE FIFTY ──
+ *
+ * The number is not typeset and then decorated with stars: it IS the stars,
+ * all fifty of them, one per review. Nothing else in the ad has to claim the
+ * count, because the count is standing there to be counted.
+ *
+ * Which means the digits have to be PATHS sampled at equal arc length, and not
+ * glyphs from a font or cells of a dot-matrix. Two reasons, and both of them
+ * are the whole readability of the thing:
+ *
+ *   · Even spacing is what makes a chain of stars read as a stroke. A matrix
+ *     bunches them at corners and thins them out around the bowl of the 5, so
+ *     the digit comes apart exactly where it is already hardest to read.
+ *   · Sampling makes the star COUNT an input rather than a consequence. Fifty
+ *     points, split between the two digits in proportion to their length, is
+ *     the only way "there are exactly fifty of these" survives a change to the
+ *     shape of the numerals.
+ *
+ * Local coordinates are design px, y down, each digit centred on its own
+ * origin; DX then sets them either side of the frame's centre line.
+ */
+const line = (a, b) => (t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
+const arc = (c, rx, ry, d0, d1) => (t) => {
+  const th = ((d0 + (d1 - d0) * t) * Math.PI) / 180;
+  return [c[0] + rx * Math.cos(th), c[1] + ry * Math.sin(th)];
+};
 
-const STARS = Array.from({ length: COLS * ROWS }, (_, i) => {
-  const col = i % COLS;
-  const row = (i / COLS) | 0;
-  /* the cell's offset from the grid's centre — the star's whole flight is
-     written relative to where it is going to end up */
-  const cx = (col - (COLS - 1) / 2) * CELL;
-  const cy = (row - (ROWS - 1) / 2) * CELL;
+/* "0" is one closed ring; "5" is an open stroke — top bar drawn right to left,
+   down the stem, back out along the waist, then the bowl. The waist ENDS where
+   the bowl begins rather than at a number I picked, so the two cannot drift
+   apart when the bowl is retuned. */
+const ZERO = [arc([0, 0], 128, 210, -90, 270)];
+const BOWL = arc([-6, 62], 112, 140, -72, 150);
+const FIVE = [
+  line([96, -210], [-96, -210]),
+  line([-96, -210], [-96, -46]),
+  line([-96, -46], BOWL(0)),
+  BOWL,
+];
+
+/* Flatten to a dense polyline, then walk it at equal arc length. `closed`
+   divides by n rather than n-1, so a ring does not put its last star on top of
+   its first. */
+const trace = (segs, n, closed) => {
+  const pts = [];
+  for (const seg of segs) for (let i = 0; i <= 240; i++) pts.push(seg(i / 240));
+  const cum = [0];
+  for (let i = 1; i < pts.length; i++)
+    cum.push(cum[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]));
+  const len = cum[cum.length - 1];
+  const out = [];
+  let j = 0;
+  for (let k = 0; k < n; k++) {
+    const want = (len * k) / (closed ? n : n - 1);
+    while (j < cum.length - 2 && cum[j + 1] < want) j++;
+    out.push(pts[j]);
+  }
+  return { pts: out, len };
+};
+
+const TOTAL = 50;
+const DX = 150;                                     // half the gap between digits
+const LEN0 = trace(ZERO, 2, true).len;
+const LEN5 = trace(FIVE, 2, false).len;
+const N0 = Math.round(TOTAL * (LEN0 / (LEN0 + LEN5)));
+const PLACED = [
+  ...trace(FIVE, TOTAL - N0, false).pts.map(([x, y]) => [x - DX, y]),
+  ...trace(ZERO, N0, true).pts.map(([x, y]) => [x + DX, y]),
+];
+
+/* Centre on the INK, not on the two origins. A 5 is narrower than a 0 and its
+   bowl bulges right, so hanging both digits off symmetric origins leaves the
+   pair sitting a dozen pixels right of the frame's centre line — which is
+   exactly the kind of small constant offset that looks like nothing on its own
+   and like a mistake next to a logo that is properly centred. */
+const MID = (() => {
+  const xs = PLACED.map((p) => p[0]);
+  return (Math.min(...xs) + Math.max(...xs)) / 2;
+})();
+const GLYPH = PLACED.map(([x, y]) => [x - MID, y]);
+
+const STARS = GLYPH.map(([gx, gy], i) => {
   const a = rnd(i, 1) * Math.PI * 2;
-  const j = 44 + rnd(i, 2) * 130;     // how far past its cell it overshoots
+  const j = 44 + rnd(i, 2) * 130;     // how far past its place it overshoots
   return {
-    sx: -cx,                          // start: back at the burst point
-    sy: -cy,
-    ox: cx * 0.46 + Math.cos(a) * j,  // overshoot, then it settles home
-    oy: cy * 0.46 + Math.sin(a) * j,
+    gx,                               // where in the numeral this star lives
+    gy,
+    sx: -gx,                          // start: back at the burst point
+    sy: -gy,
+    ox: gx * 0.46 + Math.cos(a) * j,  // overshoot, then it settles home
+    oy: gy * 0.46 + Math.sin(a) * j,
     sr: (rnd(i, 3) * 2 - 1) * 320,    // tumble
     d: rnd(i, 4) * 0.24,              // stagger, seconds
   };
@@ -215,7 +285,7 @@ const Arrow = () => (
 
 export default function RhFiftyReviewsAd({
   academy = "RICHMOND HILL JIU-JITSU",
-  total = 50,
+  total = TOTAL,
   address = "132 King Road",
   website = "rhbjj.ca",
   phone = "(416) 992-1169",
@@ -233,29 +303,6 @@ export default function RhFiftyReviewsAd({
     const r = requestAnimationFrame(() => setGo(true));
     return () => cancelAnimationFrame(r);
   }, [reduce]);
-
-  /* The one number CSS cannot make. It runs 3.55s → 4.45s, which is while the
-     last stars are still landing — the count finishing a beat before the grid
-     settles is what makes the two read as the same event. */
-  const [count, setCount] = React.useState(reduce ? total : 0);
-  React.useEffect(() => {
-    if (!go) return undefined;
-    let raf = 0;
-    const t = setTimeout(() => {
-      const t0 = performance.now();
-      const tick = (now) => {
-        const p = Math.min(1, (now - t0) / 900);
-        const e = 1 - Math.pow(1 - p, 3);
-        setCount(Math.round(e * total));
-        if (p < 1) raf = requestAnimationFrame(tick);
-      };
-      raf = requestAnimationFrame(tick);
-    }, 3550);
-    return () => {
-      clearTimeout(t);
-      cancelAnimationFrame(raf);
-    };
-  }, [go, total]);
 
   const lockup = (
     <div className="ap-lock">
@@ -335,31 +382,35 @@ export default function RhFiftyReviewsAd({
 
             <p className="ap-caption">ONE&nbsp;SHOT.</p>
 
-            {/* ---------- the count ---------- */}
-            <div className="ap-count" aria-hidden>
-              <span className="ap-count-n">{count}</span>
-              <span className="ap-count-glow" />
-            </div>
+            {/* ---------- the count ----------
+                There is no numeral here and there must not be one: a typeset
+                50 next to a 50 built out of stars is the same number said
+                twice, and the weaker of the two wins the eye. */}
             <p className="ap-countline">
               FIVE-STAR REVIEWS <b>ON GOOGLE</b>
             </p>
 
-            {/* ---------- fifty stars ----------
-                Laid out by grid, animated backwards from their cells to the
-                point the apple was standing on. `--dy0` is the gap between
-                that point and the centre of this grid. */}
-            <div className="ap-grid" aria-hidden>
+            {/* ---------- fifty stars, which are the number ----------
+                `--gx/--gy` place the star in the numeral, and they are spent
+                on MARGINS rather than on a transform, which leaves the
+                transform free for the whole flight. The flight is authored
+                backwards from there: `--sx/--sy` is the vector home to the
+                apple, and `--dy0` is the gap between the apple's centre and
+                this constellation's. */}
+            <div className="ap-glyph" aria-hidden>
               {STARS.map((s, i) => (
                 <span
                   key={i}
                   className="ap-cell"
                   style={{
-                    "--sx": `calc(${s.sx} * var(--px))`,
-                    "--sy": `calc(${s.sy} * var(--px))`,
-                    "--ox": `calc(${s.ox} * var(--px))`,
-                    "--oy": `calc(${s.oy} * var(--px))`,
-                    "--sr": `${s.sr}deg`,
-                    animationDelay: `calc(var(--t-stars) + ${s.d}s)`,
+                    "--gx": `calc(${s.gx.toFixed(1)} * var(--px))`,
+                    "--gy": `calc(${s.gy.toFixed(1)} * var(--px))`,
+                    "--sx": `calc(${s.sx.toFixed(1)} * var(--px))`,
+                    "--sy": `calc(${s.sy.toFixed(1)} * var(--px))`,
+                    "--ox": `calc(${s.ox.toFixed(1)} * var(--px))`,
+                    "--oy": `calc(${s.oy.toFixed(1)} * var(--px))`,
+                    "--sr": `${s.sr.toFixed(0)}deg`,
+                    animationDelay: `calc(var(--t-stars) + ${s.d.toFixed(3)}s)`,
                   }}
                 >
                   <Star className="ap-star" />
