@@ -21,9 +21,10 @@ import "./Stylesheets/App.css";
 // import StaplesPosterInStore from "./Components/StaplesPosterInStore";
 // import MapleBackToSchoolAd from "./Components/MapleBackToSchoolAd";
 // import OpenHouseAd from "./Components/OpenHouseAd";
-import FinalWeekCampAd from "./Components/FinalWeekCampAd";
+// import FinalWeekCampAd from "./Components/FinalWeekCampAd";
+import RhFiftyReviewsAd from "./Components/RhFiftyReviewsAd";
 
 function App() {
-  return <FinalWeekCampAd />;
+  return <RhFiftyReviewsAd />;
 }
 export default App;

@@ -1,0 +1,839 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;500;600;700;800&display=swap");
+
+/* ============================================================
+   RhFiftyReviewsAd.css — an arrow, an apple, and fifty stars.
+   Namespace: ap-
+
+   1080x1920, an INSTAGRAM REEL. Every number below is a design pixel:
+   `calc(<n> * var(--px))`, where --px is a 1080th of the frame WIDTH, so the
+   whole sheet is authored on a 1080-wide page that happens to be 1920 tall and
+   survives any phone unchanged.
+
+   ── THE REEL SAFE AREA ──
+        0 ────────────  status bar, Reels header, top crop
+      236 ─ --safe-t ─  the band starts here; y below is measured FROM HERE
+     1516 ─ --safe-b ─  the band ends here
+     1920 ────────────  caption, audio strip, buttons, bottom crop
+   Only the orchard and the lens overlays run outside that band.
+
+   ── THE COLUMN OF y ──
+   Everything is placed by an explicit `top` inside the 1280-tall band, because
+   the composition changes what it contains three times and a flow layout would
+   re-centre itself on every change. Fixed y means the logo does not move a
+   pixel across the whole eleven seconds, which is the only thing holding the
+   three scenes together as one shot.
+
+      190  lockup            (h 132 — but the PILL is 197 and overhangs it)
+      400  the number        (h 240, centre 520)
+      480  the apple         (h 440, centre 700)   <- scene 1 and 2 overlap here
+      664  "five-star ..."   (h  54)
+      740  the star grid     (h 400, centre 940)
+      980  "one shot."       (h  70)
+      360  the thank-you block, centred in what is left below the lockup
+
+   THE LOCKUP BOX IS NOT THE LOCKUP. The mark is 2:1, so at 330 wide the pill
+   is 197 tall and hangs 33 either side of the 132-tall box it is centred in.
+   Everything under it is spaced off 355 — the pill's real bottom edge — and
+   not off 322, which is where the box ends and nothing actually is.
+
+   The apple's centre (700) and the grid's centre (940) are 240 apart, and that
+   number is --dy0: it is the only thing the fifty flight paths need to know
+   about the layout, so the apple can sit at the optical centre of the frame
+   while the grid sits under the number.
+
+   ── ORCHARD DUSK ──
+   Plum-indigo night, a cool violet key from the upper left, warm crimson
+   bounce off the floor. GOLD APPEARS ONCE, at the burst, and then owns the
+   rest of the ad — holding it out of the first two seconds is what makes the
+   burst read as a change of state and not a change of shot. The ad before this
+   one on the feed was a black room with a gold rake; nothing here repeats it.
+
+   ── ONE CLASS, ONE COLUMN OF DELAYS ──
+   `.ap-go` lands one frame after mount and every beat is an animation-delay
+   off the six timing variables below. Nothing in this file is driven by React
+   except the counter digits.
+
+   Two animations on one element (the arrow flies, then leaves) is the only
+   awkward case: the SECOND animation must be `forwards`, never `both`. A
+   backwards fill would apply the exit's 0% state during its own delay and
+   overwrite the flight that is still running underneath it.
+
+     MS=10600 HOLD=1.8 BG='#0b0718' URL='http://127.0.0.1:3000/' \
+       OUT=~/Downloads/rhbjj-50-reviews.mp4 \
+       NODE_PATH=/tmp/rec/node_modules node tools/record.js
+   ============================================================ */
+
+/* The container the design pixel is a thousandth of. `100cqw` resolves against
+   the nearest ancestor container, never against the element declaring it, so
+   the stage cannot be its own. */
+.ap-frame {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #0b0718;
+  container-type: size;
+  container-name: reel;
+}
+
+.ap-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.ap {
+  --px: calc(100cqw / 1080);
+
+  --safe-t: calc(236 * var(--px));
+  --safe-x: calc(64 * var(--px));
+  --band-h: calc(1280 * var(--px));
+
+  /* the gap between the apple's centre and the grid's — see the header */
+  --dy0: calc(-240 * var(--px));
+
+  /* THE WHOLE TIMELINE */
+  --t-arrow: 1.55s;
+  --t-hit: 2.15s;
+  --t-burst: 2.15s;
+  --t-stars: 2.3s;
+  --t-count: 3.55s;
+  --t-thanks: 6.1s;
+
+  --gold: #fbbc05;
+  --gold-hi: #ffe08a;
+  --gold-lo: #c88f00;
+  --ink: #ffffff;
+  --muted: rgba(226, 216, 255, 0.72);
+  --violet: #a98cff;
+
+  font-family: Poppins, Inter, sans-serif;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   THE ORCHARD — light and air, flat, behind everything
+   ============================================================ */
+
+.ap-room {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(72% 40% at 20% 6%, rgba(150, 118, 255, 0.24) 0%, transparent 66%),
+    radial-gradient(94% 46% at 52% 100%, rgba(224, 32, 72, 0.16) 0%, transparent 72%),
+    linear-gradient(178deg, #0a0616 0%, #120a26 26%, #1a1038 52%, #150c2b 76%, #08040f 100%);
+}
+
+.ap-key {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(44% 32% at 18% 8%, rgba(206, 188, 255, 0.32) 0%, transparent 72%);
+  mix-blend-mode: screen;
+}
+
+/* the ground the apple stands over: one soft horizon, no drawn floor line —
+   an orchard at dusk has no edges in it */
+.ap-floor {
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  top: 62%;
+  height: 46%;
+  background: radial-gradient(58% 60% at 50% 6%, rgba(255, 96, 120, 0.16) 0%, transparent 74%);
+  filter: blur(calc(30 * var(--px)));
+}
+
+.ap-haze {
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  top: 34%;
+  height: 34%;
+  background: linear-gradient(180deg, transparent 0%, rgba(178, 152, 255, 0.14) 48%, transparent 100%);
+  filter: blur(calc(24 * var(--px)));
+  mix-blend-mode: screen;
+}
+
+/* ============================================================
+   THE CAMERA — the impact shake, and nothing else
+   ============================================================ */
+
+.ap-shake {
+  position: absolute;
+  inset: 0;
+}
+
+.ap-go .ap-shake {
+  animation: ap-shake 0.52s cubic-bezier(0.36, 0.07, 0.19, 0.97) var(--t-hit) both;
+}
+
+@keyframes ap-shake {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  8%   { transform: translate(calc(22 * var(--px)), calc(-9 * var(--px))) rotate(0.5deg); }
+  20%  { transform: translate(calc(-16 * var(--px)), calc(11 * var(--px))) rotate(-0.42deg); }
+  34%  { transform: translate(calc(11 * var(--px)), calc(7 * var(--px))) rotate(0.3deg); }
+  52%  { transform: translate(calc(-7 * var(--px)), calc(-5 * var(--px))) rotate(-0.18deg); }
+  74%  { transform: translate(calc(4 * var(--px)), calc(2 * var(--px))) rotate(0.08deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+/* the band every y in this sheet is measured inside */
+.ap-band {
+  position: absolute;
+  top: var(--safe-t);
+  left: var(--safe-x);
+  right: var(--safe-x);
+  height: var(--band-h);
+}
+
+/* ============================================================
+   THE LOCKUP — one position, all eleven seconds
+   ============================================================ */
+
+.ap-lock {
+  position: absolute;
+  top: calc(190 * var(--px));
+  left: 0;
+  right: 0;
+  height: calc(132 * var(--px));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* The mark is dark navy on transparent and has no light-on-dark variant, so it
+   sits on a white pill rather than being inverted — an invert flattens the
+   leaf into a bright slab. */
+.ap-lock img {
+  width: calc(330 * var(--px));
+  height: auto;
+  padding: calc(14 * var(--px)) calc(26 * var(--px));
+  border-radius: calc(26 * var(--px));
+  background: linear-gradient(180deg, #ffffff 0%, #eef1f8 100%);
+  box-shadow:
+    0 calc(10 * var(--px)) calc(30 * var(--px)) rgba(0, 0, 0, 0.5),
+    inset 0 0 0 calc(1 * var(--px)) rgba(255, 255, 255, 0.7);
+}
+
+.ap-go .ap-lock img { animation: ap-lock-in 0.62s cubic-bezier(0.2, 0.8, 0.24, 1) 0.04s both; }
+
+@keyframes ap-lock-in {
+  0%   { opacity: 0; transform: translateY(calc(-26 * var(--px))) scale(0.94); }
+  100% { opacity: 1; transform: none; }
+}
+
+/* ============================================================
+   THE APPLE, AND WHAT HAPPENS TO IT
+   ============================================================ */
+
+.ap-core {
+  position: absolute;
+  top: calc(480 * var(--px));
+  left: 0;
+  right: 0;
+  height: calc(440 * var(--px));
+}
+
+/* every child is a full-size centred layer, so nothing needs a translate(-50%)
+   that would collide with the transform its animation wants */
+.ap-core > * {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ap-apple-svg {
+  width: calc(400 * var(--px));
+  height: auto;
+  filter: drop-shadow(0 calc(26 * var(--px)) calc(34 * var(--px)) rgba(0, 0, 0, 0.55));
+}
+
+/* the ranging rings: the shot exists before the arrow does */
+.ap-target::before {
+  content: "";
+  width: calc(430 * var(--px));
+  height: calc(430 * var(--px));
+  border-radius: 50%;
+  border: calc(1.6 * var(--px)) solid rgba(178, 152, 255, 0.3);
+}
+.ap-target--b::before {
+  width: calc(600 * var(--px));
+  height: calc(600 * var(--px));
+  border-color: rgba(178, 152, 255, 0.15);
+}
+/* The layer fades; the ::before breathes. Splitting them keeps one infinite
+   animation off the same property as one delayed one — a `both` fill on the
+   pair would paint a bright ring on frame one. */
+.ap-target { opacity: 0; }
+.ap-go .ap-target {
+  animation:
+    ap-fade 0.9s ease-out 0.35s both,
+    ap-out 0.2s linear var(--t-burst) forwards;
+}
+.ap-go .ap-target--b { animation-delay: 0.5s, var(--t-burst); }
+.ap-go .ap-target::before { animation: ap-target 3.4s ease-in-out 0.5s infinite; }
+.ap-go .ap-target--b::before { animation-duration: 4.2s; }
+
+@keyframes ap-target {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50%      { opacity: 0.9;  transform: scale(1.035); }
+}
+@keyframes ap-out  { to { opacity: 0; } }
+@keyframes ap-fade { from { opacity: 0; } to { opacity: 1; } }
+
+.ap-go .ap-apple .ap-apple-svg {
+  animation:
+    ap-apple-in 0.82s cubic-bezier(0.18, 1.1, 0.3, 1) 0.2s both,
+    ap-apple-gone 0.01s linear var(--t-burst) forwards;
+}
+
+@keyframes ap-apple-in {
+  0%   { opacity: 0; transform: translateY(calc(-300 * var(--px))) scale(0.86) rotate(-8deg); }
+  60%  { opacity: 1; }
+  72%  { transform: translateY(calc(10 * var(--px))) scale(1.05, 0.94) rotate(1.5deg); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes ap-apple-gone { to { opacity: 0; } }
+
+/* THE TWO PIECES THE PIERCE LINE MAKES.
+   The clip runs slightly off horizontal because the arrow is travelling left
+   to right and the exit wound is lower than the entry — a level split reads as
+   a knife, not a shot. */
+.ap-half { opacity: 0; }
+.ap-half--t .ap-apple-svg { clip-path: polygon(-20% -20%, 120% -20%, 120% 43%, -20% 52%); }
+.ap-half--b .ap-apple-svg { clip-path: polygon(-20% 52%, 120% 43%, 120% 120%, -20% 120%); }
+
+.ap-go .ap-half--t { animation: ap-half-t 0.95s cubic-bezier(0.16, 0.7, 0.3, 1) var(--t-burst) forwards; }
+.ap-go .ap-half--b { animation: ap-half-b 0.95s cubic-bezier(0.16, 0.7, 0.3, 1) var(--t-burst) forwards; }
+
+@keyframes ap-half-t {
+  0%   { opacity: 1; transform: none; }
+  100% { opacity: 0; transform: translate(calc(-250 * var(--px)), calc(-300 * var(--px))) rotate(-58deg) scale(0.8); }
+}
+@keyframes ap-half-b {
+  0%   { opacity: 1; transform: none; }
+  100% { opacity: 0; transform: translate(calc(268 * var(--px)), calc(226 * var(--px))) rotate(46deg) scale(0.8); }
+}
+
+/* debris — skin and flesh, then juice */
+.ap-debris { pointer-events: none; }
+.ap-debris i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  opacity: 0;
+}
+
+.ap-shard {
+  width: var(--w);
+  height: var(--h);
+  border-radius: calc(4 * var(--px)) calc(12 * var(--px)) calc(5 * var(--px)) calc(10 * var(--px));
+  background: linear-gradient(150deg, #ff8a84 0%, #e21b36 46%, #7c0718 100%);
+  box-shadow: 0 0 calc(10 * var(--px)) rgba(255, 60, 90, 0.4);
+}
+.ap-shard:nth-child(3n)   { background: linear-gradient(150deg, #fff0d4 0%, #ffd3a8 40%, #d9825a 100%); }
+.ap-shard:nth-child(4n+1) { border-radius: 50% 12% 46% 20%; }
+
+.ap-drop {
+  width: var(--w);
+  height: var(--w);
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, #ffd9d0 0%, #ff5a6e 45%, #a80c26 100%);
+}
+
+.ap-go .ap-shard { animation: ap-fly 0.98s cubic-bezier(0.12, 0.72, 0.3, 1) both; }
+.ap-go .ap-drop  { animation: ap-fly 0.86s cubic-bezier(0.12, 0.72, 0.3, 1) both; }
+
+@keyframes ap-fly {
+  0%   { opacity: 0; transform: translate(-50%, -50%) rotate(0deg) scale(0.5); }
+  9%   { opacity: 1; }
+  70%  { opacity: 1; }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(var(--r, 220deg)) scale(0.7);
+  }
+}
+
+/* the hit itself: one blown frame, then two rings of pressure */
+.ap-flash::before {
+  content: "";
+  width: calc(900 * var(--px));
+  height: calc(900 * var(--px));
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.98) 0%, rgba(255, 226, 150, 0.7) 26%, transparent 62%);
+  opacity: 0;
+  mix-blend-mode: screen;
+}
+.ap-go .ap-flash::before { animation: ap-flash 0.34s ease-out var(--t-hit) both; }
+
+@keyframes ap-flash {
+  0%   { opacity: 0;    transform: scale(0.24); }
+  14%  { opacity: 1;    transform: scale(0.7); }
+  100% { opacity: 0;    transform: scale(1.35); }
+}
+
+.ap-ring::before {
+  content: "";
+  width: calc(300 * var(--px));
+  height: calc(300 * var(--px));
+  border-radius: 50%;
+  border: calc(8 * var(--px)) solid rgba(255, 228, 160, 0.9);
+  opacity: 0;
+}
+.ap-ring--b::before { border-color: rgba(255, 120, 140, 0.6); border-width: calc(4 * var(--px)); }
+
+.ap-go .ap-ring::before    { animation: ap-ring 0.78s cubic-bezier(0.1, 0.8, 0.2, 1) var(--t-hit) forwards; }
+.ap-go .ap-ring--b::before { animation: ap-ring 1s cubic-bezier(0.1, 0.8, 0.2, 1) calc(var(--t-hit) + 0.07s) forwards; }
+
+@keyframes ap-ring {
+  0%   { opacity: 0.95; transform: scale(0.16); }
+  100% { opacity: 0;    transform: scale(2.9); }
+}
+
+/* ---------- the arrow ----------
+   The layer itself flies, so the streak behind it travels in the same box
+   without needing a transform of its own. */
+.ap-arrow { opacity: 0; }
+
+.ap-arrow-svg {
+  width: calc(520 * var(--px));
+  height: auto;
+  filter: drop-shadow(0 calc(8 * var(--px)) calc(14 * var(--px)) rgba(0, 0, 0, 0.55));
+}
+
+.ap-streak {
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  margin-right: calc(120 * var(--px));
+  width: calc(760 * var(--px));
+  height: calc(30 * var(--px));
+  transform: translateY(-50%);
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 224, 138, 0.06) 30%, rgba(255, 236, 190, 0.5) 100%);
+  filter: blur(calc(9 * var(--px)));
+  opacity: 0;
+}
+
+/* THE FLIGHT, THEN THE EXIT. The exit is `forwards` and never `both`: a
+   backwards fill would apply its 0% state through its own delay and stamp on
+   the flight still running underneath it. */
+.ap-go .ap-arrow {
+  animation:
+    ap-arrow-fly 0.6s cubic-bezier(0.55, 0.06, 0.68, 0.19) var(--t-arrow) both,
+    /* +0.08s, not +0.27s: any longer and the arrow hangs motionless in mid-air
+       with the apple already gone from around it, which reads as a dropped
+       frame. It has to be leaving while the burst is still blooming.
+
+       AND THE EXIT IS `linear`. The flight eases IN, because an arrow loosed
+       off-frame is still accelerating into the shot; the exit must not, because
+       by then it is a projectile at full speed passing through. An ease-in on
+       the way out spends the first third of its duration nearly stationary,
+       which on a 0.3s move is a visible stall exactly where the eye is. */
+    ap-arrow-out 0.28s linear calc(var(--t-hit) + 0.08s) forwards;
+}
+.ap-go .ap-streak { animation: ap-streak 0.92s linear var(--t-arrow) both; }
+
+@keyframes ap-arrow-fly {
+  0%   { opacity: 0; transform: translateX(calc(-1180 * var(--px))); }
+  12%  { opacity: 1; }
+  100% { opacity: 1; transform: translateX(calc(-220 * var(--px))); }
+}
+@keyframes ap-arrow-out {
+  0%   { opacity: 1; transform: translateX(calc(-220 * var(--px))); }
+  100% { opacity: 0; transform: translateX(calc(1260 * var(--px))); }
+}
+@keyframes ap-streak {
+  0%   { opacity: 0; }
+  22%  { opacity: 0.9; }
+  62%  { opacity: 0.7; }
+  74%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* ============================================================
+   "ONE SHOT." — the only line before the burst
+   ============================================================ */
+
+.ap-caption {
+  position: absolute;
+  top: calc(980 * var(--px));
+  left: 0;
+  right: 0;
+  margin: 0;
+  height: calc(70 * var(--px));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Anton, Poppins, sans-serif;
+  font-size: calc(56 * var(--px));
+  letter-spacing: 0.16em;
+  text-indent: 0.16em;
+  color: rgba(232, 222, 255, 0.9);
+  text-shadow: 0 calc(4 * var(--px)) calc(18 * var(--px)) rgba(0, 0, 0, 0.6);
+  opacity: 0;
+}
+
+.ap-go .ap-caption {
+  animation:
+    ap-cap-in 0.6s cubic-bezier(0.2, 0.8, 0.24, 1) 0.95s both,
+    ap-cap-out 0.22s ease-in var(--t-burst) forwards;
+}
+@keyframes ap-cap-in {
+  0%   { opacity: 0; transform: translateY(calc(20 * var(--px))); letter-spacing: 0.44em; }
+  100% { opacity: 1; transform: none; letter-spacing: 0.16em; }
+}
+@keyframes ap-cap-out {
+  100% { opacity: 0; transform: translateY(calc(-18 * var(--px))); }
+}
+
+/* ============================================================
+   THE NUMBER
+   ============================================================ */
+
+.ap-count {
+  position: absolute;
+  top: calc(400 * var(--px));
+  left: 0;
+  right: 0;
+  height: calc(240 * var(--px));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+}
+
+.ap-count-n {
+  position: relative;
+  z-index: 2;
+  font-family: Anton, Poppins, sans-serif;
+  font-size: calc(272 * var(--px));
+  line-height: 0.86;
+  letter-spacing: 0.01em;
+  background: linear-gradient(178deg, #fff6d8 0%, var(--gold-hi) 26%, var(--gold) 58%, var(--gold-lo) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* the type is transparent, so the depth under it has to be a drop-shadow on
+     the element and not a text-shadow inside it */
+  filter:
+    drop-shadow(0 calc(4 * var(--px)) 0 rgba(120, 78, 0, 0.85))
+    drop-shadow(0 calc(14 * var(--px)) calc(26 * var(--px)) rgba(0, 0, 0, 0.6));
+}
+
+.ap-count-glow {
+  position: absolute;
+  width: calc(560 * var(--px));
+  height: calc(360 * var(--px));
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(251, 188, 5, 0.4) 0%, transparent 68%);
+  filter: blur(calc(24 * var(--px)));
+  mix-blend-mode: screen;
+}
+
+.ap-countline {
+  position: absolute;
+  top: calc(664 * var(--px));
+  left: 0;
+  right: 0;
+  margin: 0;
+  height: calc(54 * var(--px));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(12 * var(--px));
+  font-size: calc(32 * var(--px));
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+  color: var(--muted);
+  opacity: 0;
+}
+.ap-countline b { color: var(--ink); font-weight: 800; }
+
+.ap-go .ap-count {
+  animation:
+    ap-count-in 0.5s cubic-bezier(0.16, 1.1, 0.3, 1) var(--t-count) both,
+    ap-scene-out 0.42s ease-in var(--t-thanks) forwards;
+}
+.ap-go .ap-countline {
+  animation:
+    ap-cap-in 0.55s cubic-bezier(0.2, 0.8, 0.24, 1) calc(var(--t-count) + 0.2s) both,
+    ap-scene-out 0.42s ease-in var(--t-thanks) forwards;
+}
+
+@keyframes ap-count-in {
+  0%   { opacity: 0; transform: scale(1.5); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes ap-scene-out {
+  100% { opacity: 0; transform: translateY(calc(-40 * var(--px))) scale(0.94); }
+}
+
+/* ============================================================
+   FIFTY STARS
+   ============================================================ */
+
+.ap-grid {
+  position: absolute;
+  top: calc(740 * var(--px));
+  left: 0;
+  right: 0;
+  margin-inline: auto;          /* centres without spending the transform */
+  width: calc(800 * var(--px));
+  height: calc(400 * var(--px));
+  display: grid;
+  grid-template-columns: repeat(10, calc(80 * var(--px)));
+  grid-auto-rows: calc(80 * var(--px));
+  transform-origin: 50% 50%;
+}
+
+.ap-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+}
+
+.ap-star {
+  width: calc(56 * var(--px));
+  height: calc(56 * var(--px));
+  fill: var(--gold);
+  filter:
+    drop-shadow(0 0 calc(10 * var(--px)) rgba(251, 188, 5, 0.75))
+    drop-shadow(0 calc(3 * var(--px)) calc(6 * var(--px)) rgba(0, 0, 0, 0.5));
+}
+
+/* Authored BACKWARDS from the cell: 0% is the vector back to the apple, 36% is
+   an overshoot past the cell, 100% is the cell itself. One keyframe set, fifty
+   trajectories, all of them starting at the same point in space. */
+.ap-go .ap-cell { animation: ap-star-in 1.5s cubic-bezier(0.2, 0.72, 0.24, 1) both; }
+
+@keyframes ap-star-in {
+  0%   { opacity: 0; transform: translate(var(--sx), calc(var(--sy) + var(--dy0))) scale(0.14) rotate(0deg); }
+  8%   { opacity: 1; }
+  36%  { opacity: 1; transform: translate(var(--ox), var(--oy)) scale(1.3) rotate(var(--sr)); }
+  100% { opacity: 1; transform: translate(0, 0) scale(1) rotate(0deg); }
+}
+/* the grid does not leave: it steps back and becomes the wall the thank-you
+   hangs on */
+.ap-go .ap-grid { animation: ap-grid-back 1.05s cubic-bezier(0.3, 0.7, 0.2, 1) var(--t-thanks) forwards; }
+
+/* 1.15, NOT 1.42: the grid is 800 wide, so anything past ~1.2 pushes the outer
+   columns off a 1080 page and the wall of fifty loses the two ends that make
+   it countable. It rises 140 so it sits behind the words rather than under
+   them. */
+@keyframes ap-grid-back {
+  0%   { transform: none; opacity: 1; }
+  100% { transform: translateY(calc(-140 * var(--px))) scale(1.15); opacity: 0.15; }
+}
+
+/* ============================================================
+   THE THANK YOU
+   ============================================================ */
+
+.ap-thanks {
+  position: absolute;
+  top: calc(360 * var(--px));
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(26 * var(--px));
+  text-align: center;
+  z-index: 3;
+}
+
+/* nothing in the block exists before its own beat */
+.ap-thanks > * { opacity: 0; }
+
+.ap-rating { display: flex; gap: calc(10 * var(--px)); }
+.ap-rating-star {
+  width: calc(62 * var(--px));
+  height: calc(62 * var(--px));
+  fill: var(--gold);
+  filter: drop-shadow(0 0 calc(16 * var(--px)) rgba(251, 188, 5, 0.6));
+}
+
+.ap-ty {
+  margin: 0;
+  font-family: Anton, Poppins, sans-serif;
+  font-size: calc(126 * var(--px));
+  line-height: 0.94;
+  letter-spacing: 0.03em;
+  color: var(--ink);
+  text-shadow: 0 calc(8 * var(--px)) calc(28 * var(--px)) rgba(0, 0, 0, 0.62);
+}
+.ap-ty i { font-style: normal; display: inline-block; }
+
+.ap-rule {
+  width: calc(180 * var(--px));
+  height: calc(3 * var(--px));
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.ap-body {
+  margin: 0;
+  font-size: calc(38 * var(--px));
+  line-height: 1.5;
+  font-weight: 500;
+  color: var(--muted);
+}
+.ap-body span { display: block; }
+
+.ap-chip {
+  display: flex;
+  align-items: center;
+  gap: calc(14 * var(--px));
+  padding: calc(14 * var(--px)) calc(30 * var(--px));
+  border-radius: calc(999 * var(--px));
+  background: rgba(251, 188, 5, 0.1);
+  box-shadow: inset 0 0 0 calc(2 * var(--px)) rgba(251, 188, 5, 0.55);
+}
+.ap-chip b {
+  font-family: Anton, Poppins, sans-serif;
+  font-size: calc(52 * var(--px));
+  line-height: 1;
+  color: var(--gold);
+}
+.ap-chip span {
+  font-size: calc(27 * var(--px));
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-indent: 0.2em;
+  color: var(--ink);
+}
+
+.ap-foot {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: calc(8 * var(--px));
+}
+.ap-foot b {
+  font-size: calc(31 * var(--px));
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-indent: 0.16em;
+  color: var(--ink);
+}
+.ap-foot span {
+  font-size: calc(27 * var(--px));
+  font-weight: 500;
+  color: rgba(226, 216, 255, 0.62);
+}
+.ap-foot em { font-style: normal; color: var(--gold); padding: 0 calc(4 * var(--px)); }
+
+.ap-go .ap-rating { animation: ap-rise 0.6s cubic-bezier(0.2, 0.8, 0.24, 1) calc(var(--t-thanks) + 0.25s) both; }
+.ap-go .ap-ty     { animation: ap-rise 0.66s cubic-bezier(0.2, 0.8, 0.24, 1) calc(var(--t-thanks) + 0.42s) both; }
+.ap-go .ap-rule   { animation: ap-wipe 0.5s ease-out calc(var(--t-thanks) + 0.78s) both; }
+.ap-go .ap-body   { animation: ap-rise 0.6s cubic-bezier(0.2, 0.8, 0.24, 1) calc(var(--t-thanks) + 0.92s) both; }
+.ap-go .ap-chip   { animation: ap-rise 0.6s cubic-bezier(0.16, 1.05, 0.3, 1) calc(var(--t-thanks) + 1.42s) both; }
+.ap-go .ap-foot   { animation: ap-rise 0.6s cubic-bezier(0.2, 0.8, 0.24, 1) calc(var(--t-thanks) + 1.7s) both; }
+
+@keyframes ap-rise {
+  0%   { opacity: 0; transform: translateY(calc(34 * var(--px))); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes ap-wipe {
+  0%   { opacity: 0; transform: scaleX(0.1); }
+  100% { opacity: 1; transform: none; }
+}
+
+/* ============================================================
+   THE LENS
+   ============================================================ */
+
+.ap-motes { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: screen; }
+.ap-motes span {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 236, 196, 0.95) 0%, transparent 70%);
+  animation: ap-mote linear infinite;
+}
+@keyframes ap-mote {
+  0%   { transform: translate(0, 0); }
+  50%  { transform: translate(calc(28 * var(--px)), calc(-46 * var(--px))); }
+  100% { transform: translate(0, 0); }
+}
+
+/* the gold the burst throws back into the room, and never quite takes back */
+.ap-bloom {
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  top: 20%;
+  height: 60%;
+  background: radial-gradient(48% 44% at 50% 46%, rgba(251, 188, 5, 0.5) 0%, transparent 70%);
+  mix-blend-mode: screen;
+  opacity: 0;
+  pointer-events: none;
+}
+.ap-go .ap-bloom { animation: ap-bloom 3.4s ease-out var(--t-hit) forwards; }
+@keyframes ap-bloom {
+  0%   { opacity: 0.95; }
+  16%  { opacity: 0.42; }
+  100% { opacity: 0.12; }
+}
+
+.ap-grade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(200deg, rgba(120, 92, 255, 0.1) 0%, transparent 46%, rgba(255, 60, 90, 0.08) 100%);
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.ap-grain {
+  position: absolute;
+  inset: -50%;
+  opacity: 0.16;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='0.5'/></svg>");
+  animation: ap-grain 0.7s steps(3) infinite;
+}
+@keyframes ap-grain {
+  0%   { transform: translate(0, 0); }
+  33%  { transform: translate(-2%, 1.5%); }
+  66%  { transform: translate(1.5%, -2%); }
+  100% { transform: translate(0, 0); }
+}
+
+.ap-vig {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(72% 58% at 50% 46%, transparent 42%, rgba(2, 0, 10, 0.62) 100%);
+}
+
+/* ============================================================
+   BEFORE `.ap-go`, AND FOR ANYONE WHO ASKED FOR NO MOTION
+   ============================================================ */
+
+/* the frame the ad opens on: the orchard, and nothing standing in it yet */
+.ap-stage:not(.ap-go):not(.ap-still) .ap-lock img,
+.ap-stage:not(.ap-go):not(.ap-still) .ap-apple-svg,
+.ap-stage:not(.ap-go):not(.ap-still) .ap-target { opacity: 0; }
+
+/* reduced motion lands on the held frame: the thank-you, over the wall of
+   fifty stars, with the apple and the arrow never having existed */
+.ap-still .ap-core,
+.ap-still .ap-caption,
+.ap-still .ap-count,
+.ap-still .ap-countline { display: none; }
+
+.ap-still .ap-cell,
+.ap-still .ap-thanks > * { opacity: 1; }
+.ap-still .ap-grid { transform: translateY(calc(-140 * var(--px))) scale(1.15); opacity: 0.15; }
+.ap-still .ap-bloom { opacity: 0.12; }
+.ap-still .ap-grain { animation: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ap * { animation: none !important; transition: none !important; }
+}
