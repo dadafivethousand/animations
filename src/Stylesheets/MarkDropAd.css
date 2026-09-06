@@ -64,6 +64,10 @@
 
   --safe-x: calc(64 * var(--px));
 
+  /* The endcard lockup scales off this one number: the locality line under it
+     and that line's offset under the wordmark are both fractions of it. */
+  --logo-h: calc(128 * var(--px));
+
   font-family: Poppins, Inter, system-ui, sans-serif;
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
@@ -398,7 +402,13 @@
 }
 
 .md-logo {
-  height: calc(64 * var(--px));
+  /* BLOCK, NOT INLINE. An inline <img> sits on the text baseline, so the line
+     box hangs the parent font's descender under it — a gap that is set in real
+     pixels off the inherited 16px, does not scale with --px, and therefore gets
+     wider the smaller the preview is. Blocking the image deletes it, and only
+     then does the pull-up below mean the same thing at every size. */
+  display: block;
+  height: var(--logo-h);
   width: auto;
   /* CLOSE ENOUGH TO BE ONE MARK. Sixteen units of air below the wordmark read
      as two separate pieces of type that happened to be stacked; a couple reads
@@ -408,17 +418,19 @@
   /* Negative, because the SVG carries its own clear space below the baseline —
      zero margin still leaves a gap that reads as two separate marks. Measured
      off a render: ink stops 10.04 of the file's 83.29 units above the bottom
-     edge, so at 64 units tall the box hangs 7.7 units of nothing under the
-     wordmark. Pulling ten back overshoots that on purpose — the locality line
-     carries its own leading above the caps, and this is what eats it. */
-  margin: 0 auto calc(-10 * var(--px));
+     edge, so the box hangs 12% of its height in nothing under the wordmark —
+     15 units at 128. Twenty pulls past that, and what is left is the line's own
+     air above the caps: WOODBRIDGE lands all but flush to the type. */
+  margin: 0 auto calc(-20 * var(--px));
   filter: grayscale(1) invert(1);
 }
 
 .md-city {
   margin: 0 0 calc(40 * var(--px));
   font-weight: 700;
-  font-size: calc(23 * var(--px));
+  /* Half the logo height, which is what keeps it reading as one lockup at any
+     size — see --logo-h. */
+  font-size: calc(var(--logo-h) * 0.36);
   /* The half-leading of a normal line box is another four units of air sitting
      between the wordmark and these caps, and it is invisible until you go
      looking for it. One flattens the box onto the type; the bottom margin goes
@@ -433,10 +445,10 @@
      under the pair and it sits left of the type it belongs to. Measured off a
      render of the SVG rather than guessed: ink spans 12-782 of 795, the badge
      is the tall run 74-144, and the wordmark 147-782 has its centre at 464.5
-     against the logo's 397 — 8.49% of the width to the right. The logo is 64
-     units tall, so 64 x 397.52/83.29 = 305 wide, and 8.49% of that is 26.
-     Padding on a centred block moves the text half the padding, hence 52. */
-  padding-left: calc(52 * var(--px));
+     against the logo's 397 — 8.49% of the width to the right. The logo is 128
+     units tall, so 128 x 397.52/83.29 = 611 wide, and 8.49% of that is 52.
+     Padding on a centred block moves the text half the padding, hence 104. */
+  padding-left: calc(var(--logo-h) * 0.81);
 }
 
 .md-where { margin: 0; display: flex; flex-direction: column; gap: calc(6 * var(--px)); }
