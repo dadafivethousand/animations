@@ -365,7 +365,10 @@
   opacity: 0;
 }
 
-.md-beat:nth-child(2) { color: var(--red-lit); }
+/* ALL THREE WHITE. The middle beat and the payoff's second line were brand red,
+   which is the right colour on paper and the wrong one at 84 units over a wall
+   of red-lit code — the word had to fight its own background. White is simply
+   more legible here; the red stays where it reads, on the object and the ring. */
 
 .md-lines {
   position: absolute;
@@ -385,8 +388,6 @@
   letter-spacing: calc(-3 * var(--px));
   opacity: 0;
 }
-
-.md-line-b { color: var(--red-lit); }
 
 /* ============================================================
    THE ENDCARD
