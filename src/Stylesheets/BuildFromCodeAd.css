@@ -383,7 +383,11 @@
 
 /* ---------- the caret, then the typing ---------- */
 
-.bf-go .bf-caret { animation: bfBlink 0.42s steps(1) 0s 4, bfGone 0.01s linear 1.7s forwards; }
+/* It blinks in the empty editor and is GONE the instant the first character
+   lands. It used to hang around until 1.7s, parked at the start of line one
+   while the code typed itself past it — a caret that does not move is not a
+   caret, it is a rectangle sitting in the copy. */
+.bf-go .bf-caret { animation: bfBlink 0.21s steps(1) 0s 2, bfGone 0.01s linear 0.42s forwards; }
 @keyframes bfBlink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
 @keyframes bfGone { to { opacity: 0; } }
 

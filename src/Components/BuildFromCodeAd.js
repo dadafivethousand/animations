@@ -51,33 +51,73 @@ const CODE = [
   [["start", "f"], ["()", "p"]],
 ];
 
-/* The sprite, one character per block. 7 wide, 8 tall.
- *   K suit   H headband   E eye   B belt
- * Deliberately generic — a hooded figure with a band and two eyes, not a
- * reproduction of anybody's character. */
+/* THE SPRITE. One character per block, 11 wide by 16 tall — near enough three
+ * times the block count of the first pass, which is where the detail comes
+ * from: a hood that tapers, a headband with a tail, an eye slit rather than two
+ * squares, arms that are their own colour so they read in front of the chest,
+ * a belt, hands, and shoes wider than the shins.
+ *
+ *   K suit   A arm   L leg   F shoe   H band   h band tail
+ *   E eye    B belt  N hand
+ *
+ * Deliberately generic: a hooded figure with a band and an eye slit, not a
+ * reproduction of anybody's character.
+ */
 const SPRITE = [
-  "..KKK..",
-  ".HHHHH.",
-  ".KEKEK.",
-  ".KKKKK.",
-  "KKKKKKK",
-  "KKBBBKK",
-  ".KK.KK.",
-  ".KK.KK.",
+  "....KKK....",
+  "...KKKKK...",
+  "..KKKKKKK..",
+  "..KKKKKKK..",
+  ".HHHHHHHHHh",
+  "..KEEKEEK..",
+  "..KKKKKKK..",
+  "...KKKKK...",
+  "..AKKKKKA..",
+  ".AAKKKKKAA.",
+  ".AAKKKKKAA.",
+  ".AABBBBBAA.",
+  ".AAKKKKKAA.",
+  "..NKKKKKN..",
+  "...LL.LL...",
+  "..FFF.FFF..",
 ];
 
-const PLATFORM = 9; // blocks wide, under the feet
+const W = SPRITE[0].length;
+const H = SPRITE.length;
+const GROUND = 15;   // blocks in the scrolling strip
+
+/* WHICH LIMB A BLOCK BELONGS TO, so the run cycle has something to swing.
+ * Read off the character and the column rather than stored in a second map:
+ * two parallel maps drift the moment somebody edits one row. */
+function partOf(ch, col, row) {
+  if (row <= 7) return "head";
+  if (ch === "A" || ch === "N") return col < W / 2 ? "armL" : "armR";
+  if (ch === "L" || ch === "F") return col < W / 2 ? "legL" : "legR";
+  return "torso";
+}
+
+/* Where each limb pivots, in blocks. A leg swings from the hip and an arm from
+ * the shoulder; swinging either from the middle of the sprite reads as the
+ * whole figure shearing. */
+const PIVOT = {
+  head: [5.5, 8],
+  torso: [5.5, 8],
+  armL: [2.5, 8.5],
+  armR: [8.5, 8.5],
+  legL: [4, 13.5],
+  legR: [7, 13.5],
+};
 
 /* Where each block comes from. Fixed, not random: a take that differs from the
  * take before it cannot be compared to it. The vector is read off the index so
  * the debris leaves the detonation in a fan rather than a clump. */
 function scatter(i, total) {
-  const a = (i / total) * Math.PI * 2 * 3.7 + 0.6;   // 3.7 turns over the set
-  const r = 420 + ((i * 137) % 380);                  // 420-800 units out
+  const a = (i / total) * Math.PI * 2 * 3.7 + 0.6;
+  const r = 420 + ((i * 137) % 380);
   return {
     x: Math.cos(a) * r,
-    y: Math.sin(a) * r * 0.72 - 260,                  // biased upward, toward the code
-    z: 220 + ((i * 91) % 300),                        // toward the lens, so they read as debris
+    y: Math.sin(a) * r * 0.72 - 260,
+    z: 220 + ((i * 91) % 300),
     rot: ((i * 47) % 120) - 60,
   };
 }
@@ -104,20 +144,37 @@ export default function BuildFromCodeAd({
     return () => cancelAnimationFrame(r);
   }, [reduce]);
 
-  // Blocks, bottom row first — the figure has to build up out of its feet, not
-  // rain down onto them.
-  const blocks = React.useMemo(() => {
-    const out = [];
-    for (let r = SPRITE.length - 1; r >= 0; r--) {
-      for (let c = 0; c < SPRITE[r].length; c++) {
-        const ch = SPRITE[r][c];
-        if (ch !== ".") out.push({ c, r, kind: ch, part: "body" });
+  /* Blocks, bottom row first — the figure has to build up out of its feet, not
+   * rain down onto them — grouped by limb, with hidden faces culled.
+   *
+   * THE CULL IS A PERFORMANCE FIX AND A CORRECTNESS ONE. A block with a
+   * neighbour above it has its top face completely covered by that neighbour,
+   * and a block with a neighbour to its left has its left face covered the same
+   * way. Rendering them anyway costs a hundred-odd extra 3D-transformed
+   * elements that are never seen — on a sprite this size that is the
+   * difference between a smooth swarm and a juddering one — and they z-fight
+   * with the neighbour that covers them. Only silhouette blocks get sides. */
+  const parts = React.useMemo(() => {
+    const at = (r, c2) =>
+      r >= 0 && r < H && c2 >= 0 && c2 < W && SPRITE[r][c2] !== "." ? SPRITE[r][c2] : null;
+
+    const groups = { head: [], torso: [], armL: [], armR: [], legL: [], legR: [] };
+    let n = 0;
+    for (let r = H - 1; r >= 0; r--) {
+      for (let col = 0; col < W; col++) {
+        const ch = SPRITE[r][col];
+        if (ch === ".") continue;
+        groups[partOf(ch, col, r)].push({
+          c: col,
+          r,
+          kind: ch,
+          top: !at(r - 1, col),
+          left: !at(r, col - 1),
+          i: n++,
+        });
       }
     }
-    for (let c = 0; c < PLATFORM; c++) {
-      out.push({ c: c - 1, r: SPRITE.length, kind: "P", part: "floor" });
-    }
-    return out;
+    return { groups, count: n };
   }, []);
 
   return (
@@ -153,31 +210,56 @@ export default function BuildFromCodeAd({
             {/* ---------- what it becomes ---------- */}
             <div className="bf-scene">
               <div className="bf-world">
-                {blocks.map((b, i) => {
-                  const s = scatter(i, blocks.length);
-                  return (
-                    <span
-                      className={`bf-vx bf-vx--${b.kind}`}
-                      key={`${b.part}-${b.r}-${b.c}`}
-                      style={{ "--c": b.c, "--r": b.r }}
-                    >
-                      <span
-                        className="bf-vx-in"
-                        style={{
-                          "--sx": `${s.x.toFixed(1)}px`,
-                          "--sy": `${s.y.toFixed(1)}px`,
-                          "--sz": `${s.z.toFixed(1)}px`,
-                          "--sr": `${s.rot}deg`,
-                          "--d": `${(2.9 + i * 0.036).toFixed(3)}s`,
-                        }}
-                      >
+                {/* The ground the run happens over. Uniform blocks, so shifting
+                    the strip by exactly one block width loops seamlessly and
+                    still reads as motion — the seams are the motion. */}
+                <div className="bf-ground">
+                  {Array.from({ length: GROUND }, (_, i) => (
+                    <span className="bf-vx bf-vx--P" key={i} style={{ "--c": i - 3, "--r": H }}>
+                      <span className="bf-vx-in bf-vx-in--static">
                         <i className="bf-face bf-face--top" />
                         <i className="bf-face bf-face--left" />
                         <i className="bf-face bf-face--front" />
                       </span>
                     </span>
-                  );
-                })}
+                  ))}
+                </div>
+
+                <div className="bf-hero">
+                  {Object.entries(parts.groups).map(([part, blocks]) => (
+                    <div
+                      className={`bf-part bf-part--${part}`}
+                      key={part}
+                      style={{ "--ox": PIVOT[part][0], "--oy": PIVOT[part][1] }}
+                    >
+                      {blocks.map((b) => {
+                        const s = scatter(b.i, parts.count);
+                        return (
+                          <span
+                            className={`bf-vx bf-vx--${b.kind}`}
+                            key={`${b.r}-${b.c}`}
+                            style={{ "--c": b.c, "--r": b.r }}
+                          >
+                            <span
+                              className="bf-vx-in"
+                              style={{
+                                "--sx": `${s.x.toFixed(1)}px`,
+                                "--sy": `${s.y.toFixed(1)}px`,
+                                "--sz": `${s.z.toFixed(1)}px`,
+                                "--sr": `${s.rot}deg`,
+                                "--d": `${(2.62 + b.i * 0.0125).toFixed(3)}s`,
+                              }}
+                            >
+                              {b.top && <i className="bf-face bf-face--top" />}
+                              {b.left && <i className="bf-face bf-face--left" />}
+                              <i className="bf-face bf-face--front" />
+                            </span>
+                          </span>
+                        );
+                      })}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 
