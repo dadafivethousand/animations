@@ -100,9 +100,6 @@ export default function MarkDropAd({
   beats = ["CODING", "ROBOTICS", "AI"],
   lineA = "BUILD THE",
   lineB = "FUTURE",
-  address = "6175 Hwy 7, Woodbridge, ON",
-  phone = "647-887-9940",
-  web = "cnwoodbridge.com",
 }) {
   const reduce = React.useMemo(
     () =>
@@ -198,15 +195,12 @@ export default function MarkDropAd({
             </div>
 
             {/* ---------- the endcard ---------- */}
+            {/* THE MARK, AND NOTHING ELSE. No locality line, no address, no
+                number — the ad ends on the brand rather than on a contact
+                block. Everything that was here is one commit back if it needs
+                to come home. */}
             <div className="md-end">
               <img className="md-logo" src={cnLogo} alt="Code Ninjas" />
-              {/* The centre's NAME is the lockup above — printing CODE NINJAS
-                  WOODBRIDGE again underneath it was the same words twice. What
-                  is left here is the one thing the lockup cannot say. */}
-              <p className="md-city">WOODBRIDGE</p>
-              <p className="md-where">{address}</p>
-              <p className="md-tel">{phone}</p>
-              <p className="md-web">{web}</p>
             </div>
 
             <div className="md-motes" aria-hidden>

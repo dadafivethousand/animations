@@ -68,14 +68,6 @@
      and that line's offset under the wordmark are both fractions of it. */
   --logo-h: calc(128 * var(--px));
 
-  /* NO PANEL BEHIND THE ENDCARD — the wallpaper is meant to show through it.
-     A halo instead of a box: it darkens only the pixels the glyphs actually
-     touch, so `return dx` still runs across the frame behind the number
-     without running THROUGH it. Two radii, because one tight enough to hold an
-     edge is too tight to lift the type off a bright token. */
-  --endshadow:
-    0 0 calc(10 * var(--px)) rgba(8, 6, 10, 0.95),
-    0 0 calc(26 * var(--px)) rgba(8, 6, 10, 0.8);
 
   font-family: Poppins, Inter, system-ui, sans-serif;
   color: var(--ink);
@@ -404,12 +396,13 @@
   position: absolute;
   left: var(--safe-x);
   right: var(--safe-x);
-  /* CENTRED, BECAUSE NOTHING IS ABOVE IT ANY MORE. The object used to hold the
-     top of the frame and this sat under it; now that it dissolves, the endcard
-     is the whole composition and has to be the whole frame's centre — 1920 less
-     its own ~325 units, halved, and then lifted a little off the arithmetic
-     centre the way type always wants to be. */
-  top: calc(742 * var(--px));
+  /* CENTRED ON THE INK, NOT ON THE BOX. It is the only thing left in the frame,
+     so it has to sit dead centre — but the SVG's ink stops 10.04 of its 83.29
+     units above the file's bottom edge, so a box centred at 896 hangs the mark
+     40 units high. Centre the ink instead (its middle is 56 down a 128-unit
+     box), then lift it a touch off the arithmetic centre the way a lone element
+     always wants to be. */
+  top: calc(862 * var(--px));
   text-align: center;
   opacity: 0;
   z-index: 8;
@@ -424,80 +417,12 @@
   display: block;
   height: var(--logo-h);
   width: auto;
-  /* CLOSE ENOUGH TO BE ONE MARK. Sixteen units of air below the wordmark read
-     as two separate pieces of type that happened to be stacked; a couple reads
-     as a locality line belonging to the logo above it. The size is set so the
-     two measure roughly the same width as well — a lockup is as much about the
-     right-hand edges agreeing as the gap. */
-  /* Negative, because the SVG carries its own clear space below the baseline —
-     zero margin still leaves a gap that reads as two separate marks. Measured
-     off a render: ink stops 10.04 of the file's 83.29 units above the bottom
-     edge, so the box hangs 12% of its height in nothing under the wordmark —
-     15 units at 128. Twenty pulls past that, and what is left is the line's own
-     air above the caps: WOODBRIDGE lands all but flush to the type. */
-  margin: 0 auto calc(-20 * var(--px));
+  /* `auto` is what centres it horizontally — the image is a block now, so
+     text-align on the parent does not reach it. No vertical margin: it is an
+     only child in an absolutely positioned box, so `top` is the whole story. */
+  margin: 0 auto;
   filter: grayscale(1) invert(1)
     drop-shadow(0 0 calc(14 * var(--px)) rgba(8, 6, 10, 0.9));
-}
-
-.md-city {
-  margin: 0 0 calc(40 * var(--px));
-  font-weight: 700;
-  /* Half the logo height, which is what keeps it reading as one lockup at any
-     size — see --logo-h. */
-  font-size: calc(var(--logo-h) * 0.36);
-  /* The half-leading of a normal line box is another four units of air sitting
-     between the wordmark and these caps, and it is invisible until you go
-     looking for it. One flattens the box onto the type; the bottom margin goes
-     up by the same amount so only the gap ABOVE the word closes. */
-  line-height: 1;
-  letter-spacing: 0.34em;
-  text-indent: 0.34em;
-  color: var(--ink);
-  opacity: 0.72;
-  text-shadow: var(--endshadow);
-  /* UNDER THE WORDS, NOT UNDER THE WHOLE LOGO. The horizontal mark is a badge
-     plus the words CODE NINJAS, so centring this line on the file centres it
-     under the pair and it sits left of the type it belongs to. Measured off a
-     render of the SVG rather than guessed: ink spans 12-782 of 795, the badge
-     is the tall run 74-144, and the wordmark 147-782 has its centre at 464.5
-     against the logo's 397 — 8.49% of the width to the right. The logo is 128
-     units tall, so 128 x 397.52/83.29 = 611 wide, and 8.49% of that is 52.
-     Padding on a centred block moves the text half the padding, hence 104. */
-  padding-left: calc(var(--logo-h) * 0.81);
-}
-
-/* The only line of copy between the lockup and the number, so it carries the
-   weight the deleted centre-name line used to. Still dimmer than the phone —
-   the address is what you read after you have decided to call. */
-.md-where {
-  margin: 0;
-  font-size: calc(42 * var(--px));
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  color: var(--dim);
-  text-shadow: var(--endshadow);
-}
-
-.md-tel {
-  margin: calc(20 * var(--px)) 0 0;
-  font-weight: 800;
-  font-size: calc(50 * var(--px));
-  color: var(--red-lit);
-  text-shadow: var(--endshadow);
-}
-
-/* Under the number, not beside it: on a phone at arm's length two contacts on
-   one line halves both. Sized and coloured a step below the number — the call
-   is the ask, the site is where you go if you are not ready to make it. */
-.md-web {
-  margin: calc(14 * var(--px)) 0 0;
-  font-weight: 600;
-  font-size: calc(38 * var(--px));
-  letter-spacing: 0.02em;
-  color: var(--ink);
-  opacity: 0.86;
-  text-shadow: var(--endshadow);
 }
 
 /* ============================================================
