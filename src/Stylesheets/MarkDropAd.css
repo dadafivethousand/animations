@@ -409,7 +409,7 @@
      is the whole composition and has to be the whole frame's centre — 1920 less
      its own ~325 units, halved, and then lifted a little off the arithmetic
      centre the way type always wants to be. */
-  top: calc(770 * var(--px));
+  top: calc(742 * var(--px));
   text-align: center;
   opacity: 0;
   z-index: 8;
@@ -484,6 +484,19 @@
   font-weight: 800;
   font-size: calc(50 * var(--px));
   color: var(--red-lit);
+  text-shadow: var(--endshadow);
+}
+
+/* Under the number, not beside it: on a phone at arm's length two contacts on
+   one line halves both. Sized and coloured a step below the number — the call
+   is the ask, the site is where you go if you are not ready to make it. */
+.md-web {
+  margin: calc(14 * var(--px)) 0 0;
+  font-weight: 600;
+  font-size: calc(38 * var(--px));
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  opacity: 0.86;
   text-shadow: var(--endshadow);
 }
 

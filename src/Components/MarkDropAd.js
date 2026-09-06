@@ -92,6 +92,7 @@ export default function MarkDropAd({
   lineB = "BY KIDS.",
   address = "6175 Hwy 7, Woodbridge, ON",
   phone = "647-887-9940",
+  web = "cnwoodbridge.com",
 }) {
   const reduce = React.useMemo(
     () =>
@@ -195,6 +196,7 @@ export default function MarkDropAd({
               <p className="md-city">WOODBRIDGE</p>
               <p className="md-where">{address}</p>
               <p className="md-tel">{phone}</p>
+              <p className="md-web">{web}</p>
             </div>
 
             <div className="md-motes" aria-hidden>
