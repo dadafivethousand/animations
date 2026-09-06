@@ -522,9 +522,13 @@
    opposite of that. */
 .md-go .md-code-in { animation: mdScroll 9.4s linear 0.6s both; }
 
+/* 330 units over the whole ad is 35 a second — slow enough that the last two
+   seconds read as a still. Nearly double it and the wall is visibly travelling
+   right through the endcard, which is the point: the program is still being
+   written when the video stops, not finished and parked. */
 @keyframes mdScroll {
   from { transform: translateY(0); }
-  to { transform: translateY(calc(-330 * var(--px))); }
+  to { transform: translateY(calc(-620 * var(--px))); }
 }
 
 /* down a notch once the endcard needs the frame */
@@ -562,7 +566,7 @@
 .md-go .md-scene {
   animation:
     mdFade 0.3s linear 0.35s both,
-    mdGone 0.6s ease-in 5.5s forwards;
+    mdGone 0.42s ease-in 5.72s forwards;
 }
 @keyframes mdFade { from { opacity: 0; } to { opacity: 1; } }
 @keyframes mdGone { from { opacity: 1; } to { opacity: 0; } }
@@ -577,12 +581,23 @@
 
 /* ---------- the hit ---------- */
 
-.md-go .md-flash { animation: mdFlash 0.5s ease-out 1.66s both; }
+/* Two beats each, arrival and exit. `forwards` and not `both` on the second of
+   each pair matters: a backwards fill would apply the exit's 0% frame from time
+   zero and stomp the arrival's. */
+.md-go .md-flash {
+  animation:
+    mdFlash 0.5s ease-out 1.66s both,
+    mdFlash 0.5s ease-out 5.62s forwards;
+}
 @keyframes mdFlash { 0% { opacity: 0; } 10% { opacity: 1; } 100% { opacity: 0; } }
 
 /* 0% is invisible: the animation is filled `both`, so whatever 0% says is what
    the ring does for the 1.7s before its delay. */
-.md-go .md-ring { animation: mdRing 0.95s cubic-bezier(0.2, 0.8, 0.3, 1) 1.68s both; }
+.md-go .md-ring {
+  animation:
+    mdRing 0.95s cubic-bezier(0.2, 0.8, 0.3, 1) 1.68s both,
+    mdRing 0.85s cubic-bezier(0.2, 0.8, 0.3, 1) 5.62s forwards;
+}
 @keyframes mdRing {
   0% { opacity: 0; transform: scale(0.25); border-width: calc(12 * var(--px)); }
   8% { opacity: 0.85; }
@@ -592,7 +607,7 @@
 .md-go .md-pool {
   animation:
     mdPool 0.6s ease-out 1.68s both,
-    mdGone 0.6s ease-in 5.5s forwards;
+    mdGone 0.45s ease-in 5.62s forwards;
 }
 @keyframes mdPool { from { opacity: 0; transform: scaleX(0.5); } to { opacity: 1; transform: scaleX(1); } }
 
@@ -642,14 +657,38 @@
 
 /* ---------- out of the way, and the endcard ---------- */
 
-/* Runs WITH the dissolve, not after it: the object rises and shrinks as it
-   goes, so it leaves rather than just dimming, and by 6.1s — before the endcard
-   starts at 6.15 — there is nothing of it left to cross-fade against. */
-.md-go .md-lift { animation: mdLift 0.9s cubic-bezier(0.16, 1, 0.3, 1) 5.5s forwards; }
+/* IT LEAVES THE WAY IT CAME, BACKWARDS. The arrival is the object punching
+   through 2600 units of depth with 1440 degrees of spin on it; a rise-and-fade
+   exit answers that with nothing. So it winds up instead — a beat toward the
+   camera, cocked off axis, the way anything about to be thrown pulls back
+   first — and then fires straight back down the Z it arrived on, spinning
+   harder than it did coming in. Depth does the shrinking, so there is no
+   scale() here: it goes small because it goes far, which is the difference
+   between an object leaving and a layer being turned down. */
+.md-go .md-lift { animation: mdWhipOut 0.78s 5.45s forwards; }
 
-@keyframes mdLift {
-  from { transform: translateY(0) scale(1); }
-  to { transform: translateY(calc(-190 * var(--px))) scale(0.72); }
+@keyframes mdWhipOut {
+  /* the wind-up: slow, and TOWARDS the camera */
+  0% {
+    animation-timing-function: cubic-bezier(0.32, 0, 0.68, 1);
+    transform: translateZ(0) translateY(0) rotateY(0deg) rotateX(0deg);
+  }
+  22% {
+    animation-timing-function: cubic-bezier(0.75, 0, 0.9, 0.25);
+    transform:
+      translateZ(calc(190 * var(--px)))
+      translateY(calc(-14 * var(--px)))
+      rotateY(-42deg)
+      rotateX(6deg);
+  }
+  /* and gone */
+  100% {
+    transform:
+      translateZ(calc(-3400 * var(--px)))
+      translateY(calc(-150 * var(--px)))
+      rotateY(1440deg)
+      rotateX(-18deg);
+  }
 }
 
 .md-go .md-end { animation: mdLine 0.8s cubic-bezier(0.16, 1, 0.3, 1) 6.15s both; }

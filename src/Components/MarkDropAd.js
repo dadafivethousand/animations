@@ -84,6 +84,18 @@ const CODE = [
   [["canvas", "v"], [".addEventListener", "f"], ["(", "p"], ['"pointerdown"', "s"], [", ", "p"], ["() ", "p"], ["=>", "o"], [" ", "p"], ["spawn", "f"], ["(", "p"], ["24", "n"], [")", "p"], [")", "p"]],
   [["gl", "v"], [".viewport", "f"], ["(", "p"], ["0", "n"], [", ", "p"], ["0", "n"], [", canvas.width, canvas.height", "v"], [")", "p"]],
   [["spawn", "f"], ["(", "p"], ["120", "n"], [")", "p"]],
+  [],
+  [["function ", "k"], ["resize", "f"], ["(", "p"], [") {", "p"]],
+  [["  canvas", "v"], [".width ", "pr"], ["=", "o"], [" innerWidth ", "v"], ["*", "o"], [" devicePixelRatio", "v"]],
+  [["  canvas", "v"], [".height ", "pr"], ["=", "o"], [" innerHeight ", "v"], ["*", "o"], [" devicePixelRatio", "v"]],
+  [["  aspect ", "v"], ["=", "o"], [" canvas", "v"], [".width ", "pr"], ["/", "o"], [" canvas", "v"], [".height", "pr"]],
+  [["}", "p"]],
+  [],
+  [["addEventListener", "f"], ["(", "p"], ['"resize"', "s"], [", resize", "v"], [")", "p"]],
+  [["resize", "f"], ["()", "p"]],
+  [],
+  [["const", "k"], [" score ", "v"], ["=", "o"], [" bodies", "v"], [".filter", "f"], ["(", "p"], ["b ", "v"], ["=>", "o"], [" b", "v"], [".hit", "pr"], [")", "p"], [".length", "pr"]],
+  [["ui", "v"], [".textContent ", "pr"], ["=", "o"], [" ", "p"], ["`SCORE ${score}`", "s"]],
 ];
 
 
