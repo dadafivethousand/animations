@@ -559,22 +559,30 @@
 
 /* ---------- the wallpaper types itself ----------
  * It starts before the object does and keeps going underneath it, so the room
- * is already busy when the medallion crashes into the middle of it. */
+ * is already busy when the medallion crashes into the middle of it.
+ *
+ * THE STAGGER IS WHAT DECIDES WHERE THE CODE ENDS. At 0.29s a line, the typing
+ * frontier had only reached line 30 by the time the ad was over, and it left
+ * the bottom quarter of the frame as bare floor. The frontier has to descend
+ * faster than the scroll lifts the block: at 0.15s a line it moves ~360 units
+ * a second against the scroll's 35, so it is past the bottom edge by 5.5s and
+ * stays past it. Lines overlap now — two are typing at once — and that is the
+ * point: the wall fills. */
 .md-go .md-txt {
   animation: mdCh 0.32s steps(26, end) both;
-  animation-delay: calc(0.1s + var(--i) * 0.29s);
+  animation-delay: calc(0.1s + var(--i) * 0.15s);
 }
 
 @keyframes mdCh { from { width: 0ch; } to { width: calc(var(--n) * 1ch); } }
 
 .md-go .md-ln {
   animation: mdFade 0.1s linear both;
-  animation-delay: calc(0.1s + var(--i) * 0.29s);
+  animation-delay: calc(0.1s + var(--i) * 0.15s);
 }
 
 .md-go .md-ln::before {
   animation: mdLit 0.44s ease-out both;
-  animation-delay: calc(0.1s + var(--i) * 0.29s);
+  animation-delay: calc(0.1s + var(--i) * 0.15s);
 }
 
 @keyframes mdLit {
