@@ -520,15 +520,15 @@
    at five seconds, and the block drifts upward the whole time — the point is a
    program still being written, and a static wall of finished code is the
    opposite of that. */
-.md-go .md-code-in { animation: mdScroll 9.4s linear 0.6s both; }
+.md-go .md-code-in { animation: mdScroll 11.1s linear 0.6s both; }
 
-/* 330 units over the whole ad is 35 a second — slow enough that the last two
-   seconds read as a still. Nearly double it and the wall is visibly travelling
-   right through the endcard, which is the point: the program is still being
-   written when the video stops, not finished and parked. */
+/* 330 units over the whole ad was 35 a second — slow enough that the last two
+   seconds read as a still. 740 over the longer cut holds the same ~66 a second,
+   so the wall is visibly travelling right through the endcard, which is the
+   point: the program is still being written when the video stops. */
 @keyframes mdScroll {
   from { transform: translateY(0); }
-  to { transform: translateY(calc(-620 * var(--px))); }
+  to { transform: translateY(calc(-740 * var(--px))); }
 }
 
 /* down a notch once the endcard needs the frame */
@@ -537,7 +537,7 @@
 .md-go .md-code {
   animation:
     mdSurge 0.55s ease-out 1.66s both,
-    mdDim 0.7s ease-out 5.8s forwards;
+    mdDim 0.7s ease-out 7.5s forwards;
 }
 
 @keyframes mdSurge {
@@ -566,7 +566,7 @@
 .md-go .md-scene {
   animation:
     mdFade 0.3s linear 0.35s both,
-    mdGone 0.42s ease-in 5.72s forwards;
+    mdGone 0.42s ease-in 7.42s forwards;
 }
 @keyframes mdFade { from { opacity: 0; } to { opacity: 1; } }
 @keyframes mdGone { from { opacity: 1; } to { opacity: 0; } }
@@ -587,7 +587,7 @@
 .md-go .md-flash {
   animation:
     mdFlash 0.5s ease-out 1.66s both,
-    mdFlash 0.5s ease-out 5.62s forwards;
+    mdFlash 0.5s ease-out 7.32s forwards;
 }
 @keyframes mdFlash { 0% { opacity: 0; } 10% { opacity: 1; } 100% { opacity: 0; } }
 
@@ -596,7 +596,7 @@
 .md-go .md-ring {
   animation:
     mdRing 0.95s cubic-bezier(0.2, 0.8, 0.3, 1) 1.68s both,
-    mdRing 0.85s cubic-bezier(0.2, 0.8, 0.3, 1) 5.62s forwards;
+    mdRing 0.85s cubic-bezier(0.2, 0.8, 0.3, 1) 7.32s forwards;
 }
 @keyframes mdRing {
   0% { opacity: 0; transform: scale(0.25); border-width: calc(12 * var(--px)); }
@@ -607,7 +607,7 @@
 .md-go .md-pool {
   animation:
     mdPool 0.6s ease-out 1.68s both,
-    mdGone 0.45s ease-in 5.62s forwards;
+    mdGone 0.45s ease-in 7.32s forwards;
 }
 @keyframes mdPool { from { opacity: 0; transform: scaleX(0.5); } to { opacity: 1; transform: scaleX(1); } }
 
@@ -621,15 +621,21 @@
 
 /* ---------- the beats ---------- */
 
+/* A WORD A SECOND, NOT THREE IN A SECOND. At 0.4s apart each of these was on
+   screen for about a third of a second — long enough to register that a word
+   happened, not long enough to read which one. 1.05s apart gives each about
+   0.85s of hold after it has finished arriving, which is roughly the time it
+   takes to actually read a word you were not expecting. The whole back half of
+   the ad moves down to make room; the video is ~1.7s longer for it. */
 .md-go .md-beat {
   animation:
-    mdBeat 0.34s cubic-bezier(0.16, 1, 0.3, 1) calc(2.2s + var(--i) * 0.4s) both,
-    mdBeatOut 0.22s ease-in calc(2.56s + var(--i) * 0.4s) both;
+    mdBeat 0.34s cubic-bezier(0.16, 1, 0.3, 1) calc(2.2s + var(--i) * 1.05s) both,
+    mdBeatOut 0.22s ease-in calc(3.05s + var(--i) * 1.05s) both;
 }
 
-/* the last one holds, because the next thing to happen is the headline and a
-   blank half second between them reads as a mistake rather than a beat */
-.md-go .md-beat:nth-child(3) { animation-delay: 3.0s, 3.66s; }
+/* the last one holds longer still, because the next thing to happen is the
+   headline and a blank half second between them reads as a mistake */
+.md-go .md-beat:nth-child(3) { animation-delay: 4.3s, 5.35s; }
 
 @keyframes mdBeatOut {
   to { opacity: 0; transform: translateY(calc(-20 * var(--px))) scale(0.96); filter: blur(calc(5 * var(--px))); }
@@ -640,20 +646,20 @@
   to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
 }
 
-.md-go .md-beats { animation: mdOut 0.4s ease-in 3.8s both; }
+.md-go .md-beats { animation: mdOut 0.4s ease-in 5.5s both; }
 @keyframes mdOut { to { opacity: 0; transform: translateY(calc(-22 * var(--px))); } }
 
 /* ---------- the line ---------- */
 
-.md-go .md-line-a { animation: mdLine 0.7s cubic-bezier(0.16, 1, 0.3, 1) 4.1s both; }
-.md-go .md-line-b { animation: mdLine 0.7s cubic-bezier(0.16, 1, 0.3, 1) 4.4s both; }
+.md-go .md-line-a { animation: mdLine 0.7s cubic-bezier(0.16, 1, 0.3, 1) 5.8s both; }
+.md-go .md-line-b { animation: mdLine 0.7s cubic-bezier(0.16, 1, 0.3, 1) 6.1s both; }
 
 @keyframes mdLine {
   from { opacity: 0; transform: translateY(calc(38 * var(--px))); filter: blur(calc(10 * var(--px))); }
   to { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
 
-.md-go .md-lines { animation: mdOut 0.45s ease-in 5.75s both; }
+.md-go .md-lines { animation: mdOut 0.45s ease-in 7.45s both; }
 
 /* ---------- out of the way, and the endcard ---------- */
 
@@ -665,7 +671,7 @@
    harder than it did coming in. Depth does the shrinking, so there is no
    scale() here: it goes small because it goes far, which is the difference
    between an object leaving and a layer being turned down. */
-.md-go .md-lift { animation: mdWhipOut 0.78s 5.45s forwards; }
+.md-go .md-lift { animation: mdWhipOut 0.78s 7.15s forwards; }
 
 @keyframes mdWhipOut {
   /* the wind-up: slow, and TOWARDS the camera */
@@ -691,11 +697,11 @@
   }
 }
 
-.md-go .md-end { animation: mdLine 0.8s cubic-bezier(0.16, 1, 0.3, 1) 6.15s both; }
+.md-go .md-end { animation: mdLine 0.8s cubic-bezier(0.16, 1, 0.3, 1) 7.85s both; }
 
 /* ---------- the camera ---------- */
 
-.md-go .md-push { animation: mdPush 8.6s cubic-bezier(0.24, 0.6, 0.2, 1) both; }
+.md-go .md-push { animation: mdPush 10.3s cubic-bezier(0.24, 0.6, 0.2, 1) both; }
 @keyframes mdPush { from { transform: scale(1.06); } to { transform: scale(1); } }
 
 .md-go .md-shake {

@@ -21,7 +21,7 @@
 // Both faces carry the mark, so the back of the coin is never a mirror-image
 // mistake mid-spin.
 //
-//   MS=8800 HOLD=1.6 BG='#08060a' OUT=~/Downloads/cn-mark-drop.mp4 \
+//   MS=10600 HOLD=1.6 BG='#08060a' OUT=~/Downloads/cn-mark-drop.mp4 \
 //     NODE_PATH=/tmp/rec/node_modules node tools/record.js
 import React from "react";
 import "../Stylesheets/MarkDropAd.css";
@@ -96,6 +96,18 @@ const CODE = [
   [],
   [["const", "k"], [" score ", "v"], ["=", "o"], [" bodies", "v"], [".filter", "f"], ["(", "p"], ["b ", "v"], ["=>", "o"], [" b", "v"], [".hit", "pr"], [")", "p"], [".length", "pr"]],
   [["ui", "v"], [".textContent ", "pr"], ["=", "o"], [" ", "p"], ["`SCORE ${score}`", "s"]],
+  [],
+  [["function ", "k"], ["shader", "f"], ["(", "p"], ["type, src", "v"], [") {", "p"]],
+  [["  const", "k"], [" sh ", "v"], ["=", "o"], [" gl", "v"], [".createShader", "f"], ["(", "p"], ["type", "v"], [")", "p"]],
+  [["  gl", "v"], [".shaderSource", "f"], ["(", "p"], ["sh, src", "v"], [")", "p"]],
+  [["  gl", "v"], [".compileShader", "f"], ["(", "p"], ["sh", "v"], [")", "p"]],
+  [["  return", "k"], [" sh", "v"]],
+  [["}", "p"]],
+  [],
+  [["const", "k"], [" vs ", "v"], ["=", "o"], [" ", "p"], ["shader", "f"], ["(", "p"], ["gl", "v"], [".VERTEX_SHADER", "pr"], [", VERT", "v"], [")", "p"]],
+  [["const", "k"], [" fs ", "v"], ["=", "o"], [" ", "p"], ["shader", "f"], ["(", "p"], ["gl", "v"], [".FRAGMENT_SHADER", "pr"], [", FRAG", "v"], [")", "p"]],
+  [["gl", "v"], [".useProgram", "f"], ["(", "p"], ["prog", "v"], [")", "p"]],
+  [["gl", "v"], [".enable", "f"], ["(", "p"], ["gl", "v"], [".DEPTH_TEST", "pr"], [")", "p"]],
 ];
 
 
