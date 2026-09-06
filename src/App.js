@@ -22,9 +22,10 @@ import "./Stylesheets/App.css";
 // import MapleBackToSchoolAd from "./Components/MapleBackToSchoolAd";
 // import OpenHouseAd from "./Components/OpenHouseAd";
 // import FinalWeekCampAd from "./Components/FinalWeekCampAd";
-import RhFiftyReviewsAd from "./Components/RhFiftyReviewsAd";
+// import RhFiftyReviewsAd from "./Components/RhFiftyReviewsAd";
+import ScreenTimeReportAd from "./Components/ScreenTimeReportAd";
 
 function App() {
-  return <RhFiftyReviewsAd />;
+  return <ScreenTimeReportAd />;
 }
 export default App;

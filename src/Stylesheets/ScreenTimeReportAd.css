@@ -1,0 +1,615 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap");
+
+/* ============================================================
+   ScreenTimeReportAd.css — the weekly report, relabelled. Namespace: st-
+
+   1080x1920, an INSTAGRAM REEL. Every number is a design pixel:
+   `calc(<n> * var(--px))` where --px is a 1080th of the frame WIDTH.
+
+     MS=9200 HOLD=1.7 BG='#f2f2f7' OUT=~/Downloads/cn-screen-time.mp4 \
+       NODE_PATH=/tmp/rec/node_modules node tools/record.js
+
+   ── THIS ONE IS LIGHT, AND THAT IS THE POINT ──
+
+   Every recent ad in this repo is a dark cinematic stage — navy and cyan, then
+   obsidian and gold. This is a phone settings screen: system grey, white
+   cards, near-black text. Partly because the house rule says consecutive posts
+   must not look alike, and mostly because the ad only works if frame one is
+   mistaken for a screenshot. A branded dark ad announces itself in the first
+   frame; this has to be recognised as something the viewer's own phone shows
+   them every Sunday.
+
+   BG IS #f2f2f7 IN THE RECORDER, not the usual dark value. The page is that
+   colour for the ~150ms before React mounts, and on a white UI a flash of navy
+   is the worst frame one available.
+
+   ── THE SYSTEM FONT IS FREE AUTHENTICITY ──
+
+   `-apple-system` resolves to SF on the Mac this is recorded on, which is the
+   same face the real report is set in. Inter is the fallback for anywhere
+   else; the endcard is Poppins, because THAT part is allowed to look like an
+   ad. The switch of typeface at the endcard is doing work: it is the moment
+   the ad stops pretending.
+
+   ── THE ONE THING THAT MUST NEVER MOVE ──
+
+   Bar heights, the dashed average line, and the three durations. The turn
+   recolours and relabels everything around them and leaves those exactly
+   where they were, because "the same hours, pointed somewhere else" has to be
+   something the viewer SEES rather than something the copy claims.
+   ============================================================ */
+
+.st-frame {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #f2f2f7;
+  container-type: size;
+  container-name: reel;
+}
+
+.st-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.st {
+  --px: calc(100cqw / 1080);
+
+  --sys-bg: #f2f2f7;
+  --card: #ffffff;
+  --ink: #1c1c1e;
+  --ink-2: #6b6b70;
+  --hair: rgba(60, 60, 67, 0.12);
+  --cool: #8e9099;      /* the bars, before */
+  --red: #e4002b;       /* Code Ninjas, after */
+  --red-2: #ff2a4d;
+
+  --safe-t: calc(232 * var(--px));
+  --safe-x: calc(64 * var(--px));
+
+  --ui: -apple-system, "SF Pro Text", "SF Pro Display", Inter, system-ui, sans-serif;
+  --brand: Poppins, Inter, system-ui, sans-serif;
+
+  font-family: var(--ui);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* the dolly and the hit, on separate boxes — one transform each */
+.st-push,
+.st-shake {
+  position: absolute;
+  inset: 0;
+}
+
+.st-wall {
+  position: absolute;
+  inset: 0;
+  background: var(--sys-bg);
+}
+
+/* ============================================================
+   THE REPORT
+   ============================================================ */
+
+.st-ui {
+  position: absolute;
+  left: var(--safe-x);
+  right: var(--safe-x);
+  top: var(--safe-t);
+}
+
+/* ---------- status bar ---------- */
+
+.st-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 calc(10 * var(--px)) calc(26 * var(--px));
+}
+
+.st-clock { font-size: calc(30 * var(--px)); font-weight: 600; letter-spacing: 0.01em; }
+
+.st-sysicons { display: flex; align-items: center; gap: calc(10 * var(--px)); }
+.st-sysicons i { display: block; background: var(--ink); }
+
+/* Drawn as three plain shapes rather than copied glyphs — enough to read as a
+   status bar at a glance, which is all this row is for. */
+.st-sig {
+  width: calc(30 * var(--px));
+  height: calc(22 * var(--px));
+  clip-path: polygon(0 66%, 22% 66%, 22% 100%, 0 100%, 0 66%, 30% 44%, 52% 44%, 52% 100%, 30% 100%, 30% 44%, 60% 22%, 82% 22%, 82% 100%, 60% 100%);
+}
+.st-wifi {
+  width: calc(26 * var(--px));
+  height: calc(20 * var(--px));
+  clip-path: polygon(50% 100%, 30% 62%, 70% 62%, 50% 100%, 50% 100%, 12% 30%, 26% 18%, 74% 18%, 88% 30%, 74% 44%, 26% 44%);
+}
+.st-batt {
+  width: calc(42 * var(--px));
+  height: calc(20 * var(--px));
+  border-radius: calc(5 * var(--px));
+}
+
+/* ---------- titles ---------- */
+
+.st-h1 {
+  margin: 0;
+  font-size: calc(72 * var(--px));
+  font-weight: 700;
+  letter-spacing: calc(-1.6 * var(--px));
+  line-height: 1.04;
+}
+
+.st-week {
+  margin: calc(6 * var(--px)) 0 calc(30 * var(--px));
+  font-size: calc(30 * var(--px));
+  font-weight: 500;
+  color: var(--ink-2);
+}
+
+/* ---------- cards ---------- */
+
+.st-card {
+  background: var(--card);
+  border-radius: calc(30 * var(--px));
+  padding: calc(32 * var(--px)) calc(30 * var(--px)) calc(26 * var(--px));
+  box-shadow: 0 calc(2 * var(--px)) calc(10 * var(--px)) rgba(20, 20, 30, 0.05);
+}
+
+.st-card--rows { margin-top: calc(26 * var(--px)); padding-bottom: calc(14 * var(--px)); }
+
+/* The report ran out two-thirds down the frame and left a third of it as flat
+   grey. A real screen time page keeps going, so this one does too — and it
+   gives the sweep something to cross on its way out rather than exiting over
+   nothing. */
+.st-card--foot {
+  margin-top: calc(26 * var(--px));
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: calc(20 * var(--px));
+  padding-top: calc(28 * var(--px));
+  padding-bottom: calc(28 * var(--px));
+}
+
+.st-foot-stat { display: flex; flex-direction: column; gap: calc(4 * var(--px)); }
+.st-foot-stat b { font-size: calc(46 * var(--px)); font-weight: 700; letter-spacing: calc(-1 * var(--px)); }
+.st-foot-stat i { font-style: normal; font-size: calc(25 * var(--px)); font-weight: 500; color: var(--ink-2); }
+
+.st-label { margin: 0; font-size: calc(27 * var(--px)); font-weight: 500; color: var(--ink-2); }
+
+.st-avg {
+  margin: calc(4 * var(--px)) 0 calc(30 * var(--px));
+  font-size: calc(78 * var(--px));
+  font-weight: 700;
+  letter-spacing: calc(-2 * var(--px));
+  line-height: 1.05;
+}
+
+/* ---------- the week ---------- */
+
+.st-chart {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: calc(14 * var(--px));
+  height: calc(300 * var(--px));
+  padding-bottom: calc(2 * var(--px));
+  border-bottom: calc(2 * var(--px)) solid var(--hair);
+}
+
+.st-bar { position: relative; flex: 1; height: 100%; display: flex; align-items: flex-end; }
+
+/* The bar itself is the <i>. Its height is the ONE value in this ad that the
+   turn is not allowed to touch. */
+.st-bar i {
+  display: block;
+  width: 100%;
+  height: var(--h);
+  border-radius: calc(9 * var(--px)) calc(9 * var(--px)) 0 0;
+  background: var(--cool);
+  transform-origin: 50% 100%;
+}
+
+/* The average line, drawn across the chart at the height of the mean. It
+   arrives before the turn and is still sitting on the same pixels afterwards. */
+.st-avgline {
+  position: absolute;
+  left: calc(-6 * var(--px));
+  right: calc(-6 * var(--px));
+  bottom: 79%;
+  height: 0;
+  border-top: calc(3 * var(--px)) dashed rgba(60, 60, 67, 0.34);
+  z-index: 2;
+}
+
+.st-avgline em {
+  position: absolute;
+  right: 0;
+  top: calc(-38 * var(--px));
+  font-style: normal;
+  font-size: calc(23 * var(--px));
+  font-weight: 700;
+  color: var(--ink-2);
+  background: var(--card);
+  padding: 0 calc(8 * var(--px));
+}
+
+.st-days {
+  display: flex;
+  justify-content: space-between;
+  gap: calc(14 * var(--px));
+  margin-top: calc(14 * var(--px));
+}
+
+.st-days span {
+  flex: 1;
+  text-align: center;
+  font-size: calc(25 * var(--px));
+  font-weight: 500;
+  color: var(--ink-2);
+}
+
+/* ---------- the three rows ---------- */
+
+.st-cap {
+  margin: 0 0 calc(18 * var(--px));
+  font-size: calc(23 * var(--px));
+  font-weight: 600;
+  letter-spacing: calc(1.4 * var(--px));
+  color: var(--ink-2);
+}
+
+.st-row {
+  display: grid;
+  grid-template-columns: calc(70 * var(--px)) 1fr auto;
+  grid-template-rows: auto auto;
+  align-items: center;
+  column-gap: calc(20 * var(--px));
+  padding: calc(16 * var(--px)) 0;
+  border-top: calc(2 * var(--px)) solid var(--hair);
+}
+
+.st-row:first-of-type { border-top: 0; }
+
+/* ---------- the swap ----------
+ * Two labels and two glyphs stacked on the same cell. The outgoing one leaves
+ * upward and the incoming one arrives from below, which reads as a value being
+ * REPLACED rather than two things cross-fading — the difference between "this
+ * changed" and "this is dissolving". */
+.st-ico {
+  position: relative;
+  grid-row: 1 / 3;
+  width: calc(70 * var(--px));
+  height: calc(70 * var(--px));
+  border-radius: calc(18 * var(--px));
+  overflow: hidden;
+  background: var(--cool);
+  color: #fff;
+  display: grid;
+  place-items: center;
+}
+
+.st-ico-a,
+.st-ico-b { position: absolute; inset: 0; display: grid; place-items: center; }
+.st-ico svg { width: calc(40 * var(--px)); height: calc(40 * var(--px)); display: block; }
+.st-ico-b { transform: translateY(100%); }
+
+/* EXPLICIT CELLS. Only the icon and the duration were placed, so auto-flow
+   dropped the duration into the label's column and the names rendered into a
+   zero-width cell — the row read as a bar chart with a time and no subject,
+   which is every word of the actual message missing. */
+.st-name {
+  grid-column: 2;
+  grid-row: 1;
+  position: relative;
+  height: calc(42 * var(--px));
+  overflow: hidden;
+}
+.st-name b {
+  position: absolute;
+  inset: 0;
+  font-size: calc(32 * var(--px));
+  font-weight: 600;
+  line-height: calc(40 * var(--px));
+  white-space: nowrap;
+}
+.st-name-b { transform: translateY(100%); }
+
+.st-time {
+  grid-column: 3;
+  grid-row: 1;
+  font-size: calc(32 * var(--px));
+  font-weight: 600;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.st-mini {
+  grid-column: 2 / 4;
+  grid-row: 2;
+  height: calc(10 * var(--px));
+  margin-top: calc(12 * var(--px));
+  border-radius: calc(999 * var(--px));
+  background: rgba(60, 60, 67, 0.1);
+  overflow: hidden;
+}
+
+.st-mini i {
+  display: block;
+  width: var(--p);
+  height: 100%;
+  border-radius: inherit;
+  background: var(--cool);
+}
+
+/* ============================================================
+   THE TURN
+   ============================================================ */
+
+/* One red line, top to bottom. It is the cause of everything that changes —
+   each row relabels as it is crossed, not on a timer that happens to agree. */
+.st-sweep {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: calc(5 * var(--px));
+  background: linear-gradient(90deg, transparent, var(--red) 12%, var(--red-2) 50%, var(--red) 88%, transparent);
+  box-shadow: 0 0 calc(60 * var(--px)) calc(14 * var(--px)) rgba(228, 0, 43, 0.4);
+  opacity: 0;
+  z-index: 5;
+}
+
+/* ============================================================
+   THE COPY
+   ============================================================ */
+
+.st-lines {
+  position: absolute;
+  left: var(--safe-x);
+  right: var(--safe-x);
+  top: calc(1120 * var(--px));
+  text-align: center;
+  z-index: 6;
+}
+
+.st-line-a,
+.st-line-b {
+  margin: 0;
+  font-family: var(--brand);
+  font-weight: 800;
+  letter-spacing: calc(-1.4 * var(--px));
+  line-height: 1.08;
+  opacity: 0;
+}
+
+.st-line-a { font-size: calc(96 * var(--px)); color: var(--ink); }
+.st-line-b { font-size: calc(96 * var(--px)); color: var(--red); }
+
+/* ============================================================
+   THE ENDCARD — where the ad stops pretending
+   ============================================================ */
+
+.st-end {
+  position: absolute;
+  left: var(--safe-x);
+  right: var(--safe-x);
+  top: calc(960 * var(--px));
+  text-align: center;
+  opacity: 0;
+  z-index: 7;
+}
+
+.st-logo { height: calc(64 * var(--px)); width: auto; margin: 0 auto calc(14 * var(--px)); }
+
+.st-city {
+  margin: 0 0 calc(34 * var(--px));
+  font-family: var(--brand);
+  font-weight: 700;
+  font-size: calc(30 * var(--px));
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+  color: var(--ink-2);
+}
+
+.st-tail {
+  margin: 0 0 calc(44 * var(--px));
+  font-family: var(--brand);
+  font-weight: 600;
+  font-size: calc(41 * var(--px));
+  line-height: 1.42;
+  color: var(--ink);
+}
+
+.st-where { margin: 0 0 calc(10 * var(--px)); display: flex; flex-direction: column; gap: calc(4 * var(--px)); }
+.st-where b { font-family: var(--brand); font-weight: 700; font-size: calc(31 * var(--px)); letter-spacing: 0.03em; }
+.st-where i { font-style: normal; font-size: calc(27 * var(--px)); color: var(--ink-2); }
+
+.st-tel {
+  margin: calc(14 * var(--px)) 0 0;
+  font-family: var(--brand);
+  font-weight: 800;
+  font-size: calc(46 * var(--px));
+  letter-spacing: 0.02em;
+  color: var(--red);
+}
+
+.st-vig {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(122% 78% at 50% 44%, transparent 58%, rgba(30, 30, 40, 0.07) 100%);
+}
+
+/* ============================================================
+   THE TIMELINE
+
+     0.00  the report is already on screen; bars at zero
+     0.10  bars draw in, left to right, the way a report renders
+     0.55  the average line and its label
+     0.80  the three rows arrive
+     1.40  ── HOLD. Nothing moves for a second and a half. This is the beat
+           that lets it be mistaken for a screenshot, and it is the most
+           important two seconds in the ad.
+     2.90  the red line sweeps down
+     3.05  bars recolour as it passes them
+     3.25  row 1 relabels, then 3.40 and 3.55 — each as the line crosses it
+     4.30  the average line pulses: the total did not move
+     5.10  the UI recedes; "Same hours." lands
+     5.70  "Different screen."
+     7.00  the endcard, in the brand's own typeface
+     9.00  settled
+   ============================================================ */
+
+.st-stage:not(.st-go):not(.st-still) .st-ui,
+.st-stage:not(.st-go):not(.st-still) .st-avgline { opacity: 0; }
+
+/* ---------- the report renders ---------- */
+
+.st-go .st-ui { animation: stFade 0.5s ease-out both; }
+
+.st-go .st-bar i {
+  animation: stGrow 0.62s cubic-bezier(0.22, 0.9, 0.3, 1) both;
+  animation-delay: calc(0.1s + var(--i) * 0.055s);
+}
+
+@keyframes stGrow {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+.st-go .st-avgline { animation: stFade 0.45s ease-out 0.55s both; }
+
+.st-go .st-row {
+  animation: stRise 0.5s cubic-bezier(0.2, 0.9, 0.25, 1) both;
+  animation-delay: calc(0.8s + var(--i) * 0.09s);
+}
+
+@keyframes stFade { from { opacity: 0; } to { opacity: 1; } }
+
+@keyframes stRise {
+  from { opacity: 0; transform: translateY(calc(16 * var(--px))); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- the sweep ---------- */
+
+.st-go .st-sweep { animation: stSweep 0.85s cubic-bezier(0.4, 0, 0.5, 1) 2.9s both; }
+
+@keyframes stSweep {
+  0% { opacity: 0; transform: translateY(0); }
+  8% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(calc(1560 * var(--px))); }
+}
+
+/* ---------- what the sweep leaves behind ----------
+ * Bars first, because the line reaches the chart first. Each row follows at
+ * the moment the line is level with it. */
+.st-go .st-bar i {
+  animation:
+    stGrow 0.62s cubic-bezier(0.22, 0.9, 0.3, 1) calc(0.1s + var(--i) * 0.055s) both,
+    stRed 0.36s ease-out calc(3.24s + var(--i) * 0.028s) both;
+}
+
+@keyframes stRed { to { background: var(--red); } }
+
+.st-go .st-ico { animation: stRedBg 0.36s ease-out calc(3.47s + var(--i) * 0.1s) both; }
+@keyframes stRedBg { to { background: var(--red); } }
+
+.st-go .st-mini i { animation: stRed 0.36s ease-out calc(3.47s + var(--i) * 0.1s) both; }
+
+.st-go .st-ico-a,
+.st-go .st-name-a { animation: stOut 0.42s cubic-bezier(0.5, 0, 0.2, 1) calc(3.47s + var(--i) * 0.1s) both; }
+
+.st-go .st-ico-b,
+.st-go .st-name-b { animation: stIn 0.42s cubic-bezier(0.5, 0, 0.2, 1) calc(3.47s + var(--i) * 0.1s) both; }
+
+@keyframes stOut { from { transform: translateY(0); } to { transform: translateY(-100%); } }
+@keyframes stIn { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+/* the total, insisting on itself */
+.st-go .st-avgline em { animation: stPulse 0.9s ease-out 4.3s both; }
+
+@keyframes stPulse {
+  0% { transform: scale(1); color: var(--ink-2); }
+  30% { transform: scale(1.16); color: var(--red); }
+  100% { transform: scale(1); color: var(--red); }
+}
+
+/* ---------- the copy ---------- */
+
+.st-go .st-ui { animation: stFade 0.5s ease-out both, stRecede 0.8s ease-out 5.0s both; }
+
+@keyframes stRecede {
+  to { opacity: 0.06; transform: scale(0.965); filter: blur(calc(5 * var(--px))); }
+}
+
+/* A wash of the system colour under the endcard. Fading the report to 13% left
+   a legible ghost of bars and numbers directly behind the phone number, and two
+   sets of type competing is worse than either alone. */
+.st-scrim {
+  position: absolute;
+  inset: 0;
+  background: var(--sys-bg);
+  opacity: 0;
+  z-index: 6;
+}
+
+.st-go .st-scrim { animation: stScrim 0.7s ease-out 6.8s both; }
+@keyframes stScrim { to { opacity: 0.92; } }
+
+.st-go .st-line-a { animation: stLine 0.7s cubic-bezier(0.16, 1, 0.3, 1) 5.1s both; }
+.st-go .st-line-b { animation: stLine 0.7s cubic-bezier(0.16, 1, 0.3, 1) 5.7s both; }
+
+@keyframes stLine {
+  from { opacity: 0; transform: translateY(calc(34 * var(--px))); filter: blur(calc(6 * var(--px))); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+/* the two lines clear out so the endcard has the frame to itself */
+.st-go .st-lines { animation: stFadeOut 0.5s ease-in 6.7s both; }
+@keyframes stFadeOut { to { opacity: 0; transform: translateY(calc(-26 * var(--px))); } }
+
+.st-go .st-end { animation: stLine 0.8s cubic-bezier(0.16, 1, 0.3, 1) 7.0s both; }
+
+/* ---------- the camera ---------- */
+
+.st-go .st-push { animation: stPush 9s cubic-bezier(0.24, 0.6, 0.2, 1) both; }
+
+@keyframes stPush {
+  from { transform: scale(1.045); }
+  to { transform: scale(1); }
+}
+
+/* One hit, when the sweep lands. */
+.st-go .st-shake { animation: stHit 0.42s ease-out 2.95s both; }
+
+@keyframes stHit {
+  0% { transform: translate3d(0, 0, 0); }
+  22% { transform: translate3d(calc(-5 * var(--px)), calc(7 * var(--px)), 0); }
+  52% { transform: translate3d(calc(4 * var(--px)), calc(-4 * var(--px)), 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+/* ============================================================
+   REDUCED MOTION — the finished frame, nothing moving.
+   ============================================================ */
+.st-still .st-lines,
+.st-still .st-end { opacity: 1; }
+.st-still .st-ico-b,
+.st-still .st-name-b { transform: translateY(0); }
+.st-still .st-ico-a,
+.st-still .st-name-a { transform: translateY(-100%); }
+
+@media (prefers-reduced-motion: reduce) {
+  .st-stage * { animation: none !important; }
+  .st-lines, .st-end { opacity: 1; }
+}
