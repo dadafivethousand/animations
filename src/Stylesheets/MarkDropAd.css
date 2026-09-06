@@ -127,15 +127,18 @@
   position: absolute;
   left: calc(72 * var(--px));
   right: calc(40 * var(--px));
-  top: calc(236 * var(--px));
+  top: calc(206 * var(--px));
   font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   opacity: 0.46;
-  z-index: 1;
-  /* A tighter hole than before. At a fifth of opacity the code needed the mask
-     to protect the object; at nearly half it needs the room, so the clearing
-     shrinks to just the disc and the code closes back in around it. */
-  -webkit-mask-image: radial-gradient(38% 23% at 50% 38%, transparent 26%, #000 88%);
-  mask-image: radial-gradient(38% 23% at 50% 38%, transparent 26%, #000 88%);
+  /* BEHIND EVERYTHING, AND THE MASK IS GONE WITH IT. `.md-scene` carries a
+     `perspective`, which makes it a stacking context at z-index auto — so the
+     code at z-index 1 was painting straight over the medallion, and the hole
+     punched in the mask was the only thing keeping the object visible. Put the
+     wallpaper at 0 and the object at 4 and the stack is honest: the code runs
+     behind the disc and is simply occluded by it, which is what a mask should
+     never have been standing in for. */
+  z-index: 0;
+  line-height: 1.3;
 }
 
 .md-ln {
@@ -143,9 +146,9 @@
   display: flex;
   align-items: baseline;
   gap: calc(22 * var(--px));
-  margin: 0 0 calc(13 * var(--px));
-  font-size: calc(35 * var(--px));
-  line-height: 1.34;
+  margin: 0 0 calc(11 * var(--px));
+  font-size: calc(33 * var(--px));
+  line-height: 1.3;
   white-space: pre;
 }
 
@@ -207,6 +210,7 @@
   height: var(--coin);
   perspective: calc(1500 * var(--px));
   perspective-origin: 44% 34%;
+  z-index: 4;
 }
 
 .md-lift,
@@ -406,6 +410,15 @@
   text-indent: 0.34em;
   color: var(--ink);
   opacity: 0.72;
+  /* UNDER THE WORDS, NOT UNDER THE WHOLE LOGO. The horizontal mark is a badge
+     plus the words CODE NINJAS, so centring this line on the file centres it
+     under the pair and it sits left of the type it belongs to. Measured off a
+     render of the SVG rather than guessed: ink spans 12-782 of 795, the badge
+     is the tall run 74-144, and the wordmark 147-782 has its centre at 464.5
+     against the logo's 397 — 8.49% of the width to the right. The logo is 64
+     units tall, so 64 x 397.52/83.29 = 305 wide, and 8.49% of that is 26.
+     Padding on a centred block moves the text half the padding, hence 52. */
+  padding-left: calc(52 * var(--px));
 }
 
 .md-where { margin: 0; display: flex; flex-direction: column; gap: calc(6 * var(--px)); }
@@ -480,26 +493,37 @@
  * It starts before the object does and keeps going underneath it, so the room
  * is already busy when the medallion crashes into the middle of it. */
 .md-go .md-txt {
-  animation: mdCh 0.3s steps(26, end) both;
-  animation-delay: calc(0.1s + var(--i) * 0.26s);
+  animation: mdCh 0.32s steps(26, end) both;
+  animation-delay: calc(0.1s + var(--i) * 0.29s);
 }
 
 @keyframes mdCh { from { width: 0ch; } to { width: calc(var(--n) * 1ch); } }
 
 .md-go .md-ln {
   animation: mdFade 0.1s linear both;
-  animation-delay: calc(0.1s + var(--i) * 0.26s);
+  animation-delay: calc(0.1s + var(--i) * 0.29s);
 }
 
 .md-go .md-ln::before {
-  animation: mdLit 0.42s ease-out both;
-  animation-delay: calc(0.1s + var(--i) * 0.26s);
+  animation: mdLit 0.44s ease-out both;
+  animation-delay: calc(0.1s + var(--i) * 0.29s);
 }
 
 @keyframes mdLit {
   0% { opacity: 0; }
   18% { opacity: 1; }
   100% { opacity: 0; }
+}
+
+/* IT NEVER FINISHES. The typing runs the length of the ad rather than stopping
+   at five seconds, and the block drifts upward the whole time — the point is a
+   program still being written, and a static wall of finished code is the
+   opposite of that. */
+.md-go .md-code-in { animation: mdScroll 9.4s linear 0.6s both; }
+
+@keyframes mdScroll {
+  from { transform: translateY(0); }
+  to { transform: translateY(calc(-330 * var(--px))); }
 }
 
 /* down a notch once the endcard needs the frame */

@@ -30,33 +30,52 @@ import cnLogo from "../Images/cn-logo-horizontal.svg";
 
 const LAYERS = 16;
 
-/* The room's wallpaper. A kid's game, typing itself the whole time the object
- * is arriving — it is texture, not reading matter, which is why it sits at a
- * fifth of full opacity behind everything and is masked out where the mark
- * lands. Tokens rather than strings so the colouring is structural. */
+/* The room's wallpaper: a WebGL render loop and a physics integrator, typing
+ * itself for the whole run. Lower level than the toy it replaced — buffers,
+ * uniforms, a matrix, a fixed-step integrate/collide pair — because "a kid
+ * writes a game" is a smaller claim than "this is what the work looks like",
+ * and nothing here reads as a made-up API. Tokens rather than strings so the
+ * colouring is structural. */
 const CODE = [
-  [["let", "k"], [" hero ", "v"], ["=", "o"], [" new ", "k"], ["Sprite", "t"], ["(", "p"], ['"ninja"', "s"], [")", "p"]],
-  [["hero", "v"], [".speed ", "pr"], ["=", "o"], [" 7", "n"]],
-  [["hero", "v"], [".jumps ", "pr"], ["=", "o"], [" 2", "n"]],
+  [["const", "k"], [" gl ", "v"], ["=", "o"], [" canvas", "v"], [".getContext", "f"], ["(", "p"], ['"webgl2"', "s"], [")", "p"]],
+  [["const", "k"], [" prog ", "v"], ["=", "o"], [" gl", "v"], [".createProgram", "f"], ["()", "p"]],
   [],
-  [["function ", "k"], ["jump", "f"], ["() {", "p"]],
-  [["  hero", "v"], [".y ", "pr"], ["-=", "o"], [" 120", "n"]],
-  [["  play", "f"], ["(", "p"], ['"whoosh"', "s"], [")", "p"]],
+  [["gl", "v"], [".attachShader", "f"], ["(", "p"], ["prog, vs", "v"], [")", "p"]],
+  [["gl", "v"], [".attachShader", "f"], ["(", "p"], ["prog, fs", "v"], [")", "p"]],
+  [["gl", "v"], [".linkProgram", "f"], ["(", "p"], ["prog", "v"], [")", "p"]],
+  [],
+  [["const", "k"], [" vbo ", "v"], ["=", "o"], [" gl", "v"], [".createBuffer", "f"], ["()", "p"]],
+  [["gl", "v"], [".bindBuffer", "f"], ["(", "p"], ["gl", "v"], [".ARRAY_BUFFER", "pr"], [", vbo", "v"], [")", "p"]],
+  [["gl", "v"], [".bufferData", "f"], ["(", "p"], ["gl", "v"], [".ARRAY_BUFFER", "pr"], [", mesh, gl", "v"], [".STATIC_DRAW", "pr"], [")", "p"]],
+  [],
+  [["const", "k"], [" u_mvp ", "v"], ["=", "o"], [" gl", "v"], [".getUniformLocation", "f"], ["(", "p"], ["prog, ", "v"], ['"u_mvp"', "s"], [")", "p"]],
+  [],
+  [["function ", "k"], ["integrate", "f"], ["(", "p"], ["b, dt", "v"], [") {", "p"]],
+  [["  b", "v"], [".vel", "pr"], ["[", "p"], ["1", "n"], ["] ", "p"], ["+=", "o"], [" GRAVITY ", "v"], ["*", "o"], [" dt", "v"]],
+  [["  b", "v"], [".pos", "pr"], ["[", "p"], ["0", "n"], ["] ", "p"], ["+=", "o"], [" b", "v"], [".vel", "pr"], ["[", "p"], ["0", "n"], ["] ", "p"], ["*", "o"], [" dt", "v"]],
+  [["  b", "v"], [".pos", "pr"], ["[", "p"], ["1", "n"], ["] ", "p"], ["+=", "o"], [" b", "v"], [".vel", "pr"], ["[", "p"], ["1", "n"], ["] ", "p"], ["*", "o"], [" dt", "v"]],
   [["}", "p"]],
   [],
-  [["function ", "k"], ["onHit", "f"], ["(", "p"], ["enemy", "v"], [") {", "p"]],
-  [["  score ", "v"], ["+=", "o"], [" 10", "n"]],
-  [["  enemy", "v"], [".remove", "f"], ["()", "p"]],
+  [["function ", "k"], ["collide", "f"], ["(", "p"], ["a, b", "v"], [") {", "p"]],
+  [["  const", "k"], [" dx ", "v"], ["=", "o"], [" b", "v"], [".pos", "pr"], ["[", "p"], ["0", "n"], ["] ", "p"], ["-", "o"], [" a", "v"], [".pos", "pr"], ["[", "p"], ["0", "n"], ["]", "p"]],
+  [["  const", "k"], [" dy ", "v"], ["=", "o"], [" b", "v"], [".pos", "pr"], ["[", "p"], ["1", "n"], ["] ", "p"], ["-", "o"], [" a", "v"], [".pos", "pr"], ["[", "p"], ["1", "n"], ["]", "p"]],
+  [["  return", "k"], [" dx ", "v"], ["*", "o"], [" dx ", "v"], ["+", "o"], [" dy ", "v"], ["*", "o"], [" dy ", "v"], ["<", "o"], [" a", "v"], [".r2 ", "pr"], ["+", "o"], [" b", "v"], [".r2", "pr"]],
   [["}", "p"]],
   [],
-  [["onKey", "f"], ["(", "p"], ['"space"', "s"], [", ", "p"], ["jump", "f"], [")", "p"]],
-  [["onCollide", "f"], ["(", "p"], ['"enemy"', "s"], [", ", "p"], ["onHit", "f"], [")", "p"]],
+  [["function ", "k"], ["frame", "f"], ["(", "p"], ["now", "v"], [") {", "p"]],
+  [["  const", "k"], [" dt ", "v"], ["=", "o"], [" (now ", "v"], ["-", "o"], [" last) ", "v"], ["*", "o"], [" 0.001", "n"]],
+  [["  for", "k"], [" (", "p"], ["const", "k"], [" b ", "v"], ["of", "k"], [" bodies", "v"], [") ", "p"], ["integrate", "f"], ["(", "p"], ["b, dt", "v"], [")", "p"]],
+  [["  mat4", "t"], [".perspective", "f"], ["(", "p"], ["proj, FOV, aspect, ", "v"], ["0.1", "n"], [", ", "p"], ["100", "n"], [")", "p"]],
+  [["  gl", "v"], [".uniformMatrix4fv", "f"], ["(", "p"], ["u_mvp, ", "v"], ["false", "k"], [", mvp", "v"], [")", "p"]],
+  [["  gl", "v"], [".clear", "f"], ["(", "p"], ["gl", "v"], [".COLOR_BUFFER_BIT", "pr"], [")", "p"]],
+  [["  gl", "v"], [".drawArrays", "f"], ["(", "p"], ["gl", "v"], [".TRIANGLES", "pr"], [", ", "p"], ["0", "n"], [", count", "v"], [")", "p"]],
+  [["  last ", "v"], ["=", "o"], [" now", "v"]],
+  [["  requestAnimationFrame", "f"], ["(", "p"], ["frame", "v"], [")", "p"]],
+  [["}", "p"]],
   [],
-  [["world", "v"], [".add", "f"], ["(", "p"], ["hero", "v"], [")", "p"]],
-  [["world", "v"], [".gravity ", "pr"], ["=", "o"], [" 9.8", "n"]],
-  [],
-  [["start", "f"], ["()", "p"]],
+  [["requestAnimationFrame", "f"], ["(", "p"], ["frame", "v"], [")", "p"]],
 ];
+
 
 /* Air in the light. Fixed rather than random — a take that differs from the one
  * before it cannot be compared to it. [x%, y%, size, blur, drift-s, delay-s] */
@@ -99,6 +118,10 @@ export default function MarkDropAd({
 
             {/* ---------- the room's wallpaper ---------- */}
             <div className="md-code" aria-hidden>
+              {/* The scroll lives on an inner box because the outer one already
+                  animates opacity and brightness — one transform per element,
+                  or they overwrite each other. */}
+              <div className="md-code-in">
               {CODE.map((tokens, i) => {
                 const n = tokens.reduce((a, [t]) => a + t.length, 0);
                 return (
@@ -112,6 +135,7 @@ export default function MarkDropAd({
                   </p>
                 );
               })}
+              </div>
             </div>
             <div className="md-key" aria-hidden />
             <div className="md-floor" aria-hidden />
