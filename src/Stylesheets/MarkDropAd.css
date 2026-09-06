@@ -68,6 +68,15 @@
      and that line's offset under the wordmark are both fractions of it. */
   --logo-h: calc(128 * var(--px));
 
+  /* NO PANEL BEHIND THE ENDCARD — the wallpaper is meant to show through it.
+     A halo instead of a box: it darkens only the pixels the glyphs actually
+     touch, so `return dx` still runs across the frame behind the number
+     without running THROUGH it. Two radii, because one tight enough to hold an
+     edge is too tight to lift the type off a bright token. */
+  --endshadow:
+    0 0 calc(10 * var(--px)) rgba(8, 6, 10, 0.95),
+    0 0 calc(26 * var(--px)) rgba(8, 6, 10, 0.8);
+
   font-family: Poppins, Inter, system-ui, sans-serif;
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
@@ -391,28 +400,6 @@
    THE ENDCARD
    ============================================================ */
 
-.md-scrim {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(600 * var(--px));
-  height: calc(720 * var(--px));
-  /* WIDE AND FLAT, NOT A DISC. `closest-side` gave an ellipse whose horizontal
-     radius was half the frame, so it was already 84% transparent out where the
-     code actually runs beside the copy — it darkened the middle and left the
-     lines that cross the phone number untouched. Explicit radii spread the
-     dark to the full width and let the falloff happen at the very edges. */
-  background: radial-gradient(
-    ellipse 100% 60% at 50% 50%,
-    rgba(8, 6, 10, 0.95) 0%,
-    rgba(8, 6, 10, 0.88) 55%,
-    rgba(8, 6, 10, 0) 100%
-  );
-  opacity: 0;
-  z-index: 7;
-  pointer-events: none;
-}
-
 .md-end {
   position: absolute;
   left: var(--safe-x);
@@ -449,7 +436,8 @@
      15 units at 128. Twenty pulls past that, and what is left is the line's own
      air above the caps: WOODBRIDGE lands all but flush to the type. */
   margin: 0 auto calc(-20 * var(--px));
-  filter: grayscale(1) invert(1);
+  filter: grayscale(1) invert(1)
+    drop-shadow(0 0 calc(14 * var(--px)) rgba(8, 6, 10, 0.9));
 }
 
 .md-city {
@@ -467,6 +455,7 @@
   text-indent: 0.34em;
   color: var(--ink);
   opacity: 0.72;
+  text-shadow: var(--endshadow);
   /* UNDER THE WORDS, NOT UNDER THE WHOLE LOGO. The horizontal mark is a badge
      plus the words CODE NINJAS, so centring this line on the file centres it
      under the pair and it sits left of the type it belongs to. Measured off a
@@ -487,6 +476,7 @@
   font-weight: 500;
   letter-spacing: 0.01em;
   color: var(--dim);
+  text-shadow: var(--endshadow);
 }
 
 .md-tel {
@@ -494,6 +484,7 @@
   font-weight: 800;
   font-size: calc(50 * var(--px));
   color: var(--red-lit);
+  text-shadow: var(--endshadow);
 }
 
 /* ============================================================
@@ -715,7 +706,6 @@
   to { transform: translateY(calc(-190 * var(--px))) scale(0.72); }
 }
 
-.md-go .md-scrim { animation: mdFade 0.7s ease-out 6s both; }
 .md-go .md-end { animation: mdLine 0.8s cubic-bezier(0.16, 1, 0.3, 1) 6.15s both; }
 
 /* ---------- the camera ---------- */

@@ -187,11 +187,6 @@ export default function MarkDropAd({
             </div>
 
             {/* ---------- the endcard ---------- */}
-            {/* The wallpaper does not stop for the endcard, and a phone number
-                with `return dx` running through it is a phone number nobody
-                reads. This is the dark the copy sits on. */}
-            <div className="md-scrim" aria-hidden />
-
             <div className="md-end">
               <img className="md-logo" src={cnLogo} alt="Code Ninjas" />
               {/* The centre's NAME is the lockup above — printing CODE NINJAS
