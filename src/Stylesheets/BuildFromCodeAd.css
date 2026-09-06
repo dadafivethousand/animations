@@ -1,0 +1,539 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Poppins:wght@600;700;800&display=swap");
+
+/* ============================================================
+   BuildFromCodeAd.css — the code detonates and rebuilds as the game.
+   Namespace: bf-
+
+   1080x1920, an INSTAGRAM REEL. Every number is a design pixel:
+   `calc(<n> * var(--px))`, --px being a 1080th of the frame WIDTH.
+
+     MS=9600 HOLD=1.6 BG='#07060d' OUT=~/Downloads/cn-build-from-code.mp4 \
+       NODE_PATH=/tmp/rec/node_modules node tools/record.js
+
+   ── PALETTE: EDITOR VIOLET ──
+   The last four ads on this grid are navy/cyan, obsidian/gold, light system
+   grey and a black room. This one is the inside of a code editor at night —
+   near-black with a violet cast, syntax colours doing the lighting, and brand
+   red arriving only when the character does. Nothing here repeats the ad above
+   it in the feed.
+
+   ── THE CAMERA NEVER ROTATES ──
+   Forty-nine voxels, and every front face has to stay exactly parallel to the
+   screen: a pixel sprite whose pixels are keystoned is not a pixel sprite.
+   So the world is never rotated. `perspective-origin` sits up and to the LEFT
+   of the entire sprite instead, which opens each block's top and left faces on
+   its own while leaving the fronts square.
+   The origin has to stay OUTSIDE the sprite's bounds — a camera sitting among
+   the blocks shows the ones on its left their right faces and the ones on its
+   right their left faces, and the light falls apart across the figure.
+   ============================================================ */
+
+.bf-frame {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #07060d;
+  container-type: size;
+  container-name: reel;
+}
+
+.bf-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.bf {
+  --px: calc(100cqw / 1080);
+
+  --void: #07060d;
+  --ink: #e8e6f4;
+  --dim: #6a6486;
+
+  /* syntax */
+  --c-key: #c08cff;
+  --c-fn: #52d9ff;
+  --c-str: #ffc45c;
+  --c-num: #6ee7a5;
+  --c-var: #e8e6f4;
+  --c-op: #ff6b9d;
+  --c-punc: #7d76a0;
+
+  /* the figure */
+  --suit: #2b2740;
+  --suit-top: #46406a;
+  --suit-side: #17141f;
+  --band: #e4002b;
+  --band-top: #ff3355;
+  --band-side: #8c0019;
+  --belt: #ffc45c;
+  --belt-top: #ffdb92;
+  --belt-side: #a37716;
+  --eye: #ffffff;
+  --eye-top: #ffffff;
+  --eye-side: #b9b5cf;
+  --floor: #221f36;
+  --floor-top: #3a3560;
+  --floor-side: #100e1a;
+
+  /* geometry */
+  --s: calc(88 * var(--px));    /* one block */
+  --d: calc(26 * var(--px));    /* how deep it is */
+  --lens: calc(900 * var(--px));
+
+  --safe-x: calc(64 * var(--px));
+
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+.bf-push,
+.bf-shake { position: absolute; inset: 0; }
+
+.bf-room {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(60% 34% at 50% 30%, rgba(120, 80, 220, 0.20) 0%, transparent 70%),
+    radial-gradient(70% 40% at 50% 88%, rgba(228, 0, 43, 0.12) 0%, transparent 72%),
+    linear-gradient(178deg, #0a0713 0%, #0c0917 44%, #120c1e 74%, #07060d 100%);
+}
+
+/* A faint editor rule behind everything, so the void has a surface. */
+.bf-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(150, 120, 240, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(150, 120, 240, 0.05) 1px, transparent 1px);
+  background-size: calc(88 * var(--px)) calc(88 * var(--px));
+  -webkit-mask-image: radial-gradient(70% 55% at 50% 46%, #000 0%, transparent 78%);
+  mask-image: radial-gradient(70% 55% at 50% 46%, #000 0%, transparent 78%);
+}
+
+/* ============================================================
+   THE CODE
+   ============================================================ */
+
+.bf-code {
+  position: absolute;
+  left: calc(96 * var(--px));
+  right: var(--safe-x);
+  top: calc(360 * var(--px));
+}
+
+.bf-ln {
+  display: flex;
+  align-items: baseline;
+  gap: calc(26 * var(--px));
+  margin: 0 0 calc(16 * var(--px));
+  font-size: calc(38 * var(--px));
+  line-height: 1.42;
+  white-space: pre;
+}
+
+.bf-num {
+  flex: 0 0 auto;
+  width: calc(44 * var(--px));
+  text-align: right;
+  color: #3d3757;
+  font-size: calc(30 * var(--px));
+}
+
+/* THE TYPEWRITER IS A `ch` WIDTH, WHICH IS WHY THE FONT IS MONOSPACE.
+   Animating `width` from 0 to `auto` is not possible, and animating to a
+   guessed pixel value reveals long lines slower than short ones. In a
+   monospace face `1ch` is exactly one glyph, so `--n` characters is `--n ch`
+   and every line types at the same speed regardless of length. */
+.bf-txt {
+  display: inline-block;
+  overflow: hidden;
+  white-space: pre;
+  width: calc(var(--n) * 1ch);
+  vertical-align: bottom;
+}
+
+.bf-tk-k { color: var(--c-key); font-weight: 600; }
+.bf-tk-f { color: var(--c-fn); }
+.bf-tk-s { color: var(--c-str); }
+.bf-tk-n { color: var(--c-num); }
+.bf-tk-v { color: var(--c-var); }
+.bf-tk-o { color: var(--c-op); }
+.bf-tk-p { color: var(--c-punc); }
+.bf-tk-pr { color: #a9a2c8; }
+.bf-tk-t { color: #7ee7c7; }
+
+.bf-caret {
+  position: absolute;
+  left: calc(70 * var(--px));
+  top: 0;
+  width: calc(20 * var(--px));
+  height: calc(46 * var(--px));
+  background: var(--c-fn);
+  box-shadow: 0 0 calc(30 * var(--px)) rgba(82, 217, 255, 0.7);
+}
+
+/* ============================================================
+   THE DETONATION
+   ============================================================ */
+
+.bf-flash {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(48% 30% at 50% 44%, #ffffff 0%, rgba(200, 170, 255, 0.55) 32%, transparent 72%);
+  opacity: 0;
+  mix-blend-mode: screen;
+  z-index: 8;
+}
+
+/* The shockwave the flash throws off. One ring, expanding and thinning — a
+   second ring reads as a graphic, one reads as a physical event. */
+.bf-ring {
+  position: absolute;
+  left: 50%;
+  top: calc(830 * var(--px));
+  width: calc(300 * var(--px));
+  height: calc(300 * var(--px));
+  margin: calc(-150 * var(--px)) 0 0 calc(-150 * var(--px));
+  border-radius: 50%;
+  border: calc(6 * var(--px)) solid rgba(190, 150, 255, 0.85);
+  opacity: 0;
+  z-index: 7;
+}
+
+/* ============================================================
+   THE FIGURE
+   ============================================================ */
+
+.bf-scene {
+  position: absolute;
+  inset: 0;
+  perspective: var(--lens);
+  /* Up and to the LEFT of every block — see the header. */
+  perspective-origin: -12% 4%;
+}
+
+.bf-world {
+  position: absolute;
+  transform-origin: 50% 42%;
+  /* the sprite is 7 blocks wide; this centres it and sets the feet line */
+  left: calc(50% - 3.5 * var(--s));
+  top: calc(620 * var(--px));
+  transform-style: preserve-3d;
+}
+
+.bf-vx {
+  position: absolute;
+  left: calc(var(--c) * var(--s));
+  top: calc(var(--r) * var(--s));
+  width: var(--s);
+  height: var(--s);
+  transform-style: preserve-3d;
+}
+
+/* The swarm rides on the inner box so the outer one can hold the grid position
+   without the two fighting over `transform`. */
+.bf-vx-in {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+/* RENAMED FROM .bf-f, WHICH COLLIDED WITH THE SYNTAX CLASS OF THE SAME NAME.
+   Function tokens in the code block are `.bf-f` too, so every one of them —
+   jump, play, onKey, add, start — was picking up `position: absolute` from
+   this rule and stacking on its line's origin. The code rendered as overlapping
+   mush and it looked like a wrapping bug. */
+.bf-face { position: absolute; display: block; backface-visibility: hidden; }
+
+/* Front on the picture plane, solid extruding backward — the same construction
+   the block tower uses, and the reason the fronts stay square. */
+.bf-face--front {
+  inset: 0;
+  background: var(--fill);
+  box-shadow:
+    inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.14),
+    inset calc(3 * var(--px)) 0 0 rgba(255, 255, 255, 0.08),
+    inset 0 calc(-3 * var(--px)) 0 rgba(0, 0, 0, 0.35);
+}
+
+.bf-face--top {
+  left: 0;
+  width: 100%;
+  height: var(--d);
+  top: 50%;
+  margin-top: calc(var(--d) / -2);
+  transform: translate3d(0, calc(var(--s) / -2), calc(var(--d) / -2)) rotateX(90deg);
+  background: var(--fill-top);
+}
+
+.bf-face--left {
+  top: 0;
+  height: 100%;
+  width: var(--d);
+  left: 50%;
+  margin-left: calc(var(--d) / -2);
+  transform: translate3d(calc(var(--s) / -2), 0, calc(var(--d) / -2)) rotateY(-90deg);
+  background: var(--fill-side);
+}
+
+.bf-vx--K { --fill: var(--suit); --fill-top: var(--suit-top); --fill-side: var(--suit-side); }
+.bf-vx--H { --fill: var(--band); --fill-top: var(--band-top); --fill-side: var(--band-side); }
+.bf-vx--B { --fill: var(--belt); --fill-top: var(--belt-top); --fill-side: var(--belt-side); }
+.bf-vx--E { --fill: var(--eye); --fill-top: var(--eye-top); --fill-side: var(--eye-side); }
+.bf-vx--P { --fill: var(--floor); --fill-top: var(--floor-top); --fill-side: var(--floor-side); }
+
+/* the headband throws light, which is the only brand red in the scene */
+.bf-vx--H .bf-face--front { box-shadow: inset 0 calc(3 * var(--px)) 0 rgba(255, 255, 255, 0.22), 0 0 calc(46 * var(--px)) rgba(228, 0, 43, 0.5); }
+
+/* ============================================================
+   THE COPY
+   ============================================================ */
+
+.bf-lines {
+  position: absolute;
+  left: var(--safe-x);
+  right: var(--safe-x);
+  top: calc(300 * var(--px));
+  text-align: center;
+  z-index: 9;
+  font-family: Poppins, sans-serif;
+}
+
+.bf-line-a,
+.bf-line-b {
+  margin: 0;
+  font-weight: 800;
+  line-height: 1.06;
+  letter-spacing: calc(-1 * var(--px));
+  opacity: 0;
+}
+
+.bf-line-a { font-size: calc(64 * var(--px)); color: var(--ink); }
+.bf-line-b { font-size: calc(92 * var(--px)); color: var(--band); margin-top: calc(10 * var(--px)); }
+
+/* ============================================================
+   THE ENDCARD
+   ============================================================ */
+
+.bf-end {
+  position: absolute;
+  left: var(--safe-x);
+  right: var(--safe-x);
+  top: calc(1180 * var(--px));
+  text-align: center;
+  opacity: 0;
+  z-index: 10;
+  font-family: Poppins, sans-serif;
+}
+
+.bf-logo {
+  height: calc(58 * var(--px));
+  width: auto;
+  margin: 0 auto calc(14 * var(--px));
+  filter: grayscale(1) invert(1);
+}
+
+.bf-city {
+  margin: 0 0 calc(30 * var(--px));
+  font-weight: 700;
+  font-size: calc(28 * var(--px));
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+  color: var(--dim);
+}
+
+.bf-where { margin: 0; display: flex; flex-direction: column; gap: calc(6 * var(--px)); }
+.bf-where b { font-weight: 700; font-size: calc(31 * var(--px)); letter-spacing: 0.04em; }
+.bf-where i { font-style: normal; font-size: calc(26 * var(--px)); color: var(--dim); }
+
+.bf-tel {
+  margin: calc(18 * var(--px)) 0 0;
+  font-weight: 800;
+  font-size: calc(48 * var(--px));
+  color: var(--band);
+}
+
+.bf-grain {
+  position: absolute;
+  inset: calc(-20 * var(--px));
+  pointer-events: none;
+  opacity: 0.13;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='0.5'/></svg>");
+  background-size: calc(200 * var(--px)) calc(200 * var(--px));
+}
+
+.bf-vig {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(124% 80% at 50% 44%, transparent 40%, rgba(0, 0, 0, 0.62) 88%, rgba(0, 0, 0, 0.9) 100%);
+}
+
+/* ============================================================
+   THE TIMELINE
+   ============================================================ */
+
+.bf-stage:not(.bf-go):not(.bf-still) .bf-code,
+.bf-stage:not(.bf-go):not(.bf-still) .bf-world { opacity: 0; }
+
+/* ---------- the caret, then the typing ---------- */
+
+.bf-go .bf-caret { animation: bfBlink 0.42s steps(1) 0s 4, bfGone 0.01s linear 1.7s forwards; }
+@keyframes bfBlink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+@keyframes bfGone { to { opacity: 0; } }
+
+/* Accelerating: the gap between lines shrinks as it goes, so the code arrives
+   faster than the eye can keep up by the end — which is the point, it is not
+   there to be read, it is there to be recognised as code and then destroyed. */
+.bf-go .bf-ln {
+  animation: bfType 0.3s steps(30, end) both;
+  animation-delay: calc(0.42s + var(--i) * 0.155s - var(--i) * var(--i) * 0.0042s);
+}
+
+@keyframes bfType { from { width: 0; } to { width: auto; } }
+
+/* `width: auto` cannot be interpolated, so the animation runs on the inner
+   clip instead — the line itself just fades its number in. */
+.bf-go .bf-ln { animation: bfFadeIn 0.12s linear both; animation-delay: calc(0.42s + var(--i) * 0.155s - var(--i) * var(--i) * 0.0042s); }
+.bf-go .bf-txt {
+  animation: bfCh 0.34s steps(28, end) both;
+  animation-delay: calc(0.42s + var(--i) * 0.155s - var(--i) * var(--i) * 0.0042s);
+}
+
+@keyframes bfCh { from { width: 0ch; } to { width: calc(var(--n) * 1ch); } }
+@keyframes bfFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* ---------- the detonation ---------- */
+
+.bf-go .bf-code { animation: bfBlow 0.42s cubic-bezier(0.4, 0, 0.9, 0.4) 2.52s both; }
+
+@keyframes bfBlow {
+  0% { opacity: 1; transform: scale(1); filter: blur(0); }
+  22% { opacity: 1; transform: scale(1.06); filter: blur(0); }
+  100% { opacity: 0; transform: scale(1.7); filter: blur(calc(20 * var(--px))); }
+}
+
+.bf-go .bf-flash { animation: bfFlash 0.6s ease-out 2.5s both; }
+@keyframes bfFlash {
+  0% { opacity: 0; }
+  8% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.bf-go .bf-ring { animation: bfRing 0.9s cubic-bezier(0.2, 0.8, 0.3, 1) 2.54s both; }
+/* 0% IS INVISIBLE, and that is not a detail. The animation is filled `both`,
+   so whatever 0% says is what the ring does for the two and a half seconds
+   before its delay — and 0% used to be opacity .9 at scale .2, i.e. a small
+   bright circle parked in the middle of the code from frame one. */
+@keyframes bfRing {
+  0% { opacity: 0; transform: scale(0.2); border-width: calc(10 * var(--px)); }
+  6% { opacity: 0.9; }
+  100% { opacity: 0; transform: scale(6.4); border-width: calc(1 * var(--px)); }
+}
+
+/* ---------- the swarm ----------
+ * Each block flies in from its own scattered point, tumbling, and lands on the
+ * grid. The delay is per index and the list is built feet-first, so the figure
+ * assembles upward out of its own platform. */
+.bf-go .bf-world { animation: bfFadeIn 0.01s linear 2.62s both; }
+
+.bf-go .bf-vx-in {
+  animation: bfSwarm 0.86s cubic-bezier(0.18, 0.92, 0.28, 1) var(--d) both;
+}
+
+@keyframes bfSwarm {
+  0% {
+    opacity: 0;
+    transform: translate3d(var(--sx), var(--sy), var(--sz)) rotate(var(--sr)) scale(0.5);
+  }
+  14% { opacity: 1; }
+  100% { opacity: 1; transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+}
+
+/* ---------- it lands, then it jumps ----------
+ * The same jump() the code declared four seconds earlier. */
+.bf-go .bf-world {
+  animation:
+    bfFadeIn 0.01s linear 2.62s both,
+    bfLand 0.5s cubic-bezier(0.3, 1.6, 0.5, 1) 5.05s both,
+    bfJump 0.9s cubic-bezier(0.3, 0.1, 0.3, 1) 5.5s both,
+    /* `forwards`, NOT `both`. A fourth animation on the same property with a
+       backwards fill would apply its 0% state from frame one and silently
+       cancel the three above it; forwards means it does nothing until its
+       delay and then wins because it is last in the list. */
+    bfSettle 0.9s cubic-bezier(0.16, 1, 0.3, 1) 7.6s forwards;
+}
+
+/* The endcard needs the lower third. The figure lifts and shrinks into the gap
+   between the copy and the lockup rather than being covered by it. */
+@keyframes bfSettle {
+  from { transform: translateY(0) scale(1); }
+  to { transform: translateY(calc(-150 * var(--px))) scale(0.55); }
+}
+
+@keyframes bfLand {
+  0% { transform: scale(1, 1); }
+  40% { transform: scale(1.06, 0.9); }
+  100% { transform: scale(1, 1); }
+}
+
+@keyframes bfJump {
+  0% { transform: translateY(0) scale(1, 1); }
+  16% { transform: translateY(0) scale(1.08, 0.88); }
+  46% { transform: translateY(calc(-190 * var(--px))) scale(0.95, 1.1); }
+  76% { transform: translateY(0) scale(1.1, 0.86); }
+  100% { transform: translateY(0) scale(1, 1); }
+}
+
+/* ---------- the copy ---------- */
+
+.bf-go .bf-line-a { animation: bfIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 6.4s both; }
+.bf-go .bf-line-b { animation: bfIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 6.8s both; }
+
+@keyframes bfIn {
+  from { opacity: 0; transform: translateY(calc(30 * var(--px))); filter: blur(calc(8 * var(--px))); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+.bf-go .bf-end { animation: bfIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 8.0s both; }
+
+/* ---------- the camera ---------- */
+
+.bf-go .bf-push { animation: bfPush 9.4s cubic-bezier(0.24, 0.6, 0.2, 1) both; }
+@keyframes bfPush { from { transform: scale(1.06); } to { transform: scale(1); } }
+
+.bf-go .bf-shake { animation: bfHit 0.55s ease-out 2.5s both, bfHit2 0.34s ease-out 5.05s both; }
+
+@keyframes bfHit {
+  0% { transform: translate3d(0, 0, 0); }
+  10% { transform: translate3d(calc(-16 * var(--px)), calc(18 * var(--px)), 0) rotate(-0.6deg); }
+  28% { transform: translate3d(calc(14 * var(--px)), calc(-13 * var(--px)), 0) rotate(0.5deg); }
+  48% { transform: translate3d(calc(-9 * var(--px)), calc(7 * var(--px)), 0) rotate(-0.28deg); }
+  70% { transform: translate3d(calc(5 * var(--px)), calc(-4 * var(--px)), 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+@keyframes bfHit2 {
+  0% { transform: translate3d(0, 0, 0); }
+  30% { transform: translate3d(0, calc(11 * var(--px)), 0); }
+  64% { transform: translate3d(0, calc(-5 * var(--px)), 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+.bf-still .bf-code { opacity: 0; }
+.bf-still .bf-lines p,
+.bf-still .bf-end { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .bf-stage * { animation: none !important; }
+  .bf-code { opacity: 0; }
+  .bf-lines p, .bf-end { opacity: 1; }
+}

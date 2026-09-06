@@ -23,9 +23,10 @@ import "./Stylesheets/App.css";
 // import OpenHouseAd from "./Components/OpenHouseAd";
 // import FinalWeekCampAd from "./Components/FinalWeekCampAd";
 // import RhFiftyReviewsAd from "./Components/RhFiftyReviewsAd";
-import ScreenTimeReportAd from "./Components/ScreenTimeReportAd";
+// import ScreenTimeReportAd from "./Components/ScreenTimeReportAd";
+import BuildFromCodeAd from "./Components/BuildFromCodeAd";
 
 function App() {
-  return <ScreenTimeReportAd />;
+  return <BuildFromCodeAd />;
 }
 export default App;
