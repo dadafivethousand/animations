@@ -96,7 +96,14 @@
   right: -30%;
   top: calc(1180 * var(--px));
   height: calc(740 * var(--px));
-  background: linear-gradient(180deg, rgba(228, 0, 43, 0.10) 0%, transparent 62%);
+  /* THE GRADIENT HAS TO START AT ZERO. It began at full alpha on row 0 of this
+     element, so the element's own top edge was a hard step in brightness right
+     across the frame at design y 1180 — a horizontal rule through the endcard
+     that nothing had drawn. Measured it by row-brightness discontinuity rather
+     than hunting for a border: the step sat exactly on this offset. Ramping in
+     over the first quarter means the plane fades up out of the room instead of
+     starting somewhere. */
+  background: linear-gradient(180deg, transparent 0%, rgba(228, 0, 43, 0.10) 26%, transparent 74%);
   -webkit-mask-image: radial-gradient(60% 60% at 50% 0%, #000 0%, transparent 80%);
   mask-image: radial-gradient(60% 60% at 50% 0%, #000 0%, transparent 80%);
 }
@@ -384,7 +391,7 @@
   position: absolute;
   left: var(--safe-x);
   right: var(--safe-x);
-  top: calc(1160 * var(--px));
+  top: calc(1010 * var(--px));
   text-align: center;
   opacity: 0;
   z-index: 8;
@@ -398,7 +405,9 @@
      a locality line belonging to the logo above it. The size is set so the two
      measure roughly the same width as well — a lockup is as much about the
      right-hand edges agreeing as the gap. */
-  margin: 0 auto calc(4 * var(--px));
+  /* Negative, because the SVG carries its own clear space below the baseline —
+     zero margin still leaves a gap that reads as two separate marks. */
+  margin: 0 auto calc(-5 * var(--px));
   filter: grayscale(1) invert(1);
 }
 
@@ -630,9 +639,12 @@
 
 .md-go .md-lift { animation: mdLift 0.9s cubic-bezier(0.16, 1, 0.3, 1) 5.8s forwards; }
 
+/* It shrinks to make room, not to get out of the way. At 0.56 the object that
+   the whole ad is about ended up smaller than the phone number under it; 0.78
+   keeps it the subject and the endcard moves up to meet it instead. */
 @keyframes mdLift {
   from { transform: translateY(0) scale(1); }
-  to { transform: translateY(calc(-190 * var(--px))) scale(0.56); }
+  to { transform: translateY(calc(-140 * var(--px))) scale(0.78); }
 }
 
 .md-go .md-end { animation: mdLine 0.8s cubic-bezier(0.16, 1, 0.3, 1) 6.15s both; }
