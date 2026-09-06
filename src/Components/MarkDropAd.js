@@ -97,9 +97,9 @@ const MOTES = [
 ];
 
 export default function MarkDropAd({
-  beats = ["CODE.", "BUILD.", "PUBLISH."],
-  lineA = "GAMES BUILT",
-  lineB = "BY KIDS.",
+  beats = ["CODING", "ROBOTICS", "AI"],
+  lineA = "BUILD THE",
+  lineB = "FUTURE",
   address = "6175 Hwy 7, Woodbridge, ON",
   phone = "647-887-9940",
   web = "cnwoodbridge.com",
