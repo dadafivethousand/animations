@@ -117,6 +117,58 @@
 }
 
 /* ============================================================
+   THE WALLPAPER
+   ============================================================ */
+
+/* Texture, not reading matter. A fifth of full opacity, and masked out through
+   the middle so the object it sits behind has somewhere clean to land — code
+   running under the mark's own face would fight it for every frame. */
+.md-code {
+  position: absolute;
+  left: calc(72 * var(--px));
+  right: calc(40 * var(--px));
+  top: calc(236 * var(--px));
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  opacity: 0.2;
+  z-index: 1;
+  -webkit-mask-image: radial-gradient(44% 26% at 50% 38%, transparent 34%, #000 82%);
+  mask-image: radial-gradient(44% 26% at 50% 38%, transparent 34%, #000 82%);
+}
+
+.md-ln {
+  display: flex;
+  align-items: baseline;
+  gap: calc(22 * var(--px));
+  margin: 0 0 calc(14 * var(--px));
+  font-size: calc(31 * var(--px));
+  line-height: 1.36;
+  white-space: pre;
+}
+
+.md-num { flex: 0 0 auto; width: calc(38 * var(--px)); text-align: right; color: #52394a; font-size: calc(25 * var(--px)); }
+
+/* The typewriter is a `ch` width, which is why this is monospace: `width: 0` to
+   `auto` cannot be interpolated, and a guessed pixel target reveals long lines
+   more slowly than short ones. 1ch is exactly one glyph here. */
+.md-txt {
+  display: inline-block;
+  overflow: hidden;
+  white-space: pre;
+  width: calc(var(--n) * 1ch);
+  vertical-align: bottom;
+}
+
+.md-tk-k { color: #ff7a92; }
+.md-tk-f { color: #ffb3c0; }
+.md-tk-s { color: #c98a99; }
+.md-tk-n { color: #ff9db0; }
+.md-tk-v { color: #e9d7dd; }
+.md-tk-o { color: #ff5c7c; }
+.md-tk-p { color: #7d5a66; }
+.md-tk-pr { color: #b99aa4; }
+.md-tk-t { color: #ffc2cd; }
+
+/* ============================================================
    THE OBJECT
    ============================================================ */
 
@@ -191,6 +243,13 @@
   width: 68%;
   height: auto;
   display: block;
+  /* THE HEADBAND TAIL IS NOT PART OF THE HEAD. Its alpha runs to the left edge
+     of the file, so centring the IMAGE centres a bounding box that the tail
+     has dragged sideways, and the head itself lands right of the disc's
+     middle. Measured off the artwork's alpha: the head's columns run 173-491
+     of 563, a centre of 332 against the image's 281.5 — 8.97% of the width
+     out. Vertically it is already true, at -0.1%. */
+  transform: translateX(-8.97%);
   filter: drop-shadow(0 calc(8 * var(--px)) calc(10 * var(--px)) rgba(0, 0, 0, 0.45));
 }
 
@@ -236,21 +295,29 @@
    THE TYPE
    ============================================================ */
 
+/* THE THREE WORDS LAND IN THE SAME PLACE, one after another, rather than
+   sitting in a row. As a flex row the two that had not arrived yet still took
+   up their width, so the one on screen was pushed off centre — a word that is
+   supposed to punch cannot be sitting a third of the way left waiting for its
+   siblings. Stacked, each replaces the last on the same pixels, which is also
+   simply a harder edit. */
 .md-beats {
   position: absolute;
   left: var(--safe-x);
   right: var(--safe-x);
-  top: calc(1170 * var(--px));
-  display: flex;
-  justify-content: center;
-  gap: calc(26 * var(--px));
+  top: calc(1180 * var(--px));
+  height: calc(96 * var(--px));
   z-index: 7;
 }
 
 .md-beat {
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
   font-weight: 900;
-  font-size: calc(56 * var(--px));
-  letter-spacing: calc(-1 * var(--px));
+  font-size: calc(84 * var(--px));
+  letter-spacing: calc(-2 * var(--px));
   color: var(--ink);
   opacity: 0;
 }
@@ -374,6 +441,26 @@
    ============================================================ */
 
 .md-stage:not(.md-go):not(.md-still) .md-scene { opacity: 0; }
+.md-stage:not(.md-go):not(.md-still) .md-code { opacity: 0; }
+
+/* ---------- the wallpaper types itself ----------
+ * It starts before the object does and keeps going underneath it, so the room
+ * is already busy when the medallion crashes into the middle of it. */
+.md-go .md-txt {
+  animation: mdCh 0.3s steps(26, end) both;
+  animation-delay: calc(0.1s + var(--i) * 0.26s);
+}
+
+@keyframes mdCh { from { width: 0ch; } to { width: calc(var(--n) * 1ch); } }
+
+.md-go .md-ln {
+  animation: mdFade 0.1s linear both;
+  animation-delay: calc(0.1s + var(--i) * 0.26s);
+}
+
+/* down a notch once the endcard needs the frame */
+.md-go .md-code { animation: mdDim 0.7s ease-out 5.8s both; }
+@keyframes mdDim { from { opacity: 0.2; } to { opacity: 0.09; } }
 
 /* ---------- arrival ----------
  * Out of depth and spinning four turns, on an expo-out so almost all the
@@ -425,8 +512,17 @@
 /* ---------- the beats ---------- */
 
 .md-go .md-beat {
-  animation: mdBeat 0.44s cubic-bezier(0.16, 1, 0.3, 1) both;
-  animation-delay: calc(2.2s + var(--i) * 0.35s);
+  animation:
+    mdBeat 0.34s cubic-bezier(0.16, 1, 0.3, 1) calc(2.2s + var(--i) * 0.4s) both,
+    mdBeatOut 0.22s ease-in calc(2.56s + var(--i) * 0.4s) both;
+}
+
+/* the last one holds, because the next thing to happen is the headline and a
+   blank half second between them reads as a mistake rather than a beat */
+.md-go .md-beat:nth-child(3) { animation-delay: 3.0s, 3.66s; }
+
+@keyframes mdBeatOut {
+  to { opacity: 0; transform: translateY(calc(-20 * var(--px))) scale(0.96); filter: blur(calc(5 * var(--px))); }
 }
 
 @keyframes mdBeat {

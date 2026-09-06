@@ -30,6 +30,34 @@ import cnLogo from "../Images/cn-logo-horizontal.svg";
 
 const LAYERS = 16;
 
+/* The room's wallpaper. A kid's game, typing itself the whole time the object
+ * is arriving — it is texture, not reading matter, which is why it sits at a
+ * fifth of full opacity behind everything and is masked out where the mark
+ * lands. Tokens rather than strings so the colouring is structural. */
+const CODE = [
+  [["let", "k"], [" hero ", "v"], ["=", "o"], [" new ", "k"], ["Sprite", "t"], ["(", "p"], ['"ninja"', "s"], [")", "p"]],
+  [["hero", "v"], [".speed ", "pr"], ["=", "o"], [" 7", "n"]],
+  [["hero", "v"], [".jumps ", "pr"], ["=", "o"], [" 2", "n"]],
+  [],
+  [["function ", "k"], ["jump", "f"], ["() {", "p"]],
+  [["  hero", "v"], [".y ", "pr"], ["-=", "o"], [" 120", "n"]],
+  [["  play", "f"], ["(", "p"], ['"whoosh"', "s"], [")", "p"]],
+  [["}", "p"]],
+  [],
+  [["function ", "k"], ["onHit", "f"], ["(", "p"], ["enemy", "v"], [") {", "p"]],
+  [["  score ", "v"], ["+=", "o"], [" 10", "n"]],
+  [["  enemy", "v"], [".remove", "f"], ["()", "p"]],
+  [["}", "p"]],
+  [],
+  [["onKey", "f"], ["(", "p"], ['"space"', "s"], [", ", "p"], ["jump", "f"], [")", "p"]],
+  [["onCollide", "f"], ["(", "p"], ['"enemy"', "s"], [", ", "p"], ["onHit", "f"], [")", "p"]],
+  [],
+  [["world", "v"], [".add", "f"], ["(", "p"], ["hero", "v"], [")", "p"]],
+  [["world", "v"], [".gravity ", "pr"], ["=", "o"], [" 9.8", "n"]],
+  [],
+  [["start", "f"], ["()", "p"]],
+];
+
 /* Air in the light. Fixed rather than random — a take that differs from the one
  * before it cannot be compared to it. [x%, y%, size, blur, drift-s, delay-s] */
 const MOTES = [
@@ -68,6 +96,23 @@ export default function MarkDropAd({
         <div className="md-push">
           <div className="md-shake">
             <div className="md-room" aria-hidden />
+
+            {/* ---------- the room's wallpaper ---------- */}
+            <div className="md-code" aria-hidden>
+              {CODE.map((tokens, i) => {
+                const n = tokens.reduce((a, [t]) => a + t.length, 0);
+                return (
+                  <p className="md-ln" key={i} style={{ "--i": i, "--n": n }}>
+                    <span className="md-num">{i + 1}</span>
+                    <span className="md-txt">
+                      {tokens.map(([t, k], j) => (
+                        <span className={`md-tk-${k}`} key={j}>{t}</span>
+                      ))}
+                    </span>
+                  </p>
+                );
+              })}
+            </div>
             <div className="md-key" aria-hidden />
             <div className="md-floor" aria-hidden />
 
