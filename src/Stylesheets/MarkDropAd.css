@@ -401,20 +401,29 @@
   height: calc(64 * var(--px));
   width: auto;
   /* CLOSE ENOUGH TO BE ONE MARK. Sixteen units of air below the wordmark read
-     as two separate pieces of type that happened to be stacked; four reads as
-     a locality line belonging to the logo above it. The size is set so the two
-     measure roughly the same width as well — a lockup is as much about the
+     as two separate pieces of type that happened to be stacked; a couple reads
+     as a locality line belonging to the logo above it. The size is set so the
+     two measure roughly the same width as well — a lockup is as much about the
      right-hand edges agreeing as the gap. */
   /* Negative, because the SVG carries its own clear space below the baseline —
-     zero margin still leaves a gap that reads as two separate marks. */
-  margin: 0 auto calc(-5 * var(--px));
+     zero margin still leaves a gap that reads as two separate marks. Measured
+     off a render: ink stops 10.04 of the file's 83.29 units above the bottom
+     edge, so at 64 units tall the box hangs 7.7 units of nothing under the
+     wordmark. Pulling ten back overshoots that on purpose — the locality line
+     carries its own leading above the caps, and this is what eats it. */
+  margin: 0 auto calc(-10 * var(--px));
   filter: grayscale(1) invert(1);
 }
 
 .md-city {
-  margin: 0 0 calc(38 * var(--px));
+  margin: 0 0 calc(40 * var(--px));
   font-weight: 700;
   font-size: calc(23 * var(--px));
+  /* The half-leading of a normal line box is another four units of air sitting
+     between the wordmark and these caps, and it is invisible until you go
+     looking for it. One flattens the box onto the type; the bottom margin goes
+     up by the same amount so only the gap ABOVE the word closes. */
+  line-height: 1;
   letter-spacing: 0.34em;
   text-indent: 0.34em;
   color: var(--ink);
