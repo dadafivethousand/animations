@@ -391,11 +391,38 @@
    THE ENDCARD
    ============================================================ */
 
+.md-scrim {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(600 * var(--px));
+  height: calc(720 * var(--px));
+  /* WIDE AND FLAT, NOT A DISC. `closest-side` gave an ellipse whose horizontal
+     radius was half the frame, so it was already 84% transparent out where the
+     code actually runs beside the copy — it darkened the middle and left the
+     lines that cross the phone number untouched. Explicit radii spread the
+     dark to the full width and let the falloff happen at the very edges. */
+  background: radial-gradient(
+    ellipse 100% 60% at 50% 50%,
+    rgba(8, 6, 10, 0.95) 0%,
+    rgba(8, 6, 10, 0.88) 55%,
+    rgba(8, 6, 10, 0) 100%
+  );
+  opacity: 0;
+  z-index: 7;
+  pointer-events: none;
+}
+
 .md-end {
   position: absolute;
   left: var(--safe-x);
   right: var(--safe-x);
-  top: calc(1010 * var(--px));
+  /* CENTRED, BECAUSE NOTHING IS ABOVE IT ANY MORE. The object used to hold the
+     top of the frame and this sat under it; now that it dissolves, the endcard
+     is the whole composition and has to be the whole frame's centre — 1920 less
+     its own ~325 units, halved, and then lifted a little off the arithmetic
+     centre the way type always wants to be. */
+  top: calc(770 * var(--px));
   text-align: center;
   opacity: 0;
   z-index: 8;
@@ -451,9 +478,16 @@
   padding-left: calc(var(--logo-h) * 0.81);
 }
 
-.md-where { margin: 0; display: flex; flex-direction: column; gap: calc(6 * var(--px)); }
-.md-where b { font-weight: 700; font-size: calc(32 * var(--px)); letter-spacing: 0.04em; }
-.md-where i { font-style: normal; font-size: calc(27 * var(--px)); color: var(--dim); }
+/* The only line of copy between the lockup and the number, so it carries the
+   weight the deleted centre-name line used to. Still dimmer than the phone —
+   the address is what you read after you have decided to call. */
+.md-where {
+  margin: 0;
+  font-size: calc(42 * var(--px));
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--dim);
+}
 
 .md-tel {
   margin: calc(20 * var(--px)) 0 0;
@@ -584,8 +618,17 @@
   to { transform: translateZ(0) rotateY(0deg) rotateX(0deg); }
 }
 
-.md-go .md-scene { animation: mdFade 0.3s linear 0.35s both; }
+/* IT LEAVES ENTIRELY. The lift still runs — the object drifts up and shrinks as
+   it goes, so the exit is a move and not just a dimmer — but nothing of it is
+   on screen by the time the endcard is up. The pool goes with it: it is the
+   object's light on the floor, and lit floor under no object reads as a mistake. */
+.md-go .md-scene {
+  animation:
+    mdFade 0.3s linear 0.35s both,
+    mdGone 0.6s ease-in 5.5s forwards;
+}
 @keyframes mdFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes mdGone { from { opacity: 1; } to { opacity: 0; } }
 
 /* the small perpetual turn that keeps it alive once it has stopped */
 .md-go .md-idle { animation: mdIdle 6s ease-in-out 1.9s infinite alternate both; }
@@ -609,7 +652,11 @@
   100% { opacity: 0; transform: scale(5.2); border-width: calc(1 * var(--px)); }
 }
 
-.md-go .md-pool { animation: mdPool 0.6s ease-out 1.68s both; }
+.md-go .md-pool {
+  animation:
+    mdPool 0.6s ease-out 1.68s both,
+    mdGone 0.6s ease-in 5.5s forwards;
+}
 @keyframes mdPool { from { opacity: 0; transform: scaleX(0.5); } to { opacity: 1; transform: scaleX(1); } }
 
 .md-go .md-spec { animation: mdSpec 1.5s ease-in-out 1.95s 2 both; }
@@ -658,16 +705,17 @@
 
 /* ---------- out of the way, and the endcard ---------- */
 
-.md-go .md-lift { animation: mdLift 0.9s cubic-bezier(0.16, 1, 0.3, 1) 5.8s forwards; }
+/* Runs WITH the dissolve, not after it: the object rises and shrinks as it
+   goes, so it leaves rather than just dimming, and by 6.1s — before the endcard
+   starts at 6.15 — there is nothing of it left to cross-fade against. */
+.md-go .md-lift { animation: mdLift 0.9s cubic-bezier(0.16, 1, 0.3, 1) 5.5s forwards; }
 
-/* It shrinks to make room, not to get out of the way. At 0.56 the object that
-   the whole ad is about ended up smaller than the phone number under it; 0.78
-   keeps it the subject and the endcard moves up to meet it instead. */
 @keyframes mdLift {
   from { transform: translateY(0) scale(1); }
-  to { transform: translateY(calc(-140 * var(--px))) scale(0.78); }
+  to { transform: translateY(calc(-190 * var(--px))) scale(0.72); }
 }
 
+.md-go .md-scrim { animation: mdFade 0.7s ease-out 6s both; }
 .md-go .md-end { animation: mdLine 0.8s cubic-bezier(0.16, 1, 0.3, 1) 6.15s both; }
 
 /* ---------- the camera ---------- */
