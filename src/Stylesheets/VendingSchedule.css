@@ -1,0 +1,395 @@
+/* VendingSchedule.css
+   Vending machine theme — Richmond Hill Jiu-Jitsu.
+
+   Palette is deliberately NOT the black-and-gold of the website and not the
+   dark-navy/cyan several of the recent boards use: a vending machine is lit
+   from inside, so this one is a cold white interior glow inside a graphite
+   cabinet, with one warm amber for the LED and the tray. That reads as its own
+   post next to the last few on the grid.
+
+   Safe margins: the whole cabinet is capped and centred inside --safe-x /
+   --safe-y, so the screen-record crop never takes a slot code or a time.
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Roboto+Mono:wght@400;500;700&display=swap");
+
+:root {
+  --vd-void: #0b0d10;
+  --vd-cabinet-1: #2a2f36;
+  --vd-cabinet-2: #16191d;
+  --vd-cabinet-edge: #0a0c0e;
+
+  --vd-interior-1: #f4f8fb;
+  --vd-interior-2: #cfdbe6;
+
+  --vd-amber: #ffb224;
+  --vd-amber-dim: rgba(255, 178, 36, 0.35);
+
+  --vd-ink: #10141a;
+  --vd-ink-soft: rgba(16, 20, 26, 0.62);
+  --vd-chrome: rgba(255, 255, 255, 0.72);
+}
+
+* { box-sizing: border-box; }
+
+.vend-stage {
+  --safe-x: max(45px, 11vw);
+  --safe-y: max(40px, 6vh);
+  /* UNITLESS, like every other board here. clamp(0.72, 1vh, 1.05) mixes a
+     number with a length, which makes the whole clamp invalid — and then every
+     calc(Npx * var(--s)) below it fails and the layout collapses. */
+  /* 0.82 puts the cabinet at ~491px of a 640 frame, leaving ~74px clear above
+     and below. 0.86 also fits but lands on 41px — the safe band is a floor,
+     not a target, and the screen-record crop is unpredictable. */
+  --s: 0.82;
+
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--safe-y) var(--safe-x);
+  background:
+    radial-gradient(70% 50% at 50% 12%, rgba(255, 178, 36, 0.10), transparent 70%),
+    radial-gradient(90% 70% at 50% 100%, rgba(120, 150, 180, 0.10), transparent 70%),
+    var(--vd-void);
+  font-family: "Oswald", sans-serif;
+  overflow: hidden;
+}
+
+/* ── The cabinet ───────────────────────────────────────────────────────── */
+
+.vend-machine {
+  width: min(100%, 560px);
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: calc(26px * var(--s));
+  padding: calc(18px * var(--s));
+  gap: calc(14px * var(--s));
+  background: linear-gradient(170deg, var(--vd-cabinet-1), var(--vd-cabinet-2) 62%, var(--vd-cabinet-edge));
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 -2px 10px rgba(0, 0, 0, 0.6),
+    0 40px 90px rgba(0, 0, 0, 0.75);
+  opacity: 0;
+  transform: translateY(calc(14px * var(--s))) scale(0.985);
+  transition: opacity 0.55s ease, transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vend-machine.is-on {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* ── Header ────────────────────────────────────────────────────────────── */
+
+.vend-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(12px * var(--s));
+  padding: 0 calc(4px * var(--s));
+}
+
+.vend-brand { display: flex; flex-direction: column; line-height: 1; }
+
+.vend-brand-main {
+  font-size: calc(18px * var(--s));
+  font-weight: 600;
+  letter-spacing: calc(1.6px * var(--s));
+  color: #fff;
+  white-space: nowrap;   /* "RICHMOND HILL" is one line or it is not a wordmark */
+}
+
+.vend-brand-sub {
+  margin-top: calc(3px * var(--s));
+  font-size: calc(10px * var(--s));
+  font-weight: 400;
+  letter-spacing: calc(5px * var(--s));
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* the dot-matrix strip that names the day */
+.vend-led {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(8px * var(--s));
+  padding: calc(7px * var(--s)) calc(13px * var(--s));
+  border-radius: calc(7px * var(--s));
+  background: #07090b;
+  border: 1px solid rgba(255, 178, 36, 0.22);
+  box-shadow: inset 0 0 calc(16px * var(--s)) rgba(255, 178, 36, 0.14);
+}
+
+.vend-led-dot {
+  width: calc(7px * var(--s));
+  height: calc(7px * var(--s));
+  border-radius: 50%;
+  background: var(--vd-amber);
+  box-shadow: 0 0 calc(9px * var(--s)) var(--vd-amber);
+  animation: vend-blink 1.5s steps(1, end) infinite;
+}
+
+@keyframes vend-blink { 0%, 60% { opacity: 1; } 61%, 100% { opacity: 0.25; } }
+
+.vend-led-txt {
+  font-family: "Roboto Mono", monospace;
+  font-size: calc(13px * var(--s));
+  font-weight: 700;
+  letter-spacing: calc(2.6px * var(--s));
+  color: var(--vd-amber);
+  text-shadow: 0 0 calc(12px * var(--s)) var(--vd-amber-dim);
+}
+
+/* ── The glass ─────────────────────────────────────────────────────────── */
+
+.vend-glass {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  border-radius: calc(14px * var(--s));
+  padding: calc(14px * var(--s)) calc(13px * var(--s));
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, var(--vd-interior-1), var(--vd-interior-2));
+  border: calc(3px * var(--s)) solid #0d1013;
+  box-shadow:
+    inset 0 calc(2px * var(--s)) calc(18px * var(--s)) rgba(10, 20, 30, 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.vend-shelves {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: calc(10px * var(--s));
+}
+
+/* shelf edges behind the products */
+.vend-shelf-lines {
+  position: absolute;
+  inset: calc(14px * var(--s)) calc(13px * var(--s));
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  pointer-events: none;
+}
+
+.vend-shelf-lines i {
+  display: block;
+  height: calc(3px * var(--s));
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, rgba(16, 20, 26, 0.22), transparent);
+}
+
+/* a product on its coil */
+.vend-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: calc(38px * var(--s)) calc(44px * var(--s)) 1fr;
+  align-items: center;
+  gap: calc(10px * var(--s));
+  padding: calc(9px * var(--s)) calc(11px * var(--s));
+  border-radius: calc(10px * var(--s));
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(16, 20, 26, 0.10);
+  box-shadow: 0 calc(3px * var(--s)) calc(10px * var(--s)) rgba(16, 30, 45, 0.10);
+  /* sitting back on the shelf until its coil turns */
+  opacity: 0;
+  transform: translateX(calc(-16px * var(--s))) scale(0.97);
+  transition:
+    opacity 0.42s ease,
+    transform 0.62s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vend-row.is-out {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+.vend-slot {
+  font-family: "Roboto Mono", monospace;
+  font-size: calc(15px * var(--s));
+  font-weight: 700;
+  letter-spacing: calc(1px * var(--s));
+  color: #fff;
+  text-align: center;
+  padding: calc(5px * var(--s)) 0;
+  border-radius: calc(6px * var(--s));
+  background: var(--vd-ink);
+}
+
+/* the coil: six turns that rotate as the item comes forward */
+.vend-coil {
+  display: flex;
+  align-items: center;
+  gap: calc(2px * var(--s));
+  opacity: 0.5;
+}
+
+.vend-coil i {
+  display: block;
+  width: calc(5px * var(--s));
+  height: calc(20px * var(--s));
+  border-radius: 50% / 40%;
+  border: calc(2px * var(--s)) solid rgba(16, 20, 26, 0.45);
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+
+.vend-row.is-out .vend-coil i {
+  animation: vend-turn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.vend-row.is-out .vend-coil i:nth-child(2) { animation-delay: 40ms; }
+.vend-row.is-out .vend-coil i:nth-child(3) { animation-delay: 80ms; }
+.vend-row.is-out .vend-coil i:nth-child(4) { animation-delay: 120ms; }
+.vend-row.is-out .vend-coil i:nth-child(5) { animation-delay: 160ms; }
+.vend-row.is-out .vend-coil i:nth-child(6) { animation-delay: 200ms; }
+
+@keyframes vend-turn {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(360deg); }
+}
+
+.vend-item { min-width: 0; display: flex; flex-direction: column; gap: calc(3px * var(--s)); }
+
+.vend-name {
+  font-size: calc(19px * var(--s));
+  font-weight: 600;
+  letter-spacing: calc(0.6px * var(--s));
+  text-transform: uppercase;
+  color: var(--vd-ink);
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vend-old { color: var(--vd-ink-soft); text-decoration-thickness: calc(2px * var(--s)); }
+.vend-arrow { margin: 0 calc(6px * var(--s)); color: var(--vd-ink-soft); }
+.vend-new { color: #b4451f; }
+
+.vend-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: calc(8px * var(--s));
+  font-family: "Roboto Mono", monospace;
+  font-size: calc(12px * var(--s));
+  font-weight: 500;
+  letter-spacing: calc(0.4px * var(--s));
+  color: var(--vd-ink-soft);
+}
+
+/* a time range that breaks across two lines reads as two times */
+.vend-meta time { white-space: nowrap; }
+
+/* the one piece of information a wrong guess costs somebody a drive for */
+.vend-tag {
+  padding: calc(2px * var(--s)) calc(7px * var(--s));
+  border-radius: 999px;
+  font-size: calc(10px * var(--s));
+  font-weight: 700;
+  letter-spacing: calc(1.1px * var(--s));
+  color: #6a3c00;
+  background: rgba(255, 178, 36, 0.30);
+  border: 1px solid rgba(255, 178, 36, 0.65);
+  white-space: nowrap;
+}
+
+.vend-row.is-maple { background: rgba(255, 246, 229, 0.86); }
+
+/* glass sheen on top of everything inside the cabinet */
+.vend-reflection {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(
+    114deg,
+    rgba(255, 255, 255, 0.34) 0%,
+    rgba(255, 255, 255, 0.07) 26%,
+    transparent 46%,
+    transparent 76%,
+    rgba(255, 255, 255, 0.14) 100%
+  );
+}
+
+/* ── Keypad + tray ─────────────────────────────────────────────────────── */
+
+.vend-foot {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: calc(14px * var(--s));
+  align-items: stretch;
+}
+
+.vend-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, calc(26px * var(--s)));
+  gap: calc(5px * var(--s));
+}
+
+.vend-key {
+  display: grid;
+  place-items: center;
+  height: calc(22px * var(--s));
+  border-radius: calc(5px * var(--s));
+  font-family: "Roboto Mono", monospace;
+  font-size: calc(11px * var(--s));
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.72);
+  background: linear-gradient(180deg, #30363d, #1b1f24);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.vend-tray {
+  position: relative;
+  display: grid;
+  place-items: center;
+  border-radius: calc(10px * var(--s));
+  background: linear-gradient(180deg, #0a0c0f, #15191e);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 calc(6px * var(--s)) calc(16px * var(--s)) rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+}
+
+.vend-tray-mouth {
+  position: absolute;
+  top: 0; left: 8%; right: 8%;
+  height: calc(5px * var(--s));
+  border-radius: 0 0 999px 999px;
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.vend-tray-txt {
+  font-family: "Roboto Mono", monospace;
+  font-size: calc(13px * var(--s));
+  font-weight: 700;
+  letter-spacing: calc(2.4px * var(--s));
+  color: rgba(255, 255, 255, 0.28);
+  transition: color 0.4s ease, text-shadow 0.4s ease;
+}
+
+.vend-tray.is-full .vend-tray-txt {
+  color: var(--vd-amber);
+  text-shadow: 0 0 calc(14px * var(--s)) var(--vd-amber-dim);
+  animation: vend-drop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes vend-drop {
+  from { transform: translateY(calc(-16px * var(--s))); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vend-machine, .vend-row { transition: none; }
+  .vend-led-dot, .vend-coil i, .vend-tray.is-full .vend-tray-txt { animation: none; }
+}

@@ -25,9 +25,11 @@ import "./Stylesheets/App.css";
 // import RhFiftyReviewsAd from "./Components/RhFiftyReviewsAd";
 // import ScreenTimeReportAd from "./Components/ScreenTimeReportAd";
 // import BuildFromCodeAd from "./Components/BuildFromCodeAd";
-import MarkDropAd from "./Components/MarkDropAd";
+// import MarkDropAd from "./Components/MarkDropAd";
+import VendingSchedule from "./Components/VendingSchedule";
 
 function App() {
-  return <MarkDropAd />;
+  // Thursday 8 Oct 2026 — Richmond Hill.
+  return <VendingSchedule day="Thursday" />;
 }
 export default App;
