@@ -27,10 +27,11 @@ import "./Stylesheets/App.css";
 // import BuildFromCodeAd from "./Components/BuildFromCodeAd";
 // import MarkDropAd from "./Components/MarkDropAd";
 // import VendingSchedule from "./Components/VendingSchedule";
-import NetflixSchedule from "./Components/NetflixSchedule";
+// import NetflixSchedule from "./Components/NetflixSchedule";
+import WheelSchedule from "./Components/WheelSchedule";
 
 function App() {
   // Thursday 15 Oct 2026 — Richmond Hill.
-  return <NetflixSchedule day="Thursday" date="Oct 15" />;
+  return <WheelSchedule day="Thursday" />;
 }
 export default App;
