@@ -1,0 +1,563 @@
+/* NetflixSchedule.css
+   Streaming-series theme — Richmond Hill Jiu-Jitsu.
+
+   Palette: near-black #141414 with one hard red, the colours anybody reads as
+   "a series page" without a logo in sight. It sits apart from the graphite and
+   amber of the vending board before it on the grid. Each class gets its own
+   key-art gradient so the episode list is not four identical tiles.
+
+   Everything is sized in --u, a design pixel on a 360x640 frame, so the
+   recorder's 360x640 viewport is 1:1 and a taller phone just scales it.
+   The card is capped at 270u wide — exactly the 45px side guard at 360.
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap");
+
+.nfx-stage {
+  --u: min(calc(100vw / 360), calc(100vh / 640));
+  --red: #e50914;
+  --red-hi: #ff2a36;
+  --bg: #141414;
+  --ink: #ffffff;
+  --ink-2: rgba(255, 255, 255, 0.72);
+  --ink-3: rgba(255, 255, 255, 0.5);
+  --match: #46d369;
+  --maple: #f5b82e;
+
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 60% at 50% -10%, rgba(229, 9, 20, 0.22), transparent 60%),
+    radial-gradient(90% 50% at 50% 115%, rgba(229, 9, 20, 0.1), transparent 70%),
+    var(--bg);
+  font-family: "Inter", system-ui, sans-serif;
+  color: var(--ink);
+}
+
+/* film grain-ish vignette */
+.nfx-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 90% at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.55));
+}
+
+/* ── The ident ───────────────────────────────────────────────────────── */
+
+.nfx-ident {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: #000;
+  z-index: 5;
+  transition: opacity 0.5s ease 0.1s;
+}
+.nfx-stage:not(.nfx-p0) .nfx-ident {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.nfx-ident-mark {
+  display: flex;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: calc(150 * var(--u));
+  line-height: 1;
+  color: var(--red);
+  letter-spacing: calc(-4 * var(--u));
+  text-shadow:
+    0 calc(6 * var(--u)) calc(18 * var(--u)) rgba(0, 0, 0, 0.8),
+    0 0 calc(40 * var(--u)) rgba(229, 9, 20, 0.45);
+  animation: nfx-ident-in 2.2s cubic-bezier(0.3, 0, 0.2, 1) both;
+}
+.nfx-ident-mark span {
+  display: inline-block;
+  transform: scaleY(1.04);
+}
+.nfx-ident-mark span:first-child {
+  animation: nfx-ident-l 2.2s ease both;
+}
+.nfx-ident-mark span:last-child {
+  animation: nfx-ident-r 2.2s ease both;
+}
+
+@keyframes nfx-ident-in {
+  0% { opacity: 0; transform: scale(0.82); filter: blur(calc(6 * var(--u))); }
+  16% { opacity: 1; transform: scale(1); filter: blur(0); }
+  58% { opacity: 1; transform: scale(1.06); filter: blur(0); }
+  100% { opacity: 0; transform: scale(2.4); filter: blur(calc(2 * var(--u))); }
+}
+@keyframes nfx-ident-l {
+  0%, 20% { transform: translateX(calc(-30 * var(--u))) scaleY(1.04); }
+  45%, 100% { transform: translateX(0) scaleY(1.04); }
+}
+@keyframes nfx-ident-r {
+  0%, 20% { transform: translateX(calc(30 * var(--u))) scaleY(1.04); }
+  45%, 100% { transform: translateX(0) scaleY(1.04); }
+}
+
+.nfx-ident-streaks {
+  /* inset + flex rather than left/top 50%: inside a grid with place-items the
+     browser also aligns an abspos child, and the two together pushed the
+     streaks off to the right of the mark */
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: calc(2 * var(--u));
+}
+.nfx-ident-streaks i {
+  width: calc(9 * var(--u));
+  height: calc(150 * var(--u));
+  background: linear-gradient(180deg, transparent, var(--red) 30%, #ff6a3d 50%, var(--red) 70%, transparent);
+  opacity: 0;
+  transform-origin: 50% 50%;
+  animation: nfx-streak 2.2s ease-in both;
+  animation-delay: calc(1.25s + var(--i) * 0.025s);
+}
+.nfx-ident-streaks i:nth-child(3n) { background: linear-gradient(180deg, transparent, #b0060f 30%, #ff3a5c 50%, #b0060f 70%, transparent); }
+.nfx-ident-streaks i:nth-child(4n) { background: linear-gradient(180deg, transparent, #6b1bd6 30%, #ff5f9e 50%, #6b1bd6 70%, transparent); }
+
+@keyframes nfx-streak {
+  0% { opacity: 0; transform: scaleY(0.2); }
+  20% { opacity: 0.95; transform: scaleY(1.2); }
+  45% { opacity: 0; transform: scaleY(4); }
+  100% { opacity: 0; transform: scaleY(4); }
+}
+
+/* ── The series page ─────────────────────────────────────────────────── */
+
+.nfx-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(270 * var(--u));
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: calc(16 * var(--u));
+  transition: opacity 0.6s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+}
+
+.nfx-p3 .nfx-card {
+  opacity: 0.22;
+  filter: blur(calc(2 * var(--u)));
+  transform: translate(-50%, -50%) scale(0.96);
+}
+.nfx-p4 .nfx-card {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.92);
+}
+
+.nfx-head > *,
+.nfx-ep-head {
+  opacity: 0;
+  transform: translateY(calc(12 * var(--u)));
+  transition: opacity 0.55s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nfx-stage:not(.nfx-p0) .nfx-head > * {
+  opacity: 1;
+  transform: none;
+}
+.nfx-head > :nth-child(2) { transition-delay: 0.12s; }
+.nfx-head > :nth-child(3) { transition-delay: 0.3s; }
+.nfx-head > :nth-child(4) { transition-delay: 0.45s; }
+
+.nfx-head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: calc(8 * var(--u));
+}
+
+.nfx-badge {
+  display: flex;
+  align-items: center;
+  gap: calc(6 * var(--u));
+  font-size: calc(10 * var(--u));
+  font-weight: 700;
+  letter-spacing: calc(3 * var(--u));
+  color: var(--ink-2);
+}
+.nfx-badge b {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: calc(20 * var(--u));
+  letter-spacing: calc(-0.5 * var(--u));
+  color: var(--red);
+  line-height: 1;
+}
+
+.nfx-title {
+  margin: 0;
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 400;
+  font-size: calc(56 * var(--u));
+  line-height: 0.88;
+  letter-spacing: calc(1 * var(--u));
+  text-transform: uppercase;
+  text-shadow: 0 calc(4 * var(--u)) calc(20 * var(--u)) rgba(0, 0, 0, 0.6);
+}
+
+.nfx-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: calc(8 * var(--u));
+  font-size: calc(11 * var(--u));
+  font-weight: 500;
+  color: var(--ink-2);
+}
+.nfx-match {
+  color: var(--match);
+  font-weight: 700;
+}
+.nfx-rating {
+  padding: 0 calc(4 * var(--u));
+  border: 1px solid var(--ink-3);
+  font-size: calc(9 * var(--u));
+  letter-spacing: calc(0.5 * var(--u));
+}
+
+.nfx-play {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(6 * var(--u));
+  height: calc(30 * var(--u));
+  margin-top: calc(2 * var(--u));
+  border-radius: calc(4 * var(--u));
+  background: #fff;
+  color: #000;
+  font-size: calc(14 * var(--u));
+  font-weight: 700;
+}
+.nfx-play svg {
+  width: calc(18 * var(--u));
+  height: calc(18 * var(--u));
+}
+
+/* ── Episodes ────────────────────────────────────────────────────────── */
+
+.nfx-episodes {
+  display: flex;
+  flex-direction: column;
+  gap: calc(10 * var(--u));
+}
+
+.nfx-ep-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: calc(6 * var(--u));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  font-size: calc(15 * var(--u));
+  font-weight: 700;
+}
+.nfx-ep-season {
+  font-size: calc(10 * var(--u));
+  font-weight: 600;
+  color: var(--ink-3);
+  letter-spacing: calc(1 * var(--u));
+  text-transform: uppercase;
+}
+.nfx-p2 .nfx-ep-head,
+.nfx-p3 .nfx-ep-head,
+.nfx-p4 .nfx-ep-head {
+  opacity: 1;
+  transform: none;
+}
+
+.nfx-ep {
+  display: flex;
+  align-items: center;
+  gap: calc(12 * var(--u));
+  opacity: 0;
+  transform: translateX(calc(40 * var(--u)));
+  transition: opacity 0.5s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(0.35s + var(--i) * 0.55s);
+}
+.nfx-p2 .nfx-ep,
+.nfx-p3 .nfx-ep,
+.nfx-p4 .nfx-ep {
+  opacity: 1;
+  transform: none;
+}
+
+.nfx-thumb {
+  position: relative;
+  flex: none;
+  width: calc(98 * var(--u));
+  height: calc(55 * var(--u));
+  border-radius: calc(4 * var(--u));
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  padding: calc(6 * var(--u)) calc(7 * var(--u)) calc(9 * var(--u));
+  background: var(--art);
+  box-shadow: 0 calc(6 * var(--u)) calc(16 * var(--u)) rgba(0, 0, 0, 0.5);
+}
+/* a soft light from the top corner, so the art reads as a still, not a swatch */
+.nfx-thumb::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(80% 90% at 85% 0%, rgba(255, 255, 255, 0.28), transparent 60%),
+    linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, 0.55));
+}
+
+.nfx-art-gi    { --art: linear-gradient(135deg, #0f5132, #19a35b 55%, #b7f0c9); }
+.nfx-art-nogi  { --art: linear-gradient(135deg, #0b2a66, #2563eb 55%, #9ec5ff); }
+.nfx-art-kids  { --art: linear-gradient(135deg, #7a3b00, #f59e0b 55%, #ffe38a); }
+.nfx-art-teens { --art: linear-gradient(135deg, #4a0b52, #c026d3 55%, #f5b0ff); }
+.nfx-art-muay  { --art: linear-gradient(135deg, #5c0606, #dc2626 55%, #ffb1a8); }
+.nfx-art-wrestling { --art: linear-gradient(135deg, #2b1066, #7c3aed 55%, #d3b3ff); }
+
+.nfx-thumb-word {
+  position: relative;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: calc(17 * var(--u));
+  line-height: 0.9;
+  letter-spacing: calc(0.5 * var(--u));
+  text-transform: uppercase;
+  text-shadow: 0 calc(2 * var(--u)) calc(6 * var(--u)) rgba(0, 0, 0, 0.5);
+}
+
+.nfx-thumb-play {
+  position: absolute;
+  right: calc(7 * var(--u));
+  top: calc(7 * var(--u));
+  width: calc(20 * var(--u));
+  height: calc(20 * var(--u));
+  border-radius: 50%;
+  border: calc(1.5 * var(--u)) solid #fff;
+  background: rgba(0, 0, 0, 0.35);
+  display: grid;
+  place-items: center;
+}
+.nfx-thumb-play svg {
+  width: calc(11 * var(--u));
+  height: calc(11 * var(--u));
+  margin-left: calc(1 * var(--u));
+}
+
+.nfx-thumb-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(3 * var(--u));
+  background: rgba(255, 255, 255, 0.28);
+}
+.nfx-thumb-bar i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--red);
+  transition: width 1.1s cubic-bezier(0.3, 0, 0.2, 1);
+  transition-delay: calc(0.75s + var(--i) * 0.55s);
+}
+.nfx-p2 .nfx-thumb-bar i,
+.nfx-p3 .nfx-thumb-bar i,
+.nfx-p4 .nfx-thumb-bar i {
+  width: 100%;
+}
+
+.nfx-ep-text {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: calc(3 * var(--u));
+}
+.nfx-ep-title {
+  font-size: calc(13 * var(--u));
+  font-weight: 700;
+  white-space: nowrap;
+}
+.nfx-ep-time {
+  display: flex;
+  align-items: center;
+  gap: calc(6 * var(--u));
+  font-size: calc(11 * var(--u));
+  font-weight: 500;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+.nfx-ep-len {
+  color: var(--ink-3);
+}
+.nfx-ep-where {
+  align-self: flex-start;
+  margin-top: calc(2 * var(--u));
+  padding: calc(2 * var(--u)) calc(6 * var(--u));
+  border-radius: calc(3 * var(--u));
+  background: rgba(229, 9, 20, 0.18);
+  border: 1px solid rgba(229, 9, 20, 0.6);
+  font-size: calc(8.5 * var(--u));
+  font-weight: 800;
+  letter-spacing: calc(1 * var(--u));
+  text-transform: uppercase;
+  color: #ff8a90;
+}
+.nfx-ep.is-maple .nfx-ep-where {
+  background: rgba(245, 184, 46, 0.14);
+  border-color: rgba(245, 184, 46, 0.6);
+  color: var(--maple);
+}
+
+/* ── Up next ─────────────────────────────────────────────────────────── */
+
+.nfx-next {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(240 * var(--u));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(8 * var(--u));
+  padding: calc(24 * var(--u)) calc(18 * var(--u)) calc(22 * var(--u));
+  border-radius: calc(10 * var(--u));
+  background: rgba(24, 24, 24, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 calc(30 * var(--u)) calc(70 * var(--u)) rgba(0, 0, 0, 0.8);
+  text-align: center;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.9);
+  transition: opacity 0.45s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 3;
+}
+.nfx-p3 .nfx-next {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.nfx-next-kicker {
+  font-size: calc(10 * var(--u));
+  font-weight: 700;
+  letter-spacing: calc(3 * var(--u));
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.nfx-next-title {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: calc(42 * var(--u));
+  line-height: 0.95;
+  letter-spacing: calc(1 * var(--u));
+  text-transform: uppercase;
+}
+.nfx-next-time {
+  font-size: calc(11.5 * var(--u));
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.nfx-next-ring {
+  position: relative;
+  width: calc(64 * var(--u));
+  height: calc(64 * var(--u));
+  margin-top: calc(8 * var(--u));
+  display: grid;
+  place-items: center;
+}
+.nfx-next-ring svg {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+.nfx-ring-track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.16);
+  stroke-width: 6;
+}
+.nfx-ring-fill {
+  fill: none;
+  stroke: var(--red);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 276.5;
+  stroke-dashoffset: 276.5;
+}
+.nfx-p3 .nfx-ring-fill {
+  transition: stroke-dashoffset 3.8s linear 0.6s;
+  stroke-dashoffset: 0;
+}
+.nfx-next-ring span {
+  font-size: calc(24 * var(--u));
+  font-weight: 800;
+  animation: nfx-tick 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes nfx-tick {
+  from { opacity: 0; transform: scale(1.6); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ── End card ────────────────────────────────────────────────────────── */
+
+.nfx-end {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(250 * var(--u));
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(8 * var(--u));
+  text-align: center;
+  z-index: 4;
+  pointer-events: none;
+}
+.nfx-end > * {
+  opacity: 0;
+  transform: translateY(calc(10 * var(--u)));
+  transition: opacity 0.6s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nfx-p4 .nfx-end > * {
+  opacity: 1;
+  transform: none;
+}
+.nfx-p4 .nfx-end > :nth-child(1) { transition-delay: 0.35s; }
+.nfx-p4 .nfx-end > :nth-child(2) { transition-delay: 0.75s; }
+.nfx-p4 .nfx-end > :nth-child(3) { transition-delay: 0.95s; }
+.nfx-p4 .nfx-end > :nth-child(4) { transition-delay: 1.15s; }
+
+.nfx-end-logo {
+  width: calc(230 * var(--u));
+  margin-bottom: calc(10 * var(--u));
+  /* the mark is black on transparent; invert it to white for the dark room */
+  filter: invert(1) drop-shadow(0 0 calc(20 * var(--u)) rgba(229, 9, 20, 0.35));
+}
+.nfx-end-line {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: calc(26 * var(--u));
+  line-height: 1;
+  letter-spacing: calc(1 * var(--u));
+  white-space: nowrap;
+  color: var(--red-hi);
+}
+.nfx-end-addr {
+  font-size: calc(13 * var(--u));
+  font-weight: 600;
+  color: var(--ink-2);
+}
+.nfx-end-url {
+  margin-top: calc(4 * var(--u));
+  font-size: calc(12 * var(--u));
+  font-weight: 700;
+  letter-spacing: calc(2 * var(--u));
+  color: var(--ink-3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nfx-stage *,
+  .nfx-stage *::before {
+    animation: none !important;
+    transition: none !important;
+  }
+}

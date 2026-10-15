@@ -26,10 +26,11 @@ import "./Stylesheets/App.css";
 // import ScreenTimeReportAd from "./Components/ScreenTimeReportAd";
 // import BuildFromCodeAd from "./Components/BuildFromCodeAd";
 // import MarkDropAd from "./Components/MarkDropAd";
-import VendingSchedule from "./Components/VendingSchedule";
+// import VendingSchedule from "./Components/VendingSchedule";
+import NetflixSchedule from "./Components/NetflixSchedule";
 
 function App() {
-  // Thursday 8 Oct 2026 — Richmond Hill.
-  return <VendingSchedule day="Thursday" />;
+  // Thursday 15 Oct 2026 — Richmond Hill.
+  return <NetflixSchedule day="Thursday" date="Oct 15" />;
 }
 export default App;
