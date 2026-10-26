@@ -28,10 +28,12 @@ import "./Stylesheets/App.css";
 // import MarkDropAd from "./Components/MarkDropAd";
 // import VendingSchedule from "./Components/VendingSchedule";
 // import NetflixSchedule from "./Components/NetflixSchedule";
-import WheelSchedule from "./Components/WheelSchedule";
+// import WheelSchedule from "./Components/WheelSchedule";
+import MapleThreeThousandAd from "./Components/MapleThreeThousandAd";
 
 function App() {
-  // Thursday 15 Oct 2026 — Richmond Hill.
-  return <WheelSchedule day="Thursday" />;
+  // return <WheelSchedule day="Thursday" />;
+  // Maple Jiu Jitsu hits 3,000 followers. ?theme=night | ?theme=paper
+  return <MapleThreeThousandAd />;
 }
 export default App;

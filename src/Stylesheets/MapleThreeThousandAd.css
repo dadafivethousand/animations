@@ -1,0 +1,298 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Poppins:wght@500;600;700;800&display=swap');
+
+/* MapleThreeThousandAd — Maple Jiu Jitsu, 3,000 followers. Namespace: m3k-
+ *
+ *   MS=9200 HOLD=1.8 BG=#001230 OUT=~/Downloads/maple-3000-night.mp4 \
+ *     URL=http://localhost:30xx/?theme=night NODE_PATH=/tmp/rec/node_modules \
+ *     node tools/record.js
+ */
+
+/* ---------- palettes ---------- */
+.m3k-night {
+  --bg: #001230;
+  --bg-hi: #0a2a5c;
+  --ink: #ffffff;
+  --sub: rgba(255, 255, 255, 0.72);
+  --accent: #e9c46a;
+  --leaf-a: #e9c46a;
+  --leaf-b: #ffffff;
+  --leaf-c: #c8102e;
+  --ghost: rgba(158, 208, 255, 0.07);
+  --track: rgba(255, 255, 255, 0.12);
+  --flash: rgba(233, 196, 106, 0.32);
+  --num-shadow: 0 0.04em 0.18em rgba(0, 6, 20, 0.6);
+}
+.m3k-paper {
+  --bg: #f4efe4;
+  --bg-hi: #ffffff;
+  --ink: #001230;
+  --sub: rgba(0, 18, 48, 0.68);
+  --accent: #c8102e;
+  --leaf-a: #c8102e;
+  --leaf-b: #001230;
+  --leaf-c: #e08a2e;
+  --ghost: rgba(0, 18, 48, 0.05);
+  --track: rgba(0, 18, 48, 0.1);
+  --flash: rgba(200, 16, 46, 0.14);
+  --num-shadow: none;
+}
+
+/* ---------- stage ---------- */
+.m3k-stage {
+  --safe-x: max(45px, 11vw);
+  --safe-y: max(40px, 6vh);
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: Poppins, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.m3k-field {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 70% at 50% 42%, var(--bg-hi) 0%, transparent 62%);
+}
+.m3k-night .m3k-field::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(140% 100% at 50% 50%, transparent 55%, rgba(0, 4, 14, 0.7) 100%);
+}
+
+/* the leaf, huge and barely there, slowly turning */
+.m3k-leaf-bg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 150vw;
+  height: 150vw;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: var(--ghost);
+  transform: translate(-50%, -50%) rotate(-8deg) scale(0.92);
+  animation: m3k-drift 12s linear both;
+}
+@keyframes m3k-drift {
+  to { transform: translate(-50%, -50%) rotate(4deg) scale(1.02); }
+}
+
+.m3k-flash {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(60% 40% at 50% 46%, var(--flash), transparent 70%);
+  opacity: 0;
+}
+.m3k-p3 .m3k-flash { animation: m3k-flash 1.4s ease-out both; }
+@keyframes m3k-flash {
+  0% { opacity: 0; }
+  12% { opacity: 1; }
+  100% { opacity: 0.35; }
+}
+
+/* ---------- the centred block ---------- */
+.m3k-card {
+  position: absolute;
+  inset: var(--safe-y) var(--safe-x);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 3vh, 26px);
+  text-align: center;
+}
+
+.m3k-logo {
+  width: 30vw;
+  height: auto;
+  opacity: 0;
+  transform: translateY(-24px) scale(0.9);
+  transition: opacity 0.6s ease, transform 0.8s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+.m3k-p1 .m3k-logo { opacity: 1; transform: none; }
+.m3k-night .m3k-logo { filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.45)); }
+
+/* ---------- the number ---------- */
+.m3k-hero {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+.m3k-num {
+  position: relative;
+  font-family: Archivo, Poppins, sans-serif;
+  font-stretch: 72%;
+  font-weight: 900;
+  font-size: 30vw;
+  line-height: 0.9;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  text-shadow: var(--num-shadow);
+  opacity: 0;
+  transform: scale(0.82);
+  transition: opacity 0.4s ease, transform 0.6s ease;
+}
+.m3k-p2 .m3k-num { opacity: 1; transform: scale(1); }
+.m3k-p3 .m3k-num {
+  color: var(--accent);
+  animation: m3k-slam 0.7s cubic-bezier(0.2, 1.6, 0.4, 1) both;
+}
+@keyframes m3k-slam {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.16); }
+  100% { transform: scale(1.06); }
+}
+
+/* ---------- leaf burst ---------- */
+.m3k-burst {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+}
+.m3k-bit {
+  position: absolute;
+  left: calc(var(--sz) / -2);
+  top: calc(var(--sz) / -2);
+  width: var(--sz);
+  height: var(--sz);
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  opacity: 0;
+}
+.m3k-t0 { background: var(--leaf-a); }
+.m3k-t1 { background: var(--leaf-b); }
+.m3k-t2 { background: var(--leaf-c); }
+.m3k-p3 .m3k-bit {
+  animation: m3k-fly 2.6s cubic-bezier(0.1, 0.8, 0.3, 1) var(--dl) both;
+}
+@keyframes m3k-fly {
+  0% { opacity: 0; transform: translate(0, 0) rotate(0) scale(0.3); }
+  8% { opacity: 1; }
+  65% { opacity: 1; }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx), calc(var(--dy) + 14vw)) rotate(var(--rot)) scale(1);
+  }
+}
+
+/* ---------- the belt ---------- */
+.m3k-belt {
+  position: relative;
+  width: 64vw;
+  height: clamp(12px, 3.4vw, 16px);
+  border-radius: 3px;
+  background: var(--track);
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.m3k-p2 .m3k-belt { opacity: 1; }
+.m3k-belt-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: #f4f4f4;
+  transition: background-color 0.25s ease;
+  /* stitching */
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0 6px,
+    rgba(0, 0, 0, 0.14) 6px 7px
+  );
+}
+.m3k-belt-fill[data-rank="0"] { background-color: #f4f4f4; }
+.m3k-belt-fill[data-rank="1"] { background-color: #1f5fd1; }
+.m3k-belt-fill[data-rank="2"] { background-color: #6a2fb0; }
+.m3k-belt-fill[data-rank="3"] { background-color: #6b3e1f; }
+.m3k-belt-fill[data-rank="4"] { background-color: #0b0b0b; }
+.m3k-night .m3k-belt-fill[data-rank="4"] {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+}
+.m3k-belt-fill[data-rank="0"] { background-image: repeating-linear-gradient(90deg, transparent 0 6px, rgba(0, 0, 0, 0.1) 6px 7px); }
+/* the black belt's red bar, tied on when the count lands */
+.m3k-belt-bar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 8%;
+  width: 18%;
+  background: #c8102e;
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+.m3k-p3 .m3k-belt-bar {
+  transform: scaleX(1);
+  transition: transform 0.45s cubic-bezier(0.2, 1, 0.3, 1) 0.15s;
+}
+
+/* ---------- copy ---------- */
+.m3k-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(6px, 1.4vh, 12px);
+}
+.m3k-label,
+.m3k-thanks {
+  overflow: hidden;
+  line-height: 1;
+}
+.m3k-label span,
+.m3k-thanks span {
+  display: inline-block;
+  font-family: Archivo, Poppins, sans-serif;
+  font-stretch: 100%;
+  font-weight: 900;
+  transform: translateY(110%);
+  transition: transform 0.7s cubic-bezier(0.2, 1, 0.3, 1);
+}
+.m3k-label span {
+  font-size: clamp(26px, 9.6vw, 40px);
+  letter-spacing: 0.12em;
+  padding-left: 0.12em;
+}
+.m3k-thanks span {
+  font-size: clamp(22px, 7.4vw, 32px);
+  letter-spacing: 0.06em;
+  padding-left: 0.06em;
+  color: var(--accent);
+}
+.m3k-p4 .m3k-label span { transform: none; }
+.m3k-p5 .m3k-thanks span { transform: none; }
+
+.m3k-sign,
+.m3k-site {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.m3k-sign {
+  margin-top: clamp(6px, 1.6vh, 14px);
+  font-weight: 700;
+  font-size: clamp(12px, 3.8vw, 16px);
+  letter-spacing: 0.18em;
+  padding-left: 0.18em;
+}
+.m3k-site {
+  font-weight: 500;
+  font-size: clamp(11px, 3.4vw, 14px);
+  letter-spacing: 0.06em;
+  color: var(--sub);
+  transition-delay: 0.25s;
+}
+.m3k-p6 .m3k-sign,
+.m3k-p6 .m3k-site { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .m3k-stage *,
+  .m3k-stage *::after { animation: none !important; transition: none !important; }
+  .m3k-bit { display: none; }
+}
