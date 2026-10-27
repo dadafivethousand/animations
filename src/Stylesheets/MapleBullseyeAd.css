@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@600;700;800&family=JetBrains+Mono:wght@600&display=swap');
+
+/* MapleBullseyeAd — an arrow, a bullseye, 3,000 followers. Namespace: bx-
+ * Overlay opacity/transform are written by the component per frame; this
+ * file only lays them out. Type is gold with a navy outline so it reads on
+ * sky, grass and target alike.
+ *
+ *   ENDVAR=__bullEnd URL=http://localhost:30xx/?render=1 OUT=~/Downloads/maple-bullseye.mp4 \
+ *     NODE_PATH=/tmp/rec/node_modules node tools/record-frames.js
+ */
+
+.bx-stage {
+  --safe-x: max(45px, 11vw);
+  --safe-y: max(40px, 6vh);
+  --ink: #ffc93c;
+  --edge: #071634;
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #f2d4ad;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+.bx-canvas,
+.bx-canvas canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+.bx-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 85% at 50% 50%, rgba(0, 0, 0, 0) 50%, rgba(20, 10, 0, 0.5) 100%);
+}
+
+.bx-aim,
+.bx-count,
+.bx-bull,
+.bx-foot {
+  position: absolute;
+  left: var(--safe-x);
+  right: var(--safe-x);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  opacity: 0;
+  color: var(--ink);
+  -webkit-text-stroke: 5px var(--edge);
+  paint-order: stroke fill;
+  text-shadow: 0 3px 14px rgba(2, 8, 24, 0.55);
+  pointer-events: none;
+}
+
+.bx-aim {
+  top: calc(var(--safe-y) + 6vh);
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(40px, 13vw, 56px);
+  letter-spacing: 0.1em;
+  padding-left: 0.1em;
+}
+
+.bx-count {
+  top: calc(var(--safe-y) + 3vh);
+  transform-origin: center top;
+}
+.bx-num {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(50px, 17vw, 68px);
+  line-height: 0.9;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.bx-label {
+  margin-top: 2px;
+  font-weight: 800;
+  font-size: clamp(10px, 3.2vw, 13px);
+  letter-spacing: 0.34em;
+  padding-left: 0.34em;
+  -webkit-text-stroke-width: 3.5px;
+}
+.bx-count.bx-gold .bx-num {
+  color: #ffd75e;
+}
+
+.bx-bull {
+  bottom: calc(var(--safe-y) + 7vh);
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(46px, 16vw, 64px);
+  letter-spacing: 0.08em;
+  padding-left: 0.08em;
+  color: #ff9b3d;
+}
+
+.bx-foot {
+  bottom: calc(var(--safe-y) + 2vh);
+  gap: clamp(4px, 0.8vh, 7px);
+}
+.bx-thanks {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(30px, 10vw, 42px);
+  letter-spacing: 0.12em;
+  padding-left: 0.12em;
+}
+.bx-sign {
+  font-weight: 800;
+  font-size: clamp(10px, 3.2vw, 13px);
+  letter-spacing: 0.24em;
+  padding-left: 0.24em;
+  -webkit-text-stroke-width: 3.5px;
+}
+.bx-site {
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 600;
+  font-size: clamp(10px, 3vw, 12px);
+  -webkit-text-stroke-width: 3px;
+}
