@@ -13,6 +13,9 @@
   --safe-x: max(45px, 11vw);
   --safe-y: max(40px, 6vh);
   --gold: #f3cf7a;
+  /* overlay type is gold with a navy outline: never white, which disappears into the gis */
+  --ink: #ffc93c;
+  --edge: #071634;
   position: fixed;
   inset: 0;
   overflow: hidden;
@@ -46,8 +49,16 @@
   align-items: center;
   text-align: center;
   opacity: 0;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45), 0 3px 18px rgba(0, 0, 0, 0.55);
+  color: var(--ink);
+  -webkit-text-stroke: 5px var(--edge);
+  paint-order: stroke fill;
+  text-shadow: 0 3px 14px rgba(2, 8, 24, 0.7);
   pointer-events: none;
+}
+.mm-label,
+.mm-sign,
+.mm-site {
+  -webkit-text-stroke-width: 3.5px;
 }
 
 .mm-intro {
@@ -78,7 +89,7 @@
   padding-left: 0.34em;
 }
 .mm-count.mm-gold .mm-num {
-  color: var(--gold);
+  color: #ffd75e;
   text-shadow: 0 0 22px rgba(255, 190, 90, 0.55), 0 2px 12px rgba(0, 0, 0, 0.5);
 }
 
@@ -99,7 +110,7 @@
   letter-spacing: 0.06em;
   padding-left: 0.06em;
 }
-.mm-o2 { color: var(--gold); }
+.mm-o2 { color: #ff9b3d; }
 
 .mm-foot {
   bottom: calc(var(--safe-y) + 1vh);

@@ -382,9 +382,11 @@ export default function MapleMatAd({
       hair: [new THREE.SphereGeometry(0.108, 18, 10, 0, Math.PI * 2, 0, Math.PI * 0.56), hairMat, 1],
       belt: [flat(new THREE.TorusGeometry(0.2, 0.024, 6, 26), Math.PI / 2), beltMat, 1],
       tails: [new THREE.BoxGeometry(0.1, 0.22, 0.016), beltMat, 1],
-      arm: [new THREE.CapsuleGeometry(0.048, 0.5, 4, 8), giMat, 2],
+      uarm: [new THREE.CapsuleGeometry(0.05, 0.18, 4, 8), giMat, 2],
+      farm: [new THREE.CapsuleGeometry(0.045, 0.17, 4, 8), giMat, 2],
       hand: [new THREE.SphereGeometry(0.045, 10, 8), skinMat, 2],
-      leg: [new THREE.CapsuleGeometry(0.085, 0.72, 4, 10), giMat, 2],
+      thigh: [new THREE.CapsuleGeometry(0.088, 0.29, 4, 10), giMat, 2],
+      shin: [new THREE.CapsuleGeometry(0.07, 0.31, 4, 10), giMat, 2],
       foot: [new THREE.SphereGeometry(1, 10, 8), skinMat, 2],
     };
     const M = {};
@@ -446,7 +448,7 @@ export default function MapleMatAd({
       let ang = Math.atan2(p.z, p.x);
       if (i === 0) ang = Math.PI / 2 + 0.22; // #1 walks up from the bottom of the frame
       ang += (rnd() - 0.5) * 0.5;
-      p.speed = lerp(1.5, 6.5, clamp01((a - T_FIRST) / (T_FULL - T_FIRST)));
+      p.speed = lerp(1.4, 6.0, clamp01((a - T_FIRST) / (T_FULL - T_FIRST)));
       let dist = visHalf(a) * 1.35 + 1.5;
       let dur = (dist / p.speed) * 1000;
       for (let k = 0; k < 3; k++) {
@@ -455,9 +457,14 @@ export default function MapleMatAd({
       }
       if (i === 0) {
         dist = visHalf(0) / aspect + 1.2;
-        p.speed = 1.5;
-        dur = (dist / p.speed) * 1000;
+        p.speed = 1.35;
       }
+      // cruise at speed, then brake over the last metre or so
+      p.dist = dist;
+      p.dd = Math.min(0.5 + p.speed * 0.25, dist * 0.35);
+      p.tc = (dist - p.dd) / p.speed;
+      p.td = (2 * p.dd) / p.speed;
+      dur = (p.tc + p.td) * 1000;
       p.sx = p.x + Math.cos(ang) * dist;
       p.sz = p.z + Math.sin(ang) * dist;
       p.depart = a - dur;
@@ -468,7 +475,7 @@ export default function MapleMatAd({
       const skin = SKIN[Math.floor(rnd() * SKIN.length)];
       const hair = rnd() < 0.08 ? skin : HAIR[Math.floor(rnd() * HAIR.length)];
       const belt = i === 0 ? "#111114" : pickBelt();
-      for (const k of ["torso", "delt", "arm", "leg"]) setCol(M[k], i, parts[k][2], gi);
+      for (const k of ["torso", "delt", "uarm", "farm", "thigh", "shin"]) setCol(M[k], i, parts[k][2], gi);
       for (const k of ["neck", "head", "hand", "foot"]) setCol(M[k], i, parts[k][2], skin);
       setCol(M.hair, i, 1, hair);
       setCol(M.belt, i, 1, belt);
@@ -505,10 +512,15 @@ export default function MapleMatAd({
     };
     const T_HIP = T(0, HIP, 0);
     const T_NHIP = T(0, -HIP, 0);
-    const LEG = T(0, -0.445, 0);
-    const FOOT = mul(T(0, -0.94, -0.06), Sm(0.045, 0.03, 0.11));
-    const ARM = T(0, -0.3, 0);
-    const HAND = mul(T(0, -0.64, 0), Sm(0.9, 1.3, 0.7));
+    const THIGH = T(0, -0.225, 0);
+    const KNEE = T(0, -0.45, 0);
+    const SHIN = T(0, -0.225, 0);
+    const ANKLE = T(0, -0.45, 0);
+    const FOOT = mul(T(0, -0.05, -0.055), Sm(0.045, 0.03, 0.11));
+    const UARM = T(0, -0.14, 0);
+    const ELBOW = T(0, -0.28, 0);
+    const FARM = T(0, -0.13, 0);
+    const HAND = mul(T(0, -0.3, 0), Sm(0.9, 1.3, 0.7));
     const HIPJ = { [-1]: T(-0.1, HIP, 0), 1: T(0.1, HIP, 0) };
     const SHJ = { [-1]: mul(T(-0.218, 1.42, 0), new THREE.Matrix4().makeRotationZ(-0.09)), 1: mul(T(0.218, 1.42, 0), new THREE.Matrix4().makeRotationZ(0.09)) };
     const mC = new THREE.Matrix4();
@@ -529,21 +541,31 @@ export default function MapleMatAd({
           contact.setMatrixAt(i, hidden);
           continue;
         }
-        let x, z, yaw, lift = 0, swing = 0, sway = 0;
+        let x, z, yaw, lift = 0, sway = 0, g = 0, phi = 0, lean = 0;
         const walkYaw = Math.atan2(-(p.x - p.sx), -(p.z - p.sz));
         if (t < p.arrive) {
-          const k = (t - p.depart) / (p.arrive - p.depart);
-          const e = 1 - Math.pow(1 - k, 1.8);
+          const tau = (t - p.depart) / 1000;
+          let dS;
+          let vNow;
+          if (tau < p.tc) {
+            dS = p.speed * tau;
+            vNow = p.speed;
+          } else {
+            const u = Math.min(tau - p.tc, p.td);
+            dS = p.dist - p.dd + p.speed * u - (p.speed * u * u) / (2 * p.td);
+            vNow = p.speed * (1 - u / p.td);
+          }
+          const e = dS / p.dist;
           x = lerp(p.sx, p.x, e);
           z = lerp(p.sz, p.z, e);
           yaw = walkYaw;
-          // stride: ~1.4 m a full cycle, quicker and longer when running
-          const v0 = p.speed * (1 - e * 0.7);
-          const ph = ((t - p.depart) / 1000) * (v0 / 1.4) * Math.PI * 2 + p.phase;
-          const amp = Math.min(0.75, 0.32 + v0 * 0.07);
-          swing = Math.sin(ph) * amp * Math.min(1, (1 - k) * 4 + 0.15);
-          lift = Math.abs(Math.cos(ph)) * 0.025 * Math.min(1, v0 / 2);
-          sway = Math.sin(ph) * 0.05;
+          // the gait is driven by distance covered, so feet never slide
+          const stride = 1.25 + 0.22 * p.speed;
+          phi = (dS / stride) * Math.PI * 2 + p.phase;
+          g = Math.min(1, (vNow / p.speed) * 1.8);
+          lift = (0.012 + 0.007 * p.speed) * g * Math.abs(Math.sin(phi));
+          sway = Math.sin(phi) * 0.06 * g;
+          lean = Math.min(0.22, 0.035 * p.speed) * g;
         } else {
           arrived++;
           x = p.x;
@@ -562,7 +584,7 @@ export default function MapleMatAd({
         mPerson.compose(v.set(x, lift, z), q, sc.set(p.s * p.w, p.s, p.s));
         // upper body hinges forward at the hip for the bow, twists a little in the walk
         mBow.makeRotationY(sway);
-        if (bow) mBow.multiply(mA.makeRotationX(-bow));
+        if (bow + lean) mBow.multiply(mA.makeRotationX(-(bow + lean)));
         mUpper.multiplyMatrices(mPerson, T_HIP).multiply(mBow).multiply(T_NHIP);
 
         set(M.torso, i, mUpper, L.torso);
@@ -574,16 +596,29 @@ export default function MapleMatAd({
         set(M.belt, i, mPerson, L.belt);
         set(M.tails, i, mPerson, L.tails);
 
-        // legs and feet swing from the hip
+        // legs: hip swings, knee folds on the way forward, foot stays level.
+        // Left and right are half a cycle apart, so one plants as the other swings.
+        const v0 = p.speed;
+        const A = Math.min(0.72, 0.34 + 0.07 * v0);
+        const B = Math.min(1.35, 0.55 + 0.16 * v0);
+        const E = lerp(0.14, Math.min(1.05, 0.25 + 0.14 * v0), g);
         for (const [side, sgn] of [[0, -1], [1, 1]]) {
-          const sw = swing * sgn;
-          mA.multiplyMatrices(mPerson, HIPJ[sgn]).multiply(mB.makeRotationX(sw));
-          set(M.leg, i * 2 + side, mA, LEG);
+          const ph = phi + (sgn > 0 ? Math.PI : 0);
+          const th = A * Math.sin(ph) * g;
+          const flex = (B * Math.max(0, Math.cos(ph)) + 0.08) * g;
+          mA.multiplyMatrices(mPerson, HIPJ[sgn]).multiply(mB.makeRotationX(th));
+          set(M.thigh, i * 2 + side, mA, THIGH);
+          mA.multiply(KNEE).multiply(mB.makeRotationX(-flex));
+          set(M.shin, i * 2 + side, mA, SHIN);
+          mA.multiply(ANKLE).multiply(mB.makeRotationX(-(th - flex)));
           set(M.foot, i * 2 + side, mA, FOOT);
-          // arms swing opposite, from the shoulder
-          const asw = -swing * sgn * 0.8;
-          mA.multiplyMatrices(mUpper, SHJ[sgn]).multiply(mC.makeRotationX(asw));
-          set(M.arm, i * 2 + side, mA, ARM);
+          // arms swing against the leg on the same side, elbows bend more at a run
+          const ath = -0.85 * A * Math.sin(ph) * g;
+          mA.multiplyMatrices(mUpper, SHJ[sgn]).multiply(mC.makeRotationX(ath));
+          set(M.uarm, i * 2 + side, mA, UARM);
+          // forearms fold up and in across the body, the way runners carry them
+          mA.multiply(ELBOW).multiply(mC.makeRotationZ(-0.4 * sgn * g)).multiply(mB.makeRotationX(E));
+          set(M.farm, i * 2 + side, mA, FARM);
           set(M.hand, i * 2 + side, mA, HAND);
         }
         mOut.compose(v.set(x, 0.004, z), q, sc.set(0.95 * p.w, 1, 0.8));
