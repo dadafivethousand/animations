@@ -30,13 +30,16 @@ import "./Stylesheets/App.css";
 // import NetflixSchedule from "./Components/NetflixSchedule";
 // import WheelSchedule from "./Components/WheelSchedule";
 // import MapleThreeThousandAd from "./Components/MapleThreeThousandAd";
-import MapleSummitAd from "./Components/MapleSummitAd";
+// import MapleSummitAd from "./Components/MapleSummitAd";
+import MapleDominoAd from "./Components/MapleDominoAd";
 
 function App() {
   // return <WheelSchedule day="Thursday" />;
   // Maple Jiu Jitsu hits 3,000 followers. ?theme=night | ?theme=paper
   // return <MapleThreeThousandAd />;
   // Climb to 3,000, find more mountains. ?theme=sunrise | dusk
-  return <MapleSummitAd />;
+  // return <MapleSummitAd />;
+  // 3,000 followers as a domino run. ?render=1 for tools/record-frames.js
+  return <MapleDominoAd />;
 }
 export default App;
