@@ -29,11 +29,14 @@ import "./Stylesheets/App.css";
 // import VendingSchedule from "./Components/VendingSchedule";
 // import NetflixSchedule from "./Components/NetflixSchedule";
 // import WheelSchedule from "./Components/WheelSchedule";
-import MapleThreeThousandAd from "./Components/MapleThreeThousandAd";
+// import MapleThreeThousandAd from "./Components/MapleThreeThousandAd";
+import MapleSummitAd from "./Components/MapleSummitAd";
 
 function App() {
   // return <WheelSchedule day="Thursday" />;
   // Maple Jiu Jitsu hits 3,000 followers. ?theme=night | ?theme=paper
-  return <MapleThreeThousandAd />;
+  // return <MapleThreeThousandAd />;
+  // Climb to 3,000, find more mountains. ?theme=sunrise | dusk
+  return <MapleSummitAd />;
 }
 export default App;

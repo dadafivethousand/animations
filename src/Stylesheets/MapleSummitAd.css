@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@600;700;800&family=JetBrains+Mono:wght@600&display=swap');
+
+/* MapleSummitAd — climb to 3,000, find more mountains. Namespace: ms-
+ *
+ *   MS=14600 HOLD=1.8 BG=#000000 OUT=~/Downloads/maple-summit-sunrise.mp4 \
+ *     URL=http://localhost:30xx/?theme=sunrise NODE_PATH=/tmp/rec/node_modules \
+ *     node tools/record.js
+ */
+
+.ms-stage {
+  --safe-x: max(45px, 11vw);
+  --safe-y: max(40px, 6vh);
+  --gold: #ffd58a;
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #000;
+  color: #fff;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+.ms-dusk { --gold: #ffc9a8; }
+.ms-canvas { position: absolute; inset: 0; display: block; }
+
+/* ---------- top block: readout, then the captions ---------- */
+.ms-top {
+  position: absolute;
+  left: var(--safe-x);
+  right: var(--safe-x);
+  top: calc(var(--safe-y) + 4vh);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35), 0 2px 14px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+.ms-p1 .ms-top { opacity: 1; }
+.ms-p5 .ms-top { opacity: 0; transition-duration: 0.6s; }
+
+.ms-brand {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 800;
+  font-size: clamp(9px, 2.8vw, 11px);
+  letter-spacing: 0.24em;
+  opacity: 0.9;
+}
+.ms-brand img { width: clamp(20px, 6.5vw, 26px); height: auto; }
+
+.ms-num {
+  margin-top: clamp(8px, 1.8vh, 14px);
+  font-family: "Bebas Neue", sans-serif;
+  line-height: 0.9;
+  font-variant-numeric: tabular-nums;
+  transform-origin: center;
+  transition: transform 0.7s cubic-bezier(0.2, 1.5, 0.4, 1), color 0.4s ease;
+}
+.ms-num b { font-weight: 400; font-size: clamp(42px, 15vw, 60px); letter-spacing: 0.02em; }
+.ms-p2 .ms-num {
+  color: var(--gold);
+  transform: scale(1.45);
+  text-shadow: 0 0 22px rgba(255, 190, 110, 0.6), 0 2px 14px rgba(0, 0, 0, 0.35);
+}
+.ms-label {
+  margin-top: 2px;
+  font-weight: 800;
+  font-size: clamp(10px, 3.2vw, 13px);
+  letter-spacing: 0.34em;
+  padding-left: 0.34em;
+  transition: margin 0.7s cubic-bezier(0.2, 1.5, 0.4, 1);
+}
+.ms-p2 .ms-label { margin-top: clamp(12px, 2.6vh, 20px); }
+
+.ms-cap {
+  position: relative;
+  margin-top: clamp(14px, 3vh, 24px);
+  width: 100%;
+  height: 1.4em;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(22px, 7.6vw, 30px);
+  letter-spacing: 0.08em;
+}
+.ms-cap span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  transform: translateY(10px);
+  filter: blur(4px);
+  transition: opacity 0.7s ease, transform 0.8s ease, filter 0.7s ease;
+  white-space: nowrap;
+}
+.ms-p3 .ms-cap1 { opacity: 1; transform: none; filter: none; }
+.ms-p4 .ms-cap1 { opacity: 0; transform: translateY(-10px); filter: blur(4px); }
+.ms-p4 .ms-cap2 { opacity: 1; transform: none; filter: none; color: var(--gold); transition-delay: 0.35s; }
+
+/* ---------- final: THE CLIMB NEVER ENDS ---------- */
+.ms-final {
+  position: absolute;
+  left: var(--safe-x);
+  right: var(--safe-x);
+  top: calc(var(--safe-y) + 4vh);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 20px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+.ms-final-logo {
+  width: clamp(40px, 13vw, 52px);
+  height: auto;
+  margin-bottom: clamp(8px, 1.6vh, 14px);
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.8s ease, transform 0.9s ease;
+  filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.4));
+}
+.ms-p5 .ms-final-logo { opacity: 1; transform: none; transition-delay: 0.3s; }
+.ms-final-line {
+  overflow: hidden;
+  line-height: 0.95;
+  /* room for the glow, so the clip box never shows as an edge */
+  padding: 26px 30px;
+  margin: -26px -30px;
+}
+.ms-final-line span {
+  display: inline-block;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(46px, 16vw, 64px);
+  letter-spacing: 0.06em;
+  padding-left: 0.06em;
+  transform: translateY(150%);
+  /* transparent until it rises, or its shadow leaks out of the clip box */
+  opacity: 0;
+  transition: transform 0.9s cubic-bezier(0.2, 1, 0.3, 1), opacity 0.3s ease;
+}
+.ms-final-2 span { color: var(--gold); }
+.ms-p5 .ms-final-line span { transform: none; opacity: 1; transition-delay: 0.4s; }
+.ms-p5 .ms-final-2 span { transition-delay: 0.65s; }
+
+/* ---------- foot, over the cloud sea ---------- */
+.ms-foot {
+  position: absolute;
+  left: var(--safe-x);
+  right: var(--safe-x);
+  bottom: calc(var(--safe-y) + 3vh);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(4px, 0.9vh, 8px);
+  text-align: center;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45), 0 2px 14px rgba(0, 0, 0, 0.55);
+}
+.ms-thanks,
+.ms-sign,
+.ms-site {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.ms-thanks {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(22px, 7.4vw, 30px);
+  letter-spacing: 0.1em;
+  padding-left: 0.1em;
+}
+.ms-sign {
+  font-weight: 800;
+  font-size: clamp(10px, 3.2vw, 13px);
+  letter-spacing: 0.24em;
+  padding-left: 0.24em;
+}
+.ms-site {
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 600;
+  font-size: clamp(10px, 3vw, 12px);
+  opacity: 0;
+}
+.ms-p6 .ms-thanks { opacity: 1; transform: none; }
+.ms-p7 .ms-sign { opacity: 1; transform: none; }
+.ms-p7 .ms-site { opacity: 0.75; transform: none; transition-delay: 0.25s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ms-stage * { transition: none !important; animation: none !important; }
+}
