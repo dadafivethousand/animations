@@ -1,215 +1,656 @@
 // MapleThreeThousandAd.js — Maple Jiu Jitsu hits 3,000 Instagram followers,
-// told as a stock chart. $MAPLE's "price" is the follower count: a line
-// climbs (with a couple of realistic pullbacks) while the quote ticks along
-// with its tip, breaks a dashed 3,000 line, and prints an all-time high.
+// told as a rocket launch broadcast.
 //
-// Three palettes off one URL param, identical geometry/timing/copy:
-//   ?theme=terminal (default) black, neon green
-//   ?theme=navy               Maple navy, green
-//   ?theme=light              white trading-app look
+// T-3, 2, 1 -> ignition (flash, shake, smoke rolling off the pad) -> liftoff.
+// The camera rides the rocket up through a cloud deck into black space with
+// the Earth's limb below, while the telemetry strip counts FOLLOWERS like
+// altitude. On 3,000 the frame flashes, the rocket rips out of shot and the
+// thank-you lands.
 //
-// The curve's shape is illustrative, not the account's real history — there
-// are no dates on the x-axis for that reason.
+// The scene is one <canvas> driven by requestAnimationFrame (smoke needs a
+// particle system; CSS cannot do it). The HUD and copy are HTML on top, with
+// their numbers written straight into refs so React never re-renders per frame.
+//
+//   ?theme=dusk  (default) orange horizon, blue hour
+//   ?theme=night           dark launch, the flame lights everything
+// Timing and copy are identical between them.
 import React from "react";
 import "../Stylesheets/MapleThreeThousandAd.css";
 import mapleLogo from "../Images/maple-logo.png";
 import mapleBjjLogo from "../Images/maple-bjj-logo.png";
 
-const THEMES = ["terminal", "navy", "light"];
+// ---------------- timeline (ms from mount) ----------------
+const T_HUD = 200;
+const T_C3 = 700;
+const T_C2 = 1400;
+const T_C1 = 2100;
+const T_IGN = 2750;
+const T_LIFT = 3250;
+const T_END = 8300; // 3,000 reached
+const T_RELEASE = T_END + 600; // camera stops following, rocket leaves
+const T_LABEL = T_END + 700;
+const T_THANKS = T_END + 1400;
+const T_SIGN = T_END + 2200;
+export const MAPLE_ROCKET_TIMELINE = { T_C3, T_C2, T_C1, T_IGN, T_LIFT, T_END };
 
-// Timeline (ms). The chart draw is driven by rAF; everything else is CSS
-// keyed off .m3k-p<n>.
-const DRAW_FROM = 1000;
-const DRAW_MS = 3600;
-const CUES = [
-  250, //            p1 header in
-  700, //            p2 chart frame + quote
-  DRAW_FROM + DRAW_MS, // p3 breakout: flash, ATH tag
-  DRAW_FROM + DRAW_MS + 900, // p4 FOLLOWERS
-  DRAW_FROM + DRAW_MS + 1700, // p5 THANK YOU
-  DRAW_FROM + DRAW_MS + 2600, // p6 sign-off
-];
+const TARGET = 3000;
+const R_END = 6200; // world altitude (px) at T_END
 
-// ---- chart geometry, in SVG units ----
-const VW = 300;
-const VH = 190;
-const PLOT_R = 258; // right edge of the plot; axis labels live past it
-const Y_TOP = 14;
-const Y_BOT = 150;
-const VMAX = 3300;
-const yOf = (v) => Y_BOT - (v / VMAX) * (Y_BOT - Y_TOP);
-
-function rand(i) {
-  const x = Math.sin(i * 127.1 + 311.7) * 43758.5453;
-  return x - Math.floor(x);
+// ---------------- helpers ----------------
+const clamp01 = (x) => Math.min(1, Math.max(0, x));
+const ss = (e0, e1, x) => {
+  const t = clamp01((x - e0) / (e1 - e0));
+  return t * t * (3 - 2 * t);
+};
+const lerp = (a, b, t) => a + (b - a) * t;
+function hex(h) {
+  const n = parseInt(h.slice(1), 16);
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+}
+function mix(a, b, t) {
+  const A = hex(a);
+  const B = hex(b);
+  return `rgb(${Math.round(lerp(A[0], B[0], t))},${Math.round(lerp(A[1], B[1], t))},${Math.round(lerp(A[2], B[2], t))})`;
+}
+function mulberry32(a) {
+  return function () {
+    a |= 0;
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
 }
 
-// Compounding growth with noise and two pullbacks; the last point is the
-// high, and nothing before it reaches 3,000.
-const N = 56;
-const SERIES = (() => {
-  const k = 2.4;
-  const pts = [];
-  for (let i = 0; i < N; i++) {
-    const t = i / (N - 1);
-    let v = ((Math.exp(k * t) - 1) / (Math.exp(k) - 1)) * 2860 + 90;
-    v += (rand(i) - 0.5) * 160 * (0.4 + t);
-    if (i > 18 && i < 23) v -= 150 * Math.sin(((i - 18) / 5) * Math.PI);
-    if (i > 38 && i < 45) v -= 260 * Math.sin(((i - 38) / 7) * Math.PI);
-    pts.push(Math.max(60, Math.min(2930, v)));
-  }
-  pts[N - 1] = 3000;
-  return pts;
-})();
-const XS = SERIES.map((_, i) => (i / (N - 1)) * PLOT_R);
-const VOL = SERIES.map((_, i) => 0.25 + rand(i + 77) * 0.75);
-
-// Accelerating draw: growth should feel like it is picking up speed.
-const ease = (t) => (t < 1 ? t * t * (3 - 2 * t) * 0.35 + Math.pow(t, 1.6) * 0.65 : 1);
-
-// Point on the series at fractional index f.
-function at(f) {
-  const i = Math.min(N - 2, Math.floor(f));
-  const r = f - i;
-  return { x: XS[i] + (XS[i + 1] - XS[i]) * r, v: SERIES[i] + (SERIES[i + 1] - SERIES[i]) * r };
+// Soft round sprite, tinted. Particles are drawImage'd from these, which is
+// far cheaper than a gradient per particle.
+function sprite(color, hard = 0) {
+  const c = document.createElement("canvas");
+  c.width = c.height = 128;
+  const g = c.getContext("2d");
+  const [r, gg, b] = hex(color);
+  const grd = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+  grd.addColorStop(0, `rgba(${r},${gg},${b},1)`);
+  grd.addColorStop(0.35 + hard * 0.3, `rgba(${r},${gg},${b},0.75)`);
+  grd.addColorStop(0.7, `rgba(${r},${gg},${b},0.22)`);
+  grd.addColorStop(1, `rgba(${r},${gg},${b},0)`);
+  g.fillStyle = grd;
+  g.fillRect(0, 0, 128, 128);
+  return c;
 }
+
+const THEMES = {
+  dusk: {
+    top: "#16204a",
+    mid: "#57497c",
+    hor: "#ff9a52",
+    land: "#090a10",
+    hills: "#151629",
+    smoke: "#d8d6dc",
+    shade: "#6d6878",
+    cloud: "#d9b9bd",
+    starsFrom: 0,
+    ambient: 0.75,
+  },
+  night: {
+    top: "#02040c",
+    mid: "#0a1030",
+    hor: "#27305a",
+    land: "#040508",
+    hills: "#0b0e1c",
+    smoke: "#b9bdc6",
+    shade: "#3a3e4a",
+    cloud: "#4c5468",
+    starsFrom: 0.55,
+    ambient: 0.35,
+  },
+};
+const SPACE = { top: "#000000", mid: "#01030a", hor: "#0a1a3c" };
 
 export default function MapleThreeThousandAd({
-  ticker = "$MAPLE",
   name = "MAPLE JIU JITSU",
+  mission = "MISSION 3K",
   label = "FOLLOWERS",
   thanks = "THANK YOU",
   signoff = "SEE YOU ON THE MATS",
   site = "maplebjj.com",
 }) {
-  const theme = React.useMemo(() => {
-    if (typeof window === "undefined") return THEMES[0];
+  const themeKey = React.useMemo(() => {
+    if (typeof window === "undefined") return "dusk";
     const q = new URLSearchParams(window.location.search).get("theme");
-    return THEMES.includes(q) ? q : THEMES[0];
+    return THEMES[q] ? q : "dusk";
   }, []);
 
-  const reduce = React.useMemo(
-    () =>
-      typeof window !== "undefined" &&
-      window.matchMedia &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches,
-    []
-  );
+  const canvasRef = React.useRef(null);
+  const clockRef = React.useRef(null);
+  const speedRef = React.useRef(null);
+  const folRef = React.useRef(null);
+  const [phase, setPhase] = React.useState(0);
 
-  const [phase, setPhase] = React.useState(reduce ? CUES.length : 0);
-  const [prog, setProg] = React.useState(reduce ? 1 : 0);
-
+  // ---- phase cues for the HTML layer ----
   React.useEffect(() => {
-    if (reduce) return undefined;
-    const timers = CUES.map((t, i) => setTimeout(() => setPhase(i + 1), t));
+    const cues = [T_HUD, T_C3, T_C2, T_C1, T_IGN, T_LIFT, T_END, T_LABEL, T_THANKS, T_SIGN];
+    const ids = cues.map((t, i) => setTimeout(() => setPhase(i + 1), t));
+    return () => ids.forEach(clearTimeout);
+  }, []);
+
+  // ---- the scene ----
+  React.useEffect(() => {
+    const TH = THEMES[themeKey];
+    const cv = canvasRef.current;
+    const ctx = cv.getContext("2d");
+    const rnd = mulberry32(3000);
+
+    let W = 0;
+    let H = 0;
+    let S = 1;
+    const fit = () => {
+      const dpr = window.devicePixelRatio || 1;
+      W = window.innerWidth;
+      H = window.innerHeight;
+      S = Math.min(W / 360, H / 640);
+      cv.width = Math.round(W * dpr);
+      cv.height = Math.round(H * dpr);
+      cv.style.width = `${W}px`;
+      cv.style.height = `${H}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    fit();
+    window.addEventListener("resize", fit);
+
+    const SPR = {
+      smoke: sprite(TH.smoke),
+      shade: sprite(TH.shade),
+      warm: sprite("#ff8f3a"),
+      cloud: sprite(TH.cloud),
+      hot: sprite("#fff1c4", 1),
+    };
+    const leafImg = new Image();
+    leafImg.src = mapleBjjLogo;
+
+    // Fixed scenery, generated once.
+    const stars = Array.from({ length: 170 }, () => ({
+      x: rnd(),
+      y: rnd(),
+      r: 0.35 + Math.pow(rnd(), 3) * 1.4,
+      tw: rnd() * 6.28,
+    }));
+    const clouds = Array.from({ length: 70 }, () => ({
+      x: (rnd() - 0.5) * 900,
+      alt: 1900 + rnd() * 900,
+      r: 50 + rnd() * 110,
+      a: 0.25 + rnd() * 0.35,
+      front: rnd() < 0.35,
+    }));
+    const lights = Array.from({ length: 46 }, () => ({
+      x: (rnd() - 0.5) * 1400,
+      alt: -3 - rnd() * 40,
+      r: 0.6 + rnd() * 1.1,
+    }));
+    const hillPts = Array.from({ length: 28 }, (_, i) => ({
+      x: -900 + i * 66,
+      h: 10 + rnd() * 26 + Math.sin(i * 0.7) * 10,
+    }));
+
+    let parts = [];
+    let lastNozzleAlt = 0;
+    const t0 = performance.now();
+    let last = t0;
     let raf;
-    const t0 = performance.now() + DRAW_FROM;
-    const tick = (now) => {
-      const p = Math.min(1, Math.max(0, (now - t0) / DRAW_MS));
-      setProg(ease(p));
-      if (p < 1) raf = requestAnimationFrame(tick);
+
+    const altAt = (t) => {
+      if (t < T_LIFT) return 0;
+      const u = (t - T_LIFT) / (T_END - T_LIFT);
+      return R_END * Math.pow(u, 2.15);
     };
-    raf = requestAnimationFrame(tick);
+
+    function emit(p) {
+      parts.push(p);
+      if (parts.length > 1800) parts.splice(0, parts.length - 1800);
+    }
+
+    function drawRocket(t, power) {
+      // local coords: base of the engine section at (0,0), up is -y
+      const bodyGrad = ctx.createLinearGradient(-14, 0, 14, 0);
+      bodyGrad.addColorStop(0, "#5d636c");
+      bodyGrad.addColorStop(0.28, "#e9ecef");
+      bodyGrad.addColorStop(0.42, "#ffffff");
+      bodyGrad.addColorStop(0.75, "#b4bac2");
+      bodyGrad.addColorStop(1, "#4a4f57");
+
+      // legs / fins
+      ctx.fillStyle = "#1b1e23";
+      ctx.beginPath();
+      ctx.moveTo(-13, -30); ctx.lineTo(-24, 4); ctx.lineTo(-18, 4); ctx.lineTo(-11, -8); ctx.closePath();
+      ctx.moveTo(13, -30); ctx.lineTo(24, 4); ctx.lineTo(18, 4); ctx.lineTo(11, -8); ctx.closePath();
+      ctx.fill();
+
+      // engine bells
+      ctx.fillStyle = "#2a2d33";
+      ctx.beginPath();
+      ctx.moveTo(-10, 0); ctx.lineTo(-12, 8); ctx.lineTo(12, 8); ctx.lineTo(10, 0); ctx.closePath();
+      ctx.fill();
+
+      // body + fairing
+      ctx.beginPath();
+      ctx.moveTo(-13, 0);
+      ctx.lineTo(-13, -168);
+      ctx.bezierCurveTo(-13, -190, -6, -210, 0, -218);
+      ctx.bezierCurveTo(6, -210, 13, -190, 13, -168);
+      ctx.lineTo(13, 0);
+      ctx.closePath();
+      ctx.save();
+      ctx.clip();
+      ctx.fillStyle = bodyGrad;
+      ctx.fillRect(-14, -220, 28, 222);
+      // engine section, interstage, fairing seam
+      ctx.fillStyle = "rgba(20,22,26,0.92)";
+      ctx.fillRect(-14, -18, 28, 18);
+      ctx.fillRect(-14, -126, 28, 9);
+      ctx.fillStyle = "rgba(0,0,0,0.25)";
+      ctx.fillRect(-14, -169, 28, 1.2);
+      // panel lines
+      ctx.fillStyle = "rgba(0,0,0,0.08)";
+      for (let y = -110; y < -20; y += 18) ctx.fillRect(-14, y, 28, 0.8);
+      // decal: the leaf, then MAPLE running up the body
+      if (leafImg.complete && leafImg.naturalWidth) {
+        ctx.drawImage(leafImg, -9, -158, 18, 18);
+      }
+      ctx.save();
+      ctx.translate(2.5, -32);
+      ctx.rotate(-Math.PI / 2);
+      ctx.fillStyle = "#0a1a3c";
+      ctx.font = "900 11px Inter, Arial, sans-serif";
+      ctx.textBaseline = "middle";
+      ctx.textAlign = "left";
+      ctx.fillText("MAPLE", 0, 0);
+      ctx.restore();
+      // underlit by the flame
+      if (power > 0) {
+        const lit = ctx.createLinearGradient(0, 0, 0, -120);
+        lit.addColorStop(0, `rgba(255,150,60,${0.55 * power})`);
+        lit.addColorStop(1, "rgba(255,150,60,0)");
+        ctx.fillStyle = lit;
+        ctx.fillRect(-14, -120, 28, 122);
+      }
+      ctx.restore();
+    }
+
+    function drawFlame(t, power, alt) {
+      if (power <= 0) return;
+      const thin = ss(400, 5200, alt); // plume balloons in thin air
+      const flick = 1 + Math.sin(t * 0.061) * 0.07 + Math.sin(t * 0.137) * 0.05 + (rnd() - 0.5) * 0.12;
+      const len = (70 + 50 * thin) * power * flick;
+      const w = 11 + 34 * thin;
+
+      ctx.save();
+      ctx.globalCompositeOperation = "lighter";
+
+      const glow = ctx.createRadialGradient(0, 20, 0, 0, 20, 190);
+      glow.addColorStop(0, `rgba(255,170,80,${0.55 * power})`);
+      glow.addColorStop(0.4, `rgba(255,110,40,${0.18 * power})`);
+      glow.addColorStop(1, "rgba(255,90,30,0)");
+      ctx.fillStyle = glow;
+      ctx.fillRect(-190, -170, 380, 380);
+
+      const plume = (wid, l, c0, c1) => {
+        const g = ctx.createLinearGradient(0, 6, 0, 6 + l);
+        g.addColorStop(0, c0);
+        g.addColorStop(1, c1);
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.moveTo(-10, 6);
+        ctx.bezierCurveTo(-wid, 6 + l * 0.3, -wid * 0.45, 6 + l * 0.8, 0, 6 + l);
+        ctx.bezierCurveTo(wid * 0.45, 6 + l * 0.8, wid, 6 + l * 0.3, 10, 6);
+        ctx.closePath();
+        ctx.fill();
+      };
+      plume(w * 1.5, len * 1.5, "rgba(255,120,40,0.65)", "rgba(255,60,20,0)");
+      plume(w * 1.05, len * 1.1, "rgba(255,190,90,0.9)", "rgba(255,120,40,0)");
+      plume(w * 0.55, len * 0.75, "rgba(255,255,235,1)", "rgba(255,220,150,0)");
+
+      // shock diamonds, only in thick air
+      const md = (1 - thin) * power;
+      if (md > 0.05) {
+        for (let i = 0; i < 4; i++) {
+          const y = 16 + i * 13 * flick;
+          ctx.globalAlpha = md * (0.85 - i * 0.18);
+          ctx.drawImage(SPR.hot, -5, y - 4, 10, 8);
+        }
+        ctx.globalAlpha = 1;
+      }
+      ctx.restore();
+    }
+
+    function frame(now) {
+      const t = now - t0;
+      const dt = Math.min(50, now - last);
+      last = now;
+
+      // ---- rocket & camera ----
+      const r = altAt(t);
+      const u = clamp01((t - T_LIFT) / (T_END - T_LIFT));
+      const power = ss(T_IGN, T_IGN + 350, t);
+      const camAlt = t < T_RELEASE ? r : altAt(T_RELEASE);
+      const z = S * lerp(1.0, 0.5, ss(0.25, 1, u));
+      const baseY = H * lerp(0.8, 0.66, ss(0, 0.35, u));
+
+      // ---- shake ----
+      let A = 0;
+      if (t > T_IGN) A += 7 * Math.exp(-(t - T_IGN) / 600) + 2.2 * power * (1 - ss(0.6, 1, u));
+      if (t > T_END) A += 10 * Math.exp(-(t - T_END) / 380);
+      const sx = A * (Math.sin(t * 0.093) * 0.6 + (rnd() - 0.5) * 0.8);
+      const sy = A * (Math.cos(t * 0.081) * 0.6 + (rnd() - 0.5) * 0.8);
+
+      // world -> screen
+      const ox = W / 2 + sx;
+      const oy = baseY + camAlt * z + sy;
+      const toScreenY = (alt) => oy - alt * z;
+
+      // ---- sky ----
+      const k = ss(700, 5200, camAlt);
+      const horY = toScreenY(0);
+      const sky = ctx.createLinearGradient(0, 0, 0, Math.max(horY, H * 0.5));
+      sky.addColorStop(0, mix(TH.top, SPACE.top, k));
+      sky.addColorStop(0.6, mix(TH.mid, SPACE.mid, k));
+      sky.addColorStop(1, mix(TH.hor, SPACE.hor, k));
+      ctx.fillStyle = sky;
+      ctx.fillRect(0, 0, W, H);
+
+      // ---- stars ----
+      const sa = Math.max(TH.starsFrom, ss(1800, 4800, camAlt));
+      if (sa > 0) {
+        ctx.fillStyle = "#ffffff";
+        const drift = (camAlt * 0.02 * S) % H;
+        for (const s of stars) {
+          const y = (s.y * H + drift) % H;
+          const fade = Math.min(1, (horY - y) / 120); // not below the horizon glow
+          if (fade <= 0) continue;
+          ctx.globalAlpha = sa * fade * (0.55 + 0.45 * Math.sin(s.tw + t * 0.003));
+          ctx.fillRect(s.x * W, y, s.r * S, s.r * S);
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      // ---- Earth's limb ----
+      const la = ss(3600, 6400, camAlt);
+      if (la > 0) {
+        const cx = W / 2;
+        const R = W * 2.4;
+        const cy = H * 1.08 + R - ss(3600, 6400, camAlt) * H * 0.12;
+        ctx.save();
+        ctx.globalAlpha = la;
+        const atm = ctx.createRadialGradient(cx, cy, R - 4, cx, cy, R + 60 * S);
+        atm.addColorStop(0, "rgba(90,170,255,0.9)");
+        atm.addColorStop(0.25, "rgba(60,130,255,0.35)");
+        atm.addColorStop(1, "rgba(40,90,255,0)");
+        ctx.fillStyle = atm;
+        ctx.beginPath();
+        ctx.arc(cx, cy, R + 60 * S, 0, Math.PI * 2);
+        ctx.fill();
+        const earth = ctx.createLinearGradient(0, cy - R, 0, cy - R + H * 0.2);
+        earth.addColorStop(0, "#1d4f9a");
+        earth.addColorStop(0.15, "#0d2a5a");
+        earth.addColorStop(1, "#020a1c");
+        ctx.fillStyle = earth;
+        ctx.beginPath();
+        ctx.arc(cx, cy, R, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      // ---- world layer ----
+      ctx.save();
+      ctx.translate(ox, oy);
+      ctx.scale(z, z);
+
+      // horizon glow band
+      if (horY < H + 200) {
+        const hg = ctx.createLinearGradient(0, -160, 0, 0);
+        hg.addColorStop(0, "rgba(255,160,90,0)");
+        hg.addColorStop(1, themeKey === "dusk" ? "rgba(255,170,100,0.35)" : "rgba(120,140,220,0.12)");
+        ctx.fillStyle = hg;
+        ctx.fillRect(-2000, -160, 4000, 160);
+      }
+
+      // distant hills
+      ctx.fillStyle = TH.hills;
+      ctx.beginPath();
+      ctx.moveTo(-1000, 0);
+      for (const p of hillPts) ctx.lineTo(p.x, -p.h);
+      ctx.lineTo(1000, 0);
+      ctx.closePath();
+      ctx.fill();
+
+      // clouds behind
+      for (const c of clouds) {
+        if (c.front) continue;
+        ctx.globalAlpha = c.a * TH.ambient;
+        ctx.drawImage(SPR.cloud, c.x - c.r, -c.alt - c.r * 0.5, c.r * 2, c.r);
+      }
+      ctx.globalAlpha = 1;
+
+      // ground
+      ctx.fillStyle = TH.land;
+      ctx.fillRect(-2000, 0, 4000, 3000);
+      for (const l of lights) {
+        ctx.fillStyle = "rgba(255,200,130,0.85)";
+        ctx.fillRect(l.x, -l.alt, l.r, l.r);
+      }
+
+      // the pad and tower, lit by the flame
+      const padLit = power * (1 - ss(0, 900, r));
+      ctx.fillStyle = mix("#25282e", "#7a4a2a", padLit * 0.8);
+      ctx.fillRect(-70, -6, 140, 10);
+      const towerCol = mix("#14171c", "#8a4f25", padLit * 0.7);
+      ctx.strokeStyle = towerCol;
+      ctx.lineWidth = 1.4;
+      ctx.beginPath();
+      ctx.moveTo(-46, -6); ctx.lineTo(-46, -238);
+      ctx.moveTo(-32, -6); ctx.lineTo(-32, -238);
+      for (let y = -6; y > -236; y -= 14) {
+        ctx.moveTo(-46, y); ctx.lineTo(-32, y - 14);
+        ctx.moveTo(-32, y); ctx.lineTo(-46, y - 14);
+      }
+      ctx.stroke();
+      ctx.fillStyle = towerCol;
+      ctx.fillRect(-48, -242, 18, 5);
+      // access arm swings away just before ignition
+      const armA = ss(T_IGN - 700, T_IGN - 100, t) * 1.25;
+      ctx.save();
+      ctx.translate(-32, -176);
+      ctx.rotate(-armA);
+      ctx.fillRect(0, -2, 20, 4);
+      ctx.restore();
+      // blinking red beacon
+      if (Math.floor(t / 600) % 2 === 0) {
+        ctx.fillStyle = "#ff2a2a";
+        ctx.globalCompositeOperation = "lighter";
+        ctx.drawImage(SPR.warm, -45, -252, 12, 12);
+        ctx.globalCompositeOperation = "source-over";
+        ctx.fillRect(-40, -247, 2, 2);
+      }
+
+      // ---- particles: update + emit ----
+      const nozzleAlt = r - 8;
+      // venting vapour during the countdown
+      if (t < T_IGN) {
+        if (rnd() < dt * 0.03) {
+          emit({ x: (rnd() < 0.5 ? -13 : 13), alt: 120 + rnd() * 40, vx: (rnd() - 0.5) * 0.02, vy: -0.012,
+            r0: 2, r1: 16 + rnd() * 10, tau: 900, age: 0, life: 1600, a: 0.3, front: false });
+        }
+      }
+      // ignition: smoke thrown sideways out of the flame trench
+      if (t > T_IGN && r < 160) {
+        const n = Math.round(dt * 0.55 * power * (1 - r / 160));
+        for (let i = 0; i < n; i++) {
+          const dir = rnd() < 0.5 ? -1 : 1;
+          const up = rnd() < 0.25; // some of it boils straight up round the rocket
+          emit({ x: dir * rnd() * 10, alt: rnd() * 8, vx: dir * (up ? 0.03 + rnd() * 0.08 : 0.16 + rnd() * 0.42),
+            vy: up ? 0.04 + rnd() * 0.07 : 0.008 + rnd() * 0.03,
+            r0: 14, r1: 90 + rnd() * 90, tau: 1500, age: 0, life: 5600 + rnd() * 2400, a: 0.9, front: rnd() < 0.5 });
+        }
+      }
+      // ascent: exhaust trail, filled along the path travelled this frame
+      if (t > T_LIFT) {
+        const seg = Math.max(0, nozzleAlt - lastNozzleAlt);
+        const n = Math.min(40, Math.max(Math.round(dt * 0.16), Math.round(seg / 5)));
+        const thin = ss(400, 5200, r);
+        for (let i = 0; i < n; i++) {
+          const a = lastNozzleAlt + seg * (i / Math.max(1, n)) - 20 - rnd() * 30;
+          emit({ x: (rnd() - 0.5) * 6, alt: a, vx: (rnd() - 0.5) * 0.025, vy: -0.005,
+            r0: 20 + thin * 16, r1: 50 + rnd() * 40 + thin * 60, tau: 900, age: 0, life: 3200 + rnd() * 1800,
+            a: 0.85 * (1 - thin * 0.65), front: false });
+        }
+      }
+      lastNozzleAlt = nozzleAlt;
+
+      for (const p of parts) {
+        p.age += dt;
+        p.x += p.vx * dt;
+        p.alt += p.vy * dt;
+        p.vx *= Math.pow(0.9985, dt);
+      }
+      parts = parts.filter((p) => p.age < p.life);
+
+      const drawParts = (front) => {
+        const top = -(camAlt + (H - baseY) / z + 400);
+        const bottom = -(camAlt - baseY / z - 400);
+        for (const p of parts) {
+          if (p.front !== front) continue;
+          if (-p.alt < top || -p.alt > bottom) continue;
+          const rad = p.r0 + (p.r1 - p.r0) * (1 - Math.exp(-p.age / p.tau));
+          const fade = Math.min(1, p.age / 140) * Math.pow(1 - p.age / p.life, 1.3);
+          const al = p.a * fade;
+          // shadowed core + lit body
+          ctx.globalAlpha = al * 0.7;
+          ctx.drawImage(SPR.shade, p.x - rad, -p.alt - rad * 0.9, rad * 2, rad * 2);
+          ctx.globalAlpha = al * 0.65;
+          ctx.drawImage(SPR.smoke, p.x - rad, -p.alt - rad * 1.1, rad * 2, rad * 2);
+          // flame light on smoke near the nozzle
+          const d = Math.hypot(p.x, p.alt - nozzleAlt);
+          const warm = power * Math.max(0, 1 - d / 260) * (t < T_RELEASE + 400 ? 1 : 0);
+          if (warm > 0.02) {
+            ctx.globalCompositeOperation = "lighter";
+            ctx.globalAlpha = al * warm * 0.55;
+            ctx.drawImage(SPR.warm, p.x - rad, -p.alt - rad, rad * 2, rad * 2);
+            ctx.globalCompositeOperation = "source-over";
+          }
+        }
+        ctx.globalAlpha = 1;
+      };
+
+      drawParts(false);
+
+      // rocket + flame
+      ctx.save();
+      ctx.translate(0, -r);
+      drawFlame(t, power, r);
+      drawRocket(t, power);
+      ctx.restore();
+
+      drawParts(true);
+
+      // clouds in front
+      for (const c of clouds) {
+        if (!c.front) continue;
+        ctx.globalAlpha = c.a * TH.ambient * 0.9;
+        ctx.drawImage(SPR.cloud, c.x - c.r, -c.alt - c.r * 0.5, c.r * 2, c.r);
+      }
+      ctx.globalAlpha = 1;
+      ctx.restore();
+
+      // ---- speed streaks while punching through the air ----
+      const vel = t > T_LIFT ? u : 0;
+      const streak = ss(0.25, 0.55, vel) * (1 - ss(0.8, 1, vel));
+      if (streak > 0) {
+        ctx.strokeStyle = `rgba(255,255,255,${0.12 * streak})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        for (let i = 0; i < 22; i++) {
+          const x = ((i * 97.3) % 1) * W + (i * 37) % W;
+          const y = ((t * 1.6 + i * 211) % (H + 200)) - 100;
+          ctx.moveTo(x % W, y);
+          ctx.lineTo(x % W, y + 60 * S);
+        }
+        ctx.stroke();
+      }
+
+      // ---- vignette ----
+      const vg = ctx.createRadialGradient(W / 2, H * 0.5, H * 0.25, W / 2, H * 0.5, H * 0.75);
+      vg.addColorStop(0, "rgba(0,0,0,0)");
+      vg.addColorStop(1, "rgba(0,0,0,0.6)");
+      ctx.fillStyle = vg;
+      ctx.fillRect(0, 0, W, H);
+
+      // ---- flashes ----
+      let fl = 0;
+      if (t > T_IGN) fl += 0.55 * Math.exp(-(t - T_IGN) / 260);
+      if (t > T_END) fl += 0.8 * Math.exp(-(t - T_END) / 320);
+      if (fl > 0.01) {
+        ctx.fillStyle = `rgba(255,236,210,${Math.min(1, fl)})`;
+        ctx.fillRect(0, 0, W, H);
+      }
+
+      // ---- HUD numbers ----
+      const secs = (t - T_IGN - 500) / 1000; // T-0 at liftoff
+      const sign = secs < 0 ? "T-" : "T+";
+      const as = Math.abs(secs);
+      const cs = secs < 0 ? Math.ceil(as) : Math.floor(as);
+      if (clockRef.current) clockRef.current.textContent = `${sign}00:00:${String(cs).padStart(2, "0")}`;
+      const fol = Math.round(TARGET * Math.pow(u, 1.5));
+      if (folRef.current) folRef.current.textContent = fol.toLocaleString("en-US");
+      const kmh = t > T_LIFT ? Math.round(28000 * Math.pow(Math.min(u, 1.0), 1.1)) : 0;
+      if (speedRef.current) speedRef.current.textContent = kmh.toLocaleString("en-US");
+
+      raf = requestAnimationFrame(frame);
+    }
+    raf = requestAnimationFrame(frame);
+
     return () => {
-      timers.forEach(clearTimeout);
       cancelAnimationFrame(raf);
+      window.removeEventListener("resize", fit);
     };
-  }, [reduce]);
+  }, [themeKey]);
 
-  // Build the drawn part of the line up to the tip.
-  const f = prog * (N - 1);
-  const tip = prog >= 1 ? { x: XS[N - 1], v: SERIES[N - 1] } : at(f);
-  const whole = Math.floor(f);
-  let d = `M0 ${yOf(SERIES[0]).toFixed(2)}`;
-  for (let i = 1; i <= whole && i < N; i++) d += ` L${XS[i].toFixed(2)} ${yOf(SERIES[i]).toFixed(2)}`;
-  d += ` L${tip.x.toFixed(2)} ${yOf(tip.v).toFixed(2)}`;
-  const area = `${d} L${tip.x.toFixed(2)} ${Y_BOT} L0 ${Y_BOT} Z`;
-  const quote = Math.round(tip.v);
-  const tipY = yOf(tip.v);
-
-  const cls = Array.from({ length: phase }, (_, i) => `m3k-p${i + 1}`).join(" ");
+  const cls = Array.from({ length: phase }, (_, i) => `rk-p${i + 1}`).join(" ");
+  const countText = phase >= 6 ? "LIFTOFF" : phase === 5 ? "IGNITION" : phase === 4 ? "1" : phase === 3 ? "2" : phase === 2 ? "3" : "";
 
   return (
-    <div className={`m3k-stage m3k-${theme} ${cls}`}>
-      <div className="m3k-field" aria-hidden />
-      <div className="m3k-flash" aria-hidden />
+    <div className={`rk-stage rk-${themeKey} ${cls}`}>
+      <canvas ref={canvasRef} className="rk-canvas" aria-hidden />
 
-      <div className="m3k-card">
-        {/* ---- quote header ---- */}
-        <div className="m3k-head">
-          <img
-            className="m3k-logo"
-            src={theme === "light" ? mapleBjjLogo : mapleLogo}
-            alt=""
-          />
-          <div className="m3k-id">
-            <div className="m3k-ticker">{ticker}</div>
-            <div className="m3k-name">{name} · INSTAGRAM</div>
-          </div>
-          <div className="m3k-live"><i />LIVE</div>
+      <div className="rk-hud-top">
+        <img className="rk-hud-logo" src={mapleLogo} alt="" />
+        <div className="rk-hud-id">
+          <div className="rk-hud-name">{name}</div>
+          <div className="rk-hud-mission">{mission}</div>
         </div>
+        <div className="rk-clock" ref={clockRef}>T-00:00:03</div>
+      </div>
 
-        <div className="m3k-quote">
-          <div className="m3k-price">{quote.toLocaleString("en-US")}</div>
-          <div className="m3k-chip">
-            <span className="m3k-chip-a">▲ RISING</span>
-            <span className="m3k-chip-b">▲ ALL-TIME HIGH</span>
-          </div>
+      <div className="rk-count" key={countText}>
+        <span className={countText.length > 1 ? "rk-word" : "rk-digit"}>{countText}</span>
+      </div>
+
+      <div className="rk-tele">
+        <div className="rk-gauge">
+          <div className="rk-g-label">SPEED</div>
+          <div className="rk-g-val"><b ref={speedRef}>0</b><small>KM/H</small></div>
         </div>
-
-        {/* ---- chart ---- */}
-        <div className="m3k-chart">
-          <svg viewBox={`0 0 ${VW} ${VH}`} className="m3k-svg">
-            <defs>
-              <linearGradient id="m3k-fill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" className="m3k-stop-a" />
-                <stop offset="100%" className="m3k-stop-b" />
-              </linearGradient>
-            </defs>
-
-            {[1000, 2000, 3000].map((v) => (
-              <g key={v} className={v === 3000 ? "m3k-target" : "m3k-grid"}>
-                <line x1="0" x2={PLOT_R} y1={yOf(v)} y2={yOf(v)} />
-                <text x={PLOT_R + 6} y={yOf(v) + 3.2}>{v / 1000}K</text>
-              </g>
-            ))}
-            <line className="m3k-base" x1="0" x2={PLOT_R} y1={Y_BOT} y2={Y_BOT} />
-
-            {/* volume */}
-            {SERIES.map((_, i) => {
-              const h = VOL[i] * 22 * (0.5 + i / N);
-              return (
-                <rect
-                  key={i}
-                  className="m3k-vol"
-                  x={XS[i] - 1.6}
-                  y={VH - 6 - h}
-                  width="3.2"
-                  height={h}
-                  style={{ opacity: i <= f ? undefined : 0 }}
-                />
-              );
-            })}
-
-            <path className="m3k-area" d={area} fill="url(#m3k-fill)" />
-            <path className="m3k-line m3k-glow" d={d} />
-            <path className="m3k-line" d={d} />
-
-            <g className="m3k-tip" transform={`translate(${tip.x} ${tipY})`}>
-              <circle className="m3k-ring" r="4" />
-              <circle className="m3k-dot" r="3.2" />
-            </g>
-          </svg>
-
+        <div className="rk-gauge rk-gauge-main">
+          <div className="rk-g-label">{label}</div>
+          <div className="rk-g-val"><b ref={folRef}>0</b></div>
         </div>
+      </div>
 
-        {/* ---- copy ---- */}
-        <div className="m3k-copy">
-          <div className="m3k-label"><span>3,000 {label}</span></div>
-          <div className="m3k-thanks"><span>{thanks}</span></div>
-          <div className="m3k-sign">{signoff}</div>
-          <div className="m3k-site">{site}</div>
-        </div>
+      <div className="rk-final">
+        <img className="rk-final-logo" src={mapleLogo} alt="Maple Jiu Jitsu" />
+        <div className="rk-final-num">3,000</div>
+        <div className="rk-final-label"><span>{label}</span></div>
+        <div className="rk-final-thanks"><span>{thanks}</span></div>
+        <div className="rk-final-sign">{signoff}</div>
+        <div className="rk-final-site">{site}</div>
       </div>
     </div>
   );
