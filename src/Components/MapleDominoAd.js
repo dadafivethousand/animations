@@ -133,7 +133,7 @@ function buildRun() {
 // ---------------- schedule ----------------
 const T0 = 1150; // first domino starts to tip
 const FIRST_MS = 650; // it takes its time
-const RUN_MS = 6900; // the rest of the small run
+const RUN_MS = 10400; // the rest of the small run (~30 a second)
 const GIANT_MS = 1350;
 
 function schedule(dom, nSmall) {
@@ -147,7 +147,7 @@ function schedule(dom, nSmall) {
     // accelerate: the wave picks up speed as it goes
     const u = i / nSmall;
     const u2 = (i + 1) / nSmall;
-    hit[i] = T0 + FIRST_MS + RUN_MS * (Math.pow(u2, 0.86) - Math.pow(1 / nSmall, 0.86)) / (1 - Math.pow(1 / nSmall, 0.86));
+    hit[i] = T0 + FIRST_MS + RUN_MS * (Math.pow(u2, 0.94) - Math.pow(1 / nSmall, 0.94)) / (1 - Math.pow(1 / nSmall, 0.94));
     if (hit[i] <= start[i]) hit[i] = start[i] + 4;
     void u;
   }
@@ -482,8 +482,8 @@ export default function MapleDominoAd({
     const T_A = 2100; // macro -> tracking
     const T_C = growthStart - 600; // tracking -> growth chain
     const T_D0 = giantLand + 500; // crane up
-    const T_D1 = T_D0 + 2100;
-    const END_MS = T_D1 + 2900;
+    const T_D1 = T_D0 + 1900;
+    const END_MS = T_D1 + 2600;
     const LEAF_CZ = -92;
 
     function poseA(t, out) {
@@ -494,22 +494,51 @@ export default function MapleDominoAd({
       out.up.set(0, 1, 0);
       out.fov = 34;
     }
+    // Riding the line: the camera sits on the run itself a few dominoes
+    // behind the wave, off to the outside, and aims at the one falling now.
+    // Because it travels the same curve the dominoes do, it can never lose
+    // the front, however tight the turn.
+    const LEAF_C = { x: 0, z: -90 };
+    function pointAt(fi) {
+      const i = Math.max(0, Math.min(nSmall - 2, Math.floor(fi)));
+      const r = clamp01(fi - i);
+      const a = dom[i];
+      const b = dom[i + 1];
+      return { x: lerp(a.x, b.x, r), z: lerp(a.z, b.z, r) };
+    }
+    function avgPoint(fi, w) {
+      let x = 0, z = 0, n = 0;
+      for (let k = -w; k <= w; k++) {
+        const p = pointAt(fi + k);
+        x += p.x; z += p.z; n++;
+      }
+      return { x: x / n, z: z / n };
+    }
     function poseB(t, out) {
-      const f = smoothFront(t);
+      const fi = Math.min(frontAt(t).i, nSmall - 1);
       const prog = clamp01((t - T_A) / (T_C - T_A));
-      const back = lerp(26, 62, prog);
-      const height = lerp(9, 46, prog);
-      // sit outside the leaf, looking across the front
-      let ox = f.x - 0;
-      let oz = f.z - (-90);
-      const ol = Math.hypot(ox, oz) || 1;
-      ox /= ol;
-      oz /= ol;
-      const side = lerp(14, 40, prog);
-      out.pos.set(f.x - f.tx * back + ox * side, height, f.z - f.tz * back + oz * side);
-      out.tgt.set(f.x + f.tx * 22, 1.5, f.z + f.tz * 22);
+      const lag = lerp(10, 14, prog);
+      // a wide average rounds the leaf's sharp points off the camera's path
+      const cam = avgPoint(fi - lag, 16);
+      const ahead = avgPoint(fi - lag + 10, 16);
+      let tx = ahead.x - cam.x;
+      let tz = ahead.z - cam.z;
+      const tl = Math.hypot(tx, tz) || 1;
+      tx /= tl;
+      tz /= tl;
+      // outward normal: away from the leaf's middle, or to the right on the stem
+      let nx = -tz;
+      let nz = tx;
+      const onStem = cam.z > -24;
+      const dot = onStem ? nx : nx * (cam.x - LEAF_C.x) + nz * (cam.z - LEAF_C.z);
+      if (dot < 0) { nx = -nx; nz = -nz; }
+      const side = lerp(18, 26, prog);
+      const height = lerp(14, 28, prog);
+      out.pos.set(cam.x + nx * side - tx * 6, height, cam.z + nz * side - tz * 6);
+      const f = avgPoint(fi + 1, 4);
+      out.tgt.set(f.x, 2.2, f.z);
       out.up.set(0, 1, 0);
-      out.fov = lerp(36, 44, prog);
+      out.fov = lerp(42, 48, prog);
     }
     function poseC(t, out) {
       const k = ss(T_C, T_D0, t);
