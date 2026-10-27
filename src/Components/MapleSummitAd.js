@@ -111,7 +111,8 @@ const THEMES = {
     far: "#5a6890",
     rim: "#ffcf8a",
     snowLit: "#fff6ea",
-    snowShade: "#a9b6d2",
+    snowShade: "#b6c6e2",
+    rock: "#c98f62",
     cloudTop: "#fff1de",
     cloudBody: "#c3c9dc",
     fog: "#b7c1cf",
@@ -127,7 +128,8 @@ const THEMES = {
     far: "#62507c",
     rim: "#ffb79a",
     snowLit: "#ffe6e0",
-    snowShade: "#9a8cb4",
+    snowShade: "#c9bcd9",
+    rock: "#c9837a",
     cloudTop: "#ffd9cc",
     cloudBody: "#a99bbd",
     fog: "#aaa3bc",
@@ -155,11 +157,11 @@ function makeLayer(o) {
     let isMax = true;
     for (let k = i - m; k <= i + m; k++) if (pts[k] > pts[i]) { isMax = false; break; }
     if (!isMax) continue;
-    let j = i + 1;
-    while (j < pts.length - 1 && !(pts[j] <= pts[j - 1] && pts[j] <= pts[j + 1])) j++;
-    // follow descent until it really turns
-    while (j < pts.length - 1 && pts[j + 1] < pts[j] + 30) j++;
-    facets.push([i, Math.min(j, pts.length - 1)]);
+    let j = i - 1;
+    while (j > 0 && !(pts[j] <= pts[j - 1] && pts[j] <= pts[j + 1])) j--;
+    // follow the descent leftwards until it really turns
+    while (j > 0 && pts[j - 1] < pts[j] + 30) j--;
+    facets.push([Math.max(0, j), i]);
   }
   return { ...o, pts, facets };
 }
@@ -183,6 +185,30 @@ function buildTerrain() {
       h = lerp(clean, h, k);
       return Math.min(h, SUMMIT_H - Math.abs(x) * 0.15);
     },
+  });
+
+  // Gullies run down the fall line from the ridge: above the snowline they
+  // read as dark rock ribs, below it as snow-filled couloirs.
+  const gr = mulberry32(99);
+  near.gullies = [];
+  for (let x = -2900; x < 1700; x += 70 + gr() * 90) {
+    const ridge = heightAt(near, x);
+    if (ridge < 900) continue;
+    const len = 120 + gr() * 380;
+    // the fall line runs away from the summit, steeper near the top
+    const drift = (x < 0 ? -0.55 : 0.6) * (0.6 + gr() * 0.6);
+    const w = 2.5 + gr() * 4.5;
+    const pts = [];
+    let gx = x;
+    for (let dh = 8; dh < len; dh += 10) {
+      gx += drift * 10 * (0.6 + dh / len) + fbm((x * 3 + dh) / 70, 7) * 5;
+      pts.push([gx, ridge - dh]);
+    }
+    near.gullies.push({ pts, w });
+  }
+  near.rocks = Array.from({ length: 170 }, () => {
+    const x = (gr() - 0.62) * 3600;
+    return { x, h: heightAt(near, x) - 15 - gr() * 420, rx: 1.2 + gr() * 3.5, ry: 0.5 + gr() * 1.2, a: (x < 0 ? -0.5 : 0.5) + (gr() - 0.5) * 0.4 };
   });
 
   const far = [
@@ -266,6 +292,19 @@ export default function MapleSummitAd({
     const cloudBits = Array.from({ length: 260 }, () => ({ u: rnd(), j: rnd(), r: 0.5 + rnd() }));
     let drift = [];
 
+    const grain = document.createElement("canvas");
+    grain.width = grain.height = 256;
+    {
+      const g = grain.getContext("2d");
+      const id = g.createImageData(256, 256);
+      for (let i = 0; i < id.data.length; i += 4) {
+        const v = 128 + (rnd() - 0.5) * 255;
+        id.data[i] = id.data[i + 1] = id.data[i + 2] = v;
+        id.data[i + 3] = 255;
+      }
+      g.putImageData(id, 0, 0);
+    }
+
     const flagImg = new Image();
     flagImg.src = mapleLogo;
 
@@ -318,7 +357,7 @@ export default function MapleSummitAd({
       ctx.fillRect(0, horY, W, H - horY);
 
       // sun, at infinity: fixed angle, so it only moves with the horizon
-      const sunX = W / 2 + (0.105 - camX / 40000) * f * 0.6;
+      const sunX = W / 2 + (-0.115 - camX / 40000) * f * 0.6;
       const sunY = horY - 0.135 * f * 0.6;
       ctx.save();
       ctx.globalCompositeOperation = "lighter";
@@ -376,33 +415,87 @@ export default function MapleSummitAd({
         ctx.save();
         ctx.clip(path);
 
+        // sunlit rock: the left flank of each prominent peak
+        const facetPath = new Path2D();
+        for (const [a, b] of L.facets) {
+          if (b < i0 || a > i1) continue;
+          facetPath.moveTo(sx(a), sy(L.pts[a]));
+          for (let i = a + 1; i <= b; i++) facetPath.lineTo(sx(i), sy(L.pts[i]));
+          facetPath.lineTo(sx(b) - (sx(b) - sx(a)) * 0.16, H + 20);
+          facetPath.lineTo(sx(a), H + 20);
+          facetPath.closePath();
+        }
+        ctx.fillStyle = mixA(TH.rock, TH.far, isNear ? 0 : df * 0.5, isNear ? 0.3 : 0.22);
+        ctx.fill(facetPath);
+
         // snow, with a ragged lower edge
-        const snowH = isNear ? 2700 : 4300 + idx * 550;
+        const snowH = isNear ? 2620 : 4300 + idx * 550;
         const ySnow = sy(snowH);
         if (ySnow > top) {
           const sp = new Path2D();
           sp.moveTo(sx(i0), sy(L.pts[i0]));
           for (let i = i0; i <= i1; i++) sp.lineTo(sx(i), sy(L.pts[i]));
           for (let i = i1; i >= i0; i--) {
-            const y = Math.max(sy(L.pts[i]), ySnow + fbm(i * 0.35, L.seed + 5) * (isNear ? 38 * k : 22 * S));
+            const rag = fbm(i * 0.22, L.seed + 5) + 0.25 * fbm(i * 1.1, L.seed + 9);
+            const y = Math.max(sy(L.pts[i]), ySnow + rag * (isNear ? 34 * k : 22 * S));
             sp.lineTo(sx(i), y);
           }
           sp.closePath();
-          ctx.fillStyle = mixA(TH.snowShade, TH.near, isNear ? 0.35 : 0.15, isNear ? 0.9 : 0.55);
+          // shaded snow is pale blue, not grey: it must still read as snow
+          ctx.fillStyle = mixA(TH.snowShade, TH.far, isNear ? 0 : df * 0.35, isNear ? 1 : 0.8);
           ctx.fill(sp);
+          // and where the sun hits it, it glows
+          ctx.save();
+          ctx.clip(sp);
+          ctx.fillStyle = mixA(TH.snowLit, TH.rim, 0.12, isNear ? 0.92 : 0.7);
+          ctx.fill(facetPath);
+          ctx.restore();
         }
 
-        // sunlit faces: right-hand flanks of each prominent peak
-        ctx.fillStyle = isNear ? mixA(TH.snowLit, TH.rim, 0.3, 0.42) : mixA(TH.rim, TH.far, df * 0.4, 0.26);
-        for (const [a, b] of L.facets) {
-          if (b < i0 || a > i1) continue;
-          const fp = new Path2D();
-          fp.moveTo(sx(a), sy(L.pts[a]));
-          for (let i = a + 1; i <= b; i++) fp.lineTo(sx(i), sy(L.pts[i]));
-          fp.lineTo(sx(b), H + 20);
-          fp.lineTo(sx(a) + (sx(b) - sx(a)) * 0.18, H + 20);
-          fp.closePath();
-          ctx.fill(fp);
+        if (isNear) {
+          // rock ribs through the snow, snow in the couloirs below it. Each
+          // run is filled as one tapered ribbon, so nothing overlaps itself.
+          for (const gl of L.gullies) {
+            const n = gl.pts.length;
+            const X0 = W / 2 + (gl.pts[0][0] - camX) * k;
+            if (X0 < -60 || X0 > W + 60) continue;
+            let run = [];
+            let runSnow = null;
+            const flush = () => {
+              if (run.length < 2) { run = []; return; }
+              const left = [];
+              const right = [];
+              for (const [X, Y, hw] of run) { left.push([X - hw, Y]); right.push([X + hw, Y]); }
+              ctx.beginPath();
+              ctx.moveTo(left[0][0], left[0][1]);
+              for (const q of left) ctx.lineTo(q[0], q[1]);
+              for (let q = right.length - 1; q >= 0; q--) ctx.lineTo(right[q][0], right[q][1]);
+              ctx.closePath();
+              ctx.fillStyle = runSnow ? "rgba(34,38,54,0.42)" : mixA(TH.snowShade, TH.snowLit, 0.4, 0.42);
+              ctx.fill();
+              run = [];
+            };
+            for (let j = 0; j < n; j++) {
+              const [x1, h1] = gl.pts[j];
+              const inSnow = h1 > snowH + fbm(x1 / 120, 3) * 60;
+              const taper = Math.sin(Math.PI * Math.min(1, (j + 0.5) / n)) ** 0.7;
+              const pt = [W / 2 + (x1 - camX) * k, sy(h1), Math.max(0.3, gl.w * k * taper * 0.5)];
+              if (runSnow !== null && inSnow !== runSnow) { run.push(pt); flush(); }
+              runSnow = inSnow;
+              run.push(pt);
+            }
+            flush();
+          }
+          // exposed rocks in the snowfield
+          ctx.fillStyle = "rgba(30,34,48,0.45)";
+          for (const r of L.rocks) {
+            if (r.h < snowH - 80) continue;
+            const X = W / 2 + (r.x - camX) * k;
+            if (X < -10 || X > W + 10) continue;
+            ctx.beginPath();
+            ctx.ellipse(X, sy(r.h), Math.max(0.5, r.rx * k), Math.max(0.4, r.ry * k), r.a, 0, Math.PI * 2);
+            ctx.fill();
+          }
         }
 
         // valley fog rising from the base of the layer
@@ -607,6 +700,15 @@ export default function MapleSummitAd({
       vg.addColorStop(1, "rgba(5,6,16,0.55)");
       ctx.fillStyle = vg;
       ctx.fillRect(0, 0, W, H);
+      // film grain
+      ctx.save();
+      ctx.globalCompositeOperation = "overlay";
+      ctx.globalAlpha = 0.045;
+      const gx = -Math.floor(rnd() * 256);
+      const gy = -Math.floor(rnd() * 256);
+      for (let y = gy; y < H; y += 256) for (let x = gx; x < W; x += 256) ctx.drawImage(grain, x, y);
+      ctx.restore();
+
       const fin = 1 - ss(0, 700, t);
       if (fin > 0) {
         ctx.fillStyle = `rgba(0,0,0,${fin})`;
