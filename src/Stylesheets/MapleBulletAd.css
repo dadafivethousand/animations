@@ -36,7 +36,23 @@
   background: radial-gradient(118% 82% at 50% 48%, rgba(0, 0, 0, 0) 58%, rgba(0, 0, 0, 0.26) 100%);
 }
 
-/* Nothing is drawn on top of the picture any more — the number, the word and
+/* The brand mark, and the only thing in the frame that is not shot into the
+   wall. Kept well inside the top guard, and sized off vw so it holds its
+   proportion of the frame on any phone. Its opacity is written per frame by
+   the component. */
+.bu-logo {
+  position: absolute;
+  top: calc(var(--safe-y) + 3.5vh);
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(84px, 23vw, 132px);
+  height: auto;
+  opacity: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.35));
+}
+
+/* Nothing else is drawn on top of the picture — the number, the word and
    the thanks are all shot into the wall, so the only elements left here are
    the canvas and the vignette over it. */
 
