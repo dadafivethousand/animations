@@ -84,8 +84,8 @@ const SHOT_T = (() => {
   return out;
 })();
 const T_LAST = SHOT_T[SHOT_T.length - 1];
-const T_PULL = T_LAST + 620; // camera eases back to show the whole number
-const T_WORD = T_PULL + 950; // FOLLOWERS
+const T_SETTLE = T_LAST + 620; // the wall is quiet, the smoke is still there
+const T_WORD = T_SETTLE + 950;
 const T_THANKS = T_WORD + 1150;
 const END_MS = T_THANKS + 3900;
 
@@ -441,8 +441,8 @@ export default function MapleBulletAd() {
       const c = document.createElement("canvas");
       c.width = c.height = 128;
       const g = c.getContext("2d").createRadialGradient(64, 64, 0, 64, 64, 64);
-      g.addColorStop(0, "rgba(176,178,186,0.30)");
-      g.addColorStop(0.5, "rgba(140,142,150,0.11)");
+      g.addColorStop(0, "rgba(186,188,192,0.42)");
+      g.addColorStop(0.5, "rgba(152,154,160,0.17)");
       g.addColorStop(1, "rgba(130,130,140,0)");
       const x = c.getContext("2d");
       x.fillStyle = g;
@@ -463,7 +463,7 @@ export default function MapleBulletAd() {
     // This is the haze a few hundred rounds leave hanging in front of a wall:
     // it gathers after the last shot, drifts up and across, and is still
     // thinning out when the piece ends.
-    const HAZE = 18;
+    const HAZE = 22;
     const haze = new THREE.InstancedMesh(
       new THREE.PlaneGeometry(1, 1),
       new THREE.MeshBasicMaterial({ map: puffTex, transparent: true, depthWrite: false, opacity: 0 }),
@@ -474,13 +474,13 @@ export default function MapleBulletAd() {
     scene.add(haze);
     const hazeRnd = mulberry32(8080);
     const hazeSeed = Array.from({ length: HAZE }, () => ({
-      x: (hazeRnd() - 0.5) * 2.4,
-      y: PY + (hazeRnd() - 0.5) * 1.3,
-      z: 0.2 + hazeRnd() * 0.8,
-      rise: 0.09 + hazeRnd() * 0.17,
-      drift: (hazeRnd() - 0.5) * 0.24,
-      s0: 0.45 + hazeRnd() * 0.8,
-      grow: 0.14 + hazeRnd() * 0.3,
+      x: (hazeRnd() - 0.5) * 2.9,
+      y: PY - 1.25 - hazeRnd() * 0.5, // starts below the block
+      z: 0.25 + hazeRnd() * 0.9,
+      rise: 0.5 + hazeRnd() * 0.45,
+      drift: (hazeRnd() - 0.5) * 0.3,
+      s0: 0.5 + hazeRnd() * 0.85,
+      grow: 0.18 + hazeRnd() * 0.3,
       ph: hazeRnd() * 9,
     }));
 
@@ -499,24 +499,6 @@ export default function MapleBulletAd() {
     // ---- impact flash ----
     const flash = new THREE.PointLight("#ffd0a0", 0, 2.1, 2);
     scene.add(flash);
-
-    // ---- dust in the beam ----
-    const MOTES = 220;
-    const motes = new THREE.InstancedMesh(
-      new THREE.PlaneGeometry(0.012, 0.012),
-      new THREE.MeshBasicMaterial({ color: "#e8e8e8", transparent: true, opacity: 0.16, depthWrite: false }),
-      MOTES
-    );
-    motes.frustumCulled = false;
-    scene.add(motes);
-    const moteRnd = mulberry32(1212);
-    const moteSeed = Array.from({ length: MOTES }, () => ({
-      x: (moteRnd() - 0.5) * 6,
-      y: moteRnd() * 3.6,
-      z: moteRnd() * 5.5,
-      sp: 0.02 + moteRnd() * 0.05,
-      ph: moteRnd() * 9,
-    }));
 
     const dummy = new THREE.Object3D();
     const hidden = new THREE.Matrix4().makeScale(0, 0, 0);
@@ -605,9 +587,12 @@ export default function MapleBulletAd() {
       puffs.material.opacity = 0.2;
 
       // ---- the haze, after the last round ----
-      // Thickens as the last rounds land, then thins as it drifts off.
-      const hz = ss(T_LAST - 900, T_LAST + 1400, t) * (1 - 0.4 * ss(T_LAST + 2600, END_MS, t));
-      haze.material.opacity = 0.34 * hz;
+      // Thickens as the last rounds land, then thins as it drifts off. It
+      // has to be seen, so it is heavy — but it rises from BELOW the block
+      // and climbs past it, which keeps the holes readable while the cloud
+      // is at its thickest.
+      const hz = ss(T_LAST - 1200, T_LAST + 900, t) * (1 - 0.72 * ss(T_LAST + 1900, END_MS - 500, t));
+      haze.material.opacity = 0.3 * hz;
       if (hz > 0.002) {
         const ht = Math.max(0, (t - (T_LAST - 400)) / 1000);
         for (let i = 0; i < HAZE; i++) {
@@ -665,31 +650,16 @@ export default function MapleBulletAd() {
       flash.intensity = fl * 2.1;
       flash.position.set(fx, fy, 0.5);
 
-      // ---- dust ----
-      for (let i = 0; i < MOTES; i++) {
-        const m = moteSeed[i];
-        dummy.position.set(
-          m.x + Math.sin(t / 2600 + m.ph) * 0.25,
-          (m.y + (t / 1000) * m.sp) % 3.6,
-          m.z + Math.cos(t / 3100 + m.ph) * 0.2
-        );
-        dummy.quaternion.copy(camera.quaternion);
-        dummy.scale.setScalar(1);
-        dummy.updateMatrix();
-        motes.setMatrixAt(i, dummy.matrix);
-      }
-      motes.instanceMatrix.needsUpdate = true;
-
       // ---- camera ----
       // In close while it is being shot, back off to read the whole number.
-      const pull = easeIO(clamp01((t - T_PULL) / 1700));
-      // Close while it is being shot so the holes are objects; back at the end
-      // so the two lines are one shape.
-      const dist = lerp(7.1, 8.05, pull);
-      const drift = ss(0, T_LAST, t);
-      let camX = lerp(-0.32, 0, pull) + Math.sin(t / 2300) * 0.05;
-      let camY = PY + lerp(-0.1, 0.02, pull) + Math.cos(t / 2700) * 0.035;
-      let camZ = dist - 0.25 * drift * (1 - pull);
+      // ONE DISTANCE, ALL THE WAY THROUGH. The piece used to end on a pull
+      // back to reveal the block; it is framed to hold the whole block from
+      // the first frame instead, so nothing moves under the viewer at the
+      // moment the last round lands. Only a slow handheld float remains.
+      const dist = 8.15;
+      let camX = Math.sin(t / 2300) * 0.055;
+      let camY = PY + Math.cos(t / 2700) * 0.04;
+      let camZ = dist;
       // handheld, and a kick on every round
       let shake = 0;
       for (let i = Math.max(0, n - 8); i < n; i++) {
@@ -719,7 +689,7 @@ export default function MapleBulletAd() {
       if (renderMode) {
         window.__renderAt = (ms) => renderAt(ms);
         window.__bulletEnd = END_MS;
-        window.__bulletMarks = { T_FIRE, T_LAST, T_PULL, T_WORD, T_THANKS, END_MS, HOLES: HOLES.length };
+        window.__bulletMarks = { T_FIRE, T_LAST, T_SETTLE, T_WORD, T_THANKS, END_MS, HOLES: HOLES.length };
         window.__ready = true;
         return;
       }
