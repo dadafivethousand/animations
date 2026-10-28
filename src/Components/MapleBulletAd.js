@@ -42,14 +42,23 @@ function mulberry32(a) {
 }
 
 // ---------------- the glyphs, as hole positions ----------------
-// Sampled off Arial Black "3,000" on a jittered grid with a minimum spacing,
-// then ordered per character from 12 o'clock clockwise so each burst traces
-// its digit like a stroke instead of filling it in at random. x is in units
-// of the number's own width; y is the same scale, so the set is 0.303 tall.
-const HOLES = [[-0.4220,0.1266],[-0.4341,0.1406],[-0.4124,0.0539],[-0.4355,0.1053],[-0.4543,0.1410],[-0.4732,0.1235],[-0.4730,0.1054],[-0.4558,0.0823],[-0.4961,0.1113],[-0.4159,0.0362],[-0.4799,0.0847],[-0.5000,0.0909],[-0.4963,-0.0464],[-0.4708,-0.0343],[-0.4749,-0.0639],[-0.4567,-0.0459],[-0.4791,-0.0818],[-0.4404,-0.0513],[-0.4563,-0.0851],[-0.4178,-0.0642],[-0.4181,-0.0882],[-0.3968,-0.0927],[-0.3758,-0.0891],[-0.3783,-0.0689],[-0.3969,0.0099],[-0.3741,-0.0285],[-0.3471,-0.0699],[-0.3607,-0.0448],[-0.3450,-0.0516],[-0.3536,-0.0228],[-0.3652,-0.0090],[-0.3182,-0.0472],[-0.3206,-0.0257],[-0.3739,0.0153],[-0.3212,0.0061],[-0.3401,0.0116],[-0.3408,0.0317],[-0.3647,0.0334],[-0.3853,0.0323],[-0.3349,0.0645],[-0.3610,0.0628],[-0.3552,0.0907],[-0.3781,0.0673],[-0.3614,0.1080],[-0.3784,0.0867],[-0.3741,0.1410],[-0.3793,0.1222],[-0.3980,0.1254],[-0.3970,0.1480],[-0.2392,-0.0541],[-0.2407,-0.0720],[-0.2599,-0.0321],[-0.2614,-0.0612],[-0.2667,-0.0867],[-0.2392,-0.0903],[-0.2441,-0.1320],[-0.2477,-0.1516],[-0.2259,-0.1246],[-0.2206,-0.1439],[-0.2260,-0.1050],[-0.2078,-0.1031],[-0.1997,-0.0881],[-0.2058,-0.0673],[-0.2176,-0.0463],[-0.0662,0.1471],[-0.0724,0.1210],[-0.0852,0.1516],[-0.0935,0.1326],[-0.0875,0.1054],[-0.1105,0.1216],[-0.0900,0.0869],[-0.1294,0.1281],[-0.1259,0.1048],[-0.1119,0.0883],[-0.1451,0.1141],[-0.1321,0.0876],[-0.1488,0.0933],[-0.1115,0.0671],[-0.1430,0.0701],[-0.1278,0.0551],[-0.1478,0.0495],[-0.1129,0.0441],[-0.1266,0.0287],[-0.1481,0.0256],[-0.1594,-0.0104],[-0.1250,0.0052],[-0.1015,0.0162],[-0.1495,-0.0294],[-0.1254,-0.0252],[-0.1415,-0.0523],[-0.1231,-0.0852],[-0.0916,-0.0271],[-0.1015,-0.0494],[-0.0867,-0.0710],[-0.0630,-0.0803],[-0.0438,-0.0909],[-0.0461,-0.0689],[-0.0237,-0.0877],[-0.0324,-0.0445],[-0.0126,-0.0505],[0.0061,-0.0712],[-0.0227,-0.0150],[-0.0080,-0.0307],[0.0157,-0.0346],[-0.0285,0.0098],[0.0326,-0.0288],[-0.0120,0.0043],[0.0266,-0.0094],[0.0133,0.0082],[0.0128,0.0264],[0.0328,0.0237],[-0.0292,0.0345],[-0.0034,0.0337],[0.0165,0.0451],[-0.0116,0.0522],[0.0291,0.0704],[0.0125,0.0654],[0.0249,0.0884],[-0.0294,0.0636],[-0.0033,0.0875],[0.0132,0.1054],[-0.0041,0.1279],[-0.0248,0.1030],[-0.0348,0.0862],[-0.0288,0.1295],[-0.0235,0.1465],[-0.0455,0.1025],[-0.0534,0.1283],[0.1645,0.1260],[0.1442,0.1432],[0.1309,0.1276],[0.1294,0.1079],[0.1092,0.1221],[0.1057,0.1040],[0.1313,0.0684],[0.0942,0.0844],[0.1052,0.0648],[0.1128,0.0455],[0.0745,0.0517],[0.0934,0.0343],[0.1262,0.0240],[0.0896,0.0141],[0.0733,0.0077],[0.0830,-0.0125],[0.1018,-0.0134],[0.0923,-0.0346],[0.1318,-0.0076],[0.1115,-0.0425],[0.1015,-0.0638],[0.1328,-0.0287],[0.1216,-0.0608],[0.1111,-0.0814],[0.1428,-0.0880],[0.1518,-0.0691],[0.1676,-0.0912],[0.1838,-0.0690],[0.2053,-0.0926],[0.2023,-0.0506],[0.2240,-0.0870],[0.2242,-0.0530],[0.2203,-0.0306],[0.2065,-0.0088],[0.2424,-0.0416],[0.2572,-0.0330],[0.2034,0.0089],[0.2449,-0.0097],[0.2246,0.0117],[0.2677,0.0141],[0.2422,0.0264],[0.2206,0.0294],[0.2611,0.0447],[0.2389,0.0461],[0.2285,0.0638],[0.2610,0.0886],[0.2282,0.0856],[0.2412,0.1068],[0.2242,0.1227],[0.2041,0.0895],[0.2078,0.1118],[0.2035,0.1299],[0.1879,0.1068],[0.1902,0.1442],[0.1703,0.1493],[0.3928,0.1498],[0.3647,0.1478],[0.3740,0.1127],[0.3670,0.1298],[0.3362,0.1282],[0.3449,0.1084],[0.3465,0.0860],[0.3184,0.1119],[0.3602,0.0629],[0.3159,0.0950],[0.3227,0.0682],[0.3043,0.0712],[0.3411,0.0481],[0.3151,0.0456],[0.2997,0.0336],[0.3172,0.0249],[0.3404,0.0246],[0.3646,0.0247],[0.3071,0.0059],[0.3220,-0.0072],[0.3562,0.0045],[0.3193,-0.0277],[0.3170,-0.0526],[0.3474,-0.0294],[0.3381,-0.0441],[0.3378,-0.0682],[0.3670,-0.0244],[0.3657,-0.0495],[0.3556,-0.0871],[0.3838,-0.0511],[0.3775,-0.0899],[0.3829,-0.0722],[0.3938,-0.1016],[0.4018,-0.0666],[0.4031,-0.0870],[0.4227,-0.0618],[0.4351,-0.0890],[0.4605,-0.0864],[0.4375,-0.0329],[0.4553,-0.0543],[0.4815,-0.0659],[0.4718,-0.0470],[0.4633,-0.0322],[0.4343,-0.0047],[0.4559,-0.0114],[0.4776,-0.0097],[0.4833,0.0093],[0.4579,0.0251],[0.4381,0.0289],[0.4949,0.0348],[0.5000,0.0548],[0.4609,0.0524],[0.4830,0.0632],[0.4401,0.0483],[0.4946,0.0824],[0.4579,0.0704],[0.4715,0.0835],[0.4746,0.1134],[0.4568,0.0943],[0.4378,0.0858],[0.4607,0.1231],[0.4376,0.1235],[0.4231,0.1104],[0.4190,0.1290],[0.4209,0.1483],[0.4003,0.1298]];
+// "3,000" over "FOLLOWERS", rendered in Arial Black and then THINNED to a
+// one-pixel skeleton (Zhang-Suen) before sampling. Sampling the filled glyph
+// gives a slab of holes several rounds deep; sampling its centreline gives a
+// single row, so every stroke here is one bullet wide.
+//
+// Points are then grouped into strokes and each stroke walked
+// nearest-neighbour from its top end, so a burst travels along a letter the
+// way a hand would draw it rather than peppering it at random. x is in units
+// of the block's own width; the block is 0.468 as tall as it is wide.
+const HOLES = [[-0.3641,0.2339],[-0.3437,0.2329],[-0.3253,0.2237],[-0.3161,0.2053],[-0.3172,0.1849],[-0.3264,0.1665],[-0.3376,0.1481],[-0.3580,0.1461],[-0.3223,0.1338],[-0.3090,0.1175],[-0.3029,0.0970],[-0.3069,0.0766],[-0.3161,0.0582],[-0.3366,0.0470],[-0.3672,0.0449],[-0.3876,0.0490],[-0.4040,0.0623],[-0.4213,0.0735],[-0.4428,0.1982],[-0.4234,0.2074],[-0.4030,0.2186],[-0.3866,0.2308],[-0.2068,0.0603],[-0.1905,0.0460],[-0.1915,0.0255],[-0.1987,0.0051],[-0.2150,-0.0102],[-0.0577,0.2319],[-0.0373,0.2308],[-0.0179,0.2227],[-0.0056,0.2053],[0.0005,0.1849],[0.0036,0.1645],[0.0056,0.1440],[0.0046,0.1236],[0.0026,0.1032],[-0.0015,0.0827],[-0.0107,0.0633],[-0.0291,0.0501],[-0.0669,0.0480],[-0.0863,0.0562],[-0.0986,0.0735],[-0.1057,0.0930],[-0.1088,0.1134],[-0.1108,0.1338],[-0.1098,0.1542],[-0.1078,0.1747],[-0.1027,0.1951],[-0.0945,0.2145],[-0.0781,0.2278],[0.1466,0.2319],[0.1670,0.2308],[0.1864,0.2227],[0.1987,0.2053],[0.2048,0.1849],[0.2079,0.1645],[0.2099,0.1440],[0.2089,0.1236],[0.2068,0.1032],[0.2028,0.0827],[0.1936,0.0633],[0.1752,0.0501],[0.1374,0.0480],[0.1180,0.0562],[0.1057,0.0735],[0.0986,0.0930],[0.0955,0.1134],[0.0935,0.1338],[0.0945,0.1542],[0.0965,0.1747],[0.1016,0.1951],[0.1098,0.2145],[0.1261,0.2278],[0.3509,0.2319],[0.3713,0.2308],[0.3907,0.2227],[0.4030,0.2053],[0.4091,0.1849],[0.4122,0.1645],[0.4142,0.1440],[0.4132,0.1236],[0.4111,0.1032],[0.4070,0.0827],[0.3979,0.0633],[0.3795,0.0501],[0.3417,0.0480],[0.3223,0.0562],[0.3100,0.0735],[0.3029,0.0930],[0.2998,0.1134],[0.2978,0.1338],[0.2988,0.1542],[0.3008,0.1747],[0.3059,0.1951],[0.3141,0.2145],[0.3304,0.2278],[-0.4959,-0.1379],[-0.4755,-0.1379],[-0.4551,-0.1379],[-0.4591,-0.1788],[-0.4796,-0.1788],[-0.5000,-0.1788],[-0.5000,-0.1583],[-0.5000,-0.1992],[-0.3652,-0.1369],[-0.3447,-0.1399],[-0.3294,-0.1542],[-0.3243,-0.1747],[-0.3253,-0.1951],[-0.3345,-0.2145],[-0.3662,-0.2237],[-0.3866,-0.2176],[-0.3979,-0.2002],[-0.4009,-0.1798],[-0.3979,-0.1593],[-0.3856,-0.1430],[-0.2702,-0.1430],[-0.2702,-0.1634],[-0.2702,-0.1839],[-0.2702,-0.2043],[-0.2589,-0.2217],[-0.2385,-0.2217],[-0.2181,-0.2217],[-0.1680,-0.1430],[-0.1680,-0.1634],[-0.1680,-0.1839],[-0.1680,-0.2043],[-0.1568,-0.2217],[-0.1364,-0.2217],[-0.1159,-0.2217],[-0.0342,-0.1369],[-0.0138,-0.1399],[0.0015,-0.1542],[0.0066,-0.1747],[0.0056,-0.1951],[-0.0036,-0.2145],[-0.0352,-0.2237],[-0.0557,-0.2176],[-0.0669,-0.2002],[-0.0700,-0.1798],[-0.0669,-0.1593],[-0.0546,-0.1430],[0.1793,-0.1297],[0.1650,-0.1461],[0.1609,-0.1665],[0.1568,-0.1869],[0.1364,-0.1982],[0.1272,-0.1798],[0.1210,-0.1593],[0.1088,-0.1430],[0.0975,-0.1604],[0.0914,-0.1808],[0.0812,-0.1992],[0.0598,-0.1798],[0.0557,-0.1593],[0.0516,-0.1389],[0.2181,-0.1379],[0.2385,-0.1379],[0.2589,-0.1379],[0.2640,-0.1767],[0.2436,-0.1767],[0.2232,-0.1767],[0.2140,-0.1583],[0.2140,-0.1951],[0.2140,-0.2155],[0.2334,-0.2227],[0.2538,-0.2227],[0.2743,-0.2227],[0.4714,-0.1338],[0.4510,-0.1379],[0.4428,-0.1573],[0.4571,-0.1726],[0.4775,-0.1788],[0.4969,-0.1869],[0.5000,-0.2074],[0.4867,-0.2237],[0.4571,-0.2247],[0.4418,-0.2104],[0.4122,-0.2339],[0.3938,-0.2247],[0.3815,-0.2084],[0.3703,-0.1910],[0.3815,-0.1736],[0.3866,-0.1532],[0.3723,-0.1379],[0.3519,-0.1369],[0.3315,-0.1369],[0.3243,-0.1563],[0.3243,-0.1767],[0.3243,-0.1971],[0.3243,-0.2176],[0.3447,-0.1808],[0.4918,-0.1399]];
 
 // ---------------- timeline (ms) ----------------
 const T_FIRE = 950; // first round leaves
+// Where the first line ends. The counter is tied to THIS, not to the whole
+// block: it has to read 3,000 at the moment the wall does, or the frame
+// shows a tally arguing with the number right above it.
+const NUM_SHOTS = 96;
 // Automatic fire in bursts: a run of rounds at a fixed cadence, then the
 // shooter resets onto the next part of the glyph. Deterministic, so the shot
 // times are the same on every render and the recorder can seek anywhere.
@@ -88,12 +97,12 @@ const END_MS = T_THANKS + 3100;
 const WALLW = 9;
 const WALLH = 9;
 const PY = 1.62; // the line the number is shot along
-const DW = 2.95; // damage layer
-const DH = 1.32;
-const SPAN = 2.2; // the number's width
+const DW = 2.9; // damage layer
+const DH = 1.52;
+const SPAN = 2.25; // the block's width
 const CW = 2560;
 const CH = Math.round((CW * DH) / DW);
-const HOLE_R = 16;
+const HOLE_R = 14;
 
 // hole centre -> damage-canvas px
 const toCanvas = (h) => [((h[0] * SPAN) / DW + 0.5) * CW, (0.5 - (h[1] * SPAN) / DH) * CH];
@@ -113,7 +122,7 @@ function steelCanvas() {
   x.fillStyle = "#3a3f46";
   x.fillRect(0, 0, CW, CH);
   // rolled-steel mottling
-  for (let i = 0; i < 2600; i++) {
+  for (let i = 0; i < 1500; i++) {
     const px = r() * CW;
     const py = r() * CH;
     const rad = 18 + r() * 90;
@@ -125,7 +134,7 @@ function steelCanvas() {
     x.fillRect(px - rad, py - rad, rad * 2, rad * 2);
   }
   // brushed grain, horizontal
-  for (let i = 0; i < 2600; i++) {
+  for (let i = 0; i < 1500; i++) {
     const py = r() * CH;
     const len = 60 + r() * 520;
     const px = r() * CW;
@@ -242,10 +251,10 @@ function makeDamage() {
     // The lip. Metal does not vanish — it is pushed out of the hole and left
     // standing proud and bare, and bare steel is the brightest thing here.
     torn(cx, px, py, R, sh, 1.42);
-    cx.fillStyle = "#8d949d";
+    cx.fillStyle = "#9aa1a9";
     cx.fill();
     torn(cx, px, py, R, sh, 1.2);
-    cx.fillStyle = "#cdd5de";
+    cx.fillStyle = "#e2e8ee";
     cx.fill();
     torn(ax, px, py, R, sh, 1.42);
     ax.fillStyle = "#ffffff";
@@ -322,7 +331,6 @@ function makeDamage() {
 }
 
 export default function MapleBulletAd({
-  label = "FOLLOWERS",
   thanks = "THANK YOU",
   signoff = "SEE YOU ON THE MATS",
   site = "maplebjj.com",
@@ -331,7 +339,6 @@ export default function MapleBulletAd({
   const refs = {
     count: React.useRef(null),
     num: React.useRef(null),
-    word: React.useRef(null),
     foot: React.useRef(null),
   };
 
@@ -345,13 +352,13 @@ export default function MapleBulletAd({
     renderer.setPixelRatio(window.devicePixelRatio || 1);
     renderer.setSize(W, H);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.0;
+    renderer.toneMappingExposure = 0.92;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     mount.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color("#07090c");
-    scene.fog = new THREE.FogExp2("#0a0d12", 0.055);
+    scene.background = new THREE.Color("#6d7073");
+    scene.fog = new THREE.FogExp2("#6d7073", 0.012);
     const camera = new THREE.PerspectiveCamera(40, W / H, 0.05, 200);
 
     // ---- light ----
@@ -361,17 +368,17 @@ export default function MapleBulletAd({
     // grey, and a low warm bounce stands in for the room behind. No floor and
     // no back wall: the steel fills the frame, so anything built behind it is
     // never seen and only lights things it should not.
-    const key = new THREE.SpotLight("#dce9ff", 1500, 34, 0.8, 0.6, 1.25);
+    const key = new THREE.SpotLight("#f2f2f0", 860, 34, 0.9, 0.7, 1.15);
     key.position.set(-5.2, 6.4, 5.6);
     key.target.position.set(0.3, PY - 0.2, 0);
     scene.add(key, key.target);
-    const fill2 = new THREE.DirectionalLight("#8fb8ff", 0.8);
+    const fill2 = new THREE.DirectionalLight("#cdd3d8", 0.5);
     fill2.position.set(5.5, 1.6, 4.2);
     scene.add(fill2);
-    const warm = new THREE.DirectionalLight("#ffb978", 0.35);
+    const warm = new THREE.DirectionalLight("#b9b6ae", 0.22);
     warm.position.set(0.5, -2.2, 3.0);
     scene.add(warm);
-    scene.add(new THREE.AmbientLight("#44566e", 0.55));
+    scene.add(new THREE.AmbientLight("#8d9298", 0.45));
 
     // ---- the wall, and the damage on it ----
     const steelTex = new THREE.CanvasTexture(steelCanvas());
@@ -381,7 +388,7 @@ export default function MapleBulletAd({
     steelTex.anisotropy = renderer.capabilities.getMaxAnisotropy();
     const wall = new THREE.Mesh(
       new THREE.PlaneGeometry(WALLW, WALLH),
-      new THREE.MeshStandardMaterial({ map: steelTex, roughness: 0.46, metalness: 0.78, color: "#6e757e" })
+      new THREE.MeshStandardMaterial({ map: steelTex, roughness: 0.55, metalness: 0.65, color: "#7c7f82" })
     );
     wall.position.set(0, PY, 0);
     scene.add(wall);
@@ -397,8 +404,8 @@ export default function MapleBulletAd({
       roughness: 1,
       metalness: 0.9,
       emissiveMap: dmg.texEmis,
-      emissive: new THREE.Color("#ffdcae"),
-      emissiveIntensity: 1.0,
+      emissive: new THREE.Color("#ffd2a0"),
+      emissiveIntensity: 0,
       depthWrite: false,
       polygonOffset: true,
       polygonOffsetFactor: -2,
@@ -514,7 +521,7 @@ export default function MapleBulletAd({
       // a millimetre and the camera is what shows it.
 
       // more holes, more of the room behind coming through
-      dmgMat.emissiveIntensity = 0.9 + 0.5 * ss(0, HOLES.length, n) + 0.5 * ss(T_PULL, T_WORD, t);
+      dmgMat.emissiveIntensity = 0;
 
       // ---- sparks ----
       let si = 0;
@@ -630,9 +637,8 @@ export default function MapleBulletAd({
       // In close while it is being shot, back off to read the whole number.
       const pull = easeIO(clamp01((t - T_PULL) / 1700));
       // Close while it is being shot so the holes are objects; back at the end
-      // so the number is one shape. 6.55 puts the 2.2 m number at ~82% of the
-      // frame, 8.30 at ~65%, which is the cap the safe margin asks for.
-      const dist = lerp(6.55, 8.3, pull);
+      // so the two lines are one shape.
+      const dist = lerp(7.1, 8.05, pull);
       const drift = ss(0, T_LAST, t);
       let camX = lerp(-0.32, 0, pull) + Math.sin(t / 2300) * 0.05;
       let camY = PY + lerp(-0.1, 0.02, pull) + Math.cos(t / 2700) * 0.035;
@@ -654,13 +660,12 @@ export default function MapleBulletAd({
 
       // ---- overlay ----
       const fire = ss(T_FIRE - 150, T_FIRE + 250, t);
-      const gone = ss(T_PULL + 300, T_PULL + 800, t);
+      const gone = ss(SHOT_T[NUM_SHOTS - 1] + 450, SHOT_T[NUM_SHOTS - 1] + 1100, t);
       setFx(refs.count.current, fire * (1 - gone), 0, 1);
       if (refs.num.current) {
-        const v = Math.round((3000 * n) / HOLES.length);
+        const v = Math.round(3000 * Math.min(1, n / NUM_SHOTS));
         refs.num.current.textContent = v.toLocaleString("en-US");
       }
-      setFx(refs.word.current, ss(T_WORD, T_WORD + 420, t), (1 - ss(T_WORD, T_WORD + 520, t)) * 14);
       setFx(refs.foot.current, ss(T_THANKS, T_THANKS + 600, t), (1 - ss(T_THANKS, T_THANKS + 700, t)) * 12);
     }
 
@@ -703,7 +708,6 @@ export default function MapleBulletAd({
       <div className="bu-count" ref={refs.count}>
         <div className="bu-num" ref={refs.num}>0</div>
       </div>
-      <div className="bu-word" ref={refs.word}>{label}</div>
       <div className="bu-foot" ref={refs.foot}>
         <div className="bu-thanks">{thanks}</div>
         <div className="bu-sign">{signoff}</div>
