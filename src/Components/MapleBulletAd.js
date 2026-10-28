@@ -542,7 +542,12 @@ export default function MapleBulletAd() {
     }));
 
     // ---- smoke ----
-    const PUFFS = 22;
+    // Few and brief. Rounds land every twelve milliseconds, so a puff that
+    // lives a second and a half has a hundred neighbours alive beside it —
+    // and at the end of the burst they stop being individual wisps and
+    // become one bright clump hanging over the last word. Twelve slots, half
+    // a second each: a round still smokes, but nothing can accumulate.
+    const PUFFS = 12;
     // A SMOKE SPRITE, NOT A BLUR. A plain radial gradient reads as an
     // airbrushed dot however you animate it; real smoke is lumpy at every
     // scale. So this builds a cloud out of forty soft blobs scattered inside
@@ -674,21 +679,21 @@ export default function MapleBulletAd() {
           continue;
         }
         const dt = (t - SHOT_T[i]) / 1000;
-        if (dt < 0 || dt > 1.5) {
+        if (dt < 0 || dt > 0.55) {
           puffs.setMatrixAt(p, hidden);
           continue;
         }
         const [wx, wy] = toWorld(HOLES[i]);
-        const u = dt / 1.5;
-        dummy.position.set(wx, wy + dt * 0.42, 0.1 + dt * 0.3);
+        const u = dt / 0.55;
+        dummy.position.set(wx, wy + dt * 0.3, 0.1 + dt * 0.22);
         dummy.quaternion.copy(camera.quaternion);
-        const sc = 0.07 + dt * 0.34;
+        const sc = 0.05 + dt * 0.3;
         dummy.scale.set(sc, sc, sc);
         dummy.updateMatrix();
         puffs.setMatrixAt(p, dummy.matrix);
       }
       puffs.instanceMatrix.needsUpdate = true;
-      puffs.material.opacity = 0.2;
+      puffs.material.opacity = 0.12;
 
       // ---- tracers: the round itself, for the last few metres ----
       let ti = 0;
