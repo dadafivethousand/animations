@@ -34,6 +34,7 @@ import "./Stylesheets/App.css";
 // import MapleDominoAd from "./Components/MapleDominoAd";
 // import MapleMatAd from "./Components/MapleMatAd";
 import MapleBullseyeAd from "./Components/MapleBullseyeAd";
+import MapleBulletAd from "./Components/MapleBulletAd";
 
 function App() {
   // return <WheelSchedule day="Thursday" />;
@@ -46,6 +47,8 @@ function App() {
   // 3,000 followers on one mat, from above. ?render=1 for tools/record-frames.js
   // return <MapleMatAd />;
   // An arrow, a bullseye, 3,000 followers. ?render=1 for tools/record-frames.js
-  return <MapleBullseyeAd />;
+  // return <MapleBullseyeAd />;
+  // 3,000 followers shot into steel. ?render=1 for tools/record-frames.js
+  return <MapleBulletAd />;
 }
 export default App;
