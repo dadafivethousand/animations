@@ -4,10 +4,9 @@
  * Overlay opacity/transform are written by the component per frame; this
  * file only lays them out.
  *
- * The palette is the one the scene is lit in: gunmetal and cold blue from the
- * key light, hot amber from the room behind the plate. Type is that same
- * amber over a near-black outline, so it belongs to the light coming through
- * the holes rather than sitting on top of the picture.
+ * Solid grey, and neutral on purpose: every light in the scene is pure white
+ * and the steel reflects a plain grey gradient, so nothing tints it. The only
+ * colour in the frame is the counter and the warmth of an impact.
  *
  *   ENDVAR=__bulletEnd URL=http://localhost:3000/?render=1 OUT=~/Downloads/maple-bullet.mp4 \
  *     NODE_PATH=/tmp/rec/node_modules node tools/record-frames.js
@@ -34,26 +33,11 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(118% 82% at 50% 48%, rgba(0, 0, 0, 0) 38%, rgba(0, 0, 0, 0.74) 100%);
+  background: radial-gradient(118% 82% at 50% 48%, rgba(0, 0, 0, 0) 52%, rgba(0, 0, 0, 0.34) 100%);
 }
 
 .bu-count,
 .bu-word,
-.bu-foot {
-  position: absolute;
-  left: var(--safe-x);
-  right: var(--safe-x);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  opacity: 0;
-  color: var(--ink);
-  -webkit-text-stroke: 5px var(--edge);
-  paint-order: stroke fill;
-  text-shadow: 0 3px 16px rgba(0, 0, 0, 0.75);
-  pointer-events: none;
-}
 
 /* The running count sits at the top while the plate is being shot, and is
    gone before the camera pulls back — the holes are the number by then, and
@@ -70,38 +54,7 @@
   font-variant-numeric: tabular-nums;
 }
 
-.bu-word {
-  bottom: calc(var(--safe-y) + 8vh);
-  font-family: "Bebas Neue", sans-serif;
-  font-size: clamp(34px, 12vw, 48px);
-  letter-spacing: 0.3em;
-  padding-left: 0.3em;
-  color: #ffb765;
-}
 
-.bu-foot {
-  bottom: calc(var(--safe-y) + 2vh);
-  gap: clamp(4px, 0.8vh, 7px);
-}
-.bu-thanks {
-  font-family: "Bebas Neue", sans-serif;
-  font-size: clamp(30px, 10vw, 42px);
-  letter-spacing: 0.12em;
-  padding-left: 0.12em;
-}
-.bu-sign {
-  font-weight: 800;
-  font-size: clamp(10px, 3.2vw, 13px);
-  letter-spacing: 0.24em;
-  padding-left: 0.24em;
-  -webkit-text-stroke-width: 3.5px;
-}
-.bu-site {
-  font-family: "JetBrains Mono", monospace;
-  font-weight: 600;
-  font-size: clamp(10px, 3vw, 12px);
-  -webkit-text-stroke-width: 3px;
-}
 
 @media (prefers-reduced-motion: reduce) {
   .bu-canvas canvas { opacity: 1; }

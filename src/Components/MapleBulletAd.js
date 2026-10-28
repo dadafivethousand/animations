@@ -42,23 +42,30 @@ function mulberry32(a) {
 }
 
 // ---------------- the glyphs, as hole positions ----------------
-// "3,000" over "FOLLOWERS", rendered in Arial Black and then THINNED to a
-// one-pixel skeleton (Zhang-Suen) before sampling. Sampling the filled glyph
-// gives a slab of holes several rounds deep; sampling its centreline gives a
-// single row, so every stroke here is one bullet wide.
+// Four lines — "3,000" / "FOLLOWERS" / "THANK YOU" / "FOR THE SUPPORT" —
+// rendered in Arial Black and THINNED to a one-pixel skeleton (Zhang-Suen)
+// before sampling, so every stroke is a single row of holes rather than a
+// slab several rounds deep.
 //
-// Points are then grouped into strokes and each stroke walked
-// nearest-neighbour from its top end, so a burst travels along a letter the
-// way a hand would draw it rather than peppering it at random. x is in units
-// of the block's own width; the block is 0.468 as tall as it is wide.
-const HOLES = [[-0.3641,0.2339],[-0.3437,0.2329],[-0.3253,0.2237],[-0.3161,0.2053],[-0.3172,0.1849],[-0.3264,0.1665],[-0.3376,0.1481],[-0.3580,0.1461],[-0.3223,0.1338],[-0.3090,0.1175],[-0.3029,0.0970],[-0.3069,0.0766],[-0.3161,0.0582],[-0.3366,0.0470],[-0.3672,0.0449],[-0.3876,0.0490],[-0.4040,0.0623],[-0.4213,0.0735],[-0.4428,0.1982],[-0.4234,0.2074],[-0.4030,0.2186],[-0.3866,0.2308],[-0.2068,0.0603],[-0.1905,0.0460],[-0.1915,0.0255],[-0.1987,0.0051],[-0.2150,-0.0102],[-0.0577,0.2319],[-0.0373,0.2308],[-0.0179,0.2227],[-0.0056,0.2053],[0.0005,0.1849],[0.0036,0.1645],[0.0056,0.1440],[0.0046,0.1236],[0.0026,0.1032],[-0.0015,0.0827],[-0.0107,0.0633],[-0.0291,0.0501],[-0.0669,0.0480],[-0.0863,0.0562],[-0.0986,0.0735],[-0.1057,0.0930],[-0.1088,0.1134],[-0.1108,0.1338],[-0.1098,0.1542],[-0.1078,0.1747],[-0.1027,0.1951],[-0.0945,0.2145],[-0.0781,0.2278],[0.1466,0.2319],[0.1670,0.2308],[0.1864,0.2227],[0.1987,0.2053],[0.2048,0.1849],[0.2079,0.1645],[0.2099,0.1440],[0.2089,0.1236],[0.2068,0.1032],[0.2028,0.0827],[0.1936,0.0633],[0.1752,0.0501],[0.1374,0.0480],[0.1180,0.0562],[0.1057,0.0735],[0.0986,0.0930],[0.0955,0.1134],[0.0935,0.1338],[0.0945,0.1542],[0.0965,0.1747],[0.1016,0.1951],[0.1098,0.2145],[0.1261,0.2278],[0.3509,0.2319],[0.3713,0.2308],[0.3907,0.2227],[0.4030,0.2053],[0.4091,0.1849],[0.4122,0.1645],[0.4142,0.1440],[0.4132,0.1236],[0.4111,0.1032],[0.4070,0.0827],[0.3979,0.0633],[0.3795,0.0501],[0.3417,0.0480],[0.3223,0.0562],[0.3100,0.0735],[0.3029,0.0930],[0.2998,0.1134],[0.2978,0.1338],[0.2988,0.1542],[0.3008,0.1747],[0.3059,0.1951],[0.3141,0.2145],[0.3304,0.2278],[-0.4959,-0.1379],[-0.4755,-0.1379],[-0.4551,-0.1379],[-0.4591,-0.1788],[-0.4796,-0.1788],[-0.5000,-0.1788],[-0.5000,-0.1583],[-0.5000,-0.1992],[-0.3652,-0.1369],[-0.3447,-0.1399],[-0.3294,-0.1542],[-0.3243,-0.1747],[-0.3253,-0.1951],[-0.3345,-0.2145],[-0.3662,-0.2237],[-0.3866,-0.2176],[-0.3979,-0.2002],[-0.4009,-0.1798],[-0.3979,-0.1593],[-0.3856,-0.1430],[-0.2702,-0.1430],[-0.2702,-0.1634],[-0.2702,-0.1839],[-0.2702,-0.2043],[-0.2589,-0.2217],[-0.2385,-0.2217],[-0.2181,-0.2217],[-0.1680,-0.1430],[-0.1680,-0.1634],[-0.1680,-0.1839],[-0.1680,-0.2043],[-0.1568,-0.2217],[-0.1364,-0.2217],[-0.1159,-0.2217],[-0.0342,-0.1369],[-0.0138,-0.1399],[0.0015,-0.1542],[0.0066,-0.1747],[0.0056,-0.1951],[-0.0036,-0.2145],[-0.0352,-0.2237],[-0.0557,-0.2176],[-0.0669,-0.2002],[-0.0700,-0.1798],[-0.0669,-0.1593],[-0.0546,-0.1430],[0.1793,-0.1297],[0.1650,-0.1461],[0.1609,-0.1665],[0.1568,-0.1869],[0.1364,-0.1982],[0.1272,-0.1798],[0.1210,-0.1593],[0.1088,-0.1430],[0.0975,-0.1604],[0.0914,-0.1808],[0.0812,-0.1992],[0.0598,-0.1798],[0.0557,-0.1593],[0.0516,-0.1389],[0.2181,-0.1379],[0.2385,-0.1379],[0.2589,-0.1379],[0.2640,-0.1767],[0.2436,-0.1767],[0.2232,-0.1767],[0.2140,-0.1583],[0.2140,-0.1951],[0.2140,-0.2155],[0.2334,-0.2227],[0.2538,-0.2227],[0.2743,-0.2227],[0.4714,-0.1338],[0.4510,-0.1379],[0.4428,-0.1573],[0.4571,-0.1726],[0.4775,-0.1788],[0.4969,-0.1869],[0.5000,-0.2074],[0.4867,-0.2237],[0.4571,-0.2247],[0.4418,-0.2104],[0.4122,-0.2339],[0.3938,-0.2247],[0.3815,-0.2084],[0.3703,-0.1910],[0.3815,-0.1736],[0.3866,-0.1532],[0.3723,-0.1379],[0.3519,-0.1369],[0.3315,-0.1369],[0.3243,-0.1563],[0.3243,-0.1767],[0.3243,-0.1971],[0.3243,-0.2176],[0.3447,-0.1808],[0.4918,-0.1399]];
+// TWO CALIBRES. Legibility of a letter made of holes depends on how many
+// holes fit across its stroke, not on how big the letter is: scale the text
+// down and the block just scales back up to fill the frame, and nothing is
+// gained. So the two small lines are shot with a smaller round, closer
+// together — a third element per hole carries that size. It is also what
+// anyone would actually do to write small.
+//
+// Each entry is [x, y, calibre]; x is in units of the block's own width, and
+// the block is 0.714 as tall as it is wide. Points are grouped into strokes
+// and each stroke walked nearest-neighbour from its top end, so a burst
+// travels along a letter the way a hand would draw it.
+const HOLES = [[-0.3121,0.3569,1.0],[-0.2937,0.3551,1.0],[-0.2770,0.3464,1.0],[-0.2700,0.3288,1.0],[-0.2735,0.3104,1.0],[-0.2805,0.2928,1.0],[-0.2788,0.2744,1.0],[-0.2665,0.2603,1.0],[-0.2603,0.2428,1.0],[-0.2621,0.2243,1.0],[-0.2700,0.2076,1.0],[-0.2884,0.1962,1.0],[-0.3112,0.1936,1.0],[-0.3297,0.1962,1.0],[-0.3455,0.2076,1.0],[-0.3613,0.2191,1.0],[-0.3191,0.2700,1.0],[-0.3051,0.2823,1.0],[-0.3464,0.3428,1.0],[-0.3314,0.3543,1.0],[-0.3630,0.3341,1.0],[-0.3797,0.3262,1.0],[-0.1769,0.2076,1.0],[-0.1629,0.1953,1.0],[-0.1637,0.1769,1.0],[-0.1699,0.1594,1.0],[-0.1839,0.1471,1.0],[-0.0487,0.3551,1.0],[-0.0303,0.3543,1.0],[-0.0136,0.3464,1.0],[-0.0031,0.3306,1.0],[0.0022,0.3121,1.0],[0.0048,0.2937,1.0],[0.0057,0.2752,1.0],[0.0048,0.2568,1.0],[0.0022,0.2384,1.0],[-0.0031,0.2199,1.0],[-0.0136,0.2041,1.0],[-0.0364,0.1971,1.0],[-0.0645,0.1989,1.0],[-0.0795,0.2112,1.0],[-0.0874,0.2278,1.0],[-0.0917,0.2463,1.0],[-0.0935,0.2647,1.0],[-0.0944,0.2831,1.0],[-0.0926,0.3016,1.0],[-0.0891,0.3200,1.0],[-0.0821,0.3376,1.0],[-0.0689,0.3507,1.0],[0.1269,0.3551,1.0],[0.1453,0.3543,1.0],[0.1620,0.3464,1.0],[0.1725,0.3306,1.0],[0.1778,0.3121,1.0],[0.1804,0.2937,1.0],[0.1813,0.2752,1.0],[0.1804,0.2568,1.0],[0.1778,0.2384,1.0],[0.1725,0.2199,1.0],[0.1620,0.2041,1.0],[0.1392,0.1971,1.0],[0.1111,0.1989,1.0],[0.0961,0.2112,1.0],[0.0882,0.2278,1.0],[0.0838,0.2463,1.0],[0.0821,0.2647,1.0],[0.0812,0.2831,1.0],[0.0830,0.3016,1.0],[0.0865,0.3200,1.0],[0.0935,0.3376,1.0],[0.1067,0.3507,1.0],[0.3025,0.3551,1.0],[0.3209,0.3543,1.0],[0.3376,0.3464,1.0],[0.3481,0.3306,1.0],[0.3534,0.3121,1.0],[0.3560,0.2937,1.0],[0.3569,0.2752,1.0],[0.3560,0.2568,1.0],[0.3534,0.2384,1.0],[0.3481,0.2199,1.0],[0.3376,0.2041,1.0],[0.3147,0.1971,1.0],[0.2867,0.1989,1.0],[0.2717,0.2112,1.0],[0.2638,0.2278,1.0],[0.2594,0.2463,1.0],[0.2577,0.2647,1.0],[0.2568,0.2831,1.0],[0.2586,0.3016,1.0],[0.2621,0.3200,1.0],[0.2691,0.3376,1.0],[0.2823,0.3507,1.0],[-0.4254,0.0593,1.0],[-0.4069,0.0593,1.0],[-0.3885,0.0593,1.0],[-0.4025,0.0241,1.0],[-0.4210,0.0241,1.0],[-0.4289,0.0408,1.0],[-0.4289,0.0075,1.0],[-0.3130,0.0601,1.0],[-0.2946,0.0575,1.0],[-0.2814,0.0443,1.0],[-0.2770,0.0259,1.0],[-0.2788,0.0075,1.0],[-0.2893,-0.0092,1.0],[-0.3086,-0.0145,1.0],[-0.3270,-0.0119,1.0],[-0.3402,0.0013,1.0],[-0.3437,0.0198,1.0],[-0.3420,0.0382,1.0],[-0.3314,0.0540,1.0],[-0.2313,0.0549,1.0],[-0.2313,0.0364,1.0],[-0.2313,0.0180,1.0],[-0.2313,-0.0004,1.0],[-0.2173,-0.0127,1.0],[-0.1989,-0.0127,1.0],[-0.1435,0.0549,1.0],[-0.1435,0.0364,1.0],[-0.1435,0.0180,1.0],[-0.1435,-0.0004,1.0],[-0.1295,-0.0127,1.0],[-0.1111,-0.0127,1.0],[-0.0285,0.0601,1.0],[-0.0101,0.0575,1.0],[0.0031,0.0443,1.0],[0.0075,0.0259,1.0],[0.0057,0.0075,1.0],[-0.0048,-0.0092,1.0],[-0.0241,-0.0145,1.0],[-0.0426,-0.0119,1.0],[-0.0558,0.0013,1.0],[-0.0593,0.0198,1.0],[-0.0575,0.0382,1.0],[-0.0470,0.0540,1.0],[0.1550,0.0663,1.0],[0.1427,0.0522,1.0],[0.1392,0.0338,1.0],[0.1356,0.0154,1.0],[0.1251,-0.0004,1.0],[0.1102,0.0206,1.0],[0.1049,0.0391,1.0],[0.0944,0.0549,1.0],[0.0838,0.0391,1.0],[0.0795,0.0206,1.0],[0.0680,0.0048,1.0],[0.0531,0.0215,1.0],[0.0487,0.0399,1.0],[0.0452,0.0584,1.0],[0.1848,0.0408,1.0],[0.1883,0.0593,1.0],[0.2068,0.0593,1.0],[0.2252,0.0593,1.0],[0.2331,0.0259,1.0],[0.2147,0.0259,1.0],[0.1962,0.0259,1.0],[0.1848,0.0110,1.0],[0.1848,-0.0075,1.0],[0.2024,-0.0136,1.0],[0.2208,-0.0136,1.0],[0.2858,0.0601,1.0],[0.3042,0.0601,1.0],[0.3227,0.0584,1.0],[0.3341,0.0435,1.0],[0.3253,0.0259,1.0],[0.3209,0.0075,1.0],[0.3323,-0.0075,1.0],[0.3472,-0.0189,1.0],[0.2981,0.0224,1.0],[0.2796,0.0241,1.0],[0.2796,0.0426,1.0],[0.2796,0.0057,1.0],[0.4061,0.0628,1.0],[0.4236,0.0566,1.0],[0.4140,0.0233,1.0],[0.4298,0.0136,1.0],[0.4298,-0.0048,1.0],[0.4131,-0.0162,1.0],[0.3946,-0.0154,1.0],[0.3806,-0.0031,1.0],[0.3955,0.0285,1.0],[0.3815,0.0408,1.0],[0.3876,0.0584,1.0],[-0.3209,-0.1620,0.72],[-0.3068,-0.1620,0.72],[-0.2928,-0.1620,0.72],[-0.2788,-0.1620,0.72],[-0.2963,-0.1760,0.72],[-0.2963,-0.1901,0.72],[-0.2963,-0.2041,0.72],[-0.1435,-0.1637,0.72],[-0.1321,-0.1725,0.72],[-0.1269,-0.1857,0.72],[-0.1242,-0.1997,0.72],[-0.1181,-0.2129,0.72],[-0.1471,-0.2050,0.72],[-0.1611,-0.2041,0.72],[-0.1681,-0.2173,0.72],[-0.1558,-0.1901,0.72],[-0.1514,-0.1760,0.72],[-0.1971,-0.1787,0.72],[-0.1971,-0.1646,0.72],[-0.1971,-0.1927,0.72],[-0.1971,-0.2068,0.72],[-0.2164,-0.1866,0.72],[-0.2305,-0.1866,0.72],[-0.2428,-0.1936,0.72],[-0.2428,-0.2076,0.72],[-0.2428,-0.1787,0.72],[-0.2428,-0.1646,0.72],[-0.0847,-0.1655,0.72],[-0.0759,-0.1769,0.72],[-0.0856,-0.1874,0.72],[-0.0856,-0.2015,0.72],[-0.0637,-0.1857,0.72],[-0.0558,-0.1980,0.72],[-0.0408,-0.2059,0.72],[-0.0382,-0.1918,0.72],[-0.0382,-0.1778,0.72],[-0.0382,-0.1637,0.72],[0.0549,-0.1550,0.72],[0.0391,-0.1602,0.72],[0.0285,-0.1708,0.72],[0.0233,-0.1848,0.72],[0.0320,-0.1971,0.72],[0.0391,-0.2094,0.72],[0.0496,-0.2191,0.72],[0.0083,-0.1883,0.72],[-0.0031,-0.1971,0.72],[-0.0031,-0.2112,0.72],[-0.0031,-0.1787,0.72],[-0.0031,-0.1646,0.72],[0.0953,-0.1541,0.72],[0.1084,-0.1602,0.72],[0.1172,-0.1716,0.72],[0.1260,-0.1839,0.72],[0.1313,-0.1971,0.72],[0.1313,-0.2112,0.72],[0.1444,-0.1734,0.72],[0.1523,-0.1611,0.72],[0.1655,-0.1550,0.72],[0.1927,-0.1664,0.72],[0.1857,-0.1787,0.72],[0.1848,-0.1927,0.72],[0.1883,-0.2068,0.72],[0.2006,-0.2147,0.72],[0.2234,-0.2129,0.72],[0.2322,-0.2006,0.72],[0.2340,-0.1866,0.72],[0.2305,-0.1725,0.72],[0.2199,-0.1629,0.72],[0.2059,-0.1611,0.72],[0.2682,-0.1646,0.72],[0.2682,-0.1787,0.72],[0.2682,-0.1927,0.72],[0.2709,-0.2068,0.72],[0.2823,-0.2155,0.72],[0.2963,-0.2155,0.72],[0.3104,-0.2068,0.72],[0.3130,-0.1927,0.72],[0.3139,-0.1787,0.72],[0.3139,-0.1646,0.72],[-0.4982,-0.3025,0.72],[-0.4842,-0.3025,0.72],[-0.4701,-0.3025,0.72],[-0.4789,-0.3288,0.72],[-0.4930,-0.3288,0.72],[-0.5000,-0.3165,0.72],[-0.5000,-0.3411,0.72],[-0.3481,-0.3007,0.72],[-0.3341,-0.3007,0.72],[-0.3200,-0.3016,0.72],[-0.3121,-0.3139,0.72],[-0.3191,-0.3262,0.72],[-0.3218,-0.3402,0.72],[-0.3130,-0.3516,0.72],[-0.3385,-0.3288,0.72],[-0.3525,-0.3288,0.72],[-0.3525,-0.3147,0.72],[-0.3525,-0.3428,0.72],[-0.3885,-0.3411,0.72],[-0.3867,-0.3270,0.72],[-0.3903,-0.3130,0.72],[-0.4008,-0.3033,0.72],[-0.4148,-0.3016,0.72],[-0.4280,-0.3068,0.72],[-0.4350,-0.3191,0.72],[-0.4359,-0.3332,0.72],[-0.4324,-0.3472,0.72],[-0.4201,-0.3551,0.72],[-0.3973,-0.3534,0.72],[-0.2507,-0.3025,0.72],[-0.2366,-0.3025,0.72],[-0.2226,-0.3025,0.72],[-0.2085,-0.3025,0.72],[-0.2261,-0.3165,0.72],[-0.2261,-0.3306,0.72],[-0.2261,-0.3446,0.72],[-0.1725,-0.3051,0.72],[-0.1725,-0.3191,0.72],[-0.1602,-0.3270,0.72],[-0.1462,-0.3270,0.72],[-0.1269,-0.3332,0.72],[-0.1269,-0.3191,0.72],[-0.1269,-0.3051,0.72],[-0.1269,-0.3472,0.72],[-0.1725,-0.3481,0.72],[-0.1725,-0.3341,0.72],[-0.0891,-0.3025,0.72],[-0.0751,-0.3025,0.72],[-0.0610,-0.3025,0.72],[-0.0672,-0.3270,0.72],[-0.0812,-0.3270,0.72],[-0.0909,-0.3165,0.72],[-0.0909,-0.3376,0.72],[-0.0909,-0.3516,0.72],[-0.0768,-0.3560,0.72],[-0.0628,-0.3560,0.72],[-0.0531,-0.3270,0.72],[0.0241,-0.2998,0.72],[0.0382,-0.3007,0.72],[0.0127,-0.3095,0.72],[0.0180,-0.3227,0.72],[0.0320,-0.3270,0.72],[0.0461,-0.3323,0.72],[0.0496,-0.3464,0.72],[0.0373,-0.3569,0.72],[0.0206,-0.3569,0.72],[0.0101,-0.3472,0.72],[0.0838,-0.3051,0.72],[0.0838,-0.3191,0.72],[0.0838,-0.3332,0.72],[0.0865,-0.3472,0.72],[0.0979,-0.3560,0.72],[0.1119,-0.3560,0.72],[0.1260,-0.3472,0.72],[0.1286,-0.3332,0.72],[0.1295,-0.3191,0.72],[0.1295,-0.3051,0.72],[0.1699,-0.3007,0.72],[0.1839,-0.3007,0.72],[0.1980,-0.3042,0.72],[0.2024,-0.3183,0.72],[0.1936,-0.3297,0.72],[0.1795,-0.3306,0.72],[0.1655,-0.3288,0.72],[0.1655,-0.3147,0.72],[0.1655,-0.3428,0.72],[0.2366,-0.3428,0.72],[0.2366,-0.3288,0.72],[0.2366,-0.3147,0.72],[0.2410,-0.3007,0.72],[0.2550,-0.3007,0.72],[0.2691,-0.3042,0.72],[0.2735,-0.3183,0.72],[0.2647,-0.3297,0.72],[0.2507,-0.3306,0.72],[0.3060,-0.3332,0.72],[0.3068,-0.3191,0.72],[0.3139,-0.3068,0.72],[0.3270,-0.3016,0.72],[0.3411,-0.3033,0.72],[0.3516,-0.3130,0.72],[0.3551,-0.3270,0.72],[0.3534,-0.3411,0.72],[0.3446,-0.3534,0.72],[0.3218,-0.3551,0.72],[0.3095,-0.3472,0.72],[0.3894,-0.3428,0.72],[0.3894,-0.3288,0.72],[0.3894,-0.3147,0.72],[0.3938,-0.3007,0.72],[0.4078,-0.3007,0.72],[0.4219,-0.3016,0.72],[0.4298,-0.3139,0.72],[0.4227,-0.3262,0.72],[0.4201,-0.3402,0.72],[0.4289,-0.3516,0.72],[0.4034,-0.3288,0.72],[0.4579,-0.3025,0.72],[0.4719,-0.3025,0.72],[0.4860,-0.3025,0.72],[0.5000,-0.3025,0.72],[0.4824,-0.3165,0.72],[0.4824,-0.3306,0.72],[0.4824,-0.3446,0.72]];
 
 // ---------------- timeline (ms) ----------------
 const T_FIRE = 950; // first round leaves
 // Where the first line ends. The counter is tied to THIS, not to the whole
 // block: it has to read 3,000 at the moment the wall does, or the frame
 // shows a tally arguing with the number right above it.
-const NUM_SHOTS = 96;
+const NUM_SHOTS = 93;
 // Automatic fire in bursts: a run of rounds at a fixed cadence, then the
 // shooter resets onto the next part of the glyph. Deterministic, so the shot
 // times are the same on every render and the recorder can seek anywhere.
@@ -69,11 +76,11 @@ const SHOT_T = (() => {
   let left = 0;
   for (let i = 0; i < HOLES.length; i++) {
     if (left === 0) {
-      left = 14 + Math.floor(r() * 9);
-      if (i) t += 105 + r() * 80; // swing onto the next run
+      left = 16 + Math.floor(r() * 9);
+      if (i) t += 80 + r() * 50; // swing onto the next run
     }
     out.push(t);
-    t += 20 + r() * 6;
+    t += 13 + r() * 5;
     left -= 1;
   }
   return out;
@@ -97,12 +104,12 @@ const END_MS = T_THANKS + 3100;
 const WALLW = 9;
 const WALLH = 9;
 const PY = 1.62; // the line the number is shot along
-const DW = 2.9; // damage layer
-const DH = 1.52;
-const SPAN = 2.25; // the block's width
+const DW = 2.85; // damage layer
+const DH = 1.95;
+const SPAN = 2.2; // the block's width
 const CW = 2560;
 const CH = Math.round((CW * DH) / DW);
-const HOLE_R = 14;
+const HOLE_R = 12;
 
 // hole centre -> damage-canvas px
 const toCanvas = (h) => [((h[0] * SPAN) / DW + 0.5) * CW, (0.5 - (h[1] * SPAN) / DH) * CH];
@@ -119,22 +126,22 @@ function steelCanvas() {
   const CW = SW;
   const CH = SW;
   const r = mulberry32(4242);
-  x.fillStyle = "#3a3f46";
+  x.fillStyle = "#86898c";
   x.fillRect(0, 0, CW, CH);
   // rolled-steel mottling
-  for (let i = 0; i < 1500; i++) {
+  for (let i = 0; i < 900; i++) {
     const px = r() * CW;
     const py = r() * CH;
     const rad = 18 + r() * 90;
     const g = x.createRadialGradient(px, py, 0, px, py, rad);
     const v = r() > 0.5 ? 255 : 0;
-    g.addColorStop(0, `rgba(${v},${v},${v},${0.016 + r() * 0.03})`);
+    g.addColorStop(0, `rgba(${v},${v},${v},${0.004 + r() * 0.007})`);
     g.addColorStop(1, "rgba(0,0,0,0)");
     x.fillStyle = g;
     x.fillRect(px - rad, py - rad, rad * 2, rad * 2);
   }
   // brushed grain, horizontal
-  for (let i = 0; i < 1500; i++) {
+  for (let i = 0; i < 900; i++) {
     const py = r() * CH;
     const len = 60 + r() * 520;
     const px = r() * CW;
@@ -145,27 +152,16 @@ function steelCanvas() {
     x.lineTo(px + len, py + (r() - 0.5) * 2);
     x.stroke();
   }
-  // old scuffs and a little rust in the corners
-  for (let i = 0; i < 70; i++) {
+  // a few old scuffs, grey like everything else
+  for (let i = 0; i < 46; i++) {
     const px = r() * CW;
     const py = r() * CH;
-    x.strokeStyle = `rgba(20,16,14,${0.05 + r() * 0.12})`;
-    x.lineWidth = 1 + r() * 3;
+    x.strokeStyle = `rgba(32,32,32,${0.02 + r() * 0.04})`;
+    x.lineWidth = 1 + r() * 2.4;
     x.beginPath();
     x.moveTo(px, py);
-    x.lineTo(px + (r() - 0.5) * 240, py + (r() - 0.5) * 90);
+    x.lineTo(px + (r() - 0.5) * 200, py + (r() - 0.5) * 70);
     x.stroke();
-  }
-  for (let i = 0; i < 160; i++) {
-    const edge = r();
-    const px = edge < 0.5 ? r() * CW * 0.16 + (r() < 0.5 ? 0 : CW * 0.84) : r() * CW;
-    const py = edge < 0.5 ? r() * CH : r() * CH * 0.16 + (r() < 0.5 ? 0 : CH * 0.84);
-    const rad = 10 + r() * 60;
-    const g = x.createRadialGradient(px, py, 0, px, py, rad);
-    g.addColorStop(0, `rgba(122,74,38,${0.05 + r() * 0.1})`);
-    g.addColorStop(1, "rgba(122,74,38,0)");
-    x.fillStyle = g;
-    x.fillRect(px - rad, py - rad, rad * 2, rad * 2);
   }
   return c;
 }
@@ -202,7 +198,7 @@ function makeDamage() {
   const [colour, cx] = mk();   // transparent except where a round went in
   const [bump, bx] = mk();
   const [rough, rx] = mk();
-  const [emis, ex] = mk();
+  const [metal, mx] = mk();
   const [alpha, ax] = mk();
 
   const rnd = mulberry32(5150);
@@ -230,7 +226,7 @@ function makeDamage() {
   function paint(i) {
     const [px, py] = toCanvas(HOLES[i]);
     const sh = shapes[i];
-    const R = HOLE_R * sh.scale;
+    const R = HOLE_R * sh.scale * (HOLES[i][2] || 1);
 
     // Everything this layer draws has to carry its own alpha, because the
     // wall behind it is doing the rest. Soot first: the dirty halo the muzzle
@@ -250,21 +246,28 @@ function makeDamage() {
 
     // The lip. Metal does not vanish — it is pushed out of the hole and left
     // standing proud and bare, and bare steel is the brightest thing here.
-    torn(cx, px, py, R, sh, 1.42);
-    cx.fillStyle = "#9aa1a9";
+    torn(cx, px, py, R, sh, 1.30);
+    cx.fillStyle = "#8b9198";
     cx.fill();
-    torn(cx, px, py, R, sh, 1.2);
-    cx.fillStyle = "#e2e8ee";
+    torn(cx, px, py, R, sh, 1.13);
+    cx.fillStyle = "#c2c9d0";
     cx.fill();
-    torn(ax, px, py, R, sh, 1.42);
+    torn(ax, px, py, R, sh, 1.30);
     ax.fillStyle = "#ffffff";
     ax.fill();
-    torn(bx, px, py, R, sh, 1.36);
+    torn(bx, px, py, R, sh, 1.26);
     bx.fillStyle = "#f2f2f2"; // standing proud
     bx.fill();
-    torn(rx, px, py, R, sh, 1.28);
+    torn(rx, px, py, R, sh, 1.2);
     rx.fillStyle = "rgba(0,0,0,0.85)"; // and polished, so it catches the key
     rx.fill();
+
+    // The lip is bare metal and reflects; the pit is a void and does not.
+    // Without this the pit renders as a grey mirror of the environment and
+    // the hole stops reading as a hole at all.
+    torn(mx, px, py, R, sh, 1.3);
+    mx.fillStyle = "#ffffff";
+    mx.fill();
 
     // The pit itself.
     torn(cx, px, py, R, sh, 1);
@@ -273,23 +276,17 @@ function makeDamage() {
     torn(bx, px, py, R, sh, 1);
     bx.fillStyle = "#060606"; // sunk
     bx.fill();
+    torn(mx, px, py, R, sh, 1);
+    mx.fillStyle = "#000000";
+    mx.fill();
+    torn(rx, px, py, R, sh, 1);
+    rx.fillStyle = "rgba(255,255,255,0.9)"; // and matte
+    rx.fill();
 
-    // And a little of the room behind, through the hole. Small and sharp:
-    // a glow wider than the hole reads as a lamp, not as daylight through
-    // a 9 mm gap, and 249 lamps is a string of fairy lights.
-    g = ex.createRadialGradient(px, py, 0, px, py, R * 0.78);
-    g.addColorStop(0, "rgba(255,236,204,1)");
-    g.addColorStop(0.5, "rgba(255,192,116,0.42)");
-    g.addColorStop(1, "rgba(255,170,90,0)");
-    ex.fillStyle = g;
-    ex.fillRect(px - R, py - R, R * 2, R * 2);
-    torn(ex, px, py, R, sh, 0.38); // the hot centre stays small: the pit is
-    ex.fillStyle = "#fff3dd";      // what makes it read as a hole at all
-    ex.fill();
   }
 
   function reset() {
-    for (const c of [cx, bx, rx, ex, ax]) c.clearRect(0, 0, CW, CH);
+    for (const c of [cx, bx, rx, mx, ax]) c.clearRect(0, 0, CW, CH);
   }
 
   const tex = (c, srgb) => {
@@ -301,7 +298,7 @@ function makeDamage() {
   const texColour = tex(colour, true);
   const texBump = tex(bump, false);
   const texRough = tex(rough, false);
-  const texEmis = tex(emis, true);
+  const texMetal = tex(metal, false);
   const texAlpha = tex(alpha, false);
 
   let drawn = 0;
@@ -309,7 +306,7 @@ function makeDamage() {
     texColour,
     texBump,
     texRough,
-    texEmis,
+    texMetal,
     texAlpha,
     // Pure in effect: forward in time paints the new holes, backward repaints
     // from scratch, so any frame can be asked for in any order.
@@ -324,22 +321,17 @@ function makeDamage() {
       texColour.needsUpdate = true;
       texBump.needsUpdate = true;
       texRough.needsUpdate = true;
-      texEmis.needsUpdate = true;
+      texMetal.needsUpdate = true;
       texAlpha.needsUpdate = true;
     },
   };
 }
 
-export default function MapleBulletAd({
-  thanks = "THANK YOU",
-  signoff = "SEE YOU ON THE MATS",
-  site = "maplebjj.com",
-}) {
+export default function MapleBulletAd() {
   const mountRef = React.useRef(null);
   const refs = {
     count: React.useRef(null),
     num: React.useRef(null),
-    foot: React.useRef(null),
   };
 
   React.useEffect(() => {
@@ -352,33 +344,53 @@ export default function MapleBulletAd({
     renderer.setPixelRatio(window.devicePixelRatio || 1);
     renderer.setSize(W, H);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 0.92;
+    renderer.toneMappingExposure = 1.0;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     mount.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color("#6d7073");
-    scene.fog = new THREE.FogExp2("#6d7073", 0.012);
+    scene.background = new THREE.Color("#74777a");
+    scene.fog = new THREE.FogExp2("#74777a", 0.008);
     const camera = new THREE.PerspectiveCamera(40, W / H, 0.05, 200);
 
+    // ---- what the metal reflects ----
+    // A metal with no environment reflects nothing and renders black, which
+    // is how a wall lit by three white lights still came out near-black. So
+    // the scene gets one: a plain grey gradient, no detail, no colour. It is
+    // what makes the steel read as grey steel and what puts a glint on the
+    // lip of every hole.
+    const envCanvas = document.createElement("canvas");
+    envCanvas.width = 64;
+    envCanvas.height = 32;
+    {
+      const ex2 = envCanvas.getContext("2d");
+      const g = ex2.createLinearGradient(0, 0, 0, 32);
+      g.addColorStop(0, "#eceef0");
+      g.addColorStop(0.55, "#b9bcbf");
+      g.addColorStop(1, "#7c7f81");
+      ex2.fillStyle = g;
+      ex2.fillRect(0, 0, 64, 32);
+    }
+    const envTex = new THREE.CanvasTexture(envCanvas);
+    envTex.mapping = THREE.EquirectangularReflectionMapping;
+    envTex.colorSpace = THREE.SRGBColorSpace;
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    scene.environment = pmrem.fromEquirectangular(envTex).texture;
+    envTex.dispose();
+    pmrem.dispose();
+
     // ---- light ----
-    // One hard key raking down the wall from the left, because a raking light
-    // is the only thing that shows brushed grain and the lip standing proud of
-    // a hole. A cool fill from the right keeps the steel blue rather than
-    // grey, and a low warm bounce stands in for the room behind. No floor and
-    // no back wall: the steel fills the frame, so anything built behind it is
-    // never seen and only lights things it should not.
-    const key = new THREE.SpotLight("#f2f2f0", 860, 34, 0.9, 0.7, 1.15);
-    key.position.set(-5.2, 6.4, 5.6);
-    key.target.position.set(0.3, PY - 0.2, 0);
-    scene.add(key, key.target);
-    const fill2 = new THREE.DirectionalLight("#cdd3d8", 0.5);
-    fill2.position.set(5.5, 1.6, 4.2);
+    // Flat and neutral on purpose. A spotlight put a bright pool in one
+    // corner and tinted lights left a sheen on the steel; the brief is a
+    // solid grey wall, so every source here is pure white and nothing casts
+    // a pool. The shape in the frame comes from the holes, not the lighting.
+    const key = new THREE.DirectionalLight("#ffffff", 2.7);
+    key.position.set(-3.2, 4.0, 6.0);
+    scene.add(key);
+    const fill2 = new THREE.DirectionalLight("#ffffff", 0.95);
+    fill2.position.set(4.6, -1.2, 5.0);
     scene.add(fill2);
-    const warm = new THREE.DirectionalLight("#b9b6ae", 0.22);
-    warm.position.set(0.5, -2.2, 3.0);
-    scene.add(warm);
-    scene.add(new THREE.AmbientLight("#8d9298", 0.45));
+    scene.add(new THREE.AmbientLight("#ffffff", 0.75));
 
     // ---- the wall, and the damage on it ----
     const steelTex = new THREE.CanvasTexture(steelCanvas());
@@ -388,7 +400,7 @@ export default function MapleBulletAd({
     steelTex.anisotropy = renderer.capabilities.getMaxAnisotropy();
     const wall = new THREE.Mesh(
       new THREE.PlaneGeometry(WALLW, WALLH),
-      new THREE.MeshStandardMaterial({ map: steelTex, roughness: 0.55, metalness: 0.65, color: "#7c7f82" })
+      new THREE.MeshStandardMaterial({ map: steelTex, roughness: 0.56, metalness: 0.42, color: "#9ca0a3" })
     );
     wall.position.set(0, PY, 0);
     scene.add(wall);
@@ -401,11 +413,9 @@ export default function MapleBulletAd({
       bumpMap: dmg.texBump,
       bumpScale: 22,
       roughnessMap: dmg.texRough,
+      metalnessMap: dmg.texMetal,
       roughness: 1,
-      metalness: 0.9,
-      emissiveMap: dmg.texEmis,
-      emissive: new THREE.Color("#ffd2a0"),
-      emissiveIntensity: 0,
+      metalness: 1,
       depthWrite: false,
       polygonOffset: true,
       polygonOffsetFactor: -2,
@@ -470,17 +480,17 @@ export default function MapleBulletAd({
     tracers.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
     tracers.frustumCulled = false;
     scene.add(tracers);
-    const MUZZLE = new THREE.Vector3(2.1, 0.5, 8.4); // behind and right of camera
+    const MUZZLE = new THREE.Vector3(-2.4, 0.55, 8.4); // behind and left of camera
 
     // ---- impact flash ----
-    const flash = new THREE.PointLight("#ffd9a0", 0, 6, 2);
+    const flash = new THREE.PointLight("#ffd0a0", 0, 2.1, 2);
     scene.add(flash);
 
     // ---- dust in the beam ----
     const MOTES = 220;
     const motes = new THREE.InstancedMesh(
       new THREE.PlaneGeometry(0.012, 0.012),
-      new THREE.MeshBasicMaterial({ color: "#cfe2ff", transparent: true, opacity: 0.25, depthWrite: false }),
+      new THREE.MeshBasicMaterial({ color: "#e8e8e8", transparent: true, opacity: 0.16, depthWrite: false }),
       MOTES
     );
     motes.frustumCulled = false;
@@ -521,7 +531,6 @@ export default function MapleBulletAd({
       // a millimetre and the camera is what shows it.
 
       // more holes, more of the room behind coming through
-      dmgMat.emissiveIntensity = 0;
 
       // ---- sparks ----
       let si = 0;
@@ -606,8 +615,8 @@ export default function MapleBulletAd({
       let fy = PY;
       for (let i = Math.max(0, n - 6); i < n; i++) {
         const dt = t - SHOT_T[i];
-        if (dt < 0 || dt > 110) continue;
-        const e = Math.exp(-dt / 34);
+        if (dt < 0 || dt > 80) continue;
+        const e = Math.exp(-dt / 26);
         if (e > fl) {
           fl = e;
           const w = toWorld(HOLES[i]);
@@ -615,7 +624,7 @@ export default function MapleBulletAd({
           fy = w[1];
         }
       }
-      flash.intensity = fl * 9;
+      flash.intensity = fl * 2.1;
       flash.position.set(fx, fy, 0.5);
 
       // ---- dust ----
@@ -666,7 +675,6 @@ export default function MapleBulletAd({
         const v = Math.round(3000 * Math.min(1, n / NUM_SHOTS));
         refs.num.current.textContent = v.toLocaleString("en-US");
       }
-      setFx(refs.foot.current, ss(T_THANKS, T_THANKS + 600, t), (1 - ss(T_THANKS, T_THANKS + 700, t)) * 12);
     }
 
     let raf;
@@ -707,11 +715,6 @@ export default function MapleBulletAd({
       <div className="bu-vignette" aria-hidden />
       <div className="bu-count" ref={refs.count}>
         <div className="bu-num" ref={refs.num}>0</div>
-      </div>
-      <div className="bu-foot" ref={refs.foot}>
-        <div className="bu-thanks">{thanks}</div>
-        <div className="bu-sign">{signoff}</div>
-        <div className="bu-site">{site}</div>
       </div>
     </div>
   );
