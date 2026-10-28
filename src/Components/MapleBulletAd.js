@@ -500,9 +500,9 @@ export default function MapleBulletAd() {
     const hazeRnd = mulberry32(8080);
     const hazeSeed = Array.from({ length: HAZE }, () => ({
       x: (hazeRnd() - 0.5) * 2.9,
-      y: PY - 1.25 - hazeRnd() * 0.5, // starts below the block
+      y: PY - 2.5 - hazeRnd() * 0.7, // well below the lettering
       z: 0.25 + hazeRnd() * 0.9,
-      rise: 0.5 + hazeRnd() * 0.45,
+      rise: 0.12 + hazeRnd() * 0.16,
       drift: (hazeRnd() - 0.5) * 0.3,
       s0: 0.5 + hazeRnd() * 0.85,
       grow: 0.18 + hazeRnd() * 0.3,
@@ -614,12 +614,16 @@ export default function MapleBulletAd() {
       puffs.material.opacity = 0.2;
 
       // ---- the haze, after the last round ----
-      // Thickens as the last rounds land, then thins as it drifts off. It
-      // has to be seen, so it is heavy — but it rises from BELOW the block
-      // and climbs past it, which keeps the holes readable while the cloud
-      // is at its thickest.
+      // Thickens as the last rounds land, then thins as it drifts off.
+      //
+      // IT MUST NOT SWEEP THE LETTERING. Rising from below the block and
+      // climbing past it put a bright cloud straight through the text about
+      // two seconds after the last round: measured on the "3,000" band, the
+      // mean went 113 -> 166 -> 113, which reads as the number flashing. It
+      // now sits low and climbs slowly, and it is light enough that drifting
+      // past anything costs a few points rather than fifty.
       const hz = ss(T_LAST - 1200, T_LAST + 900, t) * (1 - 0.72 * ss(T_LAST + 1900, END_MS - 500, t));
-      haze.material.opacity = 0.3 * hz;
+      haze.material.opacity = 0.17 * hz;
       if (hz > 0.002) {
         const ht = Math.max(0, (t - (T_LAST - 400)) / 1000);
         for (let i = 0; i < HAZE; i++) {
