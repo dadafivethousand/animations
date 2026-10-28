@@ -328,7 +328,6 @@ function makeDamage() {
 
 export default function MapleBulletAd() {
   const mountRef = React.useRef(null);
-  const logoRef = React.useRef(null);
 
   React.useEffect(() => {
     const renderMode = new URLSearchParams(window.location.search).get("render") === "1";
@@ -407,6 +406,38 @@ export default function MapleBulletAd() {
     );
     wall.position.set(0, PY, 0);
     scene.add(wall);
+
+    // ---- the mark, as metal ----
+    // A DOM image cannot reflect anything, so the logo sat flat on top of a
+    // scene full of polished steel and read as a sticker. It is a plane on
+    // the wall now, with the artwork as its colour map and metalness close
+    // to 1 — a metal tints its reflection by its own colour, so the leaf
+    // comes back as anodised navy and the lettering as bright chrome, both
+    // off the same environment the wall is reflecting. It gets the sheen for
+    // free, and moves with the handheld float the way everything else does.
+    const logoMat = new THREE.MeshStandardMaterial({
+      transparent: true,
+      opacity: 0,
+      metalness: 0.95,
+      roughness: 0.26,
+      envMapIntensity: 1.5,
+      depthWrite: false,
+      polygonOffset: true,
+      polygonOffsetFactor: -3,
+    });
+    const logo = new THREE.Mesh(new THREE.PlaneGeometry(0.66, 0.66), logoMat);
+    logo.position.set(0, PY + 1.62, 0.006);
+    scene.add(logo);
+    const logoTex = new THREE.TextureLoader().load(mapleLogo, (t) => {
+      t.colorSpace = THREE.SRGBColorSpace;
+      t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      // NO alphaMap. three.js reads an alphaMap's GREEN channel, not the
+      // texture's alpha, so pointing it at this artwork made the navy leaf
+      // transparent and left the white lettering floating on its own. A PNG
+      // with real alpha needs nothing but `transparent` and the map.
+      logoMat.map = t;
+      logoMat.needsUpdate = true;
+    });
 
     const dmg = makeDamage();
     const dmgMat = new THREE.MeshStandardMaterial({
@@ -659,11 +690,9 @@ export default function MapleBulletAd() {
 
       renderer.render(scene, camera);
 
-      // The mark fades up before the first round, and is the one thing in the
-      // frame not shot into the wall. Driven from here rather than by a CSS
-      // animation so it stays a function of t: the recorder steps the clock
-      // by hand, and a keyframe would run on wall time instead.
-      if (logoRef.current) logoRef.current.style.opacity = ss(180, 820, t).toFixed(3);
+      // The mark fades up before the first round. Driven from here so it
+      // stays a function of t: the recorder steps the clock by hand.
+      logoMat.opacity = ss(180, 820, t);
 
     }
 
@@ -703,7 +732,6 @@ export default function MapleBulletAd() {
     <div className="bu-stage">
       <div className="bu-canvas" ref={mountRef} />
       <div className="bu-vignette" aria-hidden />
-      <img className="bu-logo" ref={logoRef} src={mapleLogo} alt="Maple Jiu Jitsu" />
     </div>
   );
 }
