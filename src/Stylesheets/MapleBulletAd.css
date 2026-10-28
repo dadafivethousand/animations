@@ -33,7 +33,7 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(118% 82% at 50% 48%, rgba(0, 0, 0, 0) 52%, rgba(0, 0, 0, 0.34) 100%);
+  background: radial-gradient(118% 82% at 50% 48%, rgba(0, 0, 0, 0) 58%, rgba(0, 0, 0, 0.26) 100%);
 }
 
 /* Nothing is drawn on top of the picture any more — the number, the word and
