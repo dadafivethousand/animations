@@ -23,7 +23,6 @@
 import React from "react";
 import * as THREE from "three";
 import "../Stylesheets/MapleBulletAd.css";
-import mapleLogo from "../Images/maple-bjj-logo.png";
 
 const clamp01 = (x) => Math.min(1, Math.max(0, x));
 const ss = (a, b, x) => {
@@ -179,6 +178,76 @@ function setFx(el, opacity, y = 0, scale = 1) {
   if (!el) return;
   el.style.opacity = opacity.toFixed(3);
   el.style.transform = `translateY(${y.toFixed(2)}px) scale(${scale.toFixed(3)})`;
+}
+
+// ---------------- the engraving ----------------
+// "MAPLE JIU-JITSU" cut into the wall rather than printed on it. A groove
+// reads by its walls, not by its colour: the chamfer facing the key light
+// catches a highlight, the one facing away falls into shadow, and the floor
+// of the cut sits darker than the surface because less light reaches it.
+//
+// So this builds two canvases. The BUMP is mid-grey for the surface with the
+// lettering in black, blurred — the blur is what makes the wall of the cut a
+// ramp rather than a cliff, and a ramp is what the renderer needs in order
+// to put a highlight down one side of it. The TINT is transparent except in
+// the cut, where it lays a little dirt and shadow.
+//
+// Both go on a transparent plane sitting a few millimetres off the wall, so
+// the steel shows through everywhere the letters are not and there is no
+// patch edge to hide.
+const ENGRAVE_TEXT = "MAPLE JIU-JITSU";
+
+function engraveCanvases() {
+  const EW = 2048;
+  const EH = 420;
+  const mk = () => {
+    const c = document.createElement("canvas");
+    c.width = EW;
+    c.height = EH;
+    return [c, c.getContext("2d")];
+  };
+  const setType = (x) => {
+    x.font = '700 210px Impact, "Arial Narrow", sans-serif';
+    x.textAlign = "center";
+    x.textBaseline = "middle";
+  };
+  const CX = EW / 2;
+  const CY = EH / 2 + 6;
+
+  // DEPTH, for the renderer to light.
+  const [bump, bx] = mk();
+  bx.fillStyle = "#808080";
+  bx.fillRect(0, 0, EW, EH);
+  setType(bx);
+  bx.filter = "blur(4px)";
+  bx.fillStyle = "#121212";
+  bx.fillText(ENGRAVE_TEXT, CX, CY);
+  bx.filter = "none";
+
+  // AND THE WALLS OF THE CUT, BAKED.
+  // The bump alone was not enough. This decal is transparent, so it only
+  // renders where the letters are — and the chamfer lives just OUTSIDE the
+  // stroke, where there was no alpha for it to be drawn into. Painting the
+  // walls directly fixes that, and makes the effect hold wherever the light
+  // happens to sit.
+  //
+  // The key is up and to the left, so the far wall of a groove is the lit
+  // one: a highlight peeks out below and right of each stroke, a shadow
+  // above and left, and the floor of the cut sits darker than the surface
+  // between them.
+  const [tint, tx] = mk();
+  setType(tx);
+  tx.filter = "blur(2.5px)";
+  tx.fillStyle = "rgba(240,245,250,0.7)";
+  tx.fillText(ENGRAVE_TEXT, CX + 4, CY + 4);
+  tx.fillStyle = "rgba(12,14,17,0.55)";
+  tx.fillText(ENGRAVE_TEXT, CX - 3, CY - 3);
+  tx.filter = "blur(1.5px)";
+  tx.fillStyle = "rgba(56,60,66,0.85)";
+  tx.fillText(ENGRAVE_TEXT, CX, CY);
+  tx.filter = "none";
+
+  return [bump, tint];
 }
 
 // ---------------- the damage, painted into the plate's maps ----------------
@@ -407,37 +476,28 @@ export default function MapleBulletAd() {
     wall.position.set(0, PY, 0);
     scene.add(wall);
 
-    // ---- the mark, as metal ----
-    // A DOM image cannot reflect anything, so the logo sat flat on top of a
-    // scene full of polished steel and read as a sticker. It is a plane on
-    // the wall now, with the artwork as its colour map and metalness close
-    // to 1 — a metal tints its reflection by its own colour, so the leaf
-    // comes back as anodised navy and the lettering as bright chrome, both
-    // off the same environment the wall is reflecting. It gets the sheen for
-    // free, and moves with the handheld float the way everything else does.
-    const logoMat = new THREE.MeshStandardMaterial({
+    // ---- the mark, cut into the wall ----
+    const [engBump, engTint] = engraveCanvases();
+    const engTexBump = new THREE.CanvasTexture(engBump);
+    const engTexTint = new THREE.CanvasTexture(engTint);
+    engTexTint.colorSpace = THREE.SRGBColorSpace;
+    engTexBump.anisotropy = renderer.capabilities.getMaxAnisotropy();
+    engTexTint.anisotropy = engTexBump.anisotropy;
+    const engMat = new THREE.MeshStandardMaterial({
+      map: engTexTint,
       transparent: true,
       opacity: 0,
-      metalness: 0.95,
-      roughness: 0.26,
-      envMapIntensity: 1.5,
+      bumpMap: engTexBump,
+      bumpScale: 14,
+      metalness: 0.45,
+      roughness: 0.42,
       depthWrite: false,
       polygonOffset: true,
       polygonOffsetFactor: -3,
     });
-    const logo = new THREE.Mesh(new THREE.PlaneGeometry(0.66, 0.66), logoMat);
-    logo.position.set(0, PY + 1.62, 0.006);
-    scene.add(logo);
-    const logoTex = new THREE.TextureLoader().load(mapleLogo, (t) => {
-      t.colorSpace = THREE.SRGBColorSpace;
-      t.anisotropy = renderer.capabilities.getMaxAnisotropy();
-      // NO alphaMap. three.js reads an alphaMap's GREEN channel, not the
-      // texture's alpha, so pointing it at this artwork made the navy leaf
-      // transparent and left the white lettering floating on its own. A PNG
-      // with real alpha needs nothing but `transparent` and the map.
-      logoMat.map = t;
-      logoMat.needsUpdate = true;
-    });
+    const engrave = new THREE.Mesh(new THREE.PlaneGeometry(2.25, 0.46), engMat);
+    engrave.position.set(0, PY + 1.42, 0.005);
+    scene.add(engrave);
 
     const dmg = makeDamage();
     const dmgMat = new THREE.MeshStandardMaterial({
@@ -692,7 +752,7 @@ export default function MapleBulletAd() {
 
       // The mark fades up before the first round. Driven from here so it
       // stays a function of t: the recorder steps the clock by hand.
-      logoMat.opacity = ss(180, 820, t);
+      engMat.opacity = ss(180, 820, t);
 
     }
 
