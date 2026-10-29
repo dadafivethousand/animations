@@ -131,7 +131,7 @@ function steelCanvas() {
   // look like metal here is the environment it reflects, not texture — so
   // this is a flat grey with a fine horizontal grain and a handful of old
   // scuffs, and nothing else.
-  const SW = 1024;
+  const SW = 2048;
   const c = document.createElement("canvas");
   c.width = SW;
   c.height = SW;
@@ -139,6 +139,50 @@ function steelCanvas() {
   const r = mulberry32(4242);
   x.fillStyle = "#5a6334"; // olive drab paint, light enough that the dark holes read
   x.fillRect(0, 0, SW, SW);
+
+  // WOODLAND CAMO, painted on. Kept close in value to the olive so the
+  // dark holes and their bright lips still read on top of it: the pattern
+  // is in the hue, not the contrast. Each layer is a scatter of wobbly,
+  // stretched blobs, the way the pattern is printed.
+  const blob = (cx0, cy0, rad, stretch, rot) => {
+    const n = 12;
+    const pts = [];
+    for (let i = 0; i < n; i++) {
+      const a = (i / n) * Math.PI * 2;
+      const rr = rad * (0.6 + r() * 0.65);
+      const px = Math.cos(a) * rr * stretch;
+      const py = Math.sin(a) * rr;
+      pts.push([cx0 + px * Math.cos(rot) - py * Math.sin(rot), cy0 + px * Math.sin(rot) + py * Math.cos(rot)]);
+    }
+    x.beginPath();
+    const mid = (p, q) => [(p[0] + q[0]) / 2, (p[1] + q[1]) / 2];
+    const m0 = mid(pts[n - 1], pts[0]);
+    x.moveTo(m0[0], m0[1]);
+    for (let i = 0; i < n; i++) {
+      const m = mid(pts[i], pts[(i + 1) % n]);
+      x.quadraticCurveTo(pts[i][0], pts[i][1], m[0], m[1]);
+    }
+    x.fill();
+  };
+  const layer = (colour, count, rMin, rMax) => {
+    x.fillStyle = colour;
+    for (let i = 0; i < count; i++) {
+      const rad = rMin + r() * (rMax - rMin);
+      const cx0 = r() * SW;
+      const cy0 = r() * SW;
+      const stretch = 1.4 + r() * 1.2;
+      const rot = (r() - 0.5) * 1.2; // mostly horizontal
+      blob(cx0, cy0, rad, stretch, rot);
+      // a lobe or two off the side, so they are not ellipses
+      blob(cx0 + (r() - 0.5) * rad * 2.2, cy0 + (r() - 0.5) * rad, rad * 0.6, stretch, rot);
+    }
+  };
+  x.filter = "blur(1.5px)";
+  layer("#6d7442", 70, 50, 120); // light green
+  layer("#655539", 60, 45, 105); // brown
+  layer("#46512c", 60, 40, 95); // dark green
+  layer("#474a33", 45, 18, 45); // black, lifted so holes on it still read
+  x.filter = "none";
 
   // the grain of rolled steel: fine, horizontal, barely there
   for (let i = 0; i < 2200; i++) {
@@ -206,7 +250,7 @@ const TAG_HOLE = [0, TAG_H / 2 - 0.14];
 const TAG_HOLE_R = 0.05;
 const TAG_PX = 1000; // canvas px per world unit
 const TAG_Y = PY + 2.05; // centre of the tag at rest
-const TAG_Z = 0.24; // how far it hangs off the wall
+const TAG_Z = 0.11; // how far it hangs off the wall: close, so its shadow stays short of the number
 const TAG_FONT = '"Black Ops One", Impact, sans-serif';
 // The camera sits this far above the number's line, so the tag above the
 // number and LFG below it are centred in the frame as one block.
