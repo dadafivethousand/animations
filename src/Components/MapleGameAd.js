@@ -464,6 +464,8 @@ export default function MapleGameAd({
       upperArm: new THREE.CapsuleGeometry(0.057, 0.19, 6, 14),
       foreArm: new THREE.CapsuleGeometry(0.05, 0.19, 6, 14),
       hand: new THREE.SphereGeometry(0.045, 12, 10),
+      palm: new RoundedBoxGeometry(0.036, 0.085, 0.082, 2, 0.016),
+      finger: new THREE.CapsuleGeometry(0.0105, 0.026, 4, 8),
       joint: new THREE.SphereGeometry(1, 14, 10),
       eye: new THREE.SphereGeometry(0.012, 10, 8),
       brow: new RoundedBoxGeometry(0.035, 0.008, 0.012, 1, 0.003),
@@ -569,10 +571,22 @@ export default function MapleGameAd({
         const fa = new THREE.Mesh(geo.foreArm, gi ? mTop : mSkin);
         fa.position.y = -0.13;
         elbow.add(fa);
-        const hand = new THREE.Mesh(geo.hand, mSkin);
-        hand.position.y = -0.28;
-        hand.scale.set(0.9, 1.25, 0.75);
-        elbow.add(hand);
+        // A relaxed hand: palm toward the leg, four equal fingers curled in,
+        // the thumb along the front.
+        const palm = new THREE.Mesh(geo.palm, mSkin);
+        palm.position.set(0, -0.3, 0);
+        elbow.add(palm);
+        for (let f = 0; f < 4; f++) {
+          const fg = new THREE.Mesh(geo.finger, mSkin);
+          fg.position.set(-0.012 * side, -0.347, -0.027 + f * 0.018);
+          fg.rotation.z = -0.75 * side;
+          elbow.add(fg);
+        }
+        const thumb = new THREE.Mesh(geo.finger, mSkin);
+        thumb.position.set(-0.016 * side, -0.295, -0.046);
+        thumb.rotation.set(-0.25, 0, -0.35 * side);
+        thumb.scale.y = 1.2;
+        elbow.add(thumb);
         const hip = new THREE.Group();
         hip.position.set(0.095 * side, -0.04, 0);
         pelvis.add(hip);
