@@ -137,11 +137,11 @@ function steelCanvas() {
   c.height = SW;
   const x = c.getContext("2d");
   const r = mulberry32(4242);
-  x.fillStyle = "#5a6334"; // olive drab paint, light enough that the dark holes read
+  x.fillStyle = "#6d87ad"; // blue camo base, light enough that the dark holes read
   x.fillRect(0, 0, SW, SW);
 
-  // WOODLAND CAMO, painted on. Kept close in value to the olive so the
-  // dark holes and their bright lips still read on top of it: the pattern
+  // BLUE CAMO, painted on. All four tones sit close in value so the
+  // dark holes and their bright lips read on every patch: the pattern
   // is in the hue, not the contrast. Each layer is a scatter of wobbly,
   // stretched blobs, the way the pattern is printed.
   const blob = (cx0, cy0, rad, stretch, rot) => {
@@ -178,10 +178,10 @@ function steelCanvas() {
     }
   };
   x.filter = "blur(1.5px)";
-  layer("#6d7442", 70, 50, 120); // light green
-  layer("#655539", 60, 45, 105); // brown
-  layer("#46512c", 60, 40, 95); // dark green
-  layer("#474a33", 45, 18, 45); // black, lifted so holes on it still read
+  layer("#7f98bd", 70, 50, 120); // pale blue
+  layer("#5c78a3", 60, 45, 105); // mid blue
+  layer("#546f99", 60, 40, 95); // slate
+  layer("#4b6590", 45, 18, 45); // navy, lifted so holes on it still read
   x.filter = "none";
 
   // the grain of rolled steel: fine, horizontal, barely there
@@ -563,8 +563,8 @@ export default function MapleBulletAd() {
     mount.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color("#4a5129");
-    scene.fog = new THREE.FogExp2("#4a5129", 0.008);
+    scene.background = new THREE.Color("#5c6f8a");
+    scene.fog = new THREE.FogExp2("#5c6f8a", 0.008);
     const camera = new THREE.PerspectiveCamera(40, W / H, 0.05, 200);
 
     // ---- what the metal reflects ----
@@ -635,7 +635,7 @@ export default function MapleBulletAd() {
     steelTex.anisotropy = renderer.capabilities.getMaxAnisotropy();
     const wall = new THREE.Mesh(
       new THREE.PlaneGeometry(WALLW, WALLH),
-      new THREE.MeshStandardMaterial({ map: steelTex, roughness: 0.55, metalness: 0.3, color: "#e2e4da" })
+      new THREE.MeshStandardMaterial({ map: steelTex, roughness: 0.55, metalness: 0.3, color: "#e4e6e8" })
     );
     wall.position.set(0, PY, 0);
     wall.receiveShadow = true;
