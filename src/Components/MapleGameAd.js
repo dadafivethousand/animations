@@ -577,6 +577,17 @@ export default function MapleGameAd({
         back.rotation.x = -0.06;
         spine.add(back);
       }
+      if (!gi) {
+        // the tee hangs longer, over the waistband and the tops of the legs
+        const hem = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.172, 0.222, 0.28, 28, 1, true),
+          new THREE.MeshStandardMaterial({ color: top, roughness: 0.85, side: THREE.DoubleSide })
+        );
+        hem.scale.z = 0.74;
+        hem.position.y = -0.07;
+        hem.castShadow = true;
+        spine.add(hem);
+      }
       if (gi) {
         // the jacket hangs past the hips, and the belt ties over it
         const skirt = new THREE.Mesh(geo.skirt, new THREE.MeshStandardMaterial({ color: top, roughness: 0.9, side: THREE.DoubleSide }));
