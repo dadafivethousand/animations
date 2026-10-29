@@ -314,46 +314,8 @@ export default function MapleGameAd({
         // and the shop's name on the glass
         const zc = (z0 + z1) / 2;
         const gw = w - 1.0;
-        const interior = canvasTex(1024, 300, (g, cw, ch) => {
-          const lit = sign === "DENTIST" ? ["#eef6f8", "#cfe3ea"] : sign === "NAILS" ? ["#fbe9ef", "#f0c9d6"] : ["#d9d6cf", "#bdb8ae"];
-          const gr = g.createLinearGradient(0, 0, 0, ch);
-          gr.addColorStop(0, lit[0]);
-          gr.addColorStop(1, lit[1]);
-          g.fillStyle = gr;
-          g.fillRect(0, 0, cw, ch);
-          // ceiling lights
-          for (let x = 60; x < cw; x += 160) {
-            g.fillStyle = "rgba(255,255,255,0.95)";
-            g.fillRect(x, 14, 90, 10);
-          }
-          if (sign === "DENTIST") {
-            // reception desk, a chair under a lamp, a plant, a poster
-            g.fillStyle = "#ffffff"; g.fillRect(90, 180, 260, 120);
-            g.fillStyle = "#2aa1b8"; g.fillRect(90, 180, 260, 14);
-            g.fillStyle = "#5bb7c9"; g.beginPath(); g.ellipse(640, 230, 120, 34, -0.25, 0, Math.PI * 2); g.fill();
-            g.fillStyle = "#8a9aa3"; g.fillRect(630, 240, 18, 60);
-            g.strokeStyle = "#8a9aa3"; g.lineWidth = 8; g.beginPath(); g.moveTo(760, 120); g.lineTo(700, 70); g.lineTo(620, 90); g.stroke();
-            g.fillStyle = "#fffbe0"; g.beginPath(); g.arc(612, 96, 20, 0, Math.PI * 2); g.fill();
-            g.fillStyle = "#3f7a3a"; g.beginPath(); g.ellipse(930, 200, 40, 70, 0, 0, Math.PI * 2); g.fill();
-            g.fillStyle = "#ffffff"; g.fillRect(420, 70, 110, 140);
-            g.fillStyle = "#2aa1b8"; g.font = "900 70px Inter, Arial"; g.textAlign = "center"; g.fillText("🦷", 475, 170);
-          } else if (sign === "NAILS") {
-            // manicure tables with lamps, chairs, a polish wall
-            for (const x of [150, 470, 790]) {
-              g.fillStyle = "#ffffff"; g.fillRect(x - 90, 200, 180, 22);
-              g.fillStyle = "#d9b4c2"; g.fillRect(x - 80, 222, 12, 78); g.fillRect(x + 68, 222, 12, 78);
-              g.fillStyle = "#3b3b45"; g.beginPath(); g.ellipse(x - 30, 245, 34, 46, 0, 0, Math.PI * 2); g.fill();
-              g.strokeStyle = "#444"; g.lineWidth = 5; g.beginPath(); g.moveTo(x + 60, 200); g.lineTo(x + 60, 150); g.lineTo(x + 20, 140); g.stroke();
-            }
-            for (let i = 0; i < 40; i++) {
-              g.fillStyle = `hsl(${(i * 37) % 360}, 70%, 55%)`;
-              g.fillRect(40 + (i % 20) * 47, 70 + Math.floor(i / 20) * 34, 18, 24);
-            }
-          } else {
-            g.fillStyle = "rgba(0,0,0,0.12)"; g.fillRect(120, 160, 780, 140);
-          }
-        });
-        const back = new THREE.Mesh(new THREE.PlaneGeometry(gw, 2.8), M({ map: interior, emissive: "#ffffff", emissiveMap: interior, emissiveIntensity: sign ? 0.55 : 0.2, roughness: 0.9 }));
+        // an empty shell: a plain back wall, softly lit, nothing in the room
+        const back = new THREE.Mesh(new THREE.PlaneGeometry(gw, 2.8), M({ color: "#e4e0d8", emissive: "#fff6ea", emissiveIntensity: 0.12, roughness: 0.95 }));
         back.rotation.y = Math.PI / 2;
         back.position.set(FACADE_X - 1.6, 1.55, zc);
         plaza.add(back);
@@ -407,21 +369,6 @@ export default function MapleGameAd({
         const pull = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.7, 0.04), M({ color: "#c9ccd0", metalness: 0.9, roughness: 0.25 }));
         pull.position.set(FACADE_X + 0.1, 1.15, doorZ + (sign === "NAILS" ? -0.55 : 0.55));
         plaza.add(pull);
-        // name and hours on the door glass
-        if (sign) {
-          const decal = canvasTex(512, 256, (g, cw, ch) => {
-            g.fillStyle = "rgba(255,255,255,0.92)";
-            g.textAlign = "center";
-            g.font = "800 54px Inter, Arial";
-            g.fillText(sign === "DENTIST" ? "FAMILY DENTAL" : "NAIL SPA", cw / 2, 90);
-            g.font = "600 30px Inter, Arial";
-            g.fillText("OPEN 9 – 7", cw / 2, 150);
-          });
-          const d = new THREE.Mesh(new THREE.PlaneGeometry(1.1, 0.55), M({ map: decal, transparent: true, roughness: 0.4 }));
-          d.rotation.y = Math.PI / 2;
-          d.position.set(FACADE_X + 0.05, 1.75, doorZ);
-          plaza.add(d);
-        }
         const signTex = canvasTex(1024, 160, (g, cw, ch) => {
           if (!sign) return;
           // channel letters: a darker return under each lit face
@@ -520,17 +467,46 @@ export default function MapleGameAd({
     room.add(mats);
     const wallLogoTex = new THREE.TextureLoader().load(mapleBjjLogo);
     wallLogoTex.colorSpace = THREE.SRGBColorSpace;
-    const wallLogo = new THREE.Mesh(new THREE.PlaneGeometry(1.75, 1.75), M({ map: wallLogoTex, transparent: true, roughness: 0.6 }));
+    const wallLogo = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 1.5), M({ map: wallLogoTex, transparent: true, roughness: 0.6 }));
     wallLogo.rotation.y = Math.PI / 2;
-    wallLogo.position.set(FACADE_X - 9.9, 3.05, -11.75);
+    wallLogo.position.set(FACADE_X - 9.9, 3.05, -12.7);
+    // a Canada flag hung to the left of the Maple mark
+    const flagTex = canvasTex(1024, 512, (g, w, h) => {
+      g.fillStyle = "#d52b1e";
+      g.fillRect(0, 0, w, h);
+      g.fillStyle = "#ffffff";
+      g.fillRect(w / 4, 0, w / 2, h);
+      // the eleven-point leaf, on a 1-unit grid centred on the white square
+      const L = [
+        [0, -0.44], [0.07, -0.3], [0.15, -0.34], [0.12, -0.12], [0.24, -0.24], [0.27, -0.17], [0.38, -0.19],
+        [0.34, -0.07], [0.41, -0.04], [0.21, 0.12], [0.24, 0.2], [0.03, 0.17], [0.03, 0.4], [-0.03, 0.4],
+        [-0.03, 0.17], [-0.24, 0.2], [-0.21, 0.12], [-0.41, -0.04], [-0.34, -0.07], [-0.38, -0.19],
+        [-0.27, -0.17], [-0.24, -0.24], [-0.12, -0.12], [-0.15, -0.34], [-0.07, -0.3],
+      ];
+      g.fillStyle = "#d52b1e";
+      g.beginPath();
+      L.forEach(([x, y], k) => (k ? g.lineTo(w / 2 + x * h, h / 2 + y * h) : g.moveTo(w / 2 + x * h, h / 2 + y * h)));
+      g.closePath();
+      g.fill();
+    });
+    const flag = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 0.75, 24, 1), M({ map: flagTex, roughness: 0.85, side: THREE.DoubleSide }));
+    {
+      // a gentle hang in the fabric
+      const pos = flag.geometry.attributes.position;
+      for (let v = 0; v < pos.count; v++) pos.setZ(v, Math.sin(pos.getX(v) * 6) * 0.02);
+      flag.geometry.computeVertexNormals();
+    }
+    flag.rotation.y = Math.PI / 2;
+    flag.position.set(FACADE_X - 9.88, 3.05, -11.05);
+    room.add(flag);
     // the Jiu Jitsu For Life badge beside it; a disc, so the badge's own
     // square background never shows
     const jjflTex = new THREE.TextureLoader().load(jjflLogo);
     jjflTex.colorSpace = THREE.SRGBColorSpace;
     jjflTex.anisotropy = 8;
-    const jjfl = new THREE.Mesh(new THREE.CircleGeometry(0.76, 64), M({ map: jjflTex, roughness: 0.6 }));
+    const jjfl = new THREE.Mesh(new THREE.CircleGeometry(0.66, 64), M({ map: jjflTex, roughness: 0.6 }));
     jjfl.rotation.y = Math.PI / 2;
-    jjfl.position.set(FACADE_X - 9.9, 3.0, -14.15);
+    jjfl.position.set(FACADE_X - 9.9, 3.05, -14.32);
     room.add(jjfl);
     // a navy stripe along the wall at mat height, like a real academy
     const stripe = new THREE.Mesh(new THREE.PlaneGeometry(GZ0 - GZ1 - 0.3, 0.9), M({ color: "#13234b", roughness: 0.8 }));
