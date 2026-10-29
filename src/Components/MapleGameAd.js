@@ -372,7 +372,8 @@ export default function MapleGameAd({
     gymWin.rotation.y = Math.PI / 2;
     gymWin.position.set(FACADE_X + 0.03, 1.75, (GZ0 + GZ1) / 2);
     plaza.add(gymWin);
-    for (const z of [GZ0 - 0.3, DOOR_Z + 0.8, DOOR_Z - 0.8, GZ1 + 0.3]) {
+    // frameless glass past the door, so the back wall reads clean through it
+    for (const z of [GZ0 - 0.3, DOOR_Z + 0.8, GZ1 + 0.3]) {
       const mullion = new THREE.Mesh(new THREE.BoxGeometry(0.1, 3.2, 0.08), frameMat);
       mullion.position.set(FACADE_X + 0.05, 1.75, z);
       plaza.add(mullion);
@@ -411,9 +412,32 @@ export default function MapleGameAd({
     room.add(mats);
     const wallLogoTex = new THREE.TextureLoader().load(mapleBjjLogo);
     wallLogoTex.colorSpace = THREE.SRGBColorSpace;
-    const wallLogo = new THREE.Mesh(new THREE.PlaneGeometry(2.6, 2.6), M({ map: wallLogoTex, transparent: true, roughness: 0.6 }));
+    const wallLogo = new THREE.Mesh(new THREE.PlaneGeometry(1.75, 1.75), M({ map: wallLogoTex, transparent: true, roughness: 0.6 }));
     wallLogo.rotation.y = Math.PI / 2;
-    wallLogo.position.set(FACADE_X - 9.9, 2.7, (GZ0 + GZ1) / 2);
+    wallLogo.position.set(FACADE_X - 9.9, 3.05, -11.75);
+    // JIU-JITSU FOR LIFE, painted beside it
+    const jjflTex = canvasTex(1024, 768, (g, w, h) => {
+      g.fillStyle = "#13234b";
+      g.textAlign = "center";
+      g.textBaseline = "middle";
+      g.font = "900 190px Inter, Arial";
+      g.fillText("JIU-JITSU", w / 2, h * 0.3);
+      g.fillStyle = "#c8102e";
+      g.font = "900 120px Inter, Arial";
+      g.fillText("FOR", w / 2, h * 0.56);
+      g.fillStyle = "#13234b";
+      g.font = "900 220px Inter, Arial";
+      g.fillText("LIFE", w / 2, h * 0.8);
+    });
+    const jjfl = new THREE.Mesh(new THREE.PlaneGeometry(1.75, 1.31), M({ map: jjflTex, transparent: true, roughness: 0.7 }));
+    jjfl.rotation.y = Math.PI / 2;
+    jjfl.position.set(FACADE_X - 9.9, 3.05, -14.15);
+    room.add(jjfl);
+    // a navy stripe along the wall at mat height, like a real academy
+    const stripe = new THREE.Mesh(new THREE.PlaneGeometry(GZ0 - GZ1 - 0.3, 0.9), M({ color: "#13234b", roughness: 0.8 }));
+    stripe.rotation.y = Math.PI / 2;
+    stripe.position.set(FACADE_X - 9.92, 0.65, (GZ0 + GZ1) / 2);
+    room.add(stripe);
     room.add(wallLogo);
     // the room is inside the stucco box, so carve it: inner walls + ceiling lights
     const innerMat = M({ color: "#f5f3ef", roughness: 0.9, side: THREE.BackSide });
@@ -458,7 +482,7 @@ export default function MapleGameAd({
       giShin: new THREE.CylinderGeometry(0.094, 0.088, 0.4, 18, 1, true),
       ankle: new THREE.CapsuleGeometry(0.04, 0.05, 4, 10),
       tail: new RoundedBoxGeometry(0.045, 0.2, 0.012, 1, 0.004),
-      shortsLeg: new THREE.CylinderGeometry(0.118, 0.132, 0.36, 20, 1, true),
+      shortsLeg: new THREE.CylinderGeometry(0.1, 0.106, 0.34, 20, 1, true),
       foot: new RoundedBoxGeometry(0.088, 0.05, 0.235, 3, 0.022),
       joint: new THREE.SphereGeometry(1, 14, 10),
       eye: new THREE.SphereGeometry(0.012, 10, 8),
@@ -548,7 +572,7 @@ export default function MapleGameAd({
       pelvis.position.y = 0.95;
       root.add(pelvis);
       const hips = new THREE.Mesh(geo.hips, mShorts);
-      if (!gi) hips.scale.set(1.14, 1.05, 1.12); // loose shorts sit wide
+      if (!gi) hips.scale.set(1.0, 1.04, 1.04);
       pelvis.add(hips);
       const spine = new THREE.Group();
       spine.position.y = 0.07;
@@ -686,8 +710,8 @@ export default function MapleGameAd({
         const th = new THREE.Mesh(gi ? geo.giThigh : geo.thigh, gi ? mTop : mSkin);
         if (!gi) {
           const legShort = new THREE.Mesh(geo.shortsLeg, M({ color: shorts, roughness: 0.85, side: THREE.DoubleSide }));
-          legShort.position.set(0.012 * side, -0.15, 0.005);
-          legShort.rotation.z = -0.05 * side;
+          legShort.position.set(-0.006 * side, -0.16, 0);
+          legShort.rotation.z = -0.02 * side;
           hip.add(legShort);
         }
         th.position.y = -0.2;
