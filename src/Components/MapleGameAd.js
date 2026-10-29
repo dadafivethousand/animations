@@ -310,11 +310,118 @@ export default function MapleGameAd({
       band.castShadow = true;
       plaza.add(band);
       if (!isGym) {
-        // a shopfront: windows and a sign
-        const win = new THREE.Mesh(new THREE.PlaneGeometry(w - 1.2, 2.6), glassMat);
+        // a shopfront: a lit room behind glass, aluminium framing, a door,
+        // and the shop's name on the glass
+        const zc = (z0 + z1) / 2;
+        const gw = w - 1.0;
+        const interior = canvasTex(1024, 300, (g, cw, ch) => {
+          const lit = sign === "DENTIST" ? ["#eef6f8", "#cfe3ea"] : sign === "NAILS" ? ["#fbe9ef", "#f0c9d6"] : ["#d9d6cf", "#bdb8ae"];
+          const gr = g.createLinearGradient(0, 0, 0, ch);
+          gr.addColorStop(0, lit[0]);
+          gr.addColorStop(1, lit[1]);
+          g.fillStyle = gr;
+          g.fillRect(0, 0, cw, ch);
+          // ceiling lights
+          for (let x = 60; x < cw; x += 160) {
+            g.fillStyle = "rgba(255,255,255,0.95)";
+            g.fillRect(x, 14, 90, 10);
+          }
+          if (sign === "DENTIST") {
+            // reception desk, a chair under a lamp, a plant, a poster
+            g.fillStyle = "#ffffff"; g.fillRect(90, 180, 260, 120);
+            g.fillStyle = "#2aa1b8"; g.fillRect(90, 180, 260, 14);
+            g.fillStyle = "#5bb7c9"; g.beginPath(); g.ellipse(640, 230, 120, 34, -0.25, 0, Math.PI * 2); g.fill();
+            g.fillStyle = "#8a9aa3"; g.fillRect(630, 240, 18, 60);
+            g.strokeStyle = "#8a9aa3"; g.lineWidth = 8; g.beginPath(); g.moveTo(760, 120); g.lineTo(700, 70); g.lineTo(620, 90); g.stroke();
+            g.fillStyle = "#fffbe0"; g.beginPath(); g.arc(612, 96, 20, 0, Math.PI * 2); g.fill();
+            g.fillStyle = "#3f7a3a"; g.beginPath(); g.ellipse(930, 200, 40, 70, 0, 0, Math.PI * 2); g.fill();
+            g.fillStyle = "#ffffff"; g.fillRect(420, 70, 110, 140);
+            g.fillStyle = "#2aa1b8"; g.font = "900 70px Inter, Arial"; g.textAlign = "center"; g.fillText("🦷", 475, 170);
+          } else if (sign === "NAILS") {
+            // manicure tables with lamps, chairs, a polish wall
+            for (const x of [150, 470, 790]) {
+              g.fillStyle = "#ffffff"; g.fillRect(x - 90, 200, 180, 22);
+              g.fillStyle = "#d9b4c2"; g.fillRect(x - 80, 222, 12, 78); g.fillRect(x + 68, 222, 12, 78);
+              g.fillStyle = "#3b3b45"; g.beginPath(); g.ellipse(x - 30, 245, 34, 46, 0, 0, Math.PI * 2); g.fill();
+              g.strokeStyle = "#444"; g.lineWidth = 5; g.beginPath(); g.moveTo(x + 60, 200); g.lineTo(x + 60, 150); g.lineTo(x + 20, 140); g.stroke();
+            }
+            for (let i = 0; i < 40; i++) {
+              g.fillStyle = `hsl(${(i * 37) % 360}, 70%, 55%)`;
+              g.fillRect(40 + (i % 20) * 47, 70 + Math.floor(i / 20) * 34, 18, 24);
+            }
+          } else {
+            g.fillStyle = "rgba(0,0,0,0.12)"; g.fillRect(120, 160, 780, 140);
+          }
+        });
+        const back = new THREE.Mesh(new THREE.PlaneGeometry(gw, 2.8), M({ map: interior, emissive: "#ffffff", emissiveMap: interior, emissiveIntensity: sign ? 0.55 : 0.2, roughness: 0.9 }));
+        back.rotation.y = Math.PI / 2;
+        back.position.set(FACADE_X - 1.6, 1.55, zc);
+        plaza.add(back);
+        // the reveal walls and ceiling, so the glass has a room behind it
+        const reveal = M({ color: "#d8d4cc", roughness: 0.9, side: THREE.DoubleSide });
+        for (const zz of [zc + gw / 2, zc - gw / 2]) {
+          const side = new THREE.Mesh(new THREE.BoxGeometry(1.6, 3.0, 0.02), reveal);
+          side.position.set(FACADE_X - 0.8, 1.6, zz);
+          plaza.add(side);
+        }
+        const ceil = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.02, gw), reveal);
+        ceil.position.set(FACADE_X - 0.8, 3.06, zc);
+        plaza.add(ceil);
+        const floorIn = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.02, gw), M({ color: "#cfc8bd", roughness: 0.6 }));
+        floorIn.position.set(FACADE_X - 0.8, 0.17, zc);
+        plaza.add(floorIn);
+        // cut the stucco box back where the shop's glass is
+        body.material = [noFace, sm, sm, sm, sm, sm];
+        const upper = new THREE.Mesh(new THREE.PlaneGeometry(w, 2.2), sm);
+        upper.rotation.y = Math.PI / 2;
+        upper.position.set(FACADE_X, 4.1, zc);
+        plaza.add(upper);
+        for (const [zz, ww] of [[z0 - 0.25, 0.5], [z1 + 0.25, 0.5]]) {
+          const pier = new THREE.Mesh(new THREE.PlaneGeometry(ww, 3.0), sm);
+          pier.rotation.y = Math.PI / 2;
+          pier.position.set(FACADE_X, 1.5, zz);
+          plaza.add(pier);
+        }
+        // glass and frames
+        const win = new THREE.Mesh(new THREE.PlaneGeometry(gw, 2.9), glassMat);
         win.rotation.y = Math.PI / 2;
-        win.position.set(FACADE_X + 0.02, 1.65, (z0 + z1) / 2);
+        win.position.set(FACADE_X + 0.02, 1.6, zc);
         plaza.add(win);
+        const doorZ = sign === "NAILS" ? z0 - 1.6 : z1 + 1.6;
+        const mz = [zc + gw / 2, zc - gw / 2, doorZ + 0.75, doorZ - 0.75];
+        for (let k = 1; k < 4; k++) mz.push(lerp(zc + gw / 2, zc - gw / 2, k / 4));
+        for (const z of mz) {
+          if (Math.abs(z - doorZ) < 0.7) continue;
+          const m = new THREE.Mesh(new THREE.BoxGeometry(0.08, 2.95, 0.07), frameMat);
+          m.position.set(FACADE_X + 0.04, 1.6, z);
+          plaza.add(m);
+        }
+        for (const y of [0.2, 3.05]) {
+          const rail = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.08, gw), frameMat);
+          rail.position.set(FACADE_X + 0.04, y, zc);
+          plaza.add(rail);
+        }
+        const transom = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.07, 1.5), frameMat);
+        transom.position.set(FACADE_X + 0.04, 2.45, doorZ);
+        plaza.add(transom);
+        const pull = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.7, 0.04), M({ color: "#c9ccd0", metalness: 0.9, roughness: 0.25 }));
+        pull.position.set(FACADE_X + 0.1, 1.15, doorZ + (sign === "NAILS" ? -0.55 : 0.55));
+        plaza.add(pull);
+        // name and hours on the door glass
+        if (sign) {
+          const decal = canvasTex(512, 256, (g, cw, ch) => {
+            g.fillStyle = "rgba(255,255,255,0.92)";
+            g.textAlign = "center";
+            g.font = "800 54px Inter, Arial";
+            g.fillText(sign === "DENTIST" ? "FAMILY DENTAL" : "NAIL SPA", cw / 2, 90);
+            g.font = "600 30px Inter, Arial";
+            g.fillText("OPEN 9 – 7", cw / 2, 150);
+          });
+          const d = new THREE.Mesh(new THREE.PlaneGeometry(1.1, 0.55), M({ map: decal, transparent: true, roughness: 0.4 }));
+          d.rotation.y = Math.PI / 2;
+          d.position.set(FACADE_X + 0.05, 1.75, doorZ);
+          plaza.add(d);
+        }
         const signTex = canvasTex(1024, 160, (g, cw, ch) => {
           if (!sign) return;
           // channel letters: a darker return under each lit face
@@ -499,6 +606,11 @@ export default function MapleGameAd({
         const back = new THREE.Mesh(new THREE.PlaneGeometry(0.24, 0.245), M({ map: logoTex, transparent: true, roughness: 0.8, polygonOffset: true, polygonOffsetFactor: -2 }));
         back.position.set(0, 0.36, 0.118);
         spine.add(back);
+        // and a small one on the left chest
+        const front = new THREE.Mesh(new THREE.PlaneGeometry(0.1, 0.102), M({ map: logoTex, transparent: true, roughness: 0.8, polygonOffset: true, polygonOffsetFactor: -2 }));
+        front.position.set(-0.075, 0.41, -0.121);
+        front.rotation.y = Math.PI;
+        spine.add(front);
       }
       if (gi) {
         // the jacket hangs past the hips, and the belt ties over it
@@ -1133,7 +1245,9 @@ export default function MapleGameAd({
       if (R.money) R.money.textContent = "$" + Math.round(84672150 + 25000 * pay).toLocaleString("en-US");
       fx("plus", ss(T_PICK, T_PICK + 150, t) * (1 - ss(T_PICK + 1100, T_PICK + 1400, t)), -ss(T_PICK, T_PICK + 1400, t) * 12);
       // one wanted star, flashing
-      if (R.star0) R.star0.style.fill = Math.floor(t / 320) % 2 ? "rgba(255,255,255,0.16)" : "#ffffff";
+      // three of five wanted stars, flashing
+      const starOn = Math.floor(t / 320) % 2 === 0;
+      for (let i = 0; i < 3; i++) if (R["star" + i]) R["star" + i].style.fill = starOn ? "#ffffff" : "rgba(255,255,255,0.16)";
       const cut = t >= T_INSIDE - 250 && t < T_INSIDE + 250 ? 1 - Math.abs(t - T_INSIDE) / 250 : 0;
       if (R.fade) R.fade.style.opacity = Math.max(cut, ss(END_MS - 450, END_MS, t)).toFixed(3);
       fx("band", ss(T_PASSED, T_PASSED + 200, t) * (1 - ss(T_END - 300, T_END, t)));
@@ -1232,7 +1346,7 @@ export default function MapleGameAd({
         <div className="gg-stars">
           {[0, 1, 2, 3, 4].map((i) => (
             <svg key={i} viewBox="0 0 24 24" aria-hidden>
-              <path ref={i === 0 ? ref("star0") : undefined} d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 20.9l1.6-7L2 9.2l7.1-.6z" />
+              <path ref={i < 3 ? ref("star" + i) : undefined} d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 20.9l1.6-7L2 9.2l7.1-.6z" />
             </svg>
           ))}
         </div>
