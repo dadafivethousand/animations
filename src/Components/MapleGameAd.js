@@ -21,6 +21,7 @@ import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 import "../Stylesheets/MapleGameAd.css";
 import mapleLogo from "../Images/maple-logo.png";
 import mapleBjjLogo from "../Images/maple-bjj-logo.png";
+import soundtrack from "../Sounds/maple-game.m4a";
 
 const clamp01 = (x) => Math.min(1, Math.max(0, x));
 const ss = (a, b, x) => {
@@ -130,6 +131,7 @@ export default function MapleGameAd({
   objective = ["Go to ", "Maple Jiu-Jitsu", "."],
   textFrom = "Coach",
   textBody = "Class starts in 5. Don't be late 🥋",
+  coachPhoto = null,
   address = "20 CRANSTON PARK AVE",
   site = "maplebjj.com",
 }) {
@@ -447,7 +449,16 @@ export default function MapleGameAd({
       upperArm: new THREE.CapsuleGeometry(0.057, 0.19, 6, 14),
       foreArm: new THREE.CapsuleGeometry(0.05, 0.19, 6, 14),
       hand: new THREE.SphereGeometry(0.045, 12, 10),
-      finger: new THREE.CapsuleGeometry(0.0115, 0.055, 4, 8),
+      finger: new THREE.CapsuleGeometry(0.0105, 0.026, 4, 8),
+      palm: new RoundedBoxGeometry(0.036, 0.085, 0.082, 2, 0.016),
+      giSleeveU: new THREE.CylinderGeometry(0.066, 0.072, 0.3, 18, 1, true),
+      giSleeveF: new THREE.CylinderGeometry(0.07, 0.064, 0.25, 18, 1, true),
+      cuff: new THREE.TorusGeometry(0.066, 0.008, 6, 20),
+      wrist: new THREE.CapsuleGeometry(0.036, 0.04, 4, 10),
+      giThigh: new THREE.CylinderGeometry(0.104, 0.098, 0.46, 18),
+      giShin: new THREE.CylinderGeometry(0.094, 0.088, 0.4, 18, 1, true),
+      ankle: new THREE.CapsuleGeometry(0.04, 0.05, 4, 10),
+      tail: new RoundedBoxGeometry(0.045, 0.2, 0.012, 1, 0.004),
       joint: new THREE.SphereGeometry(1, 14, 10),
       eye: new THREE.SphereGeometry(0.012, 10, 8),
       brow: new RoundedBoxGeometry(0.035, 0.008, 0.012, 1, 0.003),
@@ -460,10 +471,76 @@ export default function MapleGameAd({
       bag: new RoundedBoxGeometry(0.5, 0.26, 0.26, 4, 0.09),
       strap: new THREE.TorusGeometry(0.27, 0.012, 6, 32, Math.PI * 1.1),
     };
+    const weaveTex = canvasTex(256, 256, (g, w, h) => {
+      g.fillStyle = "#ffffff";
+      g.fillRect(0, 0, w, h);
+      for (let y = 0; y < h; y += 2) {
+        g.fillStyle = `rgba(0,0,0,${y % 4 ? 0.035 : 0.06})`;
+        g.fillRect(0, y, w, 1);
+      }
+      for (let x = 0; x < w; x += 3) {
+        g.fillStyle = "rgba(0,0,0,0.025)";
+        g.fillRect(x, 0, 1, h);
+      }
+      // soft creases
+      for (let i = 0; i < 14; i++) {
+        const gr = g.createLinearGradient(0, 0, w, 0);
+        const x = rnd() * w;
+        g.strokeStyle = `rgba(0,0,0,${0.04 + rnd() * 0.05})`;
+        g.lineWidth = 2 + rnd() * 5;
+        g.beginPath();
+        g.moveTo(x, rnd() * h);
+        g.quadraticCurveTo(x + (rnd() - 0.5) * 60, rnd() * h, x + (rnd() - 0.5) * 40, rnd() * h);
+        g.stroke();
+        void gr;
+      }
+    }, { repeat: [3, 3] });
+    // The jacket, on the torso's lathe UVs: u runs round the body with the
+    // front at 0.5, v climbs the profile. Lapels cross left over right from
+    // the shoulders to the belt, and a thick collar runs round the neck.
+    const jacketTex = canvasTex(1024, 1024, (g, w, h) => {
+      g.fillStyle = "#ffffff";
+      g.fillRect(0, 0, w, h);
+      for (let y = 0; y < h; y += 3) {
+        g.fillStyle = `rgba(0,0,0,${y % 6 ? 0.03 : 0.05})`;
+        g.fillRect(0, y, w, 1);
+      }
+      const P = (u, v) => [u * w, (1 - v) * h];
+      const band = (u0, v0, u1, v1, wd) => {
+        const [x0, y0] = P(u0, v0);
+        const [x1, y1] = P(u1, v1);
+        g.lineCap = "round";
+        g.strokeStyle = "rgba(0,0,0,0.22)";
+        g.lineWidth = wd + 10;
+        g.beginPath();
+        g.moveTo(x0, y0);
+        g.lineTo(x1, y1);
+        g.stroke();
+        g.strokeStyle = "#f7f6f1";
+        g.lineWidth = wd;
+        g.stroke();
+        g.strokeStyle = "rgba(0,0,0,0.12)";
+        g.lineWidth = 3;
+        g.stroke();
+      };
+      band(0.6, 0.78, 0.46, 0.2, 70); // under
+      band(0.4, 0.78, 0.55, 0.16, 70); // over
+      // collar, all the way round
+      g.fillStyle = "rgba(0,0,0,0.18)";
+      g.fillRect(0, P(0, 0.9)[1] - 6, w, 70);
+      g.fillStyle = "#f7f6f1";
+      g.fillRect(0, P(0, 0.9)[1], w, 58);
+      // the jacket's side seams
+      g.fillStyle = "rgba(0,0,0,0.08)";
+      g.fillRect(0.25 * w - 2, 0, 4, h * 0.85);
+      g.fillRect(0.75 * w - 2, 0, 4, h * 0.85);
+    });
+
     function person({ skin, hair, top, shorts, shoes, logoBack = false, backTex = null, gi = false, bag = false, belt = "#f2f2ee", slides = null }) {
       const mat = (c, r = 0.7) => M({ color: c, roughness: r });
       const mSkin = mat(skin, 0.55);
-      const mTop = mat(top, 0.85);
+      const mTop = gi ? M({ color: top, map: weaveTex, roughness: 0.95, side: THREE.DoubleSide }) : mat(top, 0.85);
+      const mJacket = gi ? M({ color: top, map: jacketTex, roughness: 0.95 }) : mTop;
       const mShorts = mat(shorts, 0.8);
       const root = new THREE.Group();
       const pelvis = new THREE.Group();
@@ -474,7 +551,7 @@ export default function MapleGameAd({
       const spine = new THREE.Group();
       spine.position.y = 0.07;
       pelvis.add(spine);
-      const torso = new THREE.Mesh(geo.torso, mTop);
+      const torso = new THREE.Mesh(geo.torso, mJacket);
       spine.add(torso);
       if (logoBack) {
         // the Maple mark across his back, where the camera sits
@@ -497,8 +574,15 @@ export default function MapleGameAd({
         b.position.y = 0.06;
         spine.add(b);
         const kn = new THREE.Mesh(geo.knot, bm);
-        kn.position.set(0, -0.01, -0.12);
+        kn.scale.set(1, 0.45, 1);
+        kn.position.set(0, 0.05, -0.12);
         spine.add(kn);
+        for (const tx of [-1, 1]) {
+          const tl = new THREE.Mesh(geo.tail, bm);
+          tl.position.set(0.03 * tx, -0.06, -0.122);
+          tl.rotation.z = 0.12 * tx;
+          spine.add(tl);
+        }
       }
       const neck = new THREE.Mesh(geo.neck, mSkin);
       neck.position.y = 0.6;
@@ -537,46 +621,66 @@ export default function MapleGameAd({
         const sh = new THREE.Group();
         sh.position.set(0.205 * side, 0.47, 0);
         spine.add(sh);
-        sh.add(new THREE.Mesh(geo.shoulder, mTop));
+        const shm = new THREE.Mesh(geo.shoulder, mTop);
+        if (gi) shm.scale.setScalar(0.88);
+        sh.add(shm);
         const upper = new THREE.Group();
         sh.add(upper);
-        const sleeve = new THREE.Mesh(geo.sleeve, mTop);
-        sleeve.position.y = -0.08;
-        upper.add(sleeve);
-        const ua = new THREE.Mesh(geo.upperArm, gi ? mTop : mSkin);
-        ua.position.y = -0.15;
-        upper.add(ua);
+        if (gi) {
+          const su = new THREE.Mesh(geo.giSleeveU, mTop);
+          su.position.y = -0.14;
+          upper.add(su);
+        } else {
+          const sleeve = new THREE.Mesh(geo.sleeve, mTop);
+          sleeve.position.y = -0.08;
+          upper.add(sleeve);
+          const ua = new THREE.Mesh(geo.upperArm, mSkin);
+          ua.position.y = -0.15;
+          upper.add(ua);
+        }
         const elbow = new THREE.Group();
         elbow.position.y = -0.29;
         upper.add(elbow);
         const ej = new THREE.Mesh(geo.joint, gi ? mTop : mSkin);
         ej.scale.setScalar(0.054);
         elbow.add(ej);
-        const fa = new THREE.Mesh(geo.foreArm, gi ? mTop : mSkin);
-        fa.position.y = -0.13;
-        elbow.add(fa);
-        // a hand: the palm faces his leg, four fingers and a thumb
-        const hand = new THREE.Mesh(geo.hand, mSkin);
-        hand.position.y = -0.305;
-        hand.scale.set(0.72, 1.12, 1.12);
+        if (gi) {
+          const sf = new THREE.Mesh(geo.giSleeveF, mTop);
+          sf.position.y = -0.12;
+          elbow.add(sf);
+          const cf = new THREE.Mesh(geo.cuff, mTop);
+          cf.rotation.x = Math.PI / 2;
+          cf.position.y = -0.245;
+          elbow.add(cf);
+          const wr = new THREE.Mesh(geo.wrist, mSkin);
+          wr.position.y = -0.25;
+          elbow.add(wr);
+        } else {
+          const fa = new THREE.Mesh(geo.foreArm, mSkin);
+          fa.position.y = -0.13;
+          elbow.add(fa);
+        }
+        // A relaxed hand: the palm faces his leg, the four fingers the same
+        // length and curled in toward it, the thumb along the front. Long
+        // straight fingers hanging down read as a gesture, not a hand.
+        const palm = new THREE.Mesh(geo.palm, mSkin);
+        palm.position.set(0, -0.315, 0);
+        elbow.add(palm);
         for (let f = 0; f < 4; f++) {
           const fg = new THREE.Mesh(geo.finger, mSkin);
-          fg.position.set(0.004 * side, -0.382 - (f === 0 || f === 3 ? -0.008 : 0), -0.028 + f * 0.0185);
-          fg.rotation.x = 0.12 - f * 0.04;
-          fg.rotation.z = -0.1 * side;
-          fg.scale.y = f === 3 ? 0.78 : f === 1 ? 1.08 : 1;
+          fg.position.set(-0.012 * side, -0.362, -0.027 + f * 0.018);
+          fg.rotation.z = -0.75 * side;
           elbow.add(fg);
         }
         const thumb = new THREE.Mesh(geo.finger, mSkin);
-        thumb.position.set(-0.012 * side, -0.33, -0.045);
-        thumb.rotation.set(-0.5, 0, 0.35 * side);
-        thumb.scale.y = 0.85;
+        thumb.position.set(-0.016 * side, -0.31, -0.046);
+        thumb.rotation.set(-0.25, 0, -0.35 * side);
+        thumb.scale.y = 1.2;
         elbow.add(thumb);
-        elbow.add(hand);
         const hip = new THREE.Group();
         hip.position.set(0.095 * side, -0.04, 0);
         pelvis.add(hip);
-        const th = new THREE.Mesh(geo.thigh, mShorts);
+        const th = new THREE.Mesh(gi ? geo.giThigh : geo.thigh, gi ? mTop : mShorts);
         th.position.y = -0.2;
         hip.add(th);
         const knee = new THREE.Group();
@@ -585,9 +689,14 @@ export default function MapleGameAd({
         const kj = new THREE.Mesh(geo.joint, gi ? mShorts : mSkin);
         kj.scale.setScalar(0.072);
         knee.add(kj);
-        const sn = new THREE.Mesh(geo.shin, gi ? mShorts : mSkin);
-        sn.position.y = -0.22;
+        const sn = new THREE.Mesh(gi ? geo.giShin : geo.shin, gi ? mTop : mSkin);
+        sn.position.y = gi ? -0.2 : -0.22;
         knee.add(sn);
+        if (gi) {
+          const an = new THREE.Mesh(geo.ankle, mSkin);
+          an.position.y = -0.42;
+          knee.add(an);
+        }
         const ankle = new THREE.Group();
         ankle.position.y = -0.45;
         knee.add(ankle);
@@ -1143,9 +1252,28 @@ export default function MapleGameAd({
         window.__ready = true;
         return;
       }
-      const t0 = performance.now();
+      let t0 = performance.now();
+      const audio = new Audio(soundtrack);
+      let withSound = false;
+      let lastLoop = -1;
+      if (R.soundbtn) {
+        R.soundbtn.style.display = "block";
+        R.soundbtn.onclick = () => {
+          withSound = true;
+          R.soundbtn.style.display = "none";
+          t0 = performance.now(); // start from the top, in step with the track
+          lastLoop = -1;
+        };
+      }
       const loop = (now) => {
-        renderAt((now - t0) % END_MS);
+        const el = now - t0;
+        const n = Math.floor(el / END_MS);
+        if (withSound && n !== lastLoop) {
+          lastLoop = n;
+          audio.currentTime = 0;
+          audio.play().catch(() => {});
+        }
+        renderAt(el % END_MS);
         raf = requestAnimationFrame(loop);
       };
       raf = requestAnimationFrame(loop);
@@ -1176,10 +1304,16 @@ export default function MapleGameAd({
       </div>
 
       <div className="gg-phone" ref={ref("phone")}>
-        <div className="gg-phone-app">MESSAGES · now</div>
-        <div className="gg-phone-from">{textFrom}</div>
-        <div className="gg-phone-body">{textBody}</div>
+        <div className="gg-phone-av"><img src={coachPhoto || mapleLogo} alt="" /></div>
+        <div className="gg-phone-text">
+          <div className="gg-phone-app">MESSAGES · now</div>
+          <div className="gg-phone-from">{textFrom}</div>
+          <div className="gg-phone-body">{textBody}</div>
+        </div>
       </div>
+
+      {/* the page itself is silent until tapped: browsers do not autoplay sound */}
+      <button className="gg-sound" ref={ref("soundbtn")} type="button">🔊 TAP FOR SOUND</button>
 
       <div className="gg-tr" ref={ref("cash")}>
         <svg className="gg-fist" viewBox="0 0 64 64" aria-hidden>
