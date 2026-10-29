@@ -461,8 +461,8 @@ export default function MapleGameAd({
       skirt: new THREE.CylinderGeometry(0.19, 0.22, 0.3, 24, 1, true),
       belt: new THREE.TorusGeometry(0.17, 0.02, 8, 32),
       knot: new RoundedBoxGeometry(0.07, 0.16, 0.03, 2, 0.01),
-      upperArm: new THREE.CapsuleGeometry(0.057, 0.19, 6, 14),
-      foreArm: new THREE.CapsuleGeometry(0.05, 0.19, 6, 14),
+      upperArm: new THREE.CapsuleGeometry(0.054, 0.22, 6, 14),
+      foreArm: new THREE.CapsuleGeometry(0.05, 0.22, 6, 14),
       hand: new THREE.SphereGeometry(0.045, 12, 10),
       finger: new THREE.CapsuleGeometry(0.0105, 0.026, 4, 8),
       palm: new RoundedBoxGeometry(0.036, 0.085, 0.082, 2, 0.016),
@@ -658,7 +658,7 @@ export default function MapleGameAd({
         elbow.position.y = -0.29;
         upper.add(elbow);
         const ej = new THREE.Mesh(geo.joint, gi ? mTop : mSkin);
-        ej.scale.setScalar(0.054);
+        ej.scale.setScalar(0.051);
         elbow.add(ej);
         if (gi) {
           const sf = new THREE.Mesh(geo.giSleeveF, mTop);
@@ -697,31 +697,28 @@ export default function MapleGameAd({
         hip.position.set(0.095 * side, -0.04, 0);
         pelvis.add(hip);
         // long trousers: joggers on him, gi pants on the students
-        const th = new THREE.Mesh(gi ? geo.giThigh : geo.thigh, gi ? mTop : mShorts);
+        // Loose, straight trousers on everyone: a wide thigh and a wide open
+        // lower leg that overlaps it at the knee, so no joint ever shows.
+        const mPants = gi ? mTop : M({ color: shorts, roughness: 0.88, side: THREE.DoubleSide });
+        const th = new THREE.Mesh(geo.giThigh, mPants);
         th.position.y = -0.2;
         hip.add(th);
         const knee = new THREE.Group();
         knee.position.y = -0.43;
         hip.add(knee);
-        const kj = new THREE.Mesh(geo.joint, mShorts);
+        const kj = new THREE.Mesh(geo.joint, mPants);
         kj.scale.setScalar(0.072);
         knee.add(kj);
-        const sn = new THREE.Mesh(gi ? geo.giShin : geo.shin, gi ? mTop : mShorts);
-        sn.position.y = gi ? -0.2 : -0.22;
+        const sn = new THREE.Mesh(geo.giShin, mPants);
+        sn.position.y = -0.2;
         knee.add(sn);
-        if (gi) {
-          const an = new THREE.Mesh(geo.ankle, mSkin);
-          an.position.y = -0.42;
-          knee.add(an);
-        } else {
-          // the jogger's ribbed cuff, and a bit of ankle under it
-          const cf = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.058, 0.05, 16), mShorts);
-          cf.position.y = -0.4;
-          knee.add(cf);
-          const an = new THREE.Mesh(geo.ankle, mSkin);
-          an.position.y = -0.44;
-          an.scale.set(0.95, 0.6, 0.95);
-          knee.add(an);
+        const an = new THREE.Mesh(geo.ankle, mSkin);
+        an.position.y = -0.42;
+        knee.add(an);
+        if (!gi) {
+          // the hem sits a little lower and fuller on trousers
+          sn.scale.set(1.04, 1.06, 1.04);
+          sn.position.y = -0.215;
         }
         const ankle = new THREE.Group();
         ankle.position.y = -0.45;
