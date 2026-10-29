@@ -18,6 +18,8 @@ import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
+import { GTAOPass } from "three/examples/jsm/postprocessing/GTAOPass.js";
+import { makeHuman, poseHuman } from "./MapleGameHuman";
 import "../Stylesheets/MapleGameAd.css";
 import mapleLogo from "../Images/maple-logo.png";
 import mapleBjjLogo from "../Images/maple-bjj-logo.png";
@@ -40,8 +42,10 @@ function mulberry32(a) {
 }
 
 // ---------------- timeline (ms) ----------------
-const T_GAME = 3000; // drone lands behind the player, HUD up
-const T_WALK = 3200;
+const T_BADGE = 350; // the publisher badge, on black
+const T_DRONE = 1500; // the drone shot and the game's title card
+const T_GAME = 3700; // drone lands behind the player, HUD up
+const T_WALK = 3900;
 const SPEED = 1.9; // m/s
 // (the inside cut, mission passed and end card follow the arrival; see below)
 
@@ -221,17 +225,23 @@ export default function MapleGameAd({
       noise(g, w, h, 8000, 0.06, rnd);
     }, { repeat: [6, 2] });
 
-    // ---- ground: road, curb, sidewalk ----
-    const road = new THREE.Mesh(new THREE.PlaneGeometry(14, 240), M({ map: asphalt, roughness: 0.95 }));
-    road.rotation.x = -Math.PI / 2;
-    road.position.set(10, 0, -40);
-    road.receiveShadow = true;
-    scene.add(road);
-    for (const z of Array.from({ length: 40 }, (_, i) => 40 - i * 6)) {
-      const dash = new THREE.Mesh(new THREE.PlaneGeometry(0.15, 3), M({ color: "#efe7c8", roughness: 0.8 }));
-      dash.rotation.x = -Math.PI / 2;
-      dash.position.set(10, 0.005, z);
-      scene.add(dash);
+    // ---- ground: the plaza's parking lot ----
+    // Strip plazas front onto their own lot, not the street: painted stalls,
+    // cars nose-in to the walk, light poles down the drive aisle.
+    const lot = new THREE.Mesh(new THREE.PlaneGeometry(40, 240), M({ map: asphalt, roughness: 0.93 }));
+    lot.rotation.x = -Math.PI / 2;
+    lot.position.set(23, 0, -40);
+    lot.receiveShadow = true;
+    scene.add(lot);
+    const paint = M({ color: "#efece2", roughness: 0.8 });
+    for (let i = 0; i < 44; i++) {
+      const z = 14 - i * 2.75;
+      for (const x0 of [3.5, 15.3]) {
+        const line = new THREE.Mesh(new THREE.PlaneGeometry(5.4, 0.11), paint);
+        line.rotation.x = -Math.PI / 2;
+        line.position.set(x0 + 2.7, 0.004, z);
+        scene.add(line);
+      }
     }
     const walk = new THREE.Mesh(new THREE.BoxGeometry(6.2, 0.16, 240), M({ map: concrete, roughness: 0.9 }));
     walk.position.set(0, 0.08, -40);
@@ -241,26 +251,46 @@ export default function MapleGameAd({
     curb.position.set(3.1, 0.09, -40);
     curb.castShadow = true;
     scene.add(curb);
-    const across = new THREE.Mesh(new THREE.PlaneGeometry(40, 240), M({ map: concrete, roughness: 0.9 }));
-    across.rotation.x = -Math.PI / 2;
-    across.position.set(37, 0.01, -40);
-    across.receiveShadow = true;
-    scene.add(across);
+    // light poles down the drive aisle
+    const poleMat = M({ color: "#3a3d40", metalness: 0.6, roughness: 0.45 });
+    for (let i = 0; i < 6; i++) {
+      const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.11, 8, 12), poleMat);
+      pole.position.set(12.6, 4, 10 - i * 22);
+      pole.castShadow = true;
+      scene.add(pole);
+      const head = new THREE.Mesh(new RoundedBoxGeometry(0.5, 0.18, 1.1, 2, 0.05), poleMat);
+      head.position.set(12.6, 8, 10 - i * 22 + 0.4);
+      head.castShadow = true;
+      scene.add(head);
+    }
+    // a few bollards and a bin on the walk
+    for (const z of [3.6, -5.2, -16.8]) {
+      const bol = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 0.9, 16), M({ color: "#f2c037", roughness: 0.5 }));
+      bol.position.set(2.75, 0.61, z);
+      bol.castShadow = true;
+      scene.add(bol);
+    }
+    const bin = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.25, 0.95, 20), M({ color: "#2d4a3a", roughness: 0.6 }));
+    bin.position.set(2.5, 0.64, 1.4);
+    bin.castShadow = true;
+    scene.add(bin);
 
     // ---- the strip plaza ----
     const plaza = new THREE.Group();
     scene.add(plaza);
     const glassMat = new THREE.MeshPhysicalMaterial({ color: "#1d2a33", roughness: 0.05, metalness: 0.1, transparent: true, opacity: 0.42, envMapIntensity: 1.6 });
     const frameMat = M({ color: "#2b2d30", metalness: 0.7, roughness: 0.35 });
+    // Neighbours in their real order: the dentist next door on this side,
+    // the nail salon on the far side.
     const units = [
-      // z0, z1, colour, sign
-      [12, 4, "#f4d6c4", "LAUNDRY"],
-      [4, -6.8, "#cfe9e0", "TACOS"],
-      [-15.2, -25, "#f3e2b8", "NAILS"],
-      [-25, -35, "#d8e2f3", "PHARMACY"],
+      // z0, z1, colour, sign, sign colour
+      [16, 4, "#efe6d8", "", "#000"],
+      [4, -6.8, "#e6eef2", "DENTIST", "#1f6fd1"],
+      [-15.2, -25, "#f3e3dc", "NAILS", "#d6336c"],
+      [-25, -37, "#ebe4d4", "", "#000"],
     ];
     const noFace = new THREE.MeshBasicMaterial({ visible: false });
-    function unit(z0, z1, col, sign, isGym) {
+    function unit(z0, z1, col, sign, isGym, signCol = "#e23b3b") {
       const w = z0 - z1;
       const sm = M({ map: stucco(col), roughness: 0.92 });
       // box faces: +x is the shopfront; the gym leaves it open behind its glass
@@ -281,7 +311,14 @@ export default function MapleGameAd({
         win.position.set(FACADE_X + 0.02, 1.65, (z0 + z1) / 2);
         plaza.add(win);
         const signTex = canvasTex(1024, 160, (g, cw, ch) => {
-          g.fillStyle = "#e23b3b";
+          if (!sign) return;
+          // channel letters: a darker return under each lit face
+          g.font = "900 110px Inter, Arial";
+          g.textAlign = "center";
+          g.textBaseline = "middle";
+          g.fillStyle = "rgba(0,0,0,0.35)";
+          g.fillText(sign, cw / 2 + 4, ch / 2 + 10);
+          g.fillStyle = signCol;
           g.font = "900 110px Inter, Arial";
           g.textAlign = "center";
           g.textBaseline = "middle";
@@ -298,7 +335,7 @@ export default function MapleGameAd({
       can.castShadow = true;
       plaza.add(can);
     }
-    for (const [z0, z1, c, s] of units) unit(z0, z1, c, s, false);
+    for (const [z0, z1, c, s, sc] of units) unit(z0, z1, c, s, false, sc);
 
     // ---- the gym ----
     const GZ0 = -6.8;
@@ -386,224 +423,26 @@ export default function MapleGameAd({
     roomLight2.position.x = FACADE_X - 1.8;
     room.add(roomLight2);
 
-    // ---- a person, built from parts (the player and the students) ----
-    const geo = {
-      head: new THREE.SphereGeometry(0.105, 24, 18),
-      hair: new THREE.SphereGeometry(0.11, 24, 14, 0, Math.PI * 2, 0, Math.PI * 0.58),
-      neck: new THREE.CylinderGeometry(0.052, 0.058, 0.12, 12),
-      torso: (() => {
-        const prof = [
-          [0.0, 0], [0.155, 0], [0.16, 0.08], [0.15, 0.2], [0.17, 0.34], [0.2, 0.46], [0.19, 0.52], [0.12, 0.56], [0.0, 0.57],
-        ].map(([r, y]) => new THREE.Vector2(r, y));
-        const g = new THREE.LatheGeometry(prof, 32);
-        g.scale(1, 1, 0.62);
-        return g;
-      })(),
-      shoulder: new THREE.SphereGeometry(0.075, 16, 12),
-      sleeve: new THREE.CapsuleGeometry(0.068, 0.12, 6, 14),
-      skirt: new THREE.CylinderGeometry(0.19, 0.22, 0.3, 24, 1, true),
-      belt: new THREE.TorusGeometry(0.17, 0.02, 8, 32),
-      knot: new RoundedBoxGeometry(0.07, 0.16, 0.03, 2, 0.01),
-      upperArm: new THREE.CapsuleGeometry(0.057, 0.19, 6, 14),
-      foreArm: new THREE.CapsuleGeometry(0.05, 0.19, 6, 14),
-      hand: new THREE.SphereGeometry(0.045, 12, 10),
-      joint: new THREE.SphereGeometry(1, 14, 10),
-      eye: new THREE.SphereGeometry(0.012, 10, 8),
-      brow: new RoundedBoxGeometry(0.035, 0.008, 0.012, 1, 0.003),
-      nose: new THREE.SphereGeometry(0.016, 10, 8),
-      mouth: new RoundedBoxGeometry(0.04, 0.006, 0.01, 1, 0.002),
-      hips: new RoundedBoxGeometry(0.33, 0.2, 0.21, 3, 0.07),
-      thigh: new THREE.CapsuleGeometry(0.09, 0.25, 6, 14),
-      shin: new THREE.CapsuleGeometry(0.066, 0.29, 6, 14),
-      shoe: new RoundedBoxGeometry(0.1, 0.085, 0.27, 3, 0.035),
-      bag: new RoundedBoxGeometry(0.5, 0.26, 0.26, 4, 0.09),
-      strap: new THREE.TorusGeometry(0.27, 0.012, 6, 32, Math.PI * 1.1),
-    };
-    function person({ skin, hair, top, shorts, shoes, logoBack = false, gi = false, bag = false, belt = "#f2f2ee" }) {
-      const mat = (c, r = 0.7) => M({ color: c, roughness: r });
-      const mSkin = mat(skin, 0.55);
-      const mTop = mat(top, 0.85);
-      const mShorts = mat(shorts, 0.8);
-      const root = new THREE.Group();
-      const pelvis = new THREE.Group();
-      pelvis.position.y = 0.95;
-      root.add(pelvis);
-      const hips = new THREE.Mesh(geo.hips, mShorts);
-      pelvis.add(hips);
-      const spine = new THREE.Group();
-      spine.position.y = 0.07;
-      pelvis.add(spine);
-      const torso = new THREE.Mesh(geo.torso, mTop);
-      spine.add(torso);
-      if (logoBack) {
-        // the Maple mark on the back of his tee, where the camera sits
-        const back = new THREE.Mesh(new THREE.PlaneGeometry(0.24, 0.245), M({ map: logoTex, transparent: true, roughness: 0.8, polygonOffset: true, polygonOffsetFactor: -2 }));
-        back.position.set(0, 0.36, 0.118);
-        spine.add(back);
-      }
-      if (gi) {
-        // the jacket hangs past the hips, and the belt ties over it
-        const skirt = new THREE.Mesh(geo.skirt, new THREE.MeshStandardMaterial({ color: top, roughness: 0.9, side: THREE.DoubleSide }));
-        skirt.scale.z = 0.66;
-        skirt.position.y = -0.06;
-        spine.add(skirt);
-        const bm = mat(belt, 0.7);
-        const b = new THREE.Mesh(geo.belt, bm);
-        b.rotation.x = Math.PI / 2;
-        b.scale.set(1.05, 0.68, 1);
-        b.position.y = 0.06;
-        spine.add(b);
-        const kn = new THREE.Mesh(geo.knot, bm);
-        kn.position.set(0, -0.01, -0.12);
-        spine.add(kn);
-      }
-      const neck = new THREE.Mesh(geo.neck, mSkin);
-      neck.position.y = 0.6;
-      spine.add(neck);
-      const headG = new THREE.Group();
-      headG.position.y = 0.73;
-      spine.add(headG);
-      const head = new THREE.Mesh(geo.head, mSkin);
-      head.scale.set(0.95, 1.12, 1.02);
-      headG.add(head);
-      // a simple face: he is seen from the front once he is inside
-      const dark = mat("#1a120c", 0.4);
-      for (const sx of [-1, 1]) {
-        const e = new THREE.Mesh(geo.eye, dark);
-        e.position.set(0.036 * sx, 0.018, -0.094);
-        headG.add(e);
-        const b = new THREE.Mesh(geo.brow, mat(hair, 0.8));
-        b.position.set(0.036 * sx, 0.045, -0.098);
-        b.rotation.z = -0.12 * sx;
-        headG.add(b);
-      }
-      const nose = new THREE.Mesh(geo.nose, mSkin);
-      nose.scale.set(0.9, 1.2, 1.1);
-      nose.position.set(0, -0.005, -0.104);
-      headG.add(nose);
-      const mouth = new THREE.Mesh(geo.mouth, mat("#7a3e32", 0.6));
-      mouth.position.set(0, -0.048, -0.097);
-      headG.add(mouth);
-      const hairM = new THREE.Mesh(geo.hair, mat(hair, 0.75));
-      hairM.position.set(0, 0.015, 0.012);
-      hairM.rotation.x = 0.3;
-      hairM.scale.set(0.98, 1.08, 1.04);
-      headG.add(hairM);
-      const limbs = {};
-      for (const side of [-1, 1]) {
-        const sh = new THREE.Group();
-        sh.position.set(0.205 * side, 0.47, 0);
-        spine.add(sh);
-        sh.add(new THREE.Mesh(geo.shoulder, mTop));
-        const upper = new THREE.Group();
-        sh.add(upper);
-        const sleeve = new THREE.Mesh(geo.sleeve, mTop);
-        sleeve.position.y = -0.08;
-        upper.add(sleeve);
-        const ua = new THREE.Mesh(geo.upperArm, gi ? mTop : mSkin);
-        ua.position.y = -0.15;
-        upper.add(ua);
-        const elbow = new THREE.Group();
-        elbow.position.y = -0.29;
-        upper.add(elbow);
-        const ej = new THREE.Mesh(geo.joint, gi ? mTop : mSkin);
-        ej.scale.setScalar(0.054);
-        elbow.add(ej);
-        const fa = new THREE.Mesh(geo.foreArm, gi ? mTop : mSkin);
-        fa.position.y = -0.13;
-        elbow.add(fa);
-        const hand = new THREE.Mesh(geo.hand, mSkin);
-        hand.position.y = -0.28;
-        hand.scale.set(0.9, 1.25, 0.75);
-        elbow.add(hand);
-        const hip = new THREE.Group();
-        hip.position.set(0.095 * side, -0.04, 0);
-        pelvis.add(hip);
-        const th = new THREE.Mesh(geo.thigh, mShorts);
-        th.position.y = -0.2;
-        hip.add(th);
-        const knee = new THREE.Group();
-        knee.position.y = -0.43;
-        hip.add(knee);
-        const kj = new THREE.Mesh(geo.joint, gi ? mShorts : mSkin);
-        kj.scale.setScalar(0.072);
-        knee.add(kj);
-        const sn = new THREE.Mesh(geo.shin, gi ? mShorts : mSkin);
-        sn.position.y = -0.22;
-        knee.add(sn);
-        const ankle = new THREE.Group();
-        ankle.position.y = -0.45;
-        knee.add(ankle);
-        const shoe = new THREE.Mesh(geo.shoe, gi ? mSkin : mat(shoes, 0.5));
-        shoe.position.set(0, -0.02, -0.06);
-        ankle.add(shoe);
-        limbs[side] = { sh, upper, elbow, hip, knee, ankle };
-      }
-      let bagG = null;
-      if (bag) {
-        bagG = new THREE.Group();
-        bagG.position.set(0.24, 0.32, 0.05);
-        const b = new THREE.Mesh(geo.bag, mat("#13234b", 0.6));
-        b.rotation.y = Math.PI / 2;
-        bagG.add(b);
-        const strap = new THREE.Mesh(geo.strap, mat("#0d0d0f", 0.6));
-        strap.rotation.set(0, Math.PI / 2, 0.35);
-        strap.position.set(-0.1, 0.12, 0);
-        bagG.add(strap);
-        spine.add(bagG);
-      }
-      root.traverse((o) => {
-        if (o.isMesh) {
-          o.castShadow = true;
-          o.receiveShadow = true;
-        }
-      });
-      return { root, pelvis, spine, headG, limbs, bagG };
-    }
+    // ---- people ----
+    const player = makeHuman(
+      { skin: "#c98f68", hair: "#1b120c", top: "#13234b", bottom: "#151517", shoes: "#f4f4f4", sleeve: "short", legs: "shorts" },
+      { backDecal: logoTex }
+    );
+    scene.add(player.mesh);
 
-    // gait: distance-driven so feet never slide
-    function pose(P, phase, g, { lean = 0, breath = 0 } = {}) {
-      const A = 0.42 * g;
-      const B = 0.9 * g;
-      for (const side of [-1, 1]) {
-        const ph = phase + (side > 0 ? Math.PI : 0);
-        const L = P.limbs[side];
-        const th = A * Math.sin(ph);
-        const flex = (B * Math.max(0, Math.cos(ph)) + 0.06) * g + (1 - g) * 0.04;
-        // +x rotation swings a limb forward (he faces -z); knees fold back
-        L.hip.rotation.x = th;
-        L.knee.rotation.x = -flex;
-        L.ankle.rotation.x = -(th - flex) * 0.9;
-        L.upper.rotation.x = -0.85 * A * Math.sin(ph);
-        L.upper.rotation.z = 0.08 * side;
-        L.elbow.rotation.x = 0.22 + 0.25 * g + 0.15 * g * Math.max(0, Math.sin(ph));
-      }
-      P.pelvis.position.y = 0.95 + (0.025 * Math.abs(Math.cos(phase)) - 0.012) * g + breath * 0.004;
-      P.pelvis.rotation.y = 0.07 * Math.sin(phase) * g;
-      P.spine.rotation.y = -0.12 * Math.sin(phase) * g;
-      P.spine.rotation.x = -lean;
-      P.headG.rotation.y = 0.06 * Math.sin(phase) * g;
-      if (P.bagG) {
-        P.bagG.rotation.x = 0.12 * Math.sin(phase * 2) * g;
-        P.bagG.position.y = 0.32 + 0.015 * Math.sin(phase * 2 + 1) * g;
-      }
-    }
-
-    const player = person({ skin: "#c98f68", hair: "#1b120c", top: "#13234b", shorts: "#151517", shoes: "#f2f2f2", logoBack: true });
-    scene.add(player.root);
-
-    // students inside, on the mats
+    // students inside, lined up across the mats, facing the door
     const students = [];
     const SKINS = ["#f1c9a5", "#d49a72", "#9a5f3e", "#e6b48e", "#6e432a", "#c98c64"];
     const GIS = ["#f4f3ef", "#f4f3ef", "#2a4c9c", "#f4f3ef", "#1b1c21", "#f4f3ef"];
     const BELTS = ["#f2f2ee", "#2350b3", "#5b2a8c", "#f2f2ee", "#6a3d1e", "#111114"];
+    const HAIRS = ["#2a1a10", "#0e0e10", "#5a3a20", "#2a1a10", "#0e0e10", "#a3784a"];
     for (let i = 0; i < 6; i++) {
-      const p = person({ skin: SKINS[i], hair: i % 3 ? "#2a1a10" : "#0e0e10", top: GIS[i], shorts: GIS[i], shoes: "#000", gi: true, belt: BELTS[i] });
-      // lined up across the mats, facing the door he walks in through
-      p.root.position.set(FACADE_X - 7.4 + (rnd() - 0.5) * 0.15, 0.2, DOOR_Z - 3.0 + i * 1.05);
-      p.root.rotation.y = -Math.PI / 2 + (rnd() - 0.5) * 0.12;
+      const p = makeHuman({ skin: SKINS[i], hair: HAIRS[i], top: GIS[i], bottom: GIS[i], sleeve: "long", legs: "long", gi: true, belt: BELTS[i], bald: i === 4 });
+      p.mesh.position.set(FACADE_X - 7.4 + (rnd() - 0.5) * 0.15, 0.2, DOOR_Z - 3.0 + i * 1.05);
+      p.mesh.rotation.y = -Math.PI / 2 + (rnd() - 0.5) * 0.12;
+      p.mesh.scale.setScalar(0.94 + rnd() * 0.12);
       p.phase = rnd() * 6;
-      room.add(p.root);
+      room.add(p.mesh);
       students.push(p);
     }
 
@@ -716,20 +555,23 @@ export default function MapleGameAd({
         }
       });
       g.position.set(x, 0, z);
-      g.rotation.y = (mulberry32(seed)() - 0.5) * 0.04;
+      // nose-in: the car's length runs out into the lot
+      g.rotation.y = Math.PI / 2 + (mulberry32(seed)() - 0.5) * 0.06;
       scene.add(g);
     }
-    car(4.6, -1, "#e9ecef", 1);
-    car(4.6, -8.5, "#b3202a", 2);
-    car(4.6, -17, "#15171b", 3);
-    car(4.6, 7.5, "#2c5fa8", 4);
+    for (const [z, c, sd] of [[9.9, "#2c5fa8", 4], [4.4, "#e9ecef", 1], [1.65, "#8a8f96", 5], [-4.85, "#b3202a", 2], [-7.6, "#f2f2f0", 6], [-13.1, "#15171b", 3], [-18.6, "#3b5d4a", 7], [-24.1, "#d9d4c8", 8]]) {
+      car(6.35, z, c, sd);
+    }
+    for (const [z, c, sd] of [[7.1, "#15171b", 9], [-1.1, "#c7c9cc", 10], [-10.35, "#6d1a1f", 11], [-21.35, "#f2f2f0", 12]]) {
+      car(18.1, z, c, sd);
+    }
 
-    // ---- buildings across the street ----
+    // ---- buildings across the lot ----
     const farCols = ["#f7d9c4", "#cfe9e0", "#f3e2b8", "#e9d3f0", "#d8e2f3"];
     for (let i = 0; i < 9; i++) {
       const h = 6 + (i % 4) * 4;
       const b = new THREE.Mesh(new THREE.BoxGeometry(10, h, 11), M({ map: stucco(farCols[i % 5]), roughness: 0.9 }));
-      b.position.set(30, h / 2, 14 - i * 13);
+      b.position.set(44, h / 2, 14 - i * 13);
       b.castShadow = true;
       b.receiveShadow = true;
       scene.add(b);
@@ -760,6 +602,10 @@ export default function MapleGameAd({
     composer.setPixelRatio(window.devicePixelRatio || 1);
     composer.setSize(W, H);
     composer.addPass(new RenderPass(scene, camera));
+    const ao = new GTAOPass(scene, camera, W, H);
+    ao.blendIntensity = 0.85;
+    ao.updateGtaoMaterial({ radius: 0.45, distanceExponent: 1.2, thickness: 1.2, scale: 1.0 });
+    composer.addPass(ao);
     composer.addPass(new UnrealBloomPass(new THREE.Vector2(W, H), 0.28, 0.5, 0.95));
     composer.addPass(new OutputPass());
 
@@ -783,15 +629,15 @@ export default function MapleGameAd({
     }
     function renderAt(t) {
       const P = playerAt(t);
-      player.root.position.set(P.x, 0.16 + (t >= T_INSIDE ? 0.04 : 0), P.z);
-      player.root.rotation.y = P.yaw;
+      player.mesh.position.set(P.x, 0.16 + (t >= T_INSIDE ? 0.04 : 0), P.z);
+      player.mesh.rotation.y = P.yaw;
       const stride = 1.45;
-      pose(player, (P.s / stride) * Math.PI * 2, P.g, { lean: 0.04 * P.g, breath: Math.sin(t / 700) });
+      poseHuman(player, (P.s / stride) * Math.PI * 2, P.g, { lean: 0.05 * P.g, breath: Math.sin(t / 700) });
       // the line bows to him as the mission passes
       const bow = Math.sin(Math.PI * clamp01((t - T_PASSED + 200) / 1300)) * 0.55;
       students.forEach((st, i) => {
         const b = Math.sin(Math.PI * clamp01((t - T_PASSED + 200 - i * 60) / 1400)) * 0.85;
-        pose(st, st.phase, 0, { lean: b, breath: Math.sin(t / 800 + st.phase) });
+        poseHuman(st, st.phase, 0, { lean: b, breath: Math.sin(t / 800 + st.phase) });
       });
       void bow;
 
@@ -816,7 +662,7 @@ export default function MapleGameAd({
         const tp = new THREE.Vector3(P.x - fx * 4.1 + rx * 0.85, 2.25, P.z - fz * 4.1 + rz * 0.85);
         const tl = new THREE.Vector3(P.x + fx * 5 + rx * 0.3, 1.2, P.z + fz * 5 + rz * 0.3);
         // drone: high and wide, swooping down onto the shoulder
-        const k = easeIO(clamp01(t / T_GAME));
+        const k = easeIO(clamp01((t - T_DRONE) / (T_GAME - T_DRONE)));
         const dp = new THREE.Vector3(P.x + 9, 13, P.z + 11);
         const dl = new THREE.Vector3(P.x - 2, 1.5, P.z - 6);
         camPos.copy(dp).lerp(tp, k);
@@ -850,18 +696,21 @@ export default function MapleGameAd({
         el.style.opacity = o.toFixed(3);
         el.style.transform = `translateY(${y.toFixed(2)}px) scale(${s.toFixed(4)})`;
       };
-      fx("title", ss(700, 1100, t) * (1 - ss(2700, 3100, t)), 0, lerp(1.08, 1, ss(700, 1300, t)));
+      fx("badge", ss(T_BADGE, T_BADGE + 250, t) * (1 - ss(T_DRONE - 300, T_DRONE - 60, t)), 0, lerp(0.92, 1, ss(T_BADGE, T_BADGE + 900, t)));
+      if (R.badgebg) R.badgebg.style.opacity = (1 - ss(T_DRONE - 120, T_DRONE + 200, t)).toFixed(3);
+      fx("logo6", ss(T_DRONE + 250, T_DRONE + 700, t) * (1 - ss(T_GAME - 450, T_GAME - 100, t)), 0, lerp(1.12, 1, ss(T_DRONE + 250, T_DRONE + 1400, t)));
+      fx("title", ss(T_GAME + 150, T_GAME + 450, t) * (1 - ss(T_GAME + 1700, T_GAME + 2000, t)), 0, lerp(1.08, 1, ss(T_GAME + 150, T_GAME + 600, t)));
       const hud = ss(T_GAME, T_GAME + 400, t) * (1 - ss(T_ARRIVE, T_ARRIVE + 300, t));
       fx("minimap", hud, (1 - ss(T_GAME, T_GAME + 400, t)) * 16);
       fx("cash", hud);
-      fx("objective", ss(T_GAME + 700, T_GAME + 950, t) * (1 - ss(T_GAME + 4200, T_GAME + 4500, t)));
-      const ph = ss(T_GAME + 1900, T_GAME + 2200, t) * (1 - ss(T_GAME + 5000, T_GAME + 5300, t));
-      fx("phone", ph, (1 - ss(T_GAME + 1900, T_GAME + 2250, t)) * -60);
+      fx("objective", ss(T_GAME + 1900, T_GAME + 2150, t) * (1 - ss(T_GAME + 5600, T_GAME + 5900, t)));
+      const ph = ss(T_GAME + 2600, T_GAME + 2900, t) * (1 - ss(T_GAME + 5600, T_GAME + 5900, t));
+      fx("phone", ph, (1 - ss(T_GAME + 2600, T_GAME + 2950, t)) * -60);
       if (R.mapinner) {
         R.mapinner.style.transform = `rotate(${(P.yaw * 180) / Math.PI}deg) translateY(${(P.s * 6).toFixed(1)}px)`;
       }
       const cut = t >= T_INSIDE - 250 && t < T_INSIDE + 250 ? 1 - Math.abs(t - T_INSIDE) / 250 : 0;
-      if (R.fade) R.fade.style.opacity = Math.max(cut, ss(END_MS - 450, END_MS, t), 1 - ss(0, 400, t)).toFixed(3);
+      if (R.fade) R.fade.style.opacity = Math.max(cut, ss(END_MS - 450, END_MS, t)).toFixed(3);
       fx("band", ss(T_PASSED, T_PASSED + 200, t) * (1 - ss(T_END - 300, T_END, t)));
       fx("passed", ss(T_PASSED + 100, T_PASSED + 260, t) * (1 - ss(T_END - 300, T_END, t)), 0, lerp(1.5, 1, ss(T_PASSED + 100, T_PASSED + 420, t)));
       fx("respect", ss(T_PASSED + 600, T_PASSED + 760, t) * (1 - ss(T_END - 300, T_END, t)));
@@ -884,7 +733,7 @@ export default function MapleGameAd({
       if (renderMode) {
         window.__renderAt = (ms) => renderAt(ms);
         window.__gameEnd = END_MS;
-        window.__gameMarks = { T_GAME, T_WALK, T_ARRIVE, T_INSIDE, T_PASSED, T_END, END_MS, STRIDE: 1.45, SPEED };
+        window.__gameMarks = { T_BADGE, T_DRONE, T_GAME, T_WALK, T_ARRIVE, T_INSIDE, T_PASSED, T_END, END_MS, STRIDE: 1.45, SPEED };
         window.__gameSteps = (() => {
           // footfall times, for the sound: a foot lands every half stride
           const out = [];
@@ -922,6 +771,16 @@ export default function MapleGameAd({
     <div className="gg-stage">
       <div className="gg-canvas" ref={mountRef} />
       <div className="gg-grade" aria-hidden />
+
+      {/* the publisher badge on black, then the title card over the drone shot */}
+      <div className="gg-badgebg" ref={ref("badgebg")} />
+      <div className="gg-badge" ref={ref("badge")}>
+        <div className="gg-badge-box">M<span>★</span></div>
+      </div>
+      <div className="gg-logo6" ref={ref("logo6")}>
+        <div className="gg-logo6-words"><span>GRAND</span><span>THEFT</span><span>ARMBAR</span></div>
+        <div className="gg-logo6-vi">VI</div>
+      </div>
 
       <div className="gg-title" ref={ref("title")}>
         <div className="gg-title-top">{missionTop}</div>
