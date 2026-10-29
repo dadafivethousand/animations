@@ -1,0 +1,313 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bangers&family=Inter:wght@500;600;700;800;900&display=swap');
+
+/* MapleGameAd — Maple Jiu-Jitsu as open-world game footage. Namespace: gg-.
+ * The component writes every overlay's opacity/transform per frame.
+ *
+ *   ENDVAR=__gameEnd URL=http://localhost:30xx/?render=1 OUT=~/Downloads/maple-game.mp4 \
+ *     NODE_PATH=/tmp/rec/node_modules node tools/record-frames.js
+ */
+
+.gg-stage {
+  --safe-x: max(45px, 11vw);
+  --safe-y: max(40px, 6vh);
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #000;
+  color: #fff;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+.gg-canvas,
+.gg-canvas canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+/* the cinematic grade: warm highlights, cool shadows */
+.gg-grade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 150, 90, 0.28) 0%, rgba(255, 110, 140, 0.12) 45%, rgba(10, 60, 110, 0.3) 100%);
+  mix-blend-mode: soft-light;
+}
+
+.gg-title,
+.gg-phone,
+.gg-cash,
+.gg-minimap,
+.gg-objective,
+.gg-band,
+.gg-passed,
+.gg-respect,
+.gg-endbg,
+.gg-endlogo,
+.gg-endtitle,
+.gg-enroll,
+.gg-addr {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---------- mission title ---------- */
+.gg-title {
+  position: absolute;
+  left: var(--safe-x);
+  right: var(--safe-x);
+  top: 30%;
+  text-align: center;
+}
+.gg-title-top {
+  font-weight: 800;
+  font-size: clamp(11px, 3.4vw, 14px);
+  letter-spacing: 0.32em;
+  padding-left: 0.32em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+}
+.gg-title-name {
+  margin-top: 4px;
+  font-family: Bangers, sans-serif;
+  font-size: clamp(46px, 15vw, 62px);
+  letter-spacing: 0.04em;
+  color: #fff;
+  -webkit-text-stroke: 7px #000;
+  paint-order: stroke fill;
+}
+
+/* ---------- phone notification ---------- */
+.gg-phone {
+  position: absolute;
+  left: var(--safe-x);
+  right: var(--safe-x);
+  top: calc(var(--safe-y) + 4px);
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(28, 28, 32, 0.82);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+.gg-phone-app {
+  font-size: clamp(9px, 2.8vw, 11px);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.55);
+}
+.gg-phone-from {
+  margin-top: 3px;
+  font-weight: 800;
+  font-size: clamp(12px, 3.8vw, 15px);
+}
+.gg-phone-body {
+  margin-top: 1px;
+  font-weight: 500;
+  font-size: clamp(12px, 3.8vw, 15px);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* ---------- HUD ---------- */
+.gg-cash {
+  position: absolute;
+  right: var(--safe-x);
+  top: calc(var(--safe-y) + 96px);
+  font-family: Bangers, sans-serif;
+  font-size: clamp(22px, 7vw, 28px);
+  letter-spacing: 0.04em;
+  color: #6cc164;
+  -webkit-text-stroke: 5px #000;
+  paint-order: stroke fill;
+}
+.gg-minimap {
+  position: absolute;
+  left: var(--safe-x);
+  bottom: calc(var(--safe-y) + 10px);
+  width: clamp(110px, 34vw, 136px);
+}
+.gg-map {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.35;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #46525a;
+  border: 2px solid rgba(0, 0, 0, 0.6);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+}
+.gg-mapinner {
+  position: absolute;
+  inset: -60%;
+  transform-origin: 50% 50%;
+}
+.gg-road { position: absolute; background: #8e9aa1; }
+.gg-gps {
+  position: absolute;
+  left: 49.5%;
+  top: 33%;
+  width: 4%;
+  height: 17%;
+  background: #f2c037;
+  box-shadow: 0 0 4px rgba(242, 192, 55, 0.8);
+}
+.gg-gps::after {
+  content: "";
+  position: absolute;
+  right: 100%;
+  top: 0;
+  width: 220%;
+  height: 22%;
+  background: #f2c037;
+}
+.gg-blip {
+  position: absolute;
+  left: 41%;
+  top: 30%;
+  width: 7%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #f2c037;
+  border: 2px solid #000;
+  color: #000;
+  font-weight: 900;
+  font-size: 9px;
+  display: grid;
+  place-items: center;
+}
+.gg-me {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 11px;
+  height: 13px;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  clip-path: polygon(50% 0, 100% 100%, 50% 74%, 0 100%);
+  filter: drop-shadow(0 0 2px #000);
+}
+.gg-bars {
+  display: flex;
+  gap: 3px;
+  margin-top: 5px;
+}
+.gg-bars i {
+  display: block;
+  flex: 1;
+  height: 5px;
+  background: rgba(0, 0, 0, 0.55);
+  position: relative;
+}
+.gg-bars i::after { content: ""; position: absolute; inset: 0; }
+.gg-hp::after { background: #58a85a; right: 12% !important; }
+.gg-ap::after { background: #4a8bd0; right: 40% !important; }
+
+.gg-objective {
+  position: absolute;
+  left: var(--safe-x);
+  right: var(--safe-x);
+  bottom: calc(var(--safe-y) + 140px);
+  text-align: center;
+  font-weight: 700;
+  font-size: clamp(15px, 4.8vw, 19px);
+  -webkit-text-stroke: 4px #000;
+  paint-order: stroke fill;
+}
+.gg-objective em { font-style: normal; color: #f2c037; }
+
+/* ---------- mission passed ---------- */
+.gg-band {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 15%;
+  height: 16%;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.7) 16%, rgba(0, 0, 0, 0.7) 84%, rgba(0, 0, 0, 0));
+}
+.gg-passed {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 16.5%;
+  text-align: center;
+  font-family: Bangers, sans-serif;
+  font-size: clamp(44px, 14.5vw, 58px);
+  letter-spacing: 0.03em;
+  color: #f0c14b;
+  -webkit-text-stroke: 7px #000;
+  paint-order: stroke fill;
+}
+.gg-respect {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 25.5%;
+  text-align: center;
+  font-family: Bangers, sans-serif;
+  font-size: clamp(22px, 7.4vw, 30px);
+  letter-spacing: 0.06em;
+  -webkit-text-stroke: 5px #000;
+  paint-order: stroke fill;
+}
+
+/* ---------- end card ---------- */
+.gg-endbg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(10, 16, 40, 0.55), rgba(10, 16, 40, 0.8));
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+}
+.gg-end {
+  position: absolute;
+  left: var(--safe-x);
+  right: var(--safe-x);
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(8px, 1.6vh, 14px);
+  text-align: center;
+}
+.gg-endlogo {
+  width: clamp(84px, 28vw, 112px);
+  height: auto;
+  filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.5));
+}
+.gg-endtitle {
+  font-family: Anton, sans-serif;
+  font-size: clamp(30px, 9.6vw, 40px);
+  letter-spacing: 0.03em;
+  color: #fff;
+  text-shadow: 0 3px 14px rgba(0, 0, 0, 0.5);
+}
+.gg-enroll {
+  font-family: Bangers, sans-serif;
+  font-size: clamp(30px, 10vw, 40px);
+  letter-spacing: 0.04em;
+  color: #f2c037;
+  -webkit-text-stroke: 6px #000;
+  paint-order: stroke fill;
+}
+.gg-addr {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-weight: 800;
+  font-size: clamp(10px, 3.3vw, 13px);
+  letter-spacing: 0.16em;
+}
+.gg-addr span:last-child { letter-spacing: 0.06em; font-weight: 700; opacity: 0.85; }
+
+.gg-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 85% at 50% 50%, rgba(0, 0, 0, 0) 58%, rgba(0, 0, 0, 0.42) 100%);
+}
+.gg-fade {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: 1;
+  pointer-events: none;
+}
