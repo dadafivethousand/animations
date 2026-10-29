@@ -21,6 +21,7 @@ import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 import "../Stylesheets/MapleGameAd.css";
 import mapleLogo from "../Images/maple-logo.png";
 import mapleBjjLogo from "../Images/maple-bjj-logo.png";
+import jjflLogo from "../Images/jiu-jitsu-for-life.png";
 
 const clamp01 = (x) => Math.min(1, Math.max(0, x));
 const ss = (a, b, x) => {
@@ -415,23 +416,14 @@ export default function MapleGameAd({
     const wallLogo = new THREE.Mesh(new THREE.PlaneGeometry(1.75, 1.75), M({ map: wallLogoTex, transparent: true, roughness: 0.6 }));
     wallLogo.rotation.y = Math.PI / 2;
     wallLogo.position.set(FACADE_X - 9.9, 3.05, -11.75);
-    // JIU-JITSU FOR LIFE, painted beside it
-    const jjflTex = canvasTex(1024, 768, (g, w, h) => {
-      g.fillStyle = "#13234b";
-      g.textAlign = "center";
-      g.textBaseline = "middle";
-      g.font = "900 190px Inter, Arial";
-      g.fillText("JIU-JITSU", w / 2, h * 0.3);
-      g.fillStyle = "#c8102e";
-      g.font = "900 120px Inter, Arial";
-      g.fillText("FOR", w / 2, h * 0.56);
-      g.fillStyle = "#13234b";
-      g.font = "900 220px Inter, Arial";
-      g.fillText("LIFE", w / 2, h * 0.8);
-    });
-    const jjfl = new THREE.Mesh(new THREE.PlaneGeometry(1.75, 1.31), M({ map: jjflTex, transparent: true, roughness: 0.7 }));
+    // the Jiu Jitsu For Life badge beside it; a disc, so the badge's own
+    // square background never shows
+    const jjflTex = new THREE.TextureLoader().load(jjflLogo);
+    jjflTex.colorSpace = THREE.SRGBColorSpace;
+    jjflTex.anisotropy = 8;
+    const jjfl = new THREE.Mesh(new THREE.CircleGeometry(0.76, 64), M({ map: jjflTex, roughness: 0.6 }));
     jjfl.rotation.y = Math.PI / 2;
-    jjfl.position.set(FACADE_X - 9.9, 3.05, -14.15);
+    jjfl.position.set(FACADE_X - 9.9, 3.0, -14.15);
     room.add(jjfl);
     // a navy stripe along the wall at mat height, like a real academy
     const stripe = new THREE.Mesh(new THREE.PlaneGeometry(GZ0 - GZ1 - 0.3, 0.9), M({ color: "#13234b", roughness: 0.8 }));
@@ -482,7 +474,6 @@ export default function MapleGameAd({
       giShin: new THREE.CylinderGeometry(0.094, 0.088, 0.4, 18, 1, true),
       ankle: new THREE.CapsuleGeometry(0.04, 0.05, 4, 10),
       tail: new RoundedBoxGeometry(0.045, 0.2, 0.012, 1, 0.004),
-      shortsLeg: new THREE.CylinderGeometry(0.1, 0.106, 0.34, 20, 1, true),
       foot: new RoundedBoxGeometry(0.088, 0.05, 0.235, 3, 0.022),
       joint: new THREE.SphereGeometry(1, 14, 10),
       eye: new THREE.SphereGeometry(0.012, 10, 8),
@@ -572,7 +563,6 @@ export default function MapleGameAd({
       pelvis.position.y = 0.95;
       root.add(pelvis);
       const hips = new THREE.Mesh(geo.hips, mShorts);
-      if (!gi) hips.scale.set(1.0, 1.04, 1.04);
       pelvis.add(hips);
       const spine = new THREE.Group();
       spine.position.y = 0.07;
@@ -706,28 +696,31 @@ export default function MapleGameAd({
         const hip = new THREE.Group();
         hip.position.set(0.095 * side, -0.04, 0);
         pelvis.add(hip);
-        // in shorts the thigh is leg; a wide, open short leg hangs over it
-        const th = new THREE.Mesh(gi ? geo.giThigh : geo.thigh, gi ? mTop : mSkin);
-        if (!gi) {
-          const legShort = new THREE.Mesh(geo.shortsLeg, M({ color: shorts, roughness: 0.85, side: THREE.DoubleSide }));
-          legShort.position.set(-0.006 * side, -0.16, 0);
-          legShort.rotation.z = -0.02 * side;
-          hip.add(legShort);
-        }
+        // long trousers: joggers on him, gi pants on the students
+        const th = new THREE.Mesh(gi ? geo.giThigh : geo.thigh, gi ? mTop : mShorts);
         th.position.y = -0.2;
         hip.add(th);
         const knee = new THREE.Group();
         knee.position.y = -0.43;
         hip.add(knee);
-        const kj = new THREE.Mesh(geo.joint, gi ? mShorts : mSkin);
+        const kj = new THREE.Mesh(geo.joint, mShorts);
         kj.scale.setScalar(0.072);
         knee.add(kj);
-        const sn = new THREE.Mesh(gi ? geo.giShin : geo.shin, gi ? mTop : mSkin);
+        const sn = new THREE.Mesh(gi ? geo.giShin : geo.shin, gi ? mTop : mShorts);
         sn.position.y = gi ? -0.2 : -0.22;
         knee.add(sn);
         if (gi) {
           const an = new THREE.Mesh(geo.ankle, mSkin);
           an.position.y = -0.42;
+          knee.add(an);
+        } else {
+          // the jogger's ribbed cuff, and a bit of ankle under it
+          const cf = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.058, 0.05, 16), mShorts);
+          cf.position.y = -0.4;
+          knee.add(cf);
+          const an = new THREE.Mesh(geo.ankle, mSkin);
+          an.position.y = -0.44;
+          an.scale.set(0.95, 0.6, 0.95);
           knee.add(an);
         }
         const ankle = new THREE.Group();
