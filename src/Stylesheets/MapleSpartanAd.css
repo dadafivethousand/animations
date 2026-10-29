@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@700;800&display=swap');
+
+/* MapleSpartanAd — a 300-style charge. Namespace: sp-
+ *   ENDVAR=__spartaEnd URL=http://localhost:30xx/?render=1 OUT=~/Downloads/maple-spartan.mp4 \
+ *     NODE_PATH=/tmp/rec/node_modules node tools/record-frames.js
+ */
+.sp-stage {
+  --safe-x: max(45px, 11vw);
+  --safe-y: max(40px, 6vh);
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #000;
+  color: #f4e2c0;
+  font-family: Cinzel, Georgia, serif;
+}
+.sp-canvas,
+.sp-canvas canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+/* the 300 grade: crushed, warm, a little desaturated */
+.sp-canvas canvas { filter: contrast(1.18) saturate(0.85) sepia(0.18); }
+.sp-grade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(120, 40, 10, 0.18), rgba(0, 0, 0, 0) 40%, rgba(40, 10, 0, 0.35));
+  mix-blend-mode: multiply;
+}
+.sp-q,
+.sp-ahoo,
+.sp-name,
+.sp-tag,
+.sp-enroll {
+  opacity: 0;
+  pointer-events: none;
+  text-align: center;
+}
+.sp-q {
+  position: absolute;
+  left: var(--safe-x);
+  right: var(--safe-x);
+  top: 22%;
+  font-weight: 900;
+  font-size: clamp(26px, 8.4vw, 34px);
+  line-height: 1.15;
+  letter-spacing: 0.06em;
+  text-shadow: 0 2px 0 #2a0c02, 0 0 24px rgba(0, 0, 0, 0.8);
+}
+.sp-ahoo {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 18%;
+  font-weight: 900;
+  font-size: clamp(70px, 23vw, 92px);
+  letter-spacing: 0.04em;
+  color: #fff2d6;
+  text-shadow: 0 4px 0 #6a0f0f, 0 0 30px rgba(180, 30, 10, 0.8);
+}
+.sp-crack {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+}
+.sp-flash,
+.sp-black {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.sp-flash { background: #fff4e0; opacity: 0; }
+.sp-black { background: #000; opacity: 1; }
+.sp-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 85% at 50% 50%, rgba(0, 0, 0, 0) 50%, rgba(10, 2, 0, 0.7) 100%);
+}
+.sp-end {
+  position: absolute;
+  left: var(--safe-x);
+  right: var(--safe-x);
+  top: var(--safe-y);
+  bottom: var(--safe-y);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.sp-spacer { height: 46vh; }
+.sp-name {
+  font-weight: 900;
+  font-size: clamp(25px, 7.8vw, 32px);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  color: #f2c879;
+  text-shadow: 0 2px 0 #3a1c06, 0 0 20px rgba(255, 140, 40, 0.45);
+}
+.sp-tag {
+  font-weight: 900;
+  font-size: clamp(22px, 7vw, 29px);
+  letter-spacing: 0.08em;
+  color: #fff0d2;
+  text-shadow: 0 2px 0 #5a0d0d, 0 0 18px rgba(0, 0, 0, 0.8);
+}
+.sp-enroll {
+  margin-top: clamp(10px, 2vh, 16px);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: Inter, sans-serif;
+  font-weight: 800;
+  font-size: clamp(10px, 3.3vw, 13px);
+  letter-spacing: 0.2em;
+  color: #e8cfa2;
+}
+.sp-enroll span:first-child { color: #ff8a4a; font-size: 1.15em; }
+.sp-enroll span:last-child { letter-spacing: 0.06em; opacity: 0.8; }

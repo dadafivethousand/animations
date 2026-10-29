@@ -36,7 +36,8 @@ import "./Stylesheets/App.css";
 import MapleBullseyeAd from "./Components/MapleBullseyeAd";
 // import MapleBulletAd from "./Components/MapleBulletAd";
 // import MapleViceAd from "./Components/MapleViceAd";
-import MapleGameAd from "./Components/MapleGameAd";
+// import MapleGameAd from "./Components/MapleGameAd";
+import MapleSpartanAd from "./Components/MapleSpartanAd";
 
 function App() {
   // return <WheelSchedule day="Thursday" />;
@@ -55,6 +56,8 @@ function App() {
   // A Maple commercial, Vice City trailer style. ?render=1 for tools/record-frames.js
   // return <MapleViceAd />;
   // A Maple commercial as open-world game footage. ?render=1 for tools/record-frames.js
-  return <MapleGameAd />;
+  // return <MapleGameAd />;
+  // A 300-style Spartan charge. ?render=1 for tools/record-frames.js
+  return <MapleSpartanAd />;
 }
 export default App;
