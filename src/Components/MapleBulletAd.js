@@ -84,10 +84,10 @@ const SHOT_T = (() => {
   for (let i = 0; i < HOLES.length; i++) {
     if (left === 0) {
       left = 16 + Math.floor(r() * 9);
-      if (i) t += 70 + r() * 45; // swing onto the next run
+      if (i) t += 120 + r() * 60; // swing onto the next run
     }
     out.push(t);
-    t += 10 + r() * 4;
+    t += 22 + r() * 5; // ~40 rounds a second: fast, but every hole can be seen landing
     left -= 1;
   }
   return out;
