@@ -1,0 +1,450 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bangers&family=Inter:wght@600;700;800;900&display=swap');
+
+/* MapleViceAd — a Maple commercial in the style of a Vice City game
+ * trailer. Namespace: gv-. All motion is written by the component per frame;
+ * this file only lays things out and grades them.
+ *
+ *   ENDVAR=__viceEnd URL=http://localhost:30xx/?render=1 OUT=~/Downloads/maple-vice.mp4 \
+ *     NODE_PATH=/tmp/rec/node_modules node tools/record-frames.js
+ */
+
+.gv-stage {
+  --safe-x: max(45px, 11vw);
+  --safe-y: max(40px, 6vh);
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #12061c;
+  color: #fff;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+.gv-scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+/* ---------- sunset ---------- */
+.gv-sky {
+  position: absolute;
+  inset: -10% 0 30% 0;
+  background: linear-gradient(
+    180deg,
+    #1d0b3d 0%,
+    #4a1a6b 22%,
+    #a12f78 44%,
+    #e9516b 62%,
+    #ff8b4d 80%,
+    #ffc56b 100%
+  );
+}
+.gv-sundisc {
+  position: absolute;
+  left: 50%;
+  top: 31%;
+  width: 64vw;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #fff1a0 0%, #ffc85c 38%, #ff7a59 70%, #ff3f7f 100%);
+  box-shadow: 0 0 60px 10px rgba(255, 120, 110, 0.55);
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    #000 52%, transparent 52%, transparent 55%,
+    #000 55%, #000 63%, transparent 63%, transparent 67%,
+    #000 67%, #000 74%, transparent 74%, transparent 79%,
+    #000 79%, #000 85%, transparent 85%, transparent 91%,
+    #000 91%
+  );
+  mask-image: linear-gradient(
+    180deg,
+    #000 52%, transparent 52%, transparent 55%,
+    #000 55%, #000 63%, transparent 63%, transparent 67%,
+    #000 67%, #000 74%, transparent 74%, transparent 79%,
+    #000 79%, #000 85%, transparent 85%, transparent 91%,
+    #000 91%
+  );
+}
+.gv-skyline-wrap {
+  position: absolute;
+  left: -4%;
+  right: -4%;
+  top: 53%;
+  height: 9.2%;
+  color: #2a0f36;
+}
+.gv-skyline { width: 100%; height: 100%; display: block; }
+.gv-sea {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 62%;
+  bottom: 0;
+  background: linear-gradient(180deg, #5a2160 0%, #2a1040 45%, #10071d 100%);
+  overflow: hidden;
+}
+.gv-waves {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(180deg, rgba(255, 150, 120, 0.5) 0 2px, transparent 2px 12px);
+  -webkit-mask-image: radial-gradient(40% 70% at 50% 0%, #000 0%, transparent 100%);
+  mask-image: radial-gradient(40% 70% at 50% 0%, #000 0%, transparent 100%);
+}
+.gv-palm-l,
+.gv-palm-r {
+  position: absolute;
+  bottom: -3vh;
+  width: 78vw;
+  height: 92vh;
+  color: #13061c;
+  transform-origin: 50% 100%;
+}
+.gv-palm-l { left: -30vw; }
+.gv-palm-r { right: -34vw; height: 80vh; }
+.gv-palm { width: 100%; height: 100%; display: block; }
+
+.gv-titleblock {
+  position: absolute;
+  left: var(--safe-x);
+  right: var(--safe-x);
+  top: 17%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.gv-welcome {
+  font-family: Anton, sans-serif;
+  font-size: clamp(15px, 4.6vw, 19px);
+  letter-spacing: 0.42em;
+  padding-left: 0.42em;
+  color: #fff;
+  text-shadow: 0 0 12px rgba(255, 80, 160, 0.9);
+  opacity: 0;
+}
+.gv-title {
+  margin-top: 4px;
+  font-family: Anton, sans-serif;
+  font-size: clamp(76px, 26vw, 104px);
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  background: linear-gradient(180deg, #ffe38a 0%, #ff9d5c 38%, #ff4f8b 72%, #c93cff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 3px 0 #2a0f3c) drop-shadow(0 0 18px rgba(255, 70, 150, 0.6));
+  font-style: italic;
+  opacity: 0;
+}
+
+/* ---------- end card (on the sunset) ---------- */
+.gv-end {
+  position: absolute;
+  left: var(--safe-x);
+  right: var(--safe-x);
+  top: 13%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: clamp(6px, 1.4vh, 12px);
+  visibility: hidden;
+}
+.gv-endlogo {
+  width: clamp(80px, 27vw, 108px);
+  height: auto;
+  filter: drop-shadow(0 4px 14px rgba(40, 0, 60, 0.6));
+  opacity: 0;
+}
+.gv-endtitle {
+  font-family: Anton, sans-serif;
+  font-style: italic;
+  font-size: clamp(28px, 9vw, 36px);
+  line-height: 1;
+  padding-right: 0.12em;
+  background: linear-gradient(180deg, #ffe38a 0%, #ff9d5c 45%, #ff4f8b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 2px 0 #2a0f3c) drop-shadow(0 0 14px rgba(255, 70, 150, 0.55));
+  opacity: 0;
+}
+.gv-enroll {
+  margin-top: clamp(2px, 1vh, 8px);
+  font-family: Bangers, sans-serif;
+  font-size: clamp(30px, 10vw, 40px);
+  letter-spacing: 0.04em;
+  color: #ffd34d;
+  -webkit-text-stroke: 6px #12061c;
+  paint-order: stroke fill;
+  opacity: 0;
+}
+.gv-addr {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-weight: 800;
+  font-size: clamp(10px, 3.3vw, 13px);
+  letter-spacing: 0.16em;
+  color: #fff;
+  text-shadow: 0 1px 6px rgba(20, 0, 30, 0.8);
+  opacity: 0;
+}
+.gv-addr span:last-child { letter-spacing: 0.06em; font-weight: 700; opacity: 0.85; }
+
+/* ---------- loading-screen panels ---------- */
+.gv-panels {
+  background:
+    repeating-linear-gradient(-35deg, rgba(255, 255, 255, 0.025) 0 18px, transparent 18px 36px),
+    linear-gradient(160deg, #2b0d45 0%, #6a1f63 55%, #e2546a 100%);
+}
+.gv-panel {
+  position: absolute;
+  overflow: hidden;
+  border: 4px solid #0b0b0b;
+  box-shadow: 0 0 0 3px #fff, 0 12px 30px rgba(0, 0, 0, 0.55);
+  background: #000;
+  opacity: 0;
+}
+.gv-panel-0 { left: 11vw; top: 9vh; width: 66vw; height: 29vh; }
+.gv-panel-1 { right: 9vw; top: 34vh; width: 60vw; height: 26vh; }
+.gv-panel-2 { left: 13vw; top: 58vh; width: 62vw; height: 26vh; }
+.gv-panel img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: url(#gv-art) contrast(1.12);
+}
+.gv-panel-2 img { object-position: 55% 40%; }
+.gv-tone {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(255, 80, 160, 0.55), rgba(255, 170, 80, 0.25) 50%, rgba(40, 200, 220, 0.5));
+  mix-blend-mode: soft-light;
+}
+.gv-dots {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.5) 0.9px, transparent 1.5px) 0 0 / 5px 5px;
+  mix-blend-mode: multiply;
+  opacity: 0.45;
+}
+.gv-cap {
+  position: absolute;
+  left: 8px;
+  bottom: 4px;
+  font-family: Bangers, sans-serif;
+  font-size: clamp(26px, 8.6vw, 34px);
+  letter-spacing: 0.03em;
+  color: #ffd34d;
+  -webkit-text-stroke: 6px #0b0b0b;
+  paint-order: stroke fill;
+  opacity: 0;
+  transform-origin: left bottom;
+}
+.gv-panel-1 .gv-cap { left: auto; right: 8px; transform-origin: right bottom; }
+.gv-cap-hidden { display: none; }
+
+/* ---------- gameplay ---------- */
+.gv-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.gv-hud .gv-bg { object-position: 74% 18%; filter: saturate(1.15) contrast(1.05); }
+.gv-grade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 120, 80, 0.12), rgba(20, 40, 90, 0.28));
+}
+.gv-help {
+  position: absolute;
+  top: calc(var(--safe-y) + 6px);
+  left: var(--safe-x);
+  max-width: 52vw;
+  padding: 8px 10px;
+  background: rgba(0, 0, 0, 0.74);
+  font-weight: 600;
+  font-size: clamp(11px, 3.4vw, 13px);
+  line-height: 1.35;
+  transform-origin: left top;
+  opacity: 0;
+}
+.gv-btn { color: #e8463e; font-weight: 900; }
+.gv-tr {
+  position: absolute;
+  top: calc(var(--safe-y) + 4px);
+  right: var(--safe-x);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+.gv-money {
+  position: relative;
+  font-family: Bangers, sans-serif;
+  font-size: clamp(24px, 7.6vw, 30px);
+  letter-spacing: 0.04em;
+  color: #6cc164;
+  -webkit-text-stroke: 5px #000;
+  paint-order: stroke fill;
+  opacity: 0;
+}
+.gv-plus {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  font-size: 0.7em;
+  opacity: 0;
+}
+.gv-stars {
+  display: flex;
+  gap: 1px;
+  margin-top: 14px;
+  opacity: 0;
+}
+.gv-star { width: clamp(18px, 6vw, 24px); height: auto; overflow: visible; }
+
+.gv-minimap {
+  position: absolute;
+  left: var(--safe-x);
+  bottom: calc(var(--safe-y) + 14px);
+  width: clamp(96px, 30vw, 118px);
+  opacity: 0;
+}
+.gv-mapring {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #3a4850;
+  border: 3px solid rgba(0, 0, 0, 0.7);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+}
+.gv-mapinner { position: absolute; inset: -30%; }
+.gv-road { position: absolute; background: #7d8b92; }
+.gv-route {
+  position: absolute;
+  left: 33.5%;
+  top: 23%;
+  width: 3.4%;
+  height: 28%;
+  background: #f2c037;
+}
+.gv-route::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1000%;
+  height: 12%;
+  background: #f2c037;
+}
+.gv-blip { position: absolute; left: 62%; top: 16%; width: 20%; }
+.gv-player {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 14px;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  clip-path: polygon(50% 0, 100% 100%, 50% 75%, 0 100%);
+  filter: drop-shadow(0 0 2px #000);
+}
+.gv-bars { display: flex; flex-direction: column; gap: 3px; margin-top: 6px; }
+.gv-bars > div { height: 5px; background: rgba(0, 0, 0, 0.55); }
+.gv-bars i { display: block; height: 100%; }
+.gv-hp i { width: 86%; background: #58a85a; }
+.gv-ap i { width: 58%; background: #4a8bd0; }
+
+.gv-mission {
+  position: absolute;
+  left: var(--safe-x);
+  right: var(--safe-x);
+  bottom: calc(var(--safe-y) + 25vh);
+  height: 2em;
+  font-weight: 700;
+  font-size: clamp(15px, 4.8vw, 19px);
+  text-align: center;
+}
+.gv-mis {
+  position: absolute;
+  left: 0;
+  right: 0;
+  -webkit-text-stroke: 4px #000;
+  paint-order: stroke fill;
+  opacity: 0;
+}
+.gv-mis em { font-style: normal; color: #f2c037; }
+
+/* ---------- mission passed ---------- */
+.gv-passed .gv-bg { object-position: 50% 30%; }
+.gv-band {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 39%;
+  height: 17%;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.7) 18%, rgba(0, 0, 0, 0.7) 82%, rgba(0, 0, 0, 0));
+  opacity: 0;
+}
+.gv-passtxt {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 40.5%;
+  text-align: center;
+  font-family: Bangers, sans-serif;
+  font-size: clamp(44px, 14.5vw, 58px);
+  letter-spacing: 0.03em;
+  color: #f0c14b;
+  -webkit-text-stroke: 7px #000;
+  paint-order: stroke fill;
+  opacity: 0;
+}
+.gv-respect {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50.5%;
+  text-align: center;
+  font-family: Bangers, sans-serif;
+  font-size: clamp(22px, 7.4vw, 30px);
+  letter-spacing: 0.06em;
+  color: #fff;
+  -webkit-text-stroke: 5px #000;
+  paint-order: stroke fill;
+  opacity: 0;
+}
+
+/* ---------- film ---------- */
+.gv-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 85% at 50% 50%, rgba(0, 0, 0, 0) 55%, rgba(10, 0, 20, 0.55) 100%);
+}
+.gv-grain {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+.gv-flash,
+.gv-black {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+}
+.gv-flash { background: #fff; }
+.gv-black { background: #000; opacity: 1; }
