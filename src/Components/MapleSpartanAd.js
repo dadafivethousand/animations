@@ -1,11 +1,9 @@
 // MapleSpartanAd.js — Maple Jiu-Jitsu as a 300-style Spartan charge.
 //
-//   A  "WHAT IS YOUR PROFESSION?" — the camera creeps up on a shield wall;
-//      they raise their spears: AHOO!
-//   B  three front-rank Spartans throw at the viewer in slow motion: two
-//      whip past, the third hits the lens and the screen cracks
-//   C  the phalanx charges straight at the camera; the lead shield slams
-//      into the lens, cut to black
+//   The phalanx charges straight at the camera from the first frame. On the
+//   run, the front rank's middle three throw: two spears whip past, the
+//   third hits the lens and the screen cracks. They keep coming behind the
+//   broken glass until the lead shield slams into it. Cut to black.
 //   D  end card: one Maple shield in the dark, embers, TRAIN LIKE A SPARTAN
 //
 // Every shield is bronze with the Maple leaf and MAPLE JIU-JITSU round the
@@ -39,20 +37,16 @@ function mulberry32(a) {
 }
 
 // ---------------- timeline (ms) ----------------
-const T_Q0 = 600; // "WHAT IS YOUR PROFESSION?"
-const T_AHOO = 2500;
-const T_B = 3300; // shot B: the throw
-const RELEASES = [3750, 3950, 4150];
-const FLIGHT = [1050, 1050, 1150];
-const T_HIT = RELEASES[2] + FLIGHT[2]; // the third spear reaches the lens
-const T_C = T_HIT + 650; // shot C: the charge
-const RUN_V = 4.6; // m/s
-const C_Z0 = -14; // front rank starts here
+// The charge runs from the first frame. The front rank throws on the run;
+// the third spear hits the lens. They keep coming behind the cracked glass
+// until the lead shield slams into it.
+const RUN_V = 3.2; // m/s, a touch of slow motion
+const C_Z0 = -15; // front rank starts here
+const ROW_GAP = 1.85; // rows open up at a run, so no spear reaches the man ahead
+const RELEASES = [1500, 1800, 2100];
+const FLIGHT = [1000, 1000, 1150];
+const T_HIT = RELEASES[2] + FLIGHT[2];
 const CAM_C = new THREE.Vector3(0, 0.78, 2.3);
-// the lead shield reaches the lens
-const T_SLAM = T_C + 280 + ((1.45 - C_Z0) / RUN_V) * 1000;
-const T_D = T_SLAM + 350; // end card
-const END_MS = T_D + 5200;
 
 const canvasTex = (w, h, draw, { srgb = true, repeat = null } = {}) => {
   const c = document.createElement("canvas");
@@ -70,8 +64,6 @@ const canvasTex = (w, h, draw, { srgb = true, repeat = null } = {}) => {
 };
 
 export default function MapleSpartanAd({
-  question = "WHAT IS YOUR PROFESSION?",
-  shout = "AHOO!",
   name = "MAPLE JIU-JITSU",
   tag = "TRAIN LIKE A SPARTAN",
   enroll = "NOW ENROLLING",
@@ -229,45 +221,34 @@ export default function MapleSpartanAd({
       g.beginPath();
       g.arc(C, C, C - 56, 0, Math.PI * 2);
       g.stroke();
-      // MAPLE JIU-JITSU round the top, set into the bronze
-      const text = " MAPLE  JIU-JITSU ";
-      g.font = '900 80px "Cinzel", Georgia, serif';
+      // MAPLE JIU-JITSU round the top, cut deep into the rim
+      const text = "MAPLE  JIU-JITSU";
+      g.font = '900 104px "Cinzel", Georgia, serif';
       g.textAlign = "center";
       g.textBaseline = "middle";
-      const rad = C - 120;
-      const span = Math.PI * 1.05;
+      const rad = C - 118;
+      const span = Math.PI * 1.12;
       for (let i = 0; i < text.length; i++) {
         const a = -Math.PI / 2 - span / 2 + (span * (i + 0.5)) / text.length;
         g.save();
         g.translate(C + Math.cos(a) * rad, C + Math.sin(a) * rad);
         g.rotate(a + Math.PI / 2);
-        g.fillStyle = "rgba(255,225,160,0.55)";
-        g.fillText(text[i], 2, 3);
-        g.fillStyle = "#3a1f0a";
+        g.fillStyle = "rgba(255,225,160,0.7)";
+        g.fillText(text[i], 3, 4);
+        g.fillStyle = "#1e0e04";
         g.fillText(text[i], 0, 0);
         g.restore();
       }
-      // the leaf, embossed dark into the middle
+      // the Maple Jiu-Jitsu logo itself, painted on the bronze
       if (logoImg.complete && logoImg.naturalWidth) {
-        const t = document.createElement("canvas");
-        t.width = t.height = 560;
-        const tg = t.getContext("2d");
-        tg.drawImage(logoImg, 0, 0, 560, 560 * (logoImg.naturalHeight / logoImg.naturalWidth));
-        tg.globalCompositeOperation = "source-in";
-        tg.fillStyle = "#3a1f0a";
-        tg.fillRect(0, 0, 560, 560);
-        g.globalAlpha = 0.5;
-        g.drawImage(t, C - 280 + 4, C - 250 + 5);
-        g.globalAlpha = 1;
-        const hi = document.createElement("canvas");
-        hi.width = hi.height = 560;
-        const hg = hi.getContext("2d");
-        hg.drawImage(t, 0, 0);
-        hg.globalCompositeOperation = "source-in";
-        hg.fillStyle = "rgba(255,220,150,0.5)";
-        hg.fillRect(0, 0, 560, 560);
-        g.drawImage(hi, C - 280 - 3, C - 250 - 3);
-        g.drawImage(t, C - 280, C - 250);
+        const lw = 520;
+        const lh = lw * (logoImg.naturalHeight / logoImg.naturalWidth);
+        g.save();
+        g.shadowColor = "rgba(20,8,0,0.7)";
+        g.shadowBlur = 18;
+        g.shadowOffsetY = 6;
+        g.drawImage(logoImg, C - lw / 2, C - lh / 2 + 70, lw, lh);
+        g.restore();
       }
       return c;
     }
@@ -539,10 +520,22 @@ export default function MapleSpartanAd({
         army.push(S);
       }
     });
-    // the three throwers: the front rank's middle three
+    // the three throwers: the front rank's middle three; the middle one leads
     const throwers = [2, 3, 4].map((i) => army[i]);
-    // a fourth Spartan at the very front of the charge, dead centre: his shield hits the lens
     const lead = army[3];
+    lead.delay = 0;
+    // distance run by t, with a short acceleration
+    function ran(S, t) {
+      const tt = Math.max(0, t - S.delay) / 1000;
+      const a = 0.35;
+      return tt < a ? (S.speed * tt * tt) / (2 * a) : S.speed * (tt - a / 2);
+    }
+    const startZ = (S) => C_Z0 - S.row * ROW_GAP + (S.home.z + 6 + S.row * 1.35);
+    // the lead shield (0.46 m in front of him) reaches the lens
+    let T_SLAM = 0;
+    for (let t = 0; t < 20000; t += 5) if (startZ(lead) + ran(lead, t) >= CAM_C.z - 0.95) { T_SLAM = t; break; }
+    const T_D = T_SLAM + 350;
+    const END_MS = T_D + 5200;
 
     // thrown spears
     const flying = RELEASES.map(() => {
@@ -551,16 +544,15 @@ export default function MapleSpartanAd({
       world.add(sp);
       return sp;
     });
-    const CAM_B = new THREE.Vector3(0.05, 1.12, 1.35);
-    const LOOK_B = new THREE.Vector3(0, 1.45, -6);
-    const TARGETS = [new THREE.Vector3(-0.7, 1.25, 1.7), new THREE.Vector3(0.65, 1.4, 1.7), CAM_B.clone().add(new THREE.Vector3(0, -0.02, -0.12))];
+    const TARGETS = [new THREE.Vector3(-0.6, 1.05, 2.7), new THREE.Vector3(0.55, 1.2, 2.7), CAM_C.clone().add(new THREE.Vector3(0, 0.01, -0.1))];
     function spearAt(k, t) {
       const S = throwers[k];
-      const start = new THREE.Vector3(S.home.x + 0.24, 2.05, S.home.z + 0.15);
+      const zr = startZ(S) + ran(S, RELEASES[k]);
+      const start = new THREE.Vector3(S.home.x + 0.22, 2.0, zr + 0.1);
       const end = TARGETS[k];
       const u = (t - RELEASES[k]) / FLIGHT[k];
       const p = start.clone().lerp(end, u);
-      p.y += 4 * u * (1 - u) * 0.9;
+      p.y += 4 * u * (1 - u) * 0.55;
       return { p, u, start, end };
     }
 
@@ -652,46 +644,51 @@ export default function MapleSpartanAd({
       scene.fog = inD ? null : fogObj;
 
       if (!inD) {
-        const charge = t >= T_C;
+        const qh = new THREE.Quaternion();
+        const qd = new THREE.Quaternion();
+        const UP = new THREE.Vector3(0, 1, 0);
         for (const S of army) {
-          if (!charge) {
-            S.root.position.copy(S.home);
-            S.root.rotation.y = 0;
-            // the spear goes up on AHOO, and the throwers wind up and throw
-            let arm = 0.15;
-            let flip = false;
-            const a = clamp01((t - T_AHOO) / 180) * (1 - ss(T_AHOO + 650, T_AHOO + 950, t));
-            arm = lerp(0.15, Math.PI - 0.15, a);
-            const k = throwers.indexOf(S);
+          const dist = ran(S, t);
+          S.root.position.set(S.home.x, 0, startZ(S) + dist);
+          S.root.rotation.y = 0;
+          const k = throwers.indexOf(S);
+          // the front rank carries overhand, ready to throw; everyone behind
+          // carries his spear upright at his side, so no point is ever
+          // pointed at the back of the man in front
+          let arm = 0.15;
+          let dir = null;
+          let slide = 0.85; // hold the upright spear low on the shaft
+          if (S.row === 0) {
+            arm = 2.75;
+            dir = new THREE.Vector3(0, -0.06, 1).normalize();
+            slide = 0;
             if (k >= 0) {
               const rel = RELEASES[k];
-              const wind = ss(rel - 420, rel - 60, t);
-              const fire = ss(rel - 60, rel + 90, t);
-              if (t > rel - 420) arm = lerp(lerp(0.15, 2.45, wind), -1.25, fire);
-              if (t > rel + 600) arm = lerp(-1.25, 0.15, ss(rel + 600, rel + 1100, t));
+              const wind = ss(rel - 380, rel - 60, t);
+              const fire = ss(rel - 60, rel + 80, t);
+              arm = lerp(lerp(2.75, 3.05, wind), -0.9, fire);
+              if (t > rel + 80) arm = lerp(-0.9, 0.2, ss(rel + 80, rel + 600, t));
+              dir = new THREE.Vector3(0, 0.12 * wind - 0.06, 1).normalize();
               S.spear.visible = t < rel;
-            } else S.spear.visible = true;
-            pose(S, { phase: S.phase, g: 0, spearArm: arm, spearFlip: flip, sway: Math.sin(t / 900 + S.phase) * 0.03 });
-            capeWave(S, t, 0.15);
+            }
           } else {
-            // the charge: rows advance at a sprint, spears lowered
-            const tt = Math.max(0, t - T_C - S.delay);
-            const accel = 0.28;
-            const dist = tt < accel * 1000 ? (S.speed * (tt / 1000) ** 2) / (2 * accel) : S.speed * (tt / 1000 - accel / 2);
-            const z0 = C_Z0 - S.row * 1.35 + (S.home.z + 6 + S.row * 1.35);
-            S.root.position.set(S.home.x, 0, z0 + dist);
-            S.root.rotation.y = 0;
-            S.spear.visible = true;
-            pose(S, { phase: (dist / 1.9) * Math.PI * 2 + S.phase, g: clamp01(tt / 300), lean: 0.32, spearArm: -1.3, spearFlip: true });
-            capeWave(S, t, 0.85);
+            dir = new THREE.Vector3(0, 1, 0.12).normalize();
           }
+          pose(S, { phase: (dist / 1.9) * Math.PI * 2 + S.phase, g: clamp01((t - S.delay) / 300), lean: 0.3, spearArm: arm });
+          // aim the spear in the world, whatever the arm is doing
+          S.root.updateMatrixWorld(true);
+          S.limbs[1].hand.getWorldQuaternion(qh);
+          qd.setFromUnitVectors(UP, dir);
+          S.spear.quaternion.copy(qh.invert().multiply(qd));
+          S.spear.position.set(0, 0, 0).addScaledVector(new THREE.Vector3(0, 1, 0).applyQuaternion(S.spear.quaternion), slide);
+          capeWave(S, t, 0.85);
         }
 
         // flying spears
         for (let k = 0; k < flying.length; k++) {
           const sp = flying[k];
           const u = (t - RELEASES[k]) / FLIGHT[k];
-          sp.visible = !charge && u >= 0 && u < (k === 2 ? 1 : 1.35);
+          sp.visible = t < T_SLAM && u >= 0 && u < (k === 2 ? 1 : 1.35);
           if (!sp.visible) continue;
           const { p } = spearAt(k, t);
           const q = spearAt(k, t + 8).p;
@@ -701,34 +698,16 @@ export default function MapleSpartanAd({
           sp.rotateY(t * 0.004);
         }
 
-        // ---- camera ----
-        if (t < T_B) {
-          const k = easeIO(clamp01(t / T_B));
-          camera.position.set(lerp(-0.55, -0.1, k), lerp(0.62, 0.95, k), lerp(3.2, 1.9, k));
-          look.set(0, lerp(1.15, 1.4, k), -6);
-          camera.fov = 40;
-        } else if (!charge) {
-          camera.position.copy(CAM_B);
-          look.copy(LOOK_B);
-          camera.fov = 40;
-          // impact
-          const d = t - T_HIT;
-          if (d > 0) {
-            const a = 0.06 * Math.exp(-d / 180);
-            camera.position.x += Math.sin(d * 0.11) * a;
-            camera.position.y += Math.cos(d * 0.093) * a;
-          }
-        } else {
-          camera.position.copy(CAM_C);
-          look.set(0, 1.25, -8);
-          // shake that grows as they close
-          const lz = lead.root.position.z;
-          const close = clamp01((lz + 10) / 11.5);
-          const a = 0.004 + 0.03 * close * close;
-          camera.position.x += Math.sin(t * 0.071) * a + Math.sin(t * 0.19) * a * 0.5;
-          camera.position.y += Math.cos(t * 0.083) * a;
-          camera.fov = 44;
-        }
+        // ---- camera: low, in their path ----
+        camera.position.copy(CAM_C);
+        look.set(0, 1.3, -8);
+        const close = clamp01((lead.root.position.z + 12) / 13.5);
+        let a = 0.004 + 0.03 * close * close;
+        const dh = t - T_HIT;
+        if (dh > 0) a += 0.06 * Math.exp(-dh / 180);
+        camera.position.x += Math.sin(t * 0.071) * a + Math.sin(t * 0.19) * a * 0.5;
+        camera.position.y += Math.cos(t * 0.083) * a;
+        camera.fov = 44;
         camera.lookAt(look);
         camera.updateProjectionMatrix();
 
@@ -744,10 +723,10 @@ export default function MapleSpartanAd({
         dust.instanceMatrix.needsUpdate = true;
         // puffs kicked up behind the charge
         let pi = 0;
-        if (charge) {
+        {
           for (const S of army) {
             for (let j = 0; j < 6 && pi < PUFF; j++, pi++) {
-              const age = ((t - T_C) / 1000 + j * 0.17 + S.phase) % 1.0;
+              const age = (t / 1000 + j * 0.17 + S.phase) % 1.0;
               dummy.position.set(S.root.position.x + Math.sin(j + S.phase) * 0.25, 0.15 + age * 0.6, S.root.position.z - 0.4 - age * 1.6);
               dummy.quaternion.copy(camera.quaternion);
               dummy.scale.setScalar(0.4 + age * 1.4);
@@ -788,19 +767,16 @@ export default function MapleSpartanAd({
         el.style.opacity = o.toFixed(3);
         el.style.transform = `translateY(${y.toFixed(2)}px) scale(${s.toFixed(4)})`;
       };
-      fx("q", ss(T_Q0, T_Q0 + 400, t) * (1 - ss(T_AHOO - 250, T_AHOO, t)), (1 - ss(T_Q0, T_Q0 + 600, t)) * 8);
-      fx("ahoo", ss(T_AHOO, T_AHOO + 90, t) * (1 - ss(T_AHOO + 700, T_AHOO + 950, t)), 0, lerp(1.6, 1, ss(T_AHOO, T_AHOO + 260, t)));
-      // the crack: on the hit, gone at the cut
-      const cr = t >= T_HIT && t < T_C;
+      // the crack: from the hit until the shield arrives
+      const cr = t >= T_HIT && t < T_SLAM;
       if (R.crack) {
         R.crack.style.opacity = cr ? "1" : "0";
         R.crack.style.transform = `scale(${cr ? lerp(0.7, 1, ss(T_HIT, T_HIT + 70, t)) : 1})`;
       }
       let flash = 0;
       if (t >= T_HIT && t < T_HIT + 220) flash = 1 - (t - T_HIT) / 220;
-      if (t >= T_C && t < T_C + 160) flash = Math.max(flash, 0.7 * (1 - (t - T_C) / 160));
       if (R.flash) R.flash.style.opacity = (flash * 0.85).toFixed(3);
-      let black = 1 - ss(0, 450, t);
+      let black = 1 - ss(0, 250, t);
       if (t >= T_SLAM && t < T_D) black = 1;
       if (t >= T_D) black = 1 - ss(T_D, T_D + 600, t);
       black = Math.max(black, ss(END_MS - 450, END_MS, t));
@@ -824,7 +800,7 @@ export default function MapleSpartanAd({
       if (renderMode) {
         window.__renderAt = (ms) => renderAt(ms);
         window.__spartaEnd = END_MS;
-        window.__spartaMarks = { T_Q0, T_AHOO, T_B, RELEASES, FLIGHT, T_HIT, T_C, T_SLAM, T_D, END_MS };
+        window.__spartaMarks = { RELEASES, FLIGHT, T_HIT, T_SLAM, T_D, END_MS };
         window.__ready = true;
         return;
       }
@@ -905,8 +881,6 @@ export default function MapleSpartanAd({
     <div className="sp-stage">
       <div className="sp-canvas" ref={mountRef} />
       <div className="sp-grade" aria-hidden />
-      <div className="sp-q" ref={ref("q")}>{question}</div>
-      <div className="sp-ahoo" ref={ref("ahoo")}>{shout}</div>
       <canvas className="sp-crack" ref={crackRef} aria-hidden />
       <div className="sp-flash" ref={ref("flash")} aria-hidden />
       <div className="sp-end">
