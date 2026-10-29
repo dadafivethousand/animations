@@ -756,7 +756,7 @@ export default function MapleGameAd({
       }
     }
 
-    const player = person({ skin: "#c98f68", hair: "#1b120c", top: "#f4f3ef", shorts: "#f4f3ef", gi: true, belt: "#111114", slides: "#121214", logoBack: true, backTex: wallLogoTex });
+    const player = person({ skin: "#c98f68", hair: "#1b120c", top: "#13234b", shorts: "#151517", shoes: "#f2f2f2", logoBack: true });
     scene.add(player.root);
 
     // students inside, on the mats
@@ -1295,7 +1295,7 @@ export default function MapleGameAd({
       {/* the publisher badge on black, then the title card over the drone shot */}
       <div className="gg-badgebg" ref={ref("badgebg")} />
       <div className="gg-badge" ref={ref("badge")}>
-        <div className="gg-badge-box">R<span>★</span></div>
+        <div className="gg-badge-box">M<span>★</span></div>
       </div>
 
       <div className="gg-title" ref={ref("title")}>
