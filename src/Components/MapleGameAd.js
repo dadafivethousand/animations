@@ -18,7 +18,6 @@ import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
-import { GTAOPass } from "three/examples/jsm/postprocessing/GTAOPass.js";
 import "../Stylesheets/MapleGameAd.css";
 import mapleLogo from "../Images/maple-logo.png";
 import mapleBjjLogo from "../Images/maple-bjj-logo.png";
@@ -92,6 +91,11 @@ function walkS(t) {
   return e * PATH.total;
 }
 const T_ARRIVE = T_WALK + (PATH.total / SPEED) * 1000 + 500;
+// when he reaches the money on the walk
+const T_PICK = (() => {
+  for (let t = T_WALK; t < T_ARRIVE; t += 5) if (walkS(t) >= 6.8) return t;
+  return T_ARRIVE;
+})();
 const T_INSIDE = T_ARRIVE + 250;
 const T_PASSED = T_INSIDE + 800;
 const T_END = T_INSIDE + 3000;
@@ -443,6 +447,7 @@ export default function MapleGameAd({
       upperArm: new THREE.CapsuleGeometry(0.057, 0.19, 6, 14),
       foreArm: new THREE.CapsuleGeometry(0.05, 0.19, 6, 14),
       hand: new THREE.SphereGeometry(0.045, 12, 10),
+      finger: new THREE.CapsuleGeometry(0.0115, 0.055, 4, 8),
       joint: new THREE.SphereGeometry(1, 14, 10),
       eye: new THREE.SphereGeometry(0.012, 10, 8),
       brow: new RoundedBoxGeometry(0.035, 0.008, 0.012, 1, 0.003),
@@ -455,7 +460,7 @@ export default function MapleGameAd({
       bag: new RoundedBoxGeometry(0.5, 0.26, 0.26, 4, 0.09),
       strap: new THREE.TorusGeometry(0.27, 0.012, 6, 32, Math.PI * 1.1),
     };
-    function person({ skin, hair, top, shorts, shoes, logoBack = false, gi = false, bag = false, belt = "#f2f2ee" }) {
+    function person({ skin, hair, top, shorts, shoes, logoBack = false, backTex = null, gi = false, bag = false, belt = "#f2f2ee", slides = null }) {
       const mat = (c, r = 0.7) => M({ color: c, roughness: r });
       const mSkin = mat(skin, 0.55);
       const mTop = mat(top, 0.85);
@@ -472,9 +477,11 @@ export default function MapleGameAd({
       const torso = new THREE.Mesh(geo.torso, mTop);
       spine.add(torso);
       if (logoBack) {
-        // the Maple mark on the back of his tee, where the camera sits
-        const back = new THREE.Mesh(new THREE.PlaneGeometry(0.24, 0.245), M({ map: logoTex, transparent: true, roughness: 0.8, polygonOffset: true, polygonOffsetFactor: -2 }));
-        back.position.set(0, 0.36, 0.118);
+        // the Maple mark across his back, where the camera sits
+        const sz = backTex ? 0.3 : 0.24;
+        const back = new THREE.Mesh(new THREE.PlaneGeometry(sz, sz * 1.02), M({ map: backTex || logoTex, transparent: true, roughness: 0.85, polygonOffset: true, polygonOffsetFactor: -2 }));
+        back.position.set(0, 0.35, 0.121);
+        back.rotation.x = -0.06;
         spine.add(back);
       }
       if (gi) {
@@ -548,9 +555,23 @@ export default function MapleGameAd({
         const fa = new THREE.Mesh(geo.foreArm, gi ? mTop : mSkin);
         fa.position.y = -0.13;
         elbow.add(fa);
+        // a hand: the palm faces his leg, four fingers and a thumb
         const hand = new THREE.Mesh(geo.hand, mSkin);
-        hand.position.y = -0.28;
-        hand.scale.set(0.9, 1.25, 0.75);
+        hand.position.y = -0.305;
+        hand.scale.set(0.72, 1.12, 1.12);
+        for (let f = 0; f < 4; f++) {
+          const fg = new THREE.Mesh(geo.finger, mSkin);
+          fg.position.set(0.004 * side, -0.382 - (f === 0 || f === 3 ? -0.008 : 0), -0.028 + f * 0.0185);
+          fg.rotation.x = 0.12 - f * 0.04;
+          fg.rotation.z = -0.1 * side;
+          fg.scale.y = f === 3 ? 0.78 : f === 1 ? 1.08 : 1;
+          elbow.add(fg);
+        }
+        const thumb = new THREE.Mesh(geo.finger, mSkin);
+        thumb.position.set(-0.012 * side, -0.33, -0.045);
+        thumb.rotation.set(-0.5, 0, 0.35 * side);
+        thumb.scale.y = 0.85;
+        elbow.add(thumb);
         elbow.add(hand);
         const hip = new THREE.Group();
         hip.position.set(0.095 * side, -0.04, 0);
@@ -570,7 +591,8 @@ export default function MapleGameAd({
         const ankle = new THREE.Group();
         ankle.position.y = -0.45;
         knee.add(ankle);
-        const shoe = new THREE.Mesh(geo.shoe, gi ? mSkin : mat(shoes, 0.5));
+        const shoe = new THREE.Mesh(geo.shoe, slides ? mat(slides, 0.6) : gi ? mSkin : mat(shoes, 0.5));
+        if (slides) shoe.scale.set(1.05, 0.45, 1.02);
         shoe.position.set(0, -0.02, -0.06);
         ankle.add(shoe);
         limbs[side] = { sh, upper, elbow, hip, knee, ankle };
@@ -625,7 +647,7 @@ export default function MapleGameAd({
       }
     }
 
-    const player = person({ skin: "#c98f68", hair: "#1b120c", top: "#13234b", shorts: "#151517", shoes: "#f2f2f2", logoBack: true });
+    const player = person({ skin: "#c98f68", hair: "#1b120c", top: "#f4f3ef", shorts: "#f4f3ef", gi: true, belt: "#111114", slides: "#121214", logoBack: true, backTex: wallLogoTex });
     scene.add(player.root);
 
     // students inside, on the mats
@@ -774,6 +796,66 @@ export default function MapleGameAd({
       scene.add(b);
     }
 
+    // ---- a money pickup on the walk: he walks through it ----
+    const PICK_S = 6.8; // metres along his path
+    const pickAt = pathAt(PICK_S);
+    const billTex = canvasTex(256, 128, (g, w, h) => {
+      g.fillStyle = "#6fbf5a";
+      g.fillRect(0, 0, w, h);
+      g.strokeStyle = "#2f6e2a";
+      g.lineWidth = 8;
+      g.strokeRect(8, 8, w - 16, h - 16);
+      g.fillStyle = "#2f6e2a";
+      g.font = "900 84px Inter, Arial";
+      g.textAlign = "center";
+      g.textBaseline = "middle";
+      g.fillText("$", w / 2, h / 2 + 4);
+    });
+    const pickup = new THREE.Group();
+    const billMat = new THREE.MeshStandardMaterial({ map: billTex, emissive: "#3fdc5a", emissiveMap: billTex, emissiveIntensity: 0.55, roughness: 0.6 });
+    for (let i = 0; i < 5; i++) {
+      const bill = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.016, 0.15), billMat);
+      bill.position.y = i * 0.018;
+      bill.rotation.y = (i - 2) * 0.12;
+      bill.castShadow = true;
+      pickup.add(bill);
+    }
+    const halo = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.34, 0.34, 0.9, 32, 1, true),
+      new THREE.MeshBasicMaterial({
+        map: canvasTex(16, 256, (g, w, h) => {
+          const gr = g.createLinearGradient(0, 0, 0, h);
+          gr.addColorStop(0, "rgba(90,255,120,0)");
+          gr.addColorStop(1, "rgba(90,255,120,0.55)");
+          g.fillStyle = gr;
+          g.fillRect(0, 0, w, h);
+        }),
+        transparent: true,
+        depthWrite: false,
+        side: THREE.DoubleSide,
+        toneMapped: false,
+      })
+    );
+    halo.position.y = 0.2;
+    pickup.add(halo);
+    pickup.position.set(pickAt.x, 0.5, pickAt.z);
+    scene.add(pickup);
+    const sparkTex = canvasTex(64, 64, (g, w) => {
+      const gr = g.createRadialGradient(w / 2, w / 2, 0, w / 2, w / 2, w / 2);
+      gr.addColorStop(0, "rgba(220,255,220,1)");
+      gr.addColorStop(1, "rgba(80,255,120,0)");
+      g.fillStyle = gr;
+      g.fillRect(0, 0, w, w);
+    });
+    const sparks = Array.from({ length: 16 }, (_, i) => {
+      const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: sparkTex, transparent: true, depthWrite: false, toneMapped: false }));
+      const a = (i / 16) * Math.PI * 2;
+      sp.userData = { a, up: 0.6 + (i % 3) * 0.3 };
+      sp.visible = false;
+      scene.add(sp);
+      return sp;
+    });
+
     // ---- the mission marker: a yellow corona at the door ----
     const markerTex = canvasTex(16, 256, (g, w, h) => {
       const gr = g.createLinearGradient(0, 0, 0, h);
@@ -799,10 +881,6 @@ export default function MapleGameAd({
     composer.setPixelRatio(window.devicePixelRatio || 1);
     composer.setSize(W, H);
     composer.addPass(new RenderPass(scene, camera));
-    const ao = new GTAOPass(scene, camera, W, H);
-    ao.blendIntensity = 0.85;
-    ao.updateGtaoMaterial({ radius: 0.45, distanceExponent: 1.2, thickness: 1.2, scale: 1.0 });
-    composer.addPass(ao);
     composer.addPass(new UnrealBloomPass(new THREE.Vector2(W, H), 0.28, 0.5, 0.95));
     composer.addPass(new OutputPass());
 
@@ -937,6 +1015,21 @@ export default function MapleGameAd({
       });
       void bow;
 
+      // the pickup turns and bobs until he walks through it
+      const got = t >= T_PICK;
+      pickup.visible = !got;
+      pickup.rotation.y = t / 600;
+      pickup.position.y = 0.42 + Math.sin(t / 260) * 0.05;
+      const sk = (t - T_PICK) / 520;
+      for (const sp of sparks) {
+        sp.visible = sk >= 0 && sk < 1;
+        if (!sp.visible) continue;
+        const r = 0.15 + sk * 0.7;
+        sp.position.set(pickAt.x + Math.cos(sp.userData.a) * r, 0.45 + sk * sp.userData.up, pickAt.z + Math.sin(sp.userData.a) * r);
+        sp.scale.setScalar(0.22 * (1 - sk));
+        sp.material.opacity = 1 - sk;
+      }
+
       // door swings open as he arrives
       const open = ss(T_ARRIVE - 600, T_ARRIVE + 100, t) * (t < T_INSIDE + 1800 ? 1 : 1 - ss(T_INSIDE + 1800, T_INSIDE + 2400, t));
       doorPivot.rotation.y = open * 1.3; // swings in
@@ -994,8 +1087,7 @@ export default function MapleGameAd({
       };
       fx("badge", ss(T_BADGE, T_BADGE + 250, t) * (1 - ss(T_DRONE - 300, T_DRONE - 60, t)), 0, lerp(0.92, 1, ss(T_BADGE, T_BADGE + 900, t)));
       if (R.badgebg) R.badgebg.style.opacity = (1 - ss(T_DRONE - 120, T_DRONE + 200, t)).toFixed(3);
-      fx("logo6", ss(T_DRONE + 250, T_DRONE + 700, t) * (1 - ss(T_GAME - 450, T_GAME - 100, t)), 0, lerp(1.12, 1, ss(T_DRONE + 250, T_DRONE + 1400, t)));
-      fx("title", ss(T_GAME + 150, T_GAME + 450, t) * (1 - ss(T_GAME + 1700, T_GAME + 2000, t)), 0, lerp(1.08, 1, ss(T_GAME + 150, T_GAME + 600, t)));
+      fx("title", ss(T_DRONE + 250, T_DRONE + 650, t) * (1 - ss(T_GAME - 350, T_GAME, t)), 0, lerp(1.1, 1, ss(T_DRONE + 250, T_DRONE + 1200, t)));
       const hud = ss(T_GAME, T_GAME + 400, t) * (1 - ss(T_ARRIVE, T_ARRIVE + 300, t));
       fx("minimap", hud, (1 - ss(T_GAME, T_GAME + 400, t)) * 16);
       fx("cash", hud);
@@ -1004,9 +1096,11 @@ export default function MapleGameAd({
       fx("phone", ph, (1 - ss(T_GAME + 2600, T_GAME + 2950, t)) * -60);
       drawRadar(P);
       // a big balance, with the odd payout landing
-      const pay = ss(T_GAME + 3400, T_GAME + 4000, t);
-      if (R.money) R.money.textContent = "$" + Math.round(84672150 + 500 * pay).toLocaleString("en-US");
-      fx("plus", ss(T_GAME + 3400, T_GAME + 3550, t) * (1 - ss(T_GAME + 4400, T_GAME + 4700, t)), -ss(T_GAME + 3400, T_GAME + 4700, t) * 12);
+      const pay = ss(T_PICK, T_PICK + 450, t);
+      if (R.money) R.money.textContent = "$" + Math.round(84672150 + 25000 * pay).toLocaleString("en-US");
+      fx("plus", ss(T_PICK, T_PICK + 150, t) * (1 - ss(T_PICK + 1100, T_PICK + 1400, t)), -ss(T_PICK, T_PICK + 1400, t) * 12);
+      // one wanted star, flashing
+      if (R.star0) R.star0.style.fill = Math.floor(t / 320) % 2 ? "rgba(255,255,255,0.16)" : "#ffffff";
       const cut = t >= T_INSIDE - 250 && t < T_INSIDE + 250 ? 1 - Math.abs(t - T_INSIDE) / 250 : 0;
       if (R.fade) R.fade.style.opacity = Math.max(cut, ss(END_MS - 450, END_MS, t)).toFixed(3);
       fx("band", ss(T_PASSED, T_PASSED + 200, t) * (1 - ss(T_END - 300, T_END, t)));
@@ -1031,7 +1125,7 @@ export default function MapleGameAd({
       if (renderMode) {
         window.__renderAt = (ms) => renderAt(ms);
         window.__gameEnd = END_MS;
-        window.__gameMarks = { T_BADGE, T_DRONE, T_GAME, T_WALK, T_ARRIVE, T_INSIDE, T_PASSED, T_END, END_MS, STRIDE: 1.45, SPEED };
+        window.__gameMarks = { T_PICK, T_BADGE, T_DRONE, T_GAME, T_WALK, T_ARRIVE, T_INSIDE, T_PASSED, T_END, END_MS, STRIDE: 1.45, SPEED };
         window.__gameSteps = (() => {
           // footfall times, for the sound: a foot lands every half stride
           const out = [];
@@ -1073,11 +1167,7 @@ export default function MapleGameAd({
       {/* the publisher badge on black, then the title card over the drone shot */}
       <div className="gg-badgebg" ref={ref("badgebg")} />
       <div className="gg-badge" ref={ref("badge")}>
-        <div className="gg-badge-box">M<span>★</span></div>
-      </div>
-      <div className="gg-logo6" ref={ref("logo6")}>
-        <div className="gg-logo6-words"><span>GRAND</span><span>THEFT</span><span>ARMBAR</span></div>
-        <div className="gg-logo6-vi">VI</div>
+        <div className="gg-badge-box">R<span>★</span></div>
       </div>
 
       <div className="gg-title" ref={ref("title")}>
@@ -1106,12 +1196,12 @@ export default function MapleGameAd({
         <div className="gg-stars">
           {[0, 1, 2, 3, 4].map((i) => (
             <svg key={i} viewBox="0 0 24 24" aria-hidden>
-              <path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 20.9l1.6-7L2 9.2l7.1-.6z" />
+              <path ref={i === 0 ? ref("star0") : undefined} d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 20.9l1.6-7L2 9.2l7.1-.6z" />
             </svg>
           ))}
         </div>
         <div className="gg-money"><span ref={ref("money")}>$84,672,150</span></div>
-        <div className="gg-plus" ref={ref("plus")}>+$500</div>
+        <div className="gg-plus" ref={ref("plus")}>+$25,000</div>
       </div>
 
       <div className="gg-minimap" ref={ref("minimap")}>
