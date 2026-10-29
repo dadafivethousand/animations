@@ -137,7 +137,7 @@ function steelCanvas() {
   c.height = SW;
   const x = c.getContext("2d");
   const r = mulberry32(4242);
-  x.fillStyle = "#6d87ad"; // blue camo base, light enough that the dark holes read
+  x.fillStyle = "#207eff"; // the Maple truck wrap: royal blue ground
   x.fillRect(0, 0, SW, SW);
 
   // BLUE CAMO, painted on. All four tones sit close in value so the
@@ -170,7 +170,7 @@ function steelCanvas() {
       const rad = rMin + r() * (rMax - rMin);
       const cx0 = r() * SW;
       const cy0 = r() * SW;
-      const stretch = 1.4 + r() * 1.2;
+      const stretch = 1.1 + r() * 0.7; // round blobs, like the truck wrap
       const rot = (r() - 0.5) * 1.2; // mostly horizontal
       blob(cx0, cy0, rad, stretch, rot);
       // a lobe or two off the side, so they are not ellipses
@@ -178,10 +178,13 @@ function steelCanvas() {
     }
   };
   x.filter = "blur(1.5px)";
-  layer("#7f98bd", 70, 50, 120); // pale blue
-  layer("#5c78a3", 60, 45, 105); // mid blue
-  layer("#546f99", 60, 40, 95); // slate
-  layer("#4b6590", 45, 18, 45); // navy, lifted so holes on it still read
+  // The three blues of the Maple truck wrap (sampled from its photo,
+  // which is stored darkened: brought back up so its white reads white),
+  // pushed more saturated here because the lighting and tone mapping
+  // greys them; measured off a render to land on the truck colours.
+  layer("#1353af", 46, 70, 150); // mid blue
+  layer("#0a2354", 40, 60, 130); // navy
+  layer("#1353af", 20, 30, 70); // mid blue flecks over the navy
   x.filter = "none";
 
   // the grain of rolled steel: fine, horizontal, barely there
@@ -440,8 +443,8 @@ function makeDamage() {
     // wall behind it is doing the rest. Soot first: the dirty halo the muzzle
     // gas lays down, wide and soft.
     let g = cx.createRadialGradient(px, py, R * 0.7, px, py, R * 3.2);
-    g.addColorStop(0, "rgba(9,9,10,0.82)");
-    g.addColorStop(0.5, "rgba(14,13,13,0.4)");
+    g.addColorStop(0, "rgba(9,9,10,0.4)");
+    g.addColorStop(0.5, "rgba(14,13,13,0.16)");
     g.addColorStop(1, "rgba(14,13,13,0)");
     cx.fillStyle = g;
     cx.fillRect(px - R * 3.2, py - R * 3.2, R * 6.4, R * 6.4);
@@ -450,6 +453,20 @@ function makeDamage() {
     rx.fillStyle = "rgba(255,255,255,0.30)"; // soot is matte
     rx.beginPath();
     rx.arc(px, py, R * 2.4, 0, Math.PI * 2);
+    rx.fill();
+
+    // The paint chip. A round through painted steel knocks the paint off
+    // round the hole and leaves a ring of bare metal. On a camo wall that
+    // silver ring is what makes the hole read on the navy patches as well
+    // as the bright ones.
+    torn(cx, px, py, R, sh, 1.85);
+    cx.fillStyle = "#c9d0d7";
+    cx.fill();
+    torn(ax, px, py, R, sh, 1.85);
+    ax.fillStyle = "#ffffff";
+    ax.fill();
+    torn(rx, px, py, R, sh, 1.85);
+    rx.fillStyle = "rgba(255,255,255,0.55)";
     rx.fill();
 
     // The lip. Metal does not vanish — it is pushed out of the hole and left
@@ -563,8 +580,8 @@ export default function MapleBulletAd() {
     mount.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color("#5c6f8a");
-    scene.fog = new THREE.FogExp2("#5c6f8a", 0.008);
+    scene.background = new THREE.Color("#1f4a8a");
+    scene.fog = new THREE.FogExp2("#1f4a8a", 0.008);
     const camera = new THREE.PerspectiveCamera(40, W / H, 0.05, 200);
 
     // ---- what the metal reflects ----
@@ -635,7 +652,7 @@ export default function MapleBulletAd() {
     steelTex.anisotropy = renderer.capabilities.getMaxAnisotropy();
     const wall = new THREE.Mesh(
       new THREE.PlaneGeometry(WALLW, WALLH),
-      new THREE.MeshStandardMaterial({ map: steelTex, roughness: 0.55, metalness: 0.3, color: "#e4e6e8" })
+      new THREE.MeshStandardMaterial({ map: steelTex, roughness: 0.8, metalness: 0.05, color: "#a8a8a8" })
     );
     wall.position.set(0, PY, 0);
     wall.receiveShadow = true;
