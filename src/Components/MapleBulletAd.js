@@ -184,65 +184,35 @@ function setFx(el, opacity, y = 0, scale = 1) {
   el.style.transform = `translateY(${y.toFixed(2)}px) scale(${scale.toFixed(3)})`;
 }
 
-// ---------------- the engraving ----------------
-// "MAPLE JIU-JITSU" cut into the wall rather than printed on it. A groove
-// reads by its walls, not by its colour: the chamfer facing the key light
-// catches a highlight, the one facing away falls into shadow, and the floor
-// of the cut sits darker than the surface because less light reaches it.
+// ---------------- the dog tag ----------------
+// The Maple mark is not on the wall: it hangs in front of it, stamped into
+// a steel dog tag on a ball chain. It drops in before the first round,
+// catches on the chain, and every hit on the wall rattles it.
 //
-// So this builds two canvases. The BUMP is mid-grey for the surface with the
-// lettering in black, blurred — the blur is what makes the wall of the cut a
-// ramp rather than a cliff, and a ramp is what the renderer needs in order
-// to put a highlight down one side of it. The TINT is transparent except in
-// the cut, where it lays a little dirt and shadow.
-//
-// Both go on a transparent plane sitting a few millimetres off the wall, so
-// the steel shows through everywhere the letters are not and there is no
-// patch edge to hide.
-const ENGRAVE_TEXT = "MAPLE JIU-JITSU";
+// The tag is a real extruded shape with a rolled rim and a hole. Its front
+// face carries two canvases mapped in tag units: a TINT with the stamping
+// filled in dark (the grime that collects in a stamped letter is what makes
+// it read across a room) and a BUMP where the rim stands proud and the
+// letters are pressed in.
+const TAG_W = 1.5;
+const TAG_H = 0.85;
+const TAG_R = 0.2;
+const TAG_HOLE = [-TAG_W / 2 + 0.12, 0];
+const TAG_HOLE_R = 0.045;
+const TAG_PX = 1100; // canvas px per world unit
+const TAG_Y = PY + 1.86; // centre of the tag at rest
+const TAG_Z = 0.24; // how far it hangs off the wall
 
-// The cut is the same for anything: draw the shape once as a blurred dark
-// ramp for the bump, and three times, offset, for the lit and shadowed walls.
-function engraveFrom(EW, EH, draw) {
-  const mk = () => {
-    const c = document.createElement("canvas");
-    c.width = EW;
-    c.height = EH;
-    return [c, c.getContext("2d")];
-  };
-  const [bump, bx] = mk();
-  bx.fillStyle = "#808080";
-  bx.fillRect(0, 0, EW, EH);
-  bx.filter = "blur(4px)";
-  bx.fillStyle = "#121212";
-  draw(bx, 0, 0);
-  bx.filter = "none";
-
-  // The key is up and to the left, so the far wall of a groove is the lit
-  // one: a highlight peeks out below and right of each stroke, a shadow
-  // above and left, and the floor of the cut sits darker than the surface.
-  const [tint, tx] = mk();
-  tx.filter = "blur(2.5px)";
-  tx.fillStyle = "rgba(240,245,250,0.7)";
-  draw(tx, 4, 4);
-  tx.fillStyle = "rgba(12,14,17,0.55)";
-  draw(tx, -3, -3);
-  tx.filter = "blur(1.5px)";
-  tx.fillStyle = "rgba(56,60,66,0.85)";
-  draw(tx, 0, 0);
-  tx.filter = "none";
-  return [bump, tint];
-}
-
-function engraveCanvases() {
-  const EW = 2048;
-  const EH = 420;
-  return engraveFrom(EW, EH, (x, dx, dy) => {
-    x.font = '700 210px Impact, "Arial Narrow", sans-serif';
-    x.textAlign = "center";
-    x.textBaseline = "middle";
-    x.fillText(ENGRAVE_TEXT, EW / 2 + dx, EH / 2 + 6 + dy);
-  });
+function roundRectPath(p, x, y, w, h, r) {
+  p.moveTo(x + r, y);
+  p.lineTo(x + w - r, y);
+  p.quadraticCurveTo(x + w, y, x + w, y + r);
+  p.lineTo(x + w, y + h - r);
+  p.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  p.lineTo(x + r, y + h);
+  p.quadraticCurveTo(x, y + h, x, y + h - r);
+  p.lineTo(x, y + r);
+  p.quadraticCurveTo(x, y, x + r, y);
 }
 
 // The Maple leaf, the same outline the other Maple pieces use: right half,
@@ -251,26 +221,110 @@ const LEAF_HALF = [
   [0.05, 0.1], [0.42, 0.04], [0.36, 0.18], [0.62, 0.4], [0.5, 0.44], [0.56, 0.62],
   [0.36, 0.52], [0.34, 0.6], [0.24, 0.52], [0.28, 0.82], [0.16, 0.76], [0, 1.0],
 ];
-function leafCanvases() {
-  const S = 1024;
-  const pts = [...LEAF_HALF, ...LEAF_HALF.slice(0, -1).reverse().map(([x, y]) => [-x, y])];
-  const k = S * 0.74; // leaf units -> px
-  return engraveFrom(S, S, (x, dx, dy) => {
-    const X = (u) => S / 2 + u * k + dx;
-    const Y = (v) => S * 0.9 - v * k - S * 0.06 + dy;
+
+function tagCanvases() {
+  const CW2 = Math.round(TAG_W * TAG_PX);
+  const CH2 = Math.round(TAG_H * TAG_PX);
+  const X = (u) => (u + TAG_W / 2) * TAG_PX;
+  const Y = (v) => (TAG_H / 2 - v) * TAG_PX;
+  const mk = () => {
+    const c = document.createElement("canvas");
+    c.width = CW2;
+    c.height = CH2;
+    return [c, c.getContext("2d")];
+  };
+
+  // everything stamped, offset by (dx, dy) canvas px
+  const stamp = (x, dx, dy) => {
+    // the leaf, left of the name
+    const pts = [...LEAF_HALF, ...LEAF_HALF.slice(0, -1).reverse().map(([a, b]) => [-a, b])];
+    const k = 0.5 / 1.1;
+    const lu = -0.36;
+    const L = (a, b) => [X(lu + a * k) + dx, Y((b - 0.45) * k) + dy];
     x.beginPath();
-    pts.forEach(([u, v], i) => (i ? x.lineTo(X(u), Y(v)) : x.moveTo(X(u), Y(v))));
+    pts.forEach(([a, b], i) => (i ? x.lineTo(...L(a, b)) : x.moveTo(...L(a, b))));
     x.closePath();
     x.fill();
-    // stem
     x.beginPath();
-    x.moveTo(X(-0.022), Y(0.11));
-    x.lineTo(X(0.022), Y(0.11));
-    x.lineTo(X(0.03), Y(-0.1));
-    x.lineTo(X(-0.012), Y(-0.1));
+    x.moveTo(...L(-0.022, 0.11));
+    x.lineTo(...L(0.022, 0.11));
+    x.lineTo(...L(0.03, -0.1));
+    x.lineTo(...L(-0.012, -0.1));
     x.closePath();
     x.fill();
-  });
+
+    // the name, as a justified block: both lines the same width
+    const u0 = -0.1;
+    const bw = 0.72 * TAG_PX;
+    const line = (text, capH, baseV) => {
+      const size = (capH / 0.79) * TAG_PX;
+      x.font = `400 ${size}px Impact, "Arial Narrow", sans-serif`;
+      x.textBaseline = "alphabetic";
+      x.textAlign = "left";
+      const w = x.measureText(text).width;
+      x.save();
+      x.translate(X(u0) + dx, Y(baseV) + dy);
+      x.scale(bw / w, 1);
+      x.fillText(text, 0, 0);
+      x.restore();
+    };
+    line("MAPLE", 0.27, 0.05);
+    line("JIU-JITSU", 0.15, -0.23);
+  };
+
+  // the rolled rim, inset from the edge
+  const RIM = 0.055;
+  const rim = (x) => {
+    x.beginPath();
+    roundRectPath(x, X(-TAG_W / 2 + RIM), Y(TAG_H / 2 - RIM), (TAG_W - 2 * RIM) * TAG_PX, (TAG_H - 2 * RIM) * TAG_PX, (TAG_R - RIM) * TAG_PX);
+    x.stroke();
+  };
+
+  const [tint, tx] = mk();
+  tx.fillStyle = "#c6cacd";
+  tx.fillRect(0, 0, CW2, CH2);
+  const r = mulberry32(8080);
+  for (let i = 0; i < 900; i++) { // brushed
+    const py = r() * CH2;
+    const px = r() * CW2;
+    const v = r() > 0.5 ? 255 : 0;
+    tx.strokeStyle = `rgba(${v},${v},${v},${0.03 + r() * 0.05})`;
+    tx.lineWidth = 0.8 + r() * 1.4;
+    tx.beginPath();
+    tx.moveTo(px, py);
+    tx.lineTo(px + 80 + r() * 400, py);
+    tx.stroke();
+  }
+  tx.lineWidth = 0.022 * TAG_PX;
+  tx.filter = "blur(3px)";
+  tx.strokeStyle = "rgba(255,255,255,0.55)";
+  tx.save(); tx.translate(-3, -3); rim(tx); tx.restore();
+  tx.strokeStyle = "rgba(40,44,50,0.35)";
+  tx.save(); tx.translate(4, 4); rim(tx); tx.restore();
+  // a stamped letter: lit on its lower-right wall, shadowed top-left,
+  // and dark in the floor
+  tx.filter = "blur(2px)";
+  tx.fillStyle = "rgba(255,255,255,0.75)";
+  stamp(tx, 4, 4);
+  tx.fillStyle = "rgba(10,12,15,0.6)";
+  stamp(tx, -3, -3);
+  tx.filter = "blur(1px)";
+  tx.fillStyle = "rgba(34,37,42,0.94)";
+  stamp(tx, 0, 0);
+  tx.filter = "none";
+
+  const [bump, bx] = mk();
+  bx.fillStyle = "#707070";
+  bx.fillRect(0, 0, CW2, CH2);
+  bx.filter = "blur(6px)";
+  bx.strokeStyle = "#c8c8c8";
+  bx.lineWidth = 0.03 * TAG_PX;
+  rim(bx);
+  bx.filter = "blur(3px)";
+  bx.fillStyle = "#1a1a1a";
+  stamp(bx, 0, 0);
+  bx.filter = "none";
+  return [tint, bump];
 }
 
 // ---------------- the damage, painted into the plate's maps ----------------
@@ -442,6 +496,8 @@ export default function MapleBulletAd() {
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.06;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     mount.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
@@ -488,8 +544,22 @@ export default function MapleBulletAd() {
     // solid grey wall, so every source here is pure white and nothing casts
     // a pool. The shape in the frame comes from the holes, not the lighting.
     const key = new THREE.DirectionalLight("#ffffff", 3.35);
-    key.position.set(-3.2, 4.0, 6.0);
+    // The light direction is unchanged; the target only moves so the shadow
+    // camera can sit on the tag, which is the one thing that casts.
+    key.target.position.set(0, TAG_Y, 0);
+    key.position.copy(key.target.position).add(new THREE.Vector3(-3.2, 4.0, 6.0));
+    key.castShadow = true;
+    key.shadow.mapSize.set(2048, 2048);
+    key.shadow.camera.left = -1.8;
+    key.shadow.camera.right = 1.8;
+    key.shadow.camera.top = 1.8;
+    key.shadow.camera.bottom = -1.8;
+    key.shadow.camera.near = 1;
+    key.shadow.camera.far = 16;
+    key.shadow.bias = -0.0004;
+    key.shadow.normalBias = 0.01;
     scene.add(key);
+    scene.add(key.target);
     const fill2 = new THREE.DirectionalLight("#ffffff", 1.15);
     fill2.position.set(4.6, -1.2, 5.0);
     scene.add(fill2);
@@ -506,45 +576,77 @@ export default function MapleBulletAd() {
       new THREE.MeshStandardMaterial({ map: steelTex, roughness: 0.3, metalness: 0.82, color: "#bcc0c3" })
     );
     wall.position.set(0, PY, 0);
+    wall.receiveShadow = true;
     scene.add(wall);
 
-    // ---- the mark, cut into the wall ----
-    const [engBump, engTint] = engraveCanvases();
-    const engTexBump = new THREE.CanvasTexture(engBump);
-    const engTexTint = new THREE.CanvasTexture(engTint);
-    engTexTint.colorSpace = THREE.SRGBColorSpace;
-    engTexBump.anisotropy = renderer.capabilities.getMaxAnisotropy();
-    engTexTint.anisotropy = engTexBump.anisotropy;
-    const engMat = new THREE.MeshStandardMaterial({
-      map: engTexTint,
-      transparent: true,
-      opacity: 0,
-      bumpMap: engTexBump,
-      bumpScale: 14,
-      metalness: 0.45,
-      roughness: 0.42,
-      depthWrite: false,
-      polygonOffset: true,
-      polygonOffsetFactor: -3,
+    // ---- the mark, on a dog tag hanging in front of the wall ----
+    const tagShape = new THREE.Shape();
+    roundRectPath(tagShape, -TAG_W / 2, -TAG_H / 2, TAG_W, TAG_H, TAG_R);
+    const tagHole = new THREE.Path();
+    tagHole.absarc(TAG_HOLE[0], TAG_HOLE[1], TAG_HOLE_R, 0, Math.PI * 2, true);
+    tagShape.holes.push(tagHole);
+    const TAG_D = 0.012;
+    const tagGeo = new THREE.ExtrudeGeometry(tagShape, {
+      depth: TAG_D,
+      bevelEnabled: true,
+      bevelThickness: 0.007,
+      bevelSize: 0.008,
+      bevelSegments: 3,
+      curveSegments: 28,
     });
-    const engrave = new THREE.Mesh(new THREE.PlaneGeometry(2.25, 0.46), engMat);
-    engrave.position.set(0, PY + 1.42, 0.005);
-    scene.add(engrave);
+    // pivot on the hole
+    tagGeo.translate(-TAG_HOLE[0], -TAG_HOLE[1], -TAG_D / 2);
+    const [tagTint, tagBump] = tagCanvases();
+    const tagTex = (c, srgb) => {
+      const tt = new THREE.CanvasTexture(c);
+      tt.colorSpace = srgb ? THREE.SRGBColorSpace : THREE.NoColorSpace;
+      tt.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      // the cap UVs are shape coordinates; map the tag box onto 0..1
+      tt.repeat.set(1 / TAG_W, 1 / TAG_H);
+      tt.offset.set(0.5, 0.5);
+      return tt;
+    };
+    const tagFace = new THREE.MeshStandardMaterial({
+      map: tagTex(tagTint, true),
+      bumpMap: tagTex(tagBump, false),
+      bumpScale: 5,
+      metalness: 0.85,
+      roughness: 0.34,
+    });
+    const tagEdge = new THREE.MeshStandardMaterial({ color: "#c6cacd", metalness: 0.95, roughness: 0.24 });
+    const tag = new THREE.Mesh(tagGeo, [tagFace, tagEdge]);
+    tag.castShadow = true;
+    const tagPivot = new THREE.Group();
+    tagPivot.add(tag);
+    scene.add(tagPivot);
+    const HOLE_X = TAG_HOLE[0];
+    const HOLE_Y = TAG_Y + TAG_HOLE[1];
 
-    // ---- and the leaf, cut in above the name ----
-    const [leafBump, leafTint] = leafCanvases();
-    const leafTexBump = new THREE.CanvasTexture(leafBump);
-    const leafTexTint = new THREE.CanvasTexture(leafTint);
-    leafTexTint.colorSpace = THREE.SRGBColorSpace;
-    leafTexBump.anisotropy = engTexBump.anisotropy;
-    leafTexTint.anisotropy = engTexBump.anisotropy;
-    const leafMat = engMat.clone();
-    leafMat.map = leafTexTint;
-    leafMat.bumpMap = leafTexBump;
-    const LEAF_SIZE = 0.62;
-    const leaf = new THREE.Mesh(new THREE.PlaneGeometry(LEAF_SIZE, LEAF_SIZE), leafMat);
-    leaf.position.set(0, PY + 1.42 + 0.23 + 0.06 + LEAF_SIZE / 2, 0.005);
-    scene.add(leaf);
+    // the ball chain: through the hole and up out of frame, in a V
+    const BALL_GAP = 0.036;
+    // one strand in front of the tag, one behind it, as a chain through a hole runs
+    const STRANDS = [[-0.62, 3.2, 0.012], [0.5, 3.2, -0.03]];
+    const chainPts = [];
+    for (const [ex, ey, ez] of STRANDS) {
+      const len = Math.hypot(ex, ey);
+      const nb = Math.ceil(len / BALL_GAP);
+      for (let i = 0; i <= nb; i++) chainPts.push([(ex * i) / nb, (ey * i) / nb, ez * Math.min(1, i / 3)]);
+    }
+    const chain = new THREE.InstancedMesh(
+      new THREE.SphereGeometry(0.0145, 12, 8),
+      new THREE.MeshStandardMaterial({ color: "#bfc3c7", metalness: 0.95, roughness: 0.28 }),
+      chainPts.length
+    );
+    chain.castShadow = true;
+    {
+      const d = new THREE.Object3D();
+      chainPts.forEach(([cx2, cy2, cz2], i) => {
+        d.position.set(cx2, cy2, cz2);
+        d.updateMatrix();
+        chain.setMatrixAt(i, d.matrix);
+      });
+    }
+    scene.add(chain);
 
     const dmg = makeDamage();
     const dmgMat = new THREE.MeshStandardMaterial({
@@ -868,12 +970,34 @@ export default function MapleBulletAd() {
       camera.rotation.z += Math.sin(t * 0.0009) * 0.004;
       camera.updateProjectionMatrix();
 
+      // ---- the tag: drops in, catches on the chain, rattles on every hit ----
+      {
+        const u = (t - 120) / 1000;
+        let drop = 2.4;
+        let swing = 0;
+        let twist = 0;
+        if (u >= 0 && u < 0.42) {
+          const k = u / 0.42;
+          drop = 2.4 * (1 - k * k);
+        } else if (u >= 0.42) {
+          const v = u - 0.42;
+          drop = -0.075 * Math.exp(-v * 5) * Math.sin(v * 22);
+          swing = 0.05 * Math.exp(-v * 1.5) * Math.sin(v * 5.2);
+          twist = 0.16 * Math.exp(-v * 1.1) * Math.sin(v * 3.1);
+        }
+        for (let i = landed(t - 1500); i < n; i++) {
+          const dt = (t - SHOT_T[i]) / 1000;
+          swing += 0.0016 * Math.exp(-dt * 2.2) * Math.sin(dt * 5.2);
+          swing += 0.003 * Math.exp(-dt * 28) * Math.sin(dt * 95);
+        }
+        twist += Math.sin(t / 1600 + 0.6) * 0.06;
+        tagPivot.position.set(HOLE_X, HOLE_Y + drop, TAG_Z);
+        tagPivot.rotation.set(0, twist, -0.045 + swing);
+        chain.position.set(HOLE_X, HOLE_Y + drop, TAG_Z);
+      }
+
       renderer.render(scene, camera);
 
-      // The mark fades up before the first round. Driven from here so it
-      // stays a function of t: the recorder steps the clock by hand.
-      engMat.opacity = ss(180, 820, t);
-      leafMat.opacity = engMat.opacity;
 
     }
 
