@@ -19,7 +19,6 @@ import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 import { GTAOPass } from "three/examples/jsm/postprocessing/GTAOPass.js";
-import { makeHuman, poseHuman } from "./MapleGameHuman";
 import "../Stylesheets/MapleGameAd.css";
 import mapleLogo from "../Images/maple-logo.png";
 import mapleBjjLogo from "../Images/maple-bjj-logo.png";
@@ -423,26 +422,224 @@ export default function MapleGameAd({
     roomLight2.position.x = FACADE_X - 1.8;
     room.add(roomLight2);
 
-    // ---- people ----
-    const player = makeHuman(
-      { skin: "#c98f68", hair: "#1b120c", top: "#13234b", bottom: "#151517", shoes: "#f4f4f4", sleeve: "short", legs: "shorts" },
-      { backDecal: logoTex }
-    );
-    scene.add(player.mesh);
+    // ---- a person, built from parts (the player and the students) ----
+    const geo = {
+      head: new THREE.SphereGeometry(0.105, 24, 18),
+      hair: new THREE.SphereGeometry(0.11, 24, 14, 0, Math.PI * 2, 0, Math.PI * 0.58),
+      neck: new THREE.CylinderGeometry(0.052, 0.058, 0.12, 12),
+      torso: (() => {
+        const prof = [
+          [0.0, 0], [0.155, 0], [0.16, 0.08], [0.15, 0.2], [0.17, 0.34], [0.2, 0.46], [0.19, 0.52], [0.12, 0.56], [0.0, 0.57],
+        ].map(([r, y]) => new THREE.Vector2(r, y));
+        const g = new THREE.LatheGeometry(prof, 32);
+        g.scale(1, 1, 0.62);
+        return g;
+      })(),
+      shoulder: new THREE.SphereGeometry(0.075, 16, 12),
+      sleeve: new THREE.CapsuleGeometry(0.068, 0.12, 6, 14),
+      skirt: new THREE.CylinderGeometry(0.19, 0.22, 0.3, 24, 1, true),
+      belt: new THREE.TorusGeometry(0.17, 0.02, 8, 32),
+      knot: new RoundedBoxGeometry(0.07, 0.16, 0.03, 2, 0.01),
+      upperArm: new THREE.CapsuleGeometry(0.057, 0.19, 6, 14),
+      foreArm: new THREE.CapsuleGeometry(0.05, 0.19, 6, 14),
+      hand: new THREE.SphereGeometry(0.045, 12, 10),
+      joint: new THREE.SphereGeometry(1, 14, 10),
+      eye: new THREE.SphereGeometry(0.012, 10, 8),
+      brow: new RoundedBoxGeometry(0.035, 0.008, 0.012, 1, 0.003),
+      nose: new THREE.SphereGeometry(0.016, 10, 8),
+      mouth: new RoundedBoxGeometry(0.04, 0.006, 0.01, 1, 0.002),
+      hips: new RoundedBoxGeometry(0.33, 0.2, 0.21, 3, 0.07),
+      thigh: new THREE.CapsuleGeometry(0.09, 0.25, 6, 14),
+      shin: new THREE.CapsuleGeometry(0.066, 0.29, 6, 14),
+      shoe: new RoundedBoxGeometry(0.1, 0.085, 0.27, 3, 0.035),
+      bag: new RoundedBoxGeometry(0.5, 0.26, 0.26, 4, 0.09),
+      strap: new THREE.TorusGeometry(0.27, 0.012, 6, 32, Math.PI * 1.1),
+    };
+    function person({ skin, hair, top, shorts, shoes, logoBack = false, gi = false, bag = false, belt = "#f2f2ee" }) {
+      const mat = (c, r = 0.7) => M({ color: c, roughness: r });
+      const mSkin = mat(skin, 0.55);
+      const mTop = mat(top, 0.85);
+      const mShorts = mat(shorts, 0.8);
+      const root = new THREE.Group();
+      const pelvis = new THREE.Group();
+      pelvis.position.y = 0.95;
+      root.add(pelvis);
+      const hips = new THREE.Mesh(geo.hips, mShorts);
+      pelvis.add(hips);
+      const spine = new THREE.Group();
+      spine.position.y = 0.07;
+      pelvis.add(spine);
+      const torso = new THREE.Mesh(geo.torso, mTop);
+      spine.add(torso);
+      if (logoBack) {
+        // the Maple mark on the back of his tee, where the camera sits
+        const back = new THREE.Mesh(new THREE.PlaneGeometry(0.24, 0.245), M({ map: logoTex, transparent: true, roughness: 0.8, polygonOffset: true, polygonOffsetFactor: -2 }));
+        back.position.set(0, 0.36, 0.118);
+        spine.add(back);
+      }
+      if (gi) {
+        // the jacket hangs past the hips, and the belt ties over it
+        const skirt = new THREE.Mesh(geo.skirt, new THREE.MeshStandardMaterial({ color: top, roughness: 0.9, side: THREE.DoubleSide }));
+        skirt.scale.z = 0.66;
+        skirt.position.y = -0.06;
+        spine.add(skirt);
+        const bm = mat(belt, 0.7);
+        const b = new THREE.Mesh(geo.belt, bm);
+        b.rotation.x = Math.PI / 2;
+        b.scale.set(1.05, 0.68, 1);
+        b.position.y = 0.06;
+        spine.add(b);
+        const kn = new THREE.Mesh(geo.knot, bm);
+        kn.position.set(0, -0.01, -0.12);
+        spine.add(kn);
+      }
+      const neck = new THREE.Mesh(geo.neck, mSkin);
+      neck.position.y = 0.6;
+      spine.add(neck);
+      const headG = new THREE.Group();
+      headG.position.y = 0.73;
+      spine.add(headG);
+      const head = new THREE.Mesh(geo.head, mSkin);
+      head.scale.set(0.95, 1.12, 1.02);
+      headG.add(head);
+      // a simple face: he is seen from the front once he is inside
+      const dark = mat("#1a120c", 0.4);
+      for (const sx of [-1, 1]) {
+        const e = new THREE.Mesh(geo.eye, dark);
+        e.position.set(0.036 * sx, 0.018, -0.094);
+        headG.add(e);
+        const b = new THREE.Mesh(geo.brow, mat(hair, 0.8));
+        b.position.set(0.036 * sx, 0.045, -0.098);
+        b.rotation.z = -0.12 * sx;
+        headG.add(b);
+      }
+      const nose = new THREE.Mesh(geo.nose, mSkin);
+      nose.scale.set(0.9, 1.2, 1.1);
+      nose.position.set(0, -0.005, -0.104);
+      headG.add(nose);
+      const mouth = new THREE.Mesh(geo.mouth, mat("#7a3e32", 0.6));
+      mouth.position.set(0, -0.048, -0.097);
+      headG.add(mouth);
+      const hairM = new THREE.Mesh(geo.hair, mat(hair, 0.75));
+      hairM.position.set(0, 0.015, 0.012);
+      hairM.rotation.x = 0.3;
+      hairM.scale.set(0.98, 1.08, 1.04);
+      headG.add(hairM);
+      const limbs = {};
+      for (const side of [-1, 1]) {
+        const sh = new THREE.Group();
+        sh.position.set(0.205 * side, 0.47, 0);
+        spine.add(sh);
+        sh.add(new THREE.Mesh(geo.shoulder, mTop));
+        const upper = new THREE.Group();
+        sh.add(upper);
+        const sleeve = new THREE.Mesh(geo.sleeve, mTop);
+        sleeve.position.y = -0.08;
+        upper.add(sleeve);
+        const ua = new THREE.Mesh(geo.upperArm, gi ? mTop : mSkin);
+        ua.position.y = -0.15;
+        upper.add(ua);
+        const elbow = new THREE.Group();
+        elbow.position.y = -0.29;
+        upper.add(elbow);
+        const ej = new THREE.Mesh(geo.joint, gi ? mTop : mSkin);
+        ej.scale.setScalar(0.054);
+        elbow.add(ej);
+        const fa = new THREE.Mesh(geo.foreArm, gi ? mTop : mSkin);
+        fa.position.y = -0.13;
+        elbow.add(fa);
+        const hand = new THREE.Mesh(geo.hand, mSkin);
+        hand.position.y = -0.28;
+        hand.scale.set(0.9, 1.25, 0.75);
+        elbow.add(hand);
+        const hip = new THREE.Group();
+        hip.position.set(0.095 * side, -0.04, 0);
+        pelvis.add(hip);
+        const th = new THREE.Mesh(geo.thigh, mShorts);
+        th.position.y = -0.2;
+        hip.add(th);
+        const knee = new THREE.Group();
+        knee.position.y = -0.43;
+        hip.add(knee);
+        const kj = new THREE.Mesh(geo.joint, gi ? mShorts : mSkin);
+        kj.scale.setScalar(0.072);
+        knee.add(kj);
+        const sn = new THREE.Mesh(geo.shin, gi ? mShorts : mSkin);
+        sn.position.y = -0.22;
+        knee.add(sn);
+        const ankle = new THREE.Group();
+        ankle.position.y = -0.45;
+        knee.add(ankle);
+        const shoe = new THREE.Mesh(geo.shoe, gi ? mSkin : mat(shoes, 0.5));
+        shoe.position.set(0, -0.02, -0.06);
+        ankle.add(shoe);
+        limbs[side] = { sh, upper, elbow, hip, knee, ankle };
+      }
+      let bagG = null;
+      if (bag) {
+        bagG = new THREE.Group();
+        bagG.position.set(0.24, 0.32, 0.05);
+        const b = new THREE.Mesh(geo.bag, mat("#13234b", 0.6));
+        b.rotation.y = Math.PI / 2;
+        bagG.add(b);
+        const strap = new THREE.Mesh(geo.strap, mat("#0d0d0f", 0.6));
+        strap.rotation.set(0, Math.PI / 2, 0.35);
+        strap.position.set(-0.1, 0.12, 0);
+        bagG.add(strap);
+        spine.add(bagG);
+      }
+      root.traverse((o) => {
+        if (o.isMesh) {
+          o.castShadow = true;
+          o.receiveShadow = true;
+        }
+      });
+      return { root, pelvis, spine, headG, limbs, bagG };
+    }
 
-    // students inside, lined up across the mats, facing the door
+    // gait: distance-driven so feet never slide
+    function pose(P, phase, g, { lean = 0, breath = 0 } = {}) {
+      const A = 0.42 * g;
+      const B = 0.9 * g;
+      for (const side of [-1, 1]) {
+        const ph = phase + (side > 0 ? Math.PI : 0);
+        const L = P.limbs[side];
+        const th = A * Math.sin(ph);
+        const flex = (B * Math.max(0, Math.cos(ph)) + 0.06) * g + (1 - g) * 0.04;
+        // +x rotation swings a limb forward (he faces -z); knees fold back
+        L.hip.rotation.x = th;
+        L.knee.rotation.x = -flex;
+        L.ankle.rotation.x = -(th - flex) * 0.9;
+        L.upper.rotation.x = -0.85 * A * Math.sin(ph);
+        L.upper.rotation.z = 0.08 * side;
+        L.elbow.rotation.x = 0.22 + 0.25 * g + 0.15 * g * Math.max(0, Math.sin(ph));
+      }
+      P.pelvis.position.y = 0.95 + (0.025 * Math.abs(Math.cos(phase)) - 0.012) * g + breath * 0.004;
+      P.pelvis.rotation.y = 0.07 * Math.sin(phase) * g;
+      P.spine.rotation.y = -0.12 * Math.sin(phase) * g;
+      P.spine.rotation.x = -lean;
+      P.headG.rotation.y = 0.06 * Math.sin(phase) * g;
+      if (P.bagG) {
+        P.bagG.rotation.x = 0.12 * Math.sin(phase * 2) * g;
+        P.bagG.position.y = 0.32 + 0.015 * Math.sin(phase * 2 + 1) * g;
+      }
+    }
+
+    const player = person({ skin: "#c98f68", hair: "#1b120c", top: "#13234b", shorts: "#151517", shoes: "#f2f2f2", logoBack: true });
+    scene.add(player.root);
+
+    // students inside, on the mats
     const students = [];
     const SKINS = ["#f1c9a5", "#d49a72", "#9a5f3e", "#e6b48e", "#6e432a", "#c98c64"];
     const GIS = ["#f4f3ef", "#f4f3ef", "#2a4c9c", "#f4f3ef", "#1b1c21", "#f4f3ef"];
     const BELTS = ["#f2f2ee", "#2350b3", "#5b2a8c", "#f2f2ee", "#6a3d1e", "#111114"];
-    const HAIRS = ["#2a1a10", "#0e0e10", "#5a3a20", "#2a1a10", "#0e0e10", "#a3784a"];
     for (let i = 0; i < 6; i++) {
-      const p = makeHuman({ skin: SKINS[i], hair: HAIRS[i], top: GIS[i], bottom: GIS[i], sleeve: "long", legs: "long", gi: true, belt: BELTS[i], bald: i === 4 });
-      p.mesh.position.set(FACADE_X - 7.4 + (rnd() - 0.5) * 0.15, 0.2, DOOR_Z - 3.0 + i * 1.05);
-      p.mesh.rotation.y = -Math.PI / 2 + (rnd() - 0.5) * 0.12;
-      p.mesh.scale.setScalar(0.94 + rnd() * 0.12);
+      const p = person({ skin: SKINS[i], hair: i % 3 ? "#2a1a10" : "#0e0e10", top: GIS[i], shorts: GIS[i], shoes: "#000", gi: true, belt: BELTS[i] });
+      // lined up across the mats, facing the door he walks in through
+      p.root.position.set(FACADE_X - 7.4 + (rnd() - 0.5) * 0.15, 0.2, DOOR_Z - 3.0 + i * 1.05);
+      p.root.rotation.y = -Math.PI / 2 + (rnd() - 0.5) * 0.12;
       p.phase = rnd() * 6;
-      room.add(p.mesh);
+      room.add(p.root);
       students.push(p);
     }
 
@@ -609,6 +806,105 @@ export default function MapleGameAd({
     composer.addPass(new UnrealBloomPass(new THREE.Vector2(W, H), 0.28, 0.5, 0.95));
     composer.addPass(new OutputPass());
 
+    // ---- the radar: drawn from the same world the camera sees ----
+    // North-up would be easier, but the game's radar turns with the player,
+    // who always points up; so the route and the blip are placed in world
+    // coordinates and the whole map is rotated by his heading.
+    const DOOR = { x: -2.4, z: DOOR_Z };
+    function drawRadar(P) {
+      const c = R.mapcanvas;
+      if (!c) return;
+      const g = c.getContext("2d");
+      const cw = c.width;
+      const ch = c.height;
+      const k = 9; // canvas px per metre
+      const ox = cw / 2;
+      const oy = ch * 0.64;
+      g.save();
+      g.fillStyle = "#3f4b53";
+      g.fillRect(0, 0, cw, ch);
+      g.translate(ox, oy);
+      g.rotate(P.yaw);
+      const rect = (x0, x1, z0, z1, col) => {
+        g.fillStyle = col;
+        g.fillRect((x0 - P.x) * k, (z0 - P.z) * k, (x1 - x0) * k, (z1 - z0) * k);
+      };
+      rect(3.1, 43, -200, 60, "#323b41"); // the lot
+      rect(-3, 3.1, -200, 60, "#7a868d"); // the walk
+      rect(-13, -3, -37, 16, "#5e6a71"); // the plaza
+      rect(39, 49, -120, 20, "#5e6a71"); // across the lot
+      // unit lines along the plaza
+      g.strokeStyle = "#47525a";
+      g.lineWidth = 2;
+      for (const z of [4, -6.8, -15.2, -25]) {
+        g.beginPath();
+        g.moveTo((-13 - P.x) * k, (z - P.z) * k);
+        g.lineTo((-3 - P.x) * k, (z - P.z) * k);
+        g.stroke();
+      }
+      // stall lines
+      g.strokeStyle = "rgba(255,255,255,0.18)";
+      g.lineWidth = 1.5;
+      for (let i = 0; i < 44; i++) {
+        const z = 14 - i * 2.75;
+        for (const x0 of [3.5, 15.3]) {
+          g.beginPath();
+          g.moveTo((x0 - P.x) * k, (z - P.z) * k);
+          g.lineTo((x0 + 5.4 - P.x) * k, (z - P.z) * k);
+          g.stroke();
+        }
+      }
+      // the GPS route: what is left of his walk, to the door
+      const { pts, len } = PATH;
+      g.strokeStyle = "#f2c037";
+      g.lineWidth = 7;
+      g.lineCap = "round";
+      g.lineJoin = "round";
+      g.shadowColor = "rgba(0,0,0,0.6)";
+      g.shadowBlur = 4;
+      g.beginPath();
+      g.moveTo(0, 0);
+      for (let i = 0; i < pts.length; i++) if (len[i] > P.s) g.lineTo((pts[i].x - P.x) * k, (pts[i].y - P.z) * k);
+      g.lineTo((DOOR.x - 0.9 - P.x) * k, (DOOR.z - P.z) * k);
+      g.stroke();
+      g.shadowBlur = 0;
+      g.restore();
+      // the blip, upright, kept on the edge if it is off the map
+      const dx = DOOR.x - 0.9 - P.x;
+      const dz = DOOR.z - P.z;
+      const cs = Math.cos(P.yaw);
+      const sn = Math.sin(P.yaw);
+      let bx = ox + (dx * cs - dz * sn) * k;
+      let by = oy + (dx * sn + dz * cs) * k;
+      const m = 22;
+      bx = Math.min(cw - m, Math.max(m, bx));
+      by = Math.min(ch - m, Math.max(m, by));
+      g.fillStyle = "#f2c037";
+      g.strokeStyle = "#000";
+      g.lineWidth = 3;
+      g.beginPath();
+      g.arc(bx, by, 17, 0, Math.PI * 2);
+      g.fill();
+      g.stroke();
+      g.fillStyle = "#000";
+      g.font = "900 20px Inter, Arial";
+      g.textAlign = "center";
+      g.textBaseline = "middle";
+      g.fillText("M", bx, by + 1);
+      // him: always at the middle, always pointing up
+      g.fillStyle = "#fff";
+      g.strokeStyle = "#000";
+      g.lineWidth = 3;
+      g.beginPath();
+      g.moveTo(ox, oy - 16);
+      g.lineTo(ox + 12, oy + 14);
+      g.lineTo(ox, oy + 7);
+      g.lineTo(ox - 12, oy + 14);
+      g.closePath();
+      g.fill();
+      g.stroke();
+    }
+
     // ---- frame ----
     const camPos = new THREE.Vector3();
     const camLook = new THREE.Vector3();
@@ -629,15 +925,15 @@ export default function MapleGameAd({
     }
     function renderAt(t) {
       const P = playerAt(t);
-      player.mesh.position.set(P.x, 0.16 + (t >= T_INSIDE ? 0.04 : 0), P.z);
-      player.mesh.rotation.y = P.yaw;
+      player.root.position.set(P.x, 0.16 + (t >= T_INSIDE ? 0.04 : 0), P.z);
+      player.root.rotation.y = P.yaw;
       const stride = 1.45;
-      poseHuman(player, (P.s / stride) * Math.PI * 2, P.g, { lean: 0.05 * P.g, breath: Math.sin(t / 700) });
+      pose(player, (P.s / stride) * Math.PI * 2, P.g, { lean: 0.04 * P.g, breath: Math.sin(t / 700) });
       // the line bows to him as the mission passes
       const bow = Math.sin(Math.PI * clamp01((t - T_PASSED + 200) / 1300)) * 0.55;
       students.forEach((st, i) => {
         const b = Math.sin(Math.PI * clamp01((t - T_PASSED + 200 - i * 60) / 1400)) * 0.85;
-        poseHuman(st, st.phase, 0, { lean: b, breath: Math.sin(t / 800 + st.phase) });
+        pose(st, st.phase, 0, { lean: b, breath: Math.sin(t / 800 + st.phase) });
       });
       void bow;
 
@@ -706,9 +1002,11 @@ export default function MapleGameAd({
       fx("objective", ss(T_GAME + 1900, T_GAME + 2150, t) * (1 - ss(T_GAME + 5600, T_GAME + 5900, t)));
       const ph = ss(T_GAME + 2600, T_GAME + 2900, t) * (1 - ss(T_GAME + 5600, T_GAME + 5900, t));
       fx("phone", ph, (1 - ss(T_GAME + 2600, T_GAME + 2950, t)) * -60);
-      if (R.mapinner) {
-        R.mapinner.style.transform = `rotate(${(P.yaw * 180) / Math.PI}deg) translateY(${(P.s * 6).toFixed(1)}px)`;
-      }
+      drawRadar(P);
+      // a big balance, with the odd payout landing
+      const pay = ss(T_GAME + 3400, T_GAME + 4000, t);
+      if (R.money) R.money.textContent = "$" + Math.round(84672150 + 500 * pay).toLocaleString("en-US");
+      fx("plus", ss(T_GAME + 3400, T_GAME + 3550, t) * (1 - ss(T_GAME + 4400, T_GAME + 4700, t)), -ss(T_GAME + 3400, T_GAME + 4700, t) * 12);
       const cut = t >= T_INSIDE - 250 && t < T_INSIDE + 250 ? 1 - Math.abs(t - T_INSIDE) / 250 : 0;
       if (R.fade) R.fade.style.opacity = Math.max(cut, ss(END_MS - 450, END_MS, t)).toFixed(3);
       fx("band", ss(T_PASSED, T_PASSED + 200, t) * (1 - ss(T_END - 300, T_END, t)));
@@ -793,18 +1091,32 @@ export default function MapleGameAd({
         <div className="gg-phone-body">{textBody}</div>
       </div>
 
-      <div className="gg-cash" ref={ref("cash")}>$4,850</div>
+      <div className="gg-tr" ref={ref("cash")}>
+        <svg className="gg-fist" viewBox="0 0 64 64" aria-hidden>
+          <g fill="#fff" stroke="#000" strokeWidth="2.5" strokeLinejoin="round">
+            <rect x="17" y="44" width="28" height="16" rx="4" />
+            <rect x="9" y="22" width="46" height="26" rx="9" />
+            <rect x="9" y="10" width="12" height="22" rx="6" />
+            <rect x="20.5" y="8" width="12" height="22" rx="6" />
+            <rect x="32" y="9" width="12" height="22" rx="6" />
+            <rect x="43.5" y="12" width="11" height="20" rx="5.5" />
+            <path d="M7 34 C 7 28, 13 27, 18 30 L 34 36 C 38 38, 37 44, 32 44 L 15 44 C 10 44, 7 40, 7 34 Z" />
+          </g>
+        </svg>
+        <div className="gg-stars">
+          {[0, 1, 2, 3, 4].map((i) => (
+            <svg key={i} viewBox="0 0 24 24" aria-hidden>
+              <path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 20.9l1.6-7L2 9.2l7.1-.6z" />
+            </svg>
+          ))}
+        </div>
+        <div className="gg-money"><span ref={ref("money")}>$84,672,150</span></div>
+        <div className="gg-plus" ref={ref("plus")}>+$500</div>
+      </div>
 
       <div className="gg-minimap" ref={ref("minimap")}>
         <div className="gg-map">
-          <div className="gg-mapinner" ref={ref("mapinner")}>
-            <div className="gg-road" style={{ left: "47%", top: "-40%", width: "8%", height: "180%" }} />
-            <div className="gg-road" style={{ left: "-40%", top: "30%", width: "180%", height: "7%" }} />
-            <div className="gg-road" style={{ left: "-40%", top: "75%", width: "180%", height: "5%" }} />
-            <div className="gg-gps" />
-            <div className="gg-blip">M</div>
-          </div>
-          <div className="gg-me" />
+          <canvas ref={ref("mapcanvas")} width="408" height="302" />
         </div>
         <div className="gg-bars"><i className="gg-hp" /><i className="gg-ap" /></div>
       </div>

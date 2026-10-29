@@ -34,7 +34,7 @@
 
 .gg-title,
 .gg-phone,
-.gg-cash,
+.gg-tr,
 .gg-minimap,
 .gg-objective,
 .gg-band,
@@ -106,16 +106,50 @@
 }
 
 /* ---------- HUD ---------- */
-.gg-cash {
+.gg-tr {
   position: absolute;
   right: var(--safe-x);
-  top: calc(var(--safe-y) + 96px);
+  top: calc(var(--safe-y) + 84px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+.gg-fist {
+  width: clamp(34px, 10.5vw, 42px);
+  height: auto;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
+}
+.gg-stars {
+  display: flex;
+  gap: 1px;
+}
+.gg-stars svg {
+  width: clamp(17px, 5.4vw, 21px);
+  height: auto;
+}
+.gg-stars path {
+  fill: rgba(255, 255, 255, 0.16);
+  stroke: rgba(0, 0, 0, 0.75);
+  stroke-width: 1.6;
+}
+.gg-money {
   font-family: Bangers, sans-serif;
   font-size: clamp(22px, 7vw, 28px);
   letter-spacing: 0.04em;
-  color: #6cc164;
+  color: #ffffff;
   -webkit-text-stroke: 5px #000;
   paint-order: stroke fill;
+  line-height: 1;
+}
+.gg-plus {
+  font-family: Bangers, sans-serif;
+  font-size: clamp(16px, 5vw, 20px);
+  letter-spacing: 0.04em;
+  color: #6cc164;
+  -webkit-text-stroke: 4px #000;
+  paint-order: stroke fill;
+  opacity: 0;
 }
 .gg-minimap {
   position: absolute;
@@ -123,6 +157,7 @@
   bottom: calc(var(--safe-y) + 10px);
   width: clamp(110px, 34vw, 136px);
 }
+.gg-map canvas { display: block; width: 100%; height: 100%; }
 .gg-map {
   position: relative;
   width: 100%;
@@ -132,56 +167,6 @@
   background: #46525a;
   border: 2px solid rgba(0, 0, 0, 0.6);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
-}
-.gg-mapinner {
-  position: absolute;
-  inset: -60%;
-  transform-origin: 50% 50%;
-}
-.gg-road { position: absolute; background: #8e9aa1; }
-.gg-gps {
-  position: absolute;
-  left: 49.5%;
-  top: 33%;
-  width: 4%;
-  height: 17%;
-  background: #f2c037;
-  box-shadow: 0 0 4px rgba(242, 192, 55, 0.8);
-}
-.gg-gps::after {
-  content: "";
-  position: absolute;
-  right: 100%;
-  top: 0;
-  width: 220%;
-  height: 22%;
-  background: #f2c037;
-}
-.gg-blip {
-  position: absolute;
-  left: 41%;
-  top: 30%;
-  width: 7%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: #f2c037;
-  border: 2px solid #000;
-  color: #000;
-  font-weight: 900;
-  font-size: 9px;
-  display: grid;
-  place-items: center;
-}
-.gg-me {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 11px;
-  height: 13px;
-  transform: translate(-50%, -50%);
-  background: #fff;
-  clip-path: polygon(50% 0, 100% 100%, 50% 74%, 0 100%);
-  filter: drop-shadow(0 0 2px #000);
 }
 .gg-bars {
   display: flex;
@@ -382,4 +367,4 @@
   color: transparent;
   -webkit-text-stroke: 2px rgba(40, 0, 40, 0.45);
 }
-.gg-title { top: 30%; }
+.gg-title { top: 43%; }
