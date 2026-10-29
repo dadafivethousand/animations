@@ -21,7 +21,6 @@ import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 import "../Stylesheets/MapleGameAd.css";
 import mapleLogo from "../Images/maple-logo.png";
 import mapleBjjLogo from "../Images/maple-bjj-logo.png";
-import soundtrack from "../Sounds/maple-game.m4a";
 
 const clamp01 = (x) => Math.min(1, Math.max(0, x));
 const ss = (a, b, x) => {
@@ -459,6 +458,8 @@ export default function MapleGameAd({
       giShin: new THREE.CylinderGeometry(0.094, 0.088, 0.4, 18, 1, true),
       ankle: new THREE.CapsuleGeometry(0.04, 0.05, 4, 10),
       tail: new RoundedBoxGeometry(0.045, 0.2, 0.012, 1, 0.004),
+      shortsLeg: new THREE.CylinderGeometry(0.118, 0.132, 0.36, 20, 1, true),
+      foot: new RoundedBoxGeometry(0.088, 0.05, 0.235, 3, 0.022),
       joint: new THREE.SphereGeometry(1, 14, 10),
       eye: new THREE.SphereGeometry(0.012, 10, 8),
       brow: new RoundedBoxGeometry(0.035, 0.008, 0.012, 1, 0.003),
@@ -547,6 +548,7 @@ export default function MapleGameAd({
       pelvis.position.y = 0.95;
       root.add(pelvis);
       const hips = new THREE.Mesh(geo.hips, mShorts);
+      if (!gi) hips.scale.set(1.14, 1.05, 1.12); // loose shorts sit wide
       pelvis.add(hips);
       const spine = new THREE.Group();
       spine.position.y = 0.07;
@@ -680,7 +682,14 @@ export default function MapleGameAd({
         const hip = new THREE.Group();
         hip.position.set(0.095 * side, -0.04, 0);
         pelvis.add(hip);
-        const th = new THREE.Mesh(gi ? geo.giThigh : geo.thigh, gi ? mTop : mShorts);
+        // in shorts the thigh is leg; a wide, open short leg hangs over it
+        const th = new THREE.Mesh(gi ? geo.giThigh : geo.thigh, gi ? mTop : mSkin);
+        if (!gi) {
+          const legShort = new THREE.Mesh(geo.shortsLeg, M({ color: shorts, roughness: 0.85, side: THREE.DoubleSide }));
+          legShort.position.set(0.012 * side, -0.15, 0.005);
+          legShort.rotation.z = -0.05 * side;
+          hip.add(legShort);
+        }
         th.position.y = -0.2;
         hip.add(th);
         const knee = new THREE.Group();
@@ -704,7 +713,13 @@ export default function MapleGameAd({
         if (slides) shoe.scale.set(1.05, 0.45, 1.02);
         shoe.position.set(0, -0.02, -0.06);
         ankle.add(shoe);
-        limbs[side] = { sh, upper, elbow, hip, knee, ankle };
+        const bare = new THREE.Mesh(geo.foot, mSkin);
+        bare.position.set(0, 0.005, -0.06);
+        bare.scale.set(1, 1.3, 1);
+        bare.visible = false;
+        bare.castShadow = true;
+        ankle.add(bare);
+        limbs[side] = { sh, upper, elbow, hip, knee, ankle, shoe, bare };
       }
       let bagG = null;
       if (bag) {
@@ -725,7 +740,13 @@ export default function MapleGameAd({
           o.receiveShadow = true;
         }
       });
-      return { root, pelvis, spine, headG, limbs, bagG };
+      const barefoot = (on) => {
+        for (const s2 of [-1, 1]) {
+          limbs[s2].shoe.visible = !on;
+          limbs[s2].bare.visible = on;
+        }
+      };
+      return { root, pelvis, spine, headG, limbs, bagG, barefoot };
     }
 
     // gait: distance-driven so feet never slide
@@ -758,6 +779,14 @@ export default function MapleGameAd({
 
     const player = person({ skin: "#c98f68", hair: "#1b120c", top: "#13234b", shorts: "#151517", shoes: "#f2f2f2", logoBack: true });
     scene.add(player.root);
+    // his sneakers, left by the door inside
+    for (const [dx, dz, ry] of [[0.0, 0.0, 0.2], [0.13, 0.07, -0.1]]) {
+      const sn = new THREE.Mesh(geo.shoe, M({ color: "#f2f2f2", roughness: 0.5 }));
+      sn.position.set(FACADE_X - 0.55 + dx, 0.24, DOOR_Z + 1.25 + dz);
+      sn.rotation.y = ry + Math.PI / 2;
+      sn.castShadow = true;
+      room.add(sn);
+    }
 
     // students inside, on the mats
     const students = [];
@@ -1113,6 +1142,7 @@ export default function MapleGameAd({
     function renderAt(t) {
       const P = playerAt(t);
       player.root.position.set(P.x, 0.16 + (t >= T_INSIDE ? 0.04 : 0), P.z);
+      player.barefoot(t >= T_INSIDE); // shoes off at the door
       player.root.rotation.y = P.yaw;
       const stride = 1.45;
       pose(player, (P.s / stride) * Math.PI * 2, P.g, { lean: 0.04 * P.g, breath: Math.sin(t / 700) });
@@ -1252,28 +1282,9 @@ export default function MapleGameAd({
         window.__ready = true;
         return;
       }
-      let t0 = performance.now();
-      const audio = new Audio(soundtrack);
-      let withSound = false;
-      let lastLoop = -1;
-      if (R.soundbtn) {
-        R.soundbtn.style.display = "block";
-        R.soundbtn.onclick = () => {
-          withSound = true;
-          R.soundbtn.style.display = "none";
-          t0 = performance.now(); // start from the top, in step with the track
-          lastLoop = -1;
-        };
-      }
+      const t0 = performance.now();
       const loop = (now) => {
-        const el = now - t0;
-        const n = Math.floor(el / END_MS);
-        if (withSound && n !== lastLoop) {
-          lastLoop = n;
-          audio.currentTime = 0;
-          audio.play().catch(() => {});
-        }
-        renderAt(el % END_MS);
+        renderAt((now - t0) % END_MS);
         raf = requestAnimationFrame(loop);
       };
       raf = requestAnimationFrame(loop);
@@ -1311,9 +1322,6 @@ export default function MapleGameAd({
           <div className="gg-phone-body">{textBody}</div>
         </div>
       </div>
-
-      {/* the page itself is silent until tapped: browsers do not autoplay sound */}
-      <button className="gg-sound" ref={ref("soundbtn")} type="button">🔊 TAP FOR SOUND</button>
 
       <div className="gg-tr" ref={ref("cash")}>
         <svg className="gg-fist" viewBox="0 0 64 64" aria-hidden>
