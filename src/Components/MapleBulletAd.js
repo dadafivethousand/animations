@@ -95,9 +95,7 @@ const SHOT_T = (() => {
 })();
 const T_LAST = SHOT_T[SHOT_T.length - 1];
 const T_SETTLE = T_LAST + 620; // the wall is quiet, the smoke is still there
-// A beat of silence, then the light behind the plate is switched on and every
-// hole lights up: the whole message, glowing through the steel.
-const T_LIGHT = T_SETTLE + 450;
+
 const T_WORD = T_SETTLE + 950;
 const T_THANKS = T_WORD + 1150;
 const END_MS = T_THANKS + 3900;
@@ -564,10 +562,7 @@ export default function MapleBulletAd() {
       polygonOffset: true,
       polygonOffsetFactor: -2,
     });
-    dmgMat.emissive = new THREE.Color("#ffcf8f");
-    dmgMat.emissiveMap = dmg.texEmit;
-    dmgMat.emissiveIntensity = 0;
-    const decal = new THREE.Mesh(new THREE.PlaneGeometry(DW, DH), dmgMat);
+        const decal = new THREE.Mesh(new THREE.PlaneGeometry(DW, DH), dmgMat);
     decal.position.set(0, PY, 0.004);
     scene.add(decal);
 
@@ -684,12 +679,10 @@ export default function MapleBulletAd() {
     scene.add(puffs);
 
     const dummy = new THREE.Object3D();
-    // ---- heat, and the light coming through ----
+    // ---- heat ----
     // A round through plate steel leaves the hole glowing. Each fresh hole
     // gets an additive glow that runs white-hot, orange, dull red, then out,
-    // so the line being written is a hot trail cooling behind the gun. The
-    // same sprites come back, all at once and soft, as the halo of light
-    // spilling through every hole when the backlight comes on.
+    // so the line being written is a hot trail cooling behind the gun.
     const glowTex = (() => {
       const S = 128;
       const c = document.createElement("canvas");
@@ -717,23 +710,6 @@ export default function MapleBulletAd() {
     heat.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
     heat.frustumCulled = false;
     scene.add(heat);
-    const halos = new THREE.InstancedMesh(new THREE.PlaneGeometry(1, 1), glowMat(), HOLES.length);
-    halos.frustumCulled = false;
-    scene.add(halos);
-    {
-      const hc = new THREE.Color("#ffb860");
-      for (let i = 0; i < HOLES.length; i++) {
-        const [wx, wy] = toWorld(HOLES[i]);
-        const sz = 0.1 * (HOLES[i][2] || 1);
-        dummy.position.set(wx, wy, 0.012);
-        dummy.rotation.set(0, 0, 0);
-        dummy.scale.set(sz, sz, sz);
-        dummy.updateMatrix();
-        halos.setMatrixAt(i, dummy.matrix);
-        halos.setColorAt(i, hc);
-      }
-      halos.instanceColor.needsUpdate = true;
-    }
     const HEAT_LIFE = 1.6; // s from white-hot to out
     const heatCol = (u, out) => {
       // white-hot -> yellow -> orange -> dull red -> nothing
@@ -942,24 +918,6 @@ export default function MapleBulletAd() {
       heat.instanceMatrix.needsUpdate = true;
       if (heat.instanceColor) heat.instanceColor.needsUpdate = true;
 
-      // ---- the backlight: a tube striking, then on ----
-      const tr = t - T_LIGHT;
-      let lit = 0;
-      if (tr >= 0) {
-        if (tr < 70) lit = 1;
-        else if (tr < 190) lit = 0;
-        else if (tr < 245) lit = 0.75;
-        else if (tr < 430) lit = 0.04;
-        else lit = lerp(0.7, 1, ss(430, 1100, tr)) * (0.985 + 0.015 * Math.sin(t * 0.38));
-      }
-      dmgMat.emissiveIntensity = 3.2 * lit;
-      halos.material.opacity = 0.55 * lit;
-      halos.visible = lit > 0.001;
-      // and the room in front dims, so the light through the steel is the show
-      const dim = lerp(1, 0.4, ss(T_LIGHT + 300, T_LIGHT + 1400, t));
-      key.intensity = 3.35 * dim;
-      fill2.intensity = 1.15 * dim;
-
       // ---- camera ----
       // In close while it is being shot, back off to read the whole number.
       // ONE DISTANCE, ALL THE WAY THROUGH. Nothing moves under the viewer
@@ -1002,7 +960,7 @@ export default function MapleBulletAd() {
       if (renderMode) {
         window.__renderAt = (ms) => renderAt(ms);
         window.__bulletEnd = END_MS;
-        window.__bulletMarks = { T_FIRE, T_LAST, T_SETTLE, T_LIGHT, T_WORD, T_THANKS, END_MS, HOLES: HOLES.length };
+        window.__bulletMarks = { T_FIRE, T_LAST, T_SETTLE, T_WORD, T_THANKS, END_MS, HOLES: HOLES.length };
         window.__bulletShots = SHOT_T.map((x) => Math.round(x));
         window.__ready = true;
         return;
