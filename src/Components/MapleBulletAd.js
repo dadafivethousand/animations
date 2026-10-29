@@ -635,13 +635,13 @@ export default function MapleBulletAd() {
     // after it is hit: strong at first, thinning out, each wisp rising,
     // drifting and opening up as it goes. Faint individually, so the trail
     // follows the writing across the wall without burying the lettering.
-    const WISP_EVERY = 300; // ms between wisps from one hole
-    const WISP_N = 9; // wisps per hole: about 2.7 s of smoke
-    const WISP_LIFE = 1.7; // s each wisp lives
+    const WISP_EVERY = 320; // ms between wisps from one hole
+    const WISP_N = 4; // wisps per hole: about 1.3 s of smoke
+    const WISP_LIFE = 1.3; // s each wisp lives
     const WISP_MAX = 1700;
     const wisps = new THREE.InstancedMesh(
       new THREE.PlaneGeometry(1, 1),
-      new THREE.MeshBasicMaterial({ map: puffTex, transparent: true, depthWrite: false, opacity: 0.16 }),
+      new THREE.MeshBasicMaterial({ map: puffTex, transparent: true, depthWrite: false, opacity: 0.09 }),
       WISP_MAX
     );
     wisps.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
@@ -791,7 +791,7 @@ export default function MapleBulletAd() {
           );
           wq.setFromAxisAngle(wz, s.rot + dt * 0.4);
           dummy.quaternion.copy(camera.quaternion).multiply(wq);
-          const sc = (0.04 + dt * 0.14) * s.size * strength * Math.sin(Math.PI * Math.min(1, u * 1.15)) ** 0.7;
+          const sc = (0.035 + dt * 0.11) * s.size * strength * Math.sin(Math.PI * Math.min(1, u * 1.15)) ** 0.7;
           dummy.scale.set(sc, sc, sc);
           dummy.updateMatrix();
           wisps.setMatrixAt(wi, dummy.matrix);
