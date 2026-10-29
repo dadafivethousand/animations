@@ -636,12 +636,12 @@ export default function MapleBulletAd() {
     // drifting and opening up as it goes. Faint individually, so the trail
     // follows the writing across the wall without burying the lettering.
     const WISP_EVERY = 320; // ms between wisps from one hole
-    const WISP_N = 4; // wisps per hole: about 1.3 s of smoke
+    const WISP_N = 3; // wisps per hole: about a second of smoke
     const WISP_LIFE = 1.3; // s each wisp lives
     const WISP_MAX = 1700;
     const wisps = new THREE.InstancedMesh(
       new THREE.PlaneGeometry(1, 1),
-      new THREE.MeshBasicMaterial({ map: puffTex, transparent: true, depthWrite: false, opacity: 0.09 }),
+      new THREE.MeshBasicMaterial({ map: puffTex, transparent: true, depthWrite: false, opacity: 0.065 }),
       WISP_MAX
     );
     wisps.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
