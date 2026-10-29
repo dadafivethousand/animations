@@ -95,6 +95,9 @@ const SHOT_T = (() => {
 })();
 const T_LAST = SHOT_T[SHOT_T.length - 1];
 const T_SETTLE = T_LAST + 620; // the wall is quiet, the smoke is still there
+// A beat of silence, then the light behind the plate is switched on and every
+// hole lights up: the whole message, glowing through the steel.
+const T_LIGHT = T_SETTLE + 450;
 const T_WORD = T_SETTLE + 950;
 const T_THANKS = T_WORD + 1150;
 const END_MS = T_THANKS + 3900;
@@ -291,6 +294,7 @@ function makeDamage() {
   const [rough, rx] = mk();
   const [metal, mx] = mk();
   const [alpha, ax] = mk();
+  const [emit, ex] = mk(); // the pits only: where light from behind gets through
 
   const rnd = mulberry32(5150);
   // each hole gets its own torn outline, decided once
@@ -360,6 +364,11 @@ function makeDamage() {
     mx.fillStyle = "#ffffff";
     mx.fill();
 
+    // The opening, for the light behind the plate.
+    torn(ex, px, py, R, sh, 0.92);
+    ex.fillStyle = "#ffffff";
+    ex.fill();
+
     // The pit itself.
     torn(cx, px, py, R, sh, 1);
     cx.fillStyle = "#050607";
@@ -377,7 +386,7 @@ function makeDamage() {
   }
 
   function reset() {
-    for (const c of [cx, bx, rx, mx, ax]) c.clearRect(0, 0, CW, CH);
+    for (const c of [cx, bx, rx, mx, ax, ex]) c.clearRect(0, 0, CW, CH);
   }
 
   const tex = (c, srgb) => {
@@ -391,6 +400,7 @@ function makeDamage() {
   const texRough = tex(rough, false);
   const texMetal = tex(metal, false);
   const texAlpha = tex(alpha, false);
+  const texEmit = tex(emit, true);
 
   let drawn = 0;
   return {
@@ -399,6 +409,7 @@ function makeDamage() {
     texRough,
     texMetal,
     texAlpha,
+    texEmit,
     // Pure in effect: forward in time paints the new holes, backward repaints
     // from scratch, so any frame can be asked for in any order.
     to(n) {
@@ -414,6 +425,7 @@ function makeDamage() {
       texRough.needsUpdate = true;
       texMetal.needsUpdate = true;
       texAlpha.needsUpdate = true;
+      texEmit.needsUpdate = true;
     },
   };
 }
@@ -552,6 +564,9 @@ export default function MapleBulletAd() {
       polygonOffset: true,
       polygonOffsetFactor: -2,
     });
+    dmgMat.emissive = new THREE.Color("#ffcf8f");
+    dmgMat.emissiveMap = dmg.texEmit;
+    dmgMat.emissiveIntensity = 0;
     const decal = new THREE.Mesh(new THREE.PlaneGeometry(DW, DH), dmgMat);
     decal.position.set(0, PY, 0.004);
     scene.add(decal);
@@ -668,6 +683,75 @@ export default function MapleBulletAd() {
     puffs.frustumCulled = false;
     scene.add(puffs);
 
+    const dummy = new THREE.Object3D();
+    // ---- heat, and the light coming through ----
+    // A round through plate steel leaves the hole glowing. Each fresh hole
+    // gets an additive glow that runs white-hot, orange, dull red, then out,
+    // so the line being written is a hot trail cooling behind the gun. The
+    // same sprites come back, all at once and soft, as the halo of light
+    // spilling through every hole when the backlight comes on.
+    const glowTex = (() => {
+      const S = 128;
+      const c = document.createElement("canvas");
+      c.width = c.height = S;
+      const x = c.getContext("2d");
+      const g = x.createRadialGradient(S / 2, S / 2, 0, S / 2, S / 2, S / 2);
+      g.addColorStop(0, "rgba(255,255,255,1)");
+      g.addColorStop(0.22, "rgba(255,255,255,0.75)");
+      g.addColorStop(0.5, "rgba(255,255,255,0.18)");
+      g.addColorStop(1, "rgba(255,255,255,0)");
+      x.fillStyle = g;
+      x.fillRect(0, 0, S, S);
+      return new THREE.CanvasTexture(c);
+    })();
+    const glowMat = () =>
+      new THREE.MeshBasicMaterial({
+        map: glowTex,
+        transparent: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+        toneMapped: false,
+      });
+    const HEAT_MAX = 260;
+    const heat = new THREE.InstancedMesh(new THREE.PlaneGeometry(1, 1), glowMat(), HEAT_MAX);
+    heat.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+    heat.frustumCulled = false;
+    scene.add(heat);
+    const halos = new THREE.InstancedMesh(new THREE.PlaneGeometry(1, 1), glowMat(), HOLES.length);
+    halos.frustumCulled = false;
+    scene.add(halos);
+    {
+      const hc = new THREE.Color("#ffb860");
+      for (let i = 0; i < HOLES.length; i++) {
+        const [wx, wy] = toWorld(HOLES[i]);
+        const sz = 0.1 * (HOLES[i][2] || 1);
+        dummy.position.set(wx, wy, 0.012);
+        dummy.rotation.set(0, 0, 0);
+        dummy.scale.set(sz, sz, sz);
+        dummy.updateMatrix();
+        halos.setMatrixAt(i, dummy.matrix);
+        halos.setColorAt(i, hc);
+      }
+      halos.instanceColor.needsUpdate = true;
+    }
+    const HEAT_LIFE = 1.6; // s from white-hot to out
+    const heatCol = (u, out) => {
+      // white-hot -> yellow -> orange -> dull red -> nothing
+      const stops = [
+        [0.0, 4.0, 3.6, 2.8],
+        [0.06, 3.6, 2.4, 0.9],
+        [0.25, 2.6, 0.95, 0.16],
+        [0.6, 1.2, 0.22, 0.04],
+        [1.0, 0, 0, 0],
+      ];
+      let j = 0;
+      while (j < stops.length - 2 && u > stops[j + 1][0]) j++;
+      const [u0, r0, g0, b0] = stops[j];
+      const [u1, r1, g1, b1] = stops[j + 1];
+      const k = clamp01((u - u0) / (u1 - u0));
+      return out.setRGB(lerp(r0, r1, k), lerp(g0, g1, k), lerp(b0, b1, k));
+    };
+
     // ---- tracers ----
     const TR = 10;
     const tracers = new THREE.InstancedMesh(
@@ -684,7 +768,6 @@ export default function MapleBulletAd() {
     const flash = new THREE.PointLight("#ffd0a0", 0, 2.1, 2);
     scene.add(flash);
 
-    const dummy = new THREE.Object3D();
     const hidden = new THREE.Matrix4().makeScale(0, 0, 0);
     const col = new THREE.Color();
     const vA = new THREE.Vector3();
@@ -838,6 +921,45 @@ export default function MapleBulletAd() {
       flash.intensity = fl * 2.1;
       flash.position.set(fx, fy, 0.5);
 
+      // ---- heat ----
+      let hi = 0;
+      const h0 = landed(t - HEAT_LIFE * 1000);
+      for (let i = h0; i < n && hi < HEAT_MAX; i++) {
+        const dt = (t - SHOT_T[i]) / 1000;
+        if (dt < 0 || dt > HEAT_LIFE) continue;
+        const u = dt / HEAT_LIFE;
+        const [wx, wy] = toWorld(HOLES[i]);
+        const sz = (0.08 + 0.05 * (1 - u)) * (HOLES[i][2] || 1);
+        dummy.position.set(wx, wy, 0.011);
+        dummy.rotation.set(0, 0, 0);
+        dummy.scale.set(sz, sz, sz);
+        dummy.updateMatrix();
+        heat.setMatrixAt(hi, dummy.matrix);
+        heat.setColorAt(hi, heatCol(u, col));
+        hi += 1;
+      }
+      for (; hi < HEAT_MAX; hi++) heat.setMatrixAt(hi, hidden);
+      heat.instanceMatrix.needsUpdate = true;
+      if (heat.instanceColor) heat.instanceColor.needsUpdate = true;
+
+      // ---- the backlight: a tube striking, then on ----
+      const tr = t - T_LIGHT;
+      let lit = 0;
+      if (tr >= 0) {
+        if (tr < 70) lit = 1;
+        else if (tr < 190) lit = 0;
+        else if (tr < 245) lit = 0.75;
+        else if (tr < 430) lit = 0.04;
+        else lit = lerp(0.7, 1, ss(430, 1100, tr)) * (0.985 + 0.015 * Math.sin(t * 0.38));
+      }
+      dmgMat.emissiveIntensity = 3.2 * lit;
+      halos.material.opacity = 0.55 * lit;
+      halos.visible = lit > 0.001;
+      // and the room in front dims, so the light through the steel is the show
+      const dim = lerp(1, 0.4, ss(T_LIGHT + 300, T_LIGHT + 1400, t));
+      key.intensity = 3.35 * dim;
+      fill2.intensity = 1.15 * dim;
+
       // ---- camera ----
       // In close while it is being shot, back off to read the whole number.
       // ONE DISTANCE, ALL THE WAY THROUGH. Nothing moves under the viewer
@@ -880,7 +1002,7 @@ export default function MapleBulletAd() {
       if (renderMode) {
         window.__renderAt = (ms) => renderAt(ms);
         window.__bulletEnd = END_MS;
-        window.__bulletMarks = { T_FIRE, T_LAST, T_SETTLE, T_WORD, T_THANKS, END_MS, HOLES: HOLES.length };
+        window.__bulletMarks = { T_FIRE, T_LAST, T_SETTLE, T_LIGHT, T_WORD, T_THANKS, END_MS, HOLES: HOLES.length };
         window.__bulletShots = SHOT_T.map((x) => Math.round(x));
         window.__ready = true;
         return;
