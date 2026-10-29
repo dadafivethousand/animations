@@ -461,20 +461,9 @@ export default function MapleGameAd({
       skirt: new THREE.CylinderGeometry(0.19, 0.22, 0.3, 24, 1, true),
       belt: new THREE.TorusGeometry(0.17, 0.02, 8, 32),
       knot: new RoundedBoxGeometry(0.07, 0.16, 0.03, 2, 0.01),
-      upperArm: new THREE.CapsuleGeometry(0.054, 0.22, 6, 14),
-      foreArm: new THREE.CapsuleGeometry(0.05, 0.22, 6, 14),
+      upperArm: new THREE.CapsuleGeometry(0.057, 0.19, 6, 14),
+      foreArm: new THREE.CapsuleGeometry(0.05, 0.19, 6, 14),
       hand: new THREE.SphereGeometry(0.045, 12, 10),
-      finger: new THREE.CapsuleGeometry(0.0105, 0.026, 4, 8),
-      palm: new RoundedBoxGeometry(0.036, 0.085, 0.082, 2, 0.016),
-      giSleeveU: new THREE.CylinderGeometry(0.066, 0.072, 0.3, 18, 1, true),
-      giSleeveF: new THREE.CylinderGeometry(0.07, 0.064, 0.25, 18, 1, true),
-      cuff: new THREE.TorusGeometry(0.066, 0.008, 6, 20),
-      wrist: new THREE.CapsuleGeometry(0.036, 0.04, 4, 10),
-      giThigh: new THREE.CylinderGeometry(0.104, 0.098, 0.46, 18),
-      giShin: new THREE.CylinderGeometry(0.094, 0.088, 0.4, 18, 1, true),
-      ankle: new THREE.CapsuleGeometry(0.04, 0.05, 4, 10),
-      tail: new RoundedBoxGeometry(0.045, 0.2, 0.012, 1, 0.004),
-      foot: new RoundedBoxGeometry(0.088, 0.05, 0.235, 3, 0.022),
       joint: new THREE.SphereGeometry(1, 14, 10),
       eye: new THREE.SphereGeometry(0.012, 10, 8),
       brow: new RoundedBoxGeometry(0.035, 0.008, 0.012, 1, 0.003),
@@ -487,76 +476,10 @@ export default function MapleGameAd({
       bag: new RoundedBoxGeometry(0.5, 0.26, 0.26, 4, 0.09),
       strap: new THREE.TorusGeometry(0.27, 0.012, 6, 32, Math.PI * 1.1),
     };
-    const weaveTex = canvasTex(256, 256, (g, w, h) => {
-      g.fillStyle = "#ffffff";
-      g.fillRect(0, 0, w, h);
-      for (let y = 0; y < h; y += 2) {
-        g.fillStyle = `rgba(0,0,0,${y % 4 ? 0.035 : 0.06})`;
-        g.fillRect(0, y, w, 1);
-      }
-      for (let x = 0; x < w; x += 3) {
-        g.fillStyle = "rgba(0,0,0,0.025)";
-        g.fillRect(x, 0, 1, h);
-      }
-      // soft creases
-      for (let i = 0; i < 14; i++) {
-        const gr = g.createLinearGradient(0, 0, w, 0);
-        const x = rnd() * w;
-        g.strokeStyle = `rgba(0,0,0,${0.04 + rnd() * 0.05})`;
-        g.lineWidth = 2 + rnd() * 5;
-        g.beginPath();
-        g.moveTo(x, rnd() * h);
-        g.quadraticCurveTo(x + (rnd() - 0.5) * 60, rnd() * h, x + (rnd() - 0.5) * 40, rnd() * h);
-        g.stroke();
-        void gr;
-      }
-    }, { repeat: [3, 3] });
-    // The jacket, on the torso's lathe UVs: u runs round the body with the
-    // front at 0.5, v climbs the profile. Lapels cross left over right from
-    // the shoulders to the belt, and a thick collar runs round the neck.
-    const jacketTex = canvasTex(1024, 1024, (g, w, h) => {
-      g.fillStyle = "#ffffff";
-      g.fillRect(0, 0, w, h);
-      for (let y = 0; y < h; y += 3) {
-        g.fillStyle = `rgba(0,0,0,${y % 6 ? 0.03 : 0.05})`;
-        g.fillRect(0, y, w, 1);
-      }
-      const P = (u, v) => [u * w, (1 - v) * h];
-      const band = (u0, v0, u1, v1, wd) => {
-        const [x0, y0] = P(u0, v0);
-        const [x1, y1] = P(u1, v1);
-        g.lineCap = "round";
-        g.strokeStyle = "rgba(0,0,0,0.22)";
-        g.lineWidth = wd + 10;
-        g.beginPath();
-        g.moveTo(x0, y0);
-        g.lineTo(x1, y1);
-        g.stroke();
-        g.strokeStyle = "#f7f6f1";
-        g.lineWidth = wd;
-        g.stroke();
-        g.strokeStyle = "rgba(0,0,0,0.12)";
-        g.lineWidth = 3;
-        g.stroke();
-      };
-      band(0.6, 0.78, 0.46, 0.2, 70); // under
-      band(0.4, 0.78, 0.55, 0.16, 70); // over
-      // collar, all the way round
-      g.fillStyle = "rgba(0,0,0,0.18)";
-      g.fillRect(0, P(0, 0.9)[1] - 6, w, 70);
-      g.fillStyle = "#f7f6f1";
-      g.fillRect(0, P(0, 0.9)[1], w, 58);
-      // the jacket's side seams
-      g.fillStyle = "rgba(0,0,0,0.08)";
-      g.fillRect(0.25 * w - 2, 0, 4, h * 0.85);
-      g.fillRect(0.75 * w - 2, 0, 4, h * 0.85);
-    });
-
-    function person({ skin, hair, top, shorts, shoes, logoBack = false, backTex = null, gi = false, bag = false, belt = "#f2f2ee", slides = null }) {
+    function person({ skin, hair, top, shorts, shoes, logoBack = false, gi = false, bag = false, belt = "#f2f2ee" }) {
       const mat = (c, r = 0.7) => M({ color: c, roughness: r });
       const mSkin = mat(skin, 0.55);
-      const mTop = gi ? M({ color: top, map: weaveTex, roughness: 0.95, side: THREE.DoubleSide }) : mat(top, 0.85);
-      const mJacket = gi ? M({ color: top, map: jacketTex, roughness: 0.95 }) : mTop;
+      const mTop = mat(top, 0.85);
       const mShorts = mat(shorts, 0.8);
       const root = new THREE.Group();
       const pelvis = new THREE.Group();
@@ -567,26 +490,13 @@ export default function MapleGameAd({
       const spine = new THREE.Group();
       spine.position.y = 0.07;
       pelvis.add(spine);
-      const torso = new THREE.Mesh(geo.torso, mJacket);
+      const torso = new THREE.Mesh(geo.torso, mTop);
       spine.add(torso);
       if (logoBack) {
-        // the Maple mark across his back, where the camera sits
-        const sz = backTex ? 0.3 : 0.24;
-        const back = new THREE.Mesh(new THREE.PlaneGeometry(sz, sz * 1.02), M({ map: backTex || logoTex, transparent: true, roughness: 0.85, polygonOffset: true, polygonOffsetFactor: -2 }));
-        back.position.set(0, 0.35, 0.121);
-        back.rotation.x = -0.06;
+        // the Maple mark on the back of his tee, where the camera sits
+        const back = new THREE.Mesh(new THREE.PlaneGeometry(0.24, 0.245), M({ map: logoTex, transparent: true, roughness: 0.8, polygonOffset: true, polygonOffsetFactor: -2 }));
+        back.position.set(0, 0.36, 0.118);
         spine.add(back);
-      }
-      if (!gi) {
-        // the tee hangs longer, over the waistband and the tops of the legs
-        const hem = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.172, 0.222, 0.28, 28, 1, true),
-          new THREE.MeshStandardMaterial({ color: top, roughness: 0.85, side: THREE.DoubleSide })
-        );
-        hem.scale.z = 0.74;
-        hem.position.y = -0.07;
-        hem.castShadow = true;
-        spine.add(hem);
       }
       if (gi) {
         // the jacket hangs past the hips, and the belt ties over it
@@ -601,15 +511,8 @@ export default function MapleGameAd({
         b.position.y = 0.06;
         spine.add(b);
         const kn = new THREE.Mesh(geo.knot, bm);
-        kn.scale.set(1, 0.45, 1);
-        kn.position.set(0, 0.05, -0.12);
+        kn.position.set(0, -0.01, -0.12);
         spine.add(kn);
-        for (const tx of [-1, 1]) {
-          const tl = new THREE.Mesh(geo.tail, bm);
-          tl.position.set(0.03 * tx, -0.06, -0.122);
-          tl.rotation.z = 0.12 * tx;
-          spine.add(tl);
-        }
       }
       const neck = new THREE.Mesh(geo.neck, mSkin);
       neck.position.y = 0.6;
@@ -648,99 +551,51 @@ export default function MapleGameAd({
         const sh = new THREE.Group();
         sh.position.set(0.205 * side, 0.47, 0);
         spine.add(sh);
-        const shm = new THREE.Mesh(geo.shoulder, mTop);
-        if (gi) shm.scale.setScalar(0.88);
-        sh.add(shm);
+        sh.add(new THREE.Mesh(geo.shoulder, mTop));
         const upper = new THREE.Group();
         sh.add(upper);
-        if (gi) {
-          const su = new THREE.Mesh(geo.giSleeveU, mTop);
-          su.position.y = -0.14;
-          upper.add(su);
-        } else {
-          const sleeve = new THREE.Mesh(geo.sleeve, mTop);
-          sleeve.position.y = -0.08;
-          upper.add(sleeve);
-          const ua = new THREE.Mesh(geo.upperArm, mSkin);
-          ua.position.y = -0.15;
-          upper.add(ua);
-        }
+        const sleeve = new THREE.Mesh(geo.sleeve, mTop);
+        sleeve.position.y = -0.08;
+        upper.add(sleeve);
+        const ua = new THREE.Mesh(geo.upperArm, gi ? mTop : mSkin);
+        ua.position.y = -0.15;
+        upper.add(ua);
         const elbow = new THREE.Group();
         elbow.position.y = -0.29;
         upper.add(elbow);
         const ej = new THREE.Mesh(geo.joint, gi ? mTop : mSkin);
-        ej.scale.setScalar(0.051);
+        ej.scale.setScalar(0.054);
         elbow.add(ej);
-        if (gi) {
-          const sf = new THREE.Mesh(geo.giSleeveF, mTop);
-          sf.position.y = -0.12;
-          elbow.add(sf);
-          const cf = new THREE.Mesh(geo.cuff, mTop);
-          cf.rotation.x = Math.PI / 2;
-          cf.position.y = -0.245;
-          elbow.add(cf);
-          const wr = new THREE.Mesh(geo.wrist, mSkin);
-          wr.position.y = -0.25;
-          elbow.add(wr);
-        } else {
-          const fa = new THREE.Mesh(geo.foreArm, mSkin);
-          fa.position.y = -0.13;
-          elbow.add(fa);
-        }
-        // A relaxed hand: the palm faces his leg, the four fingers the same
-        // length and curled in toward it, the thumb along the front. Long
-        // straight fingers hanging down read as a gesture, not a hand.
-        const palm = new THREE.Mesh(geo.palm, mSkin);
-        palm.position.set(0, -0.315, 0);
-        elbow.add(palm);
-        for (let f = 0; f < 4; f++) {
-          const fg = new THREE.Mesh(geo.finger, mSkin);
-          fg.position.set(-0.012 * side, -0.362, -0.027 + f * 0.018);
-          fg.rotation.z = -0.75 * side;
-          elbow.add(fg);
-        }
-        const thumb = new THREE.Mesh(geo.finger, mSkin);
-        thumb.position.set(-0.016 * side, -0.31, -0.046);
-        thumb.rotation.set(-0.25, 0, -0.35 * side);
-        thumb.scale.y = 1.2;
-        elbow.add(thumb);
+        const fa = new THREE.Mesh(geo.foreArm, gi ? mTop : mSkin);
+        fa.position.y = -0.13;
+        elbow.add(fa);
+        const hand = new THREE.Mesh(geo.hand, mSkin);
+        hand.position.y = -0.28;
+        hand.scale.set(0.9, 1.25, 0.75);
+        elbow.add(hand);
         const hip = new THREE.Group();
         hip.position.set(0.095 * side, -0.04, 0);
         pelvis.add(hip);
-        // long trousers: joggers on him, gi pants on the students
-        // Loose, straight trousers on everyone: a wide thigh and a wide open
-        // lower leg that overlaps it at the knee, so no joint ever shows.
-        const mPants = gi ? mTop : M({ color: shorts, roughness: 0.88, side: THREE.DoubleSide });
-        const th = new THREE.Mesh(geo.giThigh, mPants);
+        const th = new THREE.Mesh(geo.thigh, mShorts);
         th.position.y = -0.2;
         hip.add(th);
         const knee = new THREE.Group();
         knee.position.y = -0.43;
         hip.add(knee);
-        const kj = new THREE.Mesh(geo.joint, mPants);
+        const kj = new THREE.Mesh(geo.joint, gi ? mShorts : mSkin);
         kj.scale.setScalar(0.072);
         knee.add(kj);
-        const sn = new THREE.Mesh(geo.giShin, mPants);
-        sn.position.y = -0.2;
+        const sn = new THREE.Mesh(geo.shin, gi ? mShorts : mSkin);
+        sn.position.y = -0.22;
         knee.add(sn);
-        const an = new THREE.Mesh(geo.ankle, mSkin);
-        an.position.y = -0.42;
-        knee.add(an);
-        if (!gi) {
-          // the hem sits a little lower and fuller on trousers
-          sn.scale.set(1.04, 1.06, 1.04);
-          sn.position.y = -0.215;
-        }
         const ankle = new THREE.Group();
         ankle.position.y = -0.45;
         knee.add(ankle);
-        const shoe = new THREE.Mesh(geo.shoe, slides ? mat(slides, 0.6) : gi ? mSkin : mat(shoes, 0.5));
-        if (slides) shoe.scale.set(1.05, 0.45, 1.02);
+        const shoe = new THREE.Mesh(geo.shoe, gi ? mSkin : mat(shoes, 0.5));
         shoe.position.set(0, -0.02, -0.06);
         ankle.add(shoe);
-        const bare = new THREE.Mesh(geo.foot, mSkin);
-        bare.position.set(0, 0.005, -0.06);
-        bare.scale.set(1, 1.3, 1);
+        const bare = new THREE.Mesh(new RoundedBoxGeometry(0.088, 0.065, 0.235, 3, 0.025), mSkin);
+        bare.position.set(0, 0.0, -0.06);
         bare.visible = false;
         bare.castShadow = true;
         ankle.add(bare);
