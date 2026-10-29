@@ -137,7 +137,7 @@ function steelCanvas() {
   c.height = SW;
   const x = c.getContext("2d");
   const r = mulberry32(4242);
-  x.fillStyle = "#3d4422"; // olive drab paint
+  x.fillStyle = "#5a6334"; // olive drab paint, light enough that the dark holes read
   x.fillRect(0, 0, SW, SW);
 
   // the grain of rolled steel: fine, horizontal, barely there
@@ -519,8 +519,8 @@ export default function MapleBulletAd() {
     mount.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color("#31361c");
-    scene.fog = new THREE.FogExp2("#31361c", 0.008);
+    scene.background = new THREE.Color("#4a5129");
+    scene.fog = new THREE.FogExp2("#4a5129", 0.008);
     const camera = new THREE.PerspectiveCamera(40, W / H, 0.05, 200);
 
     // ---- what the metal reflects ----
@@ -591,7 +591,7 @@ export default function MapleBulletAd() {
     steelTex.anisotropy = renderer.capabilities.getMaxAnisotropy();
     const wall = new THREE.Mesh(
       new THREE.PlaneGeometry(WALLW, WALLH),
-      new THREE.MeshStandardMaterial({ map: steelTex, roughness: 0.55, metalness: 0.3, color: "#b9bcae" })
+      new THREE.MeshStandardMaterial({ map: steelTex, roughness: 0.55, metalness: 0.3, color: "#e2e4da" })
     );
     wall.position.set(0, PY, 0);
     wall.receiveShadow = true;
