@@ -678,55 +678,6 @@ export default function MapleBulletAd() {
     scene.add(puffs);
 
     const dummy = new THREE.Object3D();
-    // ---- heat ----
-    // A round through plate steel leaves the hole glowing. Each fresh hole
-    // gets an additive glow that runs white-hot, orange, dull red, then out,
-    // so the line being written is a hot trail cooling behind the gun.
-    const glowTex = (() => {
-      const S = 128;
-      const c = document.createElement("canvas");
-      c.width = c.height = S;
-      const x = c.getContext("2d");
-      const g = x.createRadialGradient(S / 2, S / 2, 0, S / 2, S / 2, S / 2);
-      g.addColorStop(0, "rgba(255,255,255,1)");
-      g.addColorStop(0.22, "rgba(255,255,255,0.75)");
-      g.addColorStop(0.5, "rgba(255,255,255,0.18)");
-      g.addColorStop(1, "rgba(255,255,255,0)");
-      x.fillStyle = g;
-      x.fillRect(0, 0, S, S);
-      return new THREE.CanvasTexture(c);
-    })();
-    const glowMat = () =>
-      new THREE.MeshBasicMaterial({
-        map: glowTex,
-        transparent: true,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending,
-        toneMapped: false,
-      });
-    const HEAT_MAX = 260;
-    const heat = new THREE.InstancedMesh(new THREE.PlaneGeometry(1, 1), glowMat(), HEAT_MAX);
-    heat.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
-    heat.frustumCulled = false;
-    scene.add(heat);
-    const HEAT_LIFE = 1.6; // s from white-hot to out
-    const heatCol = (u, out) => {
-      // white-hot -> yellow -> orange -> dull red -> nothing
-      const stops = [
-        [0.0, 4.0, 3.6, 2.8],
-        [0.06, 3.6, 2.4, 0.9],
-        [0.25, 2.6, 0.95, 0.16],
-        [0.6, 1.2, 0.22, 0.04],
-        [1.0, 0, 0, 0],
-      ];
-      let j = 0;
-      while (j < stops.length - 2 && u > stops[j + 1][0]) j++;
-      const [u0, r0, g0, b0] = stops[j];
-      const [u1, r1, g1, b1] = stops[j + 1];
-      const k = clamp01((u - u0) / (u1 - u0));
-      return out.setRGB(lerp(r0, r1, k), lerp(g0, g1, k), lerp(b0, b1, k));
-    };
-
     // ---- tracers ----
     const TR = 10;
     const tracers = new THREE.InstancedMesh(
@@ -895,27 +846,6 @@ export default function MapleBulletAd() {
       }
       flash.intensity = fl * 2.1;
       flash.position.set(fx, fy, 0.5);
-
-      // ---- heat ----
-      let hi = 0;
-      const h0 = landed(t - HEAT_LIFE * 1000);
-      for (let i = h0; i < n && hi < HEAT_MAX; i++) {
-        const dt = (t - SHOT_T[i]) / 1000;
-        if (dt < 0 || dt > HEAT_LIFE) continue;
-        const u = dt / HEAT_LIFE;
-        const [wx, wy] = toWorld(HOLES[i]);
-        const sz = (0.08 + 0.05 * (1 - u)) * (HOLES[i][2] || 1);
-        dummy.position.set(wx, wy, 0.011);
-        dummy.rotation.set(0, 0, 0);
-        dummy.scale.set(sz, sz, sz);
-        dummy.updateMatrix();
-        heat.setMatrixAt(hi, dummy.matrix);
-        heat.setColorAt(hi, heatCol(u, col));
-        hi += 1;
-      }
-      for (; hi < HEAT_MAX; hi++) heat.setMatrixAt(hi, hidden);
-      heat.instanceMatrix.needsUpdate = true;
-      if (heat.instanceColor) heat.instanceColor.needsUpdate = true;
 
       // ---- camera ----
       // In close while it is being shot, back off to read the whole number.
