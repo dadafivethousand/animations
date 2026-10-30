@@ -561,11 +561,11 @@ export default function MaplePirateAd() {
     const spar = new THREE.MeshStandardMaterial({ color: "#5e3d1f", roughness: 0.7 });
     const sailCanvas = canvas(1024, 1024, (g, w, h) => {
       const r = mulberry32(8);
-      g.fillStyle = "#3a3632";
+      g.fillStyle = "#f1ece0";
       g.fillRect(0, 0, w, h);
       // panels and seams
       for (let x = 0; x < w; x += 64) {
-        g.fillStyle = `rgba(${r() < 0.5 ? "0,0,0" : "120,112,100"},${0.05 + r() * 0.06})`;
+        g.fillStyle = `rgba(${r() < 0.5 ? "150,135,110" : "255,255,250"},${0.04 + r() * 0.05})`;
         g.fillRect(x, 0, 64, h);
         g.fillStyle = "rgba(90,70,40,0.35)";
         g.fillRect(x, 0, 2, h);
@@ -588,7 +588,7 @@ export default function MaplePirateAd() {
       for (let i = 0; i < 4; i++) {
         const px = r() * (w - 140);
         const py = r() * (h - 140);
-        g.fillStyle = "#2a2724";
+        g.fillStyle = "#e6dfcf";
         g.fillRect(px, py, 90 + r() * 60, 70 + r() * 60);
         g.strokeStyle = "rgba(120,110,95,0.35)";
         g.lineWidth = 2;
@@ -604,54 +604,11 @@ export default function MaplePirateAd() {
         g.fillRect(0, 0, w, h);
       }
       // bolt rope round the edge
-      g.strokeStyle = "rgba(20,18,15,0.8)";
+      g.strokeStyle = "rgba(150,135,110,0.55)";
       g.lineWidth = 8;
       g.strokeRect(4, 4, w - 8, h - 8);
-      // battle damage: shot holes with scorched rims, rips, a ragged foot
-      for (let i = 0; i < 9; i++) {
-        const x = 80 + r() * (w - 160);
-        const y = 120 + r() * (h - 260);
-        const rr = 10 + r() * 22;
-        const gr = g.createRadialGradient(x, y, rr, x, y, rr * 2.6);
-        gr.addColorStop(0, "rgba(10,6,2,0.85)");
-        gr.addColorStop(1, "rgba(10,6,2,0)");
-        g.fillStyle = gr;
-        g.fillRect(x - rr * 3, y - rr * 3, rr * 6, rr * 6);
-      }
-      g.globalCompositeOperation = "destination-out";
-      const r2 = mulberry32(81);
-      for (let i = 0; i < 9; i++) {
-        const x = 80 + r2() * (w - 160);
-        const y = 120 + r2() * (h - 260);
-        const rr = 10 + r2() * 22;
-        g.beginPath();
-        for (let k = 0; k <= 12; k++) {
-          const a = (k / 12) * Math.PI * 2;
-          const q = rr * (0.6 + r2() * 0.7);
-          k ? g.lineTo(x + Math.cos(a) * q, y + Math.sin(a) * q) : g.moveTo(x + Math.cos(a) * q, y + Math.sin(a) * q);
-        }
-        g.fill();
-      }
-      for (let i = 0; i < 3; i++) {
-        // long rips running up from the foot
-        const x = 150 + r2() * (w - 300);
-        g.beginPath();
-        g.moveTo(x - 18, h);
-        let y = h;
-        let xx = x;
-        while (y > h * (0.45 + r2() * 0.3)) {
-          y -= 30;
-          xx += (r2() - 0.5) * 30;
-          g.lineTo(xx - 6, y);
-        }
-        g.lineTo(xx + 6, y);
-        g.lineTo(x + 18, h);
-        g.fill();
-      }
-      for (let x = 0; x < w; x += 10) g.fillRect(x, h - 8 - r2() * 46, 10, 60);
-      g.globalCompositeOperation = "source-over";
     });
-    const sailMat = new THREE.MeshStandardMaterial({ map: tex(sailCanvas, { aniso }), roughness: 0.95, side: THREE.DoubleSide, alphaTest: 0.5 });
+    const sailMat = new THREE.MeshStandardMaterial({ map: tex(sailCanvas, { aniso }), roughness: 0.92, side: THREE.DoubleSide });
     const sails = [];
     // a square sail: between two yards, billowing forward (+x)
     function squareSail(mx, yTop, yBot, wTop, wBot, billow) {
@@ -796,302 +753,189 @@ export default function MaplePirateAd() {
     }
 
     // ---- the Jolly Roger at the main truck ----
+    // A modern Jolly Roger: flat, crisp, graphic. Matte black field, a clean
+    // white skull drawn in hard-edged shapes, and two razor sabres crossed
+    // beneath it. No grime and no rags; a tidy hem.
     const flagCanvas = canvas(1600, 1040, (g, w, h) => {
-      const r = mulberry32(13);
-      // old black wool: uneven, sun-faded toward the fly, a coarse weave
-      g.fillStyle = "#0c0b0b";
+      g.fillStyle = "#0b0b0c";
       g.fillRect(0, 0, w, h);
-      const fade = g.createLinearGradient(0, 0, w, 0);
-      fade.addColorStop(0, "rgba(40,36,34,0)");
-      fade.addColorStop(1, "rgba(52,46,42,0.5)");
-      g.fillStyle = fade;
-      g.fillRect(0, 0, w, h);
-      for (let y = 0; y < h; y += 3) {
-        g.fillStyle = `rgba(255,255,255,${0.012 + r() * 0.02})`;
+      // a faint, even cloth weave so it still reads as fabric up close
+      for (let y = 0; y < h; y += 4) {
+        g.fillStyle = "rgba(255,255,255,0.018)";
         g.fillRect(0, y, w, 1);
       }
-      for (let x = 0; x < w; x += 3) {
-        g.fillStyle = `rgba(0,0,0,${0.08 + r() * 0.08})`;
-        g.fillRect(x, 0, 1, h);
-      }
-      for (let i = 0; i < 26; i++) {
-        const x = r() * w;
-        const y = r() * h;
-        const gr = g.createRadialGradient(x, y, 0, x, y, 60 + r() * 160);
-        gr.addColorStop(0, `rgba(${r() < 0.5 ? "70,60,50" : "0,0,0"},0.22)`);
-        gr.addColorStop(1, "rgba(0,0,0,0)");
-        g.fillStyle = gr;
-        g.fillRect(0, 0, w, h);
-      }
-      // the hoist: a doubled canvas band with grommets
-      g.fillStyle = "#1a1714";
-      g.fillRect(0, 0, 46, h);
-      for (let y = 60; y < h; y += 220) {
-        g.fillStyle = "#6a5a40";
-        g.beginPath();
-        g.arc(23, y, 12, 0, Math.PI * 2);
-        g.fill();
-        g.fillStyle = "#0c0b0b";
-        g.beginPath();
-        g.arc(23, y, 6, 0, Math.PI * 2);
-        g.fill();
-      }
+      // hem and hoist tape
+      g.fillStyle = "#161618";
+      g.fillRect(0, 0, 54, h);
+      g.strokeStyle = "rgba(255,255,255,0.10)";
+      g.lineWidth = 2;
+      g.setLineDash([10, 8]);
+      g.strokeRect(22, 22, w - 44, h - 44);
+      g.beginPath();
+      g.moveTo(54, 22);
+      g.lineTo(54, h - 22);
+      g.stroke();
+      g.setLineDash([]);
 
-      const BONE = "#e8dfcb";
-      const MID = "#b9ae97";
-      const DARK = "#6f6656";
-      const cx = 790;
+      const WHITE = "#f4f3ef";
+      const SHADE = "#c9c7c0";
+      const INK = "#0b0b0c";
+      const cx = 820;
+      const cy = 420;
 
-      // crossed cutlasses behind the skull
-      function cutlass(flip) {
+      // ---- the sabres, drawn first and crossed below the jaw ----
+      function sabre(flip) {
         g.save();
-        // crossed beneath the skull, clear of it: a shallow X under the jaw
-        g.translate(cx, 905);
+        g.translate(cx, 880);
         g.scale(flip, 1);
-        g.rotate(-0.33);
-        g.scale(1.12, 1.0);
-        // blade: a curved sabre, broadening toward the tip
+        g.rotate(-0.36);
+        // blade: slim, curved, a long sharp clip point
         g.beginPath();
-        g.moveTo(-40, -10);
-        g.quadraticCurveTo(220, -40, 470, -98);
-        g.quadraticCurveTo(500, -70, 480, -40);
-        g.quadraticCurveTo(230, 30, -40, 14);
+        g.moveTo(-20, -11);
+        g.quadraticCurveTo(300, -26, 560, -86);
+        g.lineTo(640, -122); // the point
+        g.lineTo(590, -70);
+        g.quadraticCurveTo(320, 12, -20, 11);
         g.closePath();
-        const bl = g.createLinearGradient(0, -60, 0, 30);
-        bl.addColorStop(0, "#f2f0ea");
-        bl.addColorStop(0.5, "#c9c8c4");
-        bl.addColorStop(1, "#8d8c88");
-        g.fillStyle = bl;
+        g.fillStyle = WHITE;
         g.fill();
-        g.strokeStyle = "rgba(0,0,0,0.5)";
-        g.lineWidth = 3;
-        g.stroke();
-        // fuller
-        g.strokeStyle = "rgba(90,90,90,0.6)";
-        g.lineWidth = 4;
+        // the bevel along the edge: a hard second tone, no gradient
         g.beginPath();
-        g.moveTo(10, -4);
-        g.quadraticCurveTo(220, -26, 420, -70);
-        g.stroke();
-        // guard, a cup of brass, the grip and pommel
-        g.fillStyle = "#b8862e";
-        g.beginPath();
-        g.ellipse(-52, 2, 22, 62, 0, 0, Math.PI * 2);
+        g.moveTo(-20, 3);
+        g.quadraticCurveTo(320, 2, 590, -76);
+        g.lineTo(640, -122);
+        g.lineTo(585, -82);
+        g.quadraticCurveTo(310, -8, -20, -3);
+        g.closePath();
+        g.fillStyle = SHADE;
         g.fill();
-        g.strokeStyle = "#5a3e12";
+        // fuller: a thin dark groove
+        g.strokeStyle = INK;
         g.lineWidth = 3;
-        g.stroke();
-        g.fillStyle = "#2a1a0e";
-        g.fillRect(-170, -14, 116, 30);
-        for (let k = 0; k < 6; k++) {
-          g.fillStyle = "rgba(255,220,160,0.18)";
-          g.fillRect(-165 + k * 19, -14, 4, 30);
-        }
-        g.fillStyle = "#b8862e";
         g.beginPath();
-        g.arc(-178, 1, 20, 0, Math.PI * 2);
+        g.moveTo(20, -6);
+        g.quadraticCurveTo(260, -18, 470, -64);
+        g.stroke();
+        // guard: a sharp crossbar with a knuckle bow
+        g.fillStyle = WHITE;
+        g.beginPath();
+        g.moveTo(-28, -46);
+        g.lineTo(-14, -46);
+        g.lineTo(-14, 46);
+        g.lineTo(-28, 46);
+        g.closePath();
+        g.fill();
+        g.lineWidth = 9;
+        g.strokeStyle = WHITE;
+        g.beginPath();
+        g.moveTo(-22, 40);
+        g.quadraticCurveTo(-110, 56, -168, 14);
+        g.stroke();
+        // grip, wrapped; a pointed pommel
+        g.fillStyle = WHITE;
+        g.fillRect(-160, -13, 130, 26);
+        g.fillStyle = INK;
+        for (let k = 0; k < 7; k++) g.fillRect(-152 + k * 17, -13, 5, 26);
+        g.fillStyle = WHITE;
+        g.beginPath();
+        g.moveTo(-160, -17);
+        g.lineTo(-196, 0);
+        g.lineTo(-160, 17);
+        g.closePath();
         g.fill();
         g.restore();
       }
-      cutlass(1);
-      cutlass(-1);
+      sabre(1);
+      sabre(-1);
 
-      // ---- the skull ----
+      // ---- the skull: hard-edged, two flat tones ----
       g.save();
-      g.translate(cx, 430);
-      const skullPath = () => {
+      g.translate(cx, cy);
+      const cranium = () => {
         g.beginPath();
         g.moveTo(0, -250);
-        g.bezierCurveTo(150, -250, 220, -150, 214, -40); // crown to temple
-        g.bezierCurveTo(212, 20, 196, 52, 172, 76); // temple to cheekbone
-        g.bezierCurveTo(178, 110, 160, 150, 128, 168); // cheekbone
-        g.lineTo(112, 214); // maxilla
-        g.lineTo(-112, 214);
-        g.lineTo(-128, 168);
-        g.bezierCurveTo(-160, 150, -178, 110, -172, 76);
-        g.bezierCurveTo(-196, 52, -212, 20, -214, -40);
-        g.bezierCurveTo(-220, -150, -150, -250, 0, -250);
+        g.bezierCurveTo(150, -250, 222, -150, 216, -40);
+        g.bezierCurveTo(212, 22, 196, 56, 170, 80);
+        g.lineTo(150, 168);
+        g.lineTo(108, 210);
+        g.lineTo(-108, 210);
+        g.lineTo(-150, 168);
+        g.lineTo(-170, 80);
+        g.bezierCurveTo(-196, 56, -212, 22, -216, -40);
+        g.bezierCurveTo(-222, -150, -150, -250, 0, -250);
         g.closePath();
       };
-      skullPath();
-      const sk = g.createRadialGradient(-60, -120, 20, 0, 0, 290);
-      sk.addColorStop(0, "#fbf6ea");
-      sk.addColorStop(0.55, BONE);
-      sk.addColorStop(1, MID);
-      g.fillStyle = sk;
+      cranium();
+      g.fillStyle = WHITE;
       g.fill();
-      // temple hollows and cheek shadows
-      for (const s2 of [-1, 1]) {
-        const tg = g.createRadialGradient(170 * s2, 20, 5, 170 * s2, 20, 90);
-        tg.addColorStop(0, "rgba(90,80,65,0.55)");
-        tg.addColorStop(1, "rgba(90,80,65,0)");
-        g.fillStyle = tg;
-        skullPath();
-        g.fill();
-        const cg = g.createRadialGradient(118 * s2, 170, 5, 118 * s2, 170, 70);
-        cg.addColorStop(0, "rgba(80,70,55,0.5)");
-        cg.addColorStop(1, "rgba(80,70,55,0)");
-        g.fillStyle = cg;
-        skullPath();
-        g.fill();
-      }
-      // a crack across the crown
-      g.strokeStyle = DARK;
-      g.lineWidth = 4;
+      // a single crisp shadow plane down the right side
+      g.save();
+      cranium();
+      g.clip();
+      g.fillStyle = SHADE;
       g.beginPath();
-      g.moveTo(-40, -248);
-      g.lineTo(-22, -200);
-      g.lineTo(-48, -170);
-      g.lineTo(-30, -128);
-      g.lineTo(-56, -100);
-      g.stroke();
-      // brow ridge, then the sockets: angled hard, deep
+      g.moveTo(120, -260);
+      g.bezierCurveTo(200, -150, 230, -20, 160, 230);
+      g.lineTo(260, 230);
+      g.lineTo(260, -260);
+      g.closePath();
+      g.fill();
+      g.restore();
+      // sockets: angular, mean
       for (const s2 of [-1, 1]) {
         g.save();
         g.scale(s2, 1);
-        const bg = g.createLinearGradient(0, -10, 0, 40);
-        bg.addColorStop(0, "rgba(255,255,255,0.4)");
-        bg.addColorStop(1, "rgba(255,255,255,0)");
-        g.fillStyle = bg;
         g.beginPath();
-        g.moveTo(14, -6);
-        g.quadraticCurveTo(90, -42, 168, -6);
-        g.lineTo(168, 10);
-        g.quadraticCurveTo(90, -24, 14, 12);
-        g.fill();
-        g.beginPath();
-        g.moveTo(22, 8); // inner brow, low: an angry slant
-        g.quadraticCurveTo(100, -20, 162, 18);
-        g.quadraticCurveTo(176, 76, 140, 112);
-        g.quadraticCurveTo(84, 134, 40, 104);
-        g.quadraticCurveTo(10, 72, 22, 8);
+        g.moveTo(26, 10);
+        g.lineTo(160, -4);
+        g.lineTo(172, 42);
+        g.quadraticCurveTo(160, 112, 104, 120);
+        g.quadraticCurveTo(46, 118, 30, 82);
         g.closePath();
-        g.fillStyle = "#0b0908";
+        g.fillStyle = INK;
         g.fill();
-        // a rim of light round the lower edge of the socket
-        g.strokeStyle = "rgba(255,250,235,0.35)";
-        g.lineWidth = 4;
-        g.beginPath();
-        g.moveTo(150, 92);
-        g.quadraticCurveTo(84, 140, 34, 100);
-        g.stroke();
         g.restore();
       }
-      // nasal cavity: an inverted heart
-      g.fillStyle = "#0b0908";
+      // nose: a sharp inverted heart
+      g.fillStyle = INK;
       g.beginPath();
-      g.moveTo(0, 112);
-      g.bezierCurveTo(-8, 132, -38, 152, -32, 182);
-      g.bezierCurveTo(-26, 196, -8, 192, 0, 178);
-      g.bezierCurveTo(8, 192, 26, 196, 32, 182);
-      g.bezierCurveTo(38, 152, 8, 132, 0, 112);
-      g.fill();
-      g.restore();
-
-      // the jaw, hung a little open
-      g.save();
-      g.translate(cx, 430);
-      g.beginPath();
-      g.moveTo(-118, 236);
-      g.bezierCurveTo(-120, 300, -76, 352, 0, 356);
-      g.bezierCurveTo(76, 352, 120, 300, 118, 236);
+      g.moveTo(0, 116);
+      g.lineTo(-30, 176);
+      g.lineTo(-10, 186);
+      g.lineTo(0, 172);
+      g.lineTo(10, 186);
+      g.lineTo(30, 176);
       g.closePath();
-      const jg = g.createLinearGradient(0, 230, 0, 360);
-      jg.addColorStop(0, BONE);
-      jg.addColorStop(1, MID);
-      g.fillStyle = jg;
       g.fill();
-      // the mouth between upper and lower teeth
-      g.fillStyle = "#0b0908";
-      g.fillRect(-112, 212, 224, 26);
-      // teeth, one by one, top and bottom
-      const tooth = (x, y, tw, th, up) => {
-        const tg = g.createLinearGradient(0, y, 0, y + th * (up ? 1 : -1));
-        tg.addColorStop(0, "#f4eedd");
-        tg.addColorStop(1, "#c4b89c");
-        g.fillStyle = tg;
+      // cheek cuts
+      for (const s2 of [-1, 1]) {
         g.beginPath();
-        const r0 = 6;
-        if (up) {
-          g.moveTo(x, y);
-          g.lineTo(x + tw, y);
-          g.lineTo(x + tw, y + th - r0);
-          g.quadraticCurveTo(x + tw, y + th, x + tw - r0, y + th);
-          g.lineTo(x + r0, y + th);
-          g.quadraticCurveTo(x, y + th, x, y + th - r0);
-        } else {
-          g.moveTo(x, y);
-          g.lineTo(x + tw, y);
-          g.lineTo(x + tw, y - th + r0);
-          g.quadraticCurveTo(x + tw, y - th, x + tw - r0, y - th);
-          g.lineTo(x + r0, y - th);
-          g.quadraticCurveTo(x, y - th, x, y - th + r0);
-        }
+        g.moveTo(140 * s2, 140);
+        g.lineTo(104 * s2, 170);
+        g.lineTo(112 * s2, 178);
         g.closePath();
         g.fill();
-        g.strokeStyle = "rgba(40,30,20,0.6)";
-        g.lineWidth = 2;
-        g.stroke();
-      };
-      const tws = [24, 26, 28, 30, 30, 28, 26, 24];
-      let x0 = -108;
-      tws.forEach((tw, k) => {
-        if (k !== 2) tooth(x0, 200, tw - 2, 32 + (k === 3 || k === 4 ? 4 : 0), true);
-        tooth(x0 + 2, 268, tw - 4, 30, false);
-        x0 += tw + 1;
-      });
-      g.restore();
-
-      // shot holes and tears: cut right through
-      g.globalCompositeOperation = "destination-out";
-      const holes = [[1180, 220, 16], [1320, 760, 22], [300, 860, 14], [1050, 900, 11], [520, 160, 9]];
-      for (const [x, y, rr] of holes) {
-        g.beginPath();
-        for (let k = 0; k <= 14; k++) {
-          const a = (k / 14) * Math.PI * 2;
-          const q = rr * (0.6 + r() * 0.8);
-          k ? g.lineTo(x + Math.cos(a) * q, y + Math.sin(a) * q) : g.moveTo(x + Math.cos(a) * q, y + Math.sin(a) * q);
-        }
-        g.fill();
       }
-      // a long tear in from the fly
+      // jaw: a separate block, a gap above it
+      g.fillStyle = INK;
+      g.fillRect(-112, 210, 224, 18);
       g.beginPath();
-      g.moveTo(w, 380);
-      let tx = w;
-      let ty = 380;
-      while (tx > w - 360) {
-        tx -= 24;
-        ty += (r() - 0.45) * 18;
-        g.lineTo(tx, ty);
-      }
-      g.lineTo(tx, ty + 6);
-      while (tx < w) {
-        tx += 24;
-        ty += (r() - 0.55) * 10;
-        g.lineTo(tx, ty + 14);
-      }
+      g.moveTo(-104, 228);
+      g.lineTo(104, 228);
+      g.lineTo(92, 318);
+      g.lineTo(40, 346);
+      g.lineTo(-40, 346);
+      g.lineTo(-92, 318);
+      g.closePath();
+      g.fillStyle = WHITE;
       g.fill();
-      // frayed fly end: ragged, uneven, with long threads
-      for (let y = 0; y < h; y += 5) {
-        const d = 14 + r() * 40 + (r() < 0.07 ? 90 : 0) + Math.sin(y / 60) * 12;
-        g.fillRect(w - d, y, d, 3 + r() * 4);
+      // teeth: clean vertical cuts top and bottom
+      g.fillStyle = INK;
+      for (let k = -3; k <= 3; k++) {
+        g.fillRect(k * 28 - 3, 176, 6, 34);
+        g.fillRect(k * 28 - 3, 228, 6, 36);
       }
-      for (let x = 46; x < w; x += 6) {
-        const d = r() < 0.06 ? 10 + r() * 22 : r() * 6;
-        g.fillRect(x, 0, 6, d);
-        g.fillRect(x, h - d, 6, d);
-      }
-      g.globalCompositeOperation = "source-over";
-      // scorch round the shot holes
-      for (const [x, y, rr] of holes) {
-        const gr = g.createRadialGradient(x, y, rr, x, y, rr * 3);
-        gr.addColorStop(0, "rgba(60,40,20,0.5)");
-        gr.addColorStop(1, "rgba(60,40,20,0)");
-        g.globalCompositeOperation = "source-atop";
-        g.fillStyle = gr;
-        g.fillRect(x - rr * 3, y - rr * 3, rr * 6, rr * 6);
-        g.globalCompositeOperation = "source-over";
-      }
+      g.restore();
     });
     // a bump map from the same art, so the bone and blades sit proud of the cloth
     const flagBump = canvas(1600, 1040, (g, w, h) => {
