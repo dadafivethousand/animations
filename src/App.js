@@ -37,7 +37,8 @@ import MapleBullseyeAd from "./Components/MapleBullseyeAd";
 // import MapleBulletAd from "./Components/MapleBulletAd";
 // import MapleViceAd from "./Components/MapleViceAd";
 // import MapleGameAd from "./Components/MapleGameAd";
-import MapleSpartanAd from "./Components/MapleSpartanAd";
+// import MapleSpartanAd from "./Components/MapleSpartanAd";
+import MaplePirateAd from "./Components/MaplePirateAd";
 
 function App() {
   // return <WheelSchedule day="Thursday" />;
@@ -58,6 +59,8 @@ function App() {
   // A Maple commercial as open-world game footage. ?render=1 for tools/record-frames.js
   // return <MapleGameAd />;
   // A 300-style Spartan charge. ?render=1 for tools/record-frames.js
-  return <MapleSpartanAd />;
+  // return <MapleSpartanAd />;
+  // A Jolly Roger, then the whole ship. ?render=1 for tools/record-frames.js
+  return <MaplePirateAd />;
 }
 export default App;

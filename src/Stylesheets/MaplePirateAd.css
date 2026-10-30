@@ -1,0 +1,23 @@
+/* MaplePirateAd — flag to full ship. Namespace: pa-
+ *   ENDVAR=__pirateEnd URL=http://localhost:30xx/?render=1 OUT=~/Downloads/maple-pirate.mp4 \
+ *     NODE_PATH=/tmp/rec/node_modules node tools/record-frames.js
+ */
+.pa-stage {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #8aa0b8;
+}
+.pa-canvas,
+.pa-canvas canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+.pa-canvas canvas { filter: contrast(1.06) saturate(1.05); }
+.pa-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 85% at 50% 50%, rgba(0, 0, 0, 0) 55%, rgba(10, 6, 2, 0.45) 100%);
+}

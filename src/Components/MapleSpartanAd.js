@@ -776,7 +776,7 @@ export default function MapleSpartanAd({
       let flash = 0;
       if (t >= T_HIT && t < T_HIT + 220) flash = 1 - (t - T_HIT) / 220;
       if (R.flash) R.flash.style.opacity = (flash * 0.85).toFixed(3);
-      let black = 1 - ss(0, 250, t);
+      let black = 0; // no fade-in: the first frame is already the charge
       if (t >= T_SLAM && t < T_D) black = 1;
       if (t >= T_D) black = 1 - ss(T_D, T_D + 600, t);
       black = Math.max(black, ss(END_MS - 450, END_MS, t));
