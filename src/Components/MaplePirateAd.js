@@ -60,6 +60,7 @@ const S_FORE_FALL = 4750;
 const S_SINK0 = 5600;
 const S_SINK1 = 12300;
 const SHIP_V = 2.4; // m/s
+const PS = 1.3; // the pirate ship's scale: she is built at 36 m, sails at 47
 
 // ---------------- the hull, as functions of x (bow at +18) ----------------
 const HL = 36;
@@ -263,6 +264,7 @@ export default function MaplePirateAd({ variant = "pirate" }) {
     let rigLines = null;
     let jibs = [];
     const ship = new THREE.Group();
+    ship.scale.setScalar(PS);
     scene.add(ship);
     const hullG = new THREE.Group(); // everything that rolls and pitches
     ship.add(hullG);
@@ -342,9 +344,9 @@ export default function MaplePirateAd({ variant = "pirate" }) {
       // what she carries, painted down her side over the gun strakes
       {
         g.fillStyle = "#0b0706";
-        g.fillRect(X2U(-14.5), Y2V(2.95), X2U(13.5) - X2U(-14.5), Y2V(0.42) - Y2V(2.95));
+        g.fillRect(X2U(-16), Y2V(2.95), X2U(15) - X2U(-16), Y2V(0.42) - Y2V(2.95));
         g.fillStyle = "#a8782a";
-        for (const y of [0.42, 2.95]) g.fillRect(X2U(-14.5), Y2V(y) - 3, X2U(13.5) - X2U(-14.5), 6);
+        for (const y of [0.42, 2.95]) g.fillRect(X2U(-16), Y2V(y) - 3, X2U(15) - X2U(-16), 6);
       }
       // weathering
       for (let i = 0; i < 3000; i++) {
@@ -358,8 +360,8 @@ export default function MaplePirateAd({ variant = "pirate" }) {
     // what she carries, painted on the near side only (a thin skin over the hull,
     // so it stays clean of weathering and never shows through from the far side)
     {
-      const X0 = -14.2;
-      const X1 = 13.2;
+      const X0 = -15.6;
+      const X1 = 14.6;
       const Y0 = 0.42;
       const Y1 = 2.95;
       const W = 4096;
@@ -367,7 +369,7 @@ export default function MaplePirateAd({ variant = "pirate" }) {
       const c = canvas(W, H, (g) => {
         const sx = W / (X1 - X0) / (H / (Y1 - Y0)); // squeeze x so letters are true
         const cx = (W / 2) / sx;
-        const maxW = (W * 0.94) / sx;
+        const maxW = (W * 0.97) / sx;
         const Yp = (y) => (1 - (y - Y0) / (Y1 - Y0)) * H;
         g.save();
         g.scale(sx, 1);
@@ -387,8 +389,7 @@ export default function MaplePirateAd({ variant = "pirate" }) {
           g.fillStyle = "#f3ead6";
           g.fillText(txt, cx, Yp(y));
         };
-        line("LAZINESS \u00b7 EXCUSES", 2.22, 230);
-        line("& PROCRASTINATION", 1.08, 230);
+        line("LAZINESS & EXCUSES & PROCRASTINATION", 1.55, 330);
         g.restore();
       });
       const NX = 90;
@@ -400,7 +401,7 @@ export default function MaplePirateAd({ variant = "pirate" }) {
         const x = X0 + ((X1 - X0) * i) / NX;
         for (let j = 0; j <= NY; j++) {
           const y = Y0 + ((Y1 - Y0) * j) / NY;
-          pos.push(x, y, halfWidthAt(x, y) + 0.035);
+          pos.push(x, y, halfWidthAt(x, y) + 0.14);
           uv.push(i / NX, j / NY);
         }
       }
@@ -1410,7 +1411,7 @@ export default function MaplePirateAd({ variant = "pirate" }) {
       const c = ws.cells[k].clone().multiplyScalar(1.6);
       const p0 = wsx(tl).add(V(c.x * Math.cos(yaw) + c.z * Math.sin(yaw), c.y, -c.x * Math.sin(yaw) + c.z * Math.cos(yaw)));
       const tg = SK.targets[k];
-      const p3 = V(SHIP_V * ((END_MS + NAVY_END + ti) / 1000) + tg.x, tg.y, tg.z);
+      const p3 = V(SHIP_V * ((END_MS + NAVY_END + ti) / 1000) + tg.x * PS, tg.y * PS, tg.z * PS);
       const p1 = p0.clone().add(V(0, 70, 0));
       const p2 = p3.clone().add(V(10, 55, 6));
       const a = p0.clone().lerp(p1, u);
@@ -1455,7 +1456,7 @@ export default function MaplePirateAd({ variant = "pirate" }) {
       V(-44, 12, 82),
       V(-56, 14, 112),
     ]);
-    const camKey = (k) => path.getPointAt(k);
+    const camKey = (k) => path.getPointAt(k).multiplyScalar(PS);
 
     // ---- the strike, frame by frame ----
     function runStrike(t3, s) {
@@ -1612,7 +1613,7 @@ export default function MaplePirateAd({ variant = "pirate" }) {
           deb.setMatrixAt(i, hide);
           return;
         }
-        const hit0 = SK.targets[D2.k].clone().add(V(SHIP_V * ((END_MS + NAVY_END + impactT(D2.k)) / 1000), 0, 0));
+        const hit0 = SK.targets[D2.k].clone().multiplyScalar(PS).add(V(SHIP_V * ((END_MS + NAVY_END + impactT(D2.k)) / 1000), 0, 0));
         let y = hit0.y + D2.vy * di - 4.9 * di * di;
         if (y < -1) {
           deb.setMatrixAt(i, hide);
@@ -1636,14 +1637,14 @@ export default function MaplePirateAd({ variant = "pirate" }) {
       const k = ss(500, 6000, t);
       const kk = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
       const local = camKey(kk);
-      const lookLocal = flagCentre.clone().lerp(shipCentre, Math.pow(ss(1300, 6000, t), 1.6));
+      const lookLocal = flagCentre.clone().multiplyScalar(PS).lerp(shipCentre.clone().multiplyScalar(PS), Math.pow(ss(1300, 6000, t), 1.6));
       const drift = Math.max(0, t - 6000) / 1000;
       local.add(V(-drift * 0.4, drift * 0.1, drift * 0.6));
       const origin = V(ship.position.x, hullG.position.y * 0.6, 0);
       const pos = local.add(origin);
       const swayIn = 1 - ss(500, 2400, t);
       pos.y += Math.sin(s * 0.9) * 0.6 * swayIn;
-      return { pos, look: lookLocal.add(origin), fov: lerp(36, 42, ss(500, 6000, t)) };
+      return { pos, look: lookLocal.add(origin), fov: lerp(36, 38.5, ss(500, 6000, t)) };
     }
     const fitFov = (dist, len) => {
       // vertical fov that puts len metres across ~80% of the tall frame's width
@@ -1716,7 +1717,7 @@ export default function MaplePirateAd({ variant = "pirate" }) {
         // stay where the pirate film left us; the lens does the work. It
         // punches in on the warship far off, then holds it in frame as it
         // runs straight in, opening up as it grows; at the end it holds both.
-        const pirateMid = V(ship.position.x + 3, 12, 0);
+        const pirateMid = V(ship.position.x + 3 * PS, 12 * PS, 0);
         const both = centre.clone().lerp(pirateMid, 0.5);
         // how wide things look from here: only the part across the line of sight counts
         const across = (v, from) => {
@@ -1740,7 +1741,7 @@ export default function MaplePirateAd({ variant = "pirate" }) {
           const r = runStrike(t3, s);
           // open the frame to take in the whole pirate as well
           const wide = ss(0, S_ZOOM1, t3);
-          const pirateC = V(ship.position.x + 4, 14, 0);
+          const pirateC = V(ship.position.x + 4 * PS, 14 * PS, 0);
           pose = {
             pos: pose.pos.clone(),
             look: pose.look.clone().lerp(pirateC.clone().lerp(centre, 0.22 * (1 - ss(S_SINK0, S_SINK0 + 2500, t3)) + 0.78 * ss(9000, 11800, t3)), wide).add(V(0, -Math.min(r.sinkY, 12) * 0.35, 0)),
