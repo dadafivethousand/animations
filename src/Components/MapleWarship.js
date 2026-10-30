@@ -209,12 +209,17 @@ export function buildWarship({ aniso = 8, logoTex = null, qrTex = null, foamMat 
     g.textAlign = "center";
     g.textBaseline = "middle";
     g.lineJoin = "round";
-    g.font = "900 135px Inter, Arial Black, Arial";
+    g.font = "900 118px Inter, Arial Black, Arial";
     g.lineWidth = 9;
     g.strokeStyle = "#0a2354";
-    g.strokeText("MAPLE JIU-JITSU", HX2U(-4), HY2V(3.2));
+    g.strokeText("MAPLE JIU-JITSU", HX2U(-4), HY2V(4.3));
     g.fillStyle = "#ffffff";
-    g.fillText("MAPLE JIU-JITSU", HX2U(-4), HY2V(3.2));
+    g.fillText("MAPLE JIU-JITSU", HX2U(-4), HY2V(4.3));
+    // the web address underneath
+    g.font = "800 66px Inter, Arial Black, Arial";
+    g.lineWidth = 7;
+    g.strokeText("maplebjj.com", HX2U(-4), HY2V(1.85));
+    g.fillText("maplebjj.com", HX2U(-4), HY2V(1.85));
     g.font = "900 115px Inter, Arial Black, Arial";
     g.strokeText("01", HX2U(25.5), HY2V(6.2));
     g.fillText("01", HX2U(25.5), HY2V(6.2));
@@ -589,23 +594,30 @@ export function buildWarship({ aniso = 8, logoTex = null, qrTex = null, foamMat 
   {
     const fx = -8.6;
     const fy = top(fx);
-    const geo = new THREE.BoxGeometry(4.8, 6.0, 5.4);
+    const geo = new THREE.BoxGeometry(6.6, 7.8, 6.6);
     const p = geo.attributes.position;
     for (let i = 0; i < p.count; i++)
       if (p.getY(i) > 0) {
         p.setX(i, p.getX(i) * 0.78 - 1.1);
         p.setZ(i, p.getZ(i) * 0.7);
       }
-    slateMesh(geo, fx, fy + 3.0, 0);
-    add(new THREE.BoxGeometry(3.4, 0.35, 3.4), slateDark, fx - 1.2, fy + 6.1, 0);
-    for (const sd of [-1, 1]) add(new THREE.BoxGeometry(1.1, 0.5, 1.0), dark, fx - 1.6, fy + 6.45, sd * 0.8);
-    if (logoTex) {
+    slateMesh(geo, fx, fy + 3.9, 0);
+    add(new THREE.BoxGeometry(4.6, 0.35, 4.3), slateDark, fx - 1.2, fy + 7.9, 0);
+    for (const sd of [-1, 1]) add(new THREE.BoxGeometry(1.4, 0.6, 1.2), dark, fx - 1.6, fy + 8.3, sd * 1.0);
+    // the QR, big on both funnel sides: midships, always in shot
+    if (qrTex) {
       for (const sd of [-1, 1]) {
-        const m = new THREE.Mesh(new THREE.PlaneGeometry(3.0, 3.04), new THREE.MeshStandardMaterial({ map: logoTex, transparent: true, roughness: 0.6 }));
-        m.position.set(fx - 0.45, fy + 3.1, sd * (2.7 * 0.85 + 0.03));
-        m.rotation.y = sd > 0 ? 0 : Math.PI;
-        m.rotateX(-Math.atan2(2.7 * 0.3, 6));
-        hull.add(m);
+        const lean = Math.atan2(3.3 * 0.3, 7.8);
+        const base = new THREE.Mesh(new THREE.PlaneGeometry(5.4, 5.4), white);
+        base.position.set(fx - 0.5, fy + 3.7, sd * (3.3 * 0.86 + 0.05));
+        base.rotation.y = sd > 0 ? 0 : Math.PI;
+        base.rotateX(-lean);
+        hull.add(base);
+        const q = new THREE.Mesh(new THREE.PlaneGeometry(5.0, 5.0), new THREE.MeshStandardMaterial({ map: qrTex, roughness: 0.45, emissive: "#ffffff", emissiveMap: qrTex, emissiveIntensity: 0.25 }));
+        q.position.copy(base.position);
+        q.rotation.copy(base.rotation);
+        q.translateZ(0.03);
+        hull.add(q);
       }
     }
   }
@@ -718,8 +730,7 @@ export function buildWarship({ aniso = 8, logoTex = null, qrTex = null, foamMat 
       };
       // the offer fills the tall forward block; the QR goes on the hangar
       place(new THREE.Mesh(new THREE.PlaneGeometry(9.6, 5.6), offer2Mat), 4.0, 4.6);
-      place(new THREE.Mesh(new THREE.PlaneGeometry(4.6, 4.6), white), -22.0, 2.9);
-      place(new THREE.Mesh(new THREE.PlaneGeometry(4.3, 4.3), qrMat), -22.0, 2.9, 0.05);
+
     }
   }
 
