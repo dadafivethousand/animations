@@ -20,6 +20,7 @@ import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 import "../Stylesheets/MaplePirateAd.css";
 import { buildWarship } from "./MapleWarship";
 import mapleLogo from "../Images/maple-logo.png";
+import qrMaple from "../Images/qr-maplebjj.png";
 
 const clamp01 = (x) => Math.min(1, Math.max(0, x));
 const ss = (a, b, x) => {
@@ -45,9 +46,7 @@ const END_MS = 11500;
 const NAVY_END = 15000;
 const N_PUNCH0 = 1300; // the camera snaps onto the warship far off
 const N_PUNCH1 = 2000;
-const N_FLY1 = 4600; // ...flies out to it
-const N_ORBIT1 = 10600; // ...and works round it
-const N_WIDE1 = 13400; // then pulls back to both ships
+const N_BOTH0 = 11000; // from here the frame opens to hold both ships
 const SHIP_V = 2.4; // m/s
 
 // ---------------- the hull, as functions of x (bow at +18) ----------------
@@ -1184,7 +1183,10 @@ export default function MaplePirateAd({ variant = "pirate" }) {
     if (navy) {
       const logoTex = new THREE.TextureLoader().load(mapleLogo);
       logoTex.colorSpace = THREE.SRGBColorSpace;
-      ws = buildWarship({ aniso, logoTex, foamMat, wakeTex, wakeAlpha });
+      const qrTex = new THREE.TextureLoader().load(qrMaple);
+      qrTex.colorSpace = THREE.SRGBColorSpace;
+      qrTex.anisotropy = aniso;
+      ws = buildWarship({ aniso, logoTex, qrTex, foamMat, wakeTex, wakeAlpha });
       scene.add(ws.group);
       const sprayTex = tex(canvas(64, 64, (g, w) => {
         const gr = g.createRadialGradient(w / 2, w / 2, 0, w / 2, w / 2, w / 2);
@@ -1201,18 +1203,15 @@ export default function MaplePirateAd({ variant = "pirate" }) {
     }
     // the warship's track, in the pirate's frame: in off the horizon behind
     // it, curving down to station a few lengths off its quarter
+    // a straight run in, decelerating to a stop off the pirate's quarter
     const NP0 = V(430, 0, -250);
-    const NP1 = V(90, 0, -190);
-    const NP2 = V(24, 0, -40);
+    const NP2 = V(78, 0, -44);
     const navyK = (tn) => {
       const u = clamp01(tn / (NAVY_END - 500));
       return 1 - Math.pow(1 - u, 2.1);
     };
     function warshipRel(tn) {
-      const k = navyK(tn);
-      const a = NP0.clone().lerp(NP1, k);
-      const b = NP1.clone().lerp(NP2, k);
-      return a.lerp(b, k);
+      return NP0.clone().lerp(NP2, navyK(tn));
     }
 
     // ---- post ----
@@ -1288,7 +1287,10 @@ export default function MaplePirateAd({ variant = "pirate" }) {
         const vx = (rel1.x - rel0.x) / 0.05 + SHIP_V;
         const vz = (rel1.z - rel0.z) / 0.05;
         ws.group.position.copy(P);
-        ws.group.rotation.y = Math.atan2(-vz, vx);
+        // it holds one heading the whole way in: the line it is running
+        void vx;
+        void vz;
+        ws.group.rotation.y = Math.atan2(-(NP2.z - NP0.z), NP2.x - NP0.x);
         const relSpd = Math.hypot(rel1.x - rel0.x, rel1.z - rel0.z) / 0.05;
         const fast = clamp01(relSpd / 32);
         ws.hull.rotation.set(Math.sin(s * 0.7 + 2) * 0.012 - 0.015 * fast * Math.sign(-vz), 0, -0.006 * fast + Math.sin(s * 0.5) * 0.006);
@@ -1314,40 +1316,29 @@ export default function MaplePirateAd({ variant = "pirate" }) {
         // ---- the camera ----
         const A = pirateCam(t, s); // where the pirate film left us
         const centre = P.clone().add(V(0, 9, 0));
-        const B = { pos: A.pos.clone(), look: centre, fov: fitFov(A.pos.distanceTo(centre), ws.WL) };
-        // orbit: in the warship's own frame, from off the bow round to the quarter
-        const yaw = ws.group.rotation.y;
-        const orbit = (tt) => {
-          const k = ss(N_PUNCH1, N_ORBIT1, tt);
-          const th = lerp(0.36, 0.78, k);
-          const r = lerp(108, 100, k);
-          const lx = Math.cos(th) * r;
-          const lz = Math.sin(th) * r;
-          const off = V(lx * Math.cos(yaw) + lz * Math.sin(yaw), lerp(30, 24, k), -lx * Math.sin(yaw) + lz * Math.cos(yaw));
-          // aim a little ahead of midships so the bow stays in the tall frame
-          return { pos: P.clone().add(off), look: P.clone().add(V(Math.cos(yaw) * 9, 9, -Math.sin(yaw) * 9)), fov: 44 };
+        const B = { pos: A.pos.clone(), look: centre, fov: 0 };
+        // stay where the pirate film left us; the lens does the work. It
+        // punches in on the warship far off, then holds it in frame as it
+        // runs straight in, opening up as it grows; at the end it holds both.
+        const pirateMid = V(ship.position.x + 3, 12, 0);
+        const both = centre.clone().lerp(pirateMid, 0.5);
+        // how wide things look from here: only the part across the line of sight counts
+        const across = (v, from) => {
+          const d = from.clone().sub(A.pos).setY(0).normalize();
+          const h = v.clone().setY(0);
+          return Math.abs(h.x * d.z - h.z * d.x);
         };
-        const C = orbit(tn);
-        const origin = V(ship.position.x, 0, 0);
-        const Dw = { pos: origin.clone().add(V(-46, 44, 132)), look: origin.clone().add(V(14, 6, -18)), fov: 42 };
+        const hdg = V(Math.cos(ws.group.rotation.y), 0, -Math.sin(ws.group.rotation.y));
+        const shipW = across(hdg.clone().multiplyScalar(ws.WL), centre) + 16;
+        const span = across(P.clone().sub(V(ship.position.x, 0, 0)), both) + 60;
+        B.fov = fitFov(A.pos.distanceTo(centre), shipW * 1.25);
         let pose = A;
         if (tn >= N_PUNCH0) pose = mixPose(A, B, ss(N_PUNCH0, N_PUNCH1, tn));
-        if (tn >= N_PUNCH1) {
-          // fly out to it: position whips across, the lens opens up as it closes
-          const w = ss(N_PUNCH1, N_FLY1, tn);
-          const w2 = w * w * (3 - 2 * w);
-          pose = { pos: B.pos.clone().lerp(C.pos, w2), look: B.look.clone().lerp(C.look, w), fov: lerp(B.fov, C.fov, Math.pow(w, 0.6)) };
-          // arc up and over the pirate's rigging on the way out
-          pose.pos.y += Math.sin(Math.PI * w2) * 70;
-          // keep the ship framed while the fov opens: track its fit until we are close
-          const fit = fitFov(pose.pos.distanceTo(centre), ws.WL * 1.15);
-          pose.fov = Math.max(C.fov, Math.min(pose.fov, fit));
-        }
-        if (tn >= N_FLY1) pose = C;
-        if (tn >= N_ORBIT1) pose = mixPose(C, Dw, ss(N_ORBIT1, N_WIDE1, tn));
-        if (tn >= N_WIDE1) {
-          pose = Dw;
-          pose.pos.add(V(-(tn - N_WIDE1) / 1000 * 1.2, 0, (tn - N_WIDE1) / 1000 * 1.6));
+        if (tn >= N_PUNCH1) pose = { pos: A.pos.clone(), look: centre, fov: fitFov(A.pos.distanceTo(centre), shipW * 1.25) };
+        if (tn >= N_BOTH0) {
+          const w = ss(N_BOTH0, NAVY_END - 600, tn);
+          const fBoth = fitFov(A.pos.distanceTo(both), span);
+          pose = { pos: A.pos.clone(), look: centre.clone().lerp(both, w), fov: lerp(pose.fov, Math.min(31, Math.max(pose.fov, fBoth)), w) };
         }
         camera.position.copy(pose.pos);
         camera.lookAt(pose.look);
