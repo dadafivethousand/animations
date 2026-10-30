@@ -38,7 +38,7 @@ function mulberry32(a) {
   };
 }
 
-const END_MS = 9100;
+const END_MS = 6500;
 // the second scene: a Maple warship runs in from the horizon and draws up
 // alongside the pirate
 // It picks up on the pirate film's last frame (same clock, same camera), so
@@ -261,6 +261,7 @@ export default function MaplePirateAd({ variant = "pirate" }) {
 
     // ---- the ship ----
     let rigLines = null;
+    let jibs = [];
     const ship = new THREE.Group();
     scene.add(ship);
     const hullG = new THREE.Group(); // everything that rolls and pitches
@@ -338,6 +339,13 @@ export default function MaplePirateAd({ variant = "pirate" }) {
           g.fillRect(u0 + 4, v1 + 4, u1 - u0 - 8, 70);
         }
       }
+      // what she carries, painted down her side over the gun strakes
+      {
+        g.fillStyle = "#0b0706";
+        g.fillRect(X2U(-14.5), Y2V(2.95), X2U(13.5) - X2U(-14.5), Y2V(0.42) - Y2V(2.95));
+        g.fillStyle = "#a8782a";
+        for (const y of [0.42, 2.95]) g.fillRect(X2U(-14.5), Y2V(y) - 3, X2U(13.5) - X2U(-14.5), 6);
+      }
       // weathering
       for (let i = 0; i < 3000; i++) {
         g.fillStyle = `rgba(${r() < 0.5 ? "0,0,0" : "120,100,80"},${r() * 0.08})`;
@@ -346,6 +354,71 @@ export default function MaplePirateAd({ variant = "pirate" }) {
     });
     const hullTex = tex(hullCanvas, { aniso });
     const hullMat = new THREE.MeshStandardMaterial({ map: hullTex, roughness: 0.78, side: THREE.DoubleSide });
+
+    // what she carries, painted on the near side only (a thin skin over the hull,
+    // so it stays clean of weathering and never shows through from the far side)
+    {
+      const X0 = -14.2;
+      const X1 = 13.2;
+      const Y0 = 0.42;
+      const Y1 = 2.95;
+      const W = 4096;
+      const H = 512;
+      const c = canvas(W, H, (g) => {
+        const sx = W / (X1 - X0) / (H / (Y1 - Y0)); // squeeze x so letters are true
+        const cx = (W / 2) / sx;
+        const maxW = (W * 0.94) / sx;
+        const Yp = (y) => (1 - (y - Y0) / (Y1 - Y0)) * H;
+        g.save();
+        g.scale(sx, 1);
+        g.textAlign = "center";
+        g.textBaseline = "middle";
+        g.lineJoin = "round";
+        const line = (txt, y, px) => {
+          let f = px;
+          g.font = `900 ${f}px Inter, Arial Black, Arial`;
+          while (g.measureText(txt).width > maxW && f > 40) {
+            f -= 4;
+            g.font = `900 ${f}px Inter, Arial Black, Arial`;
+          }
+          g.lineWidth = 14;
+          g.strokeStyle = "#000";
+          g.strokeText(txt, cx, Yp(y));
+          g.fillStyle = "#f3ead6";
+          g.fillText(txt, cx, Yp(y));
+        };
+        line("LAZINESS \u00b7 EXCUSES", 2.22, 230);
+        line("& PROCRASTINATION", 1.08, 230);
+        g.restore();
+      });
+      const NX = 90;
+      const NY = 6;
+      const pos = [];
+      const uv = [];
+      const idx = [];
+      for (let i = 0; i <= NX; i++) {
+        const x = X0 + ((X1 - X0) * i) / NX;
+        for (let j = 0; j <= NY; j++) {
+          const y = Y0 + ((Y1 - Y0) * j) / NY;
+          pos.push(x, y, halfWidthAt(x, y) + 0.035);
+          uv.push(i / NX, j / NY);
+        }
+      }
+      for (let i = 0; i < NX; i++)
+        for (let j = 0; j < NY; j++) {
+          const a = i * (NY + 1) + j;
+          const b = a + NY + 1;
+          idx.push(a, b, a + 1, a + 1, b, b + 1);
+        }
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+      geo.setAttribute("uv", new THREE.Float32BufferAttribute(uv, 2));
+      geo.setIndex(idx);
+      geo.computeVertexNormals();
+      const words = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ map: tex(c, { aniso }), transparent: true, roughness: 0.75, polygonOffset: true, polygonOffsetFactor: -2 }));
+      words.receiveShadow = true;
+      hullG.add(words);
+    }
 
     // lofted hull: port gunwale -> keel -> starboard gunwale, station by station
     {
@@ -778,6 +851,7 @@ export default function MaplePirateAd({ variant = "pirate" }) {
     foreAftSail([onBs(0.45), V(8.8 + 0.3, fore.top2 - 0.5, 0), onBs(0.45)], 1.2, 1);
     foreAftSail([onBs(0.72), V(8.8 + 0.3, fore.top3 - 1.2, 0), onBs(0.72)], 1.0, 1);
     foreAftSail([onBs(0.97), V(8.8 + 0.3, fore.top3 - 0.3, 0), onBs(0.97)], 0.8, 1);
+    jibs = sails.slice(-3).map((q) => q.m);
     // stays
     L2(V(-0.5, main.top1 - 0.2, 0), V(8.8, MAIN_DECK + 1.5, 0));
     L2(V(-0.5, main.top2 - 0.2, 0), V(8.8, fore.top1 + 0.2, 0));
@@ -1401,7 +1475,11 @@ export default function MaplePirateAd({ variant = "pirate" }) {
       };
       fall(main.g, -0.5, S_MAIN_FALL, "x");
       fall(fore.g, 8.8, S_FORE_FALL, "z");
+      // the jibs hang off the foremast: they go when it does
+      for (const j of jibs) j.visible = t3 < S_FORE_FALL + 150;
       if (rigLines) rigLines.material.opacity = 0.85 * (1 - ss(impactT(0), impactT(0) + 600, t3));
+      // faded rigging still writes depth, and the lens blur then outlines it: switch it off
+      if (rigLines) rigLines.visible = rigLines.material.opacity > 0.02;
       for (const f of foams) f.material.opacity = 0.85 * (1 - ss(S_SINK0, S_SINK0 + 2500, t3));
       wake.material.opacity = 0.7 * (1 - ss(S_SINK0 - 1000, S_SINK0 + 2000, t3));
       hullG.updateMatrixWorld(true);
@@ -1555,17 +1633,17 @@ export default function MaplePirateAd({ variant = "pirate" }) {
     // the pirate film's camera, as a pose at time t (it keeps drifting after
     // the film ends, which is where the navy cut takes over)
     function pirateCam(t, s) {
-      const k = ss(900, 8600, t);
+      const k = ss(500, 6000, t);
       const kk = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
       const local = camKey(kk);
-      const lookLocal = flagCentre.clone().lerp(shipCentre, Math.pow(ss(2200, 8600, t), 1.6));
-      const drift = Math.max(0, t - 8600) / 1000;
+      const lookLocal = flagCentre.clone().lerp(shipCentre, Math.pow(ss(1300, 6000, t), 1.6));
+      const drift = Math.max(0, t - 6000) / 1000;
       local.add(V(-drift * 0.4, drift * 0.1, drift * 0.6));
       const origin = V(ship.position.x, hullG.position.y * 0.6, 0);
       const pos = local.add(origin);
-      const swayIn = 1 - ss(900, 4000, t);
+      const swayIn = 1 - ss(500, 2400, t);
       pos.y += Math.sin(s * 0.9) * 0.6 * swayIn;
-      return { pos, look: lookLocal.add(origin), fov: lerp(36, 42, ss(900, 8600, t)) };
+      return { pos, look: lookLocal.add(origin), fov: lerp(36, 42, ss(500, 6000, t)) };
     }
     const fitFov = (dist, len) => {
       // vertical fov that puts len metres across ~80% of the tall frame's width

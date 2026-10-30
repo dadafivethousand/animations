@@ -91,7 +91,6 @@ function camoCanvas(w, h, seed, scale) {
     };
     const k = (w * h) / (2048 * 2048);
     layer("#1353af", Math.ceil((46 * k) / (scale * scale)), 70, 150);
-    layer("#0a2354", Math.ceil((40 * k) / (scale * scale)), 60, 130);
     layer("#1353af", Math.ceil((20 * k) / (scale * scale)), 30, 70);
   });
 }
