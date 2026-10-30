@@ -1186,7 +1186,7 @@ export default function MaplePirateAd({ variant = "pirate" }) {
       const qrTex = new THREE.TextureLoader().load(qrMaple);
       qrTex.colorSpace = THREE.SRGBColorSpace;
       qrTex.anisotropy = aniso;
-      ws = buildWarship({ aniso, logoTex, qrTex, foamMat, wakeTex, wakeAlpha });
+      ws = buildWarship({ aniso, logoTex, qrTex, foamMat, wakeTex, wakeAlpha, scale: 1.6 });
       scene.add(ws.group);
       const sprayTex = tex(canvas(64, 64, (g, w) => {
         const gr = g.createRadialGradient(w / 2, w / 2, 0, w / 2, w / 2, w / 2);
@@ -1204,7 +1204,7 @@ export default function MaplePirateAd({ variant = "pirate" }) {
     // the warship's track, in the pirate's frame: in off the horizon behind
     // it, curving down to station a few lengths off its quarter
     // a straight run in, decelerating to a stop off the pirate's quarter
-    const NP2 = V(78, 0, -44);
+    const NP2 = V(100, 0, -58);
     const NP0 = NP2.clone().add(V(232, 0, 22)); // in from the right, flank to the camera
     const navyK = (tn) => {
       const u = clamp01(tn / (NAVY_END - 500));
@@ -1315,7 +1315,7 @@ export default function MaplePirateAd({ variant = "pirate" }) {
 
         // ---- the camera ----
         const A = pirateCam(t, s); // where the pirate film left us
-        const centre = P.clone().add(V(0, 9, 0));
+        const centre = P.clone().add(V(0, 14, 0));
         const B = { pos: A.pos.clone(), look: centre, fov: 0 };
         // stay where the pirate film left us; the lens does the work. It
         // punches in on the warship far off, then holds it in frame as it
@@ -1329,7 +1329,7 @@ export default function MaplePirateAd({ variant = "pirate" }) {
           return Math.abs(h.x * d.z - h.z * d.x);
         };
         const hdg = V(Math.cos(ws.group.rotation.y), 0, -Math.sin(ws.group.rotation.y));
-        const shipW = across(hdg.clone().multiplyScalar(ws.WL), centre) + 16;
+        const shipW = across(hdg.clone().multiplyScalar(ws.WLw), centre) + 26;
         const span = across(P.clone().sub(V(ship.position.x, 0, 0)), both) + 60;
         B.fov = fitFov(A.pos.distanceTo(centre), shipW * 0.98);
         let pose = A;
@@ -1338,7 +1338,7 @@ export default function MaplePirateAd({ variant = "pirate" }) {
         if (tn >= N_BOTH0) {
           const w = ss(N_BOTH0, NAVY_END - 600, tn);
           const fBoth = fitFov(A.pos.distanceTo(both), span);
-          pose = { pos: A.pos.clone(), look: centre.clone().lerp(both, w), fov: lerp(pose.fov, Math.min(31, Math.max(pose.fov, fBoth)), w) };
+          pose = { pos: A.pos.clone(), look: centre.clone().lerp(both, w), fov: lerp(pose.fov, Math.min(40, Math.max(pose.fov, fBoth)), w) };
         }
         camera.position.copy(pose.pos);
         camera.lookAt(pose.look);

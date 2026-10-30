@@ -126,7 +126,7 @@ function boxUV(geo, tile) {
   return g;
 }
 
-export function buildWarship({ aniso = 8, logoTex = null, qrTex = null, foamMat = null, wakeTex = null, wakeAlpha = null } = {}) {
+export function buildWarship({ aniso = 8, logoTex = null, qrTex = null, foamMat = null, wakeTex = null, wakeAlpha = null, scale = 1 } = {}) {
   const V = (x, y, z) => new THREE.Vector3(x, y, z);
   const rnd = mulberry32(2026);
   const WL = 66;
@@ -136,10 +136,10 @@ export function buildWarship({ aniso = 8, logoTex = null, qrTex = null, foamMat 
     if (t > 0.5) return 7.0 * Math.pow(Math.max(0, 1 - Math.pow((t - 0.5) / 0.5, 2)), 0.6);
     return 7.0 * (0.84 + 0.16 * Math.sin((t / 0.5) * (Math.PI / 2)));
   };
-  const deckY = (x) => 4.6 + 2.4 * Math.pow(Math.max(0, (tW(x) - 0.6) / 0.4), 1.7);
+  const deckY = (x) => 6.4 + 3.2 * Math.pow(Math.max(0, (tW(x) - 0.55) / 0.45), 1.6);
   const keel = (x) => {
     const t = tW(x);
-    return -3.4 + (t > 0.87 ? 7.8 * Math.pow((t - 0.87) / 0.13, 1.6) : 0) + (t < 0.03 ? (1.2 * (0.03 - t)) / 0.03 : 0);
+    return -4.2 + (t > 0.86 ? 9.6 * Math.pow((t - 0.86) / 0.14, 1.6) : 0) + (t < 0.03 ? (1.4 * (0.03 - t)) / 0.03 : 0);
   };
   // V bottom, a knuckle, flared topsides
   const flare = (v) => (v < 0.72 ? 0.36 + 0.64 * Math.pow(v / 0.72, 0.5) * 0.93 : 0.955 + 0.06 * ((v - 0.72) / 0.28));
@@ -198,7 +198,7 @@ export function buildWarship({ aniso = 8, logoTex = null, qrTex = null, foamMat 
 
   // ---- hull sides: camo, the boot-top, the name and hull number ----
   const HX2U = (x) => tW(x) * 2048;
-  const HY2V = (y) => (1 - (y + 4) / 11.5) * 512;
+  const HY2V = (y) => (1 - (y + 4.5) / 15) * 512;
   const sideC = camoCanvas(2048, 512, 4242, 0.38);
   {
     const g = sideC.getContext("2d");
@@ -212,23 +212,23 @@ export function buildWarship({ aniso = 8, logoTex = null, qrTex = null, foamMat 
     g.font = "900 135px Inter, Arial Black, Arial";
     g.lineWidth = 9;
     g.strokeStyle = "#0a2354";
-    g.strokeText("MAPLE JIU-JITSU", HX2U(-4), HY2V(2.55));
+    g.strokeText("MAPLE JIU-JITSU", HX2U(-4), HY2V(3.2));
     g.fillStyle = "#ffffff";
-    g.fillText("MAPLE JIU-JITSU", HX2U(-4), HY2V(2.55));
+    g.fillText("MAPLE JIU-JITSU", HX2U(-4), HY2V(3.2));
     g.font = "900 115px Inter, Arial Black, Arial";
-    g.strokeText("01", HX2U(25.5), HY2V(4.5));
-    g.fillText("01", HX2U(25.5), HY2V(4.5));
+    g.strokeText("01", HX2U(25.5), HY2V(6.2));
+    g.fillText("01", HX2U(25.5), HY2V(6.2));
     // the hawse pipe, and a line of portholes
     for (const x of [27.5]) {
       g.fillStyle = "#0b0e14";
       g.beginPath();
-      g.ellipse(HX2U(x), HY2V(5.6), 13, 11, 0, 0, Math.PI * 2);
+      g.ellipse(HX2U(x), HY2V(7.6), 13, 11, 0, 0, Math.PI * 2);
       g.fill();
     }
     for (let x = -24; x < 18; x += 2.2) {
       g.fillStyle = "#0b0e14";
       g.beginPath();
-      g.arc(HX2U(x), HY2V(3.9), 3.5, 0, Math.PI * 2);
+      g.arc(HX2U(x), HY2V(5.3), 3.5, 0, Math.PI * 2);
       g.fill();
     }
     // weld seams: faint plate lines
@@ -257,7 +257,7 @@ export function buildWarship({ aniso = 8, logoTex = null, qrTex = null, foamMat 
         const v = j / NY;
         const y = lerp(k, d, v);
         pos.push(x, y, sd * Math.max(0.02, b * flare(v)));
-        uv.push(sd > 0 ? tW(x) : 1 - tW(x), (y + 4) / 11.5);
+        uv.push(sd > 0 ? tW(x) : 1 - tW(x), (y + 4.5) / 15);
       }
     }
     for (let i = 0; i < NX; i++)
@@ -327,7 +327,7 @@ export function buildWarship({ aniso = 8, logoTex = null, qrTex = null, foamMat 
       const fluke = add(new THREE.ConeGeometry(0.2, 0.55, 4), dark, s2 * 0.55, -0.55, 0, a);
       fluke.rotation.z = s2 * 0.6;
     }
-    a.position.set(27.5, 5.0, sd * (halfAt(27.5, 5) + 0.12));
+    a.position.set(27.5, 7.0, sd * (halfAt(27.5, 7) + 0.12));
     a.rotation.y = sd > 0 ? 0 : Math.PI;
     a.rotation.x = sd * 0.25;
     hull.add(a);
@@ -692,12 +692,19 @@ export function buildWarship({ aniso = 8, logoTex = null, qrTex = null, foamMat 
       g.lineWidth = 14;
       g.strokeStyle = "#0a2354";
       g.fillStyle = "#ffffff";
-      g.font = "900 230px Inter, Arial Black, Arial";
-      g.strokeText("7-DAY", w / 2, 170);
-      g.fillText("7-DAY", w / 2, 170);
-      g.font = "900 176px Inter, Arial Black, Arial";
-      g.strokeText("FREE TRIAL", w / 2, 420);
-      g.fillText("FREE TRIAL", w / 2, 420);
+      // each line sized to fit the panel with a margin, so nothing clips
+      const line = (txt, y, maxPx) => {
+        let px = maxPx;
+        g.font = `900 ${px}px Inter, Arial Black, Arial`;
+        while (g.measureText(txt).width > w * 0.88 && px > 20) {
+          px -= 4;
+          g.font = `900 ${px}px Inter, Arial Black, Arial`;
+        }
+        g.strokeText(txt, w / 2, y);
+        g.fillText(txt, w / 2, y);
+      };
+      line("7-DAY", 175, 240);
+      line("FREE TRIAL", 425, 200);
     }), { aniso });
     const offer2Mat = new THREE.MeshStandardMaterial({ map: offer2, transparent: true, roughness: 0.5 });
     for (const sd of [-1, 1]) {
@@ -854,5 +861,7 @@ export function buildWarship({ aniso = 8, logoTex = null, qrTex = null, foamMat 
     if (wake) wake.material.opacity = 0.3 + 0.65 * speed01;
   }
 
-  return { group: ship, hull, WL, beam, halfAt, deckY, update };
+  ship.scale.setScalar(scale);
+  // WL / halfAt are in the ship's own (unscaled) units; WLw is metres in the world
+  return { group: ship, hull, WL, WLw: WL * scale, beam, halfAt, deckY, update };
 }
