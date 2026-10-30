@@ -38,14 +38,14 @@ function mulberry32(a) {
   };
 }
 
-const END_MS = 5500;
+const END_MS = 3600;
 // the second scene: a Maple warship runs in from the horizon and draws up
 // alongside the pirate
 // It picks up on the pirate film's last frame (same clock, same camera), so
 // the two cut together as one. Times below are from the start of this cut.
 const NAVY_END = 5800;
-const N_PUNCH0 = 500; // the camera snaps onto the warship
-const N_PUNCH1 = 1100;
+const N_PUNCH0 = 150; // the camera snaps onto the warship
+const N_PUNCH1 = 750;
 const N_BOTH0 = 3300; // from here the frame opens to hold both ships
 // the third cut: picks up where the navy cut ends. The frame opens to the
 // whole pirate, the destroyer fires, the pirate burns and goes down.
@@ -1643,17 +1643,17 @@ export default function MaplePirateAd({ variant = "pirate" }) {
     // the pirate film's camera, as a pose at time t (it keeps drifting after
     // the film ends, which is where the navy cut takes over)
     function pirateCam(t, s) {
-      const k = ss(400, 5100, t);
+      const k = ss(200, 3300, t);
       const kk = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
       const local = camKey(kk);
-      const lookLocal = flagCentre.clone().multiplyScalar(PS).lerp(shipCentre.clone().multiplyScalar(PS), Math.pow(ss(1100, 5100, t), 1.6));
-      const drift = Math.max(0, t - 5100) / 1000;
+      const lookLocal = flagCentre.clone().multiplyScalar(PS).lerp(shipCentre.clone().multiplyScalar(PS), Math.pow(ss(600, 3300, t), 1.6));
+      const drift = Math.max(0, t - 3300) / 1000;
       local.add(V(-drift * 0.4, drift * 0.1, drift * 0.6));
       const origin = V(ship.position.x, hullG.position.y * 0.6, 0);
       const pos = local.add(origin);
-      const swayIn = 1 - ss(400, 2000, t);
+      const swayIn = 1 - ss(200, 1300, t);
       pos.y += Math.sin(s * 0.9) * 0.6 * swayIn;
-      return { pos, look: lookLocal.add(origin), fov: lerp(36, 38.5, ss(400, 5100, t)) };
+      return { pos, look: lookLocal.add(origin), fov: lerp(36, 38.5, ss(200, 3300, t)) };
     }
     const fitFov = (dist, len) => {
       // vertical fov that puts len metres across ~80% of the tall frame's width
