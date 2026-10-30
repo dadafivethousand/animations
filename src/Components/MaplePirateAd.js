@@ -979,7 +979,7 @@ export default function MaplePirateAd() {
     const pennant = new THREE.Mesh(penGeo, new THREE.MeshStandardMaterial({ color: "#8e1311", roughness: 0.9, side: THREE.DoubleSide }));
     pennant.position.set(8.8 + 0.05, fore.top3 + 0.1, 0);
     pennant.rotation.y = Math.PI; // streams aft with the wind
-    hullG.add(pennant);
+    // (the pennant is not flown)
     function wavePennant(t) {
       const p = penGeo.attributes.position;
       const s2 = t / 1000;
@@ -1159,14 +1159,14 @@ export default function MaplePirateAd() {
 
     // ---- the camera move: close on the flag, back and away to the whole ship ----
     const flagCentre = V(FLAG_X + FLAG_W * 0.5, FLAG_Y + 0.05, 0.1);
-    const shipCentre = V(1, 12.5, 0);
+    const shipCentre = V(5, 15, 0); // bowsprit to stern, waterline to flag
     const path = new THREE.CatmullRomCurve3([
       flagCentre.clone().add(V(-0.1, -0.2, 11.5)),
       flagCentre.clone().add(V(-0.9, 0.4, 15.5)),
       flagCentre.clone().add(V(-5, -3, 24)),
       V(-18, 20, 44),
-      V(-30, 9, 52),
-      V(-34, 8, 58),
+      V(-44, 12, 82),
+      V(-56, 14, 112),
     ]);
     const camKey = (k) => path.getPointAt(k);
 
@@ -1180,7 +1180,6 @@ export default function MaplePirateAd() {
       foamTex.offset.x = -s * 0.12;
       wakeTex.offset.y = s * 0.05;
       waveFlag(t);
-      wavePennant(t);
       shapeSails(t);
       for (const G2 of gulls) {
         const a = s * G2.sp + G2.ph;
@@ -1197,7 +1196,7 @@ export default function MaplePirateAd() {
       // stay on the flag while the ship opens up beneath it, then settle on the whole ship
       const lookLocal = flagCentre.clone().lerp(shipCentre, Math.pow(ss(2200, 8600, t), 1.6));
       const drift = Math.max(0, t - 8600) / 1000;
-      local.add(V(-drift * 0.6, drift * 0.1, drift * 0.9));
+      local.add(V(-drift * 0.4, drift * 0.1, drift * 0.6));
       // the camera rides with the ship but does not roll with it
       const origin = V(ship.position.x, hullG.position.y * 0.6, 0);
       camera.position.copy(local).add(origin);
