@@ -38,27 +38,30 @@ function mulberry32(a) {
   };
 }
 
-const END_MS = 6500;
+const END_MS = 5500;
 // the second scene: a Maple warship runs in from the horizon and draws up
 // alongside the pirate
 // It picks up on the pirate film's last frame (same clock, same camera), so
 // the two cut together as one. Times below are from the start of this cut.
-const NAVY_END = 8000;
+const NAVY_END = 5800;
 const N_PUNCH0 = 500; // the camera snaps onto the warship
 const N_PUNCH1 = 1100;
-const N_BOTH0 = 5600; // from here the frame opens to hold both ships
+const N_BOTH0 = 3300; // from here the frame opens to hold both ships
 // the third cut: picks up where the navy cut ends. The frame opens to the
 // whole pirate, the destroyer fires, the pirate burns and goes down.
-const STRIKE_END = 14600;
-const S_SIDE0 = 11300; // the closing punch-in on the destroyer's flank
-const S_SIDE1 = 12700;
-const S_ZOOM1 = 1600;
-const S_LAUNCH = [1500, 1800, 2100, 2400];
-const S_FLIGHT = 2200;
-const S_MAIN_FALL = 4150;
-const S_FORE_FALL = 4750;
-const S_SINK0 = 5600;
-const S_SINK1 = 12300;
+const STRIKE_END = 9600;
+const S_SIDE0 = 6600; // the closing punch-in on the destroyer's flank
+const S_SIDE1 = 7900;
+const S_ZOOM1 = 1400;
+// strike time runs from the navy cut's end; she launches while still coming in
+const S_LAUNCH = [-2100, -1850, -1600, -1350];
+const S_BACK0 = 5000; // the frame swings back to the destroyer
+const S_BACK1 = 7000;
+const S_FLIGHT = 2000;
+const S_MAIN_FALL = 500;
+const S_FORE_FALL = 1000;
+const S_SINK0 = 1700;
+const S_SINK1 = 7600;
 const SHIP_V = 2.4; // m/s
 const PS = 1.3; // the pirate ship's scale: she is built at 36 m, sails at 47
 
@@ -389,7 +392,7 @@ export default function MaplePirateAd({ variant = "pirate" }) {
           g.fillStyle = "#f3ead6";
           g.fillText(txt, cx, Yp(y));
         };
-        line("LAZINESS & EXCUSES & PROCRASTINATION", 1.55, 330);
+        line("LAZINESS & EXCUSES", 1.62, 470);
         g.restore();
       });
       const NX = 90;
@@ -821,6 +824,7 @@ export default function MaplePirateAd({ variant = "pirate" }) {
     spankerG.position.set(-10.4, 0, 0);
     spankerG.rotation.y = -0.42;
     hullG.add(spankerG);
+    spankerG.visible = false;
     const tack = V(0.1, QD + 1.5, 0);
     const throat = V(0.1, miz.top1 - 0.9, 0);
     const peak = V(-7.4, miz.top1 + 0.9, 0);
@@ -1294,7 +1298,7 @@ export default function MaplePirateAd({ variant = "pirate" }) {
     }
     // ---- the strike: missiles, fire, smoke, debris, the pirate going down ----
     const SK = {};
-    if (strike) {
+    if (navy) {
       const glow = (stops) =>
         tex(canvas(128, 128, (g, w) => {
           const gr = g.createRadialGradient(w / 2, w / 2, 0, w / 2, w / 2, w / 2);
@@ -1399,6 +1403,8 @@ export default function MaplePirateAd({ variant = "pirate" }) {
       [3, 4, 5].forEach((i) => reparent(sails[i] && sails[i].m, fore.g));
       reparent(flag, main.g);
       reparent(flagPole, main.g);
+      const pf = foamMat.clone();
+      for (const f of foams) f.material = pf;
     }
     const impactT = (k) => S_LAUNCH[k] + S_FLIGHT;
     // a missile's flight: straight up out of the cell, over, and down onto its mark
@@ -1406,7 +1412,10 @@ export default function MaplePirateAd({ variant = "pirate" }) {
       const tl = S_LAUNCH[k];
       const ti = impactT(k);
       // where the cell was at launch, and the mark at impact (both move with the ships)
-      const wsx = (tt) => V(SHIP_V * ((END_MS + NAVY_END + tt) / 1000) + NP2.x, 0, NP2.z);
+      const wsx = (tt) => {
+        const rel = warshipRel(NAVY_END + tt);
+        return V(SHIP_V * ((END_MS + NAVY_END + tt) / 1000) + rel.x, 0, rel.z);
+      };
       const yaw = Math.atan2(-(NP2.z - NP0.z), NP2.x - NP0.x);
       const c = ws.cells[k].clone().multiplyScalar(1.6);
       const p0 = wsx(tl).add(V(c.x * Math.cos(yaw) + c.z * Math.sin(yaw), c.y, -c.x * Math.sin(yaw) + c.z * Math.cos(yaw)));
@@ -1471,11 +1480,11 @@ export default function MaplePirateAd({ variant = "pirate" }) {
         const k = clamp01((t3 - t0) / 1500);
         const a = Math.pow(k, 2.2) * 1.45;
         const pivot = V(mx, 2.0, 0);
-        g.rotation.set(ax === "x" ? a : 0, 0, ax === "z" ? -a : 0);
+        g.rotation.set(ax === "x" ? -a : 0, 0, ax === "z" ? -a : 0); // away from the camera, clear of the words
         g.position.copy(pivot).sub(pivot.clone().applyEuler(g.rotation));
       };
       fall(main.g, -0.5, S_MAIN_FALL, "x");
-      fall(fore.g, 8.8, S_FORE_FALL, "z");
+      fall(fore.g, 8.8, S_FORE_FALL, "x");
       // the jibs hang off the foremast: they go when it does
       for (const j of jibs) j.visible = t3 < S_FORE_FALL + 150;
       if (rigLines) rigLines.material.opacity = 0.85 * (1 - ss(impactT(0), impactT(0) + 600, t3));
@@ -1634,17 +1643,17 @@ export default function MaplePirateAd({ variant = "pirate" }) {
     // the pirate film's camera, as a pose at time t (it keeps drifting after
     // the film ends, which is where the navy cut takes over)
     function pirateCam(t, s) {
-      const k = ss(500, 6000, t);
+      const k = ss(400, 5100, t);
       const kk = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
       const local = camKey(kk);
-      const lookLocal = flagCentre.clone().multiplyScalar(PS).lerp(shipCentre.clone().multiplyScalar(PS), Math.pow(ss(1300, 6000, t), 1.6));
-      const drift = Math.max(0, t - 6000) / 1000;
+      const lookLocal = flagCentre.clone().multiplyScalar(PS).lerp(shipCentre.clone().multiplyScalar(PS), Math.pow(ss(1100, 5100, t), 1.6));
+      const drift = Math.max(0, t - 5100) / 1000;
       local.add(V(-drift * 0.4, drift * 0.1, drift * 0.6));
       const origin = V(ship.position.x, hullG.position.y * 0.6, 0);
       const pos = local.add(origin);
-      const swayIn = 1 - ss(500, 2400, t);
+      const swayIn = 1 - ss(400, 2000, t);
       pos.y += Math.sin(s * 0.9) * 0.6 * swayIn;
-      return { pos, look: lookLocal.add(origin), fov: lerp(36, 38.5, ss(500, 6000, t)) };
+      return { pos, look: lookLocal.add(origin), fov: lerp(36, 38.5, ss(400, 5100, t)) };
     }
     const fitFov = (dist, len) => {
       // vertical fov that puts len metres across ~80% of the tall frame's width
@@ -1655,8 +1664,8 @@ export default function MaplePirateAd({ variant = "pirate" }) {
 
     function renderAt(tIn) {
       // the navy cut runs on from the pirate film's last frame: one clock
-      const t3 = tIn; // strike-cut time
       const tn = strike ? NAVY_END + tIn : tIn;
+      const t3 = tn - NAVY_END; // strike time: negative through the navy cut
       const t = navy ? tn + END_MS : tIn;
       const s = t / 1000;
       // the ship runs east, rolling and pitching in the swell
@@ -1737,15 +1746,15 @@ export default function MaplePirateAd({ variant = "pirate" }) {
           const fBoth = fitFov(A.pos.distanceTo(both), span);
           pose = { pos: A.pos.clone(), look: centre.clone().lerp(both, w), fov: lerp(pose.fov, Math.min(40, Math.max(pose.fov, fBoth)), w) };
         }
-        if (strike) {
+        if (navy) {
           const r = runStrike(t3, s);
           // open the frame to take in the whole pirate as well
-          const wide = ss(0, S_ZOOM1, t3);
+          const wide = ss(-1900, 300, t3); // opens as the missiles climb, so the hits land in a full frame
           const pirateC = V(ship.position.x + 4 * PS, 14 * PS, 0);
           pose = {
             pos: pose.pos.clone(),
-            look: pose.look.clone().lerp(pirateC.clone().lerp(centre, 0.22 * (1 - ss(S_SINK0, S_SINK0 + 2500, t3)) + 0.78 * ss(9000, 11800, t3)), wide).add(V(0, -Math.min(r.sinkY, 12) * 0.35, 0)),
-            fov: lerp(pose.fov, Math.max(pose.fov, 54), wide),
+            look: pose.look.clone().lerp(pirateC.clone().lerp(centre, 0.22 * (1 - ss(S_SINK0, S_SINK0 + 2500, t3)) + 0.78 * ss(S_BACK0, S_BACK1, t3)), wide).add(V(0, -Math.min(r.sinkY, 12) * 0.35, 0)),
+            fov: lerp(pose.fov, Math.max(pose.fov, 56), wide),
           };
           // close on the destroyer's side: name, site, offer, QR, all readable
           const flank = A.pos.clone().sub(P);
@@ -1761,7 +1770,7 @@ export default function MaplePirateAd({ variant = "pirate" }) {
         camera.lookAt(pose.look);
         camera.fov = pose.fov;
         camera.updateProjectionMatrix();
-        if (strike) {
+        if (navy) {
           camera.updateMatrixWorld();
           runStrikeFx(t3, ss(S_SINK0, S_SINK1, t3));
         }
