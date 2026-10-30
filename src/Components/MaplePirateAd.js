@@ -35,10 +35,7 @@ function mulberry32(a) {
   };
 }
 
-const END_MS = 12500;
-// the broadside: guns fire one after another, bow to stern, on the side facing camera
-const T_FIRE = 8000;
-const GUN_GAP = 85;
+const END_MS = 11500;
 const SHIP_V = 2.4; // m/s
 
 // ---------------- the hull, as functions of x (bow at +18) ----------------
@@ -750,12 +747,12 @@ export default function MaplePirateAd() {
     // square sails on fore and main
     for (const [M, mx] of [[main, -0.5], [fore, 8.8]]) {
       const [c, tps, tg] = M.ys;
-      squareSail(mx + 0.4, c[0], MAIN_DECK + 4.2, c[1] * 0.96, c[1] * 1.04, 2.0);
-      squareSail(mx + 0.4, tps[0], c[0] + 0.3, tps[1] * 0.95, c[1] * 0.92, 1.6);
-      squareSail(mx + 0.4, tg[0], tps[0] + 0.3, tg[1] * 0.94, tps[1] * 0.9, 1.1);
+      squareSail(mx + 0.4, c[0], MAIN_DECK + 6.4, c[1] * 0.78, c[1] * 0.84, 1.6);
+      squareSail(mx + 0.4, tps[0], c[0] + 1.2, tps[1] * 0.78, c[1] * 0.74, 1.3);
+      squareSail(mx + 0.4, tg[0], tps[0] + 1.0, tg[1] * 0.78, tps[1] * 0.74, 0.9);
     }
     // mizzen topsail, and the spanker aft of the mizzen
-    squareSail(-10.6 + 0.4, miz.ys[0][0], miz.top1 + 0.3, miz.ys[0][1] * 0.94, 12, 1.0);
+    squareSail(-10.6 + 0.4, miz.ys[0][0], miz.top1 + 1.2, miz.ys[0][1] * 0.78, 9.5, 0.8);
     foreAftSail([V(-10.4, QD + 1.4, 0), V(-10.4, miz.top1 - 0.6, 0), V(-19.5, miz.top1 + 1.8, 0), V(-20.5, QD + 1.8, 0)], 1.0, -1);
     const gaff = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 9.6, 10), spar);
     gaff.rotation.z = Math.PI / 2 - 0.26;
@@ -848,11 +845,11 @@ export default function MaplePirateAd() {
       // crossed cutlasses behind the skull
       function cutlass(flip) {
         g.save();
-        // crossed below the jaw: hilts low and out, blades rising behind the skull
-        g.translate(cx + 30 * flip, 800);
+        // crossed beneath the skull, clear of it: a shallow X under the jaw
+        g.translate(cx, 905);
         g.scale(flip, 1);
-        g.rotate(-0.95);
-        g.scale(1.45, 1.25);
+        g.rotate(-0.33);
+        g.scale(1.12, 1.0);
         // blade: a curved sabre, broadening toward the tip
         g.beginPath();
         g.moveTo(-40, -10);
@@ -1308,105 +1305,6 @@ export default function MaplePirateAd() {
       return { g, wings, r: 9 + i * 3.5, h: 24 + rnd() * 16, sp: 0.25 + rnd() * 0.2, ph: rnd() * 6, cx: -4 + rnd() * 8 };
     });
 
-    // ---- the broadside: each gun flashes and throws a bank of smoke ----
-    const smokeTex = tex(canvas(256, 256, (g, w) => {
-      const r = mulberry32(77);
-      for (let i = 0; i < 46; i++) {
-        const a = r() * Math.PI * 2;
-        const rad = Math.pow(r(), 0.6) * w * 0.28;
-        const x = w / 2 + Math.cos(a) * rad;
-        const y = w / 2 + Math.sin(a) * rad;
-        const br = w * (0.08 + r() * 0.18);
-        const v = 200 + Math.floor(r() * 45);
-        const gr = g.createRadialGradient(x, y, 0, x, y, br);
-        gr.addColorStop(0, `rgba(${v},${v - 4},${v - 10},${0.18 + r() * 0.2})`);
-        gr.addColorStop(1, `rgba(${v},${v - 4},${v - 10},0)`);
-        g.fillStyle = gr;
-        g.fillRect(x - br, y - br, br * 2, br * 2);
-      }
-      g.globalCompositeOperation = "destination-in";
-      const m = g.createRadialGradient(w / 2, w / 2, 0, w / 2, w / 2, w / 2);
-      m.addColorStop(0, "rgba(0,0,0,1)");
-      m.addColorStop(0.6, "rgba(0,0,0,0.8)");
-      m.addColorStop(1, "rgba(0,0,0,0)");
-      g.fillStyle = m;
-      g.fillRect(0, 0, w, w);
-    }));
-    const flashTex = tex(canvas(128, 128, (g, w) => {
-      const gr = g.createRadialGradient(w / 2, w / 2, 0, w / 2, w / 2, w / 2);
-      gr.addColorStop(0, "rgba(255,255,240,1)");
-      gr.addColorStop(0.25, "rgba(255,200,90,0.9)");
-      gr.addColorStop(0.6, "rgba(255,110,30,0.35)");
-      gr.addColorStop(1, "rgba(255,80,20,0)");
-      g.fillStyle = gr;
-      g.fillRect(0, 0, w, w);
-    }));
-    const PUFFS_PER = 5;
-    const smoke = new THREE.InstancedMesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshStandardMaterial({ map: smokeTex, transparent: true, depthWrite: false, roughness: 1, color: "#d8d2c8" }), guns.length * PUFFS_PER);
-    smoke.frustumCulled = false;
-    smoke.renderOrder = 3;
-    scene.add(smoke);
-    const flashes = new THREE.InstancedMesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ map: flashTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, toneMapped: false }), guns.length);
-    flashes.frustumCulled = false;
-    flashes.renderOrder = 4;
-    scene.add(flashes);
-    const gunLight = new THREE.PointLight("#ffb050", 0, 30, 1.6);
-    scene.add(gunLight);
-    const puffSeed = Array.from({ length: guns.length * PUFFS_PER }, () => ({ out: 2 + rnd() * 6, up: 0.4 + rnd() * 1.4, along: (rnd() - 0.5) * 2.5, sz: 2.4 + rnd() * 2.8, rot: rnd() * 6, life: 3 + rnd() * 2.5 }));
-    const dmy = new THREE.Object3D();
-    const hide = new THREE.Matrix4().makeScale(0, 0, 0);
-    const wp = new THREE.Vector3();
-    const qz = new THREE.Quaternion();
-    const Z = new THREE.Vector3(0, 0, 1);
-    function broadside(t) {
-      hullG.updateMatrixWorld(true);
-      let lit = 0;
-      let lx = 0;
-      for (let gi = 0; gi < guns.length; gi++) {
-        const tf = T_FIRE + gi * GUN_GAP + (gi % 2) * 40;
-        const dt = (t - tf) / 1000;
-        wp.copy(guns[gi]).applyMatrix4(hullG.matrixWorld);
-        // flash
-        if (dt >= 0 && dt < 0.16) {
-          const k = 1 - dt / 0.16;
-          dmy.position.copy(wp).add(V(0, 0, 0.8));
-          dmy.quaternion.copy(camera.quaternion);
-          dmy.scale.setScalar(2.4 * k + 0.6);
-          dmy.updateMatrix();
-          flashes.setMatrixAt(gi, dmy.matrix);
-          if (k > lit) {
-            lit = k;
-            lx = gi;
-          }
-        } else flashes.setMatrixAt(gi, hide);
-        // smoke: jets out, then billows up and drifts aft with the wind
-        for (let k = 0; k < PUFFS_PER; k++) {
-          const P = puffSeed[gi * PUFFS_PER + k];
-          const idx = gi * PUFFS_PER + k;
-          const d2 = dt - k * 0.03;
-          if (d2 < 0 || d2 > P.life) {
-            smoke.setMatrixAt(idx, hide);
-            continue;
-          }
-          const u = d2 / P.life;
-          const jet = 1 - Math.exp(-d2 * 4);
-          dmy.position.copy(wp).add(V(-d2 * (SHIP_V + 1.2) + P.along * jet, P.up * jet + d2 * 0.5, P.out * jet + 0.6));
-          qz.setFromAxisAngle(Z, P.rot + d2 * 0.25);
-          dmy.quaternion.copy(camera.quaternion).multiply(qz);
-          dmy.scale.setScalar(P.sz * (0.4 + Math.pow(u, 0.5) * 1.8));
-          dmy.updateMatrix();
-          smoke.setMatrixAt(idx, dmy.matrix);
-        }
-      }
-      flashes.instanceMatrix.needsUpdate = true;
-      smoke.instanceMatrix.needsUpdate = true;
-      smoke.material.opacity = 0.85;
-      gunLight.intensity = lit * 60;
-      if (lit > 0) gunLight.position.copy(guns[lx]).applyMatrix4(hullG.matrixWorld).add(V(0, 0, 2));
-      // the hull kicks away from its own broadside
-      return 0;
-    }
-
     // ---- post ----
     const composer = new EffectComposer(renderer);
     composer.setPixelRatio(window.devicePixelRatio || 1);
@@ -1432,8 +1330,7 @@ export default function MaplePirateAd() {
       const s = t / 1000;
       // the ship runs east, rolling and pitching in the swell
       ship.position.set(SHIP_V * s, 0, 0);
-      const kick = t > T_FIRE ? Math.min(1, (t - T_FIRE) / 1500) * Math.exp(-Math.max(0, t - T_FIRE - 1500) / 1200) : 0;
-      hullG.rotation.set(Math.sin(s * 0.9) * 0.035 - kick * 0.045, 0, Math.sin(s * 0.62 + 1) * 0.018);
+      hullG.rotation.set(Math.sin(s * 0.9) * 0.035, 0, Math.sin(s * 0.62 + 1) * 0.018);
       hullG.position.y = Math.sin(s * 0.75) * 0.14 - 0.05;
       water.material.uniforms.time.value = s * 0.7;
       foamTex.offset.x = -s * 0.12;
@@ -1441,7 +1338,6 @@ export default function MaplePirateAd() {
       waveFlag(t);
       wavePennant(t);
       shapeSails(t);
-      broadside(t);
       for (const G2 of gulls) {
         const a = s * G2.sp + G2.ph;
         G2.g.position.set(G2.cx + Math.cos(a) * G2.r, G2.h + Math.sin(s * 0.7 + G2.ph) * 1.2, Math.sin(a) * G2.r);
@@ -1464,11 +1360,6 @@ export default function MaplePirateAd() {
       // close in, a touch of the hull's sway so the flag feels attached
       const swayIn = 1 - ss(900, 4000, t);
       camera.position.y += Math.sin(s * 0.9) * 0.6 * swayIn;
-      if (t > T_FIRE) {
-        const a = 0.07 * Math.min(1, (t - T_FIRE) / 300) * Math.exp(-Math.max(0, t - T_FIRE - guns.length * GUN_GAP) / 500);
-        camera.position.x += Math.sin(t * 0.09) * a;
-        camera.position.y += Math.cos(t * 0.077) * a;
-      }
       camera.lookAt(lookLocal.add(origin));
       camera.fov = lerp(36, 42, ss(900, 8600, t));
       camera.updateProjectionMatrix();
