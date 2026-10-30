@@ -39,7 +39,8 @@ import MapleBullseyeAd from "./Components/MapleBullseyeAd";
 // import MapleGameAd from "./Components/MapleGameAd";
 // import MapleSpartanAd from "./Components/MapleSpartanAd";
 // import MaplePirateAd from "./Components/MaplePirateAd";
-import MapleNavyAd from "./Components/MapleNavyAd";
+// import MapleNavyAd from "./Components/MapleNavyAd";
+import MapleStrikeAd from "./Components/MapleStrikeAd";
 
 function App() {
   // return <WheelSchedule day="Thursday" />;
@@ -64,6 +65,8 @@ function App() {
   // A Jolly Roger, then the whole ship. ?render=1 for tools/record-frames.js
   // return <MaplePirateAd />;
   // Second act: the Maple warship runs in on the pirate. ?render=1
-  return <MapleNavyAd />;
+  // return <MapleNavyAd />;
+  // Third act: the destroyer sinks the pirate. ?render=1
+  return <MapleStrikeAd />;
 }
 export default App;

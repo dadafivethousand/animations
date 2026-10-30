@@ -47,6 +47,16 @@ const NAVY_END = 8000;
 const N_PUNCH0 = 500; // the camera snaps onto the warship
 const N_PUNCH1 = 1100;
 const N_BOTH0 = 5600; // from here the frame opens to hold both ships
+// the third cut: picks up where the navy cut ends. The frame opens to the
+// whole pirate, the destroyer fires, the pirate burns and goes down.
+const STRIKE_END = 12500;
+const S_ZOOM1 = 1600;
+const S_LAUNCH = [1500, 1800, 2100, 2400];
+const S_FLIGHT = 2200;
+const S_MAIN_FALL = 4150;
+const S_FORE_FALL = 4750;
+const S_SINK0 = 5600;
+const S_SINK1 = 12300;
 const SHIP_V = 2.4; // m/s
 
 // ---------------- the hull, as functions of x (bow at +18) ----------------
@@ -97,7 +107,9 @@ function tex(c, { srgb = true, repeat = null, aniso = 8 } = {}) {
 export default function MaplePirateAd({ variant = "pirate" }) {
   // ?scene=pirate|navy overrides the prop, so one dev server can render both cuts
   const sceneParam = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("scene") : null;
-  const navy = (sceneParam || variant) === "navy";
+  const cut = sceneParam || variant;
+  const strike = cut === "strike";
+  const navy = cut === "navy" || strike;
   const mountRef = React.useRef(null);
 
   React.useEffect(() => {
@@ -246,6 +258,7 @@ export default function MaplePirateAd({ variant = "pirate" }) {
     scene.add(water);
 
     // ---- the ship ----
+    let rigLines = null;
     const ship = new THREE.Group();
     scene.add(ship);
     const hullG = new THREE.Group(); // everything that rolls and pitches
@@ -710,7 +723,7 @@ export default function MaplePirateAd({ variant = "pirate" }) {
         // backstays to the side, well aft
         L2(V(mx, top3 - 0.6, 0), V(mx - 6, gunwale(mx - 6) + 0.1, s * halfBeam(mx - 6) * 0.95));
       }
-      return { top1, top2, top3, ys };
+      return { top1, top2, top3, ys, g, mx };
     }
     const main = mast(-0.5, 34, (t1, t2, t3) => [[t1 - 1.0, 21], [t2 - 0.9, 15.5], [t3 - 1.6, 10]]);
     const fore = mast(8.8, 30, (t1, t2, t3) => [[t1 - 1.0, 18.5], [t2 - 0.9, 13.5], [t3 - 1.5, 9]]);
@@ -778,6 +791,7 @@ export default function MaplePirateAd({ variant = "pirate" }) {
       const geo = new THREE.BufferGeometry().setFromPoints(lines);
       const rig = new THREE.LineSegments(geo, new THREE.LineBasicMaterial({ color: "#1d140c", transparent: true, opacity: 0.85 }));
       hullG.add(rig);
+      rigLines = rig;
     }
 
     // ---- the Jolly Roger at the main truck ----
@@ -1201,6 +1215,138 @@ export default function MaplePirateAd({ variant = "pirate" }) {
       scene.add(wsSpray);
       wsSpray.userData.seed = Array.from({ length: 160 }, () => ({ sd: rnd() < 0.5 ? -1 : 1, ph: rnd(), out: 2 + rnd() * 6, up: 1.5 + rnd() * 4, sz: 0.8 + rnd() * 2 }));
     }
+    // ---- the strike: missiles, fire, smoke, debris, the pirate going down ----
+    const SK = {};
+    if (strike) {
+      const glow = (stops) =>
+        tex(canvas(128, 128, (g, w) => {
+          const gr = g.createRadialGradient(w / 2, w / 2, 0, w / 2, w / 2, w / 2);
+          stops.forEach(([o, c]) => gr.addColorStop(o, c));
+          g.fillStyle = gr;
+          g.fillRect(0, 0, w, w);
+        }));
+      const fireT = glow([[0, "rgba(255,250,220,1)"], [0.25, "rgba(255,190,80,0.95)"], [0.6, "rgba(255,90,20,0.45)"], [1, "rgba(200,40,0,0)"]]);
+      const smokeT = tex(canvas(256, 256, (g, w) => {
+        const r = mulberry32(91);
+        for (let i = 0; i < 50; i++) {
+          const a = r() * Math.PI * 2;
+          const rad = Math.pow(r(), 0.6) * w * 0.28;
+          const x = w / 2 + Math.cos(a) * rad;
+          const y = w / 2 + Math.sin(a) * rad;
+          const br = w * (0.08 + r() * 0.18);
+          const gr = g.createRadialGradient(x, y, 0, x, y, br);
+          gr.addColorStop(0, `rgba(255,255,255,${0.2 + r() * 0.2})`);
+          gr.addColorStop(1, "rgba(255,255,255,0)");
+          g.fillStyle = gr;
+          g.fillRect(x - br, y - br, br * 2, br * 2);
+        }
+        g.globalCompositeOperation = "destination-in";
+        const m = g.createRadialGradient(w / 2, w / 2, 0, w / 2, w / 2, w / 2);
+        m.addColorStop(0, "rgba(0,0,0,1)");
+        m.addColorStop(0.6, "rgba(0,0,0,0.85)");
+        m.addColorStop(1, "rgba(0,0,0,0)");
+        g.fillStyle = m;
+        g.fillRect(0, 0, w, w);
+      }));
+      const inst = (n, mat) => {
+        const m = new THREE.InstancedMesh(new THREE.PlaneGeometry(1, 1), mat, n);
+        m.frustumCulled = false;
+        m.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+        scene.add(m);
+        return m;
+      };
+      // smoke uses per-instance colour: white missile exhaust, black oil smoke
+      SK.smoke = inst(900, new THREE.MeshBasicMaterial({ map: smokeT, transparent: true, depthWrite: false, opacity: 0.9, fog: true }));
+      SK.smoke.renderOrder = 3;
+      // per-puff fade: an alpha per instance, so a puff thins out instead of darkening
+      SK.smokeA = new THREE.InstancedBufferAttribute(new Float32Array(900), 1);
+      SK.smokeA.setUsage(THREE.DynamicDrawUsage);
+      SK.smoke.geometry.setAttribute("aAlpha", SK.smokeA);
+      SK.smoke.material.onBeforeCompile = (sh) => {
+        sh.vertexShader = sh.vertexShader
+          .replace("#include <common>", "#include <common>\nattribute float aAlpha;\nvarying float vAlpha;")
+          .replace("#include <begin_vertex>", "#include <begin_vertex>\nvAlpha = aAlpha;");
+        sh.fragmentShader = sh.fragmentShader
+          .replace("#include <common>", "#include <common>\nvarying float vAlpha;")
+          .replace("vec4 diffuseColor = vec4( diffuse, opacity );", "vec4 diffuseColor = vec4( diffuse, opacity * vAlpha );");
+      };
+      SK.fire = inst(260, new THREE.MeshBasicMaterial({ map: fireT, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, toneMapped: false }));
+      SK.fire.renderOrder = 4;
+      SK.debris = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshStandardMaterial({ color: "#3a2414", roughness: 0.9 }), 160);
+      SK.debris.frustumCulled = false;
+      SK.debris.castShadow = true;
+      scene.add(SK.debris);
+      SK.light = new THREE.PointLight("#ffb060", 0, 140, 1.6);
+      scene.add(SK.light);
+      // the missiles
+      SK.missiles = S_LAUNCH.map(() => {
+        const g = new THREE.Group();
+        const white = new THREE.MeshStandardMaterial({ color: "#e8ecf0", roughness: 0.4, metalness: 0.3 });
+        const body = new THREE.Mesh(new THREE.CylinderGeometry(0.38, 0.38, 5.2, 16), white);
+        g.add(body);
+        const nose = new THREE.Mesh(new THREE.ConeGeometry(0.38, 1.3, 16), white);
+        nose.position.y = 3.25;
+        g.add(nose);
+        for (let k = 0; k < 4; k++) {
+          const fin = new THREE.Mesh(new THREE.BoxGeometry(0.06, 1.0, 0.9), new THREE.MeshStandardMaterial({ color: "#2a3340" }));
+          fin.position.set(Math.cos((k * Math.PI) / 2) * 0.5, -2.2, Math.sin((k * Math.PI) / 2) * 0.5);
+          fin.rotation.y = (-k * Math.PI) / 2;
+          g.add(fin);
+        }
+        const flame = new THREE.Sprite(new THREE.SpriteMaterial({ map: fireT, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, toneMapped: false }));
+        flame.position.y = -3.4;
+        flame.scale.set(2.6, 4.2, 1);
+        g.add(flame);
+        g.visible = false;
+        scene.add(g);
+        return g;
+      });
+      // where each one lands on the pirate, in its hull coordinates
+      SK.targets = [V(-1.5, 3.2, 1.6), V(9.5, 3.6, 1.0), V(-13.5, 4.6, 0.8), V(3.5, 2.6, -1.4)];
+      SK.rnd = Array.from({ length: 4 }, (_, i) => mulberry32(500 + i));
+      SK.debrisSeed = Array.from({ length: 160 }, (_, i) => {
+        const r = mulberry32(900 + i);
+        return { k: i % 4, vx: (r() - 0.5) * 12, vy: 5 + r() * 13, vz: (r() - 0.2) * 12, sx: 0.2 + r() * 1.1, sy: 0.08 + r() * 0.14, sz: 0.12 + r() * 0.3, spin: (r() - 0.5) * 12 };
+      });
+      SK.smokeSeed = Array.from({ length: 4 * 70 }, (_, i) => {
+        const r = mulberry32(1300 + i);
+        return { k: Math.floor(i / 70), born: r() * 6000, dx: (r() - 0.5) * 4, dz: (r() - 0.5) * 4, rise: 3 + r() * 4, size: 3 + r() * 5, rot: r() * 6.28 };
+      });
+      // the sails that belong to each mast fall with it
+      const reparent = (m, g) => {
+        if (!m) return;
+        m.parent.remove(m);
+        g.add(m);
+      };
+      [0, 1, 2].forEach((i) => reparent(sails[i] && sails[i].m, main.g));
+      [3, 4, 5].forEach((i) => reparent(sails[i] && sails[i].m, fore.g));
+      reparent(flag, main.g);
+      reparent(flagPole, main.g);
+    }
+    const impactT = (k) => S_LAUNCH[k] + S_FLIGHT;
+    // a missile's flight: straight up out of the cell, over, and down onto its mark
+    function missilePath(k, u) {
+      const tl = S_LAUNCH[k];
+      const ti = impactT(k);
+      // where the cell was at launch, and the mark at impact (both move with the ships)
+      const wsx = (tt) => V(SHIP_V * ((END_MS + NAVY_END + tt) / 1000) + NP2.x, 0, NP2.z);
+      const yaw = Math.atan2(-(NP2.z - NP0.z), NP2.x - NP0.x);
+      const c = ws.cells[k].clone().multiplyScalar(1.6);
+      const p0 = wsx(tl).add(V(c.x * Math.cos(yaw) + c.z * Math.sin(yaw), c.y, -c.x * Math.sin(yaw) + c.z * Math.cos(yaw)));
+      const tg = SK.targets[k];
+      const p3 = V(SHIP_V * ((END_MS + NAVY_END + ti) / 1000) + tg.x, tg.y, tg.z);
+      const p1 = p0.clone().add(V(0, 70, 0));
+      const p2 = p3.clone().add(V(10, 55, 6));
+      const a = p0.clone().lerp(p1, u);
+      const b = p1.clone().lerp(p2, u);
+      const c2 = p2.clone().lerp(p3, u);
+      return a.lerp(b, u).lerp(b.clone().lerp(c2, u), u);
+    }
+    const flightU = (k, tt) => {
+      const x = clamp01((tt - S_LAUNCH[k]) / S_FLIGHT);
+      return x * x * (1.4 - 0.4 * x); // a slow climb off the rail, then fast
+    };
+
     // the warship's track, in the pirate's frame: in off the horizon behind
     // it, curving down to station a few lengths off its quarter
     // a straight run in, decelerating to a stop off the pirate's quarter
@@ -1235,6 +1381,175 @@ export default function MaplePirateAd({ variant = "pirate" }) {
     ]);
     const camKey = (k) => path.getPointAt(k);
 
+    // ---- the strike, frame by frame ----
+    function runStrike(t3, s) {
+      let shake = 0;
+      // the pirate burns, loses its masts, lists and goes under
+      const sink = ss(S_SINK0, S_SINK1, t3);
+      const sinkY = Math.pow(sink, 2.6) * 30;
+      hullG.rotation.x += 0.52 * ss(S_SINK0 - 600, S_SINK1 - 1500, t3); // lists toward us
+      hullG.rotation.z += -0.32 * Math.pow(sink, 1.3); // bow goes first
+      hullG.position.y -= sinkY;
+      const fall = (g, mx, t0, ax) => {
+        const k = clamp01((t3 - t0) / 1500);
+        const a = Math.pow(k, 2.2) * 1.45;
+        const pivot = V(mx, 2.0, 0);
+        g.rotation.set(ax === "x" ? a : 0, 0, ax === "z" ? -a : 0);
+        g.position.copy(pivot).sub(pivot.clone().applyEuler(g.rotation));
+      };
+      fall(main.g, -0.5, S_MAIN_FALL, "x");
+      fall(fore.g, 8.8, S_FORE_FALL, "z");
+      if (rigLines) rigLines.material.opacity = 0.85 * (1 - ss(impactT(0), impactT(0) + 600, t3));
+      for (const f of foams) f.material.opacity = 0.85 * (1 - ss(S_SINK0, S_SINK0 + 2500, t3));
+      wake.material.opacity = 0.7 * (1 - ss(S_SINK0 - 1000, S_SINK0 + 2000, t3));
+      hullG.updateMatrixWorld(true);
+      for (let k = 0; k < 4; k++) {
+        const di = (t3 - impactT(k)) / 1000;
+        if (di >= 0) shake = Math.max(shake, 0.9 * Math.exp(-di * 3.5));
+      }
+      return { shake, sinkY, sink };
+    }
+    // the effects face the camera, so they run once it is placed
+    function runStrikeFx(t3, sink) {
+      const dmy = new THREE.Object3D();
+      const hide = new THREE.Matrix4().makeScale(0, 0, 0);
+      let light = 0;
+      let lightPos = null;
+
+      // missiles in the air
+      let si = 0;
+      const smoke = SK.smoke;
+      const putSmoke = (p, size, alpha, rot, colour) => {
+        if (si >= smoke.count) return;
+        dmy.position.copy(p);
+        dmy.quaternion.copy(camera.quaternion);
+        dmy.rotateZ(rot);
+        dmy.scale.setScalar(size);
+        dmy.updateMatrix();
+        smoke.setMatrixAt(si, dmy.matrix);
+        smoke.setColorAt(si, colour);
+        SK.smokeA.setX(si, Math.max(0, alpha));
+        si++;
+      };
+      const WHITE = new THREE.Color("#d4d2ce");
+      const BLACK = new THREE.Color("#2b2724");
+      SK.missiles.forEach((m, k) => {
+        const tl = S_LAUNCH[k];
+        const ti = impactT(k);
+        m.visible = t3 >= tl && t3 < ti;
+        if (m.visible) {
+          const u = flightU(k, t3);
+          const p = missilePath(k, u);
+          const q = missilePath(k, Math.min(1, u + 0.01));
+          m.position.copy(p);
+          m.quaternion.setFromUnitVectors(V(0, 1, 0), q.sub(p).normalize());
+          m.children[m.children.length - 1].scale.set(2.4 + Math.random() * 0.6, 4 + Math.random() * 1.2, 1);
+        }
+        // the trail: fixed puffs laid along the flight, each ageing from when it was laid
+        for (let j = 0; j < 56; j++) {
+          const tp = tl + (j / 56) * S_FLIGHT;
+          if (tp > t3) break;
+          const age = (t3 - tp) / 1000;
+          if (age > 4.5) continue;
+          const p = missilePath(k, flightU(k, tp));
+          p.y += age * 0.8;
+          putSmoke(p, 2.0 + age * 2.2, Math.min(1, 1.15 - age * 0.22), j * 1.7, WHITE);
+        }
+        // the launch: a flash and a bank of white smoke on the destroyer's deck
+        const dl = (t3 - tl) / 1000;
+        if (dl >= 0 && dl < 3) {
+          const p0 = missilePath(k, 0);
+          for (let j = 0; j < 8; j++) putSmoke(p0.clone().add(V((j - 4) * 1.6, 1 + dl * 3 + (j % 3), (j % 2) * 3 - 1.5)), 5 + dl * 4, Math.max(0, 0.7 - dl * 0.22), j, WHITE);
+          if (dl < 0.25) {
+            light = Math.max(light, 1 - dl / 0.25);
+            lightPos = p0;
+          }
+        }
+        // the hit: fireball, then black smoke rising off the wreck
+        const di = (t3 - ti) / 1000;
+        if (di >= 0) {
+          const hit = SK.targets[k].clone().applyMatrix4(hullG.matrixWorld);
+          if (di < 0.3) {
+            light = Math.max(light, 1.4 * (1 - di / 0.3));
+            lightPos = hit;
+          }
+          for (const S2 of SK.smokeSeed) {
+            if (S2.k !== k) continue;
+            const a = di * 1000 - S2.born;
+            if (a < 0 || a > 6500) continue;
+            const ag = a / 1000;
+            putSmoke(hit.clone().add(V(S2.dx + ag * 2.2, ag * S2.rise * 1.3 + 1.5, S2.dz - ag * 0.8)), S2.size * (0.5 + ag * 0.6), 1.0 * Math.min(1, ag * 3) * Math.max(0, 1 - ag / 5.5) * (1 - ss(0.25, 0.85, sink)), S2.rot + ag * 0.3, BLACK);
+          }
+        }
+      });
+      for (; si < smoke.count; si++) smoke.setMatrixAt(si, hide);
+      smoke.instanceMatrix.needsUpdate = true;
+      if (smoke.instanceColor) smoke.instanceColor.needsUpdate = true;
+      SK.smokeA.needsUpdate = true;
+
+      // fire: a fireball on impact, then flames that keep burning on the deck
+      let fi = 0;
+      const fire = SK.fire;
+      for (let k = 0; k < 4; k++) {
+        const di = (t3 - impactT(k)) / 1000;
+        if (di < 0) continue;
+        const r = SK.rnd[k];
+        void r;
+        const hit = SK.targets[k].clone().applyMatrix4(hullG.matrixWorld);
+        // fireball
+        if (di < 1.4) {
+          for (let j = 0; j < 14; j++) {
+            const a = (j / 14) * Math.PI * 2;
+            const spread = Math.pow(di / 1.4, 0.5) * 9;
+            dmy.position.copy(hit).add(V(Math.cos(a) * spread * 0.6, Math.sin(j * 1.3) * spread * 0.4 + di * 6, Math.sin(a) * spread * 0.6));
+            dmy.quaternion.copy(camera.quaternion);
+            dmy.scale.setScalar((6 + j % 4 * 2) * (0.5 + di) * (1 - di / 1.6));
+            dmy.updateMatrix();
+            if (fi < fire.count) fire.setMatrixAt(fi++, dmy.matrix);
+          }
+        }
+        // burning on: flames riding the hull until it goes under
+        if (t3 < S_SINK1 - 1500) {
+          for (let j = 0; j < 9; j++) {
+            const loc = SK.targets[k].clone().add(V((j - 4) * 0.9, 0.6 + (j % 3) * 0.5, ((j * 7) % 5 - 2) * 0.5));
+            dmy.position.copy(loc.applyMatrix4(hullG.matrixWorld));
+            dmy.quaternion.copy(camera.quaternion);
+            const fl = 0.75 + 0.25 * Math.sin(t3 * 0.03 + j * 2.1 + k) + 0.15 * Math.sin(t3 * 0.071 + j);
+            dmy.scale.set(2.4 * fl * Math.min(1, di * 2), 3.8 * fl * Math.min(1, di * 2), 1);
+            dmy.updateMatrix();
+            if (fi < fire.count) fire.setMatrixAt(fi++, dmy.matrix);
+          }
+        }
+      }
+      for (; fi < fire.count; fi++) fire.setMatrixAt(fi, hide);
+      fire.instanceMatrix.needsUpdate = true;
+
+      // debris: planks and splinters thrown out of each hit
+      const deb = SK.debris;
+      SK.debrisSeed.forEach((D2, i) => {
+        const di = (t3 - impactT(D2.k)) / 1000;
+        if (di < 0) {
+          deb.setMatrixAt(i, hide);
+          return;
+        }
+        const hit0 = SK.targets[D2.k].clone().add(V(SHIP_V * ((END_MS + NAVY_END + impactT(D2.k)) / 1000), 0, 0));
+        let y = hit0.y + D2.vy * di - 4.9 * di * di;
+        if (y < -1) {
+          deb.setMatrixAt(i, hide);
+          return;
+        }
+        dmy.position.set(hit0.x + D2.vx * di, Math.max(0, y), hit0.z + D2.vz * di);
+        dmy.rotation.set(D2.spin * di, D2.spin * di * 0.7, D2.spin * di * 0.4);
+        dmy.scale.set(D2.sx, D2.sy, D2.sz);
+        dmy.updateMatrix();
+        deb.setMatrixAt(i, dmy.matrix);
+      });
+      deb.instanceMatrix.needsUpdate = true;
+
+      SK.light.intensity = light * 900;
+      if (lightPos) SK.light.position.copy(lightPos).add(V(0, 3, 4));
+    }
+
     // the pirate film's camera, as a pose at time t (it keeps drifting after
     // the film ends, which is where the navy cut takes over)
     function pirateCam(t, s) {
@@ -1259,8 +1574,9 @@ export default function MaplePirateAd({ variant = "pirate" }) {
 
     function renderAt(tIn) {
       // the navy cut runs on from the pirate film's last frame: one clock
-      const tn = tIn;
-      const t = navy ? tIn + END_MS : tIn;
+      const t3 = tIn; // strike-cut time
+      const tn = strike ? NAVY_END + tIn : tIn;
+      const t = navy ? tn + END_MS : tIn;
       const s = t / 1000;
       // the ship runs east, rolling and pitching in the swell
       ship.position.set(SHIP_V * s, 0, 0);
@@ -1340,10 +1656,27 @@ export default function MaplePirateAd({ variant = "pirate" }) {
           const fBoth = fitFov(A.pos.distanceTo(both), span);
           pose = { pos: A.pos.clone(), look: centre.clone().lerp(both, w), fov: lerp(pose.fov, Math.min(40, Math.max(pose.fov, fBoth)), w) };
         }
+        if (strike) {
+          const r = runStrike(t3, s);
+          // open the frame to take in the whole pirate as well
+          const wide = ss(0, S_ZOOM1, t3);
+          const pirateC = V(ship.position.x + 4, 14, 0);
+          pose = {
+            pos: pose.pos.clone(),
+            look: pose.look.clone().lerp(pirateC.clone().lerp(centre, 0.22 * (1 - ss(S_SINK0, S_SINK0 + 2500, t3)) + 0.78 * ss(9000, 11800, t3)), wide).add(V(0, -Math.min(r.sinkY, 12) * 0.35, 0)),
+            fov: lerp(pose.fov, Math.max(pose.fov, 54), wide),
+          };
+          pose.pos.x += Math.sin(t3 * 0.09) * r.shake;
+          pose.pos.y += Math.cos(t3 * 0.077) * r.shake;
+        }
         camera.position.copy(pose.pos);
         camera.lookAt(pose.look);
         camera.fov = pose.fov;
         camera.updateProjectionMatrix();
+        if (strike) {
+          camera.updateMatrixWorld();
+          runStrikeFx(t3, ss(S_SINK0, S_SINK1, t3));
+        }
         const focus = pose.look.clone().setY(0);
         sun.position.copy(focus).addScaledVector(sunDir, 160);
         sun.target.position.copy(focus);
@@ -1377,13 +1710,13 @@ export default function MaplePirateAd({ variant = "pirate" }) {
       renderAt(0);
       if (renderMode) {
         window.__renderAt = (ms) => renderAt(ms);
-        window.__pirateEnd = navy ? NAVY_END : END_MS;
+        window.__pirateEnd = strike ? STRIKE_END : navy ? NAVY_END : END_MS;
         window.__ready = true;
         return;
       }
       const t0 = performance.now();
       const loop = (now) => {
-        renderAt((now - t0) % (navy ? NAVY_END : END_MS));
+        renderAt((now - t0) % (strike ? STRIKE_END : navy ? NAVY_END : END_MS));
         raf = requestAnimationFrame(loop);
       };
       raf = requestAnimationFrame(loop);
@@ -1395,7 +1728,7 @@ export default function MaplePirateAd({ variant = "pirate" }) {
       renderer.dispose();
       if (renderer.domElement.parentNode) renderer.domElement.parentNode.removeChild(renderer.domElement);
     };
-  }, [navy]);
+  }, [navy, strike]);
 
   return (
     <div className="pa-stage">

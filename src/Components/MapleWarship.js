@@ -608,12 +608,12 @@ export function buildWarship({ aniso = 8, logoTex = null, qrTex = null, foamMat 
     if (qrTex) {
       for (const sd of [-1, 1]) {
         const lean = Math.atan2(3.3 * 0.3, 7.8);
-        const base = new THREE.Mesh(new THREE.PlaneGeometry(5.4, 5.4), white);
+        const base = new THREE.Mesh(new THREE.PlaneGeometry(4.4, 4.4), white);
         base.position.set(fx - 0.5, fy + 3.7, sd * (3.3 * 0.86 + 0.05));
         base.rotation.y = sd > 0 ? 0 : Math.PI;
         base.rotateX(-lean);
         hull.add(base);
-        const q = new THREE.Mesh(new THREE.PlaneGeometry(5.0, 5.0), new THREE.MeshStandardMaterial({ map: qrTex, roughness: 0.45, emissive: "#ffffff", emissiveMap: qrTex, emissiveIntensity: 0.25 }));
+        const q = new THREE.Mesh(new THREE.PlaneGeometry(4.05, 4.05), new THREE.MeshStandardMaterial({ map: qrTex, roughness: 0.45, emissive: "#ffffff", emissiveMap: qrTex, emissiveIntensity: 0.25 }));
         q.position.copy(base.position);
         q.rotation.copy(base.rotation);
         q.translateZ(0.03);
@@ -874,5 +874,7 @@ export function buildWarship({ aniso = 8, logoTex = null, qrTex = null, foamMat 
 
   ship.scale.setScalar(scale);
   // WL / halfAt are in the ship's own (unscaled) units; WLw is metres in the world
-  return { group: ship, hull, WL, WLw: WL * scale, beam, halfAt, deckY, update };
+  // missile launch cells, in hull coordinates
+  const cells = [V(14.4, D(14.4) + 0.4, 1.2), V(14.4, D(14.4) + 0.4, -1.2), V(-13.4, top(-13.4) + 0.3, 1.0), V(-13.4, top(-13.4) + 0.3, -1.0)];
+  return { group: ship, hull, WL, WLw: WL * scale, beam, halfAt, deckY, update, cells };
 }
