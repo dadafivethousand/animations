@@ -43,10 +43,10 @@ const END_MS = 11500;
 // alongside the pirate
 // It picks up on the pirate film's last frame (same clock, same camera), so
 // the two cut together as one. Times below are from the start of this cut.
-const NAVY_END = 15000;
-const N_PUNCH0 = 1300; // the camera snaps onto the warship far off
-const N_PUNCH1 = 2000;
-const N_BOTH0 = 11000; // from here the frame opens to hold both ships
+const NAVY_END = 8000;
+const N_PUNCH0 = 500; // the camera snaps onto the warship
+const N_PUNCH1 = 1100;
+const N_BOTH0 = 5600; // from here the frame opens to hold both ships
 const SHIP_V = 2.4; // m/s
 
 // ---------------- the hull, as functions of x (bow at +18) ----------------
@@ -1204,8 +1204,8 @@ export default function MaplePirateAd({ variant = "pirate" }) {
     // the warship's track, in the pirate's frame: in off the horizon behind
     // it, curving down to station a few lengths off its quarter
     // a straight run in, decelerating to a stop off the pirate's quarter
-    const NP0 = V(430, 0, -250);
     const NP2 = V(78, 0, -44);
+    const NP0 = NP2.clone().add(V(232, 0, 22)); // in from the right, flank to the camera
     const navyK = (tn) => {
       const u = clamp01(tn / (NAVY_END - 500));
       return 1 - Math.pow(1 - u, 2.1);
@@ -1331,10 +1331,10 @@ export default function MaplePirateAd({ variant = "pirate" }) {
         const hdg = V(Math.cos(ws.group.rotation.y), 0, -Math.sin(ws.group.rotation.y));
         const shipW = across(hdg.clone().multiplyScalar(ws.WL), centre) + 16;
         const span = across(P.clone().sub(V(ship.position.x, 0, 0)), both) + 60;
-        B.fov = fitFov(A.pos.distanceTo(centre), shipW * 1.25);
+        B.fov = fitFov(A.pos.distanceTo(centre), shipW * 0.98);
         let pose = A;
         if (tn >= N_PUNCH0) pose = mixPose(A, B, ss(N_PUNCH0, N_PUNCH1, tn));
-        if (tn >= N_PUNCH1) pose = { pos: A.pos.clone(), look: centre, fov: fitFov(A.pos.distanceTo(centre), shipW * 1.25) };
+        if (tn >= N_PUNCH1) pose = { pos: A.pos.clone(), look: centre, fov: fitFov(A.pos.distanceTo(centre), shipW * 0.98) };
         if (tn >= N_BOTH0) {
           const w = ss(N_BOTH0, NAVY_END - 600, tn);
           const fBoth = fitFov(A.pos.distanceTo(both), span);

@@ -695,9 +695,9 @@ export function buildWarship({ aniso = 8, logoTex = null, qrTex = null, foamMat 
       g.font = "900 230px Inter, Arial Black, Arial";
       g.strokeText("7-DAY", w / 2, 170);
       g.fillText("7-DAY", w / 2, 170);
-      g.font = "900 150px Inter, Arial Black, Arial";
-      g.strokeText("FREE TRIAL", w / 2, 410);
-      g.fillText("FREE TRIAL", w / 2, 410);
+      g.font = "900 176px Inter, Arial Black, Arial";
+      g.strokeText("FREE TRIAL", w / 2, 420);
+      g.fillText("FREE TRIAL", w / 2, 420);
     }), { aniso });
     const offer2Mat = new THREE.MeshStandardMaterial({ map: offer2, transparent: true, roughness: 0.5 });
     for (const sd of [-1, 1]) {
@@ -709,11 +709,10 @@ export function buildWarship({ aniso = 8, logoTex = null, qrTex = null, foamMat 
         mesh.rotateX(-SLOPE);
         hull.add(mesh);
       };
-      const qx = sd > 0 ? 0.6 : 6.4;
-      const ox = sd > 0 ? 6.0 : 1.0;
-      place(new THREE.Mesh(new THREE.PlaneGeometry(4.3, 4.3), white), qx, 4.4);
-      place(new THREE.Mesh(new THREE.PlaneGeometry(4.0, 4.0), qrMat), qx, 4.4, 0.05);
-      place(new THREE.Mesh(new THREE.PlaneGeometry(6.4, 3.75), offer2Mat), ox, 4.4);
+      // the offer fills the tall forward block; the QR goes on the hangar
+      place(new THREE.Mesh(new THREE.PlaneGeometry(9.6, 5.6), offer2Mat), 4.0, 4.6);
+      place(new THREE.Mesh(new THREE.PlaneGeometry(4.6, 4.6), white), -22.0, 2.9);
+      place(new THREE.Mesh(new THREE.PlaneGeometry(4.3, 4.3), qrMat), -22.0, 2.9, 0.05);
     }
   }
 
