@@ -49,14 +49,14 @@ const N_PUNCH1 = 750;
 const N_BOTH0 = 3300; // from here the frame opens to hold both ships
 // the third cut: picks up where the navy cut ends. The frame opens to the
 // whole pirate, the destroyer fires, the pirate burns and goes down.
-const STRIKE_END = 9600;
-const S_SIDE0 = 6600; // the closing punch-in on the destroyer's flank
-const S_SIDE1 = 7900;
+const STRIKE_END = 7900;
+const S_SIDE0 = 4700; // the closing punch-in on the destroyer's flank
+const S_SIDE1 = 6100;
 const S_ZOOM1 = 1400;
 // strike time runs from the navy cut's end; she launches while still coming in
 const S_LAUNCH = [-2100, -1850, -1600, -1350];
-const S_BACK0 = 5000; // the frame swings back to the destroyer
-const S_BACK1 = 7000;
+const S_BACK0 = 3700; // the frame swings back to the destroyer
+const S_BACK1 = 5200;
 const S_FLIGHT = 2000;
 const S_MAIN_FALL = 500;
 const S_FORE_FALL = 1000;
