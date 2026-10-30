@@ -38,7 +38,8 @@ import MapleBullseyeAd from "./Components/MapleBullseyeAd";
 // import MapleViceAd from "./Components/MapleViceAd";
 // import MapleGameAd from "./Components/MapleGameAd";
 // import MapleSpartanAd from "./Components/MapleSpartanAd";
-import MaplePirateAd from "./Components/MaplePirateAd";
+// import MaplePirateAd from "./Components/MaplePirateAd";
+import MapleNavyAd from "./Components/MapleNavyAd";
 
 function App() {
   // return <WheelSchedule day="Thursday" />;
@@ -61,6 +62,8 @@ function App() {
   // A 300-style Spartan charge. ?render=1 for tools/record-frames.js
   // return <MapleSpartanAd />;
   // A Jolly Roger, then the whole ship. ?render=1 for tools/record-frames.js
-  return <MaplePirateAd />;
+  // return <MaplePirateAd />;
+  // Second act: the Maple warship runs in on the pirate. ?render=1
+  return <MapleNavyAd />;
 }
 export default App;
