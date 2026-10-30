@@ -4,7 +4,7 @@
 //
 // Real ocean (three's reflective Water with a generated tileable normal
 // map), physical sky, a lofted hull painted in world coordinates (planks,
-// wales, an ochre gunport strake), masts, yards, billowing sails, jibs,
+// wales, two red gun strakes with cannon run out), masts, yards, torn sails, jibs,
 // shrouds with ratlines, stays, cannon, stern lanterns, foam and wake.
 //
 // Pure function of time: ?render=1 hands the clock to tools/record-frames.js
@@ -35,7 +35,10 @@ function mulberry32(a) {
   };
 }
 
-const END_MS = 11000;
+const END_MS = 12500;
+// the broadside: guns fire one after another, bow to stern, on the side facing camera
+const T_FIRE = 8000;
+const GUN_GAP = 85;
 const SHIP_V = 2.4; // m/s
 
 // ---------------- the hull, as functions of x (bow at +18) ----------------
@@ -113,8 +116,8 @@ export default function MaplePirateAd() {
     const sky = new Sky();
     sky.scale.setScalar(10000);
     const su = sky.material.uniforms;
-    su.turbidity.value = 7;
-    su.rayleigh.value = 2.2;
+    su.turbidity.value = 9;
+    su.rayleigh.value = 2.8;
     su.mieCoefficient.value = 0.005;
     su.mieDirectionalG.value = 0.85;
     su.sunPosition.value.copy(sunDir);
@@ -242,7 +245,7 @@ export default function MaplePirateAd() {
     const Y2V = (y) => (1 - (y + 3.5) / 8) * 1024;
     const hullCanvas = canvas(4096, 1024, (g, w, h) => {
       const r = mulberry32(21);
-      g.fillStyle = "#3a2312";
+      g.fillStyle = "#151210";
       g.fillRect(0, 0, w, h);
       // planks: 0.26 m strakes, butts staggered
       for (let y = -3.5; y < 4.5; y += 0.26) {
@@ -252,7 +255,7 @@ export default function MaplePirateAd() {
         while (x < 18) {
           const len = 5 + r() * 3;
           const l = 20 + r() * 8;
-          g.fillStyle = `hsl(${24 + r() * 6}, ${42 + r() * 10}%, ${l * 0.6}%)`;
+          g.fillStyle = `hsl(${22 + r() * 8}, ${18 + r() * 10}%, ${l * 0.32}%)`;
           g.fillRect(X2U(x), y0, X2U(x + len) - X2U(x), ph);
           // grain
           for (let k = 0; k < 6; k++) {
@@ -275,30 +278,39 @@ export default function MaplePirateAd() {
       wl.addColorStop(1, "rgba(30,40,25,0)");
       g.fillStyle = wl;
       g.fillRect(0, Y2V(0.25), w, Y2V(-0.4) - Y2V(0.25));
-      // the ochre strake with the gunports
-      g.fillStyle = "rgba(168,112,42,0.92)";
-      g.fillRect(0, Y2V(2.45), w, Y2V(1.15) - Y2V(2.45));
-      // wales
-      g.fillStyle = "#120b06";
-      g.fillRect(0, Y2V(0.95), w, Y2V(0.55) - Y2V(0.95));
-      g.fillRect(0, Y2V(2.8), w, Y2V(2.45) - Y2V(2.8));
-      g.fillRect(0, Y2V(4.6), w, Y2V(3.3) - Y2V(4.6));
-      // gunports: black mouths, red-lined lids
-      for (let x = -13; x <= 12.2; x += 2.4) {
-        const u0 = X2U(x - 0.32);
-        const u1 = X2U(x + 0.32);
-        const v0 = Y2V(2.15);
-        const v1 = Y2V(1.5);
-        g.fillStyle = "#6e1a12";
-        g.fillRect(u0 - 6, v0 - 6, u1 - u0 + 12, v1 - v0 + 12);
-        g.fillStyle = "#050302";
-        g.fillRect(u0, v0, u1 - u0, v1 - v0);
-        // a streak of grime running down from each port
-        const st = g.createLinearGradient(0, v1, 0, v1 + 90);
-        st.addColorStop(0, "rgba(20,10,0,0.45)");
-        st.addColorStop(1, "rgba(20,10,0,0)");
-        g.fillStyle = st;
-        g.fillRect(u0 + 4, v1 + 6, u1 - u0 - 8, 90);
+      // two blood-red gun strakes, black wales between them
+      const RED = "rgba(122,18,16,0.95)";
+      g.fillStyle = RED;
+      g.fillRect(0, Y2V(1.25), w, Y2V(0.42) - Y2V(1.25));
+      g.fillRect(0, Y2V(2.55), w, Y2V(1.65) - Y2V(2.55));
+      g.fillStyle = "#070505";
+      g.fillRect(0, Y2V(1.65), w, Y2V(1.25) - Y2V(1.65));
+      g.fillRect(0, Y2V(2.95), w, Y2V(2.55) - Y2V(2.95));
+      g.fillRect(0, Y2V(0.42), w, Y2V(0.1) - Y2V(0.42));
+      g.fillRect(0, Y2V(4.6), w, Y2V(3.4) - Y2V(4.6));
+      // gold beading along the strakes
+      g.fillStyle = "#a8782a";
+      for (const y of [1.25, 1.65, 2.55, 2.95]) g.fillRect(0, Y2V(y) - 3, w, 5);
+      // two tiers of gunports: black mouths, red lids raised above them
+      for (const [y0, y1] of [[1.0, 0.55], [2.35, 1.85]]) {
+        for (let x = -13.2; x <= 12.4; x += 1.6) {
+          const u0 = X2U(x - 0.27);
+          const u1 = X2U(x + 0.27);
+          const v0 = Y2V(y0);
+          const v1 = Y2V(y1);
+          g.fillStyle = "#3a0806";
+          g.fillRect(u0 - 5, v0 - 26, u1 - u0 + 10, 22);
+          g.fillStyle = "#020101";
+          g.fillRect(u0, v0, u1 - u0, v1 - v0);
+          g.strokeStyle = "#a8782a";
+          g.lineWidth = 3;
+          g.strokeRect(u0 - 2, v0 - 2, u1 - u0 + 4, v1 - v0 + 4);
+          const st = g.createLinearGradient(0, v1, 0, v1 + 70);
+          st.addColorStop(0, "rgba(0,0,0,0.5)");
+          st.addColorStop(1, "rgba(0,0,0,0)");
+          g.fillStyle = st;
+          g.fillRect(u0 + 4, v1 + 4, u1 - u0 - 8, 70);
+        }
       }
       // weathering
       for (let i = 0; i < 3000; i++) {
@@ -497,18 +509,28 @@ export default function MaplePirateAd() {
       rail.castShadow = true;
       hullG.add(rail);
     }
-    // cannon run out through the upper ports
-    const iron = new THREE.MeshStandardMaterial({ color: "#1c1c1e", metalness: 0.6, roughness: 0.5 });
-    const cannonGeo = new THREE.CylinderGeometry(0.13, 0.17, 1.4, 14);
-    for (let x = -13; x <= 12.2; x += 2.4) {
-      for (const s of [-1, 1]) {
-        const c = new THREE.Mesh(cannonGeo, iron);
-        c.rotation.x = Math.PI / 2;
-        c.position.set(x, 1.83, s * (halfWidthAt(x, 1.83) + 0.25));
-        c.castShadow = true;
-        hullG.add(c);
+    // cannon run out through both tiers of ports
+    const iron = new THREE.MeshStandardMaterial({ color: "#161618", metalness: 0.65, roughness: 0.45 });
+    const cannonGeo = new THREE.CylinderGeometry(0.12, 0.16, 1.3, 14);
+    const muzzleGeo = new THREE.TorusGeometry(0.13, 0.035, 8, 16);
+    const guns = []; // the side facing camera, for the broadside
+    for (const y of [0.78, 2.1]) {
+      for (let x = -13.2; x <= 12.4; x += 1.6) {
+        for (const s2 of [-1, 1]) {
+          const z = s2 * (halfWidthAt(x, y) + 0.32);
+          const c = new THREE.Mesh(cannonGeo, iron);
+          c.rotation.x = Math.PI / 2;
+          c.position.set(x, y, z);
+          c.castShadow = true;
+          hullG.add(c);
+          const mz = new THREE.Mesh(muzzleGeo, iron);
+          mz.position.set(x, y, z + s2 * 0.65);
+          hullG.add(mz);
+          if (s2 > 0) guns.push(new THREE.Vector3(x, y, z + 0.7));
+        }
       }
     }
+    guns.sort((a, b) => b.x - a.x || a.y - b.y);
     // barrels, a hatch, the wheel
     const barrelMat = new THREE.MeshStandardMaterial({ color: "#5a3a1e", roughness: 0.75 });
     for (const [x, z] of [[4, 2.2], [4.7, 2.5], [4.2, 1.6], [-5, -2.4], [-5.6, -2.0]]) {
@@ -542,11 +564,11 @@ export default function MaplePirateAd() {
     const spar = new THREE.MeshStandardMaterial({ color: "#5e3d1f", roughness: 0.7 });
     const sailCanvas = canvas(1024, 1024, (g, w, h) => {
       const r = mulberry32(8);
-      g.fillStyle = "#e9dcbd";
+      g.fillStyle = "#3a3632";
       g.fillRect(0, 0, w, h);
       // panels and seams
       for (let x = 0; x < w; x += 64) {
-        g.fillStyle = `rgba(${r() < 0.5 ? "120,100,70" : "255,250,235"},${0.05 + r() * 0.06})`;
+        g.fillStyle = `rgba(${r() < 0.5 ? "0,0,0" : "120,112,100"},${0.05 + r() * 0.06})`;
         g.fillRect(x, 0, 64, h);
         g.fillStyle = "rgba(90,70,40,0.35)";
         g.fillRect(x, 0, 2, h);
@@ -569,9 +591,9 @@ export default function MaplePirateAd() {
       for (let i = 0; i < 4; i++) {
         const px = r() * (w - 140);
         const py = r() * (h - 140);
-        g.fillStyle = "#d6c49e";
+        g.fillStyle = "#2a2724";
         g.fillRect(px, py, 90 + r() * 60, 70 + r() * 60);
-        g.strokeStyle = "rgba(80,60,30,0.5)";
+        g.strokeStyle = "rgba(120,110,95,0.35)";
         g.lineWidth = 2;
         g.setLineDash([6, 5]);
         g.strokeRect(px, py, 90, 70);
@@ -585,11 +607,54 @@ export default function MaplePirateAd() {
         g.fillRect(0, 0, w, h);
       }
       // bolt rope round the edge
-      g.strokeStyle = "rgba(90,70,40,0.6)";
+      g.strokeStyle = "rgba(20,18,15,0.8)";
       g.lineWidth = 8;
       g.strokeRect(4, 4, w - 8, h - 8);
+      // battle damage: shot holes with scorched rims, rips, a ragged foot
+      for (let i = 0; i < 9; i++) {
+        const x = 80 + r() * (w - 160);
+        const y = 120 + r() * (h - 260);
+        const rr = 10 + r() * 22;
+        const gr = g.createRadialGradient(x, y, rr, x, y, rr * 2.6);
+        gr.addColorStop(0, "rgba(10,6,2,0.85)");
+        gr.addColorStop(1, "rgba(10,6,2,0)");
+        g.fillStyle = gr;
+        g.fillRect(x - rr * 3, y - rr * 3, rr * 6, rr * 6);
+      }
+      g.globalCompositeOperation = "destination-out";
+      const r2 = mulberry32(81);
+      for (let i = 0; i < 9; i++) {
+        const x = 80 + r2() * (w - 160);
+        const y = 120 + r2() * (h - 260);
+        const rr = 10 + r2() * 22;
+        g.beginPath();
+        for (let k = 0; k <= 12; k++) {
+          const a = (k / 12) * Math.PI * 2;
+          const q = rr * (0.6 + r2() * 0.7);
+          k ? g.lineTo(x + Math.cos(a) * q, y + Math.sin(a) * q) : g.moveTo(x + Math.cos(a) * q, y + Math.sin(a) * q);
+        }
+        g.fill();
+      }
+      for (let i = 0; i < 3; i++) {
+        // long rips running up from the foot
+        const x = 150 + r2() * (w - 300);
+        g.beginPath();
+        g.moveTo(x - 18, h);
+        let y = h;
+        let xx = x;
+        while (y > h * (0.45 + r2() * 0.3)) {
+          y -= 30;
+          xx += (r2() - 0.5) * 30;
+          g.lineTo(xx - 6, y);
+        }
+        g.lineTo(xx + 6, y);
+        g.lineTo(x + 18, h);
+        g.fill();
+      }
+      for (let x = 0; x < w; x += 10) g.fillRect(x, h - 8 - r2() * 46, 10, 60);
+      g.globalCompositeOperation = "source-over";
     });
-    const sailMat = new THREE.MeshStandardMaterial({ map: tex(sailCanvas, { aniso }), roughness: 0.92, side: THREE.DoubleSide, emissive: "#3a2a18", emissiveIntensity: 0.15 });
+    const sailMat = new THREE.MeshStandardMaterial({ map: tex(sailCanvas, { aniso }), roughness: 0.95, side: THREE.DoubleSide, alphaTest: 0.5 });
     const sails = [];
     // a square sail: between two yards, billowing forward (+x)
     function squareSail(mx, yTop, yBot, wTop, wBot, billow) {
@@ -734,115 +799,357 @@ export default function MaplePirateAd() {
     }
 
     // ---- the Jolly Roger at the main truck ----
-    const flagCanvas = canvas(1024, 660, (g, w, h) => {
+    const flagCanvas = canvas(1600, 1040, (g, w, h) => {
       const r = mulberry32(13);
-      g.fillStyle = "#0d0d0e";
+      // old black wool: uneven, sun-faded toward the fly, a coarse weave
+      g.fillStyle = "#0c0b0b";
       g.fillRect(0, 0, w, h);
-      // weave and wear
-      for (let i = 0; i < 26000; i++) {
-        g.fillStyle = `rgba(255,255,255,${r() * 0.035})`;
-        g.fillRect(r() * w, r() * h, 2, 1);
+      const fade = g.createLinearGradient(0, 0, w, 0);
+      fade.addColorStop(0, "rgba(40,36,34,0)");
+      fade.addColorStop(1, "rgba(52,46,42,0.5)");
+      g.fillStyle = fade;
+      g.fillRect(0, 0, w, h);
+      for (let y = 0; y < h; y += 3) {
+        g.fillStyle = `rgba(255,255,255,${0.012 + r() * 0.02})`;
+        g.fillRect(0, y, w, 1);
       }
-      for (let i = 0; i < 12; i++) {
-        const gr = g.createRadialGradient(r() * w, r() * h, 0, r() * w, r() * h, 80 + r() * 120);
-        gr.addColorStop(0, "rgba(60,50,40,0.18)");
-        gr.addColorStop(1, "rgba(60,50,40,0)");
+      for (let x = 0; x < w; x += 3) {
+        g.fillStyle = `rgba(0,0,0,${0.08 + r() * 0.08})`;
+        g.fillRect(x, 0, 1, h);
+      }
+      for (let i = 0; i < 26; i++) {
+        const x = r() * w;
+        const y = r() * h;
+        const gr = g.createRadialGradient(x, y, 0, x, y, 60 + r() * 160);
+        gr.addColorStop(0, `rgba(${r() < 0.5 ? "70,60,50" : "0,0,0"},0.22)`);
+        gr.addColorStop(1, "rgba(0,0,0,0)");
         g.fillStyle = gr;
         g.fillRect(0, 0, w, h);
       }
-      const bone = "#ece4d2";
-      const shade = "#b5ab98";
-      const cx = 520;
-      // crossbones, behind the skull
-      const boneLine = (x0, y0, x1, y1) => {
-        g.strokeStyle = shade;
-        g.lineWidth = 44;
-        g.lineCap = "round";
+      // the hoist: a doubled canvas band with grommets
+      g.fillStyle = "#1a1714";
+      g.fillRect(0, 0, 46, h);
+      for (let y = 60; y < h; y += 220) {
+        g.fillStyle = "#6a5a40";
         g.beginPath();
-        g.moveTo(x0, y0 + 4);
-        g.lineTo(x1, y1 + 4);
-        g.stroke();
-        g.strokeStyle = bone;
-        g.lineWidth = 38;
+        g.arc(23, y, 12, 0, Math.PI * 2);
+        g.fill();
+        g.fillStyle = "#0c0b0b";
         g.beginPath();
-        g.moveTo(x0, y0);
-        g.lineTo(x1, y1);
-        g.stroke();
-        for (const [x, y] of [[x0, y0], [x1, y1]]) {
-          const dx = x1 - x0;
-          const dy = y1 - y0;
-          const L = Math.hypot(dx, dy);
-          const nx = -dy / L;
-          const ny = dx / L;
-          for (const s of [-1, 1]) {
-            g.fillStyle = bone;
-            g.beginPath();
-            g.arc(x + nx * 24 * s, y + ny * 24 * s, 30, 0, Math.PI * 2);
-            g.fill();
-          }
-        }
-      };
-      boneLine(cx - 250, 470, cx + 250, 610);
-      boneLine(cx + 250, 470, cx - 250, 610);
-      // the skull
-      g.fillStyle = bone;
-      g.beginPath();
-      g.ellipse(cx, 255, 152, 142, 0, 0, Math.PI * 2);
-      g.fill();
-      g.beginPath();
-      g.moveTo(cx - 118, 300);
-      g.quadraticCurveTo(cx - 128, 400, cx - 92, 432);
-      g.lineTo(cx + 92, 432);
-      g.quadraticCurveTo(cx + 128, 400, cx + 118, 300);
-      g.closePath();
-      g.fill();
-      // shading under the brow and down the cheek
-      const sh = g.createRadialGradient(cx - 40, 190, 20, cx, 270, 190);
-      sh.addColorStop(0, "rgba(255,255,255,0)");
-      sh.addColorStop(1, "rgba(120,110,95,0.45)");
-      g.fillStyle = sh;
-      g.beginPath();
-      g.ellipse(cx, 255, 152, 142, 0, 0, Math.PI * 2);
-      g.fill();
-      // sockets, nose, teeth
-      g.fillStyle = "#0d0d0e";
-      for (const s of [-1, 1]) {
-        g.beginPath();
-        g.ellipse(cx + 62 * s, 288, 50, 44, 0.15 * s, 0, Math.PI * 2);
+        g.arc(23, y, 6, 0, Math.PI * 2);
         g.fill();
       }
-      g.beginPath();
-      g.moveTo(cx, 330);
-      g.lineTo(cx - 24, 378);
-      g.quadraticCurveTo(cx, 388, cx + 24, 378);
-      g.closePath();
+
+      const BONE = "#e8dfcb";
+      const MID = "#b9ae97";
+      const DARK = "#6f6656";
+      const cx = 790;
+
+      // crossed cutlasses behind the skull
+      function cutlass(flip) {
+        g.save();
+        // crossed below the jaw: hilts low and out, blades rising behind the skull
+        g.translate(cx + 30 * flip, 800);
+        g.scale(flip, 1);
+        g.rotate(-0.95);
+        g.scale(1.45, 1.25);
+        // blade: a curved sabre, broadening toward the tip
+        g.beginPath();
+        g.moveTo(-40, -10);
+        g.quadraticCurveTo(220, -40, 470, -98);
+        g.quadraticCurveTo(500, -70, 480, -40);
+        g.quadraticCurveTo(230, 30, -40, 14);
+        g.closePath();
+        const bl = g.createLinearGradient(0, -60, 0, 30);
+        bl.addColorStop(0, "#f2f0ea");
+        bl.addColorStop(0.5, "#c9c8c4");
+        bl.addColorStop(1, "#8d8c88");
+        g.fillStyle = bl;
+        g.fill();
+        g.strokeStyle = "rgba(0,0,0,0.5)";
+        g.lineWidth = 3;
+        g.stroke();
+        // fuller
+        g.strokeStyle = "rgba(90,90,90,0.6)";
+        g.lineWidth = 4;
+        g.beginPath();
+        g.moveTo(10, -4);
+        g.quadraticCurveTo(220, -26, 420, -70);
+        g.stroke();
+        // guard, a cup of brass, the grip and pommel
+        g.fillStyle = "#b8862e";
+        g.beginPath();
+        g.ellipse(-52, 2, 22, 62, 0, 0, Math.PI * 2);
+        g.fill();
+        g.strokeStyle = "#5a3e12";
+        g.lineWidth = 3;
+        g.stroke();
+        g.fillStyle = "#2a1a0e";
+        g.fillRect(-170, -14, 116, 30);
+        for (let k = 0; k < 6; k++) {
+          g.fillStyle = "rgba(255,220,160,0.18)";
+          g.fillRect(-165 + k * 19, -14, 4, 30);
+        }
+        g.fillStyle = "#b8862e";
+        g.beginPath();
+        g.arc(-178, 1, 20, 0, Math.PI * 2);
+        g.fill();
+        g.restore();
+      }
+      cutlass(1);
+      cutlass(-1);
+
+      // ---- the skull ----
+      g.save();
+      g.translate(cx, 430);
+      const skullPath = () => {
+        g.beginPath();
+        g.moveTo(0, -250);
+        g.bezierCurveTo(150, -250, 220, -150, 214, -40); // crown to temple
+        g.bezierCurveTo(212, 20, 196, 52, 172, 76); // temple to cheekbone
+        g.bezierCurveTo(178, 110, 160, 150, 128, 168); // cheekbone
+        g.lineTo(112, 214); // maxilla
+        g.lineTo(-112, 214);
+        g.lineTo(-128, 168);
+        g.bezierCurveTo(-160, 150, -178, 110, -172, 76);
+        g.bezierCurveTo(-196, 52, -212, 20, -214, -40);
+        g.bezierCurveTo(-220, -150, -150, -250, 0, -250);
+        g.closePath();
+      };
+      skullPath();
+      const sk = g.createRadialGradient(-60, -120, 20, 0, 0, 290);
+      sk.addColorStop(0, "#fbf6ea");
+      sk.addColorStop(0.55, BONE);
+      sk.addColorStop(1, MID);
+      g.fillStyle = sk;
       g.fill();
-      g.fillRect(cx - 88, 404, 176, 10);
-      for (let i = -3; i <= 3; i++) g.fillRect(cx + i * 24 - 2, 398, 5, 36);
-      // frayed fly end
+      // temple hollows and cheek shadows
+      for (const s2 of [-1, 1]) {
+        const tg = g.createRadialGradient(170 * s2, 20, 5, 170 * s2, 20, 90);
+        tg.addColorStop(0, "rgba(90,80,65,0.55)");
+        tg.addColorStop(1, "rgba(90,80,65,0)");
+        g.fillStyle = tg;
+        skullPath();
+        g.fill();
+        const cg = g.createRadialGradient(118 * s2, 170, 5, 118 * s2, 170, 70);
+        cg.addColorStop(0, "rgba(80,70,55,0.5)");
+        cg.addColorStop(1, "rgba(80,70,55,0)");
+        g.fillStyle = cg;
+        skullPath();
+        g.fill();
+      }
+      // a crack across the crown
+      g.strokeStyle = DARK;
+      g.lineWidth = 4;
+      g.beginPath();
+      g.moveTo(-40, -248);
+      g.lineTo(-22, -200);
+      g.lineTo(-48, -170);
+      g.lineTo(-30, -128);
+      g.lineTo(-56, -100);
+      g.stroke();
+      // brow ridge, then the sockets: angled hard, deep
+      for (const s2 of [-1, 1]) {
+        g.save();
+        g.scale(s2, 1);
+        const bg = g.createLinearGradient(0, -10, 0, 40);
+        bg.addColorStop(0, "rgba(255,255,255,0.4)");
+        bg.addColorStop(1, "rgba(255,255,255,0)");
+        g.fillStyle = bg;
+        g.beginPath();
+        g.moveTo(14, -6);
+        g.quadraticCurveTo(90, -42, 168, -6);
+        g.lineTo(168, 10);
+        g.quadraticCurveTo(90, -24, 14, 12);
+        g.fill();
+        g.beginPath();
+        g.moveTo(22, 8); // inner brow, low: an angry slant
+        g.quadraticCurveTo(100, -20, 162, 18);
+        g.quadraticCurveTo(176, 76, 140, 112);
+        g.quadraticCurveTo(84, 134, 40, 104);
+        g.quadraticCurveTo(10, 72, 22, 8);
+        g.closePath();
+        g.fillStyle = "#0b0908";
+        g.fill();
+        // a rim of light round the lower edge of the socket
+        g.strokeStyle = "rgba(255,250,235,0.35)";
+        g.lineWidth = 4;
+        g.beginPath();
+        g.moveTo(150, 92);
+        g.quadraticCurveTo(84, 140, 34, 100);
+        g.stroke();
+        g.restore();
+      }
+      // nasal cavity: an inverted heart
+      g.fillStyle = "#0b0908";
+      g.beginPath();
+      g.moveTo(0, 112);
+      g.bezierCurveTo(-8, 132, -38, 152, -32, 182);
+      g.bezierCurveTo(-26, 196, -8, 192, 0, 178);
+      g.bezierCurveTo(8, 192, 26, 196, 32, 182);
+      g.bezierCurveTo(38, 152, 8, 132, 0, 112);
+      g.fill();
+      g.restore();
+
+      // the jaw, hung a little open
+      g.save();
+      g.translate(cx, 430);
+      g.beginPath();
+      g.moveTo(-118, 236);
+      g.bezierCurveTo(-120, 300, -76, 352, 0, 356);
+      g.bezierCurveTo(76, 352, 120, 300, 118, 236);
+      g.closePath();
+      const jg = g.createLinearGradient(0, 230, 0, 360);
+      jg.addColorStop(0, BONE);
+      jg.addColorStop(1, MID);
+      g.fillStyle = jg;
+      g.fill();
+      // the mouth between upper and lower teeth
+      g.fillStyle = "#0b0908";
+      g.fillRect(-112, 212, 224, 26);
+      // teeth, one by one, top and bottom
+      const tooth = (x, y, tw, th, up) => {
+        const tg = g.createLinearGradient(0, y, 0, y + th * (up ? 1 : -1));
+        tg.addColorStop(0, "#f4eedd");
+        tg.addColorStop(1, "#c4b89c");
+        g.fillStyle = tg;
+        g.beginPath();
+        const r0 = 6;
+        if (up) {
+          g.moveTo(x, y);
+          g.lineTo(x + tw, y);
+          g.lineTo(x + tw, y + th - r0);
+          g.quadraticCurveTo(x + tw, y + th, x + tw - r0, y + th);
+          g.lineTo(x + r0, y + th);
+          g.quadraticCurveTo(x, y + th, x, y + th - r0);
+        } else {
+          g.moveTo(x, y);
+          g.lineTo(x + tw, y);
+          g.lineTo(x + tw, y - th + r0);
+          g.quadraticCurveTo(x + tw, y - th, x + tw - r0, y - th);
+          g.lineTo(x + r0, y - th);
+          g.quadraticCurveTo(x, y - th, x, y - th + r0);
+        }
+        g.closePath();
+        g.fill();
+        g.strokeStyle = "rgba(40,30,20,0.6)";
+        g.lineWidth = 2;
+        g.stroke();
+      };
+      const tws = [24, 26, 28, 30, 30, 28, 26, 24];
+      let x0 = -108;
+      tws.forEach((tw, k) => {
+        if (k !== 2) tooth(x0, 200, tw - 2, 32 + (k === 3 || k === 4 ? 4 : 0), true);
+        tooth(x0 + 2, 268, tw - 4, 30, false);
+        x0 += tw + 1;
+      });
+      g.restore();
+
+      // shot holes and tears: cut right through
       g.globalCompositeOperation = "destination-out";
-      for (let y = 0; y < h; y += 6) {
-        const d = 6 + r() * 26 + (r() < 0.08 ? 40 : 0);
-        g.fillRect(w - d, y, d, 4 + r() * 4);
+      const holes = [[1180, 220, 16], [1320, 760, 22], [300, 860, 14], [1050, 900, 11], [520, 160, 9]];
+      for (const [x, y, rr] of holes) {
+        g.beginPath();
+        for (let k = 0; k <= 14; k++) {
+          const a = (k / 14) * Math.PI * 2;
+          const q = rr * (0.6 + r() * 0.8);
+          k ? g.lineTo(x + Math.cos(a) * q, y + Math.sin(a) * q) : g.moveTo(x + Math.cos(a) * q, y + Math.sin(a) * q);
+        }
+        g.fill();
+      }
+      // a long tear in from the fly
+      g.beginPath();
+      g.moveTo(w, 380);
+      let tx = w;
+      let ty = 380;
+      while (tx > w - 360) {
+        tx -= 24;
+        ty += (r() - 0.45) * 18;
+        g.lineTo(tx, ty);
+      }
+      g.lineTo(tx, ty + 6);
+      while (tx < w) {
+        tx += 24;
+        ty += (r() - 0.55) * 10;
+        g.lineTo(tx, ty + 14);
+      }
+      g.fill();
+      // frayed fly end: ragged, uneven, with long threads
+      for (let y = 0; y < h; y += 5) {
+        const d = 14 + r() * 40 + (r() < 0.07 ? 90 : 0) + Math.sin(y / 60) * 12;
+        g.fillRect(w - d, y, d, 3 + r() * 4);
+      }
+      for (let x = 46; x < w; x += 6) {
+        const d = r() < 0.06 ? 10 + r() * 22 : r() * 6;
+        g.fillRect(x, 0, 6, d);
+        g.fillRect(x, h - d, 6, d);
       }
       g.globalCompositeOperation = "source-over";
+      // scorch round the shot holes
+      for (const [x, y, rr] of holes) {
+        const gr = g.createRadialGradient(x, y, rr, x, y, rr * 3);
+        gr.addColorStop(0, "rgba(60,40,20,0.5)");
+        gr.addColorStop(1, "rgba(60,40,20,0)");
+        g.globalCompositeOperation = "source-atop";
+        g.fillStyle = gr;
+        g.fillRect(x - rr * 3, y - rr * 3, rr * 6, rr * 6);
+        g.globalCompositeOperation = "source-over";
+      }
     });
-    const FLAG_W = 3.4;
-    const FLAG_H = 2.2;
-    const flagGeo = new THREE.PlaneGeometry(FLAG_W, FLAG_H, 56, 36);
+    // a bump map from the same art, so the bone and blades sit proud of the cloth
+    const flagBump = canvas(1600, 1040, (g, w, h) => {
+      g.drawImage(flagCanvas, 0, 0);
+      const d = g.getImageData(0, 0, w, h);
+      for (let i = 0; i < d.data.length; i += 4) {
+        const l = (d.data[i] + d.data[i + 1] + d.data[i + 2]) / 3;
+        d.data[i] = d.data[i + 1] = d.data[i + 2] = l;
+        d.data[i + 3] = 255;
+      }
+      g.putImageData(d, 0, 0);
+    });
+    const FLAG_W = 4.6;
+    const FLAG_H = 3.0;
+    const flagGeo = new THREE.PlaneGeometry(FLAG_W, FLAG_H, 90, 56);
     const flagRest = flagGeo.attributes.position.array.slice();
     const flag = new THREE.Mesh(
       flagGeo,
-      new THREE.MeshStandardMaterial({ map: tex(flagCanvas, { aniso }), roughness: 0.95, side: THREE.DoubleSide, alphaTest: 0.5, transparent: false })
+      new THREE.MeshStandardMaterial({ map: tex(flagCanvas, { aniso }), bumpMap: tex(flagBump, { srgb: false, aniso }), bumpScale: 1.4, roughness: 0.97, side: THREE.DoubleSide, alphaTest: 0.5, transparent: false })
     );
     flag.castShadow = true;
     const FLAG_X = -0.5 + 0.12; // luff at the mast
-    const FLAG_Y = main.top3 + 2.3 - FLAG_H / 2; // flown from a pole above the truck, clear of the sails
+    const FLAG_Y = main.top3 + 3.1 - FLAG_H / 2; // flown from a pole above the truck, clear of the sails
     flag.position.set(FLAG_X, FLAG_Y, 0);
     hullG.add(flag);
-    const flagPole = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.06, 2.6, 8), spar);
-    flagPole.position.set(-0.5, main.top3 + 1.25, 0);
+    const flagPole = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.07, 3.4, 8), spar);
+    flagPole.position.set(-0.5, main.top3 + 1.6, 0);
     hullG.add(flagPole);
+    const PEN_L = 9;
+    const penGeo = new THREE.PlaneGeometry(PEN_L, 0.5, 60, 2);
+    penGeo.translate(PEN_L / 2, 0, 0);
+    {
+      // taper to a swallowtail
+      const p = penGeo.attributes.position;
+      for (let i = 0; i < p.count; i++) {
+        const u = p.getX(i) / PEN_L;
+        p.setY(i, p.getY(i) * (1 - 0.8 * u));
+      }
+    }
+    const penRest = penGeo.attributes.position.array.slice();
+    const pennant = new THREE.Mesh(penGeo, new THREE.MeshStandardMaterial({ color: "#8e1311", roughness: 0.9, side: THREE.DoubleSide }));
+    pennant.position.set(8.8 + 0.05, fore.top3 + 0.1, 0);
+    pennant.rotation.y = Math.PI; // streams aft with the wind
+    hullG.add(pennant);
+    function wavePennant(t) {
+      const p = penGeo.attributes.position;
+      const s2 = t / 1000;
+      for (let i = 0; i < p.count; i++) {
+        const x0 = penRest[i * 3];
+        const u = x0 / PEN_L;
+        p.setXYZ(i, x0, penRest[i * 3 + 1] - 0.6 * u * u + 0.18 * u * Math.sin(x0 * 0.9 - s2 * 6), 0.5 * u * Math.sin(x0 * 0.8 - s2 * 7.5));
+      }
+      p.needsUpdate = true;
+      penGeo.computeVertexNormals();
+    }
     function waveFlag(t) {
       const p = flagGeo.attributes.position;
       const s = t / 1000;
@@ -850,7 +1157,7 @@ export default function MaplePirateAd() {
         const x0 = flagRest[i * 3] + FLAG_W / 2; // 0 at the mast
         const y0 = flagRest[i * 3 + 1];
         const u = clamp01(x0 / FLAG_W); // a hair below 0 at the luff would make pow() NaN
-        const amp = 0.38 * Math.pow(u, 1.15);
+        const amp = 0.5 * Math.pow(u, 1.15);
         const z =
           amp * Math.sin(x0 * 2.1 - s * 7.5 + y0 * 0.5) +
           amp * 0.35 * Math.sin(x0 * 4.3 - s * 11.0 - y0 * 1.3) +
@@ -1001,6 +1308,105 @@ export default function MaplePirateAd() {
       return { g, wings, r: 9 + i * 3.5, h: 24 + rnd() * 16, sp: 0.25 + rnd() * 0.2, ph: rnd() * 6, cx: -4 + rnd() * 8 };
     });
 
+    // ---- the broadside: each gun flashes and throws a bank of smoke ----
+    const smokeTex = tex(canvas(256, 256, (g, w) => {
+      const r = mulberry32(77);
+      for (let i = 0; i < 46; i++) {
+        const a = r() * Math.PI * 2;
+        const rad = Math.pow(r(), 0.6) * w * 0.28;
+        const x = w / 2 + Math.cos(a) * rad;
+        const y = w / 2 + Math.sin(a) * rad;
+        const br = w * (0.08 + r() * 0.18);
+        const v = 200 + Math.floor(r() * 45);
+        const gr = g.createRadialGradient(x, y, 0, x, y, br);
+        gr.addColorStop(0, `rgba(${v},${v - 4},${v - 10},${0.18 + r() * 0.2})`);
+        gr.addColorStop(1, `rgba(${v},${v - 4},${v - 10},0)`);
+        g.fillStyle = gr;
+        g.fillRect(x - br, y - br, br * 2, br * 2);
+      }
+      g.globalCompositeOperation = "destination-in";
+      const m = g.createRadialGradient(w / 2, w / 2, 0, w / 2, w / 2, w / 2);
+      m.addColorStop(0, "rgba(0,0,0,1)");
+      m.addColorStop(0.6, "rgba(0,0,0,0.8)");
+      m.addColorStop(1, "rgba(0,0,0,0)");
+      g.fillStyle = m;
+      g.fillRect(0, 0, w, w);
+    }));
+    const flashTex = tex(canvas(128, 128, (g, w) => {
+      const gr = g.createRadialGradient(w / 2, w / 2, 0, w / 2, w / 2, w / 2);
+      gr.addColorStop(0, "rgba(255,255,240,1)");
+      gr.addColorStop(0.25, "rgba(255,200,90,0.9)");
+      gr.addColorStop(0.6, "rgba(255,110,30,0.35)");
+      gr.addColorStop(1, "rgba(255,80,20,0)");
+      g.fillStyle = gr;
+      g.fillRect(0, 0, w, w);
+    }));
+    const PUFFS_PER = 5;
+    const smoke = new THREE.InstancedMesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshStandardMaterial({ map: smokeTex, transparent: true, depthWrite: false, roughness: 1, color: "#d8d2c8" }), guns.length * PUFFS_PER);
+    smoke.frustumCulled = false;
+    smoke.renderOrder = 3;
+    scene.add(smoke);
+    const flashes = new THREE.InstancedMesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ map: flashTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, toneMapped: false }), guns.length);
+    flashes.frustumCulled = false;
+    flashes.renderOrder = 4;
+    scene.add(flashes);
+    const gunLight = new THREE.PointLight("#ffb050", 0, 30, 1.6);
+    scene.add(gunLight);
+    const puffSeed = Array.from({ length: guns.length * PUFFS_PER }, () => ({ out: 2 + rnd() * 6, up: 0.4 + rnd() * 1.4, along: (rnd() - 0.5) * 2.5, sz: 2.4 + rnd() * 2.8, rot: rnd() * 6, life: 3 + rnd() * 2.5 }));
+    const dmy = new THREE.Object3D();
+    const hide = new THREE.Matrix4().makeScale(0, 0, 0);
+    const wp = new THREE.Vector3();
+    const qz = new THREE.Quaternion();
+    const Z = new THREE.Vector3(0, 0, 1);
+    function broadside(t) {
+      hullG.updateMatrixWorld(true);
+      let lit = 0;
+      let lx = 0;
+      for (let gi = 0; gi < guns.length; gi++) {
+        const tf = T_FIRE + gi * GUN_GAP + (gi % 2) * 40;
+        const dt = (t - tf) / 1000;
+        wp.copy(guns[gi]).applyMatrix4(hullG.matrixWorld);
+        // flash
+        if (dt >= 0 && dt < 0.16) {
+          const k = 1 - dt / 0.16;
+          dmy.position.copy(wp).add(V(0, 0, 0.8));
+          dmy.quaternion.copy(camera.quaternion);
+          dmy.scale.setScalar(2.4 * k + 0.6);
+          dmy.updateMatrix();
+          flashes.setMatrixAt(gi, dmy.matrix);
+          if (k > lit) {
+            lit = k;
+            lx = gi;
+          }
+        } else flashes.setMatrixAt(gi, hide);
+        // smoke: jets out, then billows up and drifts aft with the wind
+        for (let k = 0; k < PUFFS_PER; k++) {
+          const P = puffSeed[gi * PUFFS_PER + k];
+          const idx = gi * PUFFS_PER + k;
+          const d2 = dt - k * 0.03;
+          if (d2 < 0 || d2 > P.life) {
+            smoke.setMatrixAt(idx, hide);
+            continue;
+          }
+          const u = d2 / P.life;
+          const jet = 1 - Math.exp(-d2 * 4);
+          dmy.position.copy(wp).add(V(-d2 * (SHIP_V + 1.2) + P.along * jet, P.up * jet + d2 * 0.5, P.out * jet + 0.6));
+          qz.setFromAxisAngle(Z, P.rot + d2 * 0.25);
+          dmy.quaternion.copy(camera.quaternion).multiply(qz);
+          dmy.scale.setScalar(P.sz * (0.4 + Math.pow(u, 0.5) * 1.8));
+          dmy.updateMatrix();
+          smoke.setMatrixAt(idx, dmy.matrix);
+        }
+      }
+      flashes.instanceMatrix.needsUpdate = true;
+      smoke.instanceMatrix.needsUpdate = true;
+      smoke.material.opacity = 0.85;
+      gunLight.intensity = lit * 60;
+      if (lit > 0) gunLight.position.copy(guns[lx]).applyMatrix4(hullG.matrixWorld).add(V(0, 0, 2));
+      // the hull kicks away from its own broadside
+      return 0;
+    }
+
     // ---- post ----
     const composer = new EffectComposer(renderer);
     composer.setPixelRatio(window.devicePixelRatio || 1);
@@ -1013,8 +1419,8 @@ export default function MaplePirateAd() {
     const flagCentre = V(FLAG_X + FLAG_W * 0.5, FLAG_Y + 0.05, 0.1);
     const shipCentre = V(1, 12.5, 0);
     const path = new THREE.CatmullRomCurve3([
-      flagCentre.clone().add(V(-0.2, -0.1, 5.2)),
-      flagCentre.clone().add(V(-0.8, 0.6, 10)),
+      flagCentre.clone().add(V(-0.1, -0.2, 11.5)),
+      flagCentre.clone().add(V(-0.9, 0.4, 15.5)),
       flagCentre.clone().add(V(-5, -3, 24)),
       V(-18, 20, 44),
       V(-30, 9, 52),
@@ -1026,13 +1432,16 @@ export default function MaplePirateAd() {
       const s = t / 1000;
       // the ship runs east, rolling and pitching in the swell
       ship.position.set(SHIP_V * s, 0, 0);
-      hullG.rotation.set(Math.sin(s * 0.9) * 0.035, 0, Math.sin(s * 0.62 + 1) * 0.018);
+      const kick = t > T_FIRE ? Math.min(1, (t - T_FIRE) / 1500) * Math.exp(-Math.max(0, t - T_FIRE - 1500) / 1200) : 0;
+      hullG.rotation.set(Math.sin(s * 0.9) * 0.035 - kick * 0.045, 0, Math.sin(s * 0.62 + 1) * 0.018);
       hullG.position.y = Math.sin(s * 0.75) * 0.14 - 0.05;
       water.material.uniforms.time.value = s * 0.7;
       foamTex.offset.x = -s * 0.12;
       wakeTex.offset.y = s * 0.05;
       waveFlag(t);
+      wavePennant(t);
       shapeSails(t);
+      broadside(t);
       for (const G2 of gulls) {
         const a = s * G2.sp + G2.ph;
         G2.g.position.set(G2.cx + Math.cos(a) * G2.r, G2.h + Math.sin(s * 0.7 + G2.ph) * 1.2, Math.sin(a) * G2.r);
@@ -1055,6 +1464,11 @@ export default function MaplePirateAd() {
       // close in, a touch of the hull's sway so the flag feels attached
       const swayIn = 1 - ss(900, 4000, t);
       camera.position.y += Math.sin(s * 0.9) * 0.6 * swayIn;
+      if (t > T_FIRE) {
+        const a = 0.07 * Math.min(1, (t - T_FIRE) / 300) * Math.exp(-Math.max(0, t - T_FIRE - guns.length * GUN_GAP) / 500);
+        camera.position.x += Math.sin(t * 0.09) * a;
+        camera.position.y += Math.cos(t * 0.077) * a;
+      }
       camera.lookAt(lookLocal.add(origin));
       camera.fov = lerp(36, 42, ss(900, 8600, t));
       camera.updateProjectionMatrix();
