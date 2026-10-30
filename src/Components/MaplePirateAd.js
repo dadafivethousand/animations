@@ -38,7 +38,7 @@ function mulberry32(a) {
   };
 }
 
-const END_MS = 11500;
+const END_MS = 9100;
 // the second scene: a Maple warship runs in from the horizon and draws up
 // alongside the pirate
 // It picks up on the pirate film's last frame (same clock, same camera), so
@@ -49,7 +49,9 @@ const N_PUNCH1 = 1100;
 const N_BOTH0 = 5600; // from here the frame opens to hold both ships
 // the third cut: picks up where the navy cut ends. The frame opens to the
 // whole pirate, the destroyer fires, the pirate burns and goes down.
-const STRIKE_END = 12500;
+const STRIKE_END = 14600;
+const S_SIDE0 = 11300; // the closing punch-in on the destroyer's flank
+const S_SIDE1 = 12700;
 const S_ZOOM1 = 1600;
 const S_LAUNCH = [1500, 1800, 2100, 2400];
 const S_FLIGHT = 2200;
@@ -1666,6 +1668,13 @@ export default function MaplePirateAd({ variant = "pirate" }) {
             look: pose.look.clone().lerp(pirateC.clone().lerp(centre, 0.22 * (1 - ss(S_SINK0, S_SINK0 + 2500, t3)) + 0.78 * ss(9000, 11800, t3)), wide).add(V(0, -Math.min(r.sinkY, 12) * 0.35, 0)),
             fov: lerp(pose.fov, Math.max(pose.fov, 54), wide),
           };
+          // close on the destroyer's side: name, site, offer, QR, all readable
+          const flank = A.pos.clone().sub(P);
+          flank.addScaledVector(hdg, -flank.dot(hdg)).setY(0).normalize();
+          const sideLook = P.clone().add(V(0, 8.5, 0)).addScaledVector(hdg, 1.5);
+          const sidePos = sideLook.clone().addScaledVector(flank, 62).add(V(0, 4, 0)).addScaledVector(hdg, 8);
+          const side = { pos: sidePos, look: sideLook, fov: fitFov(62, ws.WLw * 0.74) };
+          pose = mixPose(pose, side, ss(S_SIDE0, S_SIDE1, t3));
           pose.pos.x += Math.sin(t3 * 0.09) * r.shake;
           pose.pos.y += Math.cos(t3 * 0.077) * r.shake;
         }
