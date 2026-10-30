@@ -18,6 +18,8 @@ import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 import "../Stylesheets/MaplePirateAd.css";
+import { buildWarship } from "./MapleWarship";
+import mapleLogo from "../Images/maple-logo.png";
 
 const clamp01 = (x) => Math.min(1, Math.max(0, x));
 const ss = (a, b, x) => {
@@ -38,11 +40,14 @@ function mulberry32(a) {
 const END_MS = 11500;
 // the second scene: a Maple warship runs in from the horizon and draws up
 // alongside the pirate
-const NAVY_END = 12500;
-const NAVY_D0 = 330; // how far ahead of the pirate it starts, m
-const NAVY_D1 = 18; // and where it stops
-const NAVY_Z0 = -125;
-const NAVY_Z1 = -32;
+// It picks up on the pirate film's last frame (same clock, same camera), so
+// the two cut together as one. Times below are from the start of this cut.
+const NAVY_END = 15000;
+const N_PUNCH0 = 1300; // the camera snaps onto the warship far off
+const N_PUNCH1 = 2000;
+const N_FLY1 = 4600; // ...flies out to it
+const N_ORBIT1 = 10600; // ...and works round it
+const N_WIDE1 = 13400; // then pulls back to both ships
 const SHIP_V = 2.4; // m/s
 
 // ---------------- the hull, as functions of x (bow at +18) ----------------
@@ -1174,405 +1179,13 @@ export default function MaplePirateAd({ variant = "pirate" }) {
     });
 
     // ---- the Maple warship (second scene only) ----
-    let warship = null;
-    let wsFoam = null;
-    let wsWake = null;
+    let ws = null;
     let wsSpray = null;
     if (navy) {
-      const WL = 66; // length
-      const tW = (x) => (x + WL / 2) / WL; // 0 stern .. 1 bow
-      const beam = (x) => {
-        const t = tW(x);
-        if (t > 0.5) return 7.2 * Math.pow(Math.max(0, 1 - Math.pow((t - 0.5) / 0.5, 2)), 0.62);
-        return 7.2 * (0.86 + 0.14 * Math.sin((t / 0.5) * (Math.PI / 2)));
-      };
-      const deckY = (x) => 4.6 + 2.2 * Math.pow(Math.max(0, (tW(x) - 0.55) / 0.45), 1.8);
-      const keel = (x) => {
-        const t = tW(x);
-        // a raked stem: the keel climbs fast over the last tenth
-        return -3.4 + (t > 0.88 ? 7.6 * Math.pow((t - 0.88) / 0.12, 1.6) : 0) + (t < 0.03 ? 1.2 * (0.03 - t) / 0.03 : 0);
-      };
-      const flare = (v) => 0.42 + 0.58 * Math.pow(v, 0.55) * (1 + 0.06 * v); // V bottom, flared sides
-      const SW = 2048;
-      // the Maple truck wrap: royal blue ground, mid blue and navy blobs
-      const camoCanvas = (w, h, seed, scale) =>
-        canvas(w, h, (x) => {
-          const r = mulberry32(seed);
-          x.fillStyle = "#207eff";
-          x.fillRect(0, 0, w, h);
-          const blob = (cx0, cy0, rad, stretch, rot) => {
-            const n = 12;
-            const pts = [];
-            for (let i = 0; i < n; i++) {
-              const a = (i / n) * Math.PI * 2;
-              const rr = rad * (0.6 + r() * 0.65);
-              const px = Math.cos(a) * rr * stretch;
-              const py = Math.sin(a) * rr;
-              pts.push([cx0 + px * Math.cos(rot) - py * Math.sin(rot), cy0 + px * Math.sin(rot) + py * Math.cos(rot)]);
-            }
-            x.beginPath();
-            const mid = (p2, q) => [(p2[0] + q[0]) / 2, (p2[1] + q[1]) / 2];
-            const m0 = mid(pts[n - 1], pts[0]);
-            x.moveTo(m0[0], m0[1]);
-            for (let i = 0; i < n; i++) {
-              const m = mid(pts[i], pts[(i + 1) % n]);
-              x.quadraticCurveTo(pts[i][0], pts[i][1], m[0], m[1]);
-            }
-            x.fill();
-          };
-          const layer = (colour, count, rMin, rMax) => {
-            x.fillStyle = colour;
-            for (let i = 0; i < count; i++) {
-              const rad = (rMin + r() * (rMax - rMin)) * scale;
-              const cx0 = r() * w;
-              const cy0 = r() * h;
-              const st = 1.1 + r() * 0.7;
-              const rot = (r() - 0.5) * 1.2;
-              blob(cx0, cy0, rad, st, rot);
-              blob(cx0 + (r() - 0.5) * rad * 2.2, cy0 + (r() - 0.5) * rad, rad * 0.6, st, rot);
-            }
-          };
-          const k = (w * h) / (SW * SW);
-          x.filter = "blur(1.5px)";
-          layer("#1353af", Math.ceil(46 * k / (scale * scale)), 70, 150);
-          layer("#0a2354", Math.ceil(40 * k / (scale * scale)), 60, 130);
-          layer("#1353af", Math.ceil(20 * k / (scale * scale)), 30, 70);
-          x.filter = "none";
-        });
-      // hull sides: camo, MAPLE JIU-JITSU big midships, the hull number at the bow
-      const HX2U = (x) => tW(x) * 4096;
-      const HY2V = (y) => (1 - (y + 4) / 11.5) * 1024;
-      const sideCanvas = () => {
-        const c = camoCanvas(4096, 1024, 4242, 0.9);
-        const g = c.getContext("2d");
-        // boot-top: a dark band at the waterline, then black below
-        g.fillStyle = "#0b0e14";
-        g.fillRect(0, HY2V(0.35), 4096, 1024);
-        g.fillStyle = "#e9eef5";
-        g.fillRect(0, HY2V(0.5), 4096, HY2V(0.35) - HY2V(0.5));
-        // the name, white, heavy, with a navy keyline
-        g.textAlign = "center";
-        g.textBaseline = "middle";
-        g.font = "900 300px Inter, Arial Black, Arial";
-        g.lineWidth = 18;
-        g.strokeStyle = "#0a2354";
-        g.strokeText("MAPLE JIU-JITSU", HX2U(-3), HY2V(2.6));
-        g.fillStyle = "#ffffff";
-        g.fillText("MAPLE JIU-JITSU", HX2U(-3), HY2V(2.6));
-        // hull number up at the bow
-        g.font = "900 230px Inter, Arial Black, Arial";
-        g.strokeText("MJJ 01", HX2U(24.5), HY2V(4.4));
-        g.fillText("MJJ 01", HX2U(24.5), HY2V(4.4));
-        return c;
-      };
-      const sideTex = tex(sideCanvas(), { aniso });
-      const sideMat = new THREE.MeshStandardMaterial({ map: sideTex, roughness: 0.55, metalness: 0.25, side: THREE.DoubleSide });
-      warship = new THREE.Group();
-      const wsHull = new THREE.Group();
-      warship.add(wsHull);
-      scene.add(warship);
-      // two lofted sides, each with its own UVs so the name reads from outside
-      for (const sd of [1, -1]) {
-        const NX = 120;
-        const NY = 22;
-        const pos = [];
-        const uv = [];
-        const idx = [];
-        for (let i = 0; i <= NX; i++) {
-          const x = -WL / 2 + (WL * i) / NX;
-          const b = beam(x);
-          const k = keel(x);
-          const d = deckY(x);
-          for (let j = 0; j <= NY; j++) {
-            const v = j / NY;
-            const y = lerp(k, d, v);
-            pos.push(x, y, sd * Math.max(0.02, b * flare(v)));
-            const u = tW(x);
-            uv.push(sd > 0 ? u : 1 - u, (y + 4) / 11.5);
-          }
-        }
-        for (let i = 0; i < NX; i++)
-          for (let j = 0; j < NY; j++) {
-            const a = i * (NY + 1) + j;
-            const b2 = a + NY + 1;
-            if (sd > 0) idx.push(a, b2, a + 1, a + 1, b2, b2 + 1);
-            else idx.push(a, a + 1, b2, a + 1, b2 + 1, b2);
-          }
-        const geo = new THREE.BufferGeometry();
-        geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
-        geo.setAttribute("uv", new THREE.Float32BufferAttribute(uv, 2));
-        geo.setIndex(idx);
-        geo.computeVertexNormals();
-        const m = new THREE.Mesh(geo, sideMat);
-        m.castShadow = true;
-        m.receiveShadow = true;
-        wsHull.add(m);
-      }
-      // transom
-      {
-        const x = -WL / 2;
-        const shape = new THREE.Shape();
-        const N = 16;
-        for (let j = 0; j <= N; j++) {
-          const v = j / N;
-          const y = lerp(keel(x), deckY(x), v);
-          const z = beam(x) * flare(v);
-          j ? shape.lineTo(z, y) : shape.moveTo(z, y);
-        }
-        for (let j = N; j >= 0; j--) {
-          const v = j / N;
-          shape.lineTo(-beam(x) * flare(v), lerp(keel(x), deckY(x), v));
-        }
-        const tr = new THREE.Mesh(new THREE.ShapeGeometry(shape), new THREE.MeshStandardMaterial({ color: "#123d86", roughness: 0.6, side: THREE.DoubleSide }));
-        tr.rotation.y = -Math.PI / 2;
-        tr.position.x = x;
-        wsHull.add(tr);
-      }
-      // the deck: dark non-skid, following the sheer
-      const deckGrey = new THREE.MeshStandardMaterial({ color: "#2b3038", roughness: 0.95 });
-      {
-        const N = 80;
-        const pos = [];
-        const idx = [];
-        for (let i = 0; i <= N; i++) {
-          const x = -WL / 2 + (WL * i) / N;
-          const b = Math.max(0.02, beam(x) * flare(1) - 0.05);
-          pos.push(x, deckY(x), -b, x, deckY(x), b);
-          if (i < N) idx.push(2 * i, 2 * i + 1, 2 * i + 2, 2 * i + 2, 2 * i + 1, 2 * i + 3);
-        }
-        const geo = new THREE.BufferGeometry();
-        geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
-        geo.setIndex(idx);
-        geo.computeVertexNormals();
-        const dk = new THREE.Mesh(geo, deckGrey);
-        dk.receiveShadow = true;
-        wsHull.add(dk);
-      }
-      // superstructure: tapered, faceted blocks in the same camo
-      const camoTex = tex(camoCanvas(1024, 1024, 77, 0.55), { aniso, repeat: [1, 1] });
-      const camoMat = new THREE.MeshStandardMaterial({ map: camoTex, roughness: 0.55, metalness: 0.25 });
-      const darkMat = new THREE.MeshStandardMaterial({ color: "#0b111c", roughness: 0.4, metalness: 0.5 });
-      const glassMat = new THREE.MeshStandardMaterial({ color: "#0a1220", roughness: 0.1, metalness: 0.6, emissive: "#16304e", emissiveIntensity: 0.4 });
-      const block = (x0, x1, y0, h, w, taper = 0.82, mat = camoMat) => {
-        const geo = new THREE.BoxGeometry(x1 - x0, h, w, 1, 1, 1);
-        const p2 = geo.attributes.position;
-        for (let i = 0; i < p2.count; i++) if (p2.getY(i) > 0) {
-          p2.setZ(i, p2.getZ(i) * taper);
-          p2.setX(i, p2.getX(i) * (0.94 + 0.06 * taper));
-        }
-        geo.computeVertexNormals();
-        const m = new THREE.Mesh(geo, mat);
-        m.position.set((x0 + x1) / 2, y0 + h / 2, 0);
-        m.castShadow = true;
-        m.receiveShadow = true;
-        wsHull.add(m);
-        return m;
-      };
-      const D0 = 4.62;
-      block(-14, 12, D0, 4.2, 11.2, 0.86); // main deckhouse
-      block(2, 12.5, D0 + 4.2, 3.2, 9.4, 0.84); // bridge level
-      // the bridge windows: a dark band, angled glass
-      const win = new THREE.Mesh(new THREE.BoxGeometry(0.3, 1.1, 8.0), glassMat);
-      win.position.set(12.2, D0 + 6.3, 0);
-      win.rotation.z = -0.25;
-      wsHull.add(win);
-      block(0, 9, D0 + 7.4, 2.4, 6.2, 0.8); // mast base
-      // the integrated mast: a tall faceted pyramid with radar faces
-      {
-        const geo = new THREE.CylinderGeometry(1.1, 2.9, 11, 4, 1);
-        geo.rotateY(Math.PI / 4);
-        const m = new THREE.Mesh(geo, camoMat);
-        m.position.set(4.5, D0 + 9.8 + 5.5, 0);
-        m.castShadow = true;
-        wsHull.add(m);
-        for (const [dx, dz, ry] of [[1.6, 0, Math.PI / 2], [-1.6, 0, -Math.PI / 2], [0, 1.6, 0], [0, -1.6, Math.PI]]) {
-          const panel = new THREE.Mesh(new THREE.PlaneGeometry(2.2, 2.2), darkMat);
-          panel.position.set(4.5 + dx, D0 + 13.2, dz);
-          panel.rotation.y = ry;
-          panel.rotation.x = 0;
-          wsHull.add(panel);
-        }
-        const dome = new THREE.Mesh(new THREE.SphereGeometry(0.9, 20, 14), new THREE.MeshStandardMaterial({ color: "#dfe6ee", roughness: 0.4 }));
-        dome.position.set(4.5, D0 + 21.6, 0);
-        wsHull.add(dome);
-        const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.08, 4.5, 8), darkMat);
-        pole.position.set(4.5, D0 + 24.4, 0);
-        wsHull.add(pole);
-        // yardarm with whips
-        const yard = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.15, 5.5), darkMat);
-        yard.position.set(4.5, D0 + 19.6, 0);
-        wsHull.add(yard);
-      }
-      // funnel, raked
-      {
-        const geo = new THREE.BoxGeometry(5.5, 5.2, 4.4);
-        const p2 = geo.attributes.position;
-        for (let i = 0; i < p2.count; i++) if (p2.getY(i) > 0) {
-          p2.setX(i, p2.getX(i) * 0.75 - 0.9);
-          p2.setZ(i, p2.getZ(i) * 0.8);
-        }
-        geo.computeVertexNormals();
-        const f = new THREE.Mesh(geo, camoMat);
-        f.position.set(-7.5, D0 + 4.2 + 2.6, 0);
-        f.castShadow = true;
-        wsHull.add(f);
-        const cap = new THREE.Mesh(new THREE.BoxGeometry(3.6, 0.5, 3.2), darkMat);
-        cap.position.set(-8.8, D0 + 9.6, 0);
-        wsHull.add(cap);
-      }
-      // the bow gun: a faceted stealth turret and a long barrel
-      {
-        const tur = new THREE.Group();
-        const geo = new THREE.CylinderGeometry(1.5, 2.2, 1.6, 6);
-        const p2 = geo.attributes.position;
-        for (let i = 0; i < p2.count; i++) p2.setX(i, p2.getX(i) * 1.25);
-        geo.computeVertexNormals();
-        const body = new THREE.Mesh(geo, camoMat);
-        body.castShadow = true;
-        tur.add(body);
-        const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.22, 6.5, 14), darkMat);
-        barrel.rotation.z = -Math.PI / 2 + 0.06;
-        barrel.position.set(3.6, 0.25, 0);
-        barrel.castShadow = true;
-        tur.add(barrel);
-        tur.position.set(19, deckY(19) + 0.8, 0);
-        wsHull.add(tur);
-      }
-      // missile cells: a grey plate scored into a grid, forward of the bridge
-      {
-        const vls = tex(canvas(256, 256, (g, w, h) => {
-          g.fillStyle = "#3a414b";
-          g.fillRect(0, 0, w, h);
-          g.strokeStyle = "#1b1f25";
-          g.lineWidth = 3;
-          for (let k2 = 0; k2 <= 8; k2++) {
-            g.beginPath();
-            g.moveTo((k2 * w) / 8, 0);
-            g.lineTo((k2 * w) / 8, h);
-            g.stroke();
-            g.beginPath();
-            g.moveTo(0, (k2 * h) / 8);
-            g.lineTo(w, (k2 * h) / 8);
-            g.stroke();
-          }
-        }));
-        const pl = new THREE.Mesh(new THREE.BoxGeometry(4.6, 0.12, 4.6), new THREE.MeshStandardMaterial({ map: vls, roughness: 0.8 }));
-        pl.position.set(15, deckY(15) + 0.06, 0);
-        wsHull.add(pl);
-      }
-      // the flight deck aft, with its markings
-      {
-        const fd = tex(canvas(512, 512, (g, w, h) => {
-          g.fillStyle = "#2b3038";
-          g.fillRect(0, 0, w, h);
-          g.strokeStyle = "#f2f2f2";
-          g.lineWidth = 10;
-          g.beginPath();
-          g.arc(w / 2, h / 2, w * 0.33, 0, Math.PI * 2);
-          g.stroke();
-          g.fillStyle = "#f2f2f2";
-          g.font = "900 200px Inter, Arial";
-          g.textAlign = "center";
-          g.textBaseline = "middle";
-          g.fillText("H", w / 2, h / 2 + 8);
-          g.fillStyle = "#e9c46a";
-          g.fillRect(w / 2 - 4, 0, 8, h);
-        }));
-        const pad = new THREE.Mesh(new THREE.PlaneGeometry(12, 11), new THREE.MeshStandardMaterial({ map: fd, roughness: 0.9 }));
-        pad.rotation.x = -Math.PI / 2;
-        pad.rotation.z = Math.PI / 2;
-        pad.position.set(-24.5, deckY(-24.5) + 0.03, 0);
-        wsHull.add(pad);
-      }
-      // guard rails and whip antennas
-      const railMat = new THREE.LineBasicMaterial({ color: "#c8d0da", transparent: true, opacity: 0.8 });
-      for (const sd of [-1, 1]) {
-        const pts = [];
-        for (let i = 0; i <= 60; i++) {
-          const x = -WL / 2 + (WL * i) / 60;
-          pts.push(V(x, deckY(x) + 1.0, sd * Math.max(0.02, beam(x) * flare(1) - 0.1)));
-        }
-        wsHull.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), railMat));
-      }
-      for (const [x, z] of [[-2, 3.5], [-2, -3.5], [8, 3.2], [8, -3.2]]) {
-        const a = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.06, 6, 6), darkMat);
-        a.position.set(x, D0 + 4.2 + 3, z);
-        a.rotation.z = 0.12;
-        wsHull.add(a);
-      }
-      // the Canadian ensign at the stern staff
-      {
-        const flagTexW = tex(canvas(256, 128, (g, w, h) => {
-          g.fillStyle = "#d52b1e";
-          g.fillRect(0, 0, w, h);
-          g.fillStyle = "#ffffff";
-          g.fillRect(w / 4, 0, w / 2, h);
-          g.fillStyle = "#d52b1e";
-          g.beginPath();
-          g.moveTo(w / 2, h * 0.14);
-          g.lineTo(w * 0.56, h * 0.36);
-          g.lineTo(w * 0.66, h * 0.3);
-          g.lineTo(w * 0.62, h * 0.52);
-          g.lineTo(w * 0.69, h * 0.55);
-          g.lineTo(w * 0.53, h * 0.68);
-          g.lineTo(w * 0.51, h * 0.86);
-          g.lineTo(w * 0.49, h * 0.86);
-          g.lineTo(w * 0.47, h * 0.68);
-          g.lineTo(w * 0.31, h * 0.55);
-          g.lineTo(w * 0.38, h * 0.52);
-          g.lineTo(w * 0.34, h * 0.3);
-          g.lineTo(w * 0.44, h * 0.36);
-          g.closePath();
-          g.fill();
-        }));
-        const staff = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.06, 5, 8), darkMat);
-        staff.position.set(-WL / 2 + 0.5, deckY(-WL / 2) + 2.5, 0);
-        wsHull.add(staff);
-        const en = new THREE.Mesh(new THREE.PlaneGeometry(2.6, 1.3, 12, 2), new THREE.MeshStandardMaterial({ map: flagTexW, side: THREE.DoubleSide, roughness: 0.9 }));
-        en.position.set(-WL / 2 - 0.85, deckY(-WL / 2) + 4.3, 0);
-        en.userData.rest = en.geometry.attributes.position.array.slice();
-        wsHull.add(en);
-        warship.userData.ensign = en;
-      }
-      // foam along the waterline, a white bow wave, the wake
-      const wf = [];
-      for (const sd of [-1, 1]) {
-        const N = 60;
-        const pos = [];
-        const uv = [];
-        const idx = [];
-        for (let i = 0; i <= N; i++) {
-          const x = -WL / 2 + (WL * i) / N;
-          const hw = beam(x) * flare(clamp01((0.15 - keel(x)) / (deckY(x) - keel(x))));
-          const width = 0.8 + 4.5 * Math.pow(Math.max(0, tW(x) - 0.6) / 0.4, 1.4);
-          pos.push(x, 0.07, sd * (hw + 0.05), x, 0.07, sd * (hw + 0.05 + width));
-          uv.push(i / N, 0, i / N, 1);
-          if (i < N) idx.push(2 * i, 2 * i + 2, 2 * i + 1, 2 * i + 1, 2 * i + 2, 2 * i + 3);
-        }
-        const geo = new THREE.BufferGeometry();
-        geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
-        geo.setAttribute("uv", new THREE.Float32BufferAttribute(uv, 2));
-        geo.setIndex(idx);
-        const m = new THREE.Mesh(geo, foamMat.clone());
-        m.renderOrder = 2;
-        warship.add(m);
-        wf.push(m);
-      }
-      wsFoam = wf;
-      const wwGeo = new THREE.PlaneGeometry(1, 1, 1, 24);
-      {
-        const p2 = wwGeo.attributes.position;
-        for (let i = 0; i < p2.count; i++) {
-          const along = p2.getY(i) + 0.5;
-          p2.setXYZ(i, -WL / 2 - along * 160, 0.06, p2.getX(i) * (14 + along * 50));
-        }
-        const uvA = wwGeo.attributes.uv;
-        for (let i = 0; i < uvA.count; i++) uvA.setXY(i, uvA.getX(i), 1 - uvA.getY(i));
-      }
-      wsWake = new THREE.Mesh(wwGeo, new THREE.MeshBasicMaterial({ map: wakeTex, alphaMap: wakeAlpha, transparent: true, depthWrite: false, color: "#eef4f4", opacity: 0.9 }));
-      wsWake.renderOrder = 2;
-      warship.add(wsWake);
-      // bow spray
+      const logoTex = new THREE.TextureLoader().load(mapleLogo);
+      logoTex.colorSpace = THREE.SRGBColorSpace;
+      ws = buildWarship({ aniso, logoTex, foamMat, wakeTex, wakeAlpha });
+      scene.add(ws.group);
       const sprayTex = tex(canvas(64, 64, (g, w) => {
         const gr = g.createRadialGradient(w / 2, w / 2, 0, w / 2, w / 2, w / 2);
         gr.addColorStop(0, "rgba(255,255,255,0.9)");
@@ -1580,26 +1193,26 @@ export default function MaplePirateAd({ variant = "pirate" }) {
         g.fillStyle = gr;
         g.fillRect(0, 0, w, w);
       }));
-      wsSpray = new THREE.InstancedMesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ map: sprayTex, transparent: true, depthWrite: false, color: "#f4f8fa" }), 140);
+      wsSpray = new THREE.InstancedMesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ map: sprayTex, transparent: true, depthWrite: false, color: "#f4f8fa" }), 160);
       wsSpray.frustumCulled = false;
       wsSpray.renderOrder = 3;
       scene.add(wsSpray);
-      wsSpray.userData.seed = Array.from({ length: 140 }, () => ({ sd: rnd() < 0.5 ? -1 : 1, ph: rnd(), out: 2 + rnd() * 5, up: 1.5 + rnd() * 3.5, sz: 0.8 + rnd() * 1.8 }));
-      warship.userData.WL = WL;
-      warship.userData.beam = beam;
-      warship.userData.flare = flare;
+      wsSpray.userData.seed = Array.from({ length: 160 }, () => ({ sd: rnd() < 0.5 ? -1 : 1, ph: rnd(), out: 2 + rnd() * 6, up: 1.5 + rnd() * 4, sz: 0.8 + rnd() * 2 }));
     }
-    // warship placement at time t: in front of the pirate, closing and slowing
-    const navyK = (t) => {
-      const k = clamp01(t / (NAVY_END - 400));
-      return 1 - Math.pow(1 - k, 2.2);
+    // the warship's track, in the pirate's frame: in off the horizon behind
+    // it, curving down to station a few lengths off its quarter
+    const NP0 = V(430, 0, -250);
+    const NP1 = V(90, 0, -190);
+    const NP2 = V(24, 0, -40);
+    const navyK = (tn) => {
+      const u = clamp01(tn / (NAVY_END - 500));
+      return 1 - Math.pow(1 - u, 2.1);
     };
-    function warshipAt(t) {
-      const k = navyK(t);
-      const px = SHIP_V * (t / 1000);
-      const x = px + lerp(NAVY_D0, NAVY_D1, k);
-      const z = lerp(NAVY_Z0, NAVY_Z1, Math.pow(k, 0.8));
-      return V(x, 0, z);
+    function warshipRel(tn) {
+      const k = navyK(tn);
+      const a = NP0.clone().lerp(NP1, k);
+      const b = NP1.clone().lerp(NP2, k);
+      return a.lerp(b, k);
     }
 
     // ---- post ----
@@ -1623,7 +1236,32 @@ export default function MaplePirateAd({ variant = "pirate" }) {
     ]);
     const camKey = (k) => path.getPointAt(k);
 
-    function renderAt(t) {
+    // the pirate film's camera, as a pose at time t (it keeps drifting after
+    // the film ends, which is where the navy cut takes over)
+    function pirateCam(t, s) {
+      const k = ss(900, 8600, t);
+      const kk = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+      const local = camKey(kk);
+      const lookLocal = flagCentre.clone().lerp(shipCentre, Math.pow(ss(2200, 8600, t), 1.6));
+      const drift = Math.max(0, t - 8600) / 1000;
+      local.add(V(-drift * 0.4, drift * 0.1, drift * 0.6));
+      const origin = V(ship.position.x, hullG.position.y * 0.6, 0);
+      const pos = local.add(origin);
+      const swayIn = 1 - ss(900, 4000, t);
+      pos.y += Math.sin(s * 0.9) * 0.6 * swayIn;
+      return { pos, look: lookLocal.add(origin), fov: lerp(36, 42, ss(900, 8600, t)) };
+    }
+    const fitFov = (dist, len) => {
+      // vertical fov that puts len metres across ~80% of the tall frame's width
+      const hHalf = Math.atan((len * 0.5) / 0.8 / dist);
+      return THREE.MathUtils.radToDeg(2 * Math.atan(Math.tan(hHalf) / camera.aspect));
+    };
+    const mixPose = (a, b, w) => ({ pos: a.pos.clone().lerp(b.pos, w), look: a.look.clone().lerp(b.look, w), fov: lerp(a.fov, b.fov, w) });
+
+    function renderAt(tIn) {
+      // the navy cut runs on from the pirate film's last frame: one clock
+      const tn = tIn;
+      const t = navy ? tIn + END_MS : tIn;
       const s = t / 1000;
       // the ship runs east, rolling and pitching in the swell
       ship.position.set(SHIP_V * s, 0, 0);
@@ -1642,88 +1280,98 @@ export default function MaplePirateAd({ variant = "pirate" }) {
         for (const w of G2.wings) w.wg.rotation.x = w.s * flap * 0.5;
       }
 
-      if (navy && warship) {
-        const p0 = warshipAt(t);
-        const p1 = warshipAt(t + 50);
-        warship.position.copy(p0);
-        // heading along its track: it comes in bow first, toward -x
-        // steer by its approach (relative to the pirate), not its ground track:
-        // as it matches the pirate's speed the ground track turns round
-        const dx = p1.x - p0.x - SHIP_V * 0.05;
-        const dz = p1.z - p0.z;
-        const head = Math.atan2(dz, -Math.min(dx, -1e-3)) + Math.PI;
-        warship.rotation.y = head;
-        const spd = Math.hypot(dx, dz) / 0.05;
-        warship.children[0].rotation.set(Math.sin(s * 0.7 + 2) * 0.012, 0, -0.004 * Math.min(1, spd / 30) + Math.sin(s * 0.5) * 0.006);
-        warship.children[0].position.y = Math.sin(s * 0.6 + 1) * 0.12;
-        const fast = clamp01(spd / 35);
-        for (const f of wsFoam) f.material.opacity = 0.55 + 0.4 * fast;
-        wsWake.material.opacity = 0.35 + 0.6 * fast;
-        const en = warship.userData.ensign;
-        {
-          const p2 = en.geometry.attributes.position;
-          const rest = en.userData.rest;
-          for (let i = 0; i < p2.count; i++) {
-            const x0 = rest[i * 3] + 1.3;
-            p2.setXYZ(i, rest[i * 3], rest[i * 3 + 1], 0.25 * (x0 / 2.6) * Math.sin(x0 * 2.4 - s * 9));
-          }
-          p2.needsUpdate = true;
-        }
-        // spray thrown off the bow, more of it the faster it goes
-        warship.updateMatrixWorld(true);
-        const WL = warship.userData.WL;
+      if (navy && ws) {
+        // ---- the warship ----
+        const rel0 = warshipRel(tn);
+        const rel1 = warshipRel(tn + 50);
+        const P = V(ship.position.x + rel0.x, 0, rel0.z);
+        const vx = (rel1.x - rel0.x) / 0.05 + SHIP_V;
+        const vz = (rel1.z - rel0.z) / 0.05;
+        ws.group.position.copy(P);
+        ws.group.rotation.y = Math.atan2(-vz, vx);
+        const relSpd = Math.hypot(rel1.x - rel0.x, rel1.z - rel0.z) / 0.05;
+        const fast = clamp01(relSpd / 32);
+        ws.hull.rotation.set(Math.sin(s * 0.7 + 2) * 0.012 - 0.015 * fast * Math.sign(-vz), 0, -0.006 * fast + Math.sin(s * 0.5) * 0.006);
+        ws.hull.position.y = Math.sin(s * 0.6 + 1) * 0.12;
+        ws.update(tn, fast);
+        ws.group.updateMatrixWorld(true);
         const dmy2 = new THREE.Object3D();
         const seeds = wsSpray.userData.seed;
         for (let i = 0; i < seeds.length; i++) {
           const S2 = seeds[i];
           const u = (s * 1.4 + S2.ph) % 1;
-          const local = V(WL / 2 - 6 - u * 10, 0.6 + S2.up * Math.sin(Math.PI * u) * fast, S2.sd * (warship.userData.beam(WL / 2 - 8) * 0.8 + S2.out * u));
-          dmy2.position.copy(local).applyMatrix4(warship.matrixWorld);
+          const x = ws.WL / 2 - 6 - u * 12;
+          const local = V(x, 0.4 + S2.up * 0.6 * Math.sin(Math.PI * u) * fast, S2.sd * (ws.halfAt(x, 0.5) + S2.out * u));
+          dmy2.position.copy(local).applyMatrix4(ws.group.matrixWorld);
           dmy2.quaternion.copy(camera.quaternion);
-          dmy2.scale.setScalar(S2.sz * (0.5 + u) * (0.3 + 0.7 * fast));
+          dmy2.scale.setScalar(S2.sz * 0.55 * (0.5 + u) * (0.3 + 0.7 * fast));
           dmy2.updateMatrix();
           wsSpray.setMatrixAt(i, dmy2.matrix);
         }
         wsSpray.instanceMatrix.needsUpdate = true;
-        wsSpray.material.opacity = 0.75 * fast;
+        wsSpray.material.opacity = 0.8 * fast;
 
-        // camera: high on the pirate's quarter, looking ahead past its bow to
-        // the warship coming in; easing round as it closes so both stay framed
-        const kk = navyK(t);
+        // ---- the camera ----
+        const A = pirateCam(t, s); // where the pirate film left us
+        const centre = P.clone().add(V(0, 9, 0));
+        const B = { pos: A.pos.clone(), look: centre, fov: fitFov(A.pos.distanceTo(centre), ws.WL) };
+        // orbit: in the warship's own frame, from off the bow round to the quarter
+        const yaw = ws.group.rotation.y;
+        const orbit = (tt) => {
+          const k = ss(N_PUNCH1, N_ORBIT1, tt);
+          const th = lerp(0.36, 0.78, k);
+          const r = lerp(108, 100, k);
+          const lx = Math.cos(th) * r;
+          const lz = Math.sin(th) * r;
+          const off = V(lx * Math.cos(yaw) + lz * Math.sin(yaw), lerp(30, 24, k), -lx * Math.sin(yaw) + lz * Math.cos(yaw));
+          // aim a little ahead of midships so the bow stays in the tall frame
+          return { pos: P.clone().add(off), look: P.clone().add(V(Math.cos(yaw) * 9, 9, -Math.sin(yaw) * 9)), fov: 44 };
+        };
+        const C = orbit(tn);
         const origin = V(ship.position.x, 0, 0);
-        // high behind the pirate, looking down its track: the horizon sits
-        // high in the tall frame, so the warship comes down the picture
-        // from it and draws up on the pirate's left
-        camera.position.copy(origin).add(V(lerp(-82, -92, kk), lerp(40, 40, kk), lerp(2, 12, kk)));
-        const look = origin.clone().add(V(lerp(70, 34, kk), lerp(2, 3, kk), lerp(-24, -22, kk)));
-        camera.lookAt(look);
-        camera.fov = 50;
+        const Dw = { pos: origin.clone().add(V(-46, 44, 132)), look: origin.clone().add(V(14, 6, -18)), fov: 42 };
+        let pose = A;
+        if (tn >= N_PUNCH0) pose = mixPose(A, B, ss(N_PUNCH0, N_PUNCH1, tn));
+        if (tn >= N_PUNCH1) {
+          // fly out to it: position whips across, the lens opens up as it closes
+          const w = ss(N_PUNCH1, N_FLY1, tn);
+          const w2 = w * w * (3 - 2 * w);
+          pose = { pos: B.pos.clone().lerp(C.pos, w2), look: B.look.clone().lerp(C.look, w), fov: lerp(B.fov, C.fov, Math.pow(w, 0.6)) };
+          // arc up and over the pirate's rigging on the way out
+          pose.pos.y += Math.sin(Math.PI * w2) * 70;
+          // keep the ship framed while the fov opens: track its fit until we are close
+          const fit = fitFov(pose.pos.distanceTo(centre), ws.WL * 1.15);
+          pose.fov = Math.max(C.fov, Math.min(pose.fov, fit));
+        }
+        if (tn >= N_FLY1) pose = C;
+        if (tn >= N_ORBIT1) pose = mixPose(C, Dw, ss(N_ORBIT1, N_WIDE1, tn));
+        if (tn >= N_WIDE1) {
+          pose = Dw;
+          pose.pos.add(V(-(tn - N_WIDE1) / 1000 * 1.2, 0, (tn - N_WIDE1) / 1000 * 1.6));
+        }
+        camera.position.copy(pose.pos);
+        camera.lookAt(pose.look);
+        camera.fov = pose.fov;
         camera.updateProjectionMatrix();
-        sun.position.copy(ship.position).addScaledVector(sunDir, 160);
-        sun.target.position.copy(ship.position).add(V(10, 10, -20));
-        Object.assign(sun.shadow.camera, { left: -60, right: 60, top: 60, bottom: -60, far: 300 });
+        const focus = pose.look.clone().setY(0);
+        sun.position.copy(focus).addScaledVector(sunDir, 160);
+        sun.target.position.copy(focus);
+        const box = tn < N_PUNCH0 ? 32 : 70;
+        Object.assign(sun.shadow.camera, { left: -box, right: box, top: box, bottom: -box, far: 320 });
         sun.shadow.camera.updateProjectionMatrix();
         composer.render();
         return;
       }
 
-      // camera: hold on the flag, then pull back and away
-      const k = ss(900, 8600, t);
-      const kk = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
-      const local = camKey(kk);
-      // stay on the flag while the ship opens up beneath it, then settle on the whole ship
-      const lookLocal = flagCentre.clone().lerp(shipCentre, Math.pow(ss(2200, 8600, t), 1.6));
-      const drift = Math.max(0, t - 8600) / 1000;
-      local.add(V(-drift * 0.4, drift * 0.1, drift * 0.6));
-      // the camera rides with the ship but does not roll with it
-      const origin = V(ship.position.x, hullG.position.y * 0.6, 0);
-      camera.position.copy(local).add(origin);
-      // close in, a touch of the hull's sway so the flag feels attached
-      const swayIn = 1 - ss(900, 4000, t);
-      camera.position.y += Math.sin(s * 0.9) * 0.6 * swayIn;
-      camera.lookAt(lookLocal.add(origin));
-      camera.fov = lerp(36, 42, ss(900, 8600, t));
-      camera.updateProjectionMatrix();
+      // camera: hold on the flag, then pull back and away (riding with the
+      // ship, never rolling with it)
+      {
+        const pc = pirateCam(t, s);
+        camera.position.copy(pc.pos);
+        camera.lookAt(pc.look);
+        camera.fov = pc.fov;
+        camera.updateProjectionMatrix();
+      }
 
       // sun and its shadow box follow the ship
       sun.position.copy(ship.position).addScaledVector(sunDir, 120);
